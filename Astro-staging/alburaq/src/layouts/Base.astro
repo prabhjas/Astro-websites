@@ -29,7 +29,6 @@ const canonicalUrl = canonical ?? siteUrl + Astro.url.pathname;
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalUrl} />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -37,31 +36,15 @@ const canonicalUrl = canonical ?? siteUrl + Astro.url.pathname;
   <meta property="og:image" content={siteUrl + image} />
   <meta property="og:site_name" content="Al Buraq" />
 
-  <!-- Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Roboto+Slab:wght@400;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/images/2024/12/FAVICON-32V1.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/images/2024/12/FAVICON-512V1.png" />
-
-  <!-- GTM -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-XXXXXXX');
-  </script>
 </head>
 <body>
-  <!-- GTM noscript -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-
   <Header />
   <main>
     <slot />
@@ -85,7 +68,7 @@ const canonicalUrl = canonical ?? siteUrl + Astro.url.pathname;
   <button
     id="scroll-top"
     aria-label="Scroll to top"
-    class="fixed bottom-6 left-6 z-50 w-10 h-10 bg-secondary/80 rounded-full flex items-center justify-center shadow-md hover:bg-primary transition-colors opacity-0 pointer-events-none"
+    class="fixed bottom-6 left-6 z-50 w-10 h-10 bg-dark flex items-center justify-center shadow-md hover:bg-primary transition-colors opacity-0 pointer-events-none"
   >
     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>

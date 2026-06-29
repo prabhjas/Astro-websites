@@ -4,16 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary:   '#6EC1E4',
-        secondary: '#54595F',
-        muted:     '#7A7A7A',
-        accent:    '#61CE70',
-        dark:      '#1A1A1A',
+        primary:   '#D5182B',
+        dark:      '#1F232B',
+        light:     '#E9E9E9',
+        muted:     '#6A737D',
       },
       fontFamily: {
-        sans:  ['Roboto', 'ui-sans-serif', 'sans-serif'],
-        serif: ['"Roboto Slab"', 'ui-serif', 'serif'],
-        alt:   ['Manrope', 'ui-sans-serif', 'sans-serif'],
+        heading: ['Osande', 'sans-serif'],
+        body:    ['"Libre Franklin"', 'sans-serif'],
+        ui:      ['Manrope', 'sans-serif'],
+      },
+      maxWidth: {
+        container: '1180px',
       },
     },
   },

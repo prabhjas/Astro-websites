@@ -1,125 +1,182 @@
-# AGENTS.md
+# AGENTS.md — WordPress to Astro Migration
 
-## Goal
+## What This Project Is
 
-You are working on this repository.
+We are converting **all** WordPress websites to Astro (latest version), one by one.
 
-Your job is to understand the existing project before making changes, preserve current functionality, improve code quality where appropriate, and keep the project maintainable.
+- **WP backups (raw tarballs)**: `/opt/WP-sites-backup/wp_backups_260627/<site-name>/public_html_*.tar.gz`
+- **Extracted WP files**: `/opt/Exported-wp/<site-name>/public_html/` (gitignored — large files)
+- **Work in progress**: `/opt/Astro-staging/<site-name>/`
+- **Live production**: `/opt/Astro-production/<site-name>/`
+- **Live websites**: `/url of the website ` (all the wordpress are live currently in another server WP rendering to the web)
 
----
+Each WP site in `/opt/WP-sites-backup/wp_backups_260627/` gets its own Astro project in `/opt/Astro-staging/`.
 
-## Before You Start
+### Sites to Convert (in order)
 
-Before making changes:
-
-1. Read ARCHITECTURE.md if it exists.
-2. Inspect the relevant code.
-3. Understand how the existing implementation works.
-4. Follow existing patterns instead of introducing new ones.
-
-If the documentation disagrees with the code, the code is correct.
-
-If your work changes the architecture, update ARCHITECTURE.md.
-
----
-
-## How to Work
-
-Do the work directly.
-
-Only ask questions if:
-
-* the requested behaviour is unclear
-* there is a business decision to make
-* multiple valid implementations would produce different user behaviour
-
-Do not ask implementation questions.
-
-Use your own judgment.
+1. `alburaq-ae` → `/opt/Astro-staging/alburaq/` ← **current**
+2. `connectbusinesscenter-com`
+3. `connectresources-ae`
+4. `connectgroup-co`
+5. `izi-ae`
+6. `royalvisa-ae`
+7. `movey-ae`
+8. `emiratiguard-com`
+9. `digitizengrow-com`
+10. *(remaining sites in `/opt/WP-sites-backup/wp_backups_260627/`)*
 
 ---
 
-## Coding Standards
+## The Only Goal: Look Identical to the WordPress Site
 
-* Follow the existing project structure.
-* Reuse existing components, utilities and helpers whenever possible.
-* Avoid duplicate logic.
-* Keep files focused on a single responsibility.
-* Avoid creating unnecessarily large files.
-* Refactor instead of adding complexity when appropriate.
-* Preserve existing behaviour unless the task requires changing it.
+Do **not** redesign, do not improve, do not be creative.
 
-Never hardcode values that should reasonably be configurable.
+The Astro version must look **exactly** like the WordPress original — same colors, same fonts, same layout, same sections, same animations, same floating elements.
 
----
+**Before writing any code**, extract the real design from the WP source:
 
-## Architecture
+1. Read the Elementor CSS from `/opt/Exported-wp/<site>/public_html/wp-content/uploads/elementor/css/post-*.css`
+2. Extract real colors (background, text, buttons, accents)
+3. Extract real fonts (check for custom `.ttf`/`.woff` files in uploads)
+4. Understand real section layouts and backgrounds
 
-Keep responsibilities separated.
-
-Routes/pages should handle requests and rendering.
-
-Business logic belongs in services or reusable modules.
-
-Shared logic should live in shared utilities.
-
-Avoid circular dependencies.
+Do **not** invent colors from Elementor's global kit — the kit defaults are often overridden per-page.
 
 ---
 
-## Code Quality
+## How to Extract the Real Design
 
-Every change should aim to leave the codebase slightly better than before.
+```bash
 
-Prefer:
+# Go to website real url to see how it is in real
+Go to url 
+# Find homepage post ID
+zcat /opt/WP-sites-backup/.../alburaq_*.sql.gz | grep "page_on_front"
 
-* readability
-* maintainability
-* simplicity
-* consistency
+# Read homepage CSS
+cat /opt/Exported-wp/<site>/public_html/wp-content/uploads/elementor/css/post-<ID>.css
 
-Avoid unnecessary abstraction.
+# Extract real colors
+grep -oE '#[0-9a-fA-F]{3,8}' post-<ID>.css | sort | uniq -c | sort -rn
 
-Avoid unnecessary complexity.
+# Find custom fonts
+find /opt/Exported-wp/<site>/public_html -name "*.ttf" -o -name "*.woff*"
 
----
+# Get all uploaded images
+ls /opt/Exported-wp/<site>/public_html/wp-content/uploads/
+```
 
-## WordPress Migration
-
-This project is migrating from WordPress to Astro.
-
-When migrating pages:
-
-* Preserve URLs whenever possible.
-* Preserve SEO metadata.
-* Preserve structured data if present.
-* Preserve canonical URLs.
-* Preserve redirects where necessary.
-* Preserve page content and hierarchy unless instructed otherwise.
-* Improve performance without changing the visible behaviour.
-
-Do not remove content unless explicitly requested.
+Images are already pre-copied to the Astro `public/images/` folder for each site.
 
 ---
 
-## Testing
+## Project Structure for Each Astro Site
 
-After making changes:
+```
+/opt/Astro-staging/<site-name>/
+├── public/
+│   ├── images/          ← all WP uploads already here
+│   └── fonts/           ← custom fonts (copy from WP exports)
+├── src/
+│   ├── layouts/
+│   │   └── Base.astro   ← HTML shell, Header, Footer, floating buttons
+│   ├── components/
+│   │   ├── Header.astro
+│   │   └── Footer.astro
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── about-us/index.astro
+│   │   ├── contact-us/index.astro
+│   │   └── <service>/index.astro
+│   ├── content/
+│   │   └── blog/        ← MDX blog posts (CMS-ready)
+│   ├── styles/
+│   │   └── global.css
+│   └── content.config.ts
+├── tailwind.config.mjs
+├── astro.config.mjs
+└── package.json
+```
 
-* check for errors
-* verify the affected pages
-* ensure existing functionality still works
-
-Fix issues introduced by your changes before considering the task complete.
+The content collection for blog is already set up for future CMS integration.
 
 ---
 
-## Communication
+## What to Replicate — Checklist
 
-If clarification is needed, ask using business language instead of technical language.
+Every migrated site must have:
 
-Example:
+- [ ] Top bar (address, phone, email)
+- [ ] Sticky header with correct logo and navigation (including dropdowns)
+- [ ] Mobile hamburger menu
+- [ ] Hero section matching the original
+- [ ] All homepage sections in the correct order
+- [ ] Service/feature cards
+- [ ] Testimonials section
+- [ ] Stats/numbers section
+- [ ] Contact form (working — use Formspree or mailto)
+- [ ] Footer with all columns (services, links, contact, social)
+- [ ] WhatsApp floating button (bottom-right)
+- [ ] Scroll-to-top button (bottom-left, appears after scroll)
+- [ ] Correct colors, fonts, border-radius, spacing
+- [ ] Favicon
+- [ ] All inner pages (About, Contact, each Service)
+- [ ] Blog listing and blog post pages
 
-> Business clarification needed: Should this page remain identical to the current website, or can its design be modernized?
+---
 
-Do not ask implementation questions unless absolutely necessary.
+## Dev Server and Deployment
+
+**Staging (local):**
+```bash
+cd /opt/Astro-staging/<site-name>
+npm run dev     # starts on port 4321, accessible at http://<server-ip>:4321
+```
+
+**After every change or completed section:**
+1. Run `npm run build` — fix all TypeScript/Astro errors before continuing
+2. `git add` specific files, commit with a descriptive message, push
+3. Restart (or start) the dev server so the user can see it live immediately:
+   ```bash
+   pkill -f "astro dev" || true
+   cd /opt/Astro-staging/<site-name> && npm run dev -- --host 0.0.0.0 &
+   ```
+4. Report the local URL so the user can verify the change
+
+**Dev server port:** Astro defaults to `4321`. If building multiple sites simultaneously, use `--port 4322`, etc.
+
+**Production:** When a site is approved, copy to `/opt/Astro-production/<site-name>/` and Caddy serves it on its domain (Cloudflare → this server → Caddy → Astro static files).
+
+---
+
+## Rules
+
+- Always run `npm run build` and fix all errors before committing
+- Always commit after completing work on a page or feature
+- Keep image paths as `/images/2024/12/filename.webp` — they are pre-copied
+- Copy custom fonts to `public/fonts/` and reference them in `global.css`
+- Use Tailwind for all styling — set real colors in `tailwind.config.mjs`
+- No inline styles unless strictly necessary
+- Do not ask implementation questions — use the WP source files as the source of truth
+- Contact forms use Formspree — the endpoint goes in the form action (owner to provide real endpoint)
+
+---
+
+## Al Buraq (`alburaq-ae`) — Design Reference
+
+| Property | Value |
+|----------|-------|
+| Primary color (buttons, accents) | `#D5182B` (red) |
+| Dark color (text, dark sections) | `#1F232B` (dark navy) |
+| Background | `#FFFFFF` white |
+| Light background | `#E9E9E9` |
+| Muted text | `#6A737D` |
+| Heading font | Osande (custom, `public/fonts/Osande-Medium.ttf`) |
+| Body font | Libre Franklin (Google Fonts) |
+| UI font | Manrope (Google Fonts) |
+| Button border-radius | `0px` (square) |
+| Max container width | `1180px` |
+| Hero layout | White left half, Dubai photo right half |
+| Stats section BG | `#1F232B` dark |
+| CTA section BG | `#1F232B` dark |
+| Service icon BG | `#D5182B` red |

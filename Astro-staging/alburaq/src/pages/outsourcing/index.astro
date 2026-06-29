@@ -2,131 +2,78 @@
 import Base from '../../layouts/Base.astro';
 
 const benefits = [
-  { title: 'Overcome Visa Restrictions', desc: 'Our outsourcing model allows businesses to add manpower without being constrained by visa quota limitations.' },
-  { title: 'Reduce In-House Headcount', desc: 'Lower your internal HR and finance overhead by outsourcing employees through Al Buraq as a legal employer of record.' },
-  { title: 'Emiratisation Compliance', desc: 'Manage your Emiratisation obligations effectively through our structured outsourcing solutions.' },
-  { title: 'Cost Efficiency', desc: 'Reduce total employment costs including benefits, insurance, and administrative overhead significantly.' },
-  { title: 'Flexible Workforce', desc: 'Scale your workforce up or down quickly without the complexities of direct employment contracts.' },
-  { title: 'Full Legal Compliance', desc: 'We handle all UAE labour law compliance, WPS (Wages Protection System), and MOHRE requirements.' },
+  { title: 'Visa & Work Permits', desc: 'We handle UAE residence visas and work permits for your staff — removing the administrative complexity entirely.' },
+  { title: 'Employment Contracts', desc: 'Fully compliant employment contracts drafted and managed in accordance with UAE Labour Law.' },
+  { title: 'HR Administration', desc: 'End-to-end HR admin: onboarding, offboarding, leave management, and employee records.' },
+  { title: 'Staff Deployment', desc: 'Rapidly deploy skilled staff under our license to fill roles across your UAE operations.' },
+  { title: 'Compliance Management', desc: 'Stay compliant with MOHRE regulations, Emiratisation quotas, and annual reporting requirements.' },
+  { title: 'Cost Reduction', desc: 'Reduce overhead costs by outsourcing your workforce management to our specialist team.' },
 ];
 ---
 
-<Base
-  title="HR Outsourcing UAE | Al Buraq Group"
-  description="Al Buraq's outsourcing solutions help businesses overcome visa restrictions, reduce headcount, and manage Emiratisation effectively in the UAE."
->
+<Base title="HR Outsourcing UAE | Al Buraq Group" description="Al Buraq provides comprehensive HR outsourcing solutions in the UAE — visas, contracts, payroll, and full workforce management.">
 
-  <!-- Hero -->
-  <section class="relative bg-secondary overflow-hidden">
-    <img
-      src="/images/2024/12/background-all-servicesv2.webp"
-      alt="HR Outsourcing UAE"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-    />
-    <div class="relative z-10 container mx-auto px-6 max-w-6xl py-24 lg:py-32">
+  <section class="relative bg-dark overflow-hidden">
+    <img src="/images/2024/12/background-all-servicesv2.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+    <div class="relative z-10 container-site py-24 lg:py-32">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div>
-          <span class="text-primary text-sm font-semibold uppercase tracking-widest mb-4 block">Our Services</span>
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Outsourcing Services</h1>
-          <p class="text-gray-300 text-xl leading-relaxed mb-8">
-            With Al Buraq's outsourcing solutions, businesses avoid the challenges of visa restrictions and manpower shortages. Smooth operations are a guarantee.
-          </p>
+          <span class="text-primary text-xs font-ui font-semibold uppercase tracking-widest mb-4 block">Our Services</span>
+          <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Outsourcing Services</h1>
+          <p class="text-[#BABABA] text-xl font-body leading-relaxed mb-8">With Al Buraq's outsourcing solutions, businesses avoid the challenges of visa restrictions and manpower shortages. Smooth operations guaranteed.</p>
           <div class="flex flex-wrap gap-4">
-            <a href="/contact-us/" class="bg-primary text-white font-semibold px-8 py-3.5 rounded hover:opacity-90 transition">
-              Get Started
-            </a>
-            <a href="/contact-us/#book" class="border-2 border-white text-white font-semibold px-8 py-3.5 rounded hover:bg-white hover:text-secondary transition">
-              Book a Meeting
-            </a>
+            <a href="/contact-us/" class="btn-primary">Get Started</a>
+            <a href="/contact-us/#book" class="inline-block bg-transparent text-white text-sm font-ui px-7 py-3 border border-white hover:bg-white hover:text-dark transition-colors">Book a Meeting</a>
           </div>
         </div>
         <div class="hidden lg:block">
-          <img
-            src="/images/2024/12/HR-OUTSOURCING-SERVICE-MAIN-PAGE.webp"
-            alt="Outsourcing Service"
-            class="w-full max-w-md ml-auto rounded-2xl shadow-2xl"
-            loading="eager"
-          />
+          <img src="/images/2024/12/HR-OUTSOURCING-SERVICE-MAIN-PAGE.webp" alt="HR Outsourcing" class="w-full max-w-md ml-auto shadow-2xl" loading="eager" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
   <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-6xl">
+    <div class="container-site">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <div>
-          <img
-            src="/images/2024/12/HR-OUTSOURCING-IMAGE-BODY.webp"
-            alt="HR Outsourcing"
-            class="w-full rounded-2xl shadow-xl object-cover"
-            loading="lazy"
-          />
+          <img src="/images/2024/12/HR-OUTSOURCING-IMAGE-BODY.webp" alt="HR outsourcing" class="w-full shadow-xl object-cover" loading="lazy" />
         </div>
         <div>
-          <span class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 block">What We Offer</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-6">
-            A Cost-Saving Manpower Strategy
-          </h2>
-          <p class="text-muted leading-relaxed mb-4">
-            Al Buraq's outsourcing model positions us as the employer of record for your staff, while your business retains full operational control. This unlocks significant benefits for companies operating in the UAE.
-          </p>
-          <p class="text-muted leading-relaxed mb-4">
-            Whether you're looking to add headcount beyond your visa quota, reduce in-house HR complexity, or navigate Emiratisation requirements — our outsourcing solution provides a structured, compliant pathway.
-          </p>
-          <p class="text-muted leading-relaxed mb-8">
-            We handle all employment administration: visas, labour contracts, WPS payroll, medical insurance, end-of-service gratuity, and all MOHRE compliance — so you can focus entirely on your business.
-          </p>
-          <ul class="space-y-3">
-            {['Employer of record services', 'Visa processing & immigration support', 'WPS-compliant payroll processing', 'Medical insurance & benefits management', 'Emiratisation quota management'].map((item) => (
-              <li class="flex items-start gap-3">
-                <img src="/images/2024/12/check-icon.webp" alt="" class="w-5 h-5 mt-0.5 flex-shrink-0" />
-                <span class="text-muted text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
+          <span class="text-xs font-ui font-semibold uppercase tracking-widest text-primary mb-3 block">What We Offer</span>
+          <h2 class="text-3xl md:text-4xl font-heading font-bold text-dark mb-6">Your Full HR Department, Outsourced</h2>
+          <p class="text-muted font-body leading-relaxed mb-4">Managing a workforce in the UAE involves navigating complex visa requirements, labour law obligations, and government reporting deadlines. Al Buraq's outsourcing service removes all of this complexity.</p>
+          <p class="text-muted font-body leading-relaxed mb-4">We act as the employer of record for your UAE-based staff — issuing visas, handling contracts, and managing all HR administration under our established licenses. You get the talent; we handle the paperwork.</p>
+          <p class="text-muted font-body leading-relaxed mb-8">Ideal for international companies entering the UAE market, or established businesses looking to reduce HR overhead and maintain full compliance.</p>
+          <a href="/contact-us/" class="btn-primary">Talk to an Expert</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Benefits -->
-  <section class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-6xl">
+  <section class="py-20 bg-light">
+    <div class="container-site">
       <div class="text-center mb-14">
-        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">Key Benefits of Outsourcing with Al Buraq</h2>
-        <p class="text-muted text-lg max-w-2xl mx-auto">
-          Real advantages that directly impact your operations and bottom line.
-        </p>
+        <h2 class="text-3xl md:text-4xl font-heading font-bold text-dark mb-4">What's Included</h2>
+        <p class="text-muted font-body text-lg max-w-2xl mx-auto">Comprehensive outsourcing that covers every aspect of your UAE workforce.</p>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {benefits.map((b) => (
-          <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:border-primary hover:shadow-md transition-all">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <h3 class="font-bold text-secondary mb-2">{b.title}</h3>
-            <p class="text-muted text-sm leading-relaxed">{b.desc}</p>
+          <div class="bg-white p-6 border border-[#E9E9E9] hover:border-primary hover:shadow-md transition-all">
+            <div class="bg-primary w-8 h-1 mb-4"></div>
+            <h3 class="font-heading font-bold text-dark mb-2">{b.title}</h3>
+            <p class="text-muted font-body text-sm leading-relaxed">{b.desc}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 bg-secondary relative overflow-hidden">
-    <img src="/images/2024/12/background-red-cta.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" aria-hidden="true" />
-    <div class="relative z-10 container mx-auto px-6 max-w-6xl text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Streamline Your Workforce?</h2>
-      <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
-        Talk to our outsourcing experts and discover how we can optimise your manpower strategy.
-      </p>
-      <a href="/contact-us/" class="inline-block bg-primary text-white font-bold px-10 py-4 rounded hover:opacity-90 transition">
-        Contact Us Now
-      </a>
+  <section class="py-20 bg-dark text-center">
+    <div class="container-site">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-6">Streamline Your Workforce Today</h2>
+      <p class="text-[#BABABA] font-body text-lg mb-10 max-w-xl mx-auto">Let Al Buraq handle all HR complexity so your business can focus on what it does best.</p>
+      <a href="/contact-us/" class="btn-primary">Contact Us Now</a>
     </div>
   </section>
 

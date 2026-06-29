@@ -1,162 +1,79 @@
 ---
 import Base from '../../layouts/Base.astro';
 
-const licenseTypes = [
-  { title: 'Commercial License', desc: 'For trading and general commercial activities across the UAE mainland.' },
-  { title: 'Professional License', desc: 'For professional services — consultancies, freelancers, and service providers.' },
-  { title: 'Industrial License', desc: 'For manufacturing, production, and industrial operations in the UAE.' },
-  { title: 'Tourism License', desc: 'For travel agencies, tour operators, and hospitality businesses.' },
-  { title: 'Free Zone License', desc: 'For businesses operating within UAE free zones with 100% foreign ownership.' },
-  { title: 'Offshore License', desc: 'For offshore company structures with international business operations.' },
-];
-
-const steps = [
-  { step: '01', title: 'Initial Consultation', desc: 'We assess your business activity, ownership structure, and location preferences.' },
-  { step: '02', title: 'License Selection', desc: 'We recommend the most suitable license type based on your specific business needs.' },
-  { step: '03', title: 'Documentation', desc: 'Our team prepares and reviews all required documents for submission.' },
-  { step: '04', title: 'Authority Submission', desc: 'We submit your application and liaise directly with the relevant government authority.' },
-  { step: '05', title: 'License Issuance', desc: 'Your license is issued and we ensure you understand all ongoing compliance requirements.' },
+const types = [
+  { title: 'Commercial License', desc: 'For trading companies importing, exporting, and distributing goods across the UAE and internationally.' },
+  { title: 'Professional License', desc: 'For service-based businesses, consultancies, freelancers, and professional firms.' },
+  { title: 'Industrial License', desc: 'For manufacturing operations and industrial activities within the UAE.' },
+  { title: 'Free Zone License', desc: '100% foreign ownership in designated free zones with full profit repatriation.' },
+  { title: 'Mainland License', desc: 'Operate anywhere in the UAE with access to the full local market.' },
+  { title: 'Offshore License', desc: 'International business structures for holding companies and cross-border operations.' },
 ];
 ---
 
-<Base
-  title="Business Licensing UAE | Al Buraq Group"
-  description="Expert guidance on obtaining business licenses in the UAE. Al Buraq helps companies and entrepreneurs secure the right license to operate in the UAE."
->
+<Base title="Business Licensing UAE | Al Buraq Group" description="Expert business licensing services in the UAE. Al Buraq guides you through obtaining the right license to launch and operate your business.">
 
-  <!-- Hero -->
-  <section class="relative bg-secondary overflow-hidden">
-    <img
-      src="/images/2024/12/background-all-servicesv2.webp"
-      alt="Business Licensing UAE"
-      class="absolute inset-0 w-full h-full object-cover opacity-20"
-    />
-    <div class="relative z-10 container mx-auto px-6 max-w-6xl py-24 lg:py-32">
+  <section class="relative bg-dark overflow-hidden">
+    <img src="/images/2024/12/background-all-servicesv2.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+    <div class="relative z-10 container-site py-24 lg:py-32">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div>
-          <span class="text-primary text-sm font-semibold uppercase tracking-widest mb-4 block">Our Services</span>
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Licensing</h1>
-          <p class="text-gray-300 text-xl leading-relaxed mb-8">
-            Companies and entrepreneurs get guidance on obtaining the necessary licenses. Launch and operate your business ventures in the UAE.
-          </p>
+          <span class="text-primary text-xs font-ui font-semibold uppercase tracking-widest mb-4 block">Our Services</span>
+          <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Licensing</h1>
+          <p class="text-[#BABABA] text-xl font-body leading-relaxed mb-8">Companies and entrepreneurs get guidance on obtaining the necessary licenses to launch and operate business ventures in the UAE.</p>
           <div class="flex flex-wrap gap-4">
-            <a href="/contact-us/" class="bg-primary text-white font-semibold px-8 py-3.5 rounded hover:opacity-90 transition">
-              Get Started
-            </a>
-            <a href="/contact-us/#book" class="border-2 border-white text-white font-semibold px-8 py-3.5 rounded hover:bg-white hover:text-secondary transition">
-              Book a Meeting
-            </a>
+            <a href="/contact-us/" class="btn-primary">Start Your License</a>
+            <a href="/contact-us/#book" class="inline-block bg-transparent text-white text-sm font-ui px-7 py-3 border border-white hover:bg-white hover:text-dark transition-colors">Book a Meeting</a>
           </div>
         </div>
         <div class="hidden lg:block">
-          <img
-            src="/images/2024/12/LICENSING-SERVICE-MAIN-IMAGE.webp"
-            alt="Licensing Service"
-            class="w-full max-w-md ml-auto rounded-2xl shadow-2xl"
-            loading="eager"
-          />
+          <img src="/images/2024/12/LICENSING-SERVICE-MAIN-IMAGE.webp" alt="Licensing UAE" class="w-full max-w-md ml-auto shadow-2xl" loading="eager" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- About -->
   <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-6xl">
+    <div class="container-site">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <div>
-          <img
-            src="/images/2024/12/LICENSING-IMAGE-BODY.webp"
-            alt="Licensing in UAE"
-            class="w-full rounded-2xl shadow-xl object-cover"
-            loading="lazy"
-          />
+          <img src="/images/2024/12/LICENSING-IMAGE-BODY.webp" alt="Business licensing" class="w-full shadow-xl object-cover" loading="lazy" />
         </div>
         <div>
-          <span class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 block">What We Offer</span>
-          <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-6">
-            Your Gateway to UAE Business Licenses
-          </h2>
-          <p class="text-muted leading-relaxed mb-4">
-            With 18 years in the market, Al Buraq has the privilege of helping foreign entrepreneurs obtain unique licenses that are typically not available to them through standard channels.
-          </p>
-          <p class="text-muted leading-relaxed mb-4">
-            We navigate the complex UAE licensing landscape on your behalf — from DED mainland licenses to free zone and offshore options. Our expertise covers every emirate and free zone authority.
-          </p>
-          <p class="text-muted leading-relaxed mb-8">
-            Whether you're a startup or an established corporation expanding into the UAE, we ensure your business is properly licensed and fully compliant from day one.
-          </p>
-          <ul class="space-y-3">
-            {['Mainland & Free Zone licensing', 'Industry-specific license expertise', 'Full document preparation & PRO services', 'Renewal & amendment management'].map((item) => (
-              <li class="flex items-start gap-3">
-                <img src="/images/2024/12/check-icon.webp" alt="" class="w-5 h-5 mt-0.5 flex-shrink-0" />
-                <span class="text-muted text-sm">{item}</span>
-              </li>
-            ))}
-          </ul>
+          <span class="text-xs font-ui font-semibold uppercase tracking-widest text-primary mb-3 block">What We Offer</span>
+          <h2 class="text-3xl md:text-4xl font-heading font-bold text-dark mb-6">The Right License for Your Business</h2>
+          <p class="text-muted font-body leading-relaxed mb-4">Navigating UAE licensing requirements can be complex. Al Buraq simplifies the entire process — from identifying the correct license type to handling all government submissions on your behalf.</p>
+          <p class="text-muted font-body leading-relaxed mb-4">With 18 years of experience and privileged access to unique licensing opportunities not normally available to foreign entrepreneurs, we give your business a distinct competitive advantage.</p>
+          <p class="text-muted font-body leading-relaxed mb-8">Whether you're setting up a mainland company, free zone entity, or offshore structure, we match your business activity to the optimal licensing framework.</p>
+          <a href="/contact-us/" class="btn-primary">Get Expert Advice</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- License types -->
-  <section class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-6xl">
+  <section class="py-20 bg-light">
+    <div class="container-site">
       <div class="text-center mb-14">
-        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">License Types We Handle</h2>
-        <p class="text-muted text-lg max-w-2xl mx-auto">
-          From commercial to industrial — we cover every category of UAE business license.
-        </p>
+        <h2 class="text-3xl md:text-4xl font-heading font-bold text-dark mb-4">License Types We Handle</h2>
+        <p class="text-muted font-body text-lg max-w-2xl mx-auto">We cover the full spectrum of UAE business licenses across all jurisdictions.</p>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {licenseTypes.map((l) => (
-          <div class="bg-white rounded-xl p-6 border border-gray-200 hover:border-primary hover:shadow-md transition-all">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <h3 class="font-bold text-secondary mb-2">{l.title}</h3>
-            <p class="text-muted text-sm leading-relaxed">{l.desc}</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {types.map((t) => (
+          <div class="bg-white p-6 border border-[#E9E9E9] hover:border-primary hover:shadow-md transition-all">
+            <div class="bg-primary w-8 h-1 mb-4"></div>
+            <h3 class="font-heading font-bold text-dark mb-2">{t.title}</h3>
+            <p class="text-muted font-body text-sm leading-relaxed">{t.desc}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Process -->
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-6 max-w-6xl">
-      <div class="text-center mb-14">
-        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">Our Licensing Process</h2>
-        <p class="text-muted text-lg max-w-2xl mx-auto">Simple, clear steps to get your business licensed in the UAE.</p>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {steps.map((s) => (
-          <div class="text-center">
-            <div class="w-14 h-14 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center mx-auto mb-4">
-              <span class="text-primary font-bold text-sm">{s.step}</span>
-            </div>
-            <h3 class="font-bold text-secondary mb-2 text-sm">{s.title}</h3>
-            <p class="text-muted text-xs leading-relaxed">{s.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-20 bg-secondary relative overflow-hidden">
-    <img src="/images/2024/12/background-red-cta.webp" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20" aria-hidden="true" />
-    <div class="relative z-10 container mx-auto px-6 max-w-6xl text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to License Your Business?</h2>
-      <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
-        Let our licensing experts guide you through the entire process from start to finish.
-      </p>
-      <a href="/contact-us/" class="inline-block bg-primary text-white font-bold px-10 py-4 rounded hover:opacity-90 transition">
-        Contact Us Now
-      </a>
+  <section class="py-20 bg-dark text-center">
+    <div class="container-site">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-6">Ready to Get Licensed?</h2>
+      <p class="text-[#BABABA] font-body text-lg mb-10 max-w-xl mx-auto">Our licensing experts are ready to guide you from application to approval.</p>
+      <a href="/contact-us/" class="btn-primary">Start Today</a>
     </div>
   </section>
 
