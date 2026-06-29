@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<Base
+  title={`${post.data.title} | Al Buraq`}
+  description={post.data.description}
+  image={post.data.image}
+>
+  <article class="container mx-auto px-6 max-w-4xl py-16">
+    {post.data.category && (
+      <span class="text-xs font-semibold uppercase tracking-wide text-primary">{post.data.category}</span>
+    )}
+    <h1 class="text-3xl md:text-4xl font-bold text-secondary mt-2 mb-6">{post.data.title}</h1>
+    {post.data.image && (
+      <img src={post.data.image} alt={post.data.title} class="w-full rounded-lg mb-8 aspect-video object-cover" />
+    )}
+    <div class="prose prose-lg max-w-none prose-headings:text-secondary prose-a:text-primary">
+      <Content />
+    </div>
+  </article>
+</Base>

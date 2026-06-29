@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.date ?? 0).getTime() - new Date(a.data.date ?? 0).getTime()
+);
+---
+<Base title="Blog | Al Buraq" description="Insights on business setup, licensing, and corporate services in UAE.">
+  <div class="container mx-auto px-6 max-w-6xl py-16">
+    <h1 class="text-4xl font-bold text-secondary mb-10">Blog</h1>
+    {posts.length === 0 ? (
+      <p class="text-muted">No posts yet.</p>
+    ) : (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+            {post.data.image && (
+              <img src={post.data.image} alt={post.data.title} class="w-full h-48 object-cover" />
+            )}
+            <div class="p-6">
+              {post.data.category && (
+                <span class="text-xs font-semibold uppercase tracking-wide text-primary">{post.data.category}</span>
+              )}
+              <h2 class="text-lg font-bold text-secondary mt-1 mb-2 leading-snug">
+                <a href={`/blog/${post.id}/`} class="hover:text-primary transition-colors">
+                  {post.data.title}
+                </a>
+              </h2>
+              {post.data.description && (
+                <p class="text-sm text-muted line-clamp-3">{post.data.description}</p>
+              )}
+              <a href={`/blog/${post.id}/`} class="inline-block mt-4 text-sm font-semibold text-primary hover:underline">
+                Read more &rarr;
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</Base>

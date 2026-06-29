@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title = 'Corporate Business Solutions in UAE | Al Buraq',
+  description = 'Al Buraq offers tailored corporate business solutions in the UAE. Transform your business challenges into growth opportunities.',
+  image = '/images/2024/12/LOGO-AL-BURAQ-GROUP-color.svg',
+  canonical,
+} = Astro.props;
+
+const siteUrl = 'https://alburaq.ae';
+const canonicalUrl = canonical ?? siteUrl + Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={siteUrl + image} />
+  <meta property="og:site_name" content="Al Buraq" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&family=Roboto+Slab:wght@400;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/2024/12/favicon.png" />
+
+  <!-- GTM -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');
+  </script>
+</head>
+<body>
+  <!-- GTM noscript -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
+  <Header />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

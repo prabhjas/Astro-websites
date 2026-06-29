@@ -1,0 +1,324 @@
+---
+import Base from '../layouts/Base.astro';
+
+const services = [
+  {
+    title: 'Corporate Sponsorship',
+    desc: 'We connect your business with the ideal local sponsor. They represent your interests effectively in dealings with the government.',
+    icon: '/images/2024/12/Coporate-Sponsorship-icon-v2.webp',
+    href: '/corporate-sponsorship/',
+  },
+  {
+    title: 'Licensing',
+    desc: 'Companies and entrepreneurs get guidance on obtaining the necessary licenses. Launch and operate your business ventures in the UAE.',
+    icon: '/images/2024/12/Licensing-icon-v2.webp',
+    href: '/licensing/',
+  },
+  {
+    title: 'Outsourcing Services',
+    desc: "With Al Buraq's outsourcing solutions, businesses avoid the challenges of visa restrictions and manpower shortages. Smooth operations are a guarantee.",
+    icon: '/images/2024/12/Outsourcing-icon-v2.webp',
+    href: '/outsourcing/',
+  },
+  {
+    title: 'Business Center',
+    desc: 'The fully equipped offices give your business a professional presence in the UAE. Offering substantial benefits over traditional leased office spaces.',
+    icon: '/images/2024/12/Business-Center-icon-v2.webp',
+    href: '/business-center/',
+  },
+];
+
+const features = [
+  {
+    title: 'Best Location',
+    desc: 'Your registered business address, designed to elevate your company\'s professional image and provide a credible presence in the market.',
+    img: '/images/2024/12/IMAGE-1.webp',
+  },
+  {
+    title: 'Unique Licenses',
+    desc: 'With 18 years in the market, we have the privilege of helping foreign entrepreneurs obtain unique licenses that are typically not available to them.',
+    img: '/images/2024/12/IMAGE-2.webp',
+  },
+  {
+    title: 'Premium Customer Care',
+    desc: 'A single point of contact: A dedicated manager, specially trained to speak your preferred language and communicate according to your time zone.',
+    img: '/images/2024/12/IMAGE-3.webp',
+  },
+  {
+    title: 'Ideal Local Sponsor',
+    desc: 'A local sponsor with the expertise, industry knowledge, and reputation to represent your business effectively with the government.',
+    img: '/images/2024/12/IMAGE-4.webp',
+  },
+];
+
+const testimonials = [
+  {
+    name: 'Christian Gonzales',
+    photo: '/images/2024/12/Testimonial2.webp',
+    text: 'Worked with Al Buraq Group for our local business sponsorship needs. Their team expertly matched us with a local sponsor who understood our vision. We experienced smooth communication with government entities. All thanks to their deep market knowledge!',
+  },
+  {
+    name: 'Laura Hill',
+    photo: '/images/2024/12/Testimonial5.webp',
+    text: 'Al Buraq taught me that, while around the world we rely on large consulting and legal firms to get things done, the UAE is different. Here, to make things happen, you turn to corporate sponsorship companies.',
+  },
+  {
+    name: 'Anderson Moreo',
+    photo: '/images/2024/12/Testimonial7.webp',
+    text: 'Our partnership with Al Buraq, which has now grown into a true friendship, spans over 15 years. While the UAE has evolved and laws have changed, their level of service quality and the range of solutions they offer have remained consistently excellent.',
+  },
+];
+
+const stats = [
+  { number: '700+', label: 'Clients and special relationships' },
+  { number: '130+', label: 'Experts driving the company\'s success' },
+  { number: '18+',  label: 'Years of Excellence & Expertise' },
+  { number: '3',    label: 'Locations in the GCC' },
+];
+
+const clientLogos = [
+  { src: '/images/2024/12/AGCNET-logo-gray.png',                  alt: 'AGCNET' },
+  { src: '/images/2024/12/Bombardier-logo-gray.png',              alt: 'Bombardier' },
+  { src: '/images/2024/12/Brand-Rex-logo-gray.png',               alt: 'Brand Rex' },
+  { src: '/images/2024/12/Dialight-logo-gray.png',                alt: 'Dialight' },
+  { src: '/images/2024/12/Glanbia-logo-gray.png',                 alt: 'Glanbia' },
+  { src: '/images/2024/12/Lockheed-martin-logo-gray.png',         alt: 'Lockheed Martin' },
+  { src: '/images/2024/12/Nether-Locks-logo-gray.png',            alt: 'Nether Locks' },
+  { src: '/images/2024/12/Omkar-logo-gray.png',                   alt: 'Omkar' },
+  { src: '/images/2024/12/Roamware-logo-gray.png',                alt: 'Roamware' },
+  { src: '/images/2024/12/SBI-logo-gray.png',                     alt: 'SBI' },
+  { src: '/images/2024/12/Toshiba-logo-gray.png',                 alt: 'Toshiba' },
+  { src: '/images/2024/12/Wood-Mackenzie-logo-gray.png',          alt: 'Wood Mackenzie' },
+  { src: '/images/2024/12/bausch-lomb-logo-gray.png',             alt: 'Bausch + Lomb' },
+  { src: '/images/2024/12/brinks-logo-gray.png',                  alt: 'Brinks' },
+  { src: '/images/2024/12/esaar-logo-gray.png',                   alt: 'Esaar' },
+  { src: '/images/2024/12/varian-medical-systems-logo-gray.png',  alt: 'Varian Medical Systems' },
+];
+---
+
+<Base
+  title="Corporate Business Solutions in UAE | Al Buraq"
+  description="Al Buraq offers tailored corporate business solutions in the UAE — licensing, outsourcing, business centers, and corporate sponsorship."
+>
+
+  <!-- ── HERO ── -->
+  <section class="relative bg-secondary overflow-hidden">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="grid lg:grid-cols-2 gap-8 items-center min-h-[560px] py-16 lg:py-20">
+
+        <!-- Text side -->
+        <div class="relative z-10">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+            A Trusted Leader in Corporate Business Solutions &amp; Corporate Sponsorship Services
+          </h1>
+          <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+            From providing innovative corporate business solutions to helping our clients build successful enterprises,
+            we assist in achieving their long-term goals and objectives.
+          </p>
+
+          <!-- Approved by -->
+          <div class="flex items-center gap-4 mb-8">
+            <span class="text-sm text-gray-400 uppercase tracking-wide">Approved by</span>
+            <img src="/images/2024/12/Ministry-of-Economy-73pxv2.webp"
+              alt="Ministry of Economy UAE" class="h-10 w-auto" loading="eager" />
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap gap-4">
+            <a href="/contact-us/"
+              class="bg-primary text-white font-semibold px-8 py-3.5 rounded hover:opacity-90 transition">
+              Contact Us Now
+            </a>
+            <a href="/contact-us/#book"
+              class="border-2 border-white text-white font-semibold px-8 py-3.5 rounded hover:bg-white hover:text-secondary transition">
+              Book a Meeting
+            </a>
+          </div>
+        </div>
+
+        <!-- Image side -->
+        <div class="relative lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 overflow-hidden">
+          <img
+            src="/images/2024/12/SECTION-HERO-HOME-PAGE-DUBAI.webp"
+            alt="Dubai business district"
+            class="w-full h-full object-cover opacity-60 lg:opacity-100"
+            loading="eager"
+          />
+          <!-- Gradient overlay on desktop (blends image into dark bg) -->
+          <div class="hidden lg:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-secondary to-transparent"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CLIENT LOGOS ── -->
+  <section class="py-10 bg-gray-50 border-y border-gray-200">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <p class="text-center text-xs font-semibold uppercase tracking-widest text-muted mb-8">Trusted by world-class companies</p>
+      <div class="flex flex-wrap justify-center items-center gap-8">
+        {clientLogos.map((logo) => (
+          <img src={logo.src} alt={logo.alt} class="h-8 w-auto grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" loading="lazy" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICES ── -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">Our Professional Services</h2>
+        <p class="text-muted text-lg max-w-2xl mx-auto">
+          Customized solutions designed, directing companies to achieve their goals and grow their Dubai businesses.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((s) => (
+          <a href={s.href}
+            class="group bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-start hover:shadow-lg hover:border-primary transition-all">
+            <img src={s.icon} alt={s.title} class="w-14 h-14 mb-4 object-contain" loading="lazy" />
+            <h3 class="text-lg font-bold text-secondary mb-2 group-hover:text-primary transition-colors">
+              {s.title}
+            </h3>
+            <p class="text-sm text-muted leading-relaxed flex-1">{s.desc}</p>
+            <span class="mt-4 text-sm font-semibold text-primary">Learn more &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT / TRANSFORMING ── -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Image -->
+        <div class="relative">
+          <img src="/images/2024/12/general-image1-1-1.webp"
+            alt="Al Buraq team" class="w-full rounded-2xl shadow-xl object-cover" loading="lazy" />
+        </div>
+
+        <!-- Text -->
+        <div>
+          <span class="text-sm font-semibold uppercase tracking-widest text-primary mb-3 block">About Us</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-6">
+            Transforming Ambitions into Reality
+          </h2>
+          <p class="text-muted leading-relaxed mb-4">
+            We've successfully created a business hub that tackles the challenges faced by UAE, Qatar, and Saudi Arabian companies.
+            Al Buraq's dedicated team is committed to your success. From offering expert guidance, to local insights, we stand with a
+            vast network of connections.
+          </p>
+          <p class="text-muted leading-relaxed mb-8">
+            Our premium services are a surety of compliance in a business environment. Enabling clients to achieve ambitious goals
+            that many others might consider out of reach. Choose us for our proven track record, corporate business solutions, and
+            unwavering support – your success is our top priority.
+          </p>
+          <a href="/about-us/"
+            class="inline-block bg-primary text-white font-semibold px-8 py-3.5 rounded hover:opacity-90 transition">
+            Learn More About Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES / VALUE PROPS ── -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">
+          It's not just services; it's the value they bring.
+        </h2>
+        <p class="text-muted text-lg max-w-2xl mx-auto">
+          At Al Buraq Group, we focus on delivering not just services, but real value to your business.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {features.map((f) => (
+          <div class="text-center flex flex-col items-center">
+            <div class="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 border-primary/20">
+              <img src={f.img} alt={f.title} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <h3 class="font-bold text-secondary mb-2">{f.title}</h3>
+            <p class="text-sm text-muted leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">
+          They've given us the opportunity to share their valued perspective
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {testimonials.map((t) => (
+          <div class="bg-white rounded-xl p-8 shadow-sm flex flex-col">
+            <svg class="w-8 h-8 text-primary mb-4 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+            <p class="text-muted leading-relaxed flex-1 mb-6 italic">"{t.text}"</p>
+            <div class="flex items-center gap-3">
+              <img src={t.photo} alt={t.name} class="w-12 h-12 rounded-full object-cover" loading="lazy" />
+              <span class="font-semibold text-secondary">{t.name}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <section class="py-20 bg-secondary relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <img src="/images/2024/12/background-all-servicesv2.webp" alt="" class="w-full h-full object-cover" aria-hidden="true" />
+    </div>
+    <div class="relative z-10 container mx-auto px-6 max-w-6xl">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          18 Years of Experience, Measured in Numbers
+        </h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          What you see are numbers, but they represent valuable lessons, countless hours of hard work,
+          and an unwavering commitment to achieving perfection.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        {stats.map((s) => (
+          <div>
+            <div class="text-5xl font-bold text-primary mb-2">{s.number}</div>
+            <div class="text-gray-400 text-sm leading-snug">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="py-20 bg-primary">
+    <div class="container mx-auto px-6 max-w-6xl text-center">
+      <p class="text-white/80 text-sm uppercase tracking-widest mb-3">Get Started Today</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        Take the next step towards success.
+      </h2>
+      <p class="text-white/80 text-lg mb-10 max-w-xl mx-auto">
+        Complete the application form and schedule your personalized consultation today!
+      </p>
+      <a href="/contact-us/"
+        class="inline-block bg-white text-primary font-bold px-10 py-4 rounded hover:bg-secondary hover:text-white transition">
+        Contact Us Now
+      </a>
+    </div>
+  </section>
+
+</Base>

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-sans text-secondary antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold text-secondary leading-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-block bg-primary text-white font-semibold px-6 py-3 rounded hover:opacity-90 transition;
+  }
+  .btn-outline {
+    @apply inline-block border-2 border-primary text-primary font-semibold px-6 py-3 rounded hover:bg-primary hover:text-white transition;
+  }
+}

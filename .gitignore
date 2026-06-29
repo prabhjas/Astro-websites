@@ -1,0 +1,30 @@
+# Excluded folders
+WP-sites-backup/
+astro-old-sites-old/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+
+# Editor
+.idea/
+
+# Claude Code local settings
+.claude/settings.local.json
