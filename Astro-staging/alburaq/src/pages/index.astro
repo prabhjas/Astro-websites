@@ -9,10 +9,10 @@ const services = [
 ];
 
 const features = [
-  { title: 'Best Location', desc: "Your registered business address, designed to elevate your company's professional image and provide a credible presence in the market." },
-  { title: 'Unique Licenses', desc: 'With 18 years in the market, we have the privilege of helping foreign entrepreneurs obtain unique licenses that are typically not available to them.' },
-  { title: 'Premium Customer Care', desc: 'A single point of contact: A dedicated manager, specially trained to speak your preferred language and communicate according to your time zone.' },
-  { title: 'Ideal Local Sponsor', desc: 'A local sponsor with the expertise, industry knowledge, and reputation to represent your business effectively with the government.' },
+  { title: 'Best Location', desc: 'Your registered business address, designed to elevate your company\'s professional image and provide a credible presence in the market.', img: '/images/2024/12/IMAGE-11.webp' },
+  { title: 'Unique Licenses', desc: 'With 18 years in the market, we have the privilege of helping foreign entrepreneurs obtain unique licenses that are typically not available to them.', img: '/images/2024/12/IMAGE-2-1.webp' },
+  { title: 'Premium Customer Care', desc: 'A single point of contact: A dedicated manager, specially trained to speak your preferred language and communicate according to your time zone.', img: '/images/2024/12/IMAGE-3.webp' },
+  { title: 'Ideal Local Sponsor', desc: 'A local sponsor with the expertise, industry knowledge, and reputation to represent your business effectively with the government.', img: '/images/2024/12/IMAGE-4-1.webp' },
 ];
 
 const testimonials = [
@@ -24,8 +24,8 @@ const testimonials = [
 const stats = [
   { number: '700+', label: 'Clients and special relationships' },
   { number: '130+', label: 'Experts driving the company\'s success' },
-  { number: '18+',  label: 'Years of Excellence & Expertise' },
-  { number: '3',    label: 'Locations in the GCC' },
+  { number: '18+', label: 'Years of Excellence & Expertise' },
+  { number: '3', label: 'Locations in the GCC' },
 ];
 
 const clientLogos = [
@@ -53,164 +53,177 @@ const clientLogos = [
   description="Al Buraq offers tailored corporate business solutions in the UAE. Transform your business challenges into growth opportunities."
 >
 
-  <!-- ── HERO ── White BG left, Dubai photo right -->
-  <section class="relative overflow-hidden bg-white min-h-[560px]">
-    <!-- Desktop: right half = Dubai photo -->
+  <!-- ═══════════════════════════════════════════
+       HERO — white left half, Dubai photo right
+       WP: elementor-6070903 / padding 6rem top 12rem bottom
+       ═══════════════════════════════════════════ -->
+  <section class="relative overflow-hidden bg-white">
+    <!-- Right half: Dubai photo (desktop only) -->
     <div class="hidden lg:block absolute right-0 top-0 bottom-0 w-1/2">
       <img
         src="/images/2024/12/SECTION-HERO-HOME-PAGE-DUBAI.webp"
-        alt="Dubai business district"
+        alt=""
         class="w-full h-full object-cover"
         loading="eager"
       />
-      <!-- gradient blend left edge -->
-      <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent"></div>
+      <!-- Gradient that blends photo into white on left edge -->
+      <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent"></div>
     </div>
 
     <!-- Mobile: full background image -->
     <div class="lg:hidden absolute inset-0">
       <img src="/images/2024/12/SECTION-HERO-HOME-MOBILE.webp" alt="" class="w-full h-full object-cover" loading="eager" />
-      <div class="absolute inset-0 bg-white/70"></div>
+      <div class="absolute inset-0 bg-white/80"></div>
     </div>
 
-    <div class="relative z-10 container-site py-24 lg:py-28">
-      <div class="max-w-[580px]">
-        <h1 class="text-[42px] lg:text-[60px] font-heading font-bold text-dark leading-[1.4] mb-6">
+    <!-- Content (left half on desktop, full width on mobile) -->
+    <div class="relative z-10 container-site">
+      <div class="lg:w-1/2 py-24 lg:pt-24 lg:pb-48 pr-0 lg:pr-12">
+        <h1 class="font-heading font-bold text-[60px] leading-[1.4] text-dark mb-5">
           A Trusted Leader in Corporate Business Solutions &amp; Corporate Sponsorship Services
         </h1>
-        <p class="text-dark text-xl font-body leading-relaxed mb-8">
+        <p class="font-body text-[20px] leading-[1.4] text-dark mb-8">
           From providing innovative corporate business solutions to helping our clients build successful enterprises, we assist in achieving their long-term goals and objectives.
         </p>
 
         <!-- Approved by -->
-        <div class="flex items-center gap-4 mb-8">
-          <span class="text-xs font-ui font-semibold uppercase tracking-widest text-muted">Approved by</span>
+        <div class="flex items-center gap-5 mb-8">
+          <div class="border-r border-black pr-5">
+            <p class="font-body text-[15px] text-dark">Approved by</p>
+          </div>
           <img src="/images/2024/12/Ministry-of-Economy-73pxv2.webp" alt="Ministry of Economy UAE" class="h-9 w-auto" loading="eager" />
         </div>
 
-        <!-- CTAs -->
-        <div class="flex flex-wrap gap-4">
-          <a href="/contact-us/" class="btn-primary">Contact Us Now</a>
-          <a href="/contact-us/#book" class="btn-outline">Book a Meeting</a>
+        <!-- CTAs — WP: red button + transparent/black border button -->
+        <div class="flex flex-wrap gap-0">
+          <a href="/contact-us/" class="inline-block bg-primary text-white font-body text-sm px-6 py-[15px] border border-primary hover:bg-red-700 hover:border-red-700 transition-colors">
+            Contact Us Now
+          </a>
+          <a href="/contact-us/#book" class="inline-block bg-transparent text-dark font-body text-sm px-6 py-[15px] border border-dark hover:bg-dark hover:text-white transition-colors">
+            Book a Meeting
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── CLIENT LOGOS ── -->
-  <section class="py-10 bg-light border-y border-[#d8d8d8]">
-    <div class="container-site">
-      <div class="flex flex-wrap justify-center items-center gap-8 lg:gap-12">
-        {clientLogos.map((logo) => (
-          <img src={logo.src} alt={logo.alt} class="h-7 w-auto grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" loading="lazy" />
-        ))}
-      </div>
-    </div>
-  </section>
 
-  <!-- ── SERVICES ── White BG, cards with icon on red square -->
-  <section class="py-20 bg-white">
+  <!-- ═══════════════════════════════════════════
+       SERVICES — WP: elementor-0e6899f
+       White bg, 4rem padding, icon-box left-aligned
+       ═══════════════════════════════════════════ -->
+  <section class="py-16 bg-white">
     <div class="container-site">
-      <div class="text-center mb-14">
-        <h2 class="text-[32px] lg:text-[48px] font-heading font-bold text-dark mb-4">Our Professional Services</h2>
-        <p class="text-dark font-body text-base max-w-2xl mx-auto leading-relaxed">
+
+      <!-- Two-line heading: faint top + bold bottom -->
+      <div class="mb-14">
+        <p class="text-center font-heading font-bold text-[32px] text-dark opacity-[0.15] leading-none">Know our</p>
+        <h2 class="text-center font-heading font-bold text-[48px] text-dark leading-[1.4]">Our Professional Services</h2>
+        <p class="text-center font-body text-[16px] text-dark leading-[1.4] mt-3 max-w-2xl mx-auto">
           Customized solutions designed, directing companies to achieve their goals and grow their Dubai businesses.
         </p>
       </div>
 
+      <!-- 4 service cards — left-aligned icon + text, border #E9E9E9 -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {services.map((s) => (
-          <a href={s.href} class="group bg-white border border-[#E9E9E9] hover:border-primary hover:shadow-md transition-all flex flex-col">
-            <div class="bg-primary p-3 self-start m-5 mb-0">
-              <img src={s.icon} alt={s.title} class="w-10 h-10 object-contain brightness-0 invert" loading="lazy" />
-            </div>
-            <div class="p-5 flex flex-col flex-1">
-              <h3 class="text-base font-heading font-bold text-dark mb-2 group-hover:text-primary transition-colors">{s.title}</h3>
-              <p class="text-sm font-body text-muted leading-relaxed flex-1">{s.desc}</p>
+          <a href={s.href} class="group bg-white border border-[#E9E9E9] p-8 flex gap-[15px] hover:border-primary hover:shadow-md transition-all">
+            <img src={s.icon} alt={s.title} class="w-14 h-14 object-contain flex-shrink-0" loading="lazy" />
+            <div>
+              <h3 class="font-heading font-semibold text-[24px] leading-[1.4] text-dark mb-2 group-hover:text-primary transition-colors">{s.title}</h3>
+              <p class="font-body text-[16px] leading-[1.4] text-muted">{s.desc}</p>
             </div>
           </a>
         ))}
       </div>
+
+      <!-- "See All Services" pill -->
+      <div class="text-center mt-8">
+        <a href="/contact-us/" class="inline-block font-body text-[16px] text-dark px-6 py-1.5 rounded-full bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.25)]">
+          Explore Our Services
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- ── WANT TO LEARN MORE banner ── -->
-  <section class="py-10 bg-light">
-    <div class="container-site text-center">
-      <p class="text-dark font-body text-base">
-        Want to learn more? We'll show you how we can help your business succeed and grow in the UAE!
-      </p>
-    </div>
-  </section>
 
-  <!-- ── ABOUT / TRANSFORMING ── -->
-  <section class="py-20 bg-white">
+  <!-- ═══════════════════════════════════════════
+       ABOUT ROW 1 — text left, image right
+       WP: elementor-cee558d / padding 4rem / gap 50px
+       ═══════════════════════════════════════════ -->
+  <section class="py-16 bg-white">
     <div class="container-site">
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="grid lg:grid-cols-2 gap-[50px] items-center">
+        <!-- Text -->
         <div>
-          <img src="/images/2024/12/general-image1-1-1.webp" alt="Al Buraq team" class="w-full object-cover" loading="lazy" />
+          <p class="font-heading font-bold text-[32px] text-dark opacity-[0.15] leading-none">About Us</p>
+          <h2 class="font-heading font-bold text-[48px] leading-[1.4] text-dark">Transforming Ambitions into Reality</h2>
+          <p class="font-body text-[16px] leading-[1.4] text-dark mt-2">
+            We've successfully created a business hub that tackles the challenges faced by UAE, Qatar, and Saudi Arabian companies.
+            Al Buraq's dedicated team is committed to your success. From offering expert guidance to local insights, we stand with
+            a vast network of connections.
+          </p>
+          <p class="font-body text-[16px] leading-[1.4] text-dark mt-4">
+            Our premium services are a surety of compliance in a business environment. Enabling clients to achieve ambitious goals
+            that many others might consider out of reach. Choose us for our proven track record, corporate business solutions, and
+            unwavering support – your success is our top priority.
+          </p>
+          <a href="/about-us/" class="btn-primary mt-8 inline-block">Learn More About Us</a>
         </div>
+        <!-- Image -->
         <div>
-          <h2 class="text-[32px] lg:text-[40px] font-heading font-bold text-dark mb-2">Transforming Ambitions</h2>
-          <h2 class="text-[32px] lg:text-[40px] font-heading font-bold text-muted mb-6">into Reality</h2>
-          <p class="text-dark font-body leading-relaxed mb-4">
-            We've successfully created a business hub that tackles the challenges faced by UAE, Qatar, and Saudi Arabian companies. Al Buraq's dedicated team is committed to your success. From offering expert guidance, to local insights, we stand with a vast network of connections.
-          </p>
-          <p class="text-dark font-body leading-relaxed mb-8">
-            Our premium services are a surety of compliance in a business environment. Enabling clients to achieve ambitious goals that many others might consider out of reach. Choose us for our proven track record, corporate business solutions, and unwavering support – your success is our top priority.
-          </p>
-          <a href="/about-us/" class="btn-primary">Learn More</a>
+          <img src="/images/2024/12/general-image1-1-1.webp" alt="Al Buraq team" class="w-full object-cover rounded-[2px]" loading="lazy" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── ABOUT TEXT SECTION ── -->
-  <section class="py-20 bg-light">
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT ROW 2 — image left, text right
+       WP: elementor-5f1a1d4 / padding 4rem / gap 50px
+       ═══════════════════════════════════════════ -->
+  <section class="py-16 bg-white border-t border-[#E9E9E9]">
     <div class="container-site">
-      <div class="grid lg:grid-cols-2 gap-16 items-start">
+      <div class="grid lg:grid-cols-2 gap-[50px] items-center">
+        <!-- Image -->
         <div>
-          <h2 class="text-[32px] font-heading font-bold text-dark mb-2">About US</h2>
-          <p class="text-dark font-body leading-relaxed mb-4">
-            Al Buraq is a leading name in corporate business services, licensing, outsourcing, and business center solutions. Catering clients across the UAE, Qatar, and Saudi Arabia. Successfully operating with 18 years of experience, Al Buraq UAE has earned a solid reputation for delivering expert services.
-          </p>
-          <p class="text-dark font-body leading-relaxed">
-            Businesses get instant assistance and avoid the complexities of these time-to-time changing markets. The ultimate corporate services provider is here to support your business's growth and success in the region.
-          </p>
+          <img src="/images/2024/12/general-image1-2.webp" alt="Al Buraq solutions" class="w-full object-cover rounded-[2px]" loading="lazy" />
         </div>
+        <!-- Text -->
         <div>
-          <h3 class="text-xl font-heading font-bold text-dark mb-8">It's not just services; it's the value they bring.</h3>
-          <p class="text-muted font-body text-sm mb-8">
-            At Al Buraq Group, we focus on delivering not just services, but real value to your business.
+          <p class="font-heading font-bold text-[32px] text-dark opacity-[0.15] leading-none">What We Do</p>
+          <h2 class="font-heading font-bold text-[48px] leading-[1.4] text-dark">Empowering Your Business in the UAE</h2>
+          <p class="font-body text-[16px] leading-[1.4] text-dark mt-2">
+            Our mission is to empower foreign companies to gain greater control over their UAE, Qatar and Saudi Arabia business operations.
+            Through our corporate nominee partnership service, we help mitigate risks associated with local company laws.
           </p>
-          <div class="grid grid-cols-2 gap-6">
-            {features.map((f) => (
-              <div>
-                <h4 class="font-heading font-bold text-dark text-sm mb-2">{f.title}</h4>
-                <p class="text-muted font-body text-xs leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
+          <p class="font-body text-[16px] leading-[1.4] text-dark mt-4">
+            Al Buraq's dedicated team of 130+ experts delivers premium services ensuring compliance in a complex business environment,
+            enabling clients to achieve ambitious goals with confidence.
+          </p>
+          <a href="/contact-us/" class="btn-primary mt-8 inline-block">Contact Us Now</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── TESTIMONIALS ── -->
-  <section class="py-20 bg-white">
+
+  <!-- ═══════════════════════════════════════════
+       FEATURE CARDS — 4 tall photo cards with red labels
+       WP: elementor-e665f05 / 4 cols / padding-top:20rem / red box at bottom
+       ═══════════════════════════════════════════ -->
+  <section class="bg-white">
     <div class="container-site">
-      <div class="text-center mb-14">
-        <h2 class="text-[28px] lg:text-[36px] font-heading font-bold text-dark">
-          They've given us the opportunity to share their valued perspective
-        </h2>
-      </div>
-      <div class="grid md:grid-cols-3 gap-8">
-        {testimonials.map((t) => (
-          <div class="border border-[#E9E9E9] p-8 flex flex-col">
-            <p class="text-dark font-body text-[18px] leading-[1.4] flex-1 mb-6 italic">"{t.text}"</p>
-            <div class="flex items-center gap-3">
-              <img src={t.photo} alt={t.name} class="w-[50px] h-[50px] rounded-full object-cover" loading="lazy" />
-              <span class="font-heading font-bold text-dark text-[22px]">{t.name}</span>
+      <div class="grid grid-cols-2 lg:grid-cols-4">
+        {features.map((f) => (
+          <div class="relative overflow-hidden" style={`background-image:url('${f.img}'); background-size:cover; background-position:center;`}>
+            <!-- Spacer to give height -->
+            <div class="pt-[280px] lg:pt-[320px]"></div>
+            <!-- Red label box at bottom -->
+            <div class="bg-primary p-[10px]">
+              <h3 class="font-heading font-semibold text-[24px] leading-[1.4] text-white">{f.title}</h3>
+              <p class="font-body text-[16px] leading-[1.4] text-white">{f.desc}</p>
             </div>
           </div>
         ))}
@@ -218,44 +231,108 @@ const clientLogos = [
     </div>
   </section>
 
-  <!-- ── QUOTE BANNER ── -->
-  <section class="py-10 bg-dark">
-    <div class="container-site text-center">
-      <p class="text-white font-body text-base">Business is not just about profit, but about creativity and patience.</p>
-    </div>
-  </section>
 
-  <!-- ── STATS ── Dark navy BG -->
-  <section class="py-20 bg-dark">
+  <!-- ═══════════════════════════════════════════
+       CLIENT LOGOS — WP: elementor-12f134a / 7 cols / border-right #E4E9F3
+       ═══════════════════════════════════════════ -->
+  <section class="py-8 bg-white border-y border-[#E4E9F3]">
     <div class="container-site">
-      <div class="text-center mb-14">
-        <p class="text-[#E9E9E9] font-body text-sm mb-3">Take a look at</p>
-        <h2 class="text-[32px] lg:text-[48px] font-heading font-bold text-white mb-4">
-          18 Years of Experience, Measured in Numbers
-        </h2>
-        <p class="text-[#BABABA] font-body max-w-2xl mx-auto">
-          What you see are numbers, but they represent valuable lessons, countless hours of hard work, and an unwavering commitment to achieving perfection.
-        </p>
-      </div>
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-        {stats.map((s) => (
-          <div>
-            <div class="text-[60px] font-heading font-bold text-primary leading-none mb-2">{s.number}</div>
-            <div class="text-[#BABABA] font-body text-sm leading-snug">{s.label}</div>
+      <div class="flex flex-wrap justify-center items-center">
+        {clientLogos.map((logo) => (
+          <div class="border-r border-[#E4E9F3] px-6 py-3 last:border-r-0">
+            <img src={logo.src} alt={logo.alt} class="h-8 w-auto grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition" loading="lazy" />
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ── CONTACT CTA ── Dark navy BG -->
-  <section class="py-20 bg-dark">
-    <div class="container-site text-center">
-      <p class="text-[#E9E9E9] font-body text-sm mb-3">Take the next step towards success.</p>
-      <p class="text-white font-body text-lg mb-10 max-w-xl mx-auto">
-        <span class="text-primary font-body">Complete the application form</span> and schedule your personalized consultation today!
-      </p>
-      <a href="/contact-us/" class="btn-primary">Submit Message</a>
+
+  <!-- ═══════════════════════════════════════════
+       TESTIMONIALS — WP: elementor-11aa355
+       white bg cards with border #E9E9E9, carousel on WP (we do 3-col grid)
+       ═══════════════════════════════════════════ -->
+  <section class="py-16 bg-white">
+    <div class="container-site">
+      <h2 class="text-center font-heading font-bold text-[48px] leading-[1.4] text-dark pb-12">
+        They've given us the opportunity to share their valued perspective
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        {testimonials.map((t) => (
+          <div class="bg-white border border-[#E9E9E9] p-8 flex flex-col">
+            <p class="font-body text-[18px] leading-[1.4] text-dark flex-1 mb-8">"{t.text}"</p>
+            <div class="flex items-center gap-4">
+              <img src={t.photo} alt={t.name} class="w-[50px] h-[50px] rounded-full object-cover" loading="lazy" />
+              <div>
+                <p class="font-heading font-bold text-[22px] text-dark">{t.name}</p>
+                <p class="font-body text-[14px] text-muted">Verified Client</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       STATS — WP: elementor-9140fe0 / bg #1F232B / padding 4rem
+       Heading + 4 stat boxes with right borders
+       ═══════════════════════════════════════════ -->
+  <section class="bg-dark py-16">
+    <div class="container-site">
+      <!-- Heading above stats -->
+      <div class="text-center mb-10">
+        <h2 class="font-heading font-bold text-[48px] leading-[1.4] text-white py-2">
+          18 Years of Experience, Measured in Numbers
+        </h2>
+        <p class="font-body text-[16px] leading-[1.4] text-white">
+          What you see are numbers, but they represent valuable lessons, countless hours of hard work,
+          and an unwavering commitment to achieving perfection.
+        </p>
+      </div>
+
+      <!-- Stat boxes — right border between items -->
+      <div class="grid grid-cols-2 lg:grid-cols-4">
+        {stats.map((s, i) => (
+          <div class={`text-center px-8 py-8 ${i < stats.length - 1 ? 'border-r border-[#E9E9E9]/30' : ''}`}>
+            <p class="font-['Roboto',sans-serif] font-semibold text-[60px] leading-[1.4] text-primary">{s.number}</p>
+            <p class="font-body text-[20px] leading-[1.4] text-white">{s.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       BOTTOM CTA — WP: elementor-8578fc7
+       Left 50% = IMAGE-CONTACT-US-1.webp
+       Right 50% = dark bg #1F232B, white text + form
+       ═══════════════════════════════════════════ -->
+  <section class="bg-white">
+    <div class="grid lg:grid-cols-2 min-h-[400px]">
+      <!-- Left: Contact image -->
+      <div class="relative min-h-[300px] lg:min-h-0">
+        <img
+          src="/images/2024/12/IMAGE-CONTACT-US-1.webp"
+          alt="Contact Al Buraq"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Right: Dark box with text -->
+      <div class="bg-dark p-[50px] flex flex-col justify-center">
+        <h2 class="font-body font-bold text-[38px] leading-[1.2] text-white mb-4">
+          Take the next step towards success.
+        </h2>
+        <p class="font-ui font-medium text-[18px] leading-[1.2] text-white mb-8 pb-4">
+          Complete the application form and schedule your personalized consultation today!
+        </p>
+        <a href="/contact-us/" class="btn-primary self-start">Contact Us Now</a>
+      </div>
     </div>
   </section>
 
