@@ -114,7 +114,7 @@ Every migrated site must have:
 - [ ] Service/feature cards
 - [ ] Testimonials section
 - [ ] Stats/numbers section
-- [ ] Contact form (working — use Formspree or mailto)
+- [ ] Contact form (working — do not use Formspree; use mailto or a first-party backend)
 - [ ] Footer with all columns (services, links, contact, social)
 - [ ] WhatsApp floating button (bottom-right)
 - [ ] Scroll-to-top button (bottom-left, appears after scroll)
@@ -158,6 +158,7 @@ npm run dev     # starts on port 4321, accessible at http://<server-ip>:4321
 - Use Tailwind for all styling — set real colors in `tailwind.config.mjs`
 - No inline styles unless strictly necessary
 - Do not ask implementation questions — use the WP source files as the source of truth
-- Contact forms use Formspree — the endpoint goes in the form action (owner to provide real endpoint)
+- Never use Formspree for contact forms.
+- For local/static Astro staging, contact forms must work without third-party form services. Use `mailto:` as the default fallback unless a first-party backend/API endpoint is available.
 
 ---
