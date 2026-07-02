@@ -1,0 +1,142 @@
+@charset "utf-8";
+/*-- CSS style --*/
+.wpex-single-timeline {
+    margin: 0 auto;
+    max-width: 1170px;
+    padding: 30px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 13px;
+}
+.tl-info-left .wptl-social-share * {
+	color:#FFFFFF;
+}
+.tl-info-left .wptl-social-share > span{ width:100%; display:block;
+	height:30px;
+	line-height:29px;
+	font-size:13px;
+	margin-bottom:7px;
+}
+.tl-info-left .wptl-social-share > span.facebook{ background:#516eab}
+.tl-info-left .wptl-social-share > span.twitter{ background:#31bae1}
+.tl-info-left .wptl-social-share > span.linkedin{ background:#0077B5}
+.tl-info-left .wptl-social-share > span.google-plus{ background:#e14e31}
+.tl-info-left .wptl-social-share > span.tumblr{ background:#34465d}
+.tl-info-left .wptl-social-share > span.pinterest{ background:#bd081c}
+.tl-info-left .wptl-social-share > span.vk{ background:#4c75a3}
+.tl-info-left .wptl-social-share > span.email{ background:#131418}
+.tl-info-left .wptl-social-share > span i{ width:35px; margin-right:0px; text-align:center;}
+.tl-info-left{ margin-bottom:15px;}
+.wpex-custom-meta-info.one-p > p:before{ display:none}
+@media(min-width:768px){
+	.timeline-content{ margin-top:-5px;}
+	.tl-info-left{
+		width:30%;
+		float:left;
+		margin-right:30px;
+		margin-bottom:10px;
+	}
+	.timeline-info:not(.tlif-fw){ width: calc(70% - 30px); float:left;}
+}
+.wptimeline-sidebar,
+.wpex-custom-meta-info{
+	background: #FAFAFA;
+    padding: 20px 25px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+	margin-bottom:30px;
+}
+.wpex-custom-meta-info p{ position:relative; margin:0;padding: 7px 25px;}
+.wpex-custom-meta-info p:before{
+	content: "";
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    background: #666;
+    left: 5px;
+}
+.wpex-custom-meta-info p:first-child:before {
+    top: 50%;
+}
+.wpex-custom-meta-info p:last-child:before {
+    top: -50%;
+}
+.wpex-custom-meta-info p:after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #666;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    margin-top: -5px;
+    left: 1px;
+}
+.wpex-single-timeline .wptl-embed > iframe, .wpex-single-timeline .wptl-embed > embed, .wpex-single-timeline .wptl-embed > source, .wpex-single-timeline .wptl-embed > object{ max-height: inherit; margin-bottom:0; width:100%;}
+.wpex-single-timeline h1.tl-title{ line-height:1.6; padding:20px 0; text-transform: capitalize;}
+@media(max-width:767px){
+	.tl-info-left .wptl-social-share > span{ width:40px; height:40px; line-height:39px; margin-right:15px; float:left;}
+	.tl-info-left .wptl-social-share > span i{ width:40px;}
+}
+/*- Single navigate-*/
+.timeline-navigation{ display:inline-block; width:100%; margin-top:40px;}
+.timeline-navigation .previous-timeline{ float:left;}
+.timeline-navigation .previous-timeline i{ margin-right:7px;}
+.timeline-navigation .next-timeline{ float:right;}
+.timeline-navigation .next-timeline i{ margin-left:7px;}
+.timeline-navigation div > a,
+.timeline-navigation a.btn{ border-radius:0; box-shadow: 0 0 1px rgba(0, 0, 0, 0.15); background:#00BCD4; border:0; padding: 8px 16px; color:#FFFFFF}
+.timeline-navigation.defa .previous-timeline a:before{
+	content: "\f100";
+	font-family: 'fontawesome';
+	font-size:13px;
+	margin-right:7px;
+}
+.timeline-navigation.defa .next-timeline a:after{
+	content: "\f101";
+	font-family: 'fontawesome';
+	font-size:13px;
+	margin-left:7px;
+}
+/*-social-*/
+.wpex div.wptl-social-share{ float:left; display:block; width:100%}
+.wpex div.wptl-social-share span {
+    list-style: none;
+	width:auto !important;
+    display: inline-block;
+    font-size: 20px;
+    padding: 0;
+    float: none;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+.wpex div.wptl-social-share  span a {
+    border: 1px solid #00BCD4;
+    color: #00BCD4;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    float: left;
+    text-align: center;
+	box-shadow: none;
+}
+.wptl-back-to-list .bt-back{ text-align: center;}
+.wptl-back-to-list a{
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+	background: #00BCD4;
+	padding: 8px 12px 8px 45px;
+	color: #FFFFFF;
+	margin: 0 auto;
+	float: none;
+	position: relative;
+}
+.wptl-back-to-list a:hover{ color:#FFFFFF}
+.wptl-back-to-list a i {
+    padding: 10px 15px;
+    background: #000;
+    position: absolute;
+	width: 33px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+	box-sizing:border-box;
+}
+.wptl-back-to-list {margin-top: 30px;}

@@ -1,0 +1,121 @@
+.elementor-control-twe_add_icon_on_line{
+   pointer-events: none !important;
+   padding: 0px 10px 32px 8px !important;
+}
+
+
+.elementor-control-twe_date_label,
+.elementor-control-twe_show_year_label {
+     pointer-events: none !important;  
+}
+.elementor-control-twe_date_label{
+  border-top: none;
+  border-bottom: none;
+}
+.elementor-control-twe_show_year_label,
+.elementor-control-twe_date_label,
+ .elementor-control-twe_media{
+     border-left: 1px solid #2563EB;
+    border-right: 1px solid #2563EB;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.elementor-control-twe_show_year_label_demo{
+    position: absolute;
+    top : 2px; 
+}
+.elementor-control-twe_show_year_label{
+    padding: 14px 10px 9px 10px !important;
+     border-top: 1px solid #2563EB;
+    border-bottom: none;
+}
+.elementor-control-twe_extra_label{
+    padding: 0px 11px 19px 9px !important;
+    margin-bottom: 5px;
+    border-top: none; 
+}
+ .elementor-control-twe_media{
+   pointer-events: none !important;
+    padding: 0px 12px 24px 9px !important;
+   border-bottom: 1px solid #2563EB;
+}
+
+.elementor-control-twe_custom_cbox_connector_bg_color,
+.elementor-control-twe_custom_icon_bgcolor,
+.elementor-control-twe_custom_description_color,
+.elementor-control-twe_custom_title_icon_bgc,
+.elementor-control-twe_custom_story_title_color,
+.elementor-control-twe_custom_story_bdcolor,
+.elementor-control-twe_custom_story_bgcolor,
+.elementor-control-twe_title_link,
+.elementor-control-twe_add_icon_on_line{
+    pointer-events: none !important;
+    border-left: 1px solid #2563EB;
+    border-right: 1px solid #2563EB;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.elementor-control-twe_title_link{
+    border-bottom: 1px solid #2563EB;
+     margin: -22px 5px 10px 5px;
+     padding: 0px 11px 14px 9px !important;
+}
+
+.elementor-control-twe_custom_story_bgcolor{
+    margin-top: 2px;
+     padding: 16px 10px 9px 10px !important;
+      border-top: 1px solid #2563EB;
+}
+.elementor-control-twe_content_alignment,
+.elementor-control-twe_display_icons,
+.elementor-control-twe_animation{
+     pointer-events: none !important;
+ border-left: 1px solid #2563EB;
+    border-right: 1px solid #2563EB;
+     margin-left: 20px;
+    margin-right: 20px;
+}
+.elementor-control-twe_content_alignment{
+     margin-top: 2px;
+        padding: 16px 19px 9px 19px !important;
+      border-top: 1px solid #2563EB;
+}
+.elementor-control-twe_animation{
+border-bottom: 1px solid #2563EB;
+         margin: -20px 20px -4px 20px;
+      padding: 17px 19px 21px 19px !important;
+}
+
+
+.twae-upgrade-color-notice,.twae-upgrade-content-notice,.twe-upgrade-button-notice-layout-section{
+        position: absolute;
+    right: calc(50% - 70px) !important;
+    width: 140px;
+    top: 0px;
+    background: #EDACFB;
+    height: 24px;
+    font-size: 11px;
+    line-height: 1em;
+    border-radius: 3px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+.twae-upgrade-content-notice{
+    top: -15px;
+}
+
+.twe-upgrade-button-notice-layout-section{
+    top: -8px;
+}
+.twae-upgrade-content-notice a,  .twae-upgrade-color-notice a ,.twe-upgrade-button-notice-layout-section a{
+ color: #000000;
+}
+.twae-upgrade-content-notice:hover a , .twae-upgrade-color-notice:hover a ,.twe-upgrade-button-notice-layout-section:hover a{
+    color: black;
+}
+
+

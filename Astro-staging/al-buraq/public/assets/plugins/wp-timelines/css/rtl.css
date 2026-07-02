@@ -1,0 +1,163 @@
+@charset "utf-8";
+/*-- CSS RTL --*/
+.wpex-timeline-list{
+	direction: rtl;
+    text-align: right;
+}
+.wpex-timeline-list.show-icon .wpex-timeline > li .wpex-content-left .tlday{
+    float: right;
+	margin-right:0; margin-left:15px;
+}
+.wpex-timeline-list.show-icon .style-center .timeline-details .img-left{float: right; margin-left:20px; margin-right:0;}
+.left-tl .wpex-timeline > li:first-child:before,
+.left-tl .wpex-timeline > li:after{
+	left:auto;
+	right:150px; margin-left:0; margin-right:-8px;
+}
+
+.left-tl .wpex-timeline > li .wpex-timeline-label{ margin-left:0; margin-right:200px;}
+.left-tl.show-classic .wpex-timeline > li .wpex-timeline-label{
+	border-right: 4px solid #00BCD4;
+	border-left: 1px solid #eee;
+}
+.left-tl .wpex-timeline > li .wpex-timeline-time{ padding-right:0; padding-left:80px;}
+.left-tl .wpex-timeline > li .wpex-timeline-icon .fa{ left:auto; right:150px; margin-left:0; margin-right:-25px;}
+.left-tl .wpex-timeline > li .wpex-timeline-label:before{
+	right:-14px;
+	border-left-color: #00BCD4;
+	border-right: 0;
+}
+.wpex-timeline-list.left-tl:not(.show-icon) .wpex-timeline > li .wpex-timeline-icon .fa.no-icon{margin-right: -11px;}
+.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-icon .fa:not(.no-icon):before,
+.wpex-timeline-list.show-icon.left-tl li .wpex-timeline-icon .fa:before{margin-left:0; margin-right:-120px;}
+.left-tl.show-icon .wpex-timeline > li .wpex-timeline-icon .fa{ margin-right:-14px;}
+.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-icon .fa{margin-right: -12px;}
+.left-tl.flat-style .wpex-timeline > li .wpex-timeline-label{}
+.wpex-timeline-list.show-icon.left-tl.flat-style .wpex-timeline > li .wpex-timeline-label:after{
+	border-left-width: 11px;
+    border-right-width: 0;
+    right: -10px;
+    left: auto;
+}
+.wpex-timeline-list.left-tl.show-icon .wpex-timeline > li .wpex-timeline-label:before{ right:-12px; border-left-color:rgba(0,0,0,0.15)}
+.wpex-timeline-list.left-tl.show-icon:not(.sidebyside-tl) .wpex-timeline > li .wpex-timeline-label:after{ transform: rotate(180deg); left: auto;right: -11px; }
+.wpex-timeline-list.left-tl.flat-style .wpex-timeline > li .wpex-content-left, .wpex-timeline-list.show-icon.flat-style .wpex-timeline > li .wpex-content-left{
+	float:right;
+}
+.wpex-timeline-list.left-tl.flat-style .wpex-timeline > li .wpex-content-left + .timeline-details, .wpex-timeline-list.show-icon.flat-style .wpex-timeline:not(.style-center) > li .wpex-content-left + .timeline-details{
+	padding-left: 0px;
+	padding-right:30px;
+}
+.wpex-timeline-list.show-simple.left-tl .wpex-timeline > li .wpex-timeline-time .s-date,
+.wpex-timeline-list.show-simple.left-tl .wpex-timeline > li .wpex-timeline-label,
+.wpex-timeline-list.show-simple.left-tl .wpex-timeline > li .wpex-timeline-time{ text-align: right; }
+.wpex-timeline-list.show-simple.left-tl li .wpex-timeline-icon i.fa:before{ margin-right: -120px; margin-left: auto; }
+
+.wpex-timeline-list.show-simple.left-tl .wpex-timeline > li .wpex-timeline-icon .fa{ margin-right: -12px; }
+.wpex-timeline-list.show-simple.left-tl span.tll-date:before{ right: -40px; left: auto; }
+@media (min-width: 768px){
+	.sidebyside-tl.show-simple:not(.sidebyside-tl) .wpex-timeline.style-center > li:nth-child(even) .wpex-timeline-icon .fa:not(.no-icon), 
+	.sidebyside-tl.show-simple:not(.sidebyside-tl) .wpex-timeline.style-center > li:nth-child(even) .wpex-timeline-icon .fa.no-icon.icon-img{ right: auto; }
+	.wpex-timeline.style-center > li:nth-child(odd) .wpex-timeline-label:before {
+		right: -24px;
+	}
+	.wpex-timeline-list:not(.show-simple).wpex-timeline.style-center > li:nth-child(odd) .wpex-timeline-time {
+		left: 50%;
+    	right: auto;
+	}
+	.show-wide_img .wpex-timeline > li:nth-child(even) .wpex-timeline-time span.tll-date:before{
+		right: auto;
+	}
+}
+.wpex.horizontal-timeline{ direction:rtl;}
+.horizontal-timeline .ex_s_lick-slide
+{
+    float: right;
+}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-prev{right: 0; left: auto}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-prev i:before{content:"\f105"}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-next{left: 0; right: auto}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-next i:before{content:"\f104"}
+
+.wpex.horizontal-timeline .timeline-pos-select:before {
+    right: 0;
+	left:auto;
+    background-image: -webkit-linear-gradient( left , rgba(238, 238, 238, 0), #fff);
+    background-image: linear-gradient(to right, rgba(238, 238, 238, 0), #fff);
+}
+.wpex.horizontal-timeline.dark-style .timeline-pos-select:before{
+    background-image: -webkit-linear-gradient( right , #484848, rgba(238, 238, 238, 0));
+    background-image: linear-gradient(to left, #484848, rgba(238, 238, 238, 0));
+}
+.wpex-single-timeline{
+	text-align: right;
+    direction: rtl;
+}
+.wpex-timeline-list.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-time span.tll-date:before {
+    transform: rotate(180deg);
+    right: -15px;
+    left: auto;
+}
+.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-time {
+    left: auto;
+    right: 200px;
+}
+.show-bg.left-tl .wptl-readmore-center,
+.show-wide_img.left-tl .wptl-readmore-center{ text-align: left; }
+.sidebyside-tl.show-wide_img .wpex-timeline.style-center > li .wpex-timeline-time{ right: auto; }
+.wpex-timeline-list.show-box-color .style-center > li:nth-child(odd) .wpex-timeline-icon .fa:after, 
+.wpex-timeline-list.show-box-color li .wpex-timeline-icon i:after{margin-right: -19px;}
+.wpex-timeline-list.show-box-color.left-tl li .wpex-timeline-icon i:after {
+    margin-right: 25px;
+}
+@media (min-width: 768px){
+	.tl-info-left {
+		width: 30%;
+		float: right;
+		margin-left: 30px;
+		margin-right:0
+	}
+	.wpex-timeline-list.show-box-color li .wpex-timeline-icon i:after{margin-right: -29px;}
+	.wpex-timeline-list.show-box-color.sidebyside-tl .style-center > li:nth-child(odd) .wpex-timeline-icon .fa:after{ margin-right: 45px; }
+	.wpex-timeline-list.show-box-color .style-center > li:nth-child(odd) .wpex-timeline-icon .fa:after{ margin-right: 20px; }
+}
+.wpex-custom-meta-info p:before{ right:5px; left:auto;}
+.wpex-custom-meta-info p:after{ right:1px; left:auto;}
+.wpex-loadmore .loadmore-timeline span:not(.load-tltext):nth-child(2){ margin-left:0; margin-right:10px;}
+.left-tl.show-clean .wpex-timeline > li .il-img{float: left;margin: 0 20px 5px 0;}
+.wpex-timeline-list.show-clean.left-tl .wpex-timeline-icon:before,
+.wpex-timeline-list.show-clean.left-tl .wpex-timeline > li .wpex-timeline-icon a i.fa{right: -50px; left: auto;}
+@media (min-width: 768px){
+	.sidebyside-tl.show-icon .wpex-timeline.style-center > li .wpex-timeline-icon .fa:not(.no-icon), 
+	.sidebyside-tl.show-icon .wpex-timeline.style-center > li .wpex-timeline-icon .fa.no-icon.icon-img{
+		margin-top: -14px;
+	}
+	.sidebyside-tl.show-icon .wpex-timeline.style-center > li:nth-child(even) .wpex-timeline-icon i:not(.no-icon) {
+	    right: auto;
+	    margin-top: -14px;
+	}
+	.sidebyside-tl.show-icon .wpex-timeline.style-center > li:nth-child(odd) .wpex-timeline-label{
+		margin-right: calc(10% + 6px);
+	}
+	.show-wide_img .style-center > li:nth-child(even) .wptl-readmore-center {
+	    margin-left: 55%;
+	}
+}
+.extl-gallery-carousel .ex_s_lick-slide{ float: right; }
+@media (max-width: 520px){
+	.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-time,
+	.left-tl .wpex-timeline > li .wpex-timeline-label {margin-right: 100px;}
+	.left-tl .wpex-timeline > li .wpex-timeline-icon .fa{right: 50px;margin-right: -20px;}
+	.left-tl .wpex-timeline > li:first-child:before, .left-tl .wpex-timeline > li:after{
+		right: 50px; margin-right: -2px;
+	}
+	.wpex-timeline-list.show-clean.left-tl .wpex-timeline > li .wpex-timeline-icon .fa,
+	.wpex-timeline-list.left-tl.show-clean .wpex-timeline > li .wpex-timeline-icon .fa.no-icon,
+	.wpex-timeline-list.show-simple.left-tl .wpex-timeline > li .wpex-timeline-icon .fa,
+	.show-wide_img.left-tl .wpex-timeline > li .wpex-timeline-icon .fa{margin-right: -5px;}
+	.wpex-timeline-list.left-tl:not(.show-icon) .wpex-timeline > li .wpex-timeline-icon .fa.no-icon{ margin-right: 5px; }
+}
+/*Hoz*/
+@media (min-width: 768px){
+	.wpex.horizontal-timeline.wpex-horizontal-left .timeline-media{ padding-left: 15px; padding-right: 1px; }
+}
