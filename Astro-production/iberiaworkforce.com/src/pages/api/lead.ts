@@ -10,6 +10,11 @@ const OWNER_ID = Number(import.meta.env.PIPEDRIVE_OWNER_ID || process.env.PIPEDR
 const VISIBLE_TO = Number(import.meta.env.PIPEDRIVE_VISIBLE_TO || process.env.PIPEDRIVE_VISIBLE_TO || 3);
 const LEAD_TITLE =
   import.meta.env.PIPEDRIVE_LEAD_TITLE || process.env.PIPEDRIVE_LEAD_TITLE || 'Website lead — iberiaworkforce.com';
+// Pipedrive custom-field key for the enquiry text (a lead/deal field named "Message").
+// Set it so the message shows on the lead itself, the way evolutionmiddleast.com and
+// cbss.ae do it — otherwise the text only lives in the attached note and the lead
+// detail looks empty. Leaving it unset keeps the old note-only behaviour.
+const FIELD_MESSAGE = import.meta.env.PIPEDRIVE_FIELD_MESSAGE || process.env.PIPEDRIVE_FIELD_MESSAGE || '';
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
@@ -84,6 +89,7 @@ export const POST: APIRoute = async ({ request }) => {
       ...owner,
       person_id: personId,
       ...(orgId ? { organization_id: orgId } : {}),
+      ...(FIELD_MESSAGE && message ? { [FIELD_MESSAGE]: message } : {}),
     });
     const leadId = (lead.data as any)?.data?.id;
     if (!lead.ok || !leadId) {
@@ -100,7 +106,11 @@ export const POST: APIRoute = async ({ request }) => {
       message && `\nMessage:\n${message}`,
     ].filter(Boolean);
     if (noteLines.length) {
-      await pd('/notes', { lead_id: leadId, content: noteLines.join('\n') });
+      // The lead is already saved at this point, so a failed note must not fail the
+      // submission — but it must not pass silently either, or the enquiry text is
+      // lost with no trace.
+      const note = await pd('/notes', { lead_id: leadId, content: noteLines.join('\n') });
+      if (!note.ok) console.error('[lead] note create failed for lead', leadId, note.data);
     }
 
     return json({ ok: true });
