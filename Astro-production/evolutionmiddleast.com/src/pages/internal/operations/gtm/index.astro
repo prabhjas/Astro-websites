@@ -1,0 +1,76 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../env/server';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { readGlobalGtmConfig } from '../../../../lib/gtm/store';
+import { formatDateTime } from '../../../../lib/leads/dashboard';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) return Astro.redirect('/internal/operations/login');
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/seo/');
+}
+
+const env = getServerEnv();
+const config = await readGlobalGtmConfig(env.internalAdminDir);
+const canEdit = hasDashboardRole(session, 'super_admin');
+---
+
+<InternalDashboardLayout
+  title="Global GTM"
+  active="gtm"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <h2>Global GTM</h2>
+    <p>
+      Manage one global GTM/script snippet for the public site. Saving here updates
+      <code>/runtime-gtm.js</code>, which is injected on every public page (legacy HTML,
+      blog, archives). No per-page HTML edits required.
+    </p>
+    <p class="subtle">Last updated: {config ? `${formatDateTime(config.updatedAt)} by ${config.updatedBy}` : 'Not configured yet'}</p>
+    {Astro.url.searchParams.get('saved') && <p class="flash ok">GTM config saved. It will load on all public pages immediately.</p>}
+    {canEdit ? (
+      <form method="post" action="/api/internal/gtm/save" class="stack">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <label>
+          Head script
+          <textarea name="headScript" rows="10" placeholder="<script>...GTM head code...</script>">{config?.headScript || ''}</textarea>
+        </label>
+        <label>
+          Body HTML / noscript
+          <textarea name="bodyHtml" rows="8" placeholder="<noscript>...iframe...</noscript>">{config?.bodyHtml || ''}</textarea>
+        </label>
+        <label>
+          Footer script
+          <textarea name="footerScript" rows="8" placeholder="<script>...footer script...</script>">{config?.footerScript || ''}</textarea>
+        </label>
+        <button type="submit">Save GTM config</button>
+      </form>
+    ) : (
+      <p class="subtle">Only super admins can change the global GTM configuration.</p>
+    )}
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel { background: white; border-radius: 18px; padding: 1.25rem; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); }
+  h2, p { margin-top: 0; }
+  .subtle { color: #64748b; }
+  .stack { display: grid; gap: 1rem; }
+  label { display: grid; gap: 0.4rem; }
+  textarea { width: 100%; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; border: 1px solid #cbd5e1; border-radius: 12px; padding: 0.9rem; }
+  button { border: 0; border-radius: 10px; background: #0f172a; color: white; padding: 0.8rem 1rem; font: inherit; cursor: pointer; }
+  .flash { border-radius: 12px; padding: 0.85rem 1rem; margin: 0 0 1rem; }
+  .flash.ok { background: #ecfdf5; color: #065f46; }
+  code { font-size: 0.92em; }
+</style>

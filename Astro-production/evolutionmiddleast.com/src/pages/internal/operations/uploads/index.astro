@@ -1,0 +1,141 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../env/server';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { InternalUploadStore } from '../../../../lib/internal-uploads/store';
+import { formatDateTime } from '../../../../lib/leads/dashboard';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/internal/operations/login');
+}
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/seo/');
+}
+
+const env = getServerEnv();
+const store = new InternalUploadStore({ rootDir: env.internalUploadDir });
+const uploads = await store.list();
+const canManage = hasDashboardRole(session, 'developer');
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+---
+
+<InternalDashboardLayout
+  title="Operations Uploads"
+  active="uploads"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <h2>Internal uploads</h2>
+    <p>Restricted file storage for internal operational documents. Files are stored outside the public web root.</p>
+
+    {canManage ? (
+      <form class="upload-form" method="post" action="/api/internal/uploads" enctype="multipart/form-data">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <input type="file" name="file" required />
+        <button type="submit">Upload file</button>
+      </form>
+    ) : (
+      <p class="subtle">Viewer access can download files, but only developers and admins can upload or delete.</p>
+    )}
+
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Uploaded</th>
+          <th>By</th>
+          <th>Size</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {uploads.length ? (
+          uploads.map((upload) => (
+            <tr>
+              <td>
+                <a href={`/api/internal/uploads/${upload.id}`}>{upload.originalName}</a>
+                <div class="subtle">{upload.mimeType}</div>
+              </td>
+              <td>{formatDateTime(upload.uploadedAt)}</td>
+              <td>{upload.uploadedBy}</td>
+              <td>{formatBytes(upload.size)}</td>
+              <td>
+                {canManage ? (
+                  <form method="post" action="/api/internal/uploads/delete">
+                    <input type="hidden" name="csrfToken" value={session.csrf} />
+                    <input type="hidden" name="uploadId" value={upload.id} />
+                    <button type="submit">Delete</button>
+                  </form>
+                ) : (
+                  <span class="subtle">Read only</span>
+                )}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colspan="5">No internal files uploaded yet.</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel {
+    background: white;
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+  h2, p {
+    margin-top: 0;
+  }
+  .subtle,
+  p {
+    color: #64748b;
+  }
+  .upload-form {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1rem 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  input, button {
+    font: inherit;
+  }
+  button {
+    border: 0;
+    border-radius: 10px;
+    background: #0f172a;
+    color: white;
+    padding: 0.75rem 0.95rem;
+    cursor: pointer;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+</style>

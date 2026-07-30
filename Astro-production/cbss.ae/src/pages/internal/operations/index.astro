@@ -1,0 +1,153 @@
+---
+import InternalDashboardLayout from '../../../layouts/InternalDashboardLayout.astro';
+import { readDashboardSession } from '../../../lib/auth/session';
+import { applyInternalNoIndexHeaders } from '../../../lib/security/internal-response';
+import { FileLeadStore } from '../../../lib/leads/file-store';
+import { getServerEnv } from '../../../env/server';
+import {
+  formatDateTime,
+  getDeliveryStatusCount,
+  getDeliveryStatusLabel,
+  getLeadDisplayName,
+} from '../../../lib/leads/dashboard';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/internal/operations/login');
+}
+
+const env = getServerEnv();
+const store = new FileLeadStore({ rootDir: env.leadStoreDir, maxFileBytes: env.leadStoreMaxFileBytes });
+const submissions = await store.listSubmissions();
+const recent = submissions.slice(0, 8);
+const metrics = [
+  { label: 'Total leads', value: submissions.length },
+  { label: 'Delivered', value: getDeliveryStatusCount(submissions, 'delivered') },
+  { label: 'Scheduled retries', value: getDeliveryStatusCount(submissions, 'retry_scheduled') },
+  { label: 'Manual review', value: getDeliveryStatusCount(submissions, 'failed') + getDeliveryStatusCount(submissions, 'dead_letter') },
+];
+---
+
+<InternalDashboardLayout
+  title="Operations Overview"
+  active="overview"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="intro">
+    <h2>Overview</h2>
+    <p>Live summary of every stored submission and its current delivery state.</p>
+  </section>
+
+  <section class="stats">
+    {metrics.map((item) => (
+      <article class="card">
+        <p>{item.label}</p>
+        <strong>{item.value}</strong>
+      </article>
+    ))}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Recent submissions</h3>
+      <a href="/internal/operations/leads/">View all leads</a>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Submitted</th>
+          <th>Lead</th>
+          <th>Status</th>
+          <th>Attempts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {recent.length ? (
+          recent.map((record) => (
+            <tr>
+              <td>{formatDateTime(record.createdAt)}</td>
+              <td>
+                <a href={`/internal/operations/leads/${record.publicId}/`}>
+                  {getLeadDisplayName(record)}
+                </a>
+                <div class="subtle">{record.formName}</div>
+              </td>
+              <td><span class={`pill ${record.deliveryStatus}`}>{getDeliveryStatusLabel(record.deliveryStatus)}</span></td>
+              <td>{record.deliveryAttemptCount}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colspan="4">No leads stored yet.</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  h2, h3, p {
+    margin-top: 0;
+  }
+  .intro p {
+    color: #475569;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .card,
+  .panel {
+    background: white;
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+  .card p,
+  .subtle {
+    color: #64748b;
+  }
+  .card strong {
+    font-size: 2rem;
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    vertical-align: top;
+  }
+  .pill {
+    display: inline-flex;
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+  .pill.delivered { background: #dcfce7; color: #166534; }
+  .pill.retry_scheduled { background: #fef3c7; color: #92400e; }
+  .pill.failed, .pill.dead_letter { background: #fee2e2; color: #991b1b; }
+  @media (max-width: 900px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

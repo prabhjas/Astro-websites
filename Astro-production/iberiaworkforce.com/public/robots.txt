@@ -1,0 +1,35 @@
+# robots.txt — iberiaworkforce.com
+# Search engines and AI assistants are welcome to crawl the whole site.
+# (Note: Cloudflare's "Managed robots.txt" may prepend additional rules at the
+#  edge — manage AI-crawler access there as well.)
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome major AI assistant / answer-engine crawlers so the site can
+# appear in AI search results and answers.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://iberiaworkforce.com/sitemap-index.xml

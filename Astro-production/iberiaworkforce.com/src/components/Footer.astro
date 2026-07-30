@@ -1,0 +1,88 @@
+---
+import Logo from './Logo.astro';
+import { localize, type Lang } from '../i18n/config';
+import { dict } from '../i18n/content';
+import { services } from '../data/services';
+import { company } from '../data/company';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = dict(lang);
+const year = 2026;
+---
+<footer class="mt-24 border-t border-line bg-brand-900 text-white/80">
+  <div class="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    <div class="lg:col-span-1">
+      <Logo lang={lang} variant="light" />
+      <p class="mt-4 max-w-xs text-sm text-white/70">{d.footer.tagline}</p>
+      <p class="mt-4 text-xs leading-relaxed text-white/50">{company.ettAuthority[lang]}.</p>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-white">{d.footer.servicesTitle}</h3>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        {services.map((s) => (
+          <li><a href={localize(lang, `/services/${s.slug}`)} class="text-white/70 hover:text-white">{s[lang].navName}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-white">{d.footer.companyTitle}</h3>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a href={localize(lang, '/about')} class="text-white/70 hover:text-white">{d.nav.about}</a></li>
+        <li><a href={localize(lang, '/services')} class="text-white/70 hover:text-white">{d.nav.services}</a></li>
+        <li><a href={localize(lang, '/contact')} class="text-white/70 hover:text-white">{d.nav.contact}</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-white">{d.footer.contactTitle}</h3>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a href={`mailto:${company.email}`} class="text-white/70 hover:text-white">{company.email}</a></li>
+        <li><a href={`tel:${company.phoneHref}`} class="text-white/70 hover:text-white">{company.phone}</a></li>
+        <li class="text-white/70">{company.addressCity}, {company.addressCountry}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Official ETT authorisation — details + verify link -->
+  <div class="border-t border-white/10">
+    <div class="container-x py-8">
+      <div class="flex flex-col gap-5 rounded-xl border border-white/10 bg-white/5 p-6 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <svg class="h-5 w-5 text-accent-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            <h3 class="text-sm font-semibold text-white">{d.footer.ett.title}</h3>
+          </div>
+          <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.authLabel}</dt>
+              <dd class="font-semibold text-white">{company.ett.authNumber}</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.nifLabel}</dt>
+              <dd class="font-semibold text-white">{company.ett.nif}</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.authorityLabel}</dt>
+              <dd class="font-semibold text-white">{company.ett.region}</dd>
+            </div>
+          </dl>
+          <p class="mt-4 max-w-xl text-xs leading-relaxed text-white/50">{d.footer.ett.note}</p>
+        </div>
+        <a href={company.ett.registryUrl} target="_blank" rel="noopener noreferrer" class="btn-primary shrink-0 self-start lg:self-center">
+          {d.footer.ett.verify}
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-x flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/50 sm:flex-row">
+      <p>© {year} {company.legalName}. {d.footer.rights}</p>
+      <p>{d.footer.builtIn}</p>
+    </div>
+  </div>
+</footer>

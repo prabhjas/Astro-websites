@@ -1,0 +1,169 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../CtaBand.astro';
+import ServiceIcon from '../ServiceIcon.astro';
+import { localize, type Lang } from '../../i18n/config';
+import { dict } from '../../i18n/content';
+import { services } from '../../data/services';
+import { company } from '../../data/company';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = dict(lang);
+const h = d.home;
+
+// Registry proof screenshot (public/ministry-ett.png). While false, a branded seal shows instead.
+const hasMinistryShot = true;
+const ministryShot = '/ministry-ett.png';
+---
+<Base lang={lang} title={h.metaTitle} description={h.metaDescription}>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-brand-900 text-white">
+    <div class="pointer-events-none absolute inset-0 opacity-[0.15]" style="background-image:radial-gradient(circle at 20% 20%, #4a7ec6 0, transparent 40%), radial-gradient(circle at 85% 30%, #c8992e 0, transparent 35%);"></div>
+    <div class="container-x relative grid items-center gap-10 py-20 lg:grid-cols-12 lg:py-28">
+      <div class="lg:col-span-7">
+        <p class="eyebrow text-accent-light">{h.heroEyebrow}</p>
+        <h1 class="mt-4 text-4xl font-bold leading-[1.1] text-white sm:text-5xl">{h.heroTitle}</h1>
+        <p class="mt-6 max-w-2xl text-lg text-white/80">{h.heroSubtitle}</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={localize(lang, '/contact')} class="btn-primary">{h.heroPrimary}</a>
+          <a href={localize(lang, '/services')} class="btn-light">{h.heroSecondary}</a>
+        </div>
+        <div class="mt-8 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white/90 ring-1 ring-white/15">
+          <svg class="h-4 w-4 text-accent-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          {company.ettAuthority[lang]}
+        </div>
+      </div>
+
+      <!-- Hero proof: real registry screenshot when available, else a branded ETT seal -->
+      <div class="lg:col-span-5">
+        {hasMinistryShot ? (
+          <a href={company.ett.registryUrl} target="_blank" rel="noopener noreferrer" class="group block" title={h.verify.screenshotAlt}>
+            <figure class="rounded-xl bg-white p-2 shadow-2xl ring-1 ring-white/10 transition group-hover:ring-accent/40">
+              <img src={ministryShot} alt={h.verify.screenshotAlt} width="2182" height="1145" class="w-full rounded-lg" loading="eager" />
+            </figure>
+            <figcaption class="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-white/70">
+              <svg class="h-3.5 w-3.5 text-accent-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+              {h.verify.screenshotCaption}
+            </figcaption>
+          </a>
+        ) : (
+          <div class="rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-white/10">
+            <div class="flex items-center gap-3">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent/10 text-accent">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+              </span>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-accent-dark">{h.verify.sealTitle}</p>
+                <p class="font-bold text-brand-800">{h.verify.sealAuthority}</p>
+              </div>
+            </div>
+            <div class="mt-5 rounded-xl bg-brand-50 p-4">
+              <p class="text-xs font-semibold uppercase tracking-wide text-muted">{h.verify.authLabel}</p>
+              <p class="mt-0.5 text-2xl font-extrabold tracking-tight text-brand-800">{company.ett.authNumber}</p>
+              <p class="mt-1 text-sm text-muted">{company.ett.registryName} · NIF {company.ett.nif}</p>
+            </div>
+            <a href={company.ett.registryUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-800">
+              {h.verify.viewRegistryShort}
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Official ETT authorisation — verifiable proof (directly below the hero) -->
+  <section class="container-x pt-16">
+    <div class="overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-card">
+      <div class="grid lg:grid-cols-5">
+        <div class="border-b border-line p-8 lg:col-span-3 lg:border-b-0 lg:border-r sm:p-10">
+          <div class="flex items-center gap-2">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            <p class="eyebrow">{h.verify.eyebrow}</p>
+          </div>
+          <h2 class="mt-4 text-2xl font-bold sm:text-3xl">{h.verify.title}</h2>
+          <p class="mt-4 text-muted">{h.verify.text}</p>
+
+          <dl class="mt-6 grid gap-4 sm:grid-cols-3">
+            <div class="rounded-lg bg-brand-50 p-4">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">{h.verify.authLabel}</dt>
+              <dd class="mt-1 font-bold text-brand-800">{company.ett.authNumber}</dd>
+            </div>
+            <div class="rounded-lg bg-brand-50 p-4">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">{h.verify.nifLabel}</dt>
+              <dd class="mt-1 font-bold text-brand-800">{company.ett.nif}</dd>
+            </div>
+            <div class="rounded-lg bg-brand-50 p-4">
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">{h.verify.authorityLabel}</dt>
+              <dd class="mt-1 text-sm font-semibold text-brand-800">{company.ett.region}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="flex flex-col justify-center gap-4 bg-brand-900 p-8 text-white lg:col-span-2 sm:p-10">
+          <h3 class="text-lg font-semibold text-white">{h.verify.howTitle}</h3>
+          <p class="text-sm leading-relaxed text-white/80">{h.verify.howText}</p>
+          <a href={company.ett.registryUrl} target="_blank" rel="noopener noreferrer" class="btn-primary mt-2 w-full">
+            {h.verify.button}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </a>
+          <p class="text-xs text-white/50">{company.ett.registryName} · {company.ett.authority[lang]}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust / why us -->
+  <section class="container-x py-20">
+    <h2 class="text-center text-3xl font-bold">{h.trustTitle}</h2>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {h.trust.map((item) => (
+        <div class="rounded-xl border border-line bg-white p-6 shadow-card">
+          <h3 class="text-lg font-semibold text-brand-800">{item.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="bg-brand-50/60 py-20">
+    <div class="container-x">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="eyebrow">{h.servicesEyebrow}</p>
+        <h2 class="mt-3 text-3xl font-bold">{h.servicesTitle}</h2>
+        <p class="mt-4 text-muted">{h.servicesIntro}</p>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <a href={localize(lang, `/services/${s.slug}`)} class="group flex flex-col rounded-xl border border-line bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-brand-200">
+            <span class="grid h-12 w-12 place-items-center rounded-lg bg-brand-50 text-brand-700 transition group-hover:bg-brand-800 group-hover:text-white">
+              <ServiceIcon name={s.icon} class="h-6 w-6" />
+            </span>
+            <h3 class="mt-5 text-lg font-semibold text-brand-800">{s[lang].navName}</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">{s[lang].short}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent-dark">
+              {d.common.learnMore}
+              <svg class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="container-x py-20">
+    <div class="grid gap-6 rounded-2xl border border-line bg-white p-8 shadow-card sm:grid-cols-2 lg:grid-cols-4">
+      {h.stats.map((s) => (
+        <div class="text-center">
+          <div class="text-3xl font-bold text-brand-800">{s.value}</div>
+          <div class="mt-1 text-sm text-muted">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="pb-4"><CtaBand lang={lang} /></div>
+</Base>

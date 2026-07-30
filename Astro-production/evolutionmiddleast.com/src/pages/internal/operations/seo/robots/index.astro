@@ -1,0 +1,72 @@
+---
+import InternalDashboardLayout from '../../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../../env/server';
+import { canManageSeo } from '../../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../../lib/auth/session';
+import { formatDateTime } from '../../../../../lib/leads/dashboard';
+import { resolveSiteOrigin } from '../../../../../lib/seo/site-url';
+import {
+  defaultRobotsContent,
+  readManagedTextFile,
+} from '../../../../../lib/seo/text-files-store';
+import { applyInternalNoIndexHeaders } from '../../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) return Astro.redirect('/internal/operations/login');
+
+const env = getServerEnv();
+const siteOrigin = resolveSiteOrigin({
+  env: process.env,
+  astroSite: Astro.site ?? undefined,
+  trustRequestHost: false,
+});
+const stored = await readManagedTextFile(env.internalAdminDir, 'robots');
+const content = stored?.content || defaultRobotsContent(siteOrigin);
+const canEdit = canManageSeo(session);
+---
+
+<InternalDashboardLayout
+  title="robots.txt"
+  active="seo"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <h2>robots.txt</h2>
+    <p>Edit the live <code>/robots.txt</code> response. Empty save falls back to the Rank Math–style default (tag/category/wp-admin disallows + sitemap index).</p>
+    <p class="subtle">
+      Public URL: <a href="/robots.txt" target="_blank" rel="noreferrer">/robots.txt</a>
+      · Last updated: {stored ? `${formatDateTime(stored.updatedAt)} by ${stored.updatedBy}` : 'Using default content'}
+    </p>
+    {canEdit ? (
+      <form method="post" action="/api/internal/seo/text-files/save" class="stack">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <input type="hidden" name="kind" value="robots" />
+        <label>
+          robots.txt content
+          <textarea name="content" rows="16">{content}</textarea>
+        </label>
+        <button type="submit">Save robots.txt</button>
+      </form>
+    ) : (
+      <pre class="preview">{content}</pre>
+      <p class="subtle">Only SEO users and super admins can change robots.txt.</p>
+    )}
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel { background: white; border-radius: 18px; padding: 1.25rem; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); }
+  h2, p { margin-top: 0; }
+  .subtle { color: #64748b; }
+  .stack { display: grid; gap: 1rem; }
+  label { display: grid; gap: 0.4rem; }
+  textarea, .preview { width: 100%; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; border: 1px solid #cbd5e1; border-radius: 12px; padding: 0.9rem; white-space: pre-wrap; }
+  button { border: 0; border-radius: 10px; background: #0f172a; color: white; padding: 0.8rem 1rem; font: inherit; cursor: pointer; width: fit-content; }
+  a { color: #0f172a; }
+</style>

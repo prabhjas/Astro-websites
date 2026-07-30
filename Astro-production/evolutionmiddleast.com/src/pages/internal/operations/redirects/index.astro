@@ -1,0 +1,188 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../env/server';
+import { canManageRedirects } from '../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { formatDateTime } from '../../../../lib/leads/dashboard';
+import { readManagedRedirects, readRedirectStats } from '../../../../lib/runtime-redirects/store';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) return Astro.redirect('/internal/operations/login');
+
+const env = getServerEnv();
+const redirects = await readManagedRedirects(env.internalAdminDir, process.cwd());
+const stats = await readRedirectStats(env.internalAdminDir);
+const q = (Astro.url.searchParams.get('q') || '').trim().toLowerCase();
+const page = Math.max(1, Number(Astro.url.searchParams.get('page') || 1));
+const pageSize = 20;
+const filtered = redirects.filter((rule) =>
+  !q || rule.from.toLowerCase().includes(q) || rule.to.toLowerCase().includes(q),
+);
+const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+const currentPage = Math.min(page, totalPages);
+const paged = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+const canEdit = canManageRedirects(session);
+
+const imported = Astro.url.searchParams.get('imported');
+const total = Astro.url.searchParams.get('total');
+const deleted = Astro.url.searchParams.get('deleted');
+const saved = Astro.url.searchParams.get('saved');
+const error = Astro.url.searchParams.get('error');
+const flash =
+  imported ? `Imported ${imported} redirect${imported === '1' ? '' : 's'} (${total || filtered.length} total).` :
+  deleted ? `Deleted ${deleted} redirect${deleted === '1' ? '' : 's'}.` :
+  saved ? 'Redirect saved.' :
+  error === 'import-parse' ? 'Import failed: could not parse the file. Use Rank Math JSON or CSV.' :
+  error === 'import-empty' ? 'Import failed: no redirect rows found in the file.' :
+  error === 'none-selected' ? 'Select at least one redirect to delete.' :
+  error === 'invalid' ? 'Invalid redirect rule.' :
+  '';
+const flashTone = error ? 'error' : flash ? 'ok' : '';
+---
+
+<InternalDashboardLayout
+  title="Redirect Imports"
+  active="redirects"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <div class="head-row">
+      <div>
+        <h2>Redirects</h2>
+        <p>Manage the full redirect set from the dashboard: search, import, edit, delete, and monitor usage.</p>
+      </div>
+      <form method="get" class="search-row">
+        <input type="search" name="q" value={q} placeholder="Search URL or destination" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    {flash && <p class:list={['flash', flashTone]}>{flash}</p>}
+    {canEdit ? (
+      <form method="post" action="/api/internal/redirects/import" enctype="multipart/form-data" class="upload-form">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <input
+          type="file"
+          name="file"
+          accept=".json,.csv,application/json,text/csv,text/plain"
+          required
+        />
+        <button type="submit">Import redirects</button>
+        <p class="subtle upload-hint">Accepts Rank Math <strong>JSON</strong> or <strong>CSV</strong> exports (source → target).</p>
+      </form>
+    ) : (
+      <p class="subtle">Only SEO users and super admins can import redirects.</p>
+    )}
+  </section>
+
+  <section class="panel">
+    <h3>Add redirect</h3>
+    {canEdit ? (
+      <form method="post" action="/api/internal/redirects/save" class="edit-grid">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <input type="text" name="from" placeholder="/old-path/" required />
+        <input type="text" name="to" placeholder="/new-path/ or https://domain/path" required />
+        <select name="status">
+          <option value="301">301</option>
+          <option value="302">302</option>
+        </select>
+        <button type="submit">Save redirect</button>
+      </form>
+    ) : (
+      <p class="subtle">Only SEO users and super admins can change redirects.</p>
+    )}
+  </section>
+
+  <section class="panel">
+    <div class="table-head">
+      <h3>All redirects</h3>
+      <p class="subtle">{filtered.length} total {q ? `matching "${q}"` : 'rules'}</p>
+    </div>
+    {canEdit && (
+      <form method="post" action="/api/internal/redirects/bulk-delete" class="bulk-row">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <div class="bulk-actions">
+          <button type="submit">Delete selected</button>
+        </div>
+        <table>
+          <thead><tr><th></th><th>From</th><th>To</th><th>Code</th><th>Hits</th><th>Last access</th><th></th></tr></thead>
+          <tbody>
+            {paged.length ? paged.map((rule) => (
+              <tr>
+                <td><input type="checkbox" name="from" value={rule.from} /></td>
+                <td><input type="text" name={`from:${rule.from}`} value={rule.from} required /></td>
+                <td><input type="text" name={`to:${rule.from}`} value={rule.to} required /></td>
+                <td>
+                  <select name={`status:${rule.from}`}>
+                    <option value="301" selected={rule.status === 301}>301</option>
+                    <option value="302" selected={rule.status === 302}>302</option>
+                  </select>
+                </td>
+                <td>{stats[rule.from]?.hits || 0}</td>
+                <td>{formatDateTime(stats[rule.from]?.lastAccessAt)}</td>
+                <td class="row-actions">
+                  <button type="submit" formaction="/api/internal/redirects/save" name="originalFrom" value={rule.from}>Update</button>
+                  <button type="submit" formaction="/api/internal/redirects/delete" name="deleteFrom" value={rule.from} class="danger">Delete</button>
+                </td>
+              </tr>
+            )) : (
+              <tr><td colspan="7">No redirects available for this filter.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </form>
+    )}
+    {!canEdit && (
+      <table>
+        <thead><tr><th>From</th><th>To</th><th>Code</th><th>Hits</th><th>Last access</th></tr></thead>
+        <tbody>
+          {paged.length ? paged.map((rule) => (
+            <tr>
+              <td><code>{rule.from}</code></td>
+              <td><code>{rule.to}</code></td>
+              <td>{rule.status}</td>
+              <td>{stats[rule.from]?.hits || 0}</td>
+              <td>{formatDateTime(stats[rule.from]?.lastAccessAt)}</td>
+            </tr>
+          )) : (
+            <tr><td colspan="5">No redirects available for this filter.</td></tr>
+          )}
+        </tbody>
+      </table>
+    )}
+    <div class="pager">
+      <span>Page {currentPage} of {totalPages}</span>
+      <div class="pager-links">
+        {currentPage > 1 && <a href={`/internal/operations/redirects/?page=${currentPage - 1}${q ? `&q=${encodeURIComponent(q)}` : ''}`}>Previous</a>}
+        {currentPage < totalPages && <a href={`/internal/operations/redirects/?page=${currentPage + 1}${q ? `&q=${encodeURIComponent(q)}` : ''}`}>Next</a>}
+      </div>
+    </div>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel { background: white; border-radius: 18px; padding: 1.25rem; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); margin-bottom: 1rem; }
+  h2, h3, p { margin-top: 0; }
+  .subtle { color: #64748b; }
+  .head-row, .table-head, .pager, .search-row, .bulk-actions { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  .upload-form { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; align-items: center; }
+  .upload-hint { margin: 0; flex: 1 1 100%; }
+  .bulk-row { display: grid; gap: 1rem; }
+  .edit-grid { display: grid; grid-template-columns: 1.3fr 1.8fr 110px auto; gap: 0.75rem; align-items: center; }
+  input, select { font: inherit; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.7rem 0.85rem; }
+  button { border: 0; border-radius: 10px; background: #0f172a; color: white; padding: 0.8rem 1rem; font: inherit; cursor: pointer; }
+  button.danger { background: #991b1b; }
+  .row-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  .pager-links { display: flex; gap: 0.75rem; }
+  .flash { border-radius: 12px; padding: 0.85rem 1rem; margin: 1rem 0 0; }
+  .flash.ok { background: #ecfdf5; color: #065f46; }
+  .flash.error { background: #fef2f2; color: #991b1b; }
+</style>

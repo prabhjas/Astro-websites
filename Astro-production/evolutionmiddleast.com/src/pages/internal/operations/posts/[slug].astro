@@ -1,0 +1,410 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../lib/auth/permissions';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+import { getAllCategoryOptions, getPost } from '../../../../lib/internal-posts/store';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/internal/operations/login');
+}
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/seo/');
+}
+
+if (!hasDashboardRole(session, 'developer')) {
+  return Astro.redirect('/internal/operations/');
+}
+
+const slugParam = String(Astro.params.slug || '').trim();
+const post = slugParam ? getPost(slugParam) : null;
+if (!post) {
+  return new Response('Not found', { status: 404 });
+}
+
+let categories = getAllCategoryOptions();
+const cat = post.categories?.[0];
+const categorySlug = cat?.slug || cat?.name || '';
+const categoryName = cat?.name || '';
+
+// If the post currently uses a trashed category (not present in active taxonomy),
+// keep it selectable to avoid accidentally changing the post on save.
+if (categorySlug && !categories.some((c) => c.slug === categorySlug)) {
+  categories = [
+    ...categories,
+    {
+      name: categoryName || categorySlug,
+      slug: categorySlug,
+      url: `/category/${categorySlug}/`,
+    },
+  ];
+}
+
+const tagCsv = (post.tags || []).map((t: any) => t.name).filter(Boolean).join(',');
+
+function toDateTimeLocal(iso: string): string {
+  const d = new Date(iso);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
+}
+
+const robots = post.robots || '';
+const noIndex = robots.includes('noindex');
+const noFollow = robots.includes('nofollow');
+
+const status: 'draft' | 'published' | 'trash' = post.status || 'published';
+const contentHtml = post.contentHtml || '';
+const metaTitle = post.metaTitle || '';
+const metaDescription = post.metaDescription || post.description || '';
+
+const publishValue = toDateTimeLocal(post.publishedAt || new Date().toISOString());
+---
+
+<InternalDashboardLayout
+  title={`Lead Operations - Edit: ${post.title}`}
+  active="posts"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <div class="head">
+      <h2>Edit Post</h2>
+      <p><code>{post.slug}</code></p>
+    </div>
+
+    <form id="post-form" method="post" action="/api/internal/posts/save" enctype="multipart/form-data">
+      <input type="hidden" name="csrfToken" value={session.csrf} />
+      <input type="hidden" name="originalSlug" value={post.slug} />
+
+      <div class="grid">
+        <div class="left">
+          <div class="field">
+            <label for="post-title">Title *</label>
+            <input id="post-title" name="title" type="text" value={post.title} required />
+          </div>
+
+          <div class="field">
+            <label for="post-slug">Slug *</label>
+            <input id="post-slug" name="slug" type="text" value={post.slug} required />
+          </div>
+
+          <div class="field">
+            <label>Content *</label>
+            <div class="rte">
+              <div class="rte-toolbar">
+                <button type="button" data-cmd="bold">Bold</button>
+                <button type="button" data-cmd="italic">Italic</button>
+                <button type="button" data-cmd="underline">Underline</button>
+                <span class="sep"></span>
+                <button type="button" data-cmd="formatBlock" data-val="h2">H2</button>
+                <button type="button" data-cmd="formatBlock" data-val="h3">H3</button>
+                <span class="sep"></span>
+                <button type="button" data-cmd="insertUnorderedList">UL</button>
+                <button type="button" data-cmd="insertOrderedList">OL</button>
+                <span class="sep"></span>
+                <button type="button" data-cmd="createLink">Link</button>
+                <button type="button" data-cmd="insertImage">Image</button>
+                <button type="button" data-cmd="formatBlock" data-val="blockquote">Quote</button>
+              </div>
+              <div id="post-editor" class="rte-editor" contenteditable="true" set:html={contentHtml}></div>
+              <textarea id="contentHtml" name="contentHtml" hidden>{contentHtml}</textarea>
+            </div>
+            <p class="hint">Tip: you can paste HTML. Heading IDs will be generated/updated automatically on save.</p>
+          </div>
+        </div>
+
+        <aside class="right">
+          <fieldset class="card">
+            <legend>Publish</legend>
+
+            <div class="field">
+              <label>Status</label>
+              <select name="status" required>
+                <option value="draft" selected={status === 'draft'}>Draft</option>
+                <option value="published" selected={status === 'published'}>Published</option>
+                <option value="trash" selected={status === 'trash'}>Trash</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="publishDate">Publish Date</label>
+              <input id="publishDate" name="publishDate" type="datetime-local" value={publishValue} required />
+            </div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend>Featured Image</legend>
+
+            <div class="previewWrap">
+              <img
+                id="featuredPreview"
+                class="featuredPreview"
+                alt={post.featuredImage?.alt || ''}
+                src={post.featuredImage?.src || ''}
+                style={post.featuredImage?.src ? 'display:block;' : 'display:none;'}
+              />
+            </div>
+
+            <input id="featuredFile" name="featuredImageFile" type="file" accept="image/*" />
+
+            <input id="removeFeaturedImage" type="hidden" name="removeFeaturedImage" value="0" />
+            <div class="row">
+              <button type="button" class="btn danger small" id="btnRemoveFeatured">Remove</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend>SEO</legend>
+            <div class="field">
+              <label for="metaTitle">Meta Title</label>
+              <input id="metaTitle" name="metaTitle" type="text" value={metaTitle} placeholder="Optional" />
+            </div>
+
+            <div class="field">
+              <label for="metaDescription">Meta Description</label>
+              <textarea id="metaDescription" name="metaDescription" rows="3" placeholder="Optional">{metaDescription}</textarea>
+            </div>
+
+            <div class="checks">
+              <label class="check">
+                <input type="checkbox" name="noIndex" value="1" checked={noIndex} />
+                No Index
+              </label>
+              <label class="check">
+                <input type="checkbox" name="noFollow" value="1" checked={noFollow} />
+                No Follow
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend>Post Settings</legend>
+            <div class="field">
+              <label for="categorySelect">Category *</label>
+              <select id="categorySelect" name="categorySlug" required>
+                {categories.map((c) => (
+                  <option value={c.slug || ''} selected={c.slug === categorySlug}>{c.name}</option>
+                ))}
+              </select>
+              <input type="hidden" name="categoryName" value={categoryName} />
+            </div>
+
+            <div class="field">
+              <label for="tagsInput">Tags</label>
+              <input id="tagsInput" name="tagsCsv" type="text" value={tagCsv} placeholder="HR,UAE,Payroll" />
+            </div>
+          </fieldset>
+
+          <div class="actionsBar">
+            <button type="submit" class="btn primary">Save Post</button>
+            <a class="btn" href="/internal/operations/posts/">Back</a>
+            {status !== 'trash' ? (
+              <form
+                method="post"
+                action="/api/internal/posts/delete"
+                onsubmit="return confirm('Move this post to Trash?');"
+              >
+                <input type="hidden" name="csrfToken" value={session.csrf} />
+                <input type="hidden" name="slug" value={post.slug} />
+                <input type="hidden" name="mode" value="trash" />
+                <button type="submit" class="btn danger">Move to Trash</button>
+              </form>
+            ) : (
+              <>
+                <form method="post" action="/api/internal/posts/delete">
+                  <input type="hidden" name="csrfToken" value={session.csrf} />
+                  <input type="hidden" name="slug" value={post.slug} />
+                  <input type="hidden" name="mode" value="restore" />
+                  <button type="submit" class="btn">Restore</button>
+                </form>
+                <form
+                  method="post"
+                  action="/api/internal/posts/delete"
+                  onsubmit="return confirm('Delete permanently? This cannot be undone.');"
+                >
+                  <input type="hidden" name="csrfToken" value={session.csrf} />
+                  <input type="hidden" name="slug" value={post.slug} />
+                  <input type="hidden" name="mode" value="permanent" />
+                  <button type="submit" class="btn danger">Delete Permanently</button>
+                </form>
+              </>
+            )}
+          </div>
+        </aside>
+      </div>
+    </form>
+  </section>
+
+  <script>
+    (function () {
+      var titleInput = document.getElementById('post-title');
+      var slugInput = document.getElementById('post-slug');
+      // On edit pages, never auto-update the slug from the title.
+      // The slug should only change if the user manually edits it.
+      var slugTouched = true;
+
+      var editor = document.getElementById('post-editor');
+      var hidden = document.getElementById('contentHtml');
+
+      function sync() {
+        if (hidden) hidden.value = editor ? editor.innerHTML : '';
+      }
+
+      if (editor) editor.addEventListener('input', sync);
+
+      // Toolbar: minimal execCommand-based editor.
+      var toolbar = document.querySelector('.rte-toolbar');
+      if (toolbar) {
+        toolbar.addEventListener('click', function (e) {
+          var btn = e.target && e.target.closest && e.target.closest('button[data-cmd]');
+          if (!btn) return;
+          e.preventDefault();
+          editor && editor.focus();
+
+          var cmd = btn.getAttribute('data-cmd');
+          var val = btn.getAttribute('data-val');
+          if (cmd === 'createLink') {
+            var url = window.prompt('Enter link URL:');
+            if (!url) return;
+            document.execCommand('createLink', false, url);
+          } else if (cmd === 'insertImage') {
+            var imgUrl = window.prompt('Enter image URL:');
+            if (!imgUrl) return;
+            document.execCommand('insertImage', false, imgUrl);
+          } else if (cmd && val) {
+            document.execCommand(cmd, false, val);
+          } else {
+            document.execCommand(cmd, false, null);
+          }
+          sync();
+        });
+      }
+
+      var form = document.getElementById('post-form');
+      form && form.addEventListener('submit', function () { sync(); });
+
+      // Featured image preview.
+      var file = document.getElementById('featuredFile');
+      var preview = document.getElementById('featuredPreview');
+      var removeInput = document.getElementById('removeFeaturedImage');
+      var btnRemove = document.getElementById('btnRemoveFeatured');
+      function setRemove(v) { removeInput && (removeInput.value = v ? '1' : '0'); }
+
+      if (file) {
+        file.addEventListener('change', function () {
+          setRemove(false);
+          if (!preview) return;
+          var f = file.files && file.files[0];
+          if (!f) { preview.removeAttribute('src'); preview.style.display = 'none'; return; }
+          var reader = new FileReader();
+          reader.onload = function () {
+            preview.src = String(reader.result || '');
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(f);
+        });
+      }
+      if (btnRemove) {
+        btnRemove.addEventListener('click', function () {
+          setRemove(true);
+          if (file) file.value = '';
+          if (preview) { preview.removeAttribute('src'); preview.style.display = 'none'; }
+        });
+      }
+
+      // Category hidden name sync.
+      var categorySelect = document.getElementById('categorySelect');
+      var categoryNameInput = form && form.querySelector('input[name="categoryName"]');
+      if (categorySelect && categoryNameInput) {
+        function syncCat() {
+          var opt = categorySelect.options[categorySelect.selectedIndex];
+          categoryNameInput.value = opt ? opt.textContent.trim() : '';
+        }
+        categorySelect.addEventListener('change', syncCat);
+        syncCat();
+      }
+    })();
+  </script>
+
+  <style>
+    .panel { background: white; border-radius: 18px; padding: 1.25rem; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); }
+    .head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; margin-bottom: 1rem; }
+    .grid { display: grid; grid-template-columns: 1.65fr 1fr; gap: 1rem; align-items: start; }
+    .left { min-width: 0; }
+    .right { min-width: 0; display: flex; flex-direction: column; gap: 0.8rem; }
+    .field { margin-bottom: 0.95rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-weight: 600; font-size: 13px; color: #0f172a; }
+    input, select, textarea {
+      font: inherit;
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid #cbd5e1;
+    }
+    textarea { resize: vertical; }
+    .rte { border: 1px solid #cbd5e1; border-radius: 14px; padding: 0.6rem; background: #fff; }
+    .rte-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .rte-toolbar button {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0.45rem 0.6rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .sep { width: 1px; background: #e2e8f0; margin: 0 0.15rem; }
+    .rte-editor {
+      min-height: 260px;
+      padding: 0.75rem;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+      outline: none;
+      background: #fff;
+    }
+    .hint { margin: 0.5rem 0 0; color: #64748b; font-size: 12px; }
+    .card { border-radius: 16px; border: 1px solid #e2e8f0; padding: 0.9rem 0.95rem; }
+    fieldset { border: 1px solid #e2e8f0; border-radius: 16px; padding: 0.95rem; }
+    legend { font-weight: 800; font-size: 13px; padding: 0 0.4rem; color: #0f172a; }
+    .previewWrap { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.6rem; }
+    .featuredPreview { max-width: 120px; max-height: 90px; width: auto; height: auto; border-radius: 12px; border: 1px solid #e2e8f0; display: none; }
+    .row { display: flex; gap: 0.5rem; justify-content: flex-start; }
+    .checks { display: flex; flex-direction: column; gap: 0.5rem; }
+    .check { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; }
+    .actionsBar { display: flex; gap: 0.75rem; margin-top: 0.25rem; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 0.85rem;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      color: #0f172a;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .btn.primary { background: #0f172a; border-color: #0f172a; color: white; }
+    .btn.danger { background: #fee2e2; border-color: #fecaca; color: #991b1b; }
+    .btn.small { padding: 0.45rem 0.65rem; font-size: 12px; }
+    @media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</InternalDashboardLayout>
+

@@ -1,0 +1,35 @@
+---
+/**
+ * Dual route:
+ * - Blog posts from src/content/blog/*.json (dashboard-managed)
+ * - Marketing pages from Phase-1 legacy HTML mirrors
+ *
+ * SSR so dashboard post edits are visible without a full rebuild.
+ */
+import { isPageSlug, isPostSlug } from '../lib/inventory.js';
+import { getBlogPost, serveBlogPost } from '../lib/blog.ts';
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+export const prerender = false;
+
+const slug = Astro.params.slug;
+if (!slug) {
+  return new Response('Not found', { status: 404 });
+}
+
+const post = getBlogPost(slug);
+if (post) {
+  return serveBlogPost(post);
+}
+
+if (isPostSlug(slug)) {
+  return new Response('Post not found', { status: 404 });
+}
+
+if (isPageSlug(slug) || slug === 'blog') {
+  return serveLegacyPage(slug === 'blog' ? 'blog' : slug);
+}
+
+// Fallback: serve prepared legacy mirror if present (service pages etc.)
+return serveLegacyPage(slug);
+---

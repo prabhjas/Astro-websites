@@ -1,0 +1,22 @@
+---
+import { localize, type Lang } from '../i18n/config';
+import { company } from '../data/company';
+interface Props { lang: Lang; variant?: 'dark' | 'light'; class?: string }
+const { lang, variant = 'dark', class: cls = '' } = Astro.props;
+const isLight = variant === 'light';
+---
+<a href={localize(lang, '/')} class:list={["inline-flex items-center gap-2.5", cls]} aria-label={company.legalName}>
+  {isLight ? (
+    <Fragment>
+      {/* Footer (dark background): WF mark on a white tile + white wordmark. */}
+      <img src="/favicon.png" alt="" width="36" height="36" class="h-9 w-9 rounded-lg" />
+      <span class="leading-tight">
+        <span class="block text-[15px] font-bold tracking-tight text-white">Iberia Work Force</span>
+        <span class="block text-[11px] font-medium text-white/70">Solutions SL</span>
+      </span>
+    </Fragment>
+  ) : (
+    /* Header (white background): the full brand logo. */
+    <img src="/logo.png" alt={company.legalName} width="234" height="49" class="h-9 w-auto" />
+  )}
+</a>

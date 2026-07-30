@@ -1,0 +1,49 @@
+---
+---
+
+<section id="sec-12">
+      <div class="container" id="form-bg">
+        <div class="form-card">
+          <div class="form-box">
+            <h4>Your Dubai business starts here</h4>
+            <form id="contact-form"  action="#" method="post" novalidate>
+              <div class="form-group">
+                <label for="contact-name">
+                  <span>*</span>Full Name </label>
+                <input type="text" id="contact-name" class="form-control" placeholder="Your full name" name="name" required autocomplete="name">
+                <span class="cbss-field-error" id="contact-name-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">
+                  <span>*</span>Email ID </label>
+                <input type="email" id="contact-email" class="form-control" placeholder="Your Email ID" name="email" required autocomplete="email">
+                <span class="cbss-field-error" id="contact-email-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="contact-phone">
+                  <span>*</span>Contact Number </label>
+                <input type="tel" id="contact-phone" class="phone form-control" name="phone" required autocomplete="tel" inputmode="numeric" pattern="[0-9]*" maxlength="15">
+                <span class="cbss-field-error" id="contact-phone-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">
+                  <span>*</span>Your Message </label>
+                <textarea name="message" maxlength="1000" class="form-control"  id="contact-message" placeholder="Tell us your goal, and we'll help you achieve it..."></textarea>
+                <span class="cbss-field-error" id="contact-message-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-note">
+                <div class="info counter">
+                  <img src="/assets/images/Message-Info-Icon.svg" alt="Message">
+                  <p>Message length cannot be longer</p>
+                </div>
+                <div class="text-counter">
+                  <p id="count">0/1000</p>
+                </div>
+              </div>
+              <div class="cbss-form-status" id="contact-form-status" role="status" aria-live="polite"></div>
+              <button type="submit" id="submit-contact-form"  class="btn btn-default submit-btn">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>

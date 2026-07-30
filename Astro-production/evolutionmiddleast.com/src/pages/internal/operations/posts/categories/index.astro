@@ -1,0 +1,228 @@
+---
+import InternalDashboardLayout from '../../../../../layouts/InternalDashboardLayout.astro';
+import { readDashboardSession } from '../../../../../lib/auth/session';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../../lib/auth/permissions';
+import { applyInternalNoIndexHeaders } from '../../../../../lib/security/internal-response';
+import { listCategoryTerms } from '../../../../../lib/internal-posts/taxonomy-store';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/internal/operations/login');
+}
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/seo/');
+}
+if (!hasDashboardRole(session, 'developer')) {
+  return Astro.redirect('/internal/operations/');
+}
+
+const q = Astro.url.searchParams.get('q') || '';
+const statusTab = Astro.url.searchParams.get('status') || 'all';
+const includeTrash = statusTab === 'trash';
+
+const terms = listCategoryTerms(includeTrash, q);
+const activeCount = listCategoryTerms(false, q).length;
+const trashCount = listCategoryTerms(true, q).length;
+
+const currentParams = new URLSearchParams(Astro.url.searchParams);
+function makeHref(next: Record<string, string>): string {
+  const p = new URLSearchParams(currentParams);
+  for (const [k, v] of Object.entries(next)) {
+    if (!v) p.delete(k);
+    else p.set(k, v);
+  }
+  const qs = p.toString();
+  return `/internal/operations/posts/categories/${qs ? `?${qs}` : ''}`;
+}
+
+function fmtDate(iso?: string): string {
+  if (!iso) return '-';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+}
+---
+
+<InternalDashboardLayout
+  title="Categories"
+  active="posts-categories"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <div class="toolbar">
+      <div>
+        <h2>Categories</h2>
+        <p>Manage post categories (global taxonomy, soft delete enabled).</p>
+      </div>
+      <div class="top-actions">
+        <a class="btn primary" href="/internal/operations/posts/categories/new/">Create Category</a>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Category filters">
+      <a class={`tab ${statusTab === 'all' ? 'active' : ''}`} href={makeHref({ status: 'all' })}>All ({activeCount})</a>
+      <a class={`tab ${statusTab === 'trash' ? 'active' : ''}`} href={makeHref({ status: 'trash' })}>Trash ({trashCount})</a>
+    </div>
+
+    <form class="search" method="get" action="/internal/operations/posts/categories/">
+      <input type="search" name="q" value={q} placeholder="Search categories..." />
+      <input type="hidden" name="status" value={statusTab} />
+      <button type="submit">Search</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:64px;">Select</th>
+          <th>Category Name</th>
+          <th>Slug</th>
+          <th style="width:120px;">Post Count</th>
+          <th style="width:160px;">Created Date</th>
+          <th style="width:260px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {terms.length ? (
+          terms.map((t) => (
+            <tr>
+              <td><input type="checkbox" aria-label={`Select ${t.name}`} /></td>
+              <td>{t.name}</td>
+              <td><code class="code">{t.slug}</code></td>
+              <td>{t.postCount}</td>
+              <td>{fmtDate(t.createdAt)}</td>
+              <td class="actions">
+                <a class="btn" href={`/internal/operations/posts/categories/${t.slug}/`}>Edit</a>
+                {t.status === 'trash' ? (
+                  <>
+                    <form method="post" action="/api/internal/posts/categories/delete">
+                      <input type="hidden" name="csrfToken" value={session.csrf} />
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <input type="hidden" name="mode" value="restore" />
+                      <button type="submit" class="btn">Restore</button>
+                    </form>
+                    <form
+                      method="post"
+                      action="/api/internal/posts/categories/delete"
+                      onsubmit="return confirm('Delete permanently? This cannot be undone.');"
+                    >
+                      <input type="hidden" name="csrfToken" value={session.csrf} />
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <input type="hidden" name="mode" value="permanent" />
+                      <button type="submit" class="btn danger">Delete Permanently</button>
+                    </form>
+                  </>
+                ) : (
+                  <form method="post" action="/api/internal/posts/categories/delete" onsubmit="return confirm('Move to Trash?');">
+                    <input type="hidden" name="csrfToken" value={session.csrf} />
+                    <input type="hidden" name="slug" value={t.slug} />
+                    <input type="hidden" name="mode" value="trash" />
+                    <button type="submit" class="btn danger">Move to Trash</button>
+                  </form>
+                )}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colspan="6" class="empty">No categories found.</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel {
+    background: white;
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  h2, p { margin: 0; }
+  p { color: #475569; }
+  .top-actions { display: flex; gap: 0.75rem; align-items: center; }
+
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.75rem 0 1rem;
+  }
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .tab.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: white;
+  }
+
+  .search { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; }
+  input, select, button {
+    font: inherit;
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+  }
+  input { border: 1px solid #cbd5e1; }
+  button {
+    border: 0;
+    background: #0f172a;
+    color: white;
+    cursor: pointer;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td {
+    text-align: left;
+    padding: 0.8rem 0.2rem;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  .code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+  .empty { text-align: center; color: #64748b; padding: 1.25rem 0; }
+
+  .actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+  .actions form { margin: 0; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #0f172a;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .btn.primary { border: 1px solid #0f172a; background: #0f172a; color: white; }
+  .btn.danger { border-color: #fecaca; background: #fee2e2; color: #991b1b; }
+</style>
+

@@ -1,0 +1,718 @@
+---
+/**
+ * Client behaviours ported from the CBSS landing page.
+ * Forms submit JSON to /api/contact (Astro API + Pipedrive).
+ */
+---
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" is:inline></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" is:inline></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js" is:inline></script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var phoneInputs = document.querySelectorAll('.phone');
+    var DEFAULT_COUNTRY = 'ae';
+
+    function parseCountryCode(payload) {
+      if (!payload) return '';
+      var code =
+        payload.country_code ||
+        payload.countryCode ||
+        payload.country ||
+        (payload.data && (payload.data.country_code || payload.data.country)) ||
+        '';
+      if (typeof code !== 'string') return '';
+      code = code.trim().toLowerCase();
+      if (code.length > 2 && payload.country_code) {
+        code = String(payload.country_code).trim().toLowerCase();
+      }
+      return /^[a-z]{2}$/.test(code) ? code : '';
+    }
+
+    function fetchCountry(url) {
+      return fetch(url, { credentials: 'omit', headers: { Accept: 'application/json' } }).then(function (res) {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.json();
+      });
+    }
+
+    /** Resolve ISO country from visitor IP (server first, then public geo APIs). */
+    function lookupCountryByIp(callback) {
+      var endpoints = [
+        '/api/geo',
+        'https://ipwho.is/',
+        'https://get.geojs.io/v1/ip/country.json',
+        'https://ipapi.co/json/',
+      ];
+      var i = 0;
+
+      function next() {
+        if (i >= endpoints.length) {
+          callback(DEFAULT_COUNTRY);
+          return;
+        }
+        var url = endpoints[i++];
+        fetchCountry(url)
+          .then(function (data) {
+            var code = parseCountryCode(data);
+            if (code) callback(code);
+            else next();
+          })
+          .catch(function () {
+            next();
+          });
+      }
+
+      next();
+    }
+
+    function initializePhoneInputs() {
+      phoneInputs.forEach(function (input) {
+        if (window.intlTelInput.getInstance && window.intlTelInput.getInstance(input)) return;
+        window.intlTelInput(input, {
+          initialCountry: 'auto',
+          geoIpLookup: lookupCountryByIp,
+          separateDialCode: true,
+          preferredCountries: ['ae', 'sa', 'us', 'ca', 'gb', 'in', 'pk'],
+          utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
+        });
+
+        // Allow digits only in the national number field (no letters/symbols).
+        input.setAttribute('inputmode', 'numeric');
+        input.setAttribute('pattern', '[0-9]*');
+        input.addEventListener('input', function () {
+          var digitsOnly = String(input.value || '').replace(/\D/g, '');
+          if (input.value !== digitsOnly) input.value = digitsOnly;
+        });
+        input.addEventListener('keypress', function (e) {
+          if (e.ctrlKey || e.metaKey || e.altKey || !e.key) return;
+          if (e.key.length === 1 && !/[0-9]/.test(e.key)) e.preventDefault();
+        });
+        input.addEventListener('paste', function (e) {
+          e.preventDefault();
+          var text = '';
+          try {
+            text = (e.clipboardData || window.clipboardData).getData('text') || '';
+          } catch (err) {}
+          var digits = String(text).replace(/\D/g, '');
+          var start = input.selectionStart || 0;
+          var end = input.selectionEnd || 0;
+          var next = String(input.value || '').slice(0, start) + digits + String(input.value || '').slice(end);
+          input.value = next.replace(/\D/g, '');
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+      });
+    }
+
+    initializePhoneInputs();
+  });
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var textarea = document.getElementById('contact-message');
+    var count = document.getElementById('count');
+    if (textarea && count) {
+      textarea.addEventListener('input', function () {
+        count.textContent = textarea.value.length + '/1000';
+      });
+    }
+  });
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var timeline = document.getElementById('timeline');
+    var fill = document.querySelector('.timeline-line-fill');
+    var items = document.querySelectorAll('.timeline-item');
+    if (!timeline || !fill) return;
+
+    function updateTimeline() {
+      var timelineRect = timeline.getBoundingClientRect();
+      var windowHeight = window.innerHeight;
+      var start = windowHeight * 0.3;
+      var end = timelineRect.height + start;
+      var progress = Math.min(Math.max((start - timelineRect.top) / end, 0), 1);
+      var fillHeight = progress * timelineRect.height;
+      fill.style.height = progress * 100 + '%';
+      items.forEach(function (item) {
+        var dot = item.querySelector('.dot');
+        if (!dot) return;
+        var dotOffset = item.offsetTop + dot.offsetTop;
+        if (fillHeight >= dotOffset) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('scroll', updateTimeline);
+    window.addEventListener('load', updateTimeline);
+  });
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    var steps = document.querySelectorAll('.cf7-step');
+    var stepNumber = document.getElementById('step-number');
+    var stepCount = document.querySelector('.step-count');
+    var current = 0;
+
+    function showStep(index) {
+      steps.forEach(function (step, i) {
+        step.style.display = i === index ? 'block' : 'none';
+      });
+      var currentStep = index + 1;
+      if (stepNumber) stepNumber.textContent = String(currentStep);
+      if (stepCount) stepCount.style.display = currentStep === 6 ? 'none' : 'block';
+      checkRadioRequired();
+    }
+
+    window.__cbssShowStep = showStep;
+
+    document.querySelectorAll('.next-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.id === 'submit-multi-step-form') return;
+        if (current < steps.length - 1) current++;
+        showStep(current);
+      });
+    });
+
+    document.querySelectorAll('.prev-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (current > 0) current--;
+        showStep(current);
+      });
+    });
+
+    function checkRadioRequired() {
+      var currentStep = steps[current];
+      if (!currentStep) return;
+      var radios = currentStep.querySelectorAll('input[type="radio"]');
+      var nextBtn = currentStep.querySelector('.next-btn');
+      if (radios.length && nextBtn) {
+        nextBtn.disabled = ![].some.call(radios, function (r) { return r.checked; });
+        radios.forEach(function (radio) {
+          radio.addEventListener('change', function () {
+            nextBtn.disabled = ![].some.call(radios, function (r) { return r.checked; });
+          });
+        });
+      }
+    }
+
+    showStep(current);
+
+    var businessRadios = document.querySelectorAll('input[name="business_type"]');
+    var otherField = document.getElementById('other-text-wrap');
+    businessRadios.forEach(function (r) {
+      r.addEventListener('change', function () {
+        if (otherField) otherField.style.display = this.value === 'Other' ? 'block' : 'none';
+      });
+    });
+
+    if (window.jQuery) {
+      window.jQuery('.radio-group').each(function () {
+        var group = window.jQuery(this);
+        group.find('input[type="radio"]').on('change', function () {
+          group.find('label').removeClass('selected');
+          window.jQuery(this).closest('label').addClass('selected');
+        });
+        group.find('input[type="radio"]:checked').closest('label').addClass('selected');
+      });
+    }
+  });
+</script>
+
+<script is:inline>
+  (function () {
+    var initialUrl = sessionStorage.getItem('initialUrl') || window.location.href;
+    if (!sessionStorage.getItem('initialUrl')) sessionStorage.setItem('initialUrl', initialUrl);
+
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    var PERSON_NAME_RE = /^[\p{L}][\p{L}\s'.-]{1,79}$/u;
+    var URL_RE =
+      /(?:https?:\/\/|www\.|\/\/)|(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|ae|uk|info|biz|xyz|online|site|app|dev|me|tv|cc|ru|cn|in|pk|sa|de|fr|es|it|nl|ca|au|us)(?:\/|\b)|(?:mailto:|ftp:)/i;
+
+    function getUrlParams() {
+      var params = new URLSearchParams(window.location.search);
+      return {
+        gclid: params.get('gclid') || '',
+        campaign_id: params.get('campaign_id') || '',
+        adgroup_id: params.get('adgroup_id') || '',
+        creative_id: params.get('creative_id') || '',
+        keyword: params.get('keyword') || '',
+        matchtype: params.get('matchtype') || '',
+        device: params.get('device') || '',
+        network: params.get('network') || '',
+        placement: params.get('placement') || '',
+        target_id: params.get('target_id') || '',
+        adposition: params.get('adposition') || '',
+        loc_interest_ms: params.get('loc_interest_ms') || '',
+        loc_physical_ms: params.get('loc_physical_ms') || '',
+      };
+    }
+
+    /** Read dial code + national number from one specific phone input only. */
+    function readPhoneInput(input) {
+      if (!input) return { countryCode: '', national: '', full: '' };
+      var national = String(input.value || '').trim();
+      var countryCode = '';
+      try {
+        if (window.intlTelInput && typeof window.intlTelInput.getInstance === 'function') {
+          var iti = window.intlTelInput.getInstance(input);
+          if (iti) {
+            var dial = iti.getSelectedCountryData();
+            if (dial && dial.dialCode) countryCode = '+' + dial.dialCode;
+            national = String(input.value || '').replace(/\D/g, '');
+            if (countryCode) {
+              var ccDigits = countryCode.replace(/\D/g, '');
+              while (national.indexOf(ccDigits) === 0 && national.length > ccDigits.length + 4) {
+                national = national.slice(ccDigits.length);
+              }
+            }
+          }
+        }
+      } catch (e) {}
+      national = String(national || '').replace(/\D/g, '');
+      var full = national ? (countryCode ? countryCode + ' ' + national : national) : '';
+      return { countryCode: countryCode, national: national, full: full };
+    }
+
+    function submitFormToBackend(formData, successCallback, errorCallback) {
+      var submitData = Object.assign({}, formData, {
+        page_url: window.location.href,
+        initial_url: initialUrl,
+        referrer_url: document.referrer || initialUrl,
+        landing_page_url: initialUrl,
+        submission_page_url: window.location.href,
+        submission_id:
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now()) + '-' + Math.random().toString(16).slice(2),
+        submitted_at: new Date().toISOString(),
+        website: '', // honeypot (must stay empty)
+      }, getUrlParams());
+
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(submitData),
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, status: response.status, data: data || {} };
+          });
+        })
+        .then(function (result) {
+          if (result.ok && result.data && result.data.success) {
+            if (successCallback) successCallback(result.data);
+            return;
+          }
+          var message =
+            (result.data && result.data.message) ||
+            'We could not submit your enquiry at the moment. Please try again shortly.';
+          if (errorCallback) errorCallback({ message: message, errors: result.data && result.data.errors });
+          else alert('Error: ' + message);
+        })
+        .catch(function (error) {
+          console.error('Error:', error);
+          if (errorCallback) errorCallback({ message: 'An error occurred while submitting the form. Please try again.' });
+          else alert('An error occurred while submitting the form. Please try again.');
+        });
+    }
+
+    function buildQuizMessage(formData) {
+      var lines = ['CBSS Business Setup Inquiry Form Submission', '', '=== Contact Information ==='];
+      if (formData.name) lines.push('Name: ' + formData.name);
+      if (formData.email) lines.push('Email: ' + formData.email);
+      if (formData.phone) {
+        lines.push('Contact Number: ' + formData.phone);
+      }
+      if (formData.business_type || formData.operating_area || formData.residency_visa || formData.company_jurisdiction) {
+        lines.push('', '=== Business Information ===');
+      }
+      if (formData.business_type) {
+        lines.push('What industry are you in?: ' + formData.business_type);
+        if (formData.other_option) lines.push('Other (specify): ' + formData.other_option);
+      }
+      if (formData.operating_area) lines.push('Where do you want to operate?: ' + formData.operating_area);
+      if (formData.residency_visa) lines.push('Do you plan to move to Dubai?: ' + formData.residency_visa);
+      if (formData.company_jurisdiction) lines.push('Preferred setup type: ' + formData.company_jurisdiction);
+      if (formData.page_url) {
+        lines.push('', '=== Tracking Information ===', 'Page URL: ' + formData.page_url);
+      }
+      return lines.join('\n');
+    }
+
+    function containsUrlOrLink(value) {
+      var text = String(value || '').trim();
+      if (!text) return false;
+      return URL_RE.test(text);
+    }
+
+    function isValidPersonName(value) {
+      var name = String(value || '').trim().replace(/\s+/g, ' ');
+      if (name.length < 2 || name.length > 80) return false;
+      if (containsUrlOrLink(name)) return false;
+      if (/\d/.test(name)) return false;
+      try {
+        if (!PERSON_NAME_RE.test(name)) return false;
+      } catch (e) {
+        // Fallback if Unicode property escapes unsupported
+        if (!/^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\s'.-]{1,79}$/.test(name)) return false;
+      }
+      if (/(.)\1{4,}/.test(name)) return false;
+      return true;
+    }
+
+    function validateEmail(email) {
+      var value = String(email || '').trim().toLowerCase();
+      if (!value || value.length > 254) return false;
+      if (/\s/.test(value) || value.indexOf('..') !== -1) return false;
+      return EMAIL_RE.test(value);
+    }
+
+    function validatePhoneDigits(digits) {
+      return digits.length >= 7 && digits.length <= 15;
+    }
+
+    function isValidPhoneFull(phoneInfo) {
+      if (!phoneInfo || !phoneInfo.national) return false;
+      // Numbers only — reject letters/text in the entered value.
+      if (/[a-zA-Z]/.test(String(phoneInfo.national || ''))) return false;
+      if (/[a-zA-Z]/.test(String(phoneInfo.full || ''))) return false;
+      return validatePhoneDigits(phoneInfo.national);
+    }
+
+    function isValidFreeText(value, required) {
+      var text = String(value || '').trim();
+      if (!text) return !required;
+      if (containsUrlOrLink(text)) return false;
+      return true;
+    }
+
+    function clearFieldErrors(ids) {
+      (ids || []).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.textContent = '';
+          el.classList.remove('is-visible');
+        }
+      });
+    }
+
+    function setFieldError(errorId, message) {
+      var el = document.getElementById(errorId);
+      if (!el) return;
+      el.textContent = message || '';
+      if (message) el.classList.add('is-visible');
+      else el.classList.remove('is-visible');
+    }
+
+    function setFormStatus(statusId, message, type) {
+      var el = document.getElementById(statusId);
+      if (!el) return;
+      el.textContent = message || '';
+      el.classList.remove('is-success', 'is-error', 'is-visible');
+      if (message) {
+        el.classList.add('is-visible');
+        if (type === 'success') el.classList.add('is-success');
+        else if (type === 'error') el.classList.add('is-error');
+      }
+    }
+
+    function applyServerFieldErrors(errors, map) {
+      if (!errors || typeof errors !== 'object') return;
+      Object.keys(map).forEach(function (key) {
+        if (errors[key]) setFieldError(map[key], errors[key]);
+      });
+    }
+
+    function focusFirstError(fieldIds) {
+      for (var i = 0; i < fieldIds.length; i++) {
+        var el = document.getElementById(fieldIds[i]);
+        if (el && el.value !== undefined) {
+          var err = document.getElementById(fieldIds[i] + '-error');
+          if (err && err.textContent) {
+            el.focus();
+            return;
+          }
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var submitMultiStepBtn = document.getElementById('submit-multi-step-form');
+      if (submitMultiStepBtn) {
+        submitMultiStepBtn.setAttribute('type', 'button');
+        submitMultiStepBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var nameEl = document.getElementById('form-name');
+          var emailEl = document.getElementById('form-email');
+          var phoneEl = document.getElementById('form-contact-number');
+          var otherEl = document.getElementById('other-option') || document.querySelector('input[name="other_option"]');
+          var name = (nameEl && nameEl.value ? nameEl.value : '').trim();
+          var email = (emailEl && emailEl.value ? emailEl.value : '').trim();
+          var phoneInfo = readPhoneInput(phoneEl);
+          var otherValue = (otherEl && otherEl.value ? otherEl.value : '').trim();
+          var hasClientError = false;
+
+          clearFieldErrors([
+            'form-name-error',
+            'form-email-error',
+            'form-contact-number-error',
+            'other-option-error',
+          ]);
+          setFormStatus('multistep-form-status', '', '');
+
+          if (!name) {
+            setFieldError('form-name-error', 'Your name is required.');
+            hasClientError = true;
+          } else if (!isValidPersonName(name)) {
+            setFieldError(
+              'form-name-error',
+              'Enter a valid name using letters only (no numbers, links, or special characters).',
+            );
+            hasClientError = true;
+          }
+
+          if (!email) {
+            setFieldError('form-email-error', 'A valid email address is required.');
+            hasClientError = true;
+          } else if (!validateEmail(email)) {
+            setFieldError('form-email-error', 'Enter a valid email address.');
+            hasClientError = true;
+          }
+
+          if (!isValidPhoneFull(phoneInfo)) {
+            setFieldError('form-contact-number-error', 'Enter a valid phone number (numbers only).');
+            hasClientError = true;
+          }
+
+          var businessType = document.querySelector('input[name="business_type"]:checked');
+          if (!businessType) {
+            setFormStatus('multistep-form-status', 'Please complete all quiz steps before submitting.', 'error');
+            if (typeof window.__cbssShowStep === 'function') window.__cbssShowStep(0);
+            return;
+          }
+
+          if (businessType.value === 'Other') {
+            if (!otherValue) {
+              setFieldError('other-option-error', 'Please specify your industry.');
+              hasClientError = true;
+            } else if (!isValidFreeText(otherValue, true)) {
+              setFieldError('other-option-error', 'Links and URLs are not allowed.');
+              hasClientError = true;
+            }
+          }
+
+          if (hasClientError) {
+            focusFirstError(['form-name', 'form-email', 'form-contact-number', 'other-option']);
+            return;
+          }
+
+          var formData = {
+            name: name,
+            email: email,
+            phone: phoneInfo.full,
+            contact_number: phoneInfo.national,
+            country_code: phoneInfo.countryCode,
+            form_name: 'CBSS Multi-Step Form',
+            form_id: 'cbss-multistep',
+            profession_sector: businessType.value,
+            business_type: businessType.value,
+          };
+
+          if (otherValue) formData.other_option = otherValue;
+          var operatingArea = document.querySelector('input[name="operating_area"]:checked');
+          if (operatingArea) formData.operating_area = operatingArea.value;
+          var residencyVisa = document.querySelector('input[name="residency_visa"]:checked');
+          if (residencyVisa) formData.residency_visa = residencyVisa.value;
+          var companyJurisdiction = document.querySelector('input[name="company_jurisdiction"]:checked');
+          if (companyJurisdiction) formData.company_jurisdiction = companyJurisdiction.value;
+
+          formData.message = buildQuizMessage(formData);
+
+          submitMultiStepBtn.disabled = true;
+          submitMultiStepBtn.textContent = 'Submitting...';
+          setFormStatus('multistep-form-status', 'Submitting your enquiry…', '');
+
+          submitFormToBackend(
+            formData,
+            function () {
+              setFormStatus('multistep-form-status', '', '');
+              if (typeof window.__cbssShowStep === 'function') window.__cbssShowStep(5);
+              submitMultiStepBtn.disabled = false;
+              submitMultiStepBtn.textContent = 'Get My Setup Plan';
+            },
+            function (err) {
+              submitMultiStepBtn.disabled = false;
+              submitMultiStepBtn.textContent = 'Get My Setup Plan';
+              applyServerFieldErrors(err && err.errors, {
+                name: 'form-name-error',
+                email: 'form-email-error',
+                phone: 'form-contact-number-error',
+              });
+              setFormStatus(
+                'multistep-form-status',
+                (err && err.message) || 'An error occurred while submitting the form. Please try again.',
+                'error',
+              );
+            },
+          );
+        });
+      }
+
+      var contactForm = document.getElementById('contact-form');
+      if (contactForm) {
+        contactForm.setAttribute('novalidate', 'novalidate');
+        contactForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var nameEl = document.getElementById('contact-name');
+          var emailEl = document.getElementById('contact-email');
+          var phoneEl = document.getElementById('contact-phone');
+          var messageEl = document.getElementById('contact-message');
+          var name = (nameEl && nameEl.value ? nameEl.value : '').trim();
+          var email = (emailEl && emailEl.value ? emailEl.value : '').trim();
+          var message = (messageEl && messageEl.value ? messageEl.value : '').trim();
+          var phoneInfo = readPhoneInput(phoneEl);
+          var hasClientError = false;
+
+          clearFieldErrors([
+            'contact-name-error',
+            'contact-email-error',
+            'contact-phone-error',
+            'contact-message-error',
+          ]);
+          setFormStatus('contact-form-status', '', '');
+
+          if (!name) {
+            setFieldError('contact-name-error', 'Your name is required.');
+            hasClientError = true;
+          } else if (!isValidPersonName(name)) {
+            setFieldError(
+              'contact-name-error',
+              'Enter a valid name using letters only (no numbers, links, or special characters).',
+            );
+            hasClientError = true;
+          }
+
+          if (!email) {
+            setFieldError('contact-email-error', 'A valid email address is required.');
+            hasClientError = true;
+          } else if (!validateEmail(email)) {
+            setFieldError('contact-email-error', 'Enter a valid email address.');
+            hasClientError = true;
+          }
+
+          if (!isValidPhoneFull(phoneInfo)) {
+            setFieldError('contact-phone-error', 'Enter a valid phone number (numbers only).');
+            hasClientError = true;
+          }
+
+          if (!message) {
+            setFieldError('contact-message-error', 'A message is required.');
+            hasClientError = true;
+          } else if (!isValidFreeText(message, true)) {
+            setFieldError('contact-message-error', 'Links and URLs are not allowed in the message.');
+            hasClientError = true;
+          } else if (message.length > 1000) {
+            setFieldError('contact-message-error', 'Must be 1000 characters or fewer.');
+            hasClientError = true;
+          }
+
+          if (hasClientError) {
+            focusFirstError(['contact-name', 'contact-email', 'contact-phone', 'contact-message']);
+            return;
+          }
+
+          var formData = {
+            name: name,
+            email: email,
+            phone: phoneInfo.full,
+            country_code: phoneInfo.countryCode,
+            message: message,
+            form_name: 'CBSS Contact Form',
+            form_id: 'cbss-contact',
+          };
+
+          var submitBtn = document.getElementById('submit-contact-form');
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+          }
+          setFormStatus('contact-form-status', 'Submitting your enquiry…', '');
+
+          submitFormToBackend(
+            formData,
+            function () {
+              setFormStatus('contact-form-status', 'Thank you! Your message has been sent successfully.', 'success');
+              contactForm.reset();
+              var count = document.getElementById('count');
+              if (count) count.textContent = '0/1000';
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+              }
+            },
+            function (err) {
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+              }
+              applyServerFieldErrors(err && err.errors, {
+                name: 'contact-name-error',
+                email: 'contact-email-error',
+                phone: 'contact-phone-error',
+                message: 'contact-message-error',
+              });
+              setFormStatus(
+                'contact-form-status',
+                (err && err.message) || 'An error occurred while submitting the form. Please try again.',
+                'error',
+              );
+            },
+          );
+        });
+      }
+    });
+  })();
+</script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.jQuery) return;
+    window.jQuery('.owl-first').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: false,
+      dots: false,
+      responsive: { 0: { items: 2 }, 600: { items: 4 }, 1000: { items: 7 } },
+    });
+    window.jQuery('.owl-second').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: false,
+      dots: false,
+      responsive: { 0: { items: 2 }, 600: { items: 4 }, 1000: { items: 6 } },
+    });
+    window.jQuery('.video-slider').owlCarousel({
+      loop: true,
+      margin: 20,
+      nav: false,
+      dots: false,
+      responsive: {
+        0: { items: 1, dots: true },
+        600: { items: 2, dots: true },
+        1000: { items: 3 },
+      },
+    });
+  });
+</script>

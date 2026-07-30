@@ -1,0 +1,12 @@
+---
+/**
+ * Dynamic blog index — posts from src/content/blog (dashboard-managed).
+ * SSR so new/edited posts appear without rebuild.
+ */
+import { getBlogPageData, serveArchivePage } from '../lib/archives.ts';
+
+export const prerender = false;
+
+const data = getBlogPageData(1);
+return serveArchivePage(data);
+---

@@ -1,0 +1,16 @@
+# guide-to-choosing-the-right-hr-partner-in-abu-dhabi export notes
+
+| Field | Value |
+|-------|-------|
+| Kind | post |
+| Live URL | https://www.evolutionmiddleast.com/guide-to-choosing-the-right-hr-partner-in-abu-dhabi/ |
+| File | `index-https.html` |
+| Source | Live fetch via import-from-sitemap.mjs |
+| Added | 2026-07-30 |
+| Astro route | /guide-to-choosing-the-right-hr-partner-in-abu-dhabi/ |
+
+## Prepare
+
+```bash
+npm run prepare:page -- guide-to-choosing-the-right-hr-partner-in-abu-dhabi --download
+```

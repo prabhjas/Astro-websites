@@ -1,0 +1,97 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../env/server';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { formatDateTime } from '../../../../lib/leads/dashboard';
+import { PhpFileStore } from '../../../../lib/php-files/store';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) return Astro.redirect('/internal/operations/login');
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/seo/');
+}
+
+const env = getServerEnv();
+const store = new PhpFileStore(env.internalAdminDir, env.internalEnhancedLiveDir);
+const liveFiles = await store.readLiveFiles();
+const versions = await store.list();
+const canEdit = hasDashboardRole(session, 'super_admin');
+---
+
+<InternalDashboardLayout
+  title="Enhanced PHP Files"
+  active="php-files"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="panel">
+    <h2>Enhanced PHP files</h2>
+    <p>Upload a PHP file here to persist a versioned copy and deploy it into the live enhanced folder configured by `INTERNAL_ENHANCED_LIVE_DIR`.</p>
+    <p class="subtle">Live deploy path: <code>{env.internalEnhancedLiveDir}</code></p>
+    {canEdit ? (
+      <form method="post" action="/api/internal/php-files/upload" enctype="multipart/form-data" class="upload-form">
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <input type="file" name="file" accept=".php" required />
+        <button type="submit">Upload and deploy</button>
+      </form>
+    ) : (
+      <p class="subtle">Only super admins can replace live PHP files.</p>
+    )}
+  </section>
+
+  <section class="panel">
+    <h3>Live files</h3>
+    <table>
+      <thead><tr><th>File</th><th>Updated</th><th>Size</th></tr></thead>
+      <tbody>
+        {liveFiles.length ? liveFiles.map((file) => (
+          <tr>
+            <td><a href={`/internal/operations/php-files/${encodeURIComponent(file.fileName)}/`}>{file.fileName}</a></td>
+            <td>{formatDateTime(file.updatedAt)}</td>
+            <td>{file.size} bytes</td>
+          </tr>
+        )) : (
+          <tr><td colspan="3">No PHP files deployed yet.</td></tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h3>Version history</h3>
+    <table>
+      <thead><tr><th>File</th><th>Version</th><th>Uploaded</th><th>By</th><th>Live</th></tr></thead>
+      <tbody>
+        {versions.length ? versions.map((version) => (
+          <tr>
+            <td>{version.fileName}</td>
+            <td>{version.versionLabel}</td>
+            <td>{formatDateTime(version.uploadedAt)}</td>
+            <td>{version.uploadedBy}</td>
+            <td>{version.live ? 'Yes' : 'No'}</td>
+          </tr>
+        )) : (
+          <tr><td colspan="5">No versions uploaded yet.</td></tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .panel { background: white; border-radius: 18px; padding: 1.25rem; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08); margin-bottom: 1rem; }
+  h2, h3, p { margin-top: 0; }
+  .subtle { color: #64748b; }
+  .upload-form { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+  button { border: 0; border-radius: 10px; background: #0f172a; color: white; padding: 0.8rem 1rem; font: inherit; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 0.8rem 0; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+</style>

@@ -1,0 +1,444 @@
+<!-- ------- SCRIPTS ----------- -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+   
+   <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const phoneInputs = document.querySelectorAll(".phone");
+
+  let initialCountry = "us"; // Default country
+
+    // Auto-detect country code from IP address (only works when served via HTTP/HTTPS, not file://)
+    // Check if we're on a proper origin (not file://)
+    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+      fetch('https://ipapi.co/json/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+        .then(function(res) {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then(function(data) {
+          if (data && data.country_code) {
+            // Map country code to intlTelInput format (lowercase)
+            initialCountry = data.country_code.toLowerCase();
+          }
+          initializePhoneInputs(initialCountry);
+        })
+        .catch(function(error) {
+          // Silently fail and use default country
+          // This happens when:
+          // 1. CORS is blocked (file:// protocol)
+          // 2. API is unavailable
+          // 3. Network error
+          console.log('IP detection not available, using default country');
+          initializePhoneInputs(initialCountry);
+        });
+    } else {
+      // For file:// protocol, skip IP detection and use default
+      initializePhoneInputs(initialCountry);
+    }
+
+
+  // Initialize phone inputs with country
+  function initializePhoneInputs(country) {
+    phoneInputs.forEach(function (input) {
+      window.intlTelInput(input, {
+        initialCountry: country,
+        separateDialCode: true,
+        preferredCountries: ["us", "ca", "ae", "sa"],
+        utilsScript:
+          "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
+      });
+    });
+  }
+
+});
+</script>
+
+    
+    <script>
+      const textarea = document.getElementById("contact-message");
+      const count = document.getElementById("count");
+      textarea.addEventListener("input", () => {
+        const length = textarea.value.length;
+        count.textContent = `${length}/1000`;
+      });
+
+      
+    </script>
+    <script>
+      const timeline = document.getElementById("timeline");
+      const fill = document.querySelector(".timeline-line-fill");
+      const items = document.querySelectorAll(".timeline-item");
+
+      function updateTimeline() {
+        const timelineRect = timeline.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const start = windowHeight * 0.3;
+        const end = timelineRect.height + start;
+        const progress = Math.min(Math.max((start - timelineRect.top) / end, 0), 1);
+        const fillHeight = progress * timelineRect.height;
+        fill.style.height = `${progress * 100}%`;
+        items.forEach(item => {
+          const dot = item.querySelector(".dot");
+          const dotOffset = item.offsetTop + dot.offsetTop;
+          if (fillHeight >= dotOffset) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", updateTimeline);
+      window.addEventListener("load", updateTimeline);
+    </script>
+    <script>
+      $('#owl-slider').owlCarousel({
+            loop: true,
+            margin: 30,
+            nav: true,
+            navText: [" < img src = '/assets/images/left-arrow.png' > "," < img src = '/assets/images/right-arrow.png' > "],
+              dots: false,
+              responsive: {
+                0: {
+                  items: 1
+                },
+                600: {
+                  items: 1
+                },
+                1000: {
+                  items: 1
+                }
+              }
+            })
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const steps = document.querySelectorAll('.cf7-step');
+        const stepNumber = document.getElementById('step-number');
+        const stepCount = document.querySelector('.step-count');
+        let current = 0;
+
+        function showStep(index) {
+          steps.forEach((step, i) => step.style.display = i === index ? 'block' : 'none');
+          // stepNumber.textContent = index + 1;
+          const currentStep = index + 1;
+          stepNumber.textContent = currentStep;
+          // 🔥 Hide step-count on step 6
+          if (currentStep === 6) {
+            stepCount.style.display = 'none';
+          } else {
+            stepCount.style.display = 'block';
+          }
+          checkRadioRequired();
+        }
+        document.querySelectorAll('.next-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (current < steps.length - 1) current++;
+            showStep(current);
+          });
+        });
+        document.querySelectorAll('.prev-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (current > 0) current--;
+            showStep(current);
+          });
+        });
+        // Enable/disable next button
+        function checkRadioRequired() {
+          const currentStep = steps[current];
+          const radios = currentStep.querySelectorAll('input[type="radio"]');
+          const nextBtn = currentStep.querySelector('.next-btn');
+          if (radios.length && nextBtn) {
+            nextBtn.disabled = ![...radios].some(r => r.checked);
+            radios.forEach(radio => {
+              radio.addEventListener('change', () => {
+                nextBtn.disabled = ![...radios].some(r => r.checked);
+              });
+            });
+          }
+        }
+        showStep(current);
+        // ---------------- "Other" field logic ----------------
+        const businessRadios = document.querySelectorAll('input[name="business_type"]');
+        const otherField = document.getElementById('other-text-wrap');
+        businessRadios.forEach(r => r.addEventListener('change', function() {
+          otherField.style.display = this.value === "Other" ? "block" : "none";
+        }));
+        // Pre-display if "Other" already checked
+        if ([...businessRadios].some(r => r.checked && r.value === "Other")) {
+          otherField.style.display = "block";
+        }
+      });
+      // ---------------- Radio Button Highlight ----------------
+      jQuery(document).ready(function($) {
+        $('.radio-group').each(function() {
+          const group = $(this);
+          group.find('input[type="radio"]').on('change', function() {
+            group.find('label').removeClass('selected');
+            $(this).closest('label').addClass('selected');
+          });
+          // Highlight pre-checked radios
+          group.find('input[type="radio"]:checked').closest('label').addClass('selected');
+        });
+      });
+    </script>
+
+
+  <script>
+      // ---------------- Form Submission Handler ----------------
+      // Store initial URL for tracking
+      const initialUrl = sessionStorage.getItem('initialUrl') || window.location.href;
+      if (!sessionStorage.getItem('initialUrl')) {
+        sessionStorage.setItem('initialUrl', initialUrl);
+      }
+      
+      // Parse URL parameters for tracking
+      function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          gclid: params.get('gclid') || '',
+          campaign_id: params.get('campaign_id') || '',
+          adgroup_id: params.get('adgroup_id') || '',
+          creative_id: params.get('creative_id') || '',
+          keyword: params.get('keyword') || '',
+          matchtype: params.get('matchtype') || '',
+          device: params.get('device') || '',
+          network: params.get('network') || '',
+          placement: params.get('placement') || '',
+          target_id: params.get('target_id') || '',
+          adposition: params.get('adposition') || '',
+          loc_interest_ms: params.get('loc_interest_ms') || '',
+          loc_physical_ms: params.get('loc_physical_ms') || ''
+        };
+      }
+      
+      // Submit form via AJAX
+      function submitFormToBackend(formData, successCallback) {
+        const urlParams = getUrlParams();
+        const submitData = {
+          ...formData,
+          page_url: window.location.href,
+          initial_url: initialUrl,
+          ...urlParams
+        };
+        
+        // Get phone number from intlTelInput if available
+        const phoneInputs = document.querySelectorAll('.phone');
+        phoneInputs.forEach(input => {
+          if (input.type === 'tel' && window.intlTelInput) {
+            const iti = window.intlTelInput.getInstance(input);
+            if (iti) {
+              const countryCode = '+' + iti.getSelectedCountryData().dialCode;
+              // Get the phone number value (without country code)
+              let phoneValue = input.value.trim();
+              // Remove country code if it's already in the value
+              if (phoneValue.startsWith(countryCode)) {
+                phoneValue = phoneValue.substring(countryCode.length).trim();
+              }
+              
+              if (submitData.phone || submitData.contact_number) {
+                submitData.country_code = countryCode;
+                if (submitData.phone) {
+                  submitData.phone = phoneValue;
+                }
+                if (submitData.contact_number) {
+                  submitData.contact_number = phoneValue;
+                }
+              }
+            }
+          }
+        });
+        
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(submitData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (successCallback) successCallback();
+          } else {
+            alert('Error: ' + (data.message || 'Failed to submit form'));
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while submitting the form. Please try again.');
+        });
+      }
+      
+      // Multi-step form submission
+      document.addEventListener('DOMContentLoaded', function() {
+        const submitMultiStepBtn = document.getElementById('submit-multi-step-form');
+        if (submitMultiStepBtn) {
+          submitMultiStepBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('form-name').value.trim();
+            const email = document.getElementById('form-email').value.trim();
+            const contactNumber = document.getElementById('form-contact-number').value.trim();
+            
+            if (!name || !email || !contactNumber) {
+              alert('Please fill in all required fields');
+              return;
+            }
+            
+            // Collect all form data from multi-step form
+            const formData = {
+              name: name,
+              email: email,
+              contact_number: contactNumber
+            };
+            
+            // Collect radio button values
+            const businessType = document.querySelector('input[name="business_type"]:checked');
+            if (businessType) {
+              formData.business_type = businessType.value;
+            }
+            
+            const otherOption = document.querySelector('input[name="other_option"]');
+            if (otherOption && otherOption.value.trim()) {
+              formData.other_option = otherOption.value.trim();
+            }
+            
+            const operatingArea = document.querySelector('input[name="operating_area"]:checked');
+            if (operatingArea) {
+              formData.operating_area = operatingArea.value;
+            }
+            
+            const residencyVisa = document.querySelector('input[name="residency_visa"]:checked');
+            if (residencyVisa) {
+              formData.residency_visa = residencyVisa.value;
+            }
+            
+            const companyJurisdiction = document.querySelector('input[name="company_jurisdiction"]:checked');
+            if (companyJurisdiction) {
+              formData.company_jurisdiction = companyJurisdiction.value;
+            }
+            
+            // Disable button during submission
+            submitMultiStepBtn.disabled = true;
+            submitMultiStepBtn.textContent = 'Submitting...';
+            
+            submitFormToBackend(formData, function() {
+              // Show success step (step 6)
+              showStep(5); // Index 5 is step 6 (0-indexed)
+              submitMultiStepBtn.disabled = false;
+              submitMultiStepBtn.textContent = 'Get My Setup Plan';
+            });
+          });
+        }
+        
+        // Contact form submission
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+          contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+            
+            if (!name || !email || !phone || !message) {
+              alert('Please fill in all required fields');
+              return;
+            }
+            
+            const formData = {
+              name: name,
+              email: email,
+              phone: phone,
+              message: message
+            };
+            
+            const submitBtn = document.getElementById('submit-contact-form');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            submitFormToBackend(formData, function() {
+              alert('Thank you! Your message has been sent successfully.');
+              contactForm.reset();
+              if (count) count.textContent = '0/1000';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send Message';
+            });
+          });
+        }
+      });
+    </script>
+
+
+ <script type="text/javascript">
+      $('.owl-first').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
+        dots: false,
+        responsive: {
+          0: {
+            items: 2
+          },
+          600: {
+            items: 4
+          },
+          1000: {
+            items: 7
+          }
+        }
+      })
+    </script>
+    <script type="text/javascript">
+      $('.owl-second').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
+        dots: false,
+        responsive: {
+          0: {
+            items: 2
+          },
+          600: {
+            items: 4
+          },
+          1000: {
+            items: 6
+          }
+        }
+      })
+    </script>
+    <script type="text/javascript">
+      $('.video-slider').owlCarousel({
+        loop: true,
+        margin: 20,
+        nav: false,
+        dots: false,
+        responsive: {
+          0: {
+            items: 1,
+            dots: true,
+          },
+          600: {
+            items: 2,
+            dots: true,
+          },
+          1000: {
+            items: 3
+          }
+        }
+      })
+    </script>
+  

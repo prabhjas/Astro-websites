@@ -1,0 +1,263 @@
+---
+import InternalDashboardLayout from '../../../../layouts/InternalDashboardLayout.astro';
+import { getServerEnv } from '../../../../env/server';
+import { hasDashboardRole, isSeoOnlyRole } from '../../../../lib/auth/permissions';
+import { readDashboardSession } from '../../../../lib/auth/session';
+import { formatDateTime, getDeliveryStatusLabel, getLeadDisplayName } from '../../../../lib/leads/dashboard';
+import { FileLeadStore } from '../../../../lib/leads/file-store';
+import { applyInternalNoIndexHeaders } from '../../../../lib/security/internal-response';
+
+export const prerender = false;
+
+applyInternalNoIndexHeaders(Astro.response.headers);
+
+const session = readDashboardSession(Astro.cookies);
+if (!session) {
+  return Astro.redirect('/internal/operations/login');
+}
+
+if (isSeoOnlyRole(session)) {
+  return Astro.redirect('/internal/operations/');
+}
+
+const env = getServerEnv();
+const publicId = Astro.params.publicId || '';
+const store = new FileLeadStore({ rootDir: env.leadStoreDir, maxFileBytes: env.leadStoreMaxFileBytes });
+const record = await store.getSubmission(publicId);
+if (!record) {
+  return new Response('Lead not found', { status: 404 });
+}
+const attempts = await store.listAttempts(publicId);
+const canRetry = hasDashboardRole(session, 'developer');
+const details = [
+  ['Full name', record.payload.fullName],
+  ['First name', record.payload.firstName],
+  ['Last name', record.payload.lastName],
+  ['Email', record.payload.email],
+  ['Phone', record.payload.phone],
+  ['Company', record.payload.company],
+  ['Message', record.payload.message],
+  ['Nationality', record.payload.nationality],
+  ['Country code', record.payload.countryCode],
+  ['Location', record.payload.location],
+  ['Country', record.payload.country],
+  ['City', record.payload.city],
+  ['Postcode', record.payload.postcode],
+  ['Profession / sector', record.payload.professionSector],
+  ['Form name', record.formName || record.payload.formName],
+  ['Form ID', record.formId || record.payload.formId],
+  ['Lead source', record.payload.leadSource],
+  ['Campaign', record.payload.campaign],
+  ['Form source', record.payload.formSource],
+  ['Submitted at', formatDateTime(record.payload.submittedAt)],
+];
+const attributionDetails = [
+  ['UTM source', record.utmSource],
+  ['UTM medium', record.utmMedium],
+  ['UTM campaign', record.utmCampaign],
+  ['UTM term', record.utmTerm],
+  ['UTM content', record.utmContent],
+  ['Referrer URL', record.referrerUrl],
+  ['Landing page', record.landingPageUrl],
+  ['Submission page', record.submissionPageUrl],
+  ['GCLID', record.gclid],
+  ['GBRAID', record.gbraid],
+  ['WBRAID', record.wbraid],
+  ['FBCLID', record.fbclid],
+  ['MSCLKID', record.msclkid],
+  ['Campaign ID', record.campaignId],
+  ['Adgroup ID', record.adgroupId],
+  ['Group ID', record.groupId],
+  ['Creative ID', record.creativeId],
+  ['Keyword', record.keyword],
+  ['Matchtype', record.matchtype],
+  ['Device', record.device],
+  ['Network', record.network],
+  ['Placement', record.placement],
+  ['Target', record.target],
+  ['Source', record.source],
+];
+---
+
+<InternalDashboardLayout
+  title={`Lead ${record.publicId}`}
+  active="leads"
+  sessionEmail={session.email}
+  sessionRole={session.role}
+  csrfToken={session.csrf}
+>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Submission ID</p>
+      <h2>{record.publicId}</h2>
+      <p>{getLeadDisplayName(record)} · {record.formName}</p>
+    </div>
+    {canRetry && ['retry_scheduled', 'failed', 'dead_letter'].includes(record.deliveryStatus) && (
+      <form method="post" action="/api/internal/retry-lead">
+        <input type="hidden" name="publicId" value={record.publicId} />
+        <input type="hidden" name="csrfToken" value={session.csrf} />
+        <button type="submit">Retry delivery</button>
+      </form>
+    )}
+  </section>
+
+  <section class="grid">
+    <article class="panel">
+      <h3>Lead details</h3>
+      <dl>
+        {details.map(([label, value]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value || '-'}</dd>
+          </div>
+        ))}
+      </dl>
+    </article>
+
+    <article class="panel">
+      <h3>Pipedrive delivery</h3>
+      <dl>
+        <div><dt>Status</dt><dd><span class={`pill ${record.deliveryStatus}`}>{getDeliveryStatusLabel(record.deliveryStatus)}</span></dd></div>
+        <div><dt>Pipedrive lead ID</dt><dd>{record.pipedriveLeadId || '-'}</dd></div>
+        <div><dt>Pipedrive person ID</dt><dd>{record.pipedrivePersonId || '-'}</dd></div>
+        <div><dt>Delivered at</dt><dd>{formatDateTime(record.deliveredAt)}</dd></div>
+        <div><dt>Last attempt</dt><dd>{formatDateTime(record.lastAttemptAt)}</dd></div>
+        <div><dt>Next retry</dt><dd>{formatDateTime(record.nextRetryAt)}</dd></div>
+        <div><dt>Attempt count</dt><dd>{record.deliveryAttemptCount}</dd></div>
+        <div><dt>Last error</dt><dd>{record.lastErrorMessage || '-'}</dd></div>
+        <div><dt>Response summary</dt><dd>{record.pipedriveResponseSummary || '-'}</dd></div>
+      </dl>
+    </article>
+  </section>
+
+  <section class="panel">
+    <h3>Attribution</h3>
+    <dl class="columns">
+      {attributionDetails.map(([label, value]) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>{value || '-'}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="panel">
+    <h3>Delivery attempts</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Attempt</th>
+          <th>Trigger</th>
+          <th>Status</th>
+          <th>Completed</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        {attempts.length ? (
+          attempts.map((attempt) => (
+            <tr>
+              <td>{attempt.attemptNumber}</td>
+              <td>{attempt.triggerType}</td>
+              <td>{attempt.status}</td>
+              <td>{formatDateTime(attempt.completedAt || attempt.createdAt)}</td>
+              <td>{attempt.errorMessage || attempt.responseSummary || '-'}</td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colspan="5">No attempts recorded yet.</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </section>
+</InternalDashboardLayout>
+
+<style>
+  .hero,
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .hero {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  .eyebrow,
+  .hero p,
+  dt {
+    color: #64748b;
+  }
+  h2, h3, p {
+    margin-top: 0;
+  }
+  button {
+    border: 0;
+    border-radius: 10px;
+    background: #0f172a;
+    color: white;
+    font: inherit;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 1rem;
+  }
+  .panel {
+    background: white;
+    border-radius: 18px;
+    padding: 1.25rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+  dl {
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  dl div {
+    display: grid;
+    gap: 0.2rem;
+  }
+  dt {
+    font-size: 0.9rem;
+  }
+  dd {
+    margin: 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  .pill {
+    display: inline-flex;
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+  .pill.delivered { background: #dcfce7; color: #166534; }
+  .pill.retry_scheduled { background: #fef3c7; color: #92400e; }
+  .pill.failed, .pill.dead_letter { background: #fee2e2; color: #991b1b; }
+  @media (max-width: 900px) {
+    .hero, .grid {
+      grid-template-columns: 1fr;
+    }
+    .columns {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
