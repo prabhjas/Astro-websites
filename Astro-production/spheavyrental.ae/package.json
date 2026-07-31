@@ -16,6 +16,7 @@
     "astro": "astro",
     "extract": "node scripts/extract-wp.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
+    "blog:images": "node scripts/sync-blog-images.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",

@@ -1,16 +1,50 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getPageByPath } from "../../lib/content";
+import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import { getPageByPath, getPosts } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
 
 /**
- * Use the live Elementor Blog page markup for visual parity.
- * (Custom card listing is available at /blog/page/2+ via pagination routes.)
+ * Keep the live Elementor Blog markup exactly (featured list + image grid).
+ * Load More is wired in script to append remaining posts into the grid widget.
  */
 const page = getPageByPath("/blog/");
 if (!page) throw new Error("Blog page missing");
 
-const html = page.bodyHtml || page.content;
+const totalPosts = getPosts().length;
+// Snapshot grid already shows the first N image cards (template 540).
+const INITIAL_GRID = 12;
+const hasMore = totalPosts > INITIAL_GRID;
+
+let html = page.bodyHtml || page.content;
+
+// Mark the Load More control for our JS (do not change surrounding design).
+if (hasMore) {
+  html = html.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
+  );
+  html = html.replace(
+    /(<a href=")\/blog\/\?page=2(" class="elementor-button-link elementor-button)/i,
+    `$1/blog/page/2/$2`,
+  );
+} else {
+  html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
+}
+
+// Tag the image-grid posts container (widget ca8cb36) — second .ecs-posts.
+let ecsSeen = 0;
+html = html.replace(
+  /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi,
+  (full, attrs) => {
+    ecsSeen += 1;
+    if (ecsSeen === 2 && !/data-sp-blog-grid/.test(attrs)) {
+      return `<div${attrs} data-sp-blog-grid="1">`;
+    }
+    return full;
+  },
+);
+
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
@@ -39,4 +73,5 @@ const extraCss = [
   }}
 >
   <div class="sp-page-content" set:html={html} />
+  <script is:inline src="/scripts/blog-load-more.js"></script>
 </BaseLayout>
