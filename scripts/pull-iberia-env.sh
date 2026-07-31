@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Pull Iberia server .env → local gitignored .env (no secrets printed).
-# DEFERRED: server file is root:root 600 — leave until ops unlocks (see docs/18-server-ops-only.md).
+# DEFERRED: server file is root:root 600 — leave until ops unlocks (see docs/server-ops-only.md).
 # Prefers .env.prod if readable; falls back to .env.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

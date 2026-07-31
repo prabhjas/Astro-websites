@@ -1,8 +1,8 @@
-# 17 — Local fleet test (before server push)
+# Local fleet test (before server push)
 
 **Purpose:** Run the same multi-site architecture as the Astro production host, on your Mac, so you can verify build + SSR + health + forms + internal APIs **before** syncing to `webdev@178.105.150.67`.
 
-**Pairs with:** [16-server-side-work.md](16-server-side-work.md) · **[18-server-ops-only.md](18-server-ops-only.md)** (host/root work only) · each site’s `docs/CONNECT-ASTRO-FLEET-STANDARD.md`
+**Pairs with:** [server-side-work.md](server-side-work.md) · **[server-ops-only.md](server-ops-only.md)** (host/root work only) · each site’s `docs/CONNECT-ASTRO-FLEET-STANDARD.md`
 
 ---
 
@@ -174,7 +174,7 @@ Local green ≠ “skip P0 on server” — it means **app build + SSR contract*
 2. Push remote; sync tree to `/opt/Astro-production/<domain>/` (preserve server `.env.prod` + `.data/`).
 3. On server: `npm ci && npm run build` per site → `sudo site-ctl restart <unit>`.
 4. Run doc **16** smoke against public HTTPS hostnames.
-5. Continue Tier 1 items in `16-server-side-work.md` (units, Caddy split, backups).
+5. Continue Tier 1 items in `server-side-work.md` (units, Caddy split, backups).
 
 ---
 
@@ -211,4 +211,4 @@ node scripts/fleet-local.mjs up evolutionmiddleast,cbss,spheavyrental
 | `scripts/fleet-sites.json` | Site registry (ports / dirs) |
 | `scripts/fleet-local.mjs` | Local site-ctl equivalent (uses **pnpm**) |
 | `local/logs/` · `local/pids/` | Runtime (gitignored) |
-| `docs/17-local-fleet-test.md` | This document |
+| `docs/local-fleet-test.md` | This document |

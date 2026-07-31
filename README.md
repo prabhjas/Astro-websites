@@ -230,7 +230,7 @@ Each production site has `deploy/`:
 - `*.caddy` — reverse proxy snippet
 - `ROOT_SETUP.md` — host notes
 
-**Authoritative host checklist (needs root):** [docs/18-server-ops-only.md](docs/18-server-ops-only.md)
+**Authoritative host checklist (needs root):** [docs/server-ops-only.md](docs/server-ops-only.md)
 
 Still typically pending on the live box: non-root units + MemoryMax, Caddy `sites.d` split, off-box backups, Iberia port cutover, SP Heavy unit enable.
 
@@ -258,9 +258,9 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 |-----|----------------|
 | **This README** | Start here — architecture & local start |
 | [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Convert/add a site; forms; FLOW API summary |
-| [docs/17-local-fleet-test.md](docs/17-local-fleet-test.md) | Fleet runner details |
-| [docs/16-server-side-work.md](docs/16-server-side-work.md) | Server overview |
-| [docs/18-server-ops-only.md](docs/18-server-ops-only.md) | Root-only host work |
+| [docs/local-fleet-test.md](docs/local-fleet-test.md) | Fleet runner details |
+| [docs/server-side-work.md](docs/server-side-work.md) | Server overview |
+| [docs/server-ops-only.md](docs/server-ops-only.md) | Root-only host work |
 | [packages/site-cms/README.md](packages/site-cms/README.md) | Shared CMS package bind/mount |
 | `Astro-production/<domain>/docs/CONNECT-ASTRO-FLEET-STANDARD.md` | Per-site contract copy |
 | [15-platform-work-plan](Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) | Why Tier 1 / pnpm / shared CMS |

@@ -10,7 +10,7 @@ Share this with anyone cloning CBSS / Evolution / Iberia / SP Heavy patterns int
 | **Host** | `webdev@178.105.150.67` (`Astro`) · `/opt/Astro-production/` |
 | **Reference implementations** | Leads-heavy: **cbss.ae** · Full CMS APIs: **evolutionmiddleast.com** · Slim marketing + EN/ES: **iberiaworkforce.com** · Mirror CMS: **spheavyrental.ae** |
 
-**Related (detail):** [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [16](16-server-side-work.md) · [17](17-local-fleet-test.md) · [18](18-server-ops-only.md)
+**Related (detail):** [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [server-side-work](server-side-work.md) · [local-fleet-test](local-fleet-test.md) · [server-ops-only](server-ops-only.md)
 
 ---
 
@@ -406,7 +406,7 @@ Local equivalent: `node scripts/fleet-local.mjs smoke <id>`.
 
 | Priority | Work |
 |----------|------|
-| **P0** | Host Tier 1: non-root units, MemoryMax, split Caddy, off-box backups ([18](18-server-ops-only.md)) |
+| **P0** | Host Tier 1: non-root units, MemoryMax, split Caddy, off-box backups ([server-ops-only](server-ops-only.md)) |
 | **P1** | pnpm on host; all sites on exact 7.1.6 pins (done in monorepo) |
 | **P2** | `@connect/site-cms` **landed** (leads + auth) — Phase B: posts/redirects/GTM into package |
 | **P3** | SSR vs static inventory; shard hosts after ~10 SSR |
@@ -435,9 +435,9 @@ Next free local/server port for site #5: **5084** (confirm free on host).
 | **This playbook** | Onboarding / converting any new site |
 | [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/cbss.ae/docs/CONNECT-ASTRO-FLEET-STANDARD.md) | Contract to copy into each site |
 | [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) | Why Tier 1 / pnpm / shared CMS |
-| [16-server-side-work](16-server-side-work.md) | Host overview |
-| [17-local-fleet-test](17-local-fleet-test.md) | Laptop fleet runner |
-| [18-server-ops-only](18-server-ops-only.md) | Root checklist on the box |
+| [server-side-work](server-side-work.md) | Host overview |
+| [local-fleet-test](local-fleet-test.md) | Laptop fleet runner |
+| [server-ops-only](server-ops-only.md) | Root checklist on the box |
 
 ---
 

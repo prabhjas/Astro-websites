@@ -1,4 +1,4 @@
-# 16 — Server-side work (Astro host)
+# Server-side work (Astro host)
 
 **Where:** SSH to `webdev@178.105.150.67` (host `Astro`) · trees under `/opt/Astro-production/`  
 **When:** Later — **not** in the Evolution git repo alone. Needs **root** for users, units, Caddy, backups.  
@@ -6,9 +6,9 @@
 **Full sequence:** [15-platform-work-plan.md](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md)
 
 **Authoritative server checklist (use this to execute on the box):**  
-→ **[18-server-ops-only.md](18-server-ops-only.md)**
+→ **[server-ops-only.md](server-ops-only.md)**
 
-This file is the **on-server overview**. App/code changes live in each site (`deploy/` templates, exact pins, APIs). Local fleet: [17-local-fleet-test.md](17-local-fleet-test.md).
+This file is the **on-server overview**. App/code changes live in each site (`deploy/` templates, exact pins, APIs). Local fleet: [local-fleet-test.md](local-fleet-test.md).
 
 ---
 
@@ -23,8 +23,8 @@ This file is the **on-server overview**. App/code changes live in each site (`de
 
 Restart (webdev today): `sudo site-ctl restart <name>`
 
-**Local mirror (before push):** see [17-local-fleet-test.md](17-local-fleet-test.md) — same ports via `node scripts/fleet-local.mjs`.  
-**Execute on server:** see [18-server-ops-only.md](18-server-ops-only.md).
+**Local mirror (before push):** see [local-fleet-test.md](local-fleet-test.md) — same ports via `node scripts/fleet-local.mjs`.  
+**Execute on server:** see [server-ops-only.md](server-ops-only.md).
 
 ---
 
@@ -77,7 +77,7 @@ For **each** of the 4 sites (use repo `deploy/*.service` as source; Evolution: `
 ## P1 — Versions & installs on server
 
 - [ ] Install **pnpm** on host (`corepack prepare pnpm@9.15.9 --activate`)
-- [x] **Local done:** pnpm workspace + `.pnpm-store` + catalog in this repo (`pnpm-workspace.yaml`) — see [17-local-fleet-test.md](17-local-fleet-test.md)
+- [x] **Local done:** pnpm workspace + `.pnpm-store` + catalog in this repo (`pnpm-workspace.yaml`) — see [local-fleet-test.md](local-fleet-test.md)
 - [ ] Sync lockfile + workspace files to `/opt/Astro-production` (or monorepo path); `pnpm install` / build / restart after sync
 - [x] Iberia → Astro `7.1.6` (+ Tailwind 4), catalog pins
 - [x] CBSS → Astro `7.1.6` (local; server restart still ops)

@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-# Tier 1: create on host before enabling (see docs/18-server-ops-only.md).
+# Tier 1: create on host before enabling (see docs/server-ops-only.md).
 User=site-spheavyrental
 Group=site-spheavyrental
 WorkingDirectory=/opt/Astro-production/spheavyrental.ae

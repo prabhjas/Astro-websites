@@ -3,7 +3,7 @@
 App path: `/opt/Astro-production/spheavyrental.ae`  
 Unit name: `spheavyrental` · Port: **5082** · Unix user: **`site-spheavyrental`**
 
-Full host checklist: repo `docs/18-server-ops-only.md`.
+Full host checklist: repo `docs/server-ops-only.md`.
 
 ## 1. Create site user + dirs (root)
 

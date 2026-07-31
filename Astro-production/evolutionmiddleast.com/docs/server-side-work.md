@@ -1,4 +1,4 @@
-# 16 — Server-side work (Astro host)
+# Server-side work (Astro host)
 
 **Where:** SSH to `webdev@178.105.150.67` (host `Astro`) · trees under `/opt/Astro-production/`  
 **When:** Later — **not** in the Evolution git repo alone. Needs **root** for users, units, Caddy, backups.  

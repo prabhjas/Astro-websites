@@ -3,7 +3,7 @@
 App path: `/opt/Astro-production/iberiaworkforce.com`  
 Unit name: `iberiaworkforce` · Port: **5083** · Unix user: **`site-iberiaworkforce`**
 
-Full host checklist: repo `docs/18-server-ops-only.md`.
+Full host checklist: repo `docs/server-ops-only.md`.
 
 ## 1. Create site user + dirs (root)
 

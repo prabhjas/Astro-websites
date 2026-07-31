@@ -7,7 +7,7 @@
 | [13-wp-astro-mirror-playbook.md](13-wp-astro-mirror-playbook.md) | **Reusable task checklist** — enhancements/fixes from Connect + Evolution for upcoming mirrors |
 | [14-multi-site-platform-review.md](14-multi-site-platform-review.md) | Fleet plan response: observability, Astro pin, harden gates, tokens, rollback, capacity |
 | [15-platform-work-plan.md](15-platform-work-plan.md) | **Fleet execution runbook** (P0–P3 on the Astro host across all sites) |
-| [16-server-side-work.md](16-server-side-work.md) | **Later on the server** — SSH checklist (units, Caddy, backups, pnpm, CMS package) |
+| [server-side-work.md](server-side-work.md) | **Later on the server** — SSH checklist (units, Caddy, backups, pnpm, CMS package) |
 | [CONNECT-ASTRO-FLEET-STANDARD.md](CONNECT-ASTRO-FLEET-STANDARD.md) | **Share with CBSS / SP Heavy / Iberia** — contract (pins, layout, APIs, gates) |
 
 **How to use:** each site repo implements the [fleet standard](CONNECT-ASTRO-FLEET-STANDARD.md). Ops runs [15](15-platform-work-plan.md) on the shared host. This Evolution repo is the reference implementation; see `deploy/` for Tier 1 unit/Caddy templates.

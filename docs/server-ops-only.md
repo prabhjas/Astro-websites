@@ -1,10 +1,10 @@
-# 18 — Server-only ops (Astro host)
+# Server-only ops (Astro host)
 
 **Do this on the box:** `ssh astro-connectgroup` → `webdev@178.105.150.67`  
 **Needs root** for users, units, Caddy, backups (webdev only has `sudo site-ctl`).  
 **App/code is ready in git** — this file is only what **cannot** be finished on a laptop.
 
-Related: [16-server-side-work.md](16-server-side-work.md) · [17-local-fleet-test.md](17-local-fleet-test.md) · each site `deploy/`
+Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](local-fleet-test.md) · each site `deploy/`
 
 **Deferred for now:** pulling Iberia `.env` (root:root 600) — leave until ops unlocks readability.
 
