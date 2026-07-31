@@ -6,12 +6,10 @@ Monorepo for Connect Group production (and staging) Astro sites: one workspace, 
 |--|--|
 | **GitHub** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Branch (fleet work)** | `work/astro-sites` |
-| **Host** | `webdev@178.105.150.67` (`Astro`) · deploy root `/opt/Astro-production/` |
 | **Node** | `>=22.12.0` |
 | **Package manager** | **pnpm** `>=9.15.0` (see `packageManager` in root `package.json`) |
 
 ---
-
 ## What this repo is for
 
 - Run **many Astro SSR sites** on one host without copying `node_modules` four (or forty) times.
