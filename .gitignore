@@ -19,10 +19,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment variables
+# Environment variables — production secrets (Pipedrive tokens, SMTP passwords,
+# dashboard keys). Each site also has its own .gitignore with these rules; this
+# repo-wide net means a NEW site added without one is still protected by default.
+# Catch every .env variant (.env.prod, .env.staging, .env.local...) and then
+# re-allow the committed, secret-free templates.
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+!.env.*.example
 
 # OS files
 .DS_Store
