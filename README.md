@@ -261,7 +261,6 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 | [docs/server-ops-only.md](docs/server-ops-only.md) | Root-only host work |
 | [packages/site-cms/README.md](packages/site-cms/README.md) | Shared CMS package bind/mount |
 | `Astro-production/<domain>/docs/CONNECT-ASTRO-FLEET-STANDARD.md` | Per-site contract copy |
-| [15-platform-work-plan](Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) | Why Tier 1 / pnpm / shared CMS |
 
 ---
 
