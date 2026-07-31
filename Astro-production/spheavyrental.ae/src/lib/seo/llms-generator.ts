@@ -153,15 +153,16 @@ export function generateLlmsTxt(options: GenerateLlmsOptions): string {
   if (blogItems.length || recentPosts.length) {
     lines.push('## Blog & Insights');
     lines.push('');
-    const insights = blogItems.find((i) => i.path === '/insights/' || i.path.includes('insights'));
+    const blogHome = seed.blogHome || '/insights/';
+    const insights = blogItems.find((i) => i.path === blogHome);
     if (insights) {
       lines.push(formatLink(insights.title, insights.url, insights.description));
     } else {
       lines.push(
         formatLink(
-          'Insights (Blog Home)',
-          `${siteOrigin.replace(/\/$/, '')}/insights/`,
-          'Main blog index covering UAE business, HR, tax, visa and company formation topics.',
+          'Blog Home',
+          `${siteOrigin.replace(/\/$/, '')}${blogHome}`,
+          'Main blog index.',
         ),
       );
     }

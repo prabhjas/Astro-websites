@@ -19,10 +19,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment variables
+# Environment variables — production secrets (Pipedrive tokens, SMTP passwords,
+# dashboard keys). Each site also has its own .gitignore with these rules; this
+# repo-wide net means a NEW site added without one is still protected by default.
+# Catch every .env variant (.env.prod, .env.staging, .env.local...) and then
+# re-allow the committed, secret-free templates.
 .env
-.env.local
-.env.production
+.env.*
+!.env.example
+!.env.*.example
 
 # OS files
 .DS_Store
@@ -35,6 +40,13 @@ pnpm-debug.log*
 
 # Pre-fix build backups (local safety copies, not source)
 .dist-backup-*
+
+# Suffixed snapshots taken before migrations — the bare `node_modules/` and
+# `dist/` rules above do NOT catch these, and a single commit of them once put
+# 1.3 GB of deps, build output and pnpm store into the repo.
+node_modules.*/
+dist.pre-*/
+dist.prev-*/
 
 # Local fleet runtime (pids / logs — not source)
 local/pids/

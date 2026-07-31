@@ -1,0 +1,13 @@
+[Unit]
+Description=Restic backup — Astro fleet (/var/backups/astro-fleet)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+ExecStart=/usr/local/sbin/restic-astro-fleet-backup
+# Password + repo only root-readable
+UMask=0077
