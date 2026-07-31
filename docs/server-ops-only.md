@@ -17,7 +17,7 @@ Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](loc
 | Caddy | `/etc/caddy/sites.d/*.caddy` (`http://`+`https://`+`tls internal`) |
 | Iberia | Port **5083**, full reverse proxy (`/api/contact`, `/api/health` public) |
 | SP Heavy unit | Installed + in `site-ctl` — **public DNS still WordPress** until Cloudflare points apex at this host |
-| Backups | Still open — need destination for restic |
+| Backups | **Decided:** restic repo `/var/backups/astro-fleet/restic` — root install from `deploy/host/` |
 | Env | `.env.prod` `root:site-*` **0640**; build `.env` `root:webdev` **0644** (`PUBLIC_SITE_URL` only) |
 
 Ops write-up on host: `/root/ROOT-OPS-20260731.md` · backup: `/root/ops-backup-20260731_rootops/`.
@@ -78,7 +78,7 @@ curl -sS http://127.0.0.1:<PORT>/api/health/
 | Item | Who |
 |------|-----|
 | Point `spheavyrental.ae` (+ `www`) DNS at `178.105.150.67`, SSL Full | Cloudflare |
-| Off-box restic backups + restore drill | Root — needs destination from Aaron |
+| Install restic timer from `deploy/host/` (repo `/var/backups/astro-fleet/restic`) + restore drill | Root — see `deploy/host/README.md` |
 | Kill stale root-owned `astro dev`/`preview` processes | Root (PIDs in ops write-up) |
 
 ---
