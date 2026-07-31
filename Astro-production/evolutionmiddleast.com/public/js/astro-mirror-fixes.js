@@ -1541,7 +1541,7 @@
       });
     }
 
-    function buildContactFormData(form) {
+    function buildContactFormPayload(form) {
       syncPhoneNumbers(form);
       var snapshots = [];
       form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]').forEach(function (phone) {
@@ -1552,7 +1552,24 @@
       snapshots.forEach(function (snap) {
         snap.el.value = snap.value;
       });
-      return body;
+      // JSON body — Astro checkOrigin only blocks cross-site *form* POSTs (FormData /
+      // urlencoded). Behind Caddy TLS that check misfires unless allowedDomains is set.
+      var payload = {};
+      var arrays = {};
+      body.forEach(function (value, key) {
+        if (typeof value !== 'string') return;
+        if (key.endsWith('[]')) {
+          var arrayKey = key.slice(0, -2);
+          if (!arrays[arrayKey]) arrays[arrayKey] = [];
+          arrays[arrayKey].push(value);
+          return;
+        }
+        payload[key] = value;
+      });
+      Object.keys(arrays).forEach(function (k) {
+        payload[k] = arrays[k];
+      });
+      return payload;
     }
 
     function showCf7Message(form, message, isError) {
@@ -1846,8 +1863,8 @@
 
       fetch('/api/contact', {
         method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: buildContactFormData(form),
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildContactFormPayload(form)),
       })
         .then(function (response) {
           return response.json().then(function (data) {

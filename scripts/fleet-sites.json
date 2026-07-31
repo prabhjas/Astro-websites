@@ -1,0 +1,35 @@
+{
+  "productionRoot": "Astro-production",
+  "pidDir": "local/pids",
+  "logDir": "local/logs",
+  "sites": [
+    {
+      "id": "evolutionmiddleast",
+      "domain": "evolutionmiddleast.com",
+      "dir": "evolutionmiddleast.com",
+      "port": 5080,
+      "unit": "evolutionmiddleast"
+    },
+    {
+      "id": "cbss",
+      "domain": "cbss.ae",
+      "dir": "cbss.ae",
+      "port": 5081,
+      "unit": "cbss"
+    },
+    {
+      "id": "spheavyrental",
+      "domain": "spheavyrental.ae",
+      "dir": "spheavyrental.ae",
+      "port": 5082,
+      "unit": "spheavyrental"
+    },
+    {
+      "id": "iberiaworkforce",
+      "domain": "iberiaworkforce.com",
+      "dir": "iberiaworkforce.com",
+      "port": 5083,
+      "unit": "iberiaworkforce"
+    }
+  ]
+}

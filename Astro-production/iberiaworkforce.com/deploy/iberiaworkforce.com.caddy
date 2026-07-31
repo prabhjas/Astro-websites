@@ -1,0 +1,19 @@
+# /etc/caddy/sites.d/iberiaworkforce.com.caddy
+# Prefer: import /etc/caddy/sites.d/*.caddy  (fleet standard §6.3)
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+
+iberiaworkforce.com, www.iberiaworkforce.com {
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5083
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/iberiaworkforce.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

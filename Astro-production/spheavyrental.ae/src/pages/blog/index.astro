@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPageByPath } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+/**
+ * Use the live Elementor Blog page markup for visual parity.
+ * (Custom card listing is available at /blog/page/2+ via pagination routes.)
+ */
+const page = getPageByPath("/blog/");
+if (!page) throw new Error("Blog page missing");
+
+const html = page.bodyHtml || page.content;
+const extraCss = [
+  ...(page.pageCss || []),
+  page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+];
+---
+
+<BaseLayout
+  currentPath="/blog/"
+  bodyClass={`page page-id-${page.id} elementor-page-${page.id}`}
+  extraCss={extraCss}
+  fallback={page.seo}
+  seo={{
+    title: page.seo.title || "Blog | SP Heavy Rental",
+    description:
+      page.seo.description ||
+      "Heavy equipment rental guides and tips for projects across the UAE.",
+    canonical: "/blog/",
+    ogImage: page.seo.ogImage,
+    schemas: [
+      ...(page.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blog/" },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>

@@ -38,7 +38,7 @@ Checklist of enhancements and fixes proven on **Connect Group Astro** (reference
 - [ ] Localize `wp-content` / `wp-includes` assets into `public/`
 - [ ] Serve marketing pages via catch‑all `[slug].astro` + `serveLegacyPage()`
 - [ ] Homepage: own chrome (exclude from shared header swap)
-- [ ] Verify every inventory slug returns **200** (not “not prepared” 503)
+- [ ] Verify every inventory slug returns **200**; unknown URLs return **404** (never “not prepared” 503 / prepare:page hints)
 
 ### Evolution-specific inventory reminder
 
@@ -86,39 +86,37 @@ Checklist of enhancements and fixes proven on **Connect Group Astro** (reference
 
 - [ ] Migrate posts to dashboard-managed JSON (`src/content/blog/*.json`) + `npm run migrate:posts`
 - [ ] Public routes: `/blog/`, `/blog/page/[n]/`, `/category/`, `/tag/`, `/author/`, `/{slug}/`
-- [ ] Dashboard CRUD: `/internal/operations/posts/` (+ categories/tags)
+- [ ] Blog CRUD via central CMS → `/api/internal/posts*` (file store `src/content/blog/*.json`); no per-site dashboard UI
 - [ ] Match live Elementor archive layout (Evolution: **two** `.ecs-posts` loops — featured + grid; Connect often has one)
 - [ ] Loop card builders + loop CSS (`buildFeaturedPostCardHtml` / `buildPostCardHtml` / archive inject)
 - [ ] Inject runtime GTM loader into archive/blog shells too
 
 ---
 
-## Phase 5 — Internal operations dashboard
+## Phase 5 — Internal APIs (central CMS)
 
-Base path: `/internal/operations/` (alias `/internal/lead-operations/` → new path).
+Per-site dashboard UI is **not** built into each site. Keep file-backed stores + `/api/internal/*`; the central CMS calls them.
 
-- [ ] Auth: signed cookie session, roles (`viewer` / `developer` / `seo` / `super_admin`)
-- [ ] Leads list/detail, CSV/JSON export, failure queue + retry
-- [ ] Global **GTM** editor → `/runtime-gtm.js` injected on **all** public pages (strip legacy GTM from dumps)
-- [ ] Redirects manager: add / edit / delete / bulk delete / hit stats
-- [ ] Redirect **import**: Rank Math **JSON and CSV** (map `url` + `action_data.url` / `source`+`target`+`code`)
-- [ ] Ship `scripts/generate-redirects.mjs` and call it after redirect mutations (missing script → white “Not found” after save)
-- [ ] Dashboard POSTs: always return explicit **303** `Location` (`dashboardSeeOther`) — never leave the browser on `/api/internal/...`
-- [ ] Flash query params (`?imported=`, `?deleted=`, `?saved=`, `?error=`)
-- [ ] SEO workspace: robots, llm/llms, sitemap priority overrides
-- [ ] Uploads + enhanced PHP file panel (if site uses them)
-- [ ] `X-Robots-Tag: noindex` on all internal UI + APIs
-- [ ] Env: `INTERNAL_ADMIN_DIR`, `DASHBOARD_*`, `INTERNAL_JOB_SECRET`, Pipedrive keys, `WEBSITE_ID`
+- [ ] Auth: `INTERNAL_JOB_SECRET` bearer (`Authorization: Bearer …` / `x-internal-job-secret` / `?secret=`)
+- [ ] JSON read APIs: leads, posts, categories/tags, redirects, GTM
+- [ ] Mutation APIs return JSON (not 303 to a dashboard)
+- [ ] Global **GTM** → `/runtime-gtm.js` on all public pages
+- [ ] Redirects + Rank Math import still via API + `scripts/generate-redirects.mjs`
+- [ ] SEO stores under `INTERNAL_ADMIN_DIR` (robots/llm/llms/sitemap overrides)
+- [ ] `X-Robots-Tag: noindex` on all `/api/internal/*`
+- [ ] Env: `INTERNAL_JOB_SECRET`, `INTERNAL_ADMIN_DIR`, Pipedrive, `WEBSITE_ID` — **no** `HOST`/`PORT` in `.env.prod`
+- [ ] `astro.config` `security.allowedDomains` for HTTPS behind Caddy; contact forms post JSON
+- [ ] Generate `package-lock.json` on Linux (or multi-platform optional deps)
 
 ---
 
 ## Phase 6 — Redirects & middleware
 
 - [ ] Runtime redirects from `INTERNAL_ADMIN_DIR/redirects.json` + `src/data/redirects.yml`
-- [ ] Middleware applies redirects on public GET/HEAD (skip `/api/internal/` and dashboard)
+- [ ] Middleware applies redirects on public GET/HEAD (skip `/api/internal/`)
 - [ ] Generate `public/_redirects` (+ JSON) for Netlify/CF Pages hosts
 - [ ] After first Rank Math import, **spot-check** `from !== to` (bad parsers create self-redirects)
-- [ ] Record hit stats for dashboard
+- [ ] Record hit stats (API-readable)
 
 ---
 
@@ -156,10 +154,28 @@ Common failure: webpack lazy chunks referenced but not downloaded.
 | Geo country never applies | Browser geolocation hangs | First-party `/api/geo/country` + timeouts |
 | “Pages missing” / menu not linked | Nav dropdown JS chunk missing; header unreadable | Copy nav-menu bundle; header CSS; ensureNavMenus |
 | Blog layout wrong vs live | Wrong number of Elementor loops filled | Match live loop structure (featured + grid) |
-| Import/delete → white “Not found” | Missing `generate-redirects.mjs`; crash after persist; stay on API URL | Add script; try/catch; `dashboardSeeOther` 303 |
+| Import/delete → white “Not found” | Missing `generate-redirects.mjs`; crash after persist; stay on API URL | Add script; try/catch; APIs return JSON (central CMS) |
 | Import “works” but wrong | Rank Math `url` used as destination | Use `action_data.url`; accept CSV `source`/`target`/`code` |
 | Self-redirects in YAML | Bad import left `from === to` | Re-import; assert no self-maps |
 | GTM only on some pages | Loader not injected into all HTML paths | `injectRuntimeGtmLoader` on legacy + archives + BaseLayout |
+| Unknown URL → 503 + build instructions | Catch-all → `serveLegacyPage` missing HTML | `404.astro` + `notFoundResponse()`; never expose `prepare:page` |
+| Form POST 403 over HTTPS | Astro `checkOrigin` vs Caddy HTTP upstream | `security.allowedDomains` + JSON contact bodies |
+| `npm ci` fails on Linux | Lockfile missing linux native bindings | Regenerate lock on Linux / include both platforms |
+| Multi-site `HOST`/`PORT` collide | `.env.prod` pins same port | Leave host/port to systemd per site |
+
+---
+
+## Pre-freeze harden gates (block factory copy)
+
+Do not treat a site as the reference template until all pass:
+
+- [ ] Unknown URL → **404** (`404.astro`); body never contains `prepare:page` / 503 “not prepared”
+- [ ] Behind Caddy TLS: form/API POSTs not rejected with Origin 403 (`security.allowedDomains` + prefer JSON contact bodies)
+- [ ] `package-lock.json` includes **linux** native bindings; `npm ci && npm run build` succeeds on Linux CI
+- [ ] No per-site `/internal/operations` UI; CMS uses bearer `INTERNAL_JOB_SECRET` (never share `DASHBOARD_SESSION_SECRET` to the control plane as the machine credential)
+- [ ] `.env.prod` has no `HOST`/`PORT`; LF line endings only
+- [ ] `GET /api/health` returns 200; Node emits structured `http_access` (or equivalent) for HTML/API
+- [ ] Rollback notes: previous release restore + `site-ctl restart` + smoke list
 
 ---
 
@@ -170,10 +186,12 @@ Common failure: webpack lazy chunks referenced but not downloaded.
 - [ ] Phone: correct dial code by IP; flags visible; no doubled country code
 - [ ] Desktop: HR + Visa (or site equivalent) dropdowns open and navigate
 - [ ] Blog archive matches live layout
-- [ ] Dashboard: GTM save returns to GTM page; redirects CSV+JSON import returns to redirects page
+- [ ] Central CMS (or bearer curl): GTM/redirects/posts/leads APIs work
 - [ ] Sample old URLs 301 to new destinations
-- [ ] `npm run build` + restart Node server after chrome/API changes
-- [ ] DNS / SSL cutover plan; monitor 404s and form failures
+- [ ] Random dead path returns **404** (not 503)
+- [ ] `npm run build` on **Linux** + restart Node after chrome/API changes
+- [ ] DNS / SSL cutover plan; Caddy + Node logs available; monitor 404s and form failures
+- [ ] Document rollback for this site’s release directory
 
 ---
 
@@ -182,9 +200,9 @@ Common failure: webpack lazy chunks referenced but not downloaded.
 1. Scaffold + env + inventory scripts (Phase 0–1)  
 2. Shared chrome + nav chunks + mirror-fixes (Phase 2 + 7–8)  
 3. Forms / phone / geo (Phase 3)  
-4. Blog + dashboard posts (Phase 4)  
-5. Full ops dashboard + GTM + redirects (Phase 5–6)  
-6. Visual QA against live + launch (Phase 8 + Launch)
+4. Blog + file stores + `/api/internal/*` (Phase 4–5) — **no** per-site dashboard UI  
+5. Redirects + GTM + middleware (Phase 6)  
+6. Pre-freeze harden gates + visual QA + launch (above + Phase 8)
 
 ---
 
@@ -193,5 +211,6 @@ Common failure: webpack lazy chunks referenced but not downloaded.
 | Doc | Purpose |
 |-----|---------|
 | [00-overview.md](00-overview.md) | Evolution migration goal / status |
-| [12-lead-ops-dashboard.md](12-lead-ops-dashboard.md) | Dashboard env, roles, GTM/redirects notes |
+| [12-lead-ops-dashboard.md](12-lead-ops-dashboard.md) | Bearer internal APIs for central CMS |
+| [14-multi-site-platform-review.md](14-multi-site-platform-review.md) | Fleet review: obs, versions, harden, tokens, rollback, capacity |
 | [README.md](README.md) | Docs index |

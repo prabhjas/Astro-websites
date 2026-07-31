@@ -2,20 +2,21 @@
 
 Astro migration of the CBSS landing page (HTML/CSS/JS/PHP → Astro + Node adapter).
 
+Follows [Connect Astro fleet standard](docs/CONNECT-ASTRO-FLEET-STANDARD.md).
+
 ## Architecture
 
-Follows the Connect Group Astro platform pattern:
-
 - Static marketing page rebuilt as Astro components
-- `POST /api/contact` with validation, rate limiting, file lead store
+- `POST /api/contact` with JSON body, validation, rate limiting, file lead store
 - Pipedrive person + lead creation + optional SMTP notifications
-- Internal lead ops dashboard at `/internal/operations`
+- Machine APIs under `/api/internal/*` (bearer `INTERNAL_JOB_SECRET`) for central CMS
+- `GET /api/health` liveness
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-# fill PIPEDRIVE_API_TOKEN, DASHBOARD_SESSION_SECRET, DASHBOARD_USERS_JSON, SMTP_*
+# fill PIPEDRIVE_API_TOKEN and INTERNAL_JOB_SECRET as needed
 npm install
 npm run dev
 ```
@@ -26,6 +27,7 @@ npm run dev
 |---------|-------------|
 | `npm run dev` | Local development server |
 | `npm run build` | Production build (Node standalone) |
+| `npm run start` | Run built `dist/server/entry.mjs` |
 | `npm run preview` | Preview production build |
 | `npm test` | Contact form unit tests |
 

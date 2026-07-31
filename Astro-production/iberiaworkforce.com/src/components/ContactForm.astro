@@ -81,17 +81,17 @@ const label = 'block text-sm font-medium text-ink';
     data.landed_url = location.href;
 
     try {
-      const res = await fetch('/api/lead/', {
+      const res = await fetch('/api/contact/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       const out = await res.json().catch(() => ({}));
-      if (res.ok && out.ok) {
+      if (res.ok && (out.success || out.ok)) {
         form.reset();
         show(strings.success, true);
       } else {
-        show(out.error || strings.error, false);
+        show(out.message || out.error || strings.error, false);
       }
     } catch {
       show(strings.error, false);
