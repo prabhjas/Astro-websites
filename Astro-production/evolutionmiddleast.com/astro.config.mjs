@@ -19,11 +19,10 @@ export default defineConfig({
   site: siteUrl,
   output: 'static',
   adapter: node({ mode: 'standalone' }),
-  // Caddy terminates TLS and reverse-proxies to this Node server over plain HTTP.
-  // Without allowedDomains, Astro ignores X-Forwarded-Proto, builds the request URL
-  // as http://, and its checkOrigin middleware then rejects every HTTPS visitor's
-  // form POST with "Cross-site POST form submissions are forbidden" (403).
-  // Listing the domains here lets Astro trust the forwarded proto/host from Caddy.
+  // Caddy terminates TLS and reverse-proxies to Node over plain HTTP.
+  // Without allowedDomains, Astro ignores X-Forwarded-Proto, builds the
+  // request URL as http://, and checkOrigin rejects HTTPS visitors' form
+  // POSTs with "Cross-site POST form submissions are forbidden" (403).
   security: {
     allowedDomains: [
       { hostname: 'www.evolutionmiddleast.com', protocol: 'https' },

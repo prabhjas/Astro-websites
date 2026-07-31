@@ -84,7 +84,17 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-      input = (await request.json()) as ContactFormInput;
+      const json = (await request.json()) as Record<string, unknown>;
+      const raw: Record<string, FormDataEntryValue> = {};
+      const arrays: Record<string, string[]> = {};
+      for (const [key, value] of Object.entries(json || {})) {
+        if (Array.isArray(value)) {
+          arrays[key] = value.map((v) => String(v));
+        } else if (value != null && typeof value !== 'object') {
+          raw[key] = String(value);
+        }
+      }
+      input = parseContactFormBody(raw, arrays);
     } else {
       const formData = await request.formData();
       const raw: Record<string, FormDataEntryValue> = {};

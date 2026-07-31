@@ -7,6 +7,7 @@ Lana staging
 
 # Dependencies
 node_modules/
+.pnpm-store/
 
 # Build output
 dist/
@@ -34,3 +35,13 @@ pnpm-debug.log*
 
 # Pre-fix build backups (local safety copies, not source)
 .dist-backup-*
+
+# Local fleet runtime (pids / logs — not source)
+local/pids/
+local/logs/
+
+# Per-site runtime data / env (never commit)
+Astro-production/**/.data/
+Astro-production/**/.env
+Astro-staging/**/.data/
+Astro-staging/**/.env

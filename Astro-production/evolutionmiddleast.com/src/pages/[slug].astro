@@ -6,15 +6,18 @@
  *
  * SSR so dashboard post edits are visible without a full rebuild.
  */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { isPageSlug, isPostSlug } from '../lib/inventory.js';
 import { getBlogPost, serveBlogPost } from '../lib/blog.ts';
 import { serveLegacyPage } from '../lib/legacy-page.js';
+import { notFoundResponse } from '../lib/not-found.js';
 
 export const prerender = false;
 
 const slug = Astro.params.slug;
 if (!slug) {
-  return new Response('Not found', { status: 404 });
+  return notFoundResponse();
 }
 
 const post = getBlogPost(slug);
@@ -23,13 +26,18 @@ if (post) {
 }
 
 if (isPostSlug(slug)) {
-  return new Response('Post not found', { status: 404 });
+  return notFoundResponse();
 }
 
 if (isPageSlug(slug) || slug === 'blog') {
   return serveLegacyPage(slug === 'blog' ? 'blog' : slug);
 }
 
-// Fallback: serve prepared legacy mirror if present (service pages etc.)
-return serveLegacyPage(slug);
+// Only serve prepared mirrors that exist on disk — unknown URLs are 404.
+const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
+if (existsSync(cleanedPath)) {
+  return serveLegacyPage(slug);
+}
+
+return notFoundResponse();
 ---

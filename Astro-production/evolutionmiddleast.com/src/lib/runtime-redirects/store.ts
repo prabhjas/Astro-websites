@@ -93,12 +93,12 @@ export function readCanonicalRedirectsYaml(projectRoot: string): RuntimeRedirect
     const parsed = parse(readFileSync(yamlPath, 'utf8')) ?? {};
     const list = Array.isArray(parsed.redirects) ? parsed.redirects : [];
     return list
-      .filter((row) => row?.from && row?.to)
-      .map((row) => ({
+      .filter((row: { from?: unknown; to?: unknown }) => Boolean(row?.from && row?.to))
+      .map((row: { from?: unknown; to?: unknown; status?: unknown }) => ({
         from: String(row.from),
         to: String(row.to),
         status: Number(row.status || 301),
-        source: 'repo',
+        source: 'repo' as const,
       }));
   } catch {
     return [];

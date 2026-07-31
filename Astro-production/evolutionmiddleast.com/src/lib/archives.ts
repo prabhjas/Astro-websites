@@ -185,7 +185,7 @@ function getArchiveBasePath(data: ArchivePageData): string {
 
 /** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html);
   const ecsList = $('.ecs-posts');
 
   // Evolution blog has two loops: featured (grid-1 / template 714) + grid (grid-3 / template 244).

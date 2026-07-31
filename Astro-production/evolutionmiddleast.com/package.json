@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -26,16 +27,18 @@
     "redirects:generate": "node scripts/generate-redirects.mjs"
   },
   "dependencies": {
-    "@astrojs/node": "^11.0.3",
-    "astro": "^7.1.6",
-    "nodemailer": "^7.0.5",
-    "yaml": "^2.9.0"
+    "@astrojs/node": "catalog:",
+    "astro": "catalog:",
+    "cheerio": "catalog:",
+    "nodemailer": "catalog:",
+    "yaml": "catalog:",
+    "@connect/site-cms": "workspace:*"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@types/nodemailer": "^6.4.17",
-    "cheerio": "^1.2.0",
-    "tsx": "^4.20.3",
-    "typescript": "^5.9.2"
+    "@astrojs/check": "catalog:",
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
   }
 }

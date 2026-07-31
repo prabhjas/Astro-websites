@@ -41,7 +41,7 @@ npm run import:sitemap:download
 | Forms → lead store + Pipedrive | Done |
 | Phone flags / IP country / dial-code fixes | Done |
 | Dynamic blog + archive layout parity | Done |
-| Internal operations dashboard | Done |
+| Internal APIs (central CMS) | Done (bearer auth; per-site UI removed) |
 | Global GTM (runtime loader, all pages) | Done |
 | Redirects (CSV + JSON import, middleware) | Done |
 | DNS cutover | Not started |
