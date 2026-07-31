@@ -1,0 +1,28 @@
+[Unit]
+Description=Iberia Workforce Astro SSR server (Caddy reverse-proxies to this)
+After=network.target
+
+[Service]
+Type=simple
+# Tier 1: create on host before enabling (see docs/server-ops-only.md).
+User=site-iberiaworkforce
+Group=site-iberiaworkforce
+WorkingDirectory=/opt/Astro-production/iberiaworkforce.com
+EnvironmentFile=-/opt/Astro-production/iberiaworkforce.com/.env.prod
+Environment=NODE_ENV=production
+# HOST/PORT in unit only — not in .env.prod
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5083 /usr/bin/node ./dist/server/entry.mjs
+Restart=always
+RestartSec=5
+
+MemoryMax=256M
+MemoryHigh=200M
+CPUQuota=50%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/Astro-production/iberiaworkforce.com/.data
+
+[Install]
+WantedBy=multi-user.target

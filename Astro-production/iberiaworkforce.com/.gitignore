@@ -1,17 +1,18 @@
-# build output
-dist/
-.output/
-
-# dependencies
+# Dependencies
 node_modules/
 
-# generated types
+# Build
+dist/
 .astro/
 
-# environment (never commit real tokens)
+# Env
 .env
-.env.production
+.env.*
+!.env.example
+.data/
 
-# logs / os
-*.log
+# OS / editor
 .DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json

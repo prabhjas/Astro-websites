@@ -1,0 +1,14 @@
+# evolutionmiddleast.com — Node SSR on 127.0.0.1:5080
+# Prefer: import this from /etc/caddy/sites.d/evolutionmiddleast.com.caddy
+# (fleet: one file per site + caddy validate before reload)
+evolutionmiddleast.com, www.evolutionmiddleast.com {
+	encode gzip
+	reverse_proxy 127.0.0.1:5080
+	header {
+		X-Content-Type-Options nosniff
+	}
+	log {
+		output file /var/log/caddy/evolutionmiddleast.com-access.log
+		format json
+	}
+}

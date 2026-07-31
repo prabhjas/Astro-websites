@@ -1,0 +1,94 @@
+---
+/**
+ * Custom 404 for unknown URLs.
+ * Must return HTTP 404 (not 503) so crawlers drop dead links.
+ */
+export const prerender = false;
+
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Iberia Workforce</title>
+    <meta name="description" content="The page you requested could not be found." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="/favicon.svg" />
+    <style>
+      :root {
+        --ink: #152b47;
+        --accent: #e07a52;
+        --mist: #eef2f7;
+        --line: #e5e9f0;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(224, 122, 82, 0.16), transparent),
+          linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
+      }
+      .wrap {
+        width: min(40rem, calc(100% - 2.5rem));
+        margin: 0 auto;
+        padding: 4rem 0;
+        text-align: center;
+      }
+      .code {
+        display: inline-block;
+        margin: 0 0 0.75rem;
+        padding: 0.2rem 0.65rem;
+        border: 1px solid var(--line);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: #fff;
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.75rem, 4vw, 2.35rem);
+        line-height: 1.15;
+      }
+      p {
+        margin: 0 auto 1.75rem;
+        max-width: 28rem;
+        font-size: 1.05rem;
+        line-height: 1.55;
+        color: #5b6b82;
+      }
+      .actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 0.5rem;
+      }
+      .actions a:hover { background: #c15f38; }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="code">404</div>
+      <h1>Page not found</h1>
+      <p>The page you are looking for may have been moved, renamed, or no longer exists.</p>
+      <div class="actions">
+        <a href="/">Go to homepage</a>
+      </div>
+    </main>
+  </body>
+</html>

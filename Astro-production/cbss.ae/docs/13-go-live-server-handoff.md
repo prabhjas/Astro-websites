@@ -223,18 +223,9 @@ LEAD_TITLE_PREFIX=AD CBSS
 
 Optional Pipedrive field-key overrides: see `.env.example` / `src/env/server.ts` (`PIPEDRIVE_FIELD_*`).
 
-### Optional email notifications
+### Email notifications
 
-```bash
-FORM_NOTIFICATION_EMAILS=...
-FORM_FROM_EMAIL=...
-FORM_FROM_NAME=CBSS Form
-SMTP_HOST=...
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=...
-SMTP_PASS=...
-```
+Not used. Lead path is file store + Pipedrive only — do not configure `FORM_NOTIFICATION_*` or `SMTP_*`.
 
 ### Rate limiting
 

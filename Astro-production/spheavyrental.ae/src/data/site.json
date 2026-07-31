@@ -1,0 +1,102 @@
+{
+  "name": "S&P Heavy Machinery Rental",
+  "shortName": "SP Heavy Rental",
+  "url": "https://spheavyrental.ae",
+  "description": "Reliable heavy equipment rental in UAE, offering top-quality equipment and support for construction, industrial, and event needs.",
+  "email": "contact@spheavyrental.ae",
+  "phone": "+971 43316688",
+  "phoneTel": "+97143316688",
+  "whatsapp": "+971504018624",
+  "whatsappUrl": "https://wa.me/971504018624?text=Hello",
+  "logo": "/wp-content/uploads/2025/06/logo@2x.webp",
+  "logoSvg": "/wp-content/uploads/2025/06/logo.svg",
+  "ogImage": "/wp-content/uploads/2026/01/PHOTO-2026-01-07-10-35-07.jpg",
+  "favicon": "/wp-content/uploads/2026/01/output-onlinepngtools-Picsart-BackgroundChanger-150x150.png",
+  "appleTouchIcon": "/wp-content/uploads/2026/01/output-onlinepngtools-Picsart-BackgroundChanger-e1767787044178.png",
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#54595F",
+    "text": "#767676",
+    "accent": "#DF790D",
+    "yellow": "#FFDD04",
+    "white": "#FFFFFF"
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Services",
+      "href": "/services/",
+      "children": [
+        {
+          "label": "Heavy Machinery Rental",
+          "href": "/heavy-machinery-rental/",
+          "children": [
+            {
+              "label": "Forklift Rental",
+              "href": "/heavy-machinery-rental/forklift-rental/"
+            }
+          ]
+        },
+        {
+          "label": "Construction Equipment Rental",
+          "href": "/construction-equipment-rental/"
+        },
+        {
+          "label": "Generator Rental",
+          "href": "/generator-rental/"
+        },
+        {
+          "label": "Scaffold Rental",
+          "href": "/scaffold-rental/"
+        }
+      ]
+    },
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact-us/"
+    }
+  ],
+  "footerServices": [
+    {
+      "label": "Generator Rental",
+      "href": "/generator-rental/"
+    },
+    {
+      "label": "Heavy Machinery Rental",
+      "href": "/heavy-machinery-rental/"
+    },
+    {
+      "label": "Construction Equipment Rental",
+      "href": "/construction-equipment-rental/"
+    },
+    {
+      "label": "Scaffold Rental",
+      "href": "/scaffold-rental/"
+    }
+  ],
+  "footerQuickLinks": [
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact-us/"
+    }
+  ]
+}

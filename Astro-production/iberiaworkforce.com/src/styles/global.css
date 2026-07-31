@@ -1,6 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-brand-50: #eef2f7;
+  --color-brand-100: #d5deea;
+  --color-brand-200: #aabdd3;
+  --color-brand-300: #7593b4;
+  --color-brand-400: #456d94;
+  --color-brand-500: #294f77;
+  --color-brand-600: #1e3d5e;
+  --color-brand-700: #182f49;
+  --color-brand-800: #152b47;
+  --color-brand-900: #0f2036;
+  --color-brand-950: #0a1626;
+
+  --color-accent: #e07a52;
+  --color-accent-light: #ec9576;
+  --color-accent-dark: #c15f38;
+
+  --color-ink: #152b47;
+  --color-muted: #5b6b82;
+  --color-line: #e5e9f0;
+
+  --font-sans: 'Inter Variable', Inter, system-ui, sans-serif;
+  --max-width-container: 1180px;
+  --shadow-card: 0 1px 3px rgba(10, 31, 61, 0.06), 0 8px 24px -12px rgba(10, 31, 61, 0.18);
+}
 
 @layer base {
   html {
@@ -10,7 +35,10 @@
   body {
     @apply bg-white text-ink font-sans antialiased;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-sans tracking-tight text-brand-800;
     text-wrap: balance;
   }
@@ -25,16 +53,22 @@
   }
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
-           transition-colors duration-150 focus-visible:ring-offset-2;
+      transition-colors duration-150 focus-visible:ring-offset-2;
   }
   .btn-primary {
-    @apply btn bg-accent text-white hover:bg-accent-dark;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
+      transition-colors duration-150 focus-visible:ring-offset-2
+      bg-accent text-white hover:bg-accent-dark;
   }
   .btn-ghost {
-    @apply btn bg-white text-brand-800 ring-1 ring-line hover:bg-brand-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
+      transition-colors duration-150 focus-visible:ring-offset-2
+      bg-white text-brand-800 ring-1 ring-line hover:bg-brand-50;
   }
   .btn-light {
-    @apply btn bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/20;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
+      transition-colors duration-150 focus-visible:ring-offset-2
+      bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/20;
   }
   .eyebrow {
     @apply text-sm font-semibold uppercase tracking-wider text-accent;

@@ -1,0 +1,298 @@
+/**
+ * Sitemap data layer — Rank Math–style pages/posts for the SEO dashboard
+ * and public /sitemap_index.xml endpoints.
+ *
+ * Prefer src/data/sitemap-urls.json (synced from live via `npm run sitemap:sync`).
+ * Fall back to pages.json / posts.json when the sync file is missing.
+ */
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { parse } from 'yaml';
+import { pages as contentPages, posts as contentPosts } from '../content.ts';
+import {
+  EXCLUDED_PAGE_SLUGS,
+  SITEMAP_ENTRY_LIMIT,
+  type SitemapEntry,
+} from './sitemap-config.ts';
+import {
+  pathFromSitemapUrl,
+  readSitemapOverridesSync,
+  type SitemapOverride,
+} from './sitemap-overrides-store.ts';
+import { resolveSiteOrigin, type ResolveSiteOriginOptions } from './site-url.ts';
+import {
+  chunkEntries,
+  dedupeEntries,
+  isIndexableRobots,
+  normaliseCanonicalPath,
+  pickLastmod,
+  resolveSitemapLoc,
+  sitemapChunkFilename,
+  sortEntries,
+} from './sitemap-utils.ts';
+import { buildIndexItemsFromChunks, type SitemapIndexItem } from './sitemap-xml.ts';
+
+const ROOT = process.cwd();
+const SITEMAP_URLS_FILE = join(ROOT, 'src/data/sitemap-urls.json');
+const REDIRECTS_FILE = join(ROOT, 'src/data/redirects.yml');
+
+export type SitemapDataOptions = ResolveSiteOriginOptions & {
+  entryLimit?: number;
+  /** INTERNAL_ADMIN_DIR — when set, merge dashboard priority/changefreq overrides. */
+  adminDir?: string;
+};
+
+type LiveSitemapFile = {
+  source?: string;
+  fetchedAt?: string;
+  pages?: Array<{ path: string; type?: string; lastmod?: string }>;
+  posts?: Array<{ path: string; type?: string; lastmod?: string }>;
+};
+
+function loadRedirectSources(): Set<string> {
+  const sources = new Set<string>();
+  if (!existsSync(REDIRECTS_FILE)) return sources;
+  try {
+    const data = parse(readFileSync(REDIRECTS_FILE, 'utf8')) ?? {};
+    const list = Array.isArray(data.redirects) ? data.redirects : [];
+    for (const row of list) {
+      if (!row?.from) continue;
+      const from = String(row.from);
+      const path = from.startsWith('http')
+        ? (() => {
+            try {
+              return new URL(from).pathname;
+            } catch {
+              return from;
+            }
+          })()
+        : from;
+      const normalised = normaliseCanonicalPath(path);
+      if (normalised) sources.add(normalised);
+    }
+  } catch {
+    // ignore malformed redirects file
+  }
+  return sources;
+}
+
+function readLiveSitemapFile(): LiveSitemapFile | null {
+  if (!existsSync(SITEMAP_URLS_FILE)) return null;
+  try {
+    return JSON.parse(readFileSync(SITEMAP_URLS_FILE, 'utf8')) as LiveSitemapFile;
+  } catch {
+    return null;
+  }
+}
+
+function robotsString(robots?: { index?: string; follow?: string } | string | null): string | null {
+  if (!robots) return null;
+  if (typeof robots === 'string') return robots;
+  return [robots.index, robots.follow].filter(Boolean).join(', ') || null;
+}
+
+function applyOverrides(
+  entries: SitemapEntry[],
+  siteOrigin: string,
+  overrides: Record<string, SitemapOverride>,
+): SitemapEntry[] {
+  if (!Object.keys(overrides).length) return entries;
+  return entries.map((entry) => {
+    const path = pathFromSitemapUrl(entry.url, siteOrigin);
+    if (!path) return entry;
+    const override = overrides[path];
+    if (!override) return entry;
+    return {
+      ...entry,
+      ...(override.priority != null ? { priority: override.priority } : {}),
+      ...(override.changefreq ? { changefreq: override.changefreq } : {}),
+    };
+  });
+}
+
+function entriesFromLiveRows(
+  rows: Array<{ path: string; lastmod?: string }> | undefined,
+  type: 'page' | 'post',
+  siteOrigin: string,
+  redirectSources: Set<string>,
+): SitemapEntry[] {
+  if (!rows?.length) return [];
+  const entries: SitemapEntry[] = [];
+  for (const row of rows) {
+    const path = normaliseCanonicalPath(row.path);
+    if (!path) continue;
+    if (redirectSources.has(path)) continue;
+    const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
+    if (type === 'page' && EXCLUDED_PAGE_SLUGS.has(slug.split('/')[0] || '')) continue;
+
+    const url = resolveSitemapLoc(path, path, siteOrigin);
+    if (!url) continue;
+    entries.push({
+      url,
+      lastmod: pickLastmod(row.lastmod),
+      type,
+    });
+  }
+  return entries;
+}
+
+function entriesFromContentPages(
+  siteOrigin: string,
+  redirectSources: Set<string>,
+): SitemapEntry[] {
+  const entries: SitemapEntry[] = [];
+  for (const page of contentPages) {
+    const path = normaliseCanonicalPath(page.path || `/${page.slug}/`);
+    if (!path) continue;
+    const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
+    const topSlug = slug.split('/')[0] || '';
+    if (EXCLUDED_PAGE_SLUGS.has(topSlug)) continue;
+    if (redirectSources.has(path)) continue;
+    if (!isIndexableRobots(robotsString(page.seo?.robots))) continue;
+
+    const canonical = page.seo?.canonical || path;
+    const url = resolveSitemapLoc(path, canonical || path, siteOrigin);
+    if (!url) continue;
+    entries.push({
+      url,
+      lastmod: pickLastmod(page.modified, page.date),
+      type: 'page',
+    });
+  }
+  return entries;
+}
+
+function entriesFromContentPosts(
+  siteOrigin: string,
+  redirectSources: Set<string>,
+): SitemapEntry[] {
+  const entries: SitemapEntry[] = [];
+  for (const post of contentPosts) {
+    const path = normaliseCanonicalPath(post.path || `/${post.slug}/`);
+    if (!path) continue;
+    if (redirectSources.has(path)) continue;
+    if (!isIndexableRobots(robotsString(post.seo?.robots))) continue;
+
+    const canonical = post.seo?.canonical || path;
+    const url = resolveSitemapLoc(path, canonical || path, siteOrigin);
+    if (!url) continue;
+    entries.push({
+      url,
+      lastmod: pickLastmod(post.modified, post.date),
+      type: 'post',
+    });
+  }
+  return entries;
+}
+
+/** Discover static marketing page slugs (legacy helper kept for tests). */
+export function listStaticPageSlugs(): string[] {
+  const live = readLiveSitemapFile();
+  if (live?.pages?.length) {
+    return live.pages
+      .map((row) => {
+        const path = normaliseCanonicalPath(row.path);
+        if (!path) return null;
+        if (path === '/') return '';
+        return path.replace(/^\/|\/$/g, '');
+      })
+      .filter((s): s is string => s != null)
+      .sort((a, b) => a.localeCompare(b));
+  }
+  return contentPages
+    .map((p) => {
+      const path = normaliseCanonicalPath(p.path || `/${p.slug}/`);
+      if (!path) return null;
+      if (path === '/') return '';
+      return path.replace(/^\/|\/$/g, '');
+    })
+    .filter((s): s is string => s != null)
+    .sort((a, b) => a.localeCompare(b));
+}
+
+export function collectPageEntries(
+  siteOrigin: string,
+  overrides: Record<string, SitemapOverride> = {},
+): SitemapEntry[] {
+  const redirectSources = loadRedirectSources();
+  const live = readLiveSitemapFile();
+  const entries = live?.pages?.length
+    ? entriesFromLiveRows(live.pages, 'page', siteOrigin, redirectSources)
+    : entriesFromContentPages(siteOrigin, redirectSources);
+  return sortEntries(dedupeEntries(applyOverrides(entries, siteOrigin, overrides)));
+}
+
+export function collectPostEntries(
+  siteOrigin: string,
+  overrides: Record<string, SitemapOverride> = {},
+): SitemapEntry[] {
+  const redirectSources = loadRedirectSources();
+  const live = readLiveSitemapFile();
+  const entries = live?.posts?.length
+    ? entriesFromLiveRows(live.posts, 'post', siteOrigin, redirectSources)
+    : entriesFromContentPosts(siteOrigin, redirectSources);
+  return sortEntries(dedupeEntries(applyOverrides(entries, siteOrigin, overrides)));
+}
+
+export type SitemapDataset = {
+  siteOrigin: string;
+  entryLimit: number;
+  pages: SitemapEntry[];
+  posts: SitemapEntry[];
+  pageChunks: SitemapEntry[][];
+  postChunks: SitemapEntry[][];
+  indexItems: SitemapIndexItem[];
+  sourceLabel?: string;
+};
+
+export function buildSitemapDataset(options: SitemapDataOptions = {}): SitemapDataset {
+  const siteOrigin = resolveSiteOrigin(options);
+  const entryLimit = options.entryLimit ?? SITEMAP_ENTRY_LIMIT;
+  const overrides = options.adminDir
+    ? readSitemapOverridesSync(options.adminDir).entries
+    : {};
+  const live = readLiveSitemapFile();
+  const pages = collectPageEntries(siteOrigin, overrides);
+  const posts = collectPostEntries(siteOrigin, overrides);
+  const pageChunks = chunkEntries(pages, entryLimit);
+  const postChunks = chunkEntries(posts, entryLimit);
+  const indexItems = buildIndexItemsFromChunks(
+    siteOrigin,
+    pageChunks,
+    postChunks,
+    sitemapChunkFilename,
+  );
+
+  return {
+    siteOrigin,
+    entryLimit,
+    pages,
+    posts,
+    pageChunks,
+    postChunks,
+    indexItems,
+    sourceLabel: live?.source
+      ? `Synced from ${live.source}${live.fetchedAt ? ` (${live.fetchedAt})` : ''}`
+      : 'Discovered from pages.json / posts.json',
+  };
+}
+
+export function getPageChunk(
+  chunkNumber: number,
+  options: SitemapDataOptions = {},
+): SitemapEntry[] | null {
+  if (!Number.isInteger(chunkNumber) || chunkNumber < 1) return null;
+  const { pageChunks } = buildSitemapDataset(options);
+  const chunk = pageChunks[chunkNumber - 1];
+  return chunk && chunk.length > 0 ? chunk : null;
+}
+
+export function getPostChunk(
+  chunkNumber: number,
+  options: SitemapDataOptions = {},
+): SitemapEntry[] | null {
+  if (!Number.isInteger(chunkNumber) || chunkNumber < 1) return null;
+  const { postChunks } = buildSitemapDataset(options);
+  const chunk = postChunks[chunkNumber - 1];
+  return chunk && chunk.length > 0 ? chunk : null;
+}
