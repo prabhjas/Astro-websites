@@ -1,8 +1,10 @@
 # Astro-websites fleet docs
 
+Start with the root **[README.md](../README.md)** (architecture, install, CMS, local fleet).
+
 | Doc | Purpose |
 |-----|---------|
-| **[CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md)** | **Share this** — full guide to convert/add a site (forms, geo, flags, security, server) |
+| **[CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md)** | Convert/add a site + FLOW API detail |
 | [16-server-side-work.md](16-server-side-work.md) | Server overview (units, ports, Tier 1/2) |
 | [17-local-fleet-test.md](17-local-fleet-test.md) | Local pnpm fleet runner + smoke tests |
 | [18-server-ops-only.md](18-server-ops-only.md) | Root/host checklist only |
