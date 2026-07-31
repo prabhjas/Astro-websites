@@ -81,7 +81,8 @@ const label = 'block text-sm font-medium text-ink';
     data.landed_url = location.href;
 
     try {
-      const res = await fetch('/api/contact/', {
+      // Live Caddy currently proxies /api/lead only (full reverse-proxy pending Tier 1).
+      const res = await fetch('/api/lead/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
