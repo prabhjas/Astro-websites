@@ -1,60 +1,66 @@
 # Root / ops setup — evolutionmiddleast.com
 
 App tree: `/opt/Astro-production/evolutionmiddleast.com`  
-Unit name: `evolutionmiddleast` · PORT **5080**  
-Fleet contract: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · execution: `docs/15-platform-work-plan.md`
+Unit name: `evolutionmiddleast` · PORT **5080** · Unix user: **`site-evolutionmiddleast`**  
+Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates in this folder are the **target** Tier 1 shape. Applying them needs root and must be coordinated with the other three sites (same day for Caddy split / users).
+Templates here match **live Tier 1** (2026-07-31): non-root unit, required `.env.prod`, Caddy `http://`+`https://`+`tls internal`.
 
-## 1. Site unix user (Tier 1)
+## 1. Site unix user
 
 ```bash
 groupadd --system site-evolutionmiddleast
 useradd --system --gid site-evolutionmiddleast --home-dir /opt/Astro-production/evolutionmiddleast.com \
   --shell /usr/sbin/nologin site-evolutionmiddleast
-# Ownership so the service can read code + write .data (adjust as needed)
-chown -R site-evolutionmiddleast:site-evolutionmiddleast /opt/Astro-production/evolutionmiddleast.com/.data
-# .env.prod must be readable by the service user (mode 600, group or ACL as you prefer)
+mkdir -p /opt/Astro-production/evolutionmiddleast.com/.data /var/evolutionmiddleast/enhanced-live
+chown -R site-evolutionmiddleast:site-evolutionmiddleast \
+  /opt/Astro-production/evolutionmiddleast.com/.data /var/evolutionmiddleast/enhanced-live
 ```
 
-## 2. Install / upgrade systemd unit
+## 2. Env (two files — do not merge)
+
+| File | Mode / owner | Contents |
+|------|----------------|----------|
+| `.env.prod` | `root:site-evolutionmiddleast` **0640** | Runtime secrets (Pipedrive, SMTP, `INTERNAL_JOB_SECRET`, …). **Required** by systemd (`EnvironmentFile=` with **no** leading `-`). |
+| `.env` | `root:webdev` **0644** | Build-only, **no secrets** — at least `PUBLIC_SITE_URL` / `SITE_URL` so `pnpm build` gets correct canonicals. |
+
+Never put `HOST`/`PORT` in either file (unit sets them). LF only.
+
+```bash
+# After creating .env.prod from secrets:
+chown root:site-evolutionmiddleast /opt/Astro-production/evolutionmiddleast.com/.env.prod
+chmod 640 /opt/Astro-production/evolutionmiddleast.com/.env.prod
+```
+
+## 3. Systemd
 
 ```bash
 cp /opt/Astro-production/evolutionmiddleast.com/deploy/evolutionmiddleast.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl restart evolutionmiddleast
-systemctl show evolutionmiddleast -p User,MemoryMax,ExecStart --no-pager
+systemctl enable --now evolutionmiddleast
+systemctl show evolutionmiddleast -p User,MemoryMax,EnvironmentFiles,ExecStart --no-pager
 ```
 
-Confirm `User=site-evolutionmiddleast` and `MemoryMax=268435456` (256M). Smoke:
+Expect `User=site-evolutionmiddleast`, `MemoryMax=268435456`, `EnvironmentFiles=…/.env.prod (ignore_errors=no)`.
+
+## 4. Caddy
 
 ```bash
-curl -sS http://127.0.0.1:5080/api/health
-sudo site-ctl restart evolutionmiddleast   # if site-ctl still allowed for webdev
+cp deploy/evolutionmiddleast.com.caddy /etc/caddy/sites.d/
+# Main Caddyfile: import /etc/caddy/sites.d/*.caddy
+# Keep Caddyfile readable by the caddy user/group (reload failed quietly when root:root dropped the group).
+caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-## 3. Caddy (prefer sites.d)
+Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+
+## 5. Deploy / build (webdev)
 
 ```bash
-# After fleet Caddy split:
-cp deploy/Caddyfile.snippet /etc/caddy/sites.d/evolutionmiddleast.com.caddy
-caddy validate --config /etc/caddy/Caddyfile
-systemctl reload caddy
+cd /opt/Astro-production   # fleet pnpm workspace root
+pnpm --filter evolutionmiddleast-astro run build
+sudo site-ctl restart evolutionmiddleast
+curl -sS http://127.0.0.1:5080/api/health/
 ```
 
-Ensure access log directory exists and is writable by caddy.
-
-## 4. Env
-
-- Edit `.env.prod` only: secrets, `INTERNAL_JOB_SECRET`, Pipedrive, paths.
-- **Do not** put `HOST`/`PORT` in `.env.prod` (unit sets them).
-- LF line endings only; `chmod 600`.
-
-## Port map (fleet)
-
-| Site | PORT |
-|------|------|
-| evolutionmiddleast | 5080 |
-| cbss | 5081 |
-| spheavyrental | 5082 |
-| iberiaworkforce | confirm on host |
+Preserve on sync: `.env.prod`, `.data/`. Builds read non-secret `.env` only — webdev never needs Pipedrive/SMTP from prod.

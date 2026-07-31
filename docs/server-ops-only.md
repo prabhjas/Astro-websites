@@ -1,26 +1,26 @@
 # Server-only ops (Astro host)
 
 **Do this on the box:** `ssh astro-connectgroup` → `webdev@178.105.150.67`  
-**Needs root** for users, units, Caddy, backups (webdev only has `sudo site-ctl`).  
-**App/code is ready in git** — this file is only what **cannot** be finished on a laptop.
+**Needs root** for users, units, Caddy, backups (webdev has `sudo site-ctl` for restarts).  
+**App/code** lives in this monorepo; deploy templates under each site’s `deploy/`.
 
-Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](local-fleet-test.md) · each site `deploy/`
-
-**Deferred for now:** pulling Iberia `.env` (root:root 600) — leave until ops unlocks readability.
+Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](local-fleet-test.md) · each site `deploy/ROOT_SETUP.md`
 
 ---
 
-## Live facts (as of last check)
+## Live facts (as of 2026-07-31 root ops)
 
-| Check | Live state | Target |
-|-------|------------|--------|
-| Unit `User=` | empty → **root** | `site-<name>` |
-| `MemoryMax` | infinity | `256M` |
-| Caddy | one big Caddyfile (+ `.bak`s) | `sites.d/*.caddy` + `import` |
-| Backups | `e2scrub_all` only | restic/borg off-box |
-| Iberia ExecStart | `node dist/server/entry.mjs` (good) but port **5075**, env root-only | port **5083**, `.env.prod` for site user |
-| SP Heavy unit | **inactive / missing** | install from `deploy/spheavyrental.service` |
-| `site-ctl` ALLOWED | missing `spheavyrental` | all 4 names |
+| Check | Live state |
+|-------|------------|
+| Unit `User=` | `site-*` (non-root) on all 4 |
+| `MemoryMax` | `256M` + `ProtectSystem=strict` |
+| Caddy | `/etc/caddy/sites.d/*.caddy` (`http://`+`https://`+`tls internal`) |
+| Iberia | Port **5083**, full reverse proxy (`/api/contact`, `/api/health` public) |
+| SP Heavy unit | Installed + in `site-ctl` — **public DNS still WordPress** until Cloudflare points apex at this host |
+| Backups | Still open — need destination for restic |
+| Env | `.env.prod` `root:site-*` **0640**; build `.env` `root:webdev` **0644** (`PUBLIC_SITE_URL` only) |
+
+Ops write-up on host: `/root/ROOT-OPS-20260731.md` · backup: `/root/ops-backup-20260731_rootops/`.
 
 ---
 
@@ -33,185 +33,64 @@ Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](loc
 | spheavyrental.ae | `spheavyrental` | 5082 | `site-spheavyrental` | `Astro-production/spheavyrental.ae/deploy/` |
 | iberiaworkforce.com | `iberiaworkforce` | 5083 | `site-iberiaworkforce` | `Astro-production/iberiaworkforce.com/deploy/` |
 
-Confirm free ports before swapping Iberia **5075 → 5083**.
+---
+
+## Deploy templates — do not “simplify”
+
+Copying templates **verbatim** caused (or would cause) outages. Repo templates now match live:
+
+1. **Caddy** — never use bare `example.com { … }` behind Cloudflare Flexible (auto-HTTPS 301 `:80→:443` loop). Use:
+   `http://…, https://… { tls internal … }`
+2. **systemd** — `EnvironmentFile=/path/.env.prod` **without** a leading `-`. Optional file boots the site with empty Pipedrive/SMTP and **silently drops leads**. Create `.env.prod` first, then enable the unit.
+3. Cloudflare origin SSL: **Full**, not Full strict, while origin uses `tls internal`.
+4. Keep `/etc/caddy/Caddyfile` readable by the `caddy` group — `root:root` 0600 made `reload` fail while old config stayed live.
 
 ---
 
-## A. Sync code from git (webdev, after push)
+## Env model (builds vs runtime)
+
+| File | Who reads it | Contents |
+|------|----------------|----------|
+| `.env` | webdev / `pnpm build` | Non-secret `PUBLIC_SITE_URL` (and `SITE_URL` if needed). Wrong/missing value silently wrongs canonicals. |
+| `.env.prod` | systemd site user only | Secrets. Not world-/webdev-readable. |
+
+Local laptop: use gitignored `.env` with secrets for form/Pipedrive smoke. Do **not** expect to `cat` production `.env.prod` over SSH as webdev.
+
+---
+
+## A. Sync code (webdev)
 
 ```bash
-# On laptop (Connect Group GitHub):
-#   git push origin work/astro-sites   # or merge to main first
+# Preserve on sync:
+#   */.env.prod  */.data/  */.env (build PUBLIC_SITE_URL)
 
-# On server — preserve secrets + lead data:
 cd /opt/Astro-production
-# Prefer: git pull / rsync from CI — DO NOT overwrite:
-#   */.env.prod  */.data/  (and any live .env until migrated)
-```
-
-Then per site (or fleet pnpm workspace when synced to this host):
-
-```bash
-cd /opt/Astro-production/<domain>
-pnpm install && pnpm run build    # or npm ci && npm run build until pnpm on host
+pnpm install   # workspace + packages/site-cms
+pnpm --filter <pkg> run build
 sudo site-ctl restart <unit>
 curl -sS http://127.0.0.1:<PORT>/api/health/
 ```
 
 ---
 
-## B. Tier 1 — systemd isolation (root) — **highest value**
+## B. Still open (root / Cloudflare)
 
-For **each** of the 4 sites:
-
-### B1. Create user
-
-```bash
-useradd --system --home /opt/Astro-production/<domain> --shell /usr/sbin/nologin site-<name>
-# names: site-evolutionmiddleast | site-cbss | site-spheavyrental | site-iberiaworkforce
-```
-
-### B2. Env + data ownership
-
-```bash
-# Prefer fleet shape:
-#   .env.prod  mode 600, owned by site user (or group-readable)
-#   no HOST/PORT inside .env.prod
-#   LF line endings only
-mkdir -p /opt/Astro-production/<domain>/.data
-chown -R site-<name>:site-<name> /opt/Astro-production/<domain>/.data
-# Migrate secrets from old root-owned .env → .env.prod, then lock down
-```
-
-### B3. Install unit from repo template
-
-```bash
-cp /opt/Astro-production/<domain>/deploy/<unit>.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now <unit>
-systemctl show <unit> -p User,MemoryMax,CPUQuotaPerSecUSec,ExecStart
-# Expect: User=site-…  MemoryMax=268435456  ExecStart=… node …entry.mjs
-```
-
-### B4. Smoke
-
-```bash
-curl -sS http://127.0.0.1:<PORT>/api/health/
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:<PORT>/
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:<PORT>/this-should-404-fleet-test/
-```
-
-### B5. Iberia-specific cutover
-
-- [ ] Confirm not running `astro dev`
-- [ ] Switch listen port **5075 → 5083** (unit + Caddy together)
-- [ ] RSS ~100–120 MB peer range (not ~246 MB)
-- [ ] Homepage + `/api/health` + contact smoke on public hostname after Caddy
-
-### B6. site-ctl allowlist
-
-```bash
-# /usr/local/sbin/site-ctl
-ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental"
-```
+| Item | Who |
+|------|-----|
+| Point `spheavyrental.ae` (+ `www`) DNS at `178.105.150.67`, SSL Full | Cloudflare |
+| Off-box restic backups + restore drill | Root — needs destination from Aaron |
+| Kill stale root-owned `astro dev`/`preview` processes | Root (PIDs in ops write-up) |
 
 ---
 
-## C. Tier 1 — split Caddyfile (root)
+## C. Smoke (every site after change)
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
-cp /opt/Astro-production/evolutionmiddleast.com/deploy/evolutionmiddleast.com.caddy /etc/caddy/sites.d/
-cp /opt/Astro-production/cbss.ae/deploy/cbss.ae.caddy /etc/caddy/sites.d/
-cp /opt/Astro-production/spheavyrental.ae/deploy/spheavyrental.ae.caddy /etc/caddy/sites.d/
-cp /opt/Astro-production/iberiaworkforce.com/deploy/iberiaworkforce.com.caddy /etc/caddy/sites.d/
-```
-
-Main `/etc/caddy/Caddyfile` should reduce to shared defaults +:
-
-```caddy
-import /etc/caddy/sites.d/*.caddy
-```
-
-**Always:**
-
-```bash
-caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
-```
-
-- [ ] Remove/archive old monolithic site blocks (keep a dated backup outside the live path)
-- [ ] Delete stale `.bak` files once validate+reload is proven
-- [ ] Confirm all 4 public hostnames return 200
-
-Optional: wrap reload in a tiny script that refuses reload if validate fails.
-
----
-
-## D. Tier 1 — off-box backups (root + Aaron)
-
-- [ ] Choose destination (S3 / B2 / remote VPS) — **ask Aaron**
-- [ ] Install restic (or borg)
-- [ ] First snapshot:
-  - `/opt/Astro-production/` (includes `.env.prod` + `.data` — encrypt repo)
-  - `/etc/caddy/`
-  - `/etc/systemd/system/{evolutionmiddleast,cbss,iberiaworkforce,spheavyrental}.service`
-- [ ] Nightly timer
-- [ ] Monthly restore drill documented
-
-Without this, every other Tier 1 win is still “recoverable in minutes” only if disks survive.
-
----
-
-## E. P1 on host — pnpm (after Tier 1 or in parallel)
-
-- [ ] `corepack enable && corepack prepare pnpm@9.15.9 --activate`
-- [ ] Sync monorepo/`pnpm-workspace.yaml` + `pnpm-lock.yaml` to the deploy root layout you choose
-- [ ] `pnpm install` once; rebuild sites; restart units
-- [ ] Do **not** hoist one shared `node_modules` for all domains
-
----
-
-## F. Public smoke (after each change)
-
-```bash
-BASE=https://www.<domain>   # or apex
+BASE=https://www.<domain>   # or apex — match PUBLIC_SITE_URL
 curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/"
 curl -sS "$BASE/api/health/"
 curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/this-should-404-fleet-test"
+# Forms: POST /api/contact/ (Iberia also /api/lead/)
 ```
 
----
-
-## G. Later (not this week)
-
-| Item | When |
-|------|------|
-| `@connect/site-cms` + canary rollout | After Tier 1 green |
-| SSR vs static inventory (~40 domains) | Before site #10 SSR |
-| Shard to 3–4 hosts | After ~10 SSR |
-| CDN/object storage for pure static | With inventory |
-| Iberia `.env` pull for local Pipedrive parity | When root grants webdev read / migrates to `.env.prod` |
-
----
-
-## H. Open with Aaron before starting
-
-1. Backup destination + who holds credentials  
-2. Confirm unix user names (`site-evolutionmiddleast` vs short)  
-3. Who applies units / Caddy (root session vs expanded sudo)  
-4. Iberia port move 5075 → 5083 maintenance window  
-5. Order: **units + Iberia process → Caddy split → backups**
-
----
-
-## Checklist summary (server)
-
-- [ ] **B** systemd Tier 1 for all 4 (users, MemoryMax, non-root)
-- [ ] **B5** Iberia port/process cutover
-- [ ] **B6** site-ctl includes `spheavyrental`
-- [ ] **C** Caddy `sites.d` + validate-before-reload
-- [ ] **D** restic off-box + restore drill
-- [ ] **A/E** sync fleet build + pnpm on host
-- [ ] **F** public smoke all 4 hostnames
-
-**Local is done enough to stop.** Everything above is host/root work.
+SP Heavy: until Cloudflare cutover, smoke **loopback** only (`127.0.0.1:5082`).

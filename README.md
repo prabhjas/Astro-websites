@@ -58,7 +58,8 @@ systemd unit per site          ← node dist/server/entry.mjs  (NOT astro dev)
     ▼
 Astro-production/<domain>/
     ├── dist/                  ← build output
-    ├── .env.prod              ← secrets (no HOST/PORT)
+    ├── .env                   ← build-only PUBLIC_SITE_URL (no secrets; webdev-readable on host)
+    ├── .env.prod              ← runtime secrets for systemd (no HOST/PORT)
     └── .data/                 ← leads / uploads (not in git)
 ```
 
@@ -224,15 +225,15 @@ pnpm --filter iberiaworkforce-astro run start   # needs HOST/PORT in env or use 
 
 Each production site has `deploy/`:
 
-- `*.service` — systemd unit (`User=site-*`, `MemoryMax`, `PORT`, `entry.mjs`)
-- `*.caddy` — reverse proxy snippet
+- `*.service` — systemd unit (`User=site-*`, `MemoryMax`, **required** `EnvironmentFile=…/.env.prod` with **no** leading `-`)
+- `*.caddy` — `http://` + `https://` + `tls internal` (not bare hostnames — Cloudflare Flexible redirect loop)
 - `ROOT_SETUP.md` — host notes
 
-**Authoritative host checklist (needs root):** [docs/server-ops-only.md](docs/server-ops-only.md)
+**Authoritative host checklist:** [docs/server-ops-only.md](docs/server-ops-only.md)
 
-Still typically pending on the live box: non-root units + MemoryMax, Caddy `sites.d` split, off-box backups, Iberia port cutover, SP Heavy unit enable.
+Tier 1 (users, MemoryMax, Caddy `sites.d`, Iberia 5083) is live as of 2026-07-31. Still open: off-box backups; SP Heavy **Cloudflare DNS** cutover to this host.
 
-Preserve on deploy: `.env.prod`, `.data/`. Do not overwrite with empty laptop files.
+Preserve on deploy: `.env.prod`, `.data/`, and the non-secret `.env` (`PUBLIC_SITE_URL`). Do not overwrite with empty laptop files.
 
 ---
 

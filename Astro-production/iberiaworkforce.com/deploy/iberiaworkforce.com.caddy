@@ -1,8 +1,10 @@
 # /etc/caddy/sites.d/iberiaworkforce.com.caddy
-# Prefer: import /etc/caddy/sites.d/*.caddy  (fleet standard §6.3)
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Full reverse proxy to Node (not static + /api/lead only).
 # Validate before reload: caddy validate --config /etc/caddy/Caddyfile
 
-iberiaworkforce.com, www.iberiaworkforce.com {
+http://iberiaworkforce.com, http://www.iberiaworkforce.com, https://iberiaworkforce.com, https://www.iberiaworkforce.com {
+	tls internal
 	encode gzip zstd
 	reverse_proxy 127.0.0.1:5083
 	header {
