@@ -4,6 +4,7 @@ Start with the root **[README.md](../README.md)** (architecture, install, CMS, l
 
 | Doc | Purpose |
 |-----|---------|
+| **[CONNECT-FLOW-SITE-ONBOARDING.md](CONNECT-FLOW-SITE-ONBOARDING.md)** | **Share with Cursor** — clone → fleet → FLOW CMS (full standard) |
 | **[CURSOR-CONVERT-STATIC-TO-ASTRO.md](CURSOR-CONVERT-STATIC-TO-ASTRO.md)** | **Share with Cursor** — convert WP/static site into this fleet |
 | **[CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md)** | **Share with Cursor** — clone, install, run sites locally |
 | **[CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md)** | **Share with Cursor** — scan WP clones for malware / injects |
