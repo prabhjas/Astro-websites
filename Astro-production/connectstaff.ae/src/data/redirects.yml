@@ -1,0 +1,42 @@
+# Connect Staff - canonical redirects (SEO / migration)
+# Merged from imports/redirects/2026-08-03-redirection-log.csv (mode: merge)
+redirects:
+  - from: /__trashed-2/
+    to: /termination-law-in-uae/
+    status: 301
+  - from: /blog/page/14/
+    to: /blog/
+    status: 301
+  - from: /complete-guide-new-labour-law-uae-2023/
+    to: /complete-guide-new-labour-law-uae/
+    status: 301
+  - from: /enjoy-4-extended-weekends-and-13-days-off-with-uae-public-holidays/
+    to: /uae-holidays/
+    status: 301
+  - from: /how-to-calculate-annual-leave-salary-in-the-uae-for-outsourced-staff/
+    to: /calculate-annual-leave-salary-for-outsourced-staff/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /sick-leave-uae-a-comprehensive-guide-for-employers-employees/
+    to: /sick-leave-uae/
+    status: 301
+  - from: /top-10-recruitment-agencies-in-uae-detailed-reference/
+    to: /top-recruitment-agencies-in-uae/
+    status: 301
+  - from: /types-of-leaves-employees-can-avail-in-2023/
+    to: /types-of-leaves-employees-can-avail-in-2024/
+    status: 301
+  - from: /types-of-leaves-employees-can-avail-in-2024/
+    to: /types-of-leaves-employees-can-avail-in-2025/
+    status: 301
+  - from: /what-are-the-global-staffing-trends-in-2022-temporary-service-agency/
+    to: /what-are-the-global-staffing-trends-in-2025-temporary-service-agency/
+    status: 301
+  - from: /your-practical-guide-to-corporate-tax-in-the-uae/
+    to: /corporate-tax-uae/
+    status: 301

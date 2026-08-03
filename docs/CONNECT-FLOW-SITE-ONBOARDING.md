@@ -87,7 +87,7 @@ For FLOW “see posts, sitemap, redirects, GTM on this domain” you almost alwa
 
 ### Step B — Register in the fleet
 
-Edit `scripts/fleet-sites.json` — next free port (**5086+** as of connectgroup.co on 5085):
+Edit `scripts/fleet-sites.json` — next free port (**5085+** after connectstaff.ae on 5084; eormiddleast uses **5090**; confirm against §7 and the live host):
 
 ```json
 {
@@ -371,13 +371,13 @@ Astro-production/<domain>/
 | cbss | cbss.ae | 5081 |
 | spheavyrental | spheavyrental.ae | 5082 |
 | iberiaworkforce | iberiaworkforce.com | 5083 |
-| connecthr | connecthr.ae | 5084 |
-| connectgroup | connectgroup.co | 5085 |
-| cuae | c-uae.com | 5092 |
+| connectstaff | connectstaff.ae | 5084 |
+| connecthr | connecthr.ae | 5085 *(host / planned)* |
+| connectgroup | connectgroup.co | 5086 *(host / planned)* |
 | eormiddleast | eormiddleast.com | 5090 |
+| cuae | c-uae.com | 5092 |
 
-Next free: **5087+** (skip **5090** eormiddleast, **5092** cuae).
-
+Next free in `scripts/fleet-sites.json` (this monorepo): **5087+** for new sites (avoid **5090** eormiddleast, **5092** cuae); on the production host follow the table above and pick the next unused loopback port.
 ---
 
 ## 8. What not to do

@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+.astro/
+
+# Env
+.env
+.env.*
+!.env.example
+.data/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+.tmp-*
+
+# WP Rocket / export junk
+*_gzip
+*.bak*
+source/wordpress-exports/**/index-https (1).html
+
+# IMPORTANT: Do NOT ignore public/wp-content or public/wp-includes.
+# Local media/assets must stay tracked for WordPress cutover.
+
+# Lead store / runtime data
+.data/
