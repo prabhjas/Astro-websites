@@ -1,19 +1,48 @@
 import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
-// Public site URL — used for canonical links, hreflang and the sitemap.
-const SITE = 'https://iberiaworkforce.com';
+const siteUrl = (
+  process.env.PUBLIC_SITE_URL ||
+  process.env.SITE_URL ||
+  'https://iberiaworkforce.com'
+)
+  .trim()
+  .replace(/\/$/, '');
+
+let siteHost = 'iberiaworkforce.com';
+try {
+  siteHost = new URL(siteUrl).hostname;
+} catch {
+  /* keep default */
+}
 
 export default defineConfig({
-  site: SITE,
-  // Static output for speed/SEO; only /api/lead runs on-demand (prerender = false).
+  site: siteUrl,
+  // Static by default; API routes set prerender = false.
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   trailingSlash: 'always',
+  build: {
+    format: 'directory',
+  },
+  // Caddy terminates TLS and proxies over HTTP — allowedDomains keeps Origin checks working.
+  security: {
+    checkOrigin: true,
+    allowedDomains: [
+      { hostname: siteHost, protocol: 'https' },
+      { hostname: siteHost, protocol: 'http' },
+      { hostname: 'www.iberiaworkforce.com', protocol: 'https' },
+      { hostname: 'www.iberiaworkforce.com', protocol: 'http' },
+      { hostname: 'iberiaworkforce.com', protocol: 'https' },
+      { hostname: 'iberiaworkforce.com', protocol: 'http' },
+      { hostname: 'localhost', protocol: 'http' },
+      { hostname: '127.0.0.1', protocol: 'http' },
+    ],
+  },
   integrations: [
     sitemap({
-      // Tell search engines EN (root) and ES (/es/) are translations of each other.
       i18n: {
         defaultLocale: 'en',
         locales: { en: 'en', es: 'es' },
@@ -24,6 +53,9 @@ export default defineConfig({
     defaultLocale: 'en',
     locales: ['en', 'es'],
     routing: { prefixDefaultLocale: false },
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
   devToolbar: { enabled: false },
 });

@@ -1,0 +1,21 @@
+# /etc/caddy/sites.d/cbss.ae.caddy
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+# reverse_proxy PORT must match deploy/cbss.service (5081).
+
+http://cbss.ae, http://www.cbss.ae, https://cbss.ae, https://www.cbss.ae {
+	tls internal
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5081
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/cbss.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

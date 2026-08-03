@@ -1,0 +1,126 @@
+---
+/**
+ * Custom 404 for unknown URLs.
+ * Must return HTTP 404 (not 503) so crawlers drop dead links and visitors
+ * never see internal prepare:page instructions.
+ */
+export const prerender = false;
+
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | CBSS</title>
+    <meta name="description" content="The page you requested could not be found on CBSS." />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="/assets/images/cbss-logo.png" />
+    <style>
+      :root {
+        --cbss-ink: #1a1a1a;
+        --cbss-gold: #c9a227;
+        --cbss-mist: #f7f5f0;
+        --cbss-line: #e0dcd2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, 'Times New Roman', serif;
+        color: var(--cbss-ink);
+        background:
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(201, 162, 39, 0.18), transparent),
+          linear-gradient(180deg, #ffffff 0%, var(--cbss-mist) 100%);
+      }
+
+      .wrap {
+        width: min(40rem, calc(100% - 2.5rem));
+        margin: 0 auto;
+        padding: 3.5rem 0 4rem;
+        text-align: center;
+      }
+
+      .logo {
+        display: inline-block;
+        margin-bottom: 2.5rem;
+      }
+
+      .logo img {
+        display: block;
+        width: min(180px, 50vw);
+        height: auto;
+      }
+
+      .code {
+        display: inline-block;
+        margin: 0 0 0.75rem;
+        padding: 0.2rem 0.65rem;
+        border: 1px solid var(--cbss-line);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--cbss-gold);
+        background: #fff;
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.75rem, 4vw, 2.35rem);
+        line-height: 1.15;
+      }
+
+      p {
+        margin: 0 auto 1.75rem;
+        max-width: 28rem;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.55;
+        color: #4a4a4a;
+      }
+
+      .actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.65rem 1.25rem;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #fff;
+        background: var(--cbss-ink);
+      }
+
+      .actions a:hover {
+        background: var(--cbss-gold);
+        color: var(--cbss-ink);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <a class="logo" href="/" aria-label="CBSS home">
+        <img src="/assets/images/cbss-logo.png" width="180" height="60" alt="CBSS" />
+      </a>
+      <div class="code">404</div>
+      <h1>Page not found</h1>
+      <p>
+        The page you are looking for may have been moved, renamed, or no longer
+        exists.
+      </p>
+      <div class="actions">
+        <a href="/">Go to homepage</a>
+      </div>
+    </main>
+  </body>
+</html>
