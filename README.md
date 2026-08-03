@@ -1,6 +1,6 @@
 # Connect Group — Astro websites fleet
 
-Monorepo for Connect Group production (and staging) Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
+Monorepo for Connect Group production Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
 
 | | |
 |--|--|
@@ -35,13 +35,16 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-sites.json                 ← ports / dirs / unit names
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
-├── docs/                                ← fleet playbooks (16–18 + new-site)
+├── docs/                                ← Cursor guides + playbooks
+│   ├── CURSOR-CONVERT-STATIC-TO-ASTRO.md
+│   ├── CURSOR-RUN-FLEET.md
+│   └── …
 ├── Astro-production/                    ← live-shaped sites
 │   ├── evolutionmiddleast.com/          ← full CMS + WP mirror
 │   ├── cbss.ae/                         ← leads-heavy marketing
 │   ├── spheavyrental.ae/                ← full CMS (SP data store)
-│   └── iberiaworkforce.com/             ← leads + EN/ES marketing
-└── Astro-staging/                       ← staging experiments (al-buraq, redo, …)
+│   ├── iberiaworkforce.com/             ← leads + EN/ES marketing
+│   └── deploy-host/                     ← restic backup units
 ```
 
 ### Runtime model (production)
@@ -256,6 +259,8 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 | Doc | When to read |
 |-----|----------------|
 | **This README** | Start here — architecture & local start |
+| [docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md](docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md) | **Cursor:** convert WP/static → fleet site |
+| [docs/CURSOR-RUN-FLEET.md](docs/CURSOR-RUN-FLEET.md) | **Cursor:** clone + run this monorepo |
 | [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Convert/add a site; forms; FLOW API summary |
 | [docs/local-fleet-test.md](docs/local-fleet-test.md) | Fleet runner details |
 | [docs/server-side-work.md](docs/server-side-work.md) | Server overview |

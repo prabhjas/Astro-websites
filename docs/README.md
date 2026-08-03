@@ -4,9 +4,11 @@ Start with the root **[README.md](../README.md)** (architecture, install, CMS, l
 
 | Doc | Purpose |
 |-----|---------|
-| **[CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md)** | Convert/add a site + FLOW API detail |
+| **[CURSOR-CONVERT-STATIC-TO-ASTRO.md](CURSOR-CONVERT-STATIC-TO-ASTRO.md)** | **Share with Cursor** — convert WP/static site into this fleet |
+| **[CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md)** | **Share with Cursor** — clone, install, run sites locally |
+| [CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Deep dive: forms, geo, Pipedrive, FLOW API |
 | [server-side-work.md](server-side-work.md) | Server overview (units, ports, Tier 1/2) |
-| [local-fleet-test.md](local-fleet-test.md) | Local pnpm fleet runner + smoke tests |
+| [local-fleet-test.md](local-fleet-test.md) | Local pnpm fleet runner + smoke tests (detail) |
 | [server-ops-only.md](server-ops-only.md) | Root/host checklist only |
 
 Shared CMS package: [`packages/site-cms`](../packages/site-cms/README.md) (`@connect/site-cms`).
