@@ -9,8 +9,11 @@ Lana staging
 node_modules/
 .pnpm-store/
 
-# Build output
-dist/
+# Build output (Astro site / package roots only).
+# Do NOT use a bare `dist/` rule — mirrored WP assets live under
+# `public/**/dist/` (e.g. theme CSS, wp-includes js) and must stay trackable.
+Astro-production/*/dist/
+packages/*/dist/
 .astro/
 
 # Logs
@@ -55,5 +58,3 @@ local/logs/
 # Per-site runtime data / env (never commit)
 Astro-production/**/.data/
 Astro-production/**/.env
-Astro-staging/**/.data/
-Astro-staging/**/.env

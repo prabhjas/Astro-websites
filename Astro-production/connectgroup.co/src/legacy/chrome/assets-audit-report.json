@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-07-27T07:32:47.017Z",
+  "scannedFiles": 528,
+  "uniqueAssetPaths": 3202,
+  "present": 3195,
+  "empty": 4,
+  "missing": 3,
+  "absoluteLiveAssetRefs": 0,
+  "missingSample": [
+    "/wp-content/plugins/*",
+    "/wp-content/themes/essentials/*",
+    "/wp-content/uploads/*"
+  ],
+  "emptySample": [
+    {
+      "path": "/wp-content/plugins/ajax-load-more-anything/assets/scripts.js",
+      "size": 0
+    },
+    {
+      "path": "/wp-content/plugins/elementor-pro/assets/",
+      "size": 0
+    },
+    {
+      "path": "/wp-content/plugins/elementor/assets/",
+      "size": 0
+    },
+    {
+      "path": "/wp-content/plugins/pixfort-core/includes/blocks/search/style-index.css",
+      "size": 1
+    }
+  ]
+}

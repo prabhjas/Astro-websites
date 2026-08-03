@@ -1,0 +1,203 @@
+---
+/**
+ * Demo: Core Web Vitals / PageSpeed plan for management.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../../lib/seo';
+
+const homeSeo = loadPageSeo('home');
+const seo = {
+  ...homeSeo,
+  title: 'Core Web Vitals plan | Connect Group Astro demo',
+  description:
+    'How PageSpeed and Core Web Vitals are managed in the WordPress → Astro static migration.',
+  canonical: 'https://connectgroup.co/demo/performance/',
+  robots: 'noindex, follow',
+};
+---
+
+<BaseLayout seo={seo}>
+  <main class="perf">
+    <p><a href="/demo/">← Demo hub</a></p>
+    <h1>PageSpeed & Core Web Vitals</h1>
+    <p class="lead">
+      Static Astro removes PHP/WordPress from the request path. Biggest CWV gains come when we
+      stop shipping the full Elementor CSS/JS stack (Phase 4 rebuild), not from hosting alone.
+    </p>
+
+    <section>
+      <h2>What we measure</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Meaning</th>
+            <th>Our plan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LCP</strong></td>
+            <td>Largest Contentful Paint (hero loads fast)</td>
+            <td>Local hero image, preload, compress to WebP/AVIF, CDN</td>
+          </tr>
+          <tr>
+            <td><strong>INP</strong></td>
+            <td>Interaction delay (menus, tabs, forms)</td>
+            <td>Drop jQuery/Elementor JS; small Astro islands only where needed</td>
+          </tr>
+          <tr>
+            <td><strong>CLS</strong></td>
+            <td>Layout shift</td>
+            <td>Width/height on images; fonts with fallback; no late-injected banners</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Phase vs performance</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>What ships</th>
+            <th>Expected CWV impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Phase 1 (now)</td>
+            <td>Elementor HTML + CSS/JS mirror, assets on Astro static host</td>
+            <td>
+              Better TTFB (no PHP). LCP/INP still limited by heavy Elementor bundle —
+              acceptable for visual demo, not final score target
+            </td>
+          </tr>
+          <tr>
+            <td>Phase 2</td>
+            <td>Replace CF7 / plugin scripts</td>
+            <td>Fewer third-party scripts → better INP</td>
+          </tr>
+          <tr>
+            <td>Phase 3</td>
+            <td>Shared Header/Footer components</td>
+            <td>Less duplicate CSS/JS across pages</td>
+          </tr>
+          <tr>
+            <td>Phase 4</td>
+            <td>Rebuild homepage sections in Astro</td>
+            <td>
+              <strong>Main CWV win</strong> — lean HTML/CSS, image optimization, minimal JS
+            </td>
+          </tr>
+          <tr>
+            <td>Phase 5</td>
+            <td>CDN cutover</td>
+            <td>Edge caching + HTTP/2/3 globally</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>How the team will manage speed</h2>
+      <ul>
+        <li>
+          <strong>Budgets:</strong> track Lighthouse / PageSpeed Insights on staging for `/`
+          and top landings (P0 URLs).
+        </li>
+        <li>
+          <strong>Images:</strong> Astro <code>astro:assets</code> or pre-optimized WebP in
+          <code>public/</code>; always set dimensions.
+        </li>
+        <li>
+          <strong>JS:</strong> default zero; client islands only for mega-menu / carousel /
+          form validation.
+        </li>
+        <li>
+          <strong>CSS:</strong> critical CSS per template; remove Elementor ID-soup styles over
+          time.
+        </li>
+        <li>
+          <strong>Third parties:</strong> load GTM/marketing tags after consent / deferred —
+          audit Leadfeeder, ZoomInfo, Instagram.
+        </li>
+        <li>
+          <strong>Hosts:</strong> Cloudflare Pages / Netlify / Vercel static + CDN (same idea).
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Demo tip for managers</h2>
+      <ol>
+        <li>Run PageSpeed on live WordPress vs this Astro mirror (TTFB usually improves).</li>
+        <li>Explain we are not chasing a 95 Lighthouse on the Elementor dump.</li>
+        <li>Show rebuilt path: YAML SEO + lean Astro sections = lasting CWV gains.</li>
+      </ol>
+      <p>
+        Full write-up: <code>docs/09-pagespeed-core-web-vitals.md</code>
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .perf {
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    line-height: 1.55;
+    color: #0f172a;
+  }
+  .perf a {
+    color: #1e3a8a;
+  }
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 1.85rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .lead {
+    color: #475569;
+  }
+  section {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  th,
+  td {
+    border: 1px solid #e2e8f0;
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f8fafc;
+  }
+  ul,
+  ol {
+    padding-left: 1.2rem;
+  }
+  li {
+    margin-bottom: 0.45rem;
+  }
+  code {
+    font-size: 0.86em;
+    background: #f1f5f9;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+</style>

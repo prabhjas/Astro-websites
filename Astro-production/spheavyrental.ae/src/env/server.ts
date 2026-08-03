@@ -132,13 +132,13 @@ function parseDashboardUsers(value: string | undefined) {
 let cached: ServerEnv | null = null;
 let dotEnvLoaded = false;
 
-function loadDotEnvFile(): void {
-  if (dotEnvLoaded || typeof process === 'undefined') return;
-  dotEnvLoaded = true;
-
-  const envPath = join(process.cwd(), '.env');
+/**
+ * Load KEY=VALUE lines from a dotenv file.
+ * When `override` is true, values replace process.env (used for `.env.webdev`
+ * so webdev can fix secrets without root write access to `.env.prod`).
+ */
+function applyDotEnvPath(envPath: string, override: boolean): void {
   if (!existsSync(envPath)) return;
-
   const content = readFileSync(envPath, 'utf8');
   for (const line of content.split('\n')) {
     const trimmed = line.trim();
@@ -153,10 +153,20 @@ function loadDotEnvFile(): void {
     ) {
       value = value.slice(1, -1);
     }
-    if (key && process.env[key] === undefined) {
+    if (!key) continue;
+    if (override || process.env[key] === undefined) {
       process.env[key] = value;
     }
   }
+}
+
+function loadDotEnvFile(): void {
+  if (dotEnvLoaded || typeof process === 'undefined') return;
+  dotEnvLoaded = true;
+  // systemd EnvironmentFile (.env.prod) is already in process.env.
+  applyDotEnvPath(join(process.cwd(), '.env'), false);
+  // Optional webdev-owned overrides (gitignored) — wins over placeholders in .env.prod.
+  applyDotEnvPath(join(process.cwd(), '.env.webdev'), true);
 }
 
 function readEnv(name: string): string | undefined {

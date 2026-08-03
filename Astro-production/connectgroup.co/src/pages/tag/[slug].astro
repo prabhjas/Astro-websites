@@ -1,0 +1,12 @@
+---
+import { getAllTagSlugs, getTagPageData, serveArchivePage } from '../../lib/archives.ts';
+
+export function getStaticPaths() {
+  return getAllTagSlugs().map((slug) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug!;
+const data = getTagPageData(slug, 1);
+if (!data) return new Response('Not found', { status: 404 });
+return serveArchivePage(data);
+---

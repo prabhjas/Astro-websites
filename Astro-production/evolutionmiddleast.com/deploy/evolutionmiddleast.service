@@ -9,7 +9,8 @@ Type=simple
 User=site-evolutionmiddleast
 Group=site-evolutionmiddleast
 WorkingDirectory=/opt/Astro-production/evolutionmiddleast.com
-EnvironmentFile=-/opt/Astro-production/evolutionmiddleast.com/.env.prod
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/evolutionmiddleast.com/.env.prod
 Environment=NODE_ENV=production
 # HOST/PORT set here — not in .env.prod (fleet rule)
 ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5080 /usr/bin/node dist/server/entry.mjs
@@ -24,8 +25,8 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/Astro-production/evolutionmiddleast.com/.data
-# If LEAD_STORE_DIR / INTERNAL_* dirs live under /var/..., add them here too.
+ReadWritePaths=/opt/Astro-production/evolutionmiddleast.com/.data /var/evolutionmiddleast/enhanced-live
+# Add other LEAD_STORE_DIR / INTERNAL_* paths under /var/... here if used.
 
 [Install]
 WantedBy=multi-user.target
