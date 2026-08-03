@@ -373,8 +373,10 @@ Astro-production/<domain>/
 | iberiaworkforce | iberiaworkforce.com | 5083 |
 | connecthr | connecthr.ae | 5084 |
 | connectgroup | connectgroup.co | 5085 |
+| cuae | c-uae.com | 5092 |
+| eormiddleast | eormiddleast.com | 5090 |
 
-Next free: **5086+**.
+Next free: **5087+** (skip **5090** eormiddleast, **5092** cuae).
 
 ---
 
