@@ -1,0 +1,8 @@
+redirects:
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /blog
+    to: /insights/
+    status: 301
+
