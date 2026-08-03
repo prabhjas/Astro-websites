@@ -8,7 +8,8 @@ Type=simple
 User=site-cbss
 Group=site-cbss
 WorkingDirectory=/opt/Astro-production/cbss.ae
-EnvironmentFile=-/opt/Astro-production/cbss.ae/.env.prod
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/cbss.ae/.env.prod
 Environment=NODE_ENV=production
 # HOST/PORT set here — not in .env.prod (fleet rule). Confirm PORT on host.
 ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5081 /usr/bin/node dist/server/entry.mjs

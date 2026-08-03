@@ -1,6 +1,6 @@
 # Connect Group — Astro websites fleet
 
-Monorepo for Connect Group production (and staging) Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
+Monorepo for Connect Group production Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
 
 | | |
 |--|--|
@@ -35,13 +35,16 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-sites.json                 ← ports / dirs / unit names
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
-├── docs/                                ← fleet playbooks (16–18 + new-site)
+├── docs/                                ← Cursor guides + playbooks
+│   ├── CURSOR-CONVERT-STATIC-TO-ASTRO.md
+│   ├── CURSOR-RUN-FLEET.md
+│   └── …
 ├── Astro-production/                    ← live-shaped sites
 │   ├── evolutionmiddleast.com/          ← full CMS + WP mirror
 │   ├── cbss.ae/                         ← leads-heavy marketing
 │   ├── spheavyrental.ae/                ← full CMS (SP data store)
-│   └── iberiaworkforce.com/             ← leads + EN/ES marketing
-└── Astro-staging/                       ← staging experiments (al-buraq, redo, …)
+│   ├── iberiaworkforce.com/             ← leads + EN/ES marketing
+│   └── deploy-host/                     ← restic backup units
 ```
 
 ### Runtime model (production)
@@ -58,7 +61,8 @@ systemd unit per site          ← node dist/server/entry.mjs  (NOT astro dev)
     ▼
 Astro-production/<domain>/
     ├── dist/                  ← build output
-    ├── .env.prod              ← secrets (no HOST/PORT)
+    ├── .env                   ← build-only PUBLIC_SITE_URL (no secrets; webdev-readable on host)
+    ├── .env.prod              ← runtime secrets for systemd (no HOST/PORT)
     └── .data/                 ← leads / uploads (not in git)
 ```
 
@@ -224,15 +228,15 @@ pnpm --filter iberiaworkforce-astro run start   # needs HOST/PORT in env or use 
 
 Each production site has `deploy/`:
 
-- `*.service` — systemd unit (`User=site-*`, `MemoryMax`, `PORT`, `entry.mjs`)
-- `*.caddy` — reverse proxy snippet
+- `*.service` — systemd unit (`User=site-*`, `MemoryMax`, **required** `EnvironmentFile=…/.env.prod` with **no** leading `-`)
+- `*.caddy` — `http://` + `https://` + `tls internal` (not bare hostnames — Cloudflare Flexible redirect loop)
 - `ROOT_SETUP.md` — host notes
 
-**Authoritative host checklist (needs root):** [docs/server-ops-only.md](docs/server-ops-only.md)
+**Authoritative host checklist:** [docs/server-ops-only.md](docs/server-ops-only.md)
 
-Still typically pending on the live box: non-root units + MemoryMax, Caddy `sites.d` split, off-box backups, Iberia port cutover, SP Heavy unit enable.
+Tier 1 is live (all four units + Caddy `sites.d`). Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` on this branch match the live footguns (tls internal; required `.env.prod`).
 
-Preserve on deploy: `.env.prod`, `.data/`. Do not overwrite with empty laptop files.
+Preserve on deploy: `.env.prod`, `.data/`, and the non-secret `.env` (`PUBLIC_SITE_URL`). Do not overwrite with empty laptop files.
 
 ---
 
@@ -255,10 +259,14 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 | Doc | When to read |
 |-----|----------------|
 | **This README** | Start here — architecture & local start |
+| [docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md](docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md) | **Cursor:** convert WP/static → fleet site |
+| [docs/CURSOR-RUN-FLEET.md](docs/CURSOR-RUN-FLEET.md) | **Cursor:** clone + run this monorepo |
+| [docs/CURSOR-WP-CLONE-MALWARE-SCAN.md](docs/CURSOR-WP-CLONE-MALWARE-SCAN.md) | **Cursor:** WP clone malware / inject scan |
 | [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Convert/add a site; forms; FLOW API summary |
 | [docs/local-fleet-test.md](docs/local-fleet-test.md) | Fleet runner details |
 | [docs/server-side-work.md](docs/server-side-work.md) | Server overview |
 | [docs/server-ops-only.md](docs/server-ops-only.md) | Root-only host work |
+| [Astro-production/deploy-host/](Astro-production/deploy-host/) | Restic backup install (path `/var/backups/astro-fleet`) |
 | [packages/site-cms/README.md](packages/site-cms/README.md) | Shared CMS package bind/mount |
 | `Astro-production/<domain>/docs/CONNECT-ASTRO-FLEET-STANDARD.md` | Per-site contract copy |
 
