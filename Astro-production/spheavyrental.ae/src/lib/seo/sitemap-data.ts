@@ -2,13 +2,15 @@
  * Sitemap data layer — Rank Math–style pages/posts for the SEO dashboard
  * and public /sitemap_index.xml endpoints.
  *
- * Prefer src/data/sitemap-urls.json (synced from live via `npm run sitemap:sync`).
- * Fall back to pages.json / posts.json when the sync file is missing.
+ * Discovery comes from pages.json / posts.json (the live content store), so new
+ * posts appear without a re-sync. src/data/sitemap-urls.json (synced from live
+ * via `npm run sitemap:sync`) only fills in lastmod, or stands in wholesale if
+ * the content store is empty.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
-import { pages as contentPages, posts as contentPosts } from '../content.ts';
+import { getPages, getPosts } from '../content.ts';
 import {
   EXCLUDED_PAGE_SLUGS,
   SITEMAP_ENTRY_LIMIT,
@@ -141,7 +143,7 @@ function entriesFromContentPages(
   redirectSources: Set<string>,
 ): SitemapEntry[] {
   const entries: SitemapEntry[] = [];
-  for (const page of contentPages) {
+  for (const page of getPages()) {
     const path = normaliseCanonicalPath(page.path || `/${page.slug}/`);
     if (!path) continue;
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
@@ -167,7 +169,7 @@ function entriesFromContentPosts(
   redirectSources: Set<string>,
 ): SitemapEntry[] {
   const entries: SitemapEntry[] = [];
-  for (const post of contentPosts) {
+  for (const post of getPosts()) {
     const path = normaliseCanonicalPath(post.path || `/${post.slug}/`);
     if (!path) continue;
     if (redirectSources.has(path)) continue;
@@ -199,7 +201,7 @@ export function listStaticPageSlugs(): string[] {
       .filter((s): s is string => s != null)
       .sort((a, b) => a.localeCompare(b));
   }
-  return contentPages
+  return getPages()
     .map((p) => {
       const path = normaliseCanonicalPath(p.path || `/${p.slug}/`);
       if (!path) return null;
@@ -210,15 +212,31 @@ export function listStaticPageSlugs(): string[] {
     .sort((a, b) => a.localeCompare(b));
 }
 
+/**
+ * pages.json / posts.json decide what the site actually serves, so they decide
+ * what is discoverable. The synced snapshot is kept only as a lastmod source for
+ * URLs it shares (WP's dates beat ours) and as a fallback if the store is empty
+ * — otherwise a newly published post would stay invisible to /sitemap_index.xml
+ * and /llms.txt until someone remembered to re-run `npm run sitemap:sync`.
+ */
+function preferContent(content: SitemapEntry[], snapshot: SitemapEntry[]): SitemapEntry[] {
+  if (!content.length) return snapshot;
+  const lastmodByUrl = new Map(snapshot.map((entry) => [entry.url, entry.lastmod]));
+  return content.map((entry) =>
+    entry.lastmod ? entry : { ...entry, lastmod: lastmodByUrl.get(entry.url) },
+  );
+}
+
 export function collectPageEntries(
   siteOrigin: string,
   overrides: Record<string, SitemapOverride> = {},
 ): SitemapEntry[] {
   const redirectSources = loadRedirectSources();
   const live = readLiveSitemapFile();
-  const entries = live?.pages?.length
-    ? entriesFromLiveRows(live.pages, 'page', siteOrigin, redirectSources)
-    : entriesFromContentPages(siteOrigin, redirectSources);
+  const entries = preferContent(
+    entriesFromContentPages(siteOrigin, redirectSources),
+    entriesFromLiveRows(live?.pages, 'page', siteOrigin, redirectSources),
+  );
   return sortEntries(dedupeEntries(applyOverrides(entries, siteOrigin, overrides)));
 }
 
@@ -228,9 +246,10 @@ export function collectPostEntries(
 ): SitemapEntry[] {
   const redirectSources = loadRedirectSources();
   const live = readLiveSitemapFile();
-  const entries = live?.posts?.length
-    ? entriesFromLiveRows(live.posts, 'post', siteOrigin, redirectSources)
-    : entriesFromContentPosts(siteOrigin, redirectSources);
+  const entries = preferContent(
+    entriesFromContentPosts(siteOrigin, redirectSources),
+    entriesFromLiveRows(live?.posts, 'post', siteOrigin, redirectSources),
+  );
   return sortEntries(dedupeEntries(applyOverrides(entries, siteOrigin, overrides)));
 }
 

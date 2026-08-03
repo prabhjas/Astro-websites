@@ -1,4 +1,5 @@
 import { absoluteUrl, site, type SeoData } from "./content";
+import { hasLicencePdf, licence } from "./licence";
 
 export type SeoInput = {
   title?: string;
@@ -45,8 +46,36 @@ export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
+    "@id": `${site.url.replace(/\/$/, "")}/#organization`,
     name: site.name,
+    legalName: licence.businessName,
     url: site.url,
+    identifier: {
+      "@type": "PropertyValue",
+      name: "DET Trade Licence Number",
+      value: licence.number,
+    },
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      name: `${licence.type} Trade Licence ${licence.number}`,
+      credentialCategory: licence.type,
+      identifier: licence.number,
+      dateCreated: licence.issueDate,
+      url: licence.verifyUrl,
+      recognizedBy: {
+        "@type": "GovernmentOrganization",
+        name: licence.issuingAuthority,
+        url: "https://www.dubaided.gov.ae/",
+      },
+      ...(hasLicencePdf()
+        ? {
+            subjectOf: {
+              "@type": "DigitalDocument",
+              url: absoluteUrl(licence.pdfPath),
+            },
+          }
+        : {}),
+    },
     logo: absoluteUrl(site.logo),
     image: absoluteUrl(site.ogImage),
     email: site.email,
