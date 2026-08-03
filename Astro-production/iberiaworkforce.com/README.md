@@ -1,13 +1,15 @@
 # Iberia Workforce Solutions — website
 
 Bilingual (English / Spanish) marketing site for **Iberia Workforce Solutions SL**,
-an authorised *Empresa de Trabajo Temporal (ETT)* in Spain. Built with Astro + Tailwind
-for fast loading and strong SEO.
+an authorised *Empresa de Trabajo Temporal (ETT)* in Spain.
+
+Aligned with **CONNECT-ASTRO-FLEET-STANDARD** (Astro 7.1.6, Node adapter, file-backed leads, Tier 1 deploy).
 
 ## Stack
-- **Astro** (static output) with the **Node** standalone adapter (only `/api/lead` runs on-demand)
-- **Tailwind CSS** for styling, self-hosted **Inter** font (no external requests)
-- **@astrojs/sitemap** for `sitemap-index.xml` with EN/ES hreflang
+- **Astro 7.1.6** static output + **@astrojs/node 11.0.3** standalone (`npm start`)
+- **Tailwind CSS 4** via `@tailwindcss/vite`
+- Self-hosted **Inter** font
+- **@astrojs/sitemap** with EN/ES hreflang
 
 ## Pages
 | Route | Spanish | Purpose |
@@ -17,34 +19,31 @@ for fast loading and strong SEO.
 | `/services/{eor,payroll,labour-legal,compliance,staff-outsourcing}/` | `/es/services/…/` | Service detail |
 | `/about/` | `/es/about/` | About us |
 | `/contact/` | `/es/contact/` | Contact + form |
-| `POST /api/lead` | — | Pipedrive lead capture |
+| `POST /api/contact` | — | Fleet contact / Pipedrive lead pipeline |
+| `GET /api/health` | — | Liveness |
+| `/api/internal/*` | — | Central CMS (bearer `INTERNAL_JOB_SECRET`) |
+
+`POST /api/lead` remains as a thin alias of `/api/contact`.
 
 ## Content
-All copy lives in two places — edit these, not the components:
-- `src/i18n/content.ts` — nav, footer, home, about, contact, services-index copy (EN + ES)
-- `src/data/services.ts` — the five services (name, SEO meta, intro, bullets, why) in EN + ES
+- `src/i18n/content.ts` — nav, footer, home, about, contact, services-index (EN + ES)
+- `src/data/services.ts` — five services in EN + ES
 - `src/data/company.ts` — company name, contact details, ETT credential
 
 ## Develop
 ```bash
 npm install
 npm run dev      # http://localhost:4325
-npm run build    # outputs to dist/
-npm run preview
+npm run build
+npm start        # node ./dist/server/entry.mjs
+npm test
 ```
 
-## Contact form → Pipedrive
-`POST /api/lead` creates a Person, optional Organization, a Lead and a Note.
-Configure via env (see `.env.example`):
-```
-PIPEDRIVE_API_TOKEN=…        # required
-PIPEDRIVE_OWNER_ID=…         # optional — the Iberia Workforce owner
-PIPEDRIVE_VISIBLE_TO=3
-PIPEDRIVE_LEAD_TITLE=Website lead — iberiaworkforce.com
-```
-Without a token the form returns a friendly "not configured" message.
+## Env / deploy
+See `.env.example`, `docs/CONNECT-ASTRO-FLEET-STANDARD.md`, and `deploy/ROOT_SETUP.md`.
+Prod unit: **iberiaworkforce** on port **5083**. Never run `astro dev` in production.
 
 ## To confirm before launch
 - Real **logo** (swap `src/components/Logo.astro` + `public/favicon.svg`)
 - Final **email / phone / WhatsApp / city** in `src/data/company.ts`
-- Pipedrive **owner id** and any custom-field mapping
+- Pipedrive token, owner id, and any custom-field hashes in `.env.prod`

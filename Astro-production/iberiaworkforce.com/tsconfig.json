@@ -1,6 +1,10 @@
 {
-  "extends": "astro/tsconfigs/base",
+  "extends": "./node_modules/astro/tsconfigs/strict.json",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules", ".data"],
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "types": ["node"]
   }
 }

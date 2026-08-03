@@ -1,0 +1,21 @@
+# /etc/caddy/sites.d/iberiaworkforce.com.caddy
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Full reverse proxy to Node (not static + /api/lead only).
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+
+http://iberiaworkforce.com, http://www.iberiaworkforce.com, https://iberiaworkforce.com, https://www.iberiaworkforce.com {
+	tls internal
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5083
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/iberiaworkforce.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
