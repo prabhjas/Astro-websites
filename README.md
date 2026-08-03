@@ -231,7 +231,7 @@ Each production site has `deploy/`:
 
 **Authoritative host checklist:** [docs/server-ops-only.md](docs/server-ops-only.md)
 
-Tier 1 (users, MemoryMax, Caddy `sites.d`, Iberia 5083) is live as of 2026-07-31. Backups decided: restic at `/var/backups/astro-fleet/restic` ([deploy/host/](deploy/host/)). Still open: root installs that timer; SP Heavy **Cloudflare DNS** cutover.
+Tier 1 is live (all four units + Caddy `sites.d`). Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` on this branch match the live footguns (tls internal; required `.env.prod`).
 
 Preserve on deploy: `.env.prod`, `.data/`, and the non-secret `.env` (`PUBLIC_SITE_URL`). Do not overwrite with empty laptop files.
 
@@ -260,7 +260,7 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 | [docs/local-fleet-test.md](docs/local-fleet-test.md) | Fleet runner details |
 | [docs/server-side-work.md](docs/server-side-work.md) | Server overview |
 | [docs/server-ops-only.md](docs/server-ops-only.md) | Root-only host work |
-| [deploy/host/](deploy/host/) | Restic backup install (path `/var/backups/astro-fleet`) |
+| [Astro-production/deploy-host/](Astro-production/deploy-host/) | Restic backup install (path `/var/backups/astro-fleet`) |
 | [packages/site-cms/README.md](packages/site-cms/README.md) | Shared CMS package bind/mount |
 | `Astro-production/<domain>/docs/CONNECT-ASTRO-FLEET-STANDARD.md` | Per-site contract copy |
 

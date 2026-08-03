@@ -8,16 +8,16 @@ Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](loc
 
 ---
 
-## Live facts (as of 2026-07-31 root ops)
+## Live facts (as of 2026-08-03)
 
 | Check | Live state |
 |-------|------------|
 | Unit `User=` | `site-*` (non-root) on all 4 |
 | `MemoryMax` | `256M` + `ProtectSystem=strict` |
-| Caddy | `/etc/caddy/sites.d/*.caddy` (`http://`+`https://`+`tls internal`) |
-| Iberia | Port **5083**, full reverse proxy (`/api/contact`, `/api/health` public) |
-| SP Heavy unit | Installed + in `site-ctl` — **public DNS still WordPress** until Cloudflare points apex at this host |
-| Backups | **Decided:** restic repo `/var/backups/astro-fleet/restic` — root install from `deploy/host/` |
+| Caddy | `/etc/caddy/sites.d/*.caddy` (`http://`+`https://`+`tls internal`) — live config; keep **repo** templates matching this |
+| Iberia | Port **5083**, full reverse proxy |
+| All 4 sites | Active on host (`:5080`–`:5083` `/api/health` 200) |
+| Backups | **Live:** `restic-astro-fleet.timer` daily; templates in `Astro-production/deploy-host/` |
 | Env | `.env.prod` `root:site-*` **0640**; build `.env` `root:webdev` **0644** (`PUBLIC_SITE_URL` only) |
 
 Ops write-up on host: `/root/ROOT-OPS-20260731.md` · backup: `/root/ops-backup-20260731_rootops/`.
@@ -73,13 +73,13 @@ curl -sS http://127.0.0.1:<PORT>/api/health/
 
 ---
 
-## B. Still open (root / Cloudflare)
+## B. Still useful for ops (not blocking live traffic)
 
-| Item | Who |
-|------|-----|
-| Point `spheavyrental.ae` (+ `www`) DNS at `178.105.150.67`, SSL Full | Cloudflare |
-| Install restic timer from `deploy/host/` (repo `/var/backups/astro-fleet/restic`) + restore drill | Root — see `deploy/host/README.md` |
-| Kill stale root-owned `astro dev`/`preview` processes | Root (PIDs in ops write-up) |
+| Item | Notes |
+|------|-------|
+| Repo deploy templates | Prefer this branch’s `*.caddy` (`tls internal`) + required `EnvironmentFile=` (no `-`) so a future copy from git does not recreate CF redirect loops or silent empty secrets |
+| Restic | Already installed from `Astro-production/deploy-host/`; keep password in vault; optional restore drill / off-box `restic copy` later |
+| Stale `astro dev`/`preview` | Kill if still listed in `/root/ROOT-OPS-20260731.md` |
 
 ---
 
@@ -93,4 +93,3 @@ curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/this-should-404-fleet-test"
 # Forms: POST /api/contact/ (Iberia also /api/lead/)
 ```
 
-SP Heavy: until Cloudflare cutover, smoke **loopback** only (`127.0.0.1:5082`).
