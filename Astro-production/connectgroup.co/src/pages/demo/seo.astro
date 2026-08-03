@@ -1,0 +1,152 @@
+---
+/**
+ * Demo: rebuilt-page SEO model for the manager.
+ * Edit src/data/seo/home.yml → title/description/OG/schema update here.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../../lib/seo';
+
+const homeSeo = loadPageSeo('home');
+const seo = {
+  ...homeSeo,
+  title: `${homeSeo.title} (SEO demo)`,
+  canonical: 'https://connectgroup.co/demo/seo/',
+  robots: 'noindex, follow',
+};
+---
+
+<BaseLayout seo={seo}>
+  <main class="seo-demo">
+    <p><a href="/demo/">← Demo hub</a></p>
+    <h1>SEO without Rank Math</h1>
+    <p class="lead">
+      After cutover, the SEO team edits YAML (not WordPress). This page loads
+      <code>src/data/seo/home.yml</code> and renders title, description, Open Graph,
+      Twitter, and JSON-LD through <code>BaseLayout</code>.
+    </p>
+
+    <section>
+      <h2>Values loaded from home.yml</h2>
+      <dl>
+        <dt>Title</dt>
+        <dd>{homeSeo.title}</dd>
+        <dt>Description</dt>
+        <dd>{homeSeo.description}</dd>
+        <dt>Canonical</dt>
+        <dd>{homeSeo.canonical}</dd>
+        <dt>Robots</dt>
+        <dd>{homeSeo.robots}</dd>
+        <dt>OG image</dt>
+        <dd>{homeSeo.og?.image}</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2>How the SEO team works</h2>
+      <ol>
+        <li>Edit <code>src/data/seo/&lt;page&gt;.yml</code></li>
+        <li>Open a PR → preview deploy</li>
+        <li>Merge → static build publishes new meta</li>
+      </ol>
+      <p>
+        <strong>View page source</strong> on this URL to inspect
+        <code>&lt;title&gt;</code>, <code>og:*</code>, and <code>application/ld+json</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Phase 1 vs Phase 3+</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Homepage mirror <code>/</code></th>
+            <th>This demo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SEO source</td>
+            <td>Rank Math tags baked into exported HTML</td>
+            <td><code>home.yml</code> → BaseLayout</td>
+          </tr>
+          <tr>
+            <td>Who edits</td>
+            <td>Re-export from WP (temporary)</td>
+            <td>SEO team via YAML / PR</td>
+          </tr>
+          <tr>
+            <td>Sitemap / robots</td>
+            <td colspan="2">Astro build: <code>sitemap-index.xml</code> + <code>/robots.txt</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .seo-demo {
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    line-height: 1.55;
+    color: #0f172a;
+  }
+  .seo-demo a {
+    color: #1e3a8a;
+  }
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 1.85rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .lead {
+    color: #475569;
+  }
+  section {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 0.5rem 1rem;
+    margin: 0;
+  }
+  dt {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+  dd {
+    margin: 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th,
+  td {
+    border: 1px solid #e2e8f0;
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f8fafc;
+  }
+  code {
+    font-size: 0.86em;
+    background: #f1f5f9;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+</style>
