@@ -1,0 +1,21 @@
+# /etc/caddy/sites.d/connectstaff.ae.caddy
+# Behind Cloudflare: do NOT use bare hostnames (auto-HTTPS 301 :80→:443 loops with
+# Flexible SSL). Explicit http:// + https:// + tls internal matches live fleet.
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+
+http://connectstaff.ae, http://www.connectstaff.ae, https://connectstaff.ae, https://www.connectstaff.ae {
+	tls internal
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5084
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectstaff.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
