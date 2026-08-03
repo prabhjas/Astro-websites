@@ -39,6 +39,13 @@
       "unit": "connectstaff"
     },
     {
+      "id": "connectresources",
+      "domain": "connectresources.ae",
+      "dir": "connectresources.ae",
+      "port": 5085,
+      "unit": "connectresources"
+    },
+    {
       "id": "eormiddleast",
       "domain": "eormiddleast.com",
       "dir": "eormiddleast.com",
