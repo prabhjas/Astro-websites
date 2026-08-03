@@ -1,0 +1,109 @@
+{
+  "name": "Connect Resources",
+  "shortName": "Connect Resources",
+  "url": "https://connectresources.ae",
+  "description": "Leading staff outsourcing, EOR, PEO & contract staffing company in Dubai, UAE. Official alliance of Randstad in UAE.",
+  "email": "info@connectresources.ae",
+  "phone": "+971 43316688",
+  "phoneTel": "+97143316688",
+  "whatsapp": "+97143316688",
+  "whatsappUrl": "https://wa.me/97143316688?text=Hello",
+  "logo": "/wp-content/uploads/2017/07/Logo-Connect-Resources-Intense-red-1-1-e1761843890948.png",
+  "logoSvg": "/wp-content/uploads/2017/07/Logo-Connect-Resources-Intense-red-1-1-e1761843890948.png",
+  "ogImage": "/wp-content/uploads/2017/07/Logo-Connect-Resources-Intense-red-1-1-e1761843890948.png",
+  "favicon": "/favicon-32x32.png",
+  "appleTouchIcon": "/apple-touch-icon.png",
+  "favicon192": "/wp-content/uploads/2026/07/cropped-site-icon-512-192x192.png",
+  "colors": {
+    "primary": "#C8102E",
+    "secondary": "#1A1A1A",
+    "text": "#333333",
+    "accent": "#C8102E",
+    "yellow": "#FFDD04",
+    "white": "#FFFFFF"
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "EOR",
+      "href": "/employer-of-record/united-arab-emirates/"
+    },
+    {
+      "label": "PEO",
+      "href": "/professional-employer-organization-dubai/"
+    },
+    {
+      "label": "Payroll",
+      "href": "/payroll/"
+    },
+    {
+      "label": "Staff Outsourcing",
+      "href": "/staff-outsourcing/"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
+  ],
+  "footerServices": [
+    {
+      "label": "Employer of Record",
+      "href": "/employer-of-record/united-arab-emirates/"
+    },
+    {
+      "label": "PEO",
+      "href": "/professional-employer-organization-dubai/"
+    },
+    {
+      "label": "Payroll Outsourcing",
+      "href": "/payroll/"
+    },
+    {
+      "label": "Staff Outsourcing",
+      "href": "/staff-outsourcing/"
+    }
+  ],
+  "footerQuickLinks": [
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "Guides",
+      "href": "/guides/"
+    },
+    {
+      "label": "Press Release",
+      "href": "/press-release/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
+  ],
+  "cssFiles": [
+    "/wp-content/cache/background-css/1/connectresources.ae/wp-content/cache/min/1/wp-content/plugins/formidable/css/formidableforms.css",
+    "/wp-content/cache/min/1/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/css/dnd-upload-cf7.css",
+    "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/cache/background-css/1/connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+    "/wp-content/cache/background-css/1/connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+    "/wp-content/plugins/date-time-picker-for-contact-form-7/assets/css/jquery.datetimepicker.min.css",
+    "/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/cache/min/1/wp-content/plugins/responsive-accordion-and-collapse/css/font-awesome/css/font-awesome.min.css",
+    "/wp-content/cache/min/1/wp-content/plugins/responsive-accordion-and-collapse/css/bootstrap-front.css",
+    "/wp-content/plugins/wp-contact-form-7-spam-blocker/frontend/css/spam-protect-for-contact-form7.css",
+    "/wp-content/cache/min/1/wp-content/plugins/popup-maker/dist/assets/site.css",
+    "/wp-content/themes/Impreza/css/style.min.css",
+    "/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css",
+    "/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css",
+    "/wp-content/cache/background-css/1/connectresources.ae/wp-content/cache/min/1/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/ultimate.min.css",
+    "/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider.min.css"
+  ]
+}
