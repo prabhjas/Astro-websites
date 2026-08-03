@@ -1,0 +1,75 @@
+---
+/**
+ * Shared site header — live IberiaEOR template (elementor-27130).
+ * Loads markup + CSS dynamically from /chrome/* (same source as legacy injection).
+ */
+---
+
+<link rel="stylesheet" href="/chrome/header.css" data-cg-shared-header-css="1" />
+<link rel="stylesheet" href="/chrome/mobile-nav.css" id="cg-mobile-nav-css" />
+<link
+  rel="stylesheet"
+  id="widget-nested-tabs-css"
+  href="/wp-content/plugins/elementor/assets/css/widget-nested-tabs.min.css?ver=4.1.5"
+  media="all"
+  data-cg-nested-tabs-css="1"
+/>
+<link
+  rel="stylesheet"
+  id="widget-image-box-css"
+  href="/wp-content/plugins/elementor/assets/css/widget-image-box.min.css?ver=4.1.5"
+  media="all"
+  data-cg-image-box-css="1"
+/>
+<div id="cg-shared-header-root" class="cg-shared-chrome" data-chrome="header" aria-busy="true"></div>
+<script src="/js/cg-mobile-nav.js" defer></script>
+<script is:inline>
+  (function () {
+    var root = document.getElementById('cg-shared-header-root');
+    if (!root || root.dataset.loaded === '1') return;
+    root.dataset.loaded = '1';
+
+    function reinitChromeWidgets() {
+      try {
+        document.querySelectorAll('.e-n-tabs').forEach(function (el) {
+          delete el.dataset.astroNestedTabs;
+        });
+      } catch (e) {}
+
+      // Re-run nested-tab fallback if mirror fixes already booted
+      if (typeof window.__astroEnsureNestedTabs === 'function') {
+        window.__astroEnsureNestedTabs();
+      }
+
+      // Max Mega Menu re-init when jQuery plugin is present
+      try {
+        if (window.jQuery && window.jQuery.fn && window.jQuery.fn.maxmegamenu) {
+          window.jQuery('#mega-menu-max_mega_menu_1').maxmegamenu();
+        }
+      } catch (e) {}
+    }
+
+    fetch('/chrome/header.html', { credentials: 'same-origin' })
+      .then(function (res) {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.text();
+      })
+      .then(function (html) {
+        // Keep only the <header> fragment if a full document was accidentally saved
+        var start = html.search(/<header\b[^>]*\belementor-location-header\b[^>]*>/i);
+        var end = html.toLowerCase().lastIndexOf('</header>');
+        if (start >= 0 && end > start) {
+          html = html.slice(start, end + '</header>'.length);
+        }
+        root.outerHTML = html;
+        reinitChromeWidgets();
+        // Mirror fixes / Max Mega Menu may finish after chrome fetch
+        setTimeout(reinitChromeWidgets, 400);
+        setTimeout(reinitChromeWidgets, 1200);
+      })
+      .catch(function (err) {
+        console.warn('[Header] failed to load shared chrome', err);
+        root.removeAttribute('aria-busy');
+      });
+  })();
+</script>

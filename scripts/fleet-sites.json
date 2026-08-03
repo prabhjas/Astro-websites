@@ -30,6 +30,20 @@
       "dir": "iberiaworkforce.com",
       "port": 5083,
       "unit": "iberiaworkforce"
+    },
+    {
+      "id": "connecthr",
+      "domain": "connecthr.ae",
+      "dir": "connecthr.ae",
+      "port": 5084,
+      "unit": "connecthr"
+    },
+    {
+      "id": "connectgroup",
+      "domain": "connectgroup.co",
+      "dir": "connectgroup.co",
+      "port": 5085,
+      "unit": "connectgroup"
     }
   ]
 }

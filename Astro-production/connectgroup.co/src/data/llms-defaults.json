@@ -1,0 +1,662 @@
+{
+  "siteTitle": "Connect Group",
+  "summary": "Connect Group is a UAE-based business services provider offering company formation, HR and payroll outsourcing, visa and immigration processing, global workforce solutions (EOR/PEO), IT services, real estate, and legal services across the UAE, GCC, and international markets. The group operates through a network of specialist subsidiary brands, each focused on a specific service line or region.",
+  "details": "Connect Group has set up over 15,000 businesses in the UAE and serves companies expanding into the UAE, Saudi Arabia, and other GCC/international markets. Core value proposition: one point of contact managing compliance, licensing, employment, and immigration across multiple government authorities (DET/DED, MOHRE, GDRFA, ICP, FTA, DHA).",
+  "groupOrder": [
+    "Company Setup",
+    "HR, Payroll & Workforce Services",
+    "Visa & Immigration",
+    "IT Services",
+    "Real Estate Services",
+    "Legal & Other Services",
+    "Group Brands",
+    "Other Pages",
+    "Blog & Insights",
+    "About"
+  ],
+  "postsCount": 15,
+  "blogNote": "The blog archive spans 20+ paginated pages with roughly 10 posts per page. This file lists a representative recent sample; the full archive is browsable from the Insights page and its category filters above.",
+  "categoryMarkdown": "[Banking](https://connectgroup.co/category/banking/), [Business Center](https://connectgroup.co/category/business-center/), [Business Tips](https://connectgroup.co/category/business-tips/), [Company Formation](https://connectgroup.co/category/company-formation-blog/), [EOR](https://connectgroup.co/category/eor/), [Freelance](https://connectgroup.co/category/freelance/), [Freelance Visa](https://connectgroup.co/category/freelance-visa/), [Human Resource](https://connectgroup.co/category/human-resource/), [Licensing](https://connectgroup.co/category/licensing/), [Office Space](https://connectgroup.co/category/office-space/), [Outsourcing](https://connectgroup.co/category/outsourcing/), [PEO](https://connectgroup.co/category/peo/), [Real Estate](https://connectgroup.co/category/real-estate/), [Tax](https://connectgroup.co/category/tax/), [UAE Market](https://connectgroup.co/category/uae-market/), [Visa Services](https://connectgroup.co/category/visa-services/)",
+  "entries": {
+    "/uae-company-setup/": {
+      "group": "Company Setup",
+      "title": "UAE Company Setup",
+      "description": "Overview of Mainland, Free Zone, and Offshore company formation routes in the UAE."
+    },
+    "/uae-mainland-company-setup/": {
+      "group": "Company Setup",
+      "title": "UAE Mainland Company Setup",
+      "description": "DET-licensed mainland company formation across all seven emirates."
+    },
+    "/uae-freezone-company-setup/": {
+      "group": "Company Setup",
+      "title": "UAE Free Zone Company Setup",
+      "description": "Free zone company formation across 40+ UAE free zones."
+    },
+    "/dubai-free-zone/": {
+      "group": "Company Setup",
+      "title": "Dubai Free Zone",
+      "description": "Free zone company setup in Dubai."
+    },
+    "/ajman-free-zone/": {
+      "group": "Company Setup",
+      "title": "Ajman Free Zone",
+      "description": "Free zone company setup in Ajman."
+    },
+    "/sharjah-freezone/": {
+      "group": "Company Setup",
+      "title": "Sharjah Free Zone",
+      "description": "Free zone company setup in Sharjah."
+    },
+    "/abu-dhabi-free-zone/": {
+      "group": "Company Setup",
+      "title": "Abu Dhabi Free Zone",
+      "description": "Free zone company setup in Abu Dhabi."
+    },
+    "/ras-al-khaimah-freezone/": {
+      "group": "Company Setup",
+      "title": "Ras Al Khaimah Free Zone",
+      "description": "Free zone company setup in RAK."
+    },
+    "/umm-al-quwain-freezone/": {
+      "group": "Company Setup",
+      "title": "Umm Al Quwain Free Zone",
+      "description": "Free zone company setup in UAQ."
+    },
+    "/dubai-mainland/": {
+      "group": "Company Setup",
+      "title": "Dubai Mainland",
+      "description": "Mainland company setup in Dubai."
+    },
+    "/abu-dhabi-mainland/": {
+      "group": "Company Setup",
+      "title": "Abu Dhabi Mainland",
+      "description": "Mainland company setup in Abu Dhabi."
+    },
+    "/sharjah-mainland/": {
+      "group": "Company Setup",
+      "title": "Sharjah Mainland",
+      "description": "Mainland company setup in Sharjah."
+    },
+    "/ajman-mainland/": {
+      "group": "Company Setup",
+      "title": "Ajman Mainland",
+      "description": "Mainland company setup in Ajman."
+    },
+    "/dubai-offshore/": {
+      "group": "Company Setup",
+      "title": "Dubai Offshore",
+      "description": "Offshore company registration in Dubai (JAFZA)."
+    },
+    "/abu-dhabi-offshore/": {
+      "group": "Company Setup",
+      "title": "Abu Dhabi Offshore",
+      "description": "Offshore company registration in Abu Dhabi."
+    },
+    "/ras-al-khaimah-offshore/": {
+      "group": "Company Setup",
+      "title": "Ras Al Khaimah Offshore",
+      "description": "Offshore company registration via RAK ICC."
+    },
+    "/ajman-offshore/": {
+      "group": "Company Setup",
+      "title": "Ajman Offshore",
+      "description": "Offshore company registration in Ajman."
+    },
+    "/jebel-ali-offshore/": {
+      "group": "Company Setup",
+      "title": "Jebel Ali Offshore",
+      "description": "Offshore company registration via JAFZA."
+    },
+    "/business-licensing-uae/": {
+      "group": "Company Setup",
+      "title": "Business Licensing",
+      "description": "UAE trade licence application support."
+    },
+    "/business-consultancy-services/": {
+      "group": "Company Setup",
+      "title": "Business Consultancy Services",
+      "description": "Strategic advisory for UAE market entry and structuring."
+    },
+    "/corporate-sponsorship-services/": {
+      "group": "Company Setup",
+      "title": "Corporate Sponsorship Services",
+      "description": "Local corporate sponsor/LSA arrangements for restricted licences."
+    },
+    "/tax-vat-registration/": {
+      "group": "Company Setup",
+      "title": "Tax & VAT Registration",
+      "description": "FTA corporate tax and VAT registration support."
+    },
+    "/hr-services/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "HR Services",
+      "description": "Overview of HR outsourcing and workforce management services."
+    },
+    "/global-workforce-solutions/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Global Workforce Solutions",
+      "description": "EOR, PEO, international payroll, immigration and benefits across UAE, GCC and Europe."
+    },
+    "/employer-of-record/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Employer of Record",
+      "description": "EOR services for hiring in the UAE without a local entity."
+    },
+    "/professional-employer-organization-uae/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "PEO - Professional Employer Organization",
+      "description": "Co-employment services for UAE workforce management."
+    },
+    "/immigration-services-in-uae/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "UAE Immigration Services",
+      "description": "MOHRE work permits, GDRFA/ICP visas, and Emirates ID processing."
+    },
+    "/relocation-services/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Relocation Services",
+      "description": "Employee and family relocation support for UAE moves."
+    },
+    "/contractor-hire/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Contractor Hire",
+      "description": "Compliant contractor engagement in the UAE."
+    },
+    "/payroll-services/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Payroll Services - WPS",
+      "description": "WPS-compliant payroll processing."
+    },
+    "/attendance-management/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Attendance Management",
+      "description": "Employee attendance tracking systems."
+    },
+    "/employee-benefits/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Employee Benefits",
+      "description": "Benefits administration for UAE employers."
+    },
+    "/employee-insurances/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Employee Insurances",
+      "description": "Mandatory and supplementary health insurance for staff."
+    },
+    "/remote-workers-hire/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Hire Remote Workers",
+      "description": "Compliant hiring of remote workers in the UAE and abroad."
+    },
+    "/hr-payroll-software-uae/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "HR & Payroll Software",
+      "description": "Connect HR cloud software for payroll, WPS, gratuity and leave management."
+    },
+    "/hr-outsourcing/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "HR Outsourcing",
+      "description": "Full HR function outsourcing."
+    },
+    "/payroll-outsourcing/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Payroll Outsourcing in Dubai",
+      "description": "Outsourced payroll processing and compliance."
+    },
+    "/staff-outsourcing/": {
+      "group": "HR, Payroll & Workforce Services",
+      "title": "Staff Outsourcing",
+      "description": "MOHRE-licensed staff outsourcing across UAE mainland, free zone and DIFC."
+    },
+    "/visa-services/": {
+      "group": "Visa & Immigration",
+      "title": "Visa Services",
+      "description": "Employment, investor, Golden Visa, family and freelance visa processing."
+    },
+    "/freelance-visa/": {
+      "group": "Visa & Immigration",
+      "title": "Freelance Visa",
+      "description": "Freelance permit and visa processing in the UAE."
+    },
+    "/cybersecurity-solutions/": {
+      "group": "IT Services",
+      "title": "Cybersecurity Solutions",
+      "description": "Security consulting and managed services."
+    },
+    "/it-audit-consultancy/": {
+      "group": "IT Services",
+      "title": "IT Audit and Consulting",
+      "description": "IT infrastructure audit and advisory."
+    },
+    "/hosting-solutions/": {
+      "group": "IT Services",
+      "title": "Hosting Solutions",
+      "description": "Web and server hosting services."
+    },
+    "/web-development/": {
+      "group": "IT Services",
+      "title": "Web Development",
+      "description": "Website design and development."
+    },
+    "/software-development/": {
+      "group": "IT Services",
+      "title": "Software Development",
+      "description": "Custom software development."
+    },
+    "/mvp-development/": {
+      "group": "IT Services",
+      "title": "MVP Development",
+      "description": "Minimum viable product development for startups."
+    },
+    "/crm-marketing-solutions/": {
+      "group": "IT Services",
+      "title": "CRM & Marketing Solutions",
+      "description": "CRM implementation and marketing tech."
+    },
+    "/online-marketing-services-in-uae/": {
+      "group": "IT Services",
+      "title": "Online Marketing Services",
+      "description": "Digital marketing services in the UAE."
+    },
+    "/it-outsourcing/": {
+      "group": "IT Services",
+      "title": "IT Outsourcing",
+      "description": "Outsourced IT function management."
+    },
+    "/executive-office-dubai/": {
+      "group": "Real Estate Services",
+      "title": "Executive Office",
+      "description": "Executive office space in Dubai."
+    },
+    "/coworking-space-dubai/": {
+      "group": "Real Estate Services",
+      "title": "Coworking Space Dubai",
+      "description": "Shared coworking space."
+    },
+    "/meeting-rooms/": {
+      "group": "Real Estate Services",
+      "title": "Meeting Rooms",
+      "description": "Meeting room rentals."
+    },
+    "/shared-office-space-dubai/": {
+      "group": "Real Estate Services",
+      "title": "Shared Office Space Dubai",
+      "description": "Shared office solutions."
+    },
+    "/virtual-office-dubai/": {
+      "group": "Real Estate Services",
+      "title": "Virtual Office Dubai",
+      "description": "Virtual office and registered address services."
+    },
+    "/private-office/": {
+      "group": "Real Estate Services",
+      "title": "Private Office",
+      "description": "Private office rentals."
+    },
+    "/connect-business-centers/": {
+      "group": "Real Estate Services",
+      "title": "Business Centers",
+      "description": "Business center locations across the UAE."
+    },
+    "/legal-services/": {
+      "group": "Legal & Other Services",
+      "title": "Legal Services",
+      "description": "Corporate legal advisory and compliance support."
+    },
+    "/pro-services/": {
+      "group": "Legal & Other Services",
+      "title": "PRO Services",
+      "description": "Government liaison and document processing."
+    },
+    "/banking-services-uae/": {
+      "group": "Legal & Other Services",
+      "title": "Banking Services",
+      "description": "Corporate bank account introductions."
+    },
+    "/movey-uae/": {
+      "group": "Legal & Other Services",
+      "title": "Movey",
+      "description": "Transportation service brand."
+    },
+    "/connect-resources/": {
+      "group": "Group Brands",
+      "title": "Connect Resources",
+      "description": "UAE workforce and employment solutions brand."
+    },
+    "/connect-resources-ksa/": {
+      "group": "Group Brands",
+      "title": "Connect Resources Saudi",
+      "description": "Saudi Arabia employment and workforce brand."
+    },
+    "/connect-freelance/": {
+      "group": "Group Brands",
+      "title": "Connect Freelance",
+      "description": "Freelance visa brand."
+    },
+    "/connect-zone/": {
+      "group": "Group Brands",
+      "title": "Connect Zone",
+      "description": "Free zone setup brand."
+    },
+    "/connect-fz/": {
+      "group": "Group Brands",
+      "title": "Connect FZ",
+      "description": "Free zone licensing brand."
+    },
+    "/connect-business-center/": {
+      "group": "Group Brands",
+      "title": "Connect Business Center",
+      "description": "Office and workspace brand."
+    },
+    "/c-uae/": {
+      "group": "Group Brands",
+      "title": "C-UAE",
+      "description": "Business setup and formation brand."
+    },
+    "/mbs-tax-consultancy/": {
+      "group": "Group Brands",
+      "title": "MBS Tax Consultancy",
+      "description": "Tax advisory brand."
+    },
+    "/connect-legal/": {
+      "group": "Group Brands",
+      "title": "Connect Legal",
+      "description": "Legal services brand."
+    },
+    "/connect-hr/": {
+      "group": "Group Brands",
+      "title": "Connect HR",
+      "description": "Cloud HR and payroll software brand."
+    },
+    "/connect-staff/": {
+      "group": "Group Brands",
+      "title": "Connect Staff",
+      "description": "Permanent and temporary staffing brand."
+    },
+    "/connect-fm/": {
+      "group": "Group Brands",
+      "title": "Connect FM",
+      "description": "Facility management brand."
+    },
+    "/company-formation-saudi/": {
+      "group": "Group Brands",
+      "title": "Company Formation Saudi",
+      "description": "Saudi company formation brand."
+    },
+    "/saudi-company-formation/": {
+      "group": "Group Brands",
+      "title": "Saudi Company Formation",
+      "description": "Saudi Arabia business setup brand."
+    },
+    "/lla-designers/": {
+      "group": "Group Brands",
+      "title": "LLA Designers",
+      "description": "Interior design brand."
+    },
+    "/emiratisation-hub-uae/": {
+      "group": "Group Brands",
+      "title": "Emiratisation Hub",
+      "description": "Emiratisation compliance and recruitment brand."
+    },
+    "/kpm-pro/": {
+      "group": "Group Brands",
+      "title": "KPM Pro",
+      "description": "Government document processing brand."
+    },
+    "/kinza-hr/": {
+      "group": "Group Brands",
+      "title": "KinzaHR",
+      "description": "Recruitment brand."
+    },
+    "/ngmanpower/": {
+      "group": "Group Brands",
+      "title": "NGManPower",
+      "description": "Industrial manpower brand."
+    },
+    "/uaegate/": {
+      "group": "Group Brands",
+      "title": "UAE Gate",
+      "description": "Company formation brand."
+    },
+    "/raadrecruitment/": {
+      "group": "Group Brands",
+      "title": "Raad Recruitment",
+      "description": "Emirati talent recruitment brand."
+    },
+    "/emiratisationgateway/": {
+      "group": "Group Brands",
+      "title": "Emiratisation Gateway",
+      "description": "Emiratisation support brand."
+    },
+    "/emiratisationnafis/": {
+      "group": "Group Brands",
+      "title": "Emiratisation Nafis",
+      "description": "Nafis programme support brand."
+    },
+    "/royal-visa/": {
+      "group": "Group Brands",
+      "title": "Royal Visa",
+      "description": "Premium visa services brand."
+    },
+    "/pittant/": {
+      "group": "Group Brands",
+      "title": "Pittant",
+      "description": "Cloud HR software brand for Saudi Arabia."
+    },
+    "/redo/": {
+      "group": "Group Brands",
+      "title": "Redo",
+      "description": "Home renovation brand."
+    },
+    "/sp-heavy-machinery/": {
+      "group": "Group Brands",
+      "title": "S&P Heavy Machinery",
+      "description": "Heavy machinery and generator rental brand."
+    },
+    "/snapsale/": {
+      "group": "Group Brands",
+      "title": "Snapsale",
+      "description": "Property sales brand."
+    },
+    "/iberiaeor/": {
+      "group": "Group Brands",
+      "title": "IberiaEOR",
+      "description": "Employer of Record brand for Spain."
+    },
+    "/al-buraq/": {
+      "group": "Group Brands",
+      "title": "Al Buraq",
+      "description": "Corporate sponsorship brand for restricted licences."
+    },
+    "/the-talent-point/": {
+      "group": "Group Brands",
+      "title": "The Talent Point",
+      "description": "Recruitment brand."
+    },
+    "/izirent/": {
+      "group": "Group Brands",
+      "title": "Izirent",
+      "description": "Car rental brand."
+    },
+    "/interlibya/": {
+      "group": "Group Brands",
+      "title": "Interlibya",
+      "description": "Business services brand for Libya."
+    },
+    "/evolution-middle-east/": {
+      "group": "Group Brands",
+      "title": "Evolution Middle East",
+      "description": "Global mobility services brand for Abu Dhabi."
+    },
+    "/company-formation-search/": {
+      "group": "Other Pages",
+      "title": "Company Formation Search",
+      "description": "Tool/page for finding the right UAE company formation route."
+    },
+    "/faq/": {
+      "group": "Other Pages",
+      "title": "FAQ",
+      "description": "Frequently asked questions about Connect Group's services."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights (Blog Home)",
+      "description": "Main blog index, paginated across 20+ pages, covering UAE business, HR, tax, visa and company formation topics."
+    },
+    "/category/banking/": {
+      "group": "Blog & Insights",
+      "title": "Banking",
+      "description": "Blog category"
+    },
+    "/category/business-center/": {
+      "group": "Blog & Insights",
+      "title": "Business Center",
+      "description": "Blog category"
+    },
+    "/category/business-tips/": {
+      "group": "Blog & Insights",
+      "title": "Business Tips",
+      "description": "Blog category"
+    },
+    "/category/company-formation-blog/": {
+      "group": "Blog & Insights",
+      "title": "Company Formation",
+      "description": "Blog category"
+    },
+    "/category/eor/": {
+      "group": "Blog & Insights",
+      "title": "EOR",
+      "description": "Blog category"
+    },
+    "/category/freelance/": {
+      "group": "Blog & Insights",
+      "title": "Freelance",
+      "description": "Blog category"
+    },
+    "/category/freelance-visa/": {
+      "group": "Blog & Insights",
+      "title": "Freelance Visa",
+      "description": "Blog category"
+    },
+    "/category/human-resource/": {
+      "group": "Blog & Insights",
+      "title": "Human Resource",
+      "description": "Blog category"
+    },
+    "/category/licensing/": {
+      "group": "Blog & Insights",
+      "title": "Licensing",
+      "description": "Blog category"
+    },
+    "/category/office-space/": {
+      "group": "Blog & Insights",
+      "title": "Office Space",
+      "description": "Blog category"
+    },
+    "/category/outsourcing/": {
+      "group": "Blog & Insights",
+      "title": "Outsourcing",
+      "description": "Blog category"
+    },
+    "/category/peo/": {
+      "group": "Blog & Insights",
+      "title": "PEO",
+      "description": "Blog category"
+    },
+    "/category/real-estate/": {
+      "group": "Blog & Insights",
+      "title": "Real Estate",
+      "description": "Blog category"
+    },
+    "/category/tax/": {
+      "group": "Blog & Insights",
+      "title": "Tax",
+      "description": "Blog category"
+    },
+    "/category/uae-market/": {
+      "group": "Blog & Insights",
+      "title": "UAE Market",
+      "description": "Blog category"
+    },
+    "/category/visa-services/": {
+      "group": "Blog & Insights",
+      "title": "Visa Services",
+      "description": "Blog category"
+    },
+    "/hr-audit-uae-checklist/": {
+      "group": "Blog & Insights",
+      "title": "HR Audit UAE: Complete HR Audit Checklist for Companies",
+      "description": "Guide to conducting an HR audit for UAE businesses."
+    },
+    "/employer-of-record-compliance-uae/": {
+      "group": "Blog & Insights",
+      "title": "Employer of Record Compliance Checklist for UAE Employers",
+      "description": "Compliance requirements when using an EOR in the UAE."
+    },
+    "/hr-documents-uae/": {
+      "group": "Blog & Insights",
+      "title": "HR Documents UAE: Every Employer's Complete Checklist",
+      "description": "Checklist of required HR documentation for UAE employers."
+    },
+    "/hr-compliance-checklist-uae/": {
+      "group": "Blog & Insights",
+      "title": "HR Compliance Checklist for UAE Businesses",
+      "description": "Overview of HR compliance obligations in the UAE."
+    },
+    "/pro-services-in-sharjah/": {
+      "group": "Blog & Insights",
+      "title": "Unlocking the Real Value of Pro Services in Sharjah",
+      "description": "PRO services guide specific to Sharjah."
+    },
+    "/understanding-wage-protection-system-wps/": {
+      "group": "Blog & Insights",
+      "title": "Understanding Wage Protection System (WPS) Audits in the UAE",
+      "description": "Explanation of WPS audits and compliance."
+    },
+    "/onboarding-for-employee-satisfaction/": {
+      "group": "Blog & Insights",
+      "title": "The Importance of Onboarding for Employee Satisfaction",
+      "description": "Guide to employee onboarding best practices."
+    },
+    "/tax-implications-for-freelancers-in-the-uae/": {
+      "group": "Blog & Insights",
+      "title": "Tax Implications for Freelancers in the UAE",
+      "description": "Tax obligations for UAE-based freelancers."
+    },
+    "/key-legal-considerations-for-using-an-eor-in-dubai/": {
+      "group": "Blog & Insights",
+      "title": "Key Legal Considerations for Using an EOR in Dubai",
+      "description": "Legal factors to evaluate before using an EOR."
+    },
+    "/eor-vs-traditional-staffing-agencies-a-comparative-study/": {
+      "group": "Blog & Insights",
+      "title": "EOR Vs. Traditional Staffing Agencies: A Comparative Study",
+      "description": "Comparison of EOR and staffing agency models."
+    },
+    "/common-misconceptions-about-hiring-a-business-consultant/": {
+      "group": "Blog & Insights",
+      "title": "Common Misconceptions About Hiring a Business Consultant",
+      "description": "Myths about business consultants addressed."
+    },
+    "/strategies-to-improve-operational-efficiency-with-consultants/": {
+      "group": "Blog & Insights",
+      "title": "Strategies to Improve Operational Efficiency with Consultants",
+      "description": "Guide to improving operations through consultancy."
+    },
+    "/how-business-consultants-help-scale-startups-in-dubai/": {
+      "group": "Blog & Insights",
+      "title": "How Business Consultants Help Scale Startups in Dubai",
+      "description": "How consultants support startup growth in Dubai."
+    },
+    "/about-us/": {
+      "group": "About",
+      "title": "About Us",
+      "description": "Company background and group overview."
+    },
+    "/contact-us/": {
+      "group": "About",
+      "title": "Contact Us",
+      "description": "Contact and consultation booking."
+    }
+  }
+}
