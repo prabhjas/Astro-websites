@@ -1,14 +1,19 @@
 # evolutionmiddleast.com — Node SSR on 127.0.0.1:5080
 # Prefer: import this from /etc/caddy/sites.d/evolutionmiddleast.com.caddy
-# (fleet: one file per site + caddy validate before reload)
-evolutionmiddleast.com, www.evolutionmiddleast.com {
-	encode gzip
+# Behind Cloudflare Flexible: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+http://evolutionmiddleast.com, http://www.evolutionmiddleast.com, https://evolutionmiddleast.com, https://www.evolutionmiddleast.com {
+	tls internal
+	encode gzip zstd
 	reverse_proxy 127.0.0.1:5080
 	header {
 		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {
-		output file /var/log/caddy/evolutionmiddleast.com-access.log
+		output file /var/log/caddy/evolutionmiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
 		format json
 	}
 }

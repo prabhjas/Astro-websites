@@ -1,8 +1,11 @@
 # /etc/caddy/sites.d/spheavyrental.ae.caddy
-# Prefer: import /etc/caddy/sites.d/*.caddy  (fleet standard §6.3)
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Origin SSL mode must be Full (not Full strict) — origin uses tls internal.
+# Cloudflare DNS must point apex (+ www) at this host before traffic reaches Astro.
 # Validate before reload: caddy validate --config /etc/caddy/Caddyfile
 
-spheavyrental.ae, www.spheavyrental.ae {
+http://spheavyrental.ae, http://www.spheavyrental.ae, https://spheavyrental.ae, https://www.spheavyrental.ae {
+	tls internal
 	encode gzip zstd
 	reverse_proxy 127.0.0.1:5082
 	header {

@@ -55,5 +55,3 @@ local/logs/
 # Per-site runtime data / env (never commit)
 Astro-production/**/.data/
 Astro-production/**/.env
-Astro-staging/**/.data/
-Astro-staging/**/.env
