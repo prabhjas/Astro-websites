@@ -1457,22 +1457,54 @@
         sessionStorage.setItem('cg_initial_url', pageUrl);
       }
       ensureLegacyTrackingFields(form);
-      function setField(name, value) {
-        var input = form.querySelector('[name="' + name + '"]');
-        if (input) input.value = value || '';
+
+      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
+      var TRACKING_FIELDS = {
+        gclid: ['gclid'],
+        gbraid: ['gbraid'],
+        wbraid: ['wbraid'],
+        fbclid: ['fbclid'],
+        msclkid: ['msclkid'],
+        utm_source: ['utm_source'],
+        utm_medium: ['utm_medium'],
+        utm_campaign: ['utm_campaign'],
+        utm_term: ['utm_term'],
+        utm_content: ['utm_content'],
+        campaign_id: ['campaign_id', 'campaignid', 'gad_campaignid', 'campaign'],
+        adgroup_id: ['adgroup_id', 'adgroupid'],
+        group_id: ['group_id', 'groupid'],
+        creative_id: ['creative_id', 'creativeid', 'creative'],
+        keyword: ['keyword', 'kw', 'q', 'utm_term'],
+        matchtype: ['matchtype'],
+        device: ['device'],
+        network: ['network'],
+        placement: ['placement', 'displayad'],
+        target: ['target', 'targetid', 'target_id'],
+        target_id: ['target_id', 'targetid', 'target'],
+        adposition: ['adposition', 'ad_position'],
+        loc_physical_ms: ['loc_physical_ms', 'locphysicalms'],
+        loc_interest_ms: ['loc_interest_ms', 'locinterestms'],
+        gad_source: ['gad_source', 'gadsource'],
+        source: ['source', 'gad_source', 'gadsource'],
+      };
+
+      function firstParam(aliases) {
+        for (var i = 0; i < aliases.length; i++) {
+          var v = params.get(aliases[i]);
+          if (v) return v;
+        }
+        return '';
       }
-      setField('initial_url', initial);
-      setField('landing_page_url', initial);
-      setField('page_url', pageUrl);
-      setField('submission_page_url', pageUrl);
-      setField('referrer_url', document.referrer || '');
-      setField('gclid', params.get('gclid') || '');
-      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'campaign_id'].forEach(
-        function (key) {
-          if (!form.querySelector('[name="' + key + '"]')) return;
-          setField(key, params.get(key) || '');
-        },
-      );
+
+      Object.keys(TRACKING_FIELDS).forEach(function (name) {
+        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+      });
+
+      ensureHiddenField(form, 'initial_url', initial);
+      ensureHiddenField(form, 'landing_page_url', initial);
+      ensureHiddenField(form, 'page_url', pageUrl);
+      ensureHiddenField(form, 'submission_page_url', pageUrl);
+      ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
 
     function normalizeNationalPhoneDigits(phone, dialCode) {

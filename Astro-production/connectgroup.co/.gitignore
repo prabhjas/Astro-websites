@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build (site output only — keep mirrored WP theme/plugin `dist` assets under public/)
+/dist/
+.astro/
+
+# Env
+.env
+.env.*
+!.env.example
+.data/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+.tmp-lighthouse*
+
+# WP Rocket raw dumps
+*_gzip
+*.bak*
+source/wordpress-exports/**/index-https (1).html
+source/wordpress-exports/**/index-mobile-https (1).html
+
+# IMPORTANT: Do NOT ignore public/wp-content or public/wp-includes.
+# Local media/assets must stay tracked for WordPress cutover.

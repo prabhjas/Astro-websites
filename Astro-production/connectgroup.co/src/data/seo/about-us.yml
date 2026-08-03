@@ -1,0 +1,25 @@
+# About Us SEO — from Rank Math export (Phase 1 mirror still uses baked-in HTML tags)
+
+title: "Connect Group – Empowering Business Success in the UAE"
+description: "Find out who we are at Connect Group—experts committed to supporting business success in the UAE with tailored services, local insight, and trusted partnerships."
+canonical: "/about-us/"
+robots: "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+keywords: "Connect Group, About Us, UAE"
+
+og:
+  title: "Connect Group – Empowering Business Success in the UAE"
+  description: "Find out who we are at Connect Group—experts committed to supporting business success in the UAE with tailored services, local insight, and trusted partnerships."
+  type: "website"
+  locale: "en_US"
+  image: "/wp-content/uploads/2025/09/Frame.png"
+  imageWidth: 200
+  imageHeight: 200
+
+twitter:
+  card: "summary_large_image"
+  title: "Connect Group – Empowering Business Success in the UAE"
+  description: "Find out who we are at Connect Group—experts committed to supporting business success in the UAE with tailored services, local insight, and trusted partnerships."
+
+schema:
+  pageType: "WebPage"
+  organizationName: "Connect Group"
