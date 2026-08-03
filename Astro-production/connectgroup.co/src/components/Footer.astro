@@ -1,0 +1,41 @@
+---
+/**
+ * Shared site footer (Elementor 28308 / #pix-page-footer).
+ * Loads markup dynamically from /chrome/footer.html (same source as legacy injection).
+ */
+---
+
+<div id="cg-shared-footer-root" class="cg-shared-chrome" data-chrome="footer" aria-busy="true"></div>
+<script is:inline>
+  (function () {
+    var root = document.getElementById('cg-shared-footer-root');
+    if (!root || root.dataset.loaded === '1') return;
+    root.dataset.loaded = '1';
+    fetch('/chrome/footer.html', { credentials: 'same-origin' })
+      .then(function (res) {
+        if (!res.ok) throw new Error(String(res.status));
+        return res.text();
+      })
+      .then(function (html) {
+        // Contact Us already has its own form — hide the shared footer CF7 block.
+        var path = (location.pathname || '').replace(/\/+$/, '') || '/';
+        if (path === '/contact-us') {
+          var tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          var formSection = tmp.querySelector('.elementor-element-d5fdd9c');
+          if (formSection) {
+            formSection.remove();
+          } else {
+            var formWidget = tmp.querySelector('.elementor-element-8cde095, .wpcf7');
+            if (formWidget) formWidget.remove();
+          }
+          html = tmp.innerHTML;
+        }
+        root.outerHTML = html;
+      })
+      .catch(function (err) {
+        console.warn('[Footer] failed to load shared chrome', err);
+        root.removeAttribute('aria-busy');
+      });
+  })();
+</script>
