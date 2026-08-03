@@ -1,5 +1,5 @@
 [Unit]
-Description=Iberia Workforce Astro SSR server (Caddy reverse-proxies to this)
+Description=Iberia Workforce Astro SSR server (Caddy full reverse-proxy to this)
 After=network.target
 
 [Service]
@@ -8,7 +8,8 @@ Type=simple
 User=site-iberiaworkforce
 Group=site-iberiaworkforce
 WorkingDirectory=/opt/Astro-production/iberiaworkforce.com
-EnvironmentFile=-/opt/Astro-production/iberiaworkforce.com/.env.prod
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/iberiaworkforce.com/.env.prod
 Environment=NODE_ENV=production
 # HOST/PORT in unit only — not in .env.prod
 ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5083 /usr/bin/node ./dist/server/entry.mjs

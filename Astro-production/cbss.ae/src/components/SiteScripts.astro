@@ -235,20 +235,39 @@
 
     function getUrlParams() {
       var params = new URLSearchParams(window.location.search);
+      function first() {
+        for (var i = 0; i < arguments.length; i++) {
+          var v = params.get(arguments[i]);
+          if (v) return v;
+        }
+        return '';
+      }
       return {
-        gclid: params.get('gclid') || '',
-        campaign_id: params.get('campaign_id') || '',
-        adgroup_id: params.get('adgroup_id') || '',
-        creative_id: params.get('creative_id') || '',
-        keyword: params.get('keyword') || '',
-        matchtype: params.get('matchtype') || '',
-        device: params.get('device') || '',
-        network: params.get('network') || '',
-        placement: params.get('placement') || '',
-        target_id: params.get('target_id') || '',
-        adposition: params.get('adposition') || '',
-        loc_interest_ms: params.get('loc_interest_ms') || '',
-        loc_physical_ms: params.get('loc_physical_ms') || '',
+        gclid: first('gclid'),
+        gbraid: first('gbraid'),
+        wbraid: first('wbraid'),
+        fbclid: first('fbclid'),
+        msclkid: first('msclkid'),
+        utm_source: first('utm_source'),
+        utm_medium: first('utm_medium'),
+        utm_campaign: first('utm_campaign'),
+        utm_term: first('utm_term'),
+        utm_content: first('utm_content'),
+        campaign_id: first('campaign_id', 'campaignid', 'gad_campaignid', 'campaign'),
+        adgroup_id: first('adgroup_id', 'adgroupid'),
+        creative_id: first('creative_id', 'creativeid', 'creative'),
+        keyword: first('keyword', 'kw', 'q', 'utm_term'),
+        matchtype: first('matchtype'),
+        device: first('device'),
+        network: first('network'),
+        placement: first('placement', 'displayad'),
+        target: first('target', 'targetid', 'target_id'),
+        target_id: first('target_id', 'targetid', 'target'),
+        adposition: first('adposition', 'ad_position'),
+        loc_interest_ms: first('loc_interest_ms', 'locinterestms'),
+        loc_physical_ms: first('loc_physical_ms', 'locphysicalms'),
+        gad_source: first('gad_source', 'gadsource'),
+        source: first('source', 'gad_source', 'gadsource'),
       };
     }
 
