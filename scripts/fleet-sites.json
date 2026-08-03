@@ -32,6 +32,13 @@
       "unit": "iberiaworkforce"
     },
     {
+      "id": "connectstaff",
+      "domain": "connectstaff.ae",
+      "dir": "connectstaff.ae",
+      "port": 5084,
+      "unit": "connectstaff"
+    },
+    {
       "id": "eormiddleast",
       "domain": "eormiddleast.com",
       "dir": "eormiddleast.com",
