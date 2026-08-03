@@ -261,6 +261,7 @@ Full checklist: [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW
 | **This README** | Start here — architecture & local start |
 | [docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md](docs/CURSOR-CONVERT-STATIC-TO-ASTRO.md) | **Cursor:** convert WP/static → fleet site |
 | [docs/CURSOR-RUN-FLEET.md](docs/CURSOR-RUN-FLEET.md) | **Cursor:** clone + run this monorepo |
+| [docs/CURSOR-WP-CLONE-MALWARE-SCAN.md](docs/CURSOR-WP-CLONE-MALWARE-SCAN.md) | **Cursor:** WP clone malware / inject scan |
 | [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Convert/add a site; forms; FLOW API summary |
 | [docs/local-fleet-test.md](docs/local-fleet-test.md) | Fleet runner details |
 | [docs/server-side-work.md](docs/server-side-work.md) | Server overview |

@@ -2,7 +2,7 @@
 
 **Audience:** developers (and Cursor) adding site #5+ the same way the four live sites were built.  
 **Repo:** [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites)  
-**Companion:** [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md) (clone, install, run locally)  
+**Companion:** [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md) (clone, install, run locally) · [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md) (scan WP clones)  
 **Detail / API surface:** [CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md)
 
 | Field | Value |
