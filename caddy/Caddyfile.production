@@ -11,10 +11,11 @@
 #   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
 #   systemctl reload caddy
 #
-# Sites in this file: Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect Group 5085, EOR Middle East 5090, C-UAE 5092, Connect Staff 5091,
-# KinzaHR 5093. Connect HR (5084) is reserved but NOT yet wired here —
-# see Astro-production/connecthr.ae/deploy/.
+# Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
+# Connect HR 5084, Connect Group 5085, Connect Resources SA 5088, Iberia EOR 5089,
+# EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
+# Connect FZ 5096, Royal Visa 5097.
+# Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
 	# The service is intentionally unprivileged. Cloudflare Full does not need
@@ -41,7 +42,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.c-uae.com, http://www.connectstaff.ae, http://www.kinzahr.com {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -54,20 +55,35 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@iberiaworkforce host www.iberiaworkforce.com
 	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
 
+	@connecthr host www.connecthr.ae
+	redir @connecthr https://connecthr.ae{uri} permanent
+
 	@connectgroup host www.connectgroup.co
 	redir @connectgroup https://connectgroup.co{uri} permanent
+
+	@connectresources_sa host www.connectresources.sa
+	redir @connectresources_sa https://connectresources.sa{uri} permanent
+
+	@iberiaeor host www.iberiaeor.com
+	redir @iberiaeor https://iberiaeor.com{uri} permanent
 
 	@eormiddleast host www.eormiddleast.com
 	redir @eormiddleast https://eormiddleast.com{uri} permanent
 
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
 	@connectstaff host www.connectstaff.ae
 	redir @connectstaff https://connectstaff.ae{uri} permanent
 
+	@cuae host www.c-uae.com
+	redir @cuae https://c-uae.com{uri} permanent
+
 	@kinzahr host www.kinzahr.com
 	redir @kinzahr https://kinzahr.com{uri} permanent
+
+	@connectfz host www.connectfz.com
+	redir @connectfz https://connectfz.com{uri} permanent
+
+	@royalvisa host www.royalvisa.ae
+	redir @royalvisa https://royalvisa.ae{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -183,6 +199,34 @@ iberiaworkforce.com, www.iberiaworkforce.com {
 	}
 }
 
+# connecthr.ae -> connecthr.service
+connecthr.ae, www.connecthr.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connecthr.ae
+	redir @noncanonical https://connecthr.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5084
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connecthr.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
 # connectgroup.co -> connectgroup.service
 connectgroup.co, www.connectgroup.co {
 	tls internal
@@ -204,6 +248,63 @@ connectgroup.co, www.connectgroup.co {
 	}
 	log {
 		output file /var/log/caddy/connectgroup.co-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectresources.sa -> connectresources-sa.service (port 5088)
+# Sync with Astro-production/connectresources.sa/deploy/connectresources.sa.caddy
+connectresources.sa, www.connectresources.sa {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectresources.sa
+	redir @noncanonical https://connectresources.sa{uri} permanent
+
+	reverse_proxy 127.0.0.1:5088
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectresources.sa-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# iberiaeor.com -> iberiaeor.service
+iberiaeor.com, www.iberiaeor.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.iberiaeor.com
+	redir @noncanonical https://iberiaeor.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5089
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/iberiaeor.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -239,34 +340,6 @@ eormiddleast.com, www.eormiddleast.com {
 	}
 }
 
-# c-uae.com -> cuae.service
-c-uae.com, www.c-uae.com {
-	tls internal
-	encode zstd gzip
-
-	@noncanonical host www.c-uae.com
-	redir @noncanonical https://c-uae.com{uri} permanent
-
-	reverse_proxy 127.0.0.1:5092
-
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
-	header {
-		-Server
-		Strict-Transport-Security "max-age=31536000"
-		X-Content-Type-Options nosniff
-		X-Frame-Options SAMEORIGIN
-		Referrer-Policy strict-origin-when-cross-origin
-	}
-	log {
-		output file /var/log/caddy/c-uae.com-access.log {
-			roll_size 100MiB
-			roll_keep 14
-		}
-		format json
-	}
-}
-
 # connectstaff.ae -> connectstaff.service
 connectstaff.ae, www.connectstaff.ae {
 	tls internal
@@ -288,6 +361,34 @@ connectstaff.ae, www.connectstaff.ae {
 	}
 	log {
 		output file /var/log/caddy/connectstaff.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# c-uae.com -> cuae.service
+c-uae.com, www.c-uae.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.c-uae.com
+	redir @noncanonical https://c-uae.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5092
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/c-uae.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -322,3 +423,62 @@ kinzahr.com, www.kinzahr.com {
 		format json
 	}
 }
+
+# connectfz.com -> connectfz.service
+connectfz.com, www.connectfz.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectfz.com
+	redir @noncanonical https://connectfz.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5096
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectfz.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# royalvisa.ae -> royalvisa.service (port 5097)
+# Sync with Astro-production/royalvisa.ae/deploy/royalvisa.ae.caddy
+# Apply to live /etc/caddy/Caddyfile only when Node unit is up (Phase 09).
+royalvisa.ae, www.royalvisa.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.royalvisa.ae
+	redir @noncanonical https://royalvisa.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5097
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/royalvisa.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
