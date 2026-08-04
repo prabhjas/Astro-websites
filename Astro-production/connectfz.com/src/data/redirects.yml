@@ -1,0 +1,16 @@
+# Canonical redirects (interim until FLOW owns day-to-day edits)
+# Import exports into imports/redirects/ then merge here — see imports/redirects/README.md
+# Runtime SSR also merges .data/internal-admin/redirects.json (JSON wins on duplicate `from`).
+
+redirects:
+  # Scaffold smoke rule — replace / expand when Rank Math / Redirection export arrives
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php/
+    to: /
+    status: 301
+
+  - from: /contact-us/
+    to: /contact/
+    status: 301
