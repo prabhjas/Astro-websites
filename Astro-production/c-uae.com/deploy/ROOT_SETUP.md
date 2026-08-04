@@ -41,11 +41,14 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental eormiddleast cuae
 
 ```bash
 mkdir -p /etc/caddy/sites.d /var/log/caddy
+# Prefer merging deploy/c-uae.com.caddy into the fleet Caddyfile.production
+# (one-hop HTTP + hardened site block). Or copy to sites.d if that layout is used.
 cp /opt/Astro-production/c-uae.com/deploy/c-uae.com.caddy /etc/caddy/sites.d/
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use `http://`+`https://`+`tls internal` template — **not** bare hostnames (CF Flexible redirect loop).
+Use the hardened bare-host + `tls internal` template (`@noncanonical` www→apex, HSTS, static cache) — **not** mixed http+https in one block (CF Flexible redirect loop).
+Match `PUBLIC_SITE_URL=https://c-uae.com`. Cloudflare SSL = **Full**.
 
 ## 6. Deploy loop
 

@@ -12,8 +12,8 @@
 #   systemctl reload caddy
 #
 # Sites in this file: Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect Group 5085. Connect HR (5084) is reserved in the fleet but NOT yet
-# wired here — see Astro-production/connecthr.ae/deploy/connecthr.ae.caddy.
+# Connect Group 5085, EOR Middle East 5090. Connect HR (5084) is reserved in
+# the fleet but NOT yet wired here — see Astro-production/connecthr.ae/deploy/.
 
 {
 	# The service is intentionally unprivileged. Cloudflare Full does not need
@@ -40,7 +40,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.c-uae.com {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -55,6 +55,12 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@connectgroup host www.connectgroup.co
 	redir @connectgroup https://connectgroup.co{uri} permanent
+
+	@eormiddleast host www.eormiddleast.com
+	redir @eormiddleast https://eormiddleast.com{uri} permanent
+
+	@cuae host www.c-uae.com
+	redir @cuae https://c-uae.com{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -191,6 +197,62 @@ connectgroup.co, www.connectgroup.co {
 	}
 	log {
 		output file /var/log/caddy/connectgroup.co-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# eormiddleast.com -> eormiddleast.service
+eormiddleast.com, www.eormiddleast.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.eormiddleast.com
+	redir @noncanonical https://eormiddleast.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5090
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/eormiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# c-uae.com -> cuae.service
+c-uae.com, www.c-uae.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.c-uae.com
+	redir @noncanonical https://c-uae.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5092
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/c-uae.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
