@@ -1,0 +1,38 @@
+{
+  "siteTitle": "Connect UAE",
+  "summary": "Connect UAE helps entrepreneurs and companies with business setup, company formation, free zone licensing, and visa services across the UAE.",
+  "details": "Services cover mainland and free zone company formation, trade licenses, visa services, PRO services, banking support, and business consultancy across Dubai, Abu Dhabi, Sharjah, and the wider UAE.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Free Zones",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Insights cover company formation, visas, free zones, and doing business in the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Start your business setup in the UAE with Connect UAE — company formation, visas, and licensing support."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect UAE — business setup and visa specialists in the UAE."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Connect UAE for company formation, visa, and licensing enquiries."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Latest insights on company formation, visas, and doing business in the UAE."
+    }
+  }
+}

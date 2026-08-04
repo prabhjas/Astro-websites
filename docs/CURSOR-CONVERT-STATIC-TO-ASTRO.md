@@ -2,7 +2,8 @@
 
 **Audience:** developers (and Cursor) adding site #5+ the same way the four live sites were built.  
 **Repo:** [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites)  
-**Companion:** [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md) (clone, install, run locally) · [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md) (scan WP clones)  
+**Master lifecycle:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) (this file is Phase 02 detail)  
+**Companion:** [CONNECT-FLOW-SITE-ONBOARDING.md](CONNECT-FLOW-SITE-ONBOARDING.md) (fleet → FLOW full standard) · [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md) (clone, install, run locally) · [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md) (scan WP clones)  
 **Detail / API surface:** [CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md)
 
 | Field | Value |

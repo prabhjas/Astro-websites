@@ -1,0 +1,10 @@
+# Permanent redirects — SEO / migration
+# Seed empty for c-uae.com (EOR peer redirects removed). Add Rank Math / Redirection
+# exports under imports/redirects/ and regenerate when available.
+redirects:
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /blog
+    to: /insights/
+    status: 301

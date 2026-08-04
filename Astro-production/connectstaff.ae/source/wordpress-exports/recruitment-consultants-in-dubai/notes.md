@@ -1,0 +1,16 @@
+# recruitment-consultants-in-dubai export notes
+
+| Field | Value |
+|-------|-------|
+| Kind | post |
+| Live URL | https://connectstaff.ae/recruitment-consultants-in-dubai/ |
+| File | `index-https.html` |
+| Source | Live fetch via import-from-sitemap.mjs |
+| Added | 2026-08-03 |
+| Astro route | /recruitment-consultants-in-dubai/ |
+
+## Prepare
+
+```bash
+npm run prepare:page -- recruitment-consultants-in-dubai --download
+```
