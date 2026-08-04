@@ -87,7 +87,7 @@ For FLOW “see posts, sitemap, redirects, GTM on this domain” you almost alwa
 
 ### Step B — Register in the fleet
 
-Edit `scripts/fleet-sites.json` — next free port (**5086+** as of connectgroup.co on 5085):
+Edit `scripts/fleet-sites.json` — next free port (**5093+**; 5080–5087 + 5090/5092 reserved — see § Port map):
 
 ```json
 {
@@ -471,6 +471,11 @@ Astro-production/<domain>/
 | iberiaworkforce | iberiaworkforce.com | 5083 |
 | connecthr | connecthr.ae | 5084 |
 | connectgroup | connectgroup.co | 5085 |
+| connectstaff | connectstaff.ae | 5086 |
+| connectresources | connectresources.ae | 5087 |
+| eormiddleast | eormiddleast.com | 5090 |
+| cuae | c-uae.com | 5092 |
+| *(next)* | | **5093+** |
 
 Next free: **5086+**.
 

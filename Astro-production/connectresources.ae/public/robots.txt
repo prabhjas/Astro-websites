@@ -1,0 +1,9 @@
+# Connect Resources — Dubai, UAE
+# Full site map for AI crawlers: https://connectresources.ae/llms.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /search/
+
+Sitemap: https://connectresources.ae/sitemap_index.xml

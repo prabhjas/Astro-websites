@@ -44,6 +44,34 @@
       "dir": "connectgroup.co",
       "port": 5085,
       "unit": "connectgroup"
+    },
+    {
+      "id": "connectstaff",
+      "domain": "connectstaff.ae",
+      "dir": "connectstaff.ae",
+      "port": 5086,
+      "unit": "connectstaff"
+    },
+    {
+      "id": "connectresources",
+      "domain": "connectresources.ae",
+      "dir": "connectresources.ae",
+      "port": 5087,
+      "unit": "connectresources"
+    },
+    {
+      "id": "eormiddleast",
+      "domain": "eormiddleast.com",
+      "dir": "eormiddleast.com",
+      "port": 5090,
+      "unit": "eormiddleast"
+    },
+    {
+      "id": "cuae",
+      "domain": "c-uae.com",
+      "dir": "c-uae.com",
+      "port": 5092,
+      "unit": "cuae"
     }
   ]
 }
