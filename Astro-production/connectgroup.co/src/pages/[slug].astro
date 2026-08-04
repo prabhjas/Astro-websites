@@ -1,0 +1,23 @@
+---
+/**
+ * Dynamic blog post route — serves migrated WordPress posts at their original URLs.
+ * Static pages in src/pages/*.astro take precedence over this route.
+ */
+import { getAllBlogSlugs, getBlogPost, getReservedSlugs, serveBlogPost } from '../lib/blog.ts';
+
+export function getStaticPaths() {
+  const reserved = getReservedSlugs();
+  return getAllBlogSlugs()
+    .filter((slug) => !reserved.has(slug))
+    .map((slug) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug!;
+const post = getBlogPost(slug);
+
+if (!post) {
+  return new Response('Not found', { status: 404 });
+}
+
+return serveBlogPost(post);
+---

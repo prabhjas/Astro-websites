@@ -1,7 +1,7 @@
 import node from '@astrojs/node';
 import { defineConfig } from 'astro/config';
 
-const siteUrl = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.cbss.ae')
+const siteUrl = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://cbss.ae')
   .trim()
   .replace(/\/$/, '');
 
