@@ -83,18 +83,18 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | Port | Domain | Notes |
 |------|--------|--------|
 | 5080 | evolutionmiddleast.com | Full CMS peer · live Caddy |
-| 5081 | cbss.ae | Leads-heavy peer · live Caddy |
+| 5081 | cbss.ae | Leads-heavy peer · live Caddy · **deferred:** no dynamic `/llms.txt` yet (see `00-NEW-SITE-MASTER.md` § Deferred) |
 | 5082 | spheavyrental.ae | Full CMS peer · live Caddy |
-| 5083 | iberiaworkforce.com | Leads + EN/ES · live Caddy |
+| 5083 | iberiaworkforce.com | Leads + EN/ES · live Caddy · **deferred:** no dynamic `/llms.txt` yet (see `00-NEW-SITE-MASTER.md` § Deferred) |
 | 5084 | connecthr.ae | In fleet; **not** in live Caddyfile yet |
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
 | 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
-| 5091 | connectstaff.ae | Scaffolded (dev merge) |
-| 5092 | c-uae.com | Scaffolded (dev merge) |
-| 5093 | kinzahr.com | Full CMS scaffold (local); **not** in live Caddyfile yet |
+| 5091 | connectstaff.ae | Scaffolded · `Caddyfile.production` block ready (server cutover pending) |
+| 5092 | c-uae.com | Scaffolded · `Caddyfile.production` block ready |
+| 5093 | kinzahr.com | Scaffolded · `Caddyfile.production` block ready (server cutover pending) |
 
-“Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group (see `caddy/Caddyfile.production`).
+“Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group, EOR, C-UAE (see `caddy/Caddyfile.production`). Connect Staff + Kinza blocks are in git and ready to install on the host.
 
 ---
 

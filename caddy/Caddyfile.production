@@ -12,8 +12,9 @@
 #   systemctl reload caddy
 #
 # Sites in this file: Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect Group 5085, EOR Middle East 5090. Connect HR (5084) is reserved in
-# the fleet but NOT yet wired here — see Astro-production/connecthr.ae/deploy/.
+# Connect Group 5085, EOR Middle East 5090, C-UAE 5092, Connect Staff 5091,
+# KinzaHR 5093. Connect HR (5084) is reserved but NOT yet wired here —
+# see Astro-production/connecthr.ae/deploy/.
 
 {
 	# The service is intentionally unprivileged. Cloudflare Full does not need
@@ -40,7 +41,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.c-uae.com {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.c-uae.com, http://www.connectstaff.ae, http://www.kinzahr.com {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -61,6 +62,12 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@cuae host www.c-uae.com
 	redir @cuae https://c-uae.com{uri} permanent
+
+	@connectstaff host www.connectstaff.ae
+	redir @connectstaff https://connectstaff.ae{uri} permanent
+
+	@kinzahr host www.kinzahr.com
+	redir @kinzahr https://kinzahr.com{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -253,6 +260,62 @@ c-uae.com, www.c-uae.com {
 	}
 	log {
 		output file /var/log/caddy/c-uae.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectstaff.ae -> connectstaff.service
+connectstaff.ae, www.connectstaff.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectstaff.ae
+	redir @noncanonical https://connectstaff.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5091
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectstaff.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# kinzahr.com -> kinzahr.service
+kinzahr.com, www.kinzahr.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.kinzahr.com
+	redir @noncanonical https://kinzahr.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5093
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/kinzahr.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

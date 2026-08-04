@@ -21,6 +21,10 @@ export const ATTRIBUTION_PRIMARY_KEYS = [
   'network',
   'placement',
   'target',
+  'adposition',
+  'loc_physical_ms',
+  'loc_interest_ms',
+  'gad_source',
   'source',
 ] as const;
 
@@ -41,12 +45,16 @@ export const ATTRIBUTION_KEY_ALIASES: Record<AttributionKey, string[]> = {
   adgroup_id: ['adgroup_id', 'adgroupid'],
   group_id: ['group_id', 'groupid'],
   creative_id: ['creative_id', 'creativeid', 'creative'],
-  keyword: ['keyword', 'kw', 'q'],
+  keyword: ['keyword', 'kw', 'q', 'utm_term'],
   matchtype: ['matchtype'],
   device: ['device'],
   network: ['network'],
   placement: ['placement', 'displayad'],
   target: ['target', 'targetid', 'target_id'],
+  adposition: ['adposition', 'ad_position'],
+  loc_physical_ms: ['loc_physical_ms', 'locphysicalms'],
+  loc_interest_ms: ['loc_interest_ms', 'locinterestms'],
+  gad_source: ['gad_source', 'gadsource'],
   source: ['source'],
 };
 
@@ -79,4 +87,6 @@ export const ATTRIBUTION_COOKIE_KEYS: AttributionKey[] = [
   'campaign_id',
   'adgroup_id',
   'creative_id',
+  'keyword',
+  'gad_source',
 ];

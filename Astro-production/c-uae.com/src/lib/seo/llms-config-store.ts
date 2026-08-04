@@ -39,7 +39,9 @@ export type LlmsDefaultsFile = {
 
 function loadDefaults(): LlmsDefaultsFile {
   const path = join(process.cwd(), 'src/data/llms-defaults.json');
-  return JSON.parse(readFileSync(path, 'utf8')) as LlmsDefaultsFile;
+  // Strip UTF-8 BOM if present (breaks JSON.parse and /llms.txt → 500).
+  const raw = readFileSync(path, 'utf8').replace(/^\uFEFF/, '');
+  return JSON.parse(raw) as LlmsDefaultsFile;
 }
 
 let cachedDefaults: LlmsDefaultsFile | null = null;

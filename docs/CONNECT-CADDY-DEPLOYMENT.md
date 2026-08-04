@@ -48,8 +48,12 @@ Your live production Caddyfile is in git as:
 | spheavyrental.ae | 5082 | Yes | `https://spheavyrental.ae` |
 | iberiaworkforce.com | 5083 | Yes | `https://iberiaworkforce.com` |
 | connectgroup.co | 5085 | Yes | `https://connectgroup.co` |
+| eormiddleast.com | 5090 | Yes | `https://eormiddleast.com` |
+| connectstaff.ae | 5091 | Yes (git target) | `https://connectstaff.ae` |
+| c-uae.com | 5092 | Yes | `https://c-uae.com` |
+| kinzahr.com | 5093 | Yes (git target) | `https://kinzahr.com` |
 
-**Gap:** connecthr.ae (**5084**) and all later ports are reserved in the fleet registry but **not** yet in live `Caddyfile.production`. Wire each on server cutover using §4.
+**Gap:** connecthr.ae (**5084**) and later reserved ports — wire each on server cutover using §4. Connect Staff / Kinza blocks are in `caddy/Caddyfile.production`; still need server install + systemd units on go-live.
 
 Older iteration files under `caddy/` remain for history only.
 
