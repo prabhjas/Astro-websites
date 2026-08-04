@@ -466,6 +466,8 @@ Astro-production/<domain>/
 
 ## 7. Port map (current)
 
+Canonical list: **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** + `scripts/fleet-sites.json`.
+
 | ID | Domain | Port |
 |----|--------|------|
 | evolutionmiddleast | evolutionmiddleast.com | 5080 |
@@ -474,14 +476,13 @@ Astro-production/<domain>/
 | iberiaworkforce | iberiaworkforce.com | 5083 |
 | connecthr | connecthr.ae | 5084 |
 | connectgroup | connectgroup.co | 5085 |
-| connectstaff | connectstaff.ae | 5086 |
-| connectresources | connectresources.ae | 5087 |
+| connectresources | connectresources.ae | 5086 |
 | eormiddleast | eormiddleast.com | 5090 |
+| connectstaff | connectstaff.ae | 5091 |
 | cuae | c-uae.com | 5092 |
-| *(next)* | | **5093+** |
+| *(next free)* | | **5124** |
 
-Next free: **5086+**.
-
+Do not invent ports — take the next free from the registry.
 ---
 
 ## 8. What not to do

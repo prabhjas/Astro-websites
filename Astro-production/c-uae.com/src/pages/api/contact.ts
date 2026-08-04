@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { deriveAttributionFromRequest, normaliseAttribution } from '@/lib/attribution/server';
+import { deriveAttributionFromRequest, normaliseAttribution, attributionFromPageUrl } from '@/lib/attribution/server';
 import { FileLeadStore } from '@/lib/leads/file-store';
 import { deliverStoredLead } from '@/lib/leads/service';
 import type { LeadSubmissionRecord } from '@/lib/leads/types';
@@ -132,6 +132,30 @@ export const POST: APIRoute = async ({ request }) => {
   if (!input.pageUrl) input.pageUrl = request.headers.get('referer') || undefined;
   if (!input.submittedAt) input.submittedAt = timestamp;
   if (!input.submissionId) input.submissionId = crypto.randomUUID();
+
+  // Fill empty Ads/UTM fields from page_url query (G13 belt-and-suspenders for CF7).
+  const fromPage = attributionFromPageUrl(input.pageUrl);
+  if (!input.gclid && fromPage.gclid) input.gclid = fromPage.gclid;
+  if (!input.gbraid && fromPage.gbraid) input.gbraid = fromPage.gbraid;
+  if (!input.wbraid && fromPage.wbraid) input.wbraid = fromPage.wbraid;
+  if (!input.fbclid && fromPage.fbclid) input.fbclid = fromPage.fbclid;
+  if (!input.msclkid && fromPage.msclkid) input.msclkid = fromPage.msclkid;
+  if (!input.utmSource && fromPage.utm_source) input.utmSource = fromPage.utm_source;
+  if (!input.utmMedium && fromPage.utm_medium) input.utmMedium = fromPage.utm_medium;
+  if (!input.utmCampaign && fromPage.utm_campaign) input.utmCampaign = fromPage.utm_campaign;
+  if (!input.utmTerm && fromPage.utm_term) input.utmTerm = fromPage.utm_term;
+  if (!input.utmContent && fromPage.utm_content) input.utmContent = fromPage.utm_content;
+  if (!input.campaignId && fromPage.campaign_id) input.campaignId = fromPage.campaign_id;
+  if (!input.adgroupId && fromPage.adgroup_id) input.adgroupId = fromPage.adgroup_id;
+  if (!input.groupId && fromPage.group_id) input.groupId = fromPage.group_id;
+  if (!input.creativeId && fromPage.creative_id) input.creativeId = fromPage.creative_id;
+  if (!input.keyword && fromPage.keyword) input.keyword = fromPage.keyword;
+  if (!input.matchtype && fromPage.matchtype) input.matchtype = fromPage.matchtype;
+  if (!input.device && fromPage.device) input.device = fromPage.device;
+  if (!input.network && fromPage.network) input.network = fromPage.network;
+  if (!input.placement && fromPage.placement) input.placement = fromPage.placement;
+  if (!input.target && fromPage.target) input.target = fromPage.target;
+  if (!input.source && fromPage.source) input.source = fromPage.source;
 
   const validation = validateContactForm(input);
   if (!validation.valid) {

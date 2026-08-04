@@ -41,11 +41,14 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental eormiddleast"
 
 ```bash
 mkdir -p /etc/caddy/sites.d /var/log/caddy
+# Prefer merging into the fleet single-file Caddyfile (git: caddy/Caddyfile.production)
+# which includes eormiddleast.com @ 5090 + one-hop www→apex HTTP redirect.
+# Or copy the site-local template:
 cp /opt/Astro-production/eormiddleast.com/deploy/eormiddleast.com.caddy /etc/caddy/sites.d/
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use `http://`+`https://`+`tls internal` template — **not** bare hostnames (CF Flexible redirect loop).
+Use production peer pattern (bare hosts + `tls internal` + `@noncanonical` + HSTS) — see `docs/CONNECT-CADDY-DEPLOYMENT.md`. Cloudflare SSL = **Full** (not Flexible).
 
 ## 6. Deploy loop
 
