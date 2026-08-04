@@ -167,14 +167,17 @@ function ensureEnv(site) {
   console.log(`  env ready: ${site.dir}/.env → :${site.port}`);
 }
 
+/** Windows: Node execFileSync does not resolve .cmd shims without the extension. */
+const PNPM = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+
 function runPnpm(site, args, label) {
   console.log(`\n▸ ${site.id}: ${label}`);
-  execFileSync('pnpm', args, { cwd: sitePath(site), stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: sitePath(site), stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 function runPnpmRoot(args, label) {
   console.log(`\n▸ root: ${label}`);
-  execFileSync('pnpm', args, { cwd: ROOT, stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: ROOT, stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 async function stopSite(site) {

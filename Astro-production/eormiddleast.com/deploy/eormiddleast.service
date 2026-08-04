@@ -1,0 +1,29 @@
+[Unit]
+Description=EOR Middle East Astro SSR server (Caddy reverse-proxies to this)
+After=network.target
+
+[Service]
+Type=simple
+# Tier 1: create on host before enabling (see docs/server-ops-only.md).
+User=site-eormiddleast
+Group=site-eormiddleast
+WorkingDirectory=/opt/Astro-production/eormiddleast.com
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/eormiddleast.com/.env.prod
+Environment=NODE_ENV=production
+# HOST/PORT in unit only — not in .env.prod
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5090 /usr/bin/node ./dist/server/entry.mjs
+Restart=always
+RestartSec=5
+
+MemoryMax=256M
+MemoryHigh=200M
+CPUQuota=50%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/Astro-production/eormiddleast.com/.data
+
+[Install]
+WantedBy=multi-user.target
