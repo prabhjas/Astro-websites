@@ -1,0 +1,10 @@
+---
+export const prerender = false;
+
+const pageParam = Astro.params.page;
+const page = Number(pageParam);
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect("/blog/", 301);
+}
+return Astro.redirect(`/blog/page/${page}/`, 301);
+---

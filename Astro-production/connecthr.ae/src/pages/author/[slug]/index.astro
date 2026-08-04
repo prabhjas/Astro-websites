@@ -1,56 +1,53 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import archiveCss from "../../../data/archive-css.json";
 import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import { renderArchiveShell } from "../../../lib/blog-shell";
 import { breadcrumbSchema } from "../../../lib/seo";
 
 export function getStaticPaths() {
-  return authors.map((author) => ({
+  const paths = authors.map((author) => ({
     params: { slug: author.slug },
     props: { author },
   }));
+  // Live WP author slug — keep even if authors.json is remapped
+  if (!paths.some((p) => p.params.slug === "adm_connecthr") && authors[0]) {
+    paths.push({
+      params: { slug: "adm_connecthr" },
+      props: { author: { ...authors[0], slug: "adm_connecthr", path: "/author/adm_connecthr/" } },
+    });
+  }
+  return paths;
 }
 
 const { author } = Astro.props;
 const sorted = getPostsByAuthor(author.id);
-const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const { items } = paginate(sorted, 1, Math.max(POSTS_PER_PAGE, 12));
+const displayName = stripHtml(author.name) || "Connect HR";
+const shellHtml = renderArchiveShell({
+  title: `Author: ${displayName}`,
+  posts: items,
+  categoryName: displayName,
+});
 ---
 
 <BaseLayout
   currentPath={author.path}
+  menuActivePath="/blogs/"
+  extraCss={[...(archiveCss as string[])]}
+  bodyClass="archive author author-connecthr"
   seo={{
-    title: `Author: ${stripHtml(author.name)} | Connect HR`,
-    description: author.description || `Articles by ${author.name}.`,
+    title: `Author: ${displayName} | Connect HR`,
+    description: author.description || `Articles by ${displayName}.`,
     canonical: author.path,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: author.name, url: author.path },
+        { name: "Blogs", url: "/blogs/" },
+        { name: displayName, url: author.path },
       ]),
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
-    </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts by this author.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
-  </section>
+  <div set:html={shellHtml} />
 </BaseLayout>

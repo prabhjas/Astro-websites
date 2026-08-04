@@ -16,6 +16,7 @@
     "astro": "astro",
     "extract": "node scripts/extract-connecthr.mjs",
     "extract:data": "SKIP_MEDIA=1 node scripts/extract-connecthr.mjs",
+    "redirects:generate": "node scripts/generate-redirects.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

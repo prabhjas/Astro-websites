@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+/** Connect FM live blog is /blog/; keep /insights/ as alias. */
+return Astro.redirect("/blog/", 301);
+---

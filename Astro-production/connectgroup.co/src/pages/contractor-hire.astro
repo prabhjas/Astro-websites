@@ -60,10 +60,11 @@ const steps = [
   { t: 'Monitor compliance throughout the engagement', d: 'Permit renewals, contract updates and compliance checks are tracked continuously so nothing lapses mid-project.' },
 ];
 
-const industries = [
-  'Technology', 'Finance and Accounting', 'Engineering', 'Marketing and Digital',
-  'Legal and Compliance', 'HR and Talent', 'Healthcare', 'Operations',
-  'Creative and Design', 'Project Management',
+/* Figma desktop rows: 4 / 4 / 2 */
+const industryRows = [
+  ['Technology', 'Finance and Accounting', 'Engineering', 'Marketing and Digital'],
+  ['Legal and Compliance', 'HR and Talent', 'Healthcare', 'Operations'],
+  ['Creative and Design', 'Project Management'],
 ];
 
 const testimonials = [
@@ -152,7 +153,7 @@ const faqs = [
             </p>
             <div class="chire-btn-row">
               <a class="chire-btn chire-btn-light" href={contact}>Speak to a Specialist</a>
-              <a class="chire-btn chire-btn-outline" href={contact}>Schedule a Meeting</a>
+              <a class="chire-btn chire-btn-outline" href="https://connectgroup2.pipedrive.com/scheduler/A8ExDZT6O/meeting-with-connect-group" target="_blank" rel="noopener">Schedule a Meeting</a>
             </div>
           </div>
           <div class="chire-hero-art">
@@ -180,7 +181,7 @@ const faqs = [
     </section>
 
     <!-- RISK -->
-    <section class="chire-section">
+    <section class="chire-section chire-sheet chire-sheet-top">
       <div class="chire-wrap chire-risk-grid">
         <div>
           <h2 class="chire-h2">The risk every business faces when hiring contractors in the UAE</h2>
@@ -204,11 +205,13 @@ const faqs = [
         <p>From the first brief to the final invoice, Connect Group manages every part of the engagement so nothing falls outside the UAE legal framework.</p>
         <a class="chire-btn chire-btn-slate" href={contact}>Send Us the Brief</a>
       </div>
-      <img class="chire-ctav1-art" src={`${img}/cta-holographic.png`} alt="" aria-hidden="true" loading="lazy" />
+      <div class="chire-ctav1-artwrap">
+        <img class="chire-ctav1-art" src={`${img}/cta-holographic.png`} alt="" aria-hidden="true" loading="lazy" />
+      </div>
     </section>
 
     <!-- WHO -->
-    <section class="chire-section">
+    <section class="chire-section chire-sheet chire-sheet-top">
       <div class="chire-wrap chire-who-grid">
         <div class="chire-who-img"><img src={`${img}/woman-meeting.jpg`} alt="Planning a contractor engagement" loading="lazy" /></div>
         <div>
@@ -245,7 +248,11 @@ const faqs = [
           <div class="chire-industries-card">
             <h2 class="chire-h2">Industries and roles we place contractors in the UAE</h2>
             <div class="chire-tags">
-              {industries.map((t) => <span class="chire-tag">{t}</span>)}
+              {industryRows.map((row) => (
+                <div class="chire-tag-row">
+                  {row.map((t) => <span class="chire-tag">{t}</span>)}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -282,11 +289,10 @@ const faqs = [
           <a class="chire-btn chire-btn-light" href={contact}>Get Your Custom Quote</a>
         </div>
       </div>
-      <img class="chire-pricing-art" src={`${img}/value-crystal.png`} alt="" aria-hidden="true" loading="lazy" />
     </section>
 
     <!-- FAQ -->
-    <section class="chire-section">
+    <section class="chire-section chire-sheet chire-sheet-top">
       <div class="chire-wrap">
         <p class="chire-eyebrow chire-eyebrow-teal">Frequently Asked Questions</p>
         <h2 class="chire-h2">What companies ask before they engage their first UAE specialist</h2>
@@ -305,7 +311,7 @@ const faqs = [
     </section>
 
     <!-- FINAL CTA — pastel gradient card (per design) -->
-    <section class="chire-section chire-finalcta-wrap">
+    <section class="chire-section chire-finalcta-wrap chire-sheet chire-sheet-bottom">
       <div class="chire-wrap">
         <div class="chire-finalcta">
           <h2>You have read enough.<br />The next step is a brief.</h2>
@@ -332,7 +338,8 @@ const faqs = [
   .chire {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     color: #1a1a1a;
-    background: #fff; /* chrome header.css sets body #111 — page canvas is white */
+    /* main stays transparent — each section paints its own bg so the white
+       sheets can show rounded corners over the dark body/sections (per design) */
     line-height: 1.5;
     --c-navy: #1c2166;
     --c-slate: #4051b5;
@@ -353,6 +360,10 @@ const faqs = [
   .chire img { max-width: 100%; display: block; }
   .chire-wrap { max-width: 1300px; margin: 0 auto; padding: 0 40px; }
   .chire-section { padding: 90px 0; }
+  /* White sheets with rounded corners overlapping dark sections (fix #4) */
+  .chire-sheet { background: #fff; position: relative; z-index: 2; }
+  .chire-sheet-top { border-radius: 28px 28px 0 0; margin-top: -28px; }
+  .chire-sheet-bottom { border-radius: 0 0 28px 28px; }
   .chire-center { text-align: center; }
   .chire-h2 { font-size: 40px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; color: #1a1a1a; }
   .chire-sub { color: var(--c-silver); font-size: 17px; margin: 0 0 18px; }
@@ -372,18 +383,10 @@ const faqs = [
   .chire-btn-black { background: #121212; color: #fff; }
   .chire-btn-slate { background: var(--c-slate-soft); color: #fff; }
 
-  /* HERO */
+  /* HERO — pre-composed background export (Figma 5691:11347), icon layered on top */
   .chire-hero {
     color: #fff; padding: 70px 0 80px; overflow: hidden; position: relative;
-    background:
-      radial-gradient(60% 80% at 78% 40%, rgba(122, 79, 214, 0.55), transparent 60%),
-      radial-gradient(50% 60% at 8% 90%, rgba(193, 70, 46, 0.25), transparent 60%),
-      linear-gradient(135deg, #191c47 0%, #2a2b6e 45%, #3a2c72 100%);
-  }
-  .chire-hero::after {
-    content: ''; position: absolute; inset: 0;
-    background: url('/contractor-hire/img/hero-photo.jpg') center / cover no-repeat;
-    opacity: 0.35; mix-blend-mode: screen; pointer-events: none;
+    background: #1e2166 url('/contractor-hire/img/hero-bg.png') center top / cover no-repeat;
   }
   .chire-hero .chire-wrap { position: relative; z-index: 2; }
   .chire-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
@@ -392,7 +395,8 @@ const faqs = [
   .chire-hero h1 .white { color: #fff; display: block; }
   .chire-hero-lead { color: rgba(255, 255, 255, 0.86); font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 620px; }
   .chire-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .chire-hero-art img { width: 100%; max-width: 520px; margin-left: auto; filter: drop-shadow(0 30px 60px rgba(80, 40, 160, 0.5)); }
+  /* Icon at the design's proportion: 424px at 1440 viewport (~29.5vw), scales down with screen */
+  .chire-hero-art img { width: clamp(240px, 29.5vw, 425px); margin: 0 auto; }
   .chire-brands { text-align: center; margin-top: 54px; }
   .chire-brands h2 { font-size: 26px; font-weight: 600; margin: 0 0 8px; color: #fff; }
   .chire-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
@@ -415,7 +419,9 @@ const faqs = [
   .chire-ctav1 h2 { color: #fff; font-size: 44px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; max-width: 900px; margin: 0 auto 20px; }
   .chire-ctav1 h2 span { color: var(--c-slate-soft); }
   .chire-ctav1 p { color: rgba(255, 255, 255, 0.8); font-size: 17px; line-height: 1.6; max-width: 700px; margin: 0 auto 30px; }
-  .chire-ctav1-art { width: 100%; max-width: 1440px; margin: 40px auto 0; display: block; }
+  /* Glass-fan strip: oversized + cropped at the section bottom, like the design (fix #1) */
+  .chire-ctav1-artwrap { height: 300px; overflow: hidden; margin-top: 48px; }
+  .chire .chire-ctav1-art { width: 108%; max-width: none; margin-left: -4%; display: block; }
 
   /* WHO */
   .chire-who-grid { display: grid; grid-template-columns: 0.85fr 1.1fr; gap: 70px; align-items: center; }
@@ -434,7 +440,8 @@ const faqs = [
   .chire-industries { padding-top: 0; }
   .chire-industries-card { background: #fff; border-radius: 28px; padding: 64px 40px; text-align: center; }
   .chire-industries-card h2 { max-width: 700px; margin: 0 auto 34px; }
-  .chire-tags { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 1000px; margin: 0 auto; }
+  .chire-tags { display: flex; flex-direction: column; gap: 14px; max-width: 1050px; margin: 0 auto; }
+  .chire-tag-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
   .chire-tag { background: #eef0fe; color: #2e3a8c; font-size: 16px; font-weight: 500; padding: 12px 22px; border-radius: 999px; }
   .chire-testi { padding-top: 0; }
   .chire-testi .chire-h2 { max-width: 820px; margin-left: auto; margin-right: auto; }
@@ -446,18 +453,17 @@ const faqs = [
   .chire-testi-card .who strong { display: block; font-size: 17px; }
   .chire-testi-card .who span { color: var(--c-silver); font-size: 13px; }
 
-  /* PRICING — indigo + glass panels right (fix #3) */
-  .chire-pricing { position: relative; background: var(--c-indigo); color: #fff; overflow: hidden; padding: 90px 0; }
+  /* PRICING — full pre-composed background per breakpoint (Figma 5691:12137/12157/12177) */
+  .chire-pricing {
+    position: relative; color: #fff; overflow: hidden; padding: 90px 0;
+    background: var(--c-indigo) url('/contractor-hire/img/pricing-bg-desktop.png') center / cover no-repeat;
+    min-height: 600px; display: flex; align-items: center;
+  }
+  .chire-pricing > .chire-wrap { width: 100%; }
   .chire-pricing-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 0.9fr 1.1fr; }
   .chire-pricing h2 { color: #fff; font-size: 42px; font-weight: 600; line-height: 1.22; letter-spacing: -0.02em; margin: 0 0 22px; max-width: 600px; }
   .chire-pricing .lead { color: rgba(255, 255, 255, 0.88); font-size: 17px; line-height: 1.6; margin: 0 0 18px; max-width: 640px; }
   .chire-pricing .fine { color: rgba(255, 255, 255, 0.75); font-size: 17px; margin: 0 0 30px; max-width: 520px; }
-  .chire-pricing-art {
-    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-    width: 52%; max-width: 720px; object-fit: contain; opacity: 0.95; pointer-events: none;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 26%);
-  }
 
   /* FAQ */
   .chire-faq-list { border-top: 1px solid #e5e5ee; margin-top: 30px; }
@@ -490,9 +496,17 @@ const faqs = [
     .chire-stats { grid-template-columns: repeat(2, 1fr); }
     .chire-brand-row { gap: 44px; }
     .chire-risk-grid, .chire-who-grid { grid-template-columns: 1fr; gap: 36px; }
+    /* mobile/tablet design: text first, image below */
+    .chire-who-img { order: 2; }
     .chire-pricing-grid { grid-template-columns: 1fr; }
-    .chire-pricing-art { position: static; transform: none; width: 100%; max-width: 560px; margin: 40px auto 0; }
+    .chire-pricing {
+      background-image: url('/contractor-hire/img/pricing-bg-tablet.png');
+      background-position: bottom center;
+      padding-bottom: 440px; min-height: 0; display: block;
+    }
     .chire-testi-grid { grid-template-columns: 1fr; }
+    .chire-ctav1-artwrap { height: 230px; }
+    .chire .chire-ctav1-art { width: 120%; margin-left: -10%; }
   }
   @media (max-width: 860px) {
     .chire-wrap { padding: 0 24px; }
@@ -516,5 +530,18 @@ const faqs = [
     .chire-brand-row { gap: 28px 40px; }
     .chire-brand-row img { height: 30px; }
     .chire-industries-card { padding: 44px 22px; }
+    /* mobile design (5521:9940): tags centered, mostly one per row */
+    .chire-tags { gap: 10px; }
+    .chire-tag-row { flex-direction: column; align-items: center; gap: 10px; }
+    /* fan strip at ~286% width, left-shifted, ~168px visible (per mobile frame) */
+    .chire-ctav1-artwrap { height: 168px; }
+    .chire .chire-ctav1-art { width: 286%; margin-left: -81%; }
+    .chire-pricing {
+      background-image: url('/contractor-hire/img/pricing-bg-mobile.png');
+      padding-bottom: 400px;
+    }
+    .chire-finalcta .chire-btn { width: 100%; }
+    .chire-sheet-top { border-radius: 20px 20px 0 0; margin-top: -20px; }
+    .chire-sheet-bottom { border-radius: 0 0 20px 20px; }
   }
 </style>

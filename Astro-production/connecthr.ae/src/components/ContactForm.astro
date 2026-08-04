@@ -1,7 +1,7 @@
 ---
 /**
  * Astro contact form → /api/contact (Pipedrive + lead store).
- * Field names align with the operations dashboard contact parser.
+ * Field names align with the contact parser + Ads/UTM attribution.
  */
 interface Props {
   formId?: string;
@@ -28,7 +28,19 @@ const {
   <input type="hidden" name="submission_id" value="" />
   <input type="hidden" name="page_url" value="" />
   <input type="hidden" name="initial_url" value="" />
+  <input type="hidden" name="landing_page_url" value="" />
+  <input type="hidden" name="submission_page_url" value="" />
+  <input type="hidden" name="referrer_url" value="" />
   <input type="hidden" name="gclid" value="" />
+  <input type="hidden" name="gbraid" value="" />
+  <input type="hidden" name="wbraid" value="" />
+  <input type="hidden" name="fbclid" value="" />
+  <input type="hidden" name="msclkid" value="" />
+  <input type="hidden" name="utm_source" value="" />
+  <input type="hidden" name="utm_medium" value="" />
+  <input type="hidden" name="utm_campaign" value="" />
+  <input type="hidden" name="utm_term" value="" />
+  <input type="hidden" name="utm_content" value="" />
   <input type="hidden" name="campaign_id" value="" />
   <input type="hidden" name="adgroup_id" value="" />
   <input type="hidden" name="creative_id" value="" />
@@ -36,6 +48,15 @@ const {
   <input type="hidden" name="matchtype" value="" />
   <input type="hidden" name="device" value="" />
   <input type="hidden" name="network" value="" />
+  <input type="hidden" name="placement" value="" />
+  <input type="hidden" name="target" value="" />
+  <input type="hidden" name="target_id" value="" />
+  <input type="hidden" name="adposition" value="" />
+  <input type="hidden" name="loc_interest_ms" value="" />
+  <input type="hidden" name="loc_physical_ms" value="" />
+  <input type="hidden" name="gad_source" value="" />
+  <input type="hidden" name="firstTouchPayload" value="" />
+  <input type="hidden" name="lastTouchPayload" value="" />
 
   <div class="sp-form__row">
     <label>
@@ -66,58 +87,32 @@ const {
 </form>
 
 <script>
+  import { captureAttribution, populateAttributionFields } from "../lib/attribution/client";
+
   const form = document.querySelector("[data-sp-contact-form]");
-  const params = new URLSearchParams(window.location.search);
 
   if (form instanceof HTMLFormElement) {
+    const formId = form.id || "sp-contact-lead";
+    const formName =
+      (form.querySelector('[name="form_name"]') as HTMLInputElement | null)?.value ||
+      "Connect HR Contact Form";
+
     const set = (name: string, value: string) => {
       const el = form.querySelector(`[name="${name}"]`);
       if (el instanceof HTMLInputElement) el.value = value;
     };
+
+    const captured = captureAttribution(formId, formName);
+    populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+
     set("page_url", window.location.href);
-    set("initial_url", window.location.href);
+    set("submission_page_url", window.location.href);
+    set("initial_url", captured.firstTouch.landing_page_url || window.location.href);
+    set("landing_page_url", captured.firstTouch.landing_page_url || window.location.href);
+    set("referrer_url", document.referrer || "");
     set("submission_id", crypto.randomUUID());
-    for (const key of [
-      "gclid",
-      "gbraid",
-      "campaign_id",
-      "adgroup_id",
-      "creative_id",
-      "keyword",
-      "matchtype",
-      "device",
-      "network",
-      "placement",
-      "target",
-      "target_id",
-      "adposition",
-      "loc_interest_ms",
-      "loc_physical_ms",
-      "gad_source",
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
-      "utm_term",
-      "utm_content",
-    ]) {
-      const aliases: Record<string, string[]> = {
-        campaign_id: ["campaign_id", "campaignid", "gad_campaignid"],
-        adgroup_id: ["adgroup_id", "adgroupid"],
-        creative_id: ["creative_id", "creative", "creativeid"],
-        target: ["target", "targetid", "target_id"],
-        target_id: ["target_id", "targetid", "target"],
-        keyword: ["keyword", "kw", "q", "utm_term"],
-      };
-      const keys = aliases[key] || [key];
-      let value = "";
-      for (const alias of keys) {
-        if (params.has(alias)) {
-          value = params.get(alias) || "";
-          break;
-        }
-      }
-      if (value) set(key, value);
-    }
+    set("firstTouchPayload", JSON.stringify(captured.firstTouch));
+    set("lastTouchPayload", JSON.stringify(captured.lastTouch));
   }
 </script>
 

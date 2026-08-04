@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import { renderBlogCardsHtml } from "../../../lib/blog-card-html";
+import { breadcrumbSchema } from "../../../lib/seo";
+
+export function getStaticPaths() {
+  return authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const sorted = getPostsByAuthor(author.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const cardsHtml = items.length ? renderBlogCardsHtml(items) : "";
+---
+
+<BaseLayout
+  currentPath={author.path}
+  bodyClass={`archive author author-${author.slug}`}
+  seo={{
+    title: `Author: ${stripHtml(author.name)} | Connect FZ`,
+    description: author.description || `Articles by ${author.name}.`,
+    canonical: author.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: author.name, url: author.path },
+      ]),
+    ],
+  }}
+  extraCss={["/wp-content/uploads/elementor/css/post-540.css"]}
+  menuActivePath="/insights/"
+>
+  <section class="cfz-archive-hero">
+    <div class="cfz-archive-hero__inner">
+      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: stripHtml(author.name) }]} />
+      <h1 set:html={author.name} />
+      {author.description && <p set:html={author.description} />}
+    </div>
+  </section>
+  <section class="cfz-archive-grid">
+    {
+      items.length ? (
+        <div
+          class="elementor-grid elementor-posts-container elementor-grid-3"
+          set:html={cardsHtml}
+        />
+      ) : (
+        <p>No posts by this author yet.</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+  </section>
+</BaseLayout>

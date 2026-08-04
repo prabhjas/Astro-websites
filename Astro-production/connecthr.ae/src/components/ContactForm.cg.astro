@@ -8,7 +8,7 @@ interface Props {
   formName?: string;
 }
 
-const { formId = 'contact-lead', formName = 'Connect Group Contact Form' } = Astro.props;
+const { formId = 'contact-lead', formName = 'Connect HR Contact Form' } = Astro.props;
 ---
 
 <form id={formId} class="cg-contact-form" method="post" action="/api/contact" novalidate>
@@ -93,7 +93,7 @@ const { formId = 'contact-lead', formName = 'Connect Group Contact Form' } = Ast
   src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
   defer
 ></script>
-<script src="/js/astro-mirror-fixes.js" defer></script>
+<script src="/scripts/phone-flags.js" defer></script>
 <script define:vars={{ formId, formName }}>
   import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
 
