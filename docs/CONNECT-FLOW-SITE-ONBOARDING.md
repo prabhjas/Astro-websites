@@ -477,6 +477,7 @@ Canonical list: **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** + `scripts/
 | connecthr | connecthr.ae | 5084 |
 | connectgroup | connectgroup.co | 5085 |
 | connectresources | connectresources.ae | 5086 |
+| iberiaeor | iberiaeor.com | 5089 |
 | eormiddleast | eormiddleast.com | 5090 |
 | connectstaff | connectstaff.ae | 5091 |
 | cuae | c-uae.com | 5092 |
