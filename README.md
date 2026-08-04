@@ -9,6 +9,8 @@ Monorepo for Connect Group production Astro sites: one workspace, shared version
 | **Node** | `>=22.12.0` |
 | **Package manager** | **pnpm** `>=9.15.0` (see `packageManager` in root `package.json`) |
 
+**New website / developer workflow:** start at **[docs/00-NEW-SITE-MASTER.md](docs/00-NEW-SITE-MASTER.md)** (numbered phases → final deploy checks).
+
 ---
 ## What this repo is for
 
@@ -36,14 +38,16 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
 ├── docs/                                ← Cursor guides + playbooks
-│   ├── CURSOR-CONVERT-STATIC-TO-ASTRO.md
-│   ├── CURSOR-RUN-FLEET.md
+│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle)
+│   ├── CONNECT-FLOW-SITE-ONBOARDING.md
+│   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
 ├── Astro-production/                    ← live-shaped sites
 │   ├── evolutionmiddleast.com/          ← full CMS + WP mirror
 │   ├── cbss.ae/                         ← leads-heavy marketing
 │   ├── spheavyrental.ae/                ← full CMS (SP data store)
 │   ├── iberiaworkforce.com/             ← leads + EN/ES marketing
+│   ├── connectresources.ae/             ← full CMS + Impreza WP mirror
 │   └── deploy-host/                     ← restic backup units
 ```
 
@@ -78,6 +82,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 | cbss.ae | **5081** | `cbss` | Leads only | — |
 | spheavyrental.ae | **5082** | `spheavyrental` | Full | `src/data/posts.json` (+ categories/tags/…) |
 | iberiaworkforce.com | **5083** | `iberiaworkforce` | Leads only | — |
+| connectresources.ae | **5084** | `connectresources` | Full | `src/data/posts.json` (+ pages/guides/press) |
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 
@@ -214,6 +219,7 @@ Open:
 - http://127.0.0.1:5081/ — CBSS  
 - http://127.0.0.1:5082/ — SP Heavy  
 - http://127.0.0.1:5083/ — Iberia  
+- http://127.0.0.1:5084/ — Connect Resources  
 
 ### 5. Single-site (optional)
 

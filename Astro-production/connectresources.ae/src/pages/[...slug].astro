@@ -1,0 +1,163 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PostCard from "../components/PostCard.astro";
+import {
+  getCategories,
+  getPageByPath,
+  getPublishedPostByPath,
+  getRelatedPosts,
+  formatDate,
+  stripHtml,
+  normalizePath,
+  smartSliderCssForHtml,
+} from "../lib/content";
+import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { notFoundResponse } from "../lib/not-found";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slugPath = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/${slugPath}`);
+
+const page = getPageByPath(path);
+const post = page ? null : getPublishedPostByPath(path);
+
+if (!page && !post) {
+  return notFoundResponse();
+}
+
+const entry = page || post!;
+const html = (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string;
+const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
+
+const pageCrumbs = page
+  ? [
+      { name: "Home", href: "/" },
+      { name: stripHtml(page.title), href: undefined as string | undefined },
+    ]
+  : [];
+
+const related = post ? getRelatedPosts(post, 3) : [];
+const postCrumbs = post
+  ? [
+      { name: "Home", href: "/" },
+      { name: "Blog", href: "/blog/" },
+      { name: stripHtml(post.title) },
+    ]
+  : [];
+
+const seo = page
+  ? {
+      title: page.seo.title,
+      description: page.seo.description,
+      canonical: path,
+      ogImage: page.seo.ogImage,
+      schemas: [
+        ...(page.seo.schemas || []),
+        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+      ],
+    }
+  : {
+      title: post!.seo.title || stripHtml(post!.title),
+      description: post!.seo.description || stripHtml(post!.excerpt),
+      canonical: path,
+      ogImage: post!.seo.ogImage || post!.featuredImage,
+      ogType: "article" as const,
+      publishedTime: post!.date,
+      modifiedTime: post!.modified,
+      authorName: post!.authorName,
+      schemas: [
+        ...(post!.seo.schemas || []),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        articleSchema({
+          title: stripHtml(post!.title),
+          description: post!.seo.description || stripHtml(post!.excerpt),
+          url: path,
+          image: post!.featuredImage || post!.seo.ogImage,
+          datePublished: post!.date,
+          dateModified: post!.modified,
+          authorName: post!.authorName,
+        }),
+      ],
+    };
+
+const extraCss = [
+  ...smartSliderCssForHtml(html),
+  ...((entry.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
+];
+
+const hasMainShell = /id=["']page-content["']/.test(html);
+const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
+
+const bodyClass = page
+  ? `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
+  : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={bodyClass}
+  fallback={entry.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={post ? "/blog/" : undefined}
+>
+  {
+    isImprezaShell ? (
+      <Fragment set:html={html} />
+    ) : page ? (
+      <main id="page-content" class="l-main">
+        <section class="l-section">
+          <div class="l-section-h i-cf">
+            <Fragment set:html={html} />
+          </div>
+        </section>
+      </main>
+    ) : (
+      <main id="page-content" class="l-main">
+        <article class="l-section">
+          <div class="l-section-h i-cf">
+            <Breadcrumbs items={postCrumbs} />
+            <h1 set:html={post!.title} />
+            <div class="sp-article__meta">
+              <time datetime={post!.date}>{formatDate(post!.date)}</time>
+              {post!.authorName && (
+                <>
+                  {" "}
+                  · <a href={`/author/${post!.authorSlug}/`}>{post!.authorName}</a>
+                </>
+              )}
+              {catNames.length > 0 && (
+                <>
+                  {" "}
+                  ·{" "}
+                  {catNames.map((c, i) => (
+                    <>
+                      {i > 0 && ", "}
+                      <a href={c.path}>{c.name}</a>
+                    </>
+                  ))}
+                </>
+              )}
+            </div>
+            <div class="w-blog-post-body" set:html={html} />
+            {
+              related.length > 0 && (
+                <section class="sp-related" style="margin-top:2rem">
+                  <h2>Related</h2>
+                  <div class="sp-blog-grid">
+                    {related.map((r) => (
+                      <PostCard post={r} />
+                    ))}
+                  </div>
+                </section>
+              )
+            }
+          </div>
+        </article>
+      </main>
+    )
+  }
+</BaseLayout>

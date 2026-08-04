@@ -1,0 +1,28 @@
+# Homepage SEO — owned by SEO team (replaces Rank Math after cutover)
+# Source of truth for rebuilt pages. Phase 1 mirror still uses tags baked into HTML.
+
+title: "Company Setup & Corporate Services in Dubai | Connect Group"
+description: "Connect Group offers Company Setup, PRO, HR Outsourcing, Payroll, & Visa services in Dubai, UAE helping businesses grow with compliance."
+canonical: "/"
+robots: "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+keywords: "Connect Group"
+
+og:
+  title: "Company Setup & Corporate Services in Dubai | Connect Group"
+  description: "Connect Group offers Company Setup, PRO, HR Outsourcing, Payroll, & Visa services in Dubai, UAE helping businesses grow with compliance."
+  type: "website"
+  locale: "en_US"
+  image: "/wp-content/uploads/2025/09/Frame.png"
+  imageWidth: 200
+  imageHeight: 200
+
+twitter:
+  card: "summary_large_image"
+  title: "Company Setup & Corporate Services in Dubai | Connect Group"
+  description: "Connect Group offers Company Setup, PRO, HR Outsourcing, Payroll, & Visa services in Dubai, UAE helping businesses grow with compliance."
+
+schema:
+  pageType: "WebPage"
+  organizationName: "Connect Group"
+  datePublished: "2025-08-18T10:53:09+04:00"
+  dateModified: "2026-07-09T12:22:27+04:00"

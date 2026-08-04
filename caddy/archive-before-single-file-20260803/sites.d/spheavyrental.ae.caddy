@@ -1,0 +1,38 @@
+# spheavyrental.ae -> 127.0.0.1:5082 (systemd: spheavyrental.service)
+#
+# INERT until Cloudflare's origin for this zone is repointed at 178.105.150.67.
+# As of 2026-07-31 the public site is still the old WordPress install on another
+# host, so nothing here affects live traffic yet.
+#
+# www.spheavyrental.ae has no DNS record today. It is listed anyway: with
+# `tls internal` there is no ACME request to fail, so the name simply starts
+# working the moment the CNAME is added, instead of falling through to the
+# catch-all :80 block in the main Caddyfile.
+#
+# See _README.md in this directory for why the scheme prefixes and `tls internal`
+# are required behind Cloudflare.
+
+http://spheavyrental.ae, http://www.spheavyrental.ae,
+https://spheavyrental.ae, https://www.spheavyrental.ae {
+	tls internal
+	encode zstd gzip
+
+	# Node serves pages, dist/client assets and /api/* itself.
+	reverse_proxy 127.0.0.1:5082
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	log {
+		output file /var/log/caddy/spheavyrental.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

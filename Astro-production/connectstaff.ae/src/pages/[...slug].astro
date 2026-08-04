@@ -1,0 +1,44 @@
+---
+/**
+ * Dual route (catch-all for nested pages like /industries/...):
+ * - Blog posts from src/content/blog/*.json (dashboard-managed)
+ * - Marketing pages from Phase-1 legacy HTML mirrors
+ *
+ * SSR so dashboard post edits are visible without a full rebuild.
+ */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { isPageSlug, isPostSlug } from '../lib/inventory.js';
+import { getBlogPost, serveBlogPost } from '../lib/blog.ts';
+import { serveLegacyPage } from '../lib/legacy-page.js';
+import { notFoundResponse } from '../lib/not-found.js';
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam) ? slugParam.join('/') : String(slugParam || '');
+if (!slug) {
+  return notFoundResponse();
+}
+
+const post = getBlogPost(slug);
+if (post) {
+  return serveBlogPost(post);
+}
+
+if (isPostSlug(slug)) {
+  return notFoundResponse();
+}
+
+if (isPageSlug(slug) || slug === 'blog') {
+  return serveLegacyPage(slug === 'blog' ? 'blog' : slug);
+}
+
+// Only serve prepared mirrors that exist on disk — unknown URLs are 404.
+const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
+if (existsSync(cleanedPath)) {
+  return serveLegacyPage(slug);
+}
+
+return notFoundResponse();
+---

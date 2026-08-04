@@ -1,0 +1,496 @@
+---
+/**
+ * Manager demo hub — walk through migration, SEO, and performance plan.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../../lib/seo';
+
+const homeSeo = loadPageSeo('home');
+const seo = {
+  ...homeSeo,
+  title: 'Astro migration demo | Connect Group',
+  description:
+    'Internal demo: WordPress/Elementor → static Astro, SEO workflow, and Core Web Vitals plan.',
+  canonical: 'https://connectgroup.co/demo/',
+  robots: 'noindex, follow',
+};
+---
+
+<BaseLayout seo={seo}>
+  <main class="demo">
+    <p class="demo__eyebrow">Internal demo · Connect Group</p>
+    <h1>WordPress → Astro migration</h1>
+    <p class="demo__lead">
+      One homepage is mirrored as static HTML in Astro. SEO and page speed are planned for
+      cutover so Rank Math and Elementor are not required in production.
+    </p>
+
+    <section class="demo__grid">
+      <a class="demo__card" href="/">
+        <span class="demo__card-kicker">1 · Live mirror</span>
+        <strong>Homepage</strong>
+        <span>Elementor layout as static Astro (Phase 1)</span>
+      </a>
+      <a class="demo__card" href="/about-us/">
+        <span class="demo__card-kicker">1b · Live mirror</span>
+        <strong>About Us</strong>
+        <span>Same pipeline for /about-us/</span>
+      </a>
+      <a class="demo__card" href="/staff-outsourcing/">
+        <span class="demo__card-kicker">1c · Live mirror</span>
+        <strong>Staff Outsourcing</strong>
+        <span>Same pipeline for /staff-outsourcing/</span>
+      </a>
+      <a class="demo__card" href="/visa-services/">
+        <span class="demo__card-kicker">1d · Live mirror</span>
+        <strong>Visa Services</strong>
+        <span>Same pipeline for /visa-services/</span>
+      </a>
+      <a class="demo__card" href="/payroll-services/">
+        <span class="demo__card-kicker">1e · Live mirror</span>
+        <strong>Payroll Services</strong>
+        <span>Same pipeline for /payroll-services/</span>
+      </a>
+      <a class="demo__card" href="/remote-workers-hire/">
+        <span class="demo__card-kicker">1f · Live mirror</span>
+        <strong>Remote Workers Hire</strong>
+        <span>Same pipeline for /remote-workers-hire/</span>
+      </a>
+      <a class="demo__card" href="/global-workforce-solutions/">
+        <span class="demo__card-kicker">1g · Live mirror</span>
+        <strong>Global Workforce Solutions</strong>
+        <span>Same pipeline for /global-workforce-solutions/</span>
+      </a>
+      <a class="demo__card" href="/payroll-outsourcing/">
+        <span class="demo__card-kicker">1h · Live mirror</span>
+        <strong>Payroll Outsourcing</strong>
+        <span>Same pipeline for /payroll-outsourcing/</span>
+      </a>
+      <a class="demo__card" href="/hr-payroll-software-uae/">
+        <span class="demo__card-kicker">1i · Live mirror</span>
+        <strong>HR & Payroll Software UAE</strong>
+        <span>Same pipeline for /hr-payroll-software-uae/</span>
+      </a>
+      <a class="demo__card" href="/hr-outsourcing/">
+        <span class="demo__card-kicker">1j · Live mirror</span>
+        <strong>HR Outsourcing</strong>
+        <span>Same pipeline for /hr-outsourcing/</span>
+      </a>
+      <a class="demo__card" href="/professional-employer-organization-uae/">
+        <span class="demo__card-kicker">1k · Live mirror</span>
+        <strong>PEO UAE</strong>
+        <span>Same pipeline for /professional-employer-organization-uae/</span>
+      </a>
+      <a class="demo__card" href="/freelance-visa/">
+        <span class="demo__card-kicker">1l · Live mirror</span>
+        <strong>Freelance Visa</strong>
+        <span>Same pipeline for /freelance-visa/</span>
+      </a>
+      <a class="demo__card" href="/connect-resources/">
+        <span class="demo__card-kicker">1m · Live mirror</span>
+        <strong>Connect Resources</strong>
+        <span>Same pipeline for /connect-resources/</span>
+      </a>
+      <a class="demo__card" href="/connect-resources-ksa/">
+        <span class="demo__card-kicker">1n · Live mirror</span>
+        <strong>Connect Resources Saudi</strong>
+        <span>Same pipeline for /connect-resources-ksa/</span>
+      </a>
+      <a class="demo__card" href="/connect-legal/">
+        <span class="demo__card-kicker">1o · Live mirror</span>
+        <strong>Connect Legal</strong>
+        <span>Same pipeline for /connect-legal/</span>
+      </a>
+      <a class="demo__card" href="/connect-fz/">
+        <span class="demo__card-kicker">1p · Live mirror</span>
+        <strong>Connect FZ</strong>
+        <span>Same pipeline for /connect-fz/</span>
+      </a>
+      <a class="demo__card" href="/connect-staff/">
+        <span class="demo__card-kicker">1q · Live mirror</span>
+        <strong>Connect Staff</strong>
+        <span>Same pipeline for /connect-staff/</span>
+      </a>
+      <a class="demo__card" href="/dubai-free-zone/">
+        <span class="demo__card-kicker">1r · Live mirror</span>
+        <strong>Dubai Free Zone</strong>
+        <span>Same pipeline for /dubai-free-zone/</span>
+      </a>
+      <a class="demo__card" href="/insights/">
+        <span class="demo__card-kicker">1s · Live mirror</span>
+        <strong>Insights</strong>
+        <span>Blog index at /insights/</span>
+      </a>
+      <a class="demo__card" href="/freelance-dxb/">
+        <span class="demo__card-kicker">1t · Live mirror</span>
+        <strong>Freelancer DXB</strong>
+        <span>Same pipeline for /freelance-dxb/</span>
+      </a>
+      <a class="demo__card" href="/faq/">
+        <span class="demo__card-kicker">1u · Live mirror</span>
+        <strong>FAQ</strong>
+        <span>Same pipeline for /faq/</span>
+      </a>
+      <a class="demo__card" href="/eor-middleast/">
+        <span class="demo__card-kicker">1v · Live mirror</span>
+        <strong>EOR Middleast</strong>
+        <span>Same pipeline for /eor-middleast/</span>
+      </a>
+      <a class="demo__card" href="/iberiaeor/">
+        <span class="demo__card-kicker">1v2 · Live mirror</span>
+        <strong>IberiaEOR</strong>
+        <span>Same pipeline for /iberiaeor/</span>
+      </a>
+      <a class="demo__card" href="/uaegate/">
+        <span class="demo__card-kicker">1v3 · Live mirror</span>
+        <strong>The UAE Gate</strong>
+        <span>Same pipeline for /uaegate/</span>
+      </a>
+      <a class="demo__card" href="/emiratisation-hub-uae/">
+        <span class="demo__card-kicker">1v4 · Live mirror</span>
+        <strong>Emiratisation Hub UAE</strong>
+        <span>Same pipeline for /emiratisation-hub-uae/</span>
+      </a>
+      <a class="demo__card" href="/mbs-tax-consultancy/">
+        <span class="demo__card-kicker">1v5 · Live mirror</span>
+        <strong>MBS Tax Consultancy</strong>
+        <span>Same pipeline for /mbs-tax-consultancy/</span>
+      </a>
+      <a class="demo__card" href="/landing-page/">
+        <span class="demo__card-kicker">1v6 · Live mirror</span>
+        <strong>Landing page (UAE)</strong>
+        <span>Counters + FAQ · /landing-page/</span>
+      </a>
+      <a class="demo__card" href="/saudi-expansion/">
+        <span class="demo__card-kicker">1v7 · Live mirror</span>
+        <strong>Saudi expansion</strong>
+        <span>Counters + FAQ · /saudi-expansion/</span>
+      </a>
+      <a class="demo__card" href="/terms-and-conditions/">
+        <span class="demo__card-kicker">1v8 · Live mirror</span>
+        <strong>Terms &amp; Conditions</strong>
+        <span>Same pipeline for /terms-and-conditions/</span>
+      </a>
+      <a class="demo__card" href="/employer-of-record/">
+        <span class="demo__card-kicker">1w · Live mirror</span>
+        <strong>Employer of Record</strong>
+        <span>Same pipeline for /employer-of-record/</span>
+      </a>
+      <a class="demo__card" href="/contact-us/">
+        <span class="demo__card-kicker">1x · Live mirror</span>
+        <strong>Contact us</strong>
+        <span>Same pipeline for /contact-us/</span>
+      </a>
+      <a class="demo__card" href="/c-uae/">
+        <span class="demo__card-kicker">1y · Live mirror</span>
+        <strong>C-UAE</strong>
+        <span>Same pipeline for /c-uae/</span>
+      </a>
+      <a class="demo__card" href="/kpm-pro/">
+        <span class="demo__card-kicker">1z · Live mirror</span>
+        <strong>KPM PRO</strong>
+        <span>Same pipeline for /kpm-pro/</span>
+      </a>
+      <a class="demo__card" href="/izirent/">
+        <span class="demo__card-kicker">1aa · Live mirror</span>
+        <strong>IZI Rent a Car</strong>
+        <span>Same pipeline for /izirent/</span>
+      </a>
+      <a class="demo__card" href="/company-formation-saudi/">
+        <span class="demo__card-kicker">1ab · Live mirror</span>
+        <strong>Company Formation Saudi</strong>
+        <span>Same pipeline for /company-formation-saudi/</span>
+      </a>
+      <a class="demo__card" href="/connect-zone/">
+        <span class="demo__card-kicker">1ac · Live mirror</span>
+        <strong>Connect Zone</strong>
+        <span>Same pipeline for /connect-zone/</span>
+      </a>
+      <a class="demo__card" href="/contractor-hire/">
+        <span class="demo__card-kicker">1ad · Live mirror</span>
+        <strong>Contractor Hire</strong>
+        <span>Same pipeline for /contractor-hire/</span>
+      </a>
+      <a class="demo__card" href="/evolution-middle-east/">
+        <span class="demo__card-kicker">1ae · Live mirror</span>
+        <strong>Evolution Middle East</strong>
+        <span>Same pipeline for /evolution-middle-east/</span>
+      </a>
+      <a class="demo__card" href="/freelance/">
+        <span class="demo__card-kicker">1af · Live mirror</span>
+        <strong>Freelance</strong>
+        <span>Same pipeline for /freelance/</span>
+      </a>
+      <a class="demo__card" href="/ngmanpower/">
+        <span class="demo__card-kicker">1ag · Live mirror</span>
+        <strong>NG Manpower</strong>
+        <span>Same pipeline for /ngmanpower/</span>
+      </a>
+      <a class="demo__card" href="/pittant-uae/">
+        <span class="demo__card-kicker">1ah · Live mirror</span>
+        <strong>Pittant UAE</strong>
+        <span>Same pipeline for /pittant-uae/</span>
+      </a>
+      <a class="demo__card" href="/raadrecruitment/">
+        <span class="demo__card-kicker">1ai · Live mirror</span>
+        <strong>RAAD Recruitment</strong>
+        <span>Same pipeline for /raadrecruitment/</span>
+      </a>
+      <a class="demo__card" href="/snapsale/">
+        <span class="demo__card-kicker">1aj · Live mirror</span>
+        <strong>Snapsale</strong>
+        <span>Same pipeline for /snapsale/</span>
+      </a>
+      <a class="demo__card" href="/sp-heavy-machinery/">
+        <span class="demo__card-kicker">1ak · Live mirror</span>
+        <strong>S&amp;P Heavy Machinery</strong>
+        <span>Same pipeline for /sp-heavy-machinery/</span>
+      </a>
+      <a class="demo__card" href="/the-talent-point/">
+        <span class="demo__card-kicker">1al · Live mirror</span>
+        <strong>The Talent Point</strong>
+        <span>Same pipeline for /the-talent-point/</span>
+      </a>
+      <a class="demo__card" href="/royal-visa/">
+        <span class="demo__card-kicker">1am · Live mirror</span>
+        <strong>Royal Visa</strong>
+        <span>Same pipeline for /royal-visa/</span>
+      </a>
+      <a class="demo__card" href="/connect-freelance/">
+        <span class="demo__card-kicker">1an · Live mirror</span>
+        <strong>Connect Freelance</strong>
+        <span>Same pipeline for /connect-freelance/</span>
+      </a>
+      <a class="demo__card" href="/kinza-hr/">
+        <span class="demo__card-kicker">1ao · Live mirror</span>
+        <strong>Kinza HR</strong>
+        <span>Same pipeline for /kinza-hr/</span>
+      </a>
+      <a class="demo__card" href="/emiratisationgate/">
+        <span class="demo__card-kicker">1ap · Live mirror</span>
+        <strong>Emiratisation Gate</strong>
+        <span>Same pipeline for /emiratisationgate/</span>
+      </a>
+      <a class="demo__card" href="/emiratisationnafis/">
+        <span class="demo__card-kicker">1aq · Live mirror</span>
+        <strong>Emiratisation Nafis</strong>
+        <span>Same pipeline for /emiratisationnafis/</span>
+      </a>
+      <a class="demo__card" href="/al-buraq/">
+        <span class="demo__card-kicker">1ar · Live mirror</span>
+        <strong>Al Buraq</strong>
+        <span>Same pipeline for /al-buraq/</span>
+      </a>
+      <a class="demo__card" href="/dubai-offshore/">
+        <span class="demo__card-kicker">1as · Live mirror</span>
+        <strong>Dubai Offshore</strong>
+        <span>Same pipeline for /dubai-offshore/</span>
+      </a>
+      <a class="demo__card" href="/immigration-services-in-uae/">
+        <span class="demo__card-kicker">1at · Live mirror</span>
+        <strong>Immigration Services UAE</strong>
+        <span>Same pipeline for /immigration-services-in-uae/</span>
+      </a>
+      <a class="demo__card" href="/dubai-mainland/">
+        <span class="demo__card-kicker">1au · Live mirror</span>
+        <strong>Dubai Mainland</strong>
+        <span>Same pipeline for /dubai-mainland/</span>
+      </a>
+      <a class="demo__card" href="/connect-hr/">
+        <span class="demo__card-kicker">1av · Live mirror</span>
+        <strong>Connect HR</strong>
+        <span>Same pipeline for /connect-hr/</span>
+      </a>
+      <a class="demo__card" href="/emiratisationgateway/">
+        <span class="demo__card-kicker">1aw · Live mirror</span>
+        <strong>Emiratisation Gateway</strong>
+        <span>Same pipeline for /emiratisationgateway/</span>
+      </a>
+      <a class="demo__card" href="/pittant/">
+        <span class="demo__card-kicker">1ax · Live mirror</span>
+        <strong>Pittant</strong>
+        <span>Same pipeline for /pittant/</span>
+      </a>
+      <a class="demo__card" href="/redo/">
+        <span class="demo__card-kicker">1ay · Live mirror</span>
+        <strong>REDO</strong>
+        <span>Same pipeline for /redo/</span>
+      </a>
+      <a class="demo__card" href="/saudi-company-formation/">
+        <span class="demo__card-kicker">1az · Live mirror</span>
+        <strong>Saudi Company Formation</strong>
+        <span>Same pipeline for /saudi-company-formation/</span>
+      </a>
+      <a class="demo__card" href="/privacy-policy/">
+        <span class="demo__card-kicker">1ba · Live mirror</span>
+        <strong>Privacy Policy</strong>
+        <span>Same pipeline for /privacy-policy/</span>
+      </a>
+      <a class="demo__card" href="/connect-business-center/">
+        <span class="demo__card-kicker">1bb · Live mirror</span>
+        <strong>Connect Business Center</strong>
+        <span>Same pipeline for /connect-business-center/</span>
+      </a>
+      <a class="demo__card" href="/connect-fm/">
+        <span class="demo__card-kicker">1bc · Live mirror</span>
+        <strong>Connect FM</strong>
+        <span>Same pipeline for /connect-fm/</span>
+      </a>
+      <a class="demo__card" href="/demo/seo/">
+        <span class="demo__card-kicker">2 · SEO model</span>
+        <strong>SEO without Rank Math</strong>
+        <span>YAML fields → title, OG, JSON-LD in layout</span>
+      </a>
+      <a class="demo__card" href="/demo/performance/">
+        <span class="demo__card-kicker">3 · Speed</span>
+        <strong>Core Web Vitals</strong>
+        <span>What improves now vs after rebuild</span>
+      </a>
+      <a class="demo__card" href="/status/">
+        <span class="demo__card-kicker">4 · Status</span>
+        <strong>Migration checklist</strong>
+        <span>What is done / what is next</span>
+      </a>
+    </section>
+
+    <section class="demo__panel">
+      <h2>How to demo this in 5 minutes</h2>
+      <ol>
+        <li>Open <a href="/">Homepage</a> — same look as WordPress, served as static files.</li>
+        <li>Open <a href="/demo/seo/">SEO demo</a> — show <code>home.yml</code> driving meta tags (View Source).</li>
+        <li>Open <a href="/demo/performance/">Performance</a> — explain CWV plan (LCP / INP / CLS).</li>
+        <li>Mention next: more pages, form → Pipedrive, then DNS cutover.</li>
+      </ol>
+    </section>
+
+    <section class="demo__panel">
+      <h2>Architecture (short)</h2>
+      <pre class="demo__code">{`WordPress + Elementor (today)
+        │ export HTML (WP Rocket)
+        ▼
+Astro static site
+  /              → Phase 1 HTML mirror (SEO tags baked in)
+  /demo/seo      → Phase 3+ model (SEO from YAML)
+  build          → sitemap.xml + robots.txt
+        │
+        ▼
+CDN / static host (no PHP)`}</pre>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .demo {
+    --ink: #0f172a;
+    --muted: #475569;
+    --line: #e2e8f0;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --accent: #1e3a8a;
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+    line-height: 1.55;
+    background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 28%, var(--bg) 100%);
+    min-height: 100vh;
+  }
+  .demo__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+  }
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+  }
+  .demo__lead {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+    max-width: 40rem;
+  }
+  .demo__grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: 1fr;
+    margin-bottom: 2rem;
+  }
+  @media (min-width: 640px) {
+    .demo__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .demo__card {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease;
+  }
+  .demo__card:hover {
+    border-color: #94a3b8;
+  }
+  .demo__card-kicker {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .demo__card strong {
+    font-size: 1.05rem;
+  }
+  .demo__card span:last-child {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .demo__panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 1rem;
+  }
+  .demo__panel h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem;
+  }
+  .demo__panel ol {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .demo__panel li {
+    margin-bottom: 0.45rem;
+  }
+  .demo__panel a {
+    color: var(--accent);
+  }
+  .demo__code {
+    margin: 0;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  code {
+    font-size: 0.88em;
+    background: #f1f5f9;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+  }
+</style>

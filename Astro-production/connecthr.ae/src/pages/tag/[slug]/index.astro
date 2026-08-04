@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import {
+  getTagBySlug,
+  getPostsByTag,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../lib/content";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const tag = getTagBySlug(slug);
+if (!tag) {
+  return notFoundResponse();
+}
+const sorted = getPostsByTag(tag.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+---
+
+<BaseLayout
+  currentPath={tag.path}
+  seo={{
+    title: `Tag: ${stripHtml(tag.name)} | Connect HR`,
+    description: tag.description || `Posts tagged ${tag.name}.`,
+    canonical: tag.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blogs/" },
+        { name: tag.name, url: tag.path },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-archive-hero">
+    <div class="sp-container">
+      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Blog", href: "/blogs/" }, { name: tag.name }]} />
+      <h1 set:html={tag.name} />
+    </div>
+  </section>
+  <section class="sp-container" style="padding: 1rem 0 4rem">
+    {
+      items.length ? (
+        <div class="sp-blog-grid">
+          {items.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      ) : (
+        <p>No posts with this tag.</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
+  </section>
+</BaseLayout>

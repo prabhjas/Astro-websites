@@ -26,7 +26,9 @@ Astro-websites/                     ← monorepo root (pnpm workspace)
     ├── evolutionmiddleast.com/     ← :5080
     ├── cbss.ae/                    ← :5081
     ├── spheavyrental.ae/           ← :5082
-    └── iberiaworkforce.com/        ← :5083
+    ├── iberiaworkforce.com/        ← :5083
+    ├── connecthr.ae/               ← :5084
+    └── connectgroup.co/            ← :5085
 ```
 
 Same model as production: **build once → `node dist/server/entry.mjs` on a fixed port**.  
@@ -94,8 +96,10 @@ When syncing to the server: **never overwrite** live `.env.prod` or `.data/` wit
 | `cbss` | cbss.ae | **5081** | http://127.0.0.1:5081/ |
 | `spheavyrental` | spheavyrental.ae | **5082** | http://127.0.0.1:5082/ |
 | `iberiaworkforce` | iberiaworkforce.com | **5083** | http://127.0.0.1:5083/ |
+| `connecthr` | connecthr.ae | **5084** | http://127.0.0.1:5084/ |
+| `connectgroup` | connectgroup.co | **5085** | http://127.0.0.1:5085/ |
 
-Registry: `scripts/fleet-sites.json`. New sites take **5084+**.
+Registry: `scripts/fleet-sites.json`. New sites take **5086+**.
 
 ---
 
@@ -224,7 +228,7 @@ Do not experiment with `astro dev` on the live box.
 |---------|-----|
 | `pnpm: command not found` | `corepack enable` + prepare `pnpm@9.15.9` |
 | Wrong Astro version | Install from **root**; check catalog, not a nested lockfile |
-| Port in use | `fleet-local stop <id>` or free 5080–5083 |
+| Port in use | `fleet-local stop <id>` or free 5080–5085 |
 | Health 500 / empty Pipedrive | Fill `.env` from `.env.example`; never expect server `.env.prod` on laptop |
 | Origin / contact 403 | JSON POST + `PUBLIC_SITE_URL` / `allowedDomains` match how you open the site |
 | Workspace package missing | `pnpm install` after adding `"@connect/site-cms": "workspace:*"` |

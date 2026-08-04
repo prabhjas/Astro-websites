@@ -1,0 +1,376 @@
+---
+/**
+ * Migration checklist for demos and team sync.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../lib/seo';
+
+const homeSeo = loadPageSeo('home');
+const seo = {
+  ...homeSeo,
+  title: 'Migration status | Connect Group Astro',
+  description: 'What is done in the WordPress → Astro migration and what remains.',
+  canonical: 'https://connectgroup.co/status/',
+  robots: 'noindex, follow',
+};
+---
+
+<BaseLayout seo={seo}>
+  <main class="status">
+    <p><a href="/demo/">← Demo hub</a> · <a href="/">Homepage mirror</a></p>
+    <h1>Migration status</h1>
+    <p class="lead">Phase 1 homepage mirror is ready to demo. Production cutover is not done.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Homepage static mirror <code>/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>About Us static mirror <code>/about-us/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Staff Outsourcing static mirror <code>/staff-outsourcing/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Visa Services static mirror <code>/visa-services/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Payroll Services static mirror <code>/payroll-services/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Remote Workers Hire static mirror <code>/remote-workers-hire/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Global Workforce Solutions static mirror <code>/global-workforce-solutions/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Payroll Outsourcing static mirror <code>/payroll-outsourcing/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>HR & Payroll Software UAE static mirror <code>/hr-payroll-software-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>HR Outsourcing static mirror <code>/hr-outsourcing/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>PEO UAE static mirror <code>/professional-employer-organization-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Freelance Visa static mirror <code>/freelance-visa/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Resources static mirror <code>/connect-resources/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Resources Saudi static mirror <code>/connect-resources-ksa/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Legal static mirror <code>/connect-legal/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect FZ static mirror <code>/connect-fz/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Staff static mirror <code>/connect-staff/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Dubai Free Zone static mirror <code>/dubai-free-zone/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Insights static mirror <code>/insights/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Freelancer DXB static mirror <code>/freelance-dxb/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>FAQ static mirror <code>/faq/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>EOR Middleast static mirror <code>/eor-middleast/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>IberiaEOR static mirror <code>/iberiaeor/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>The UAE Gate static mirror <code>/uaegate/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Emiratisation Hub UAE static mirror <code>/emiratisation-hub-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>MBS Tax Consultancy static mirror <code>/mbs-tax-consultancy/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Landing page (UAE) static mirror <code>/landing-page/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Saudi expansion static mirror <code>/saudi-expansion/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Terms &amp; Conditions static mirror <code>/terms-and-conditions/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Employer of Record static mirror <code>/employer-of-record/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Contact us static mirror <code>/contact-us/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>C-UAE static mirror <code>/c-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>KPM PRO static mirror <code>/kpm-pro/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>IZI Rent a Car static mirror <code>/izirent/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Company Formation Saudi static mirror <code>/company-formation-saudi/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Zone static mirror <code>/connect-zone/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Contractor Hire static mirror <code>/contractor-hire/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Evolution Middle East static mirror <code>/evolution-middle-east/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Freelance static mirror <code>/freelance/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>NG Manpower static mirror <code>/ngmanpower/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Pittant UAE static mirror <code>/pittant-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>RAAD Recruitment static mirror <code>/raadrecruitment/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Snapsale static mirror <code>/snapsale/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>S&amp;P Heavy Machinery static mirror <code>/sp-heavy-machinery/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>The Talent Point static mirror <code>/the-talent-point/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Royal Visa static mirror <code>/royal-visa/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Freelance static mirror <code>/connect-freelance/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Kinza HR static mirror <code>/kinza-hr/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Emiratisation Gate static mirror <code>/emiratisationgate/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Emiratisation Nafis static mirror <code>/emiratisationnafis/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Al Buraq static mirror <code>/al-buraq/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Dubai Offshore static mirror <code>/dubai-offshore/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Immigration Services UAE static mirror <code>/immigration-services-in-uae/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Dubai Mainland static mirror <code>/dubai-mainland/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect HR static mirror <code>/connect-hr/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Emiratisation Gateway static mirror <code>/emiratisationgateway/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Pittant static mirror <code>/pittant/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>REDO static mirror <code>/redo/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Saudi Company Formation static mirror <code>/saudi-company-formation/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Privacy Policy static mirror <code>/privacy-policy/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect Business Center static mirror <code>/connect-business-center/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>Connect FM static mirror <code>/connect-fm/</code></td>
+          <td class="ok">Done</td>
+        </tr>
+        <tr>
+          <td>SEO YAML + BaseLayout (OG / JSON-LD)</td>
+          <td class="ok">Done — see <a href="/demo/seo/">/demo/seo/</a></td>
+        </tr>
+        <tr>
+          <td>Sitemap + robots.txt</td>
+          <td class="ok">Done (on <code>npm run build</code>)</td>
+        </tr>
+        <tr>
+          <td>PageSpeed / CWV plan</td>
+          <td class="ok">Documented — <a href="/demo/performance/">/demo/performance/</a></td>
+        </tr>
+        <tr>
+          <td>Contact form → Pipedrive</td>
+          <td class="wait">Stub only</td>
+        </tr>
+        <tr>
+          <td>Phone country flags + IP dial-code (all CF7 mirrors)</td>
+          <td class="ok">Done — flags sprites + geo fallbacks in <code>astro-mirror-fixes.js</code></td>
+        </tr>
+        <tr>
+          <td>Shared Header / Footer (except Home + Blog)</td>
+          <td class="ok">Done — <code>Header.astro</code> / <code>Footer.astro</code> + <code>serveLegacyPage</code> injection</td>
+        </tr>
+        <tr>
+          <td>Other subsidiary / service landing pages</td>
+          <td class="wait">In progress</td>
+        </tr>
+        <tr>
+          <td>DNS / production cutover</td>
+          <td class="wait">Not started</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Commands</h2>
+    <pre><code>npm install
+npm run prepare:homepage:download
+npm run dev          # http://localhost:4321/demo/</code></pre>
+  </main>
+</BaseLayout>
+
+<style>
+  .status {
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+    line-height: 1.55;
+    color: #0f172a;
+  }
+  .status a {
+    color: #1e3a8a;
+  }
+  h1 {
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 1.85rem;
+    margin: 0.5rem 0 0.75rem;
+  }
+  .lead {
+    color: #475569;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin: 1.5rem 0;
+  }
+  th,
+  td {
+    border: 1px solid #e2e8f0;
+    padding: 0.55rem 0.65rem;
+    text-align: left;
+  }
+  th {
+    background: #f8fafc;
+  }
+  .ok {
+    color: #166534;
+    font-weight: 600;
+  }
+  .wait {
+    color: #9a3412;
+    font-weight: 600;
+  }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+  code {
+    font-size: 0.88em;
+  }
+</style>
