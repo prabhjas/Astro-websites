@@ -8,6 +8,29 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.evolutionmiddleast.com')
+  .trim()
+  .replace(/\/$/, '');
+
+/** Resolve migrated relative SEO URLs to the canonical production origin. */
+function absolutizeSeoUrls(html) {
+  const absolute = (value) => {
+    try {
+      return new URL(value, `${SITE_ORIGIN}/`).href;
+    } catch {
+      return value;
+    }
+  };
+
+  return html
+    .replace(/(<link\s+rel="canonical"\s+href=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
+      `${before}${absolute(value)}${after}`,
+    )
+    .replace(/(<meta\s+property="og:url"\s+content=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
+      `${before}${absolute(value)}${after}`,
+    );
+}
+
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
@@ -19,7 +42,7 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  const html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
+  const html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)));
 
   return new Response(html, {
     headers: {

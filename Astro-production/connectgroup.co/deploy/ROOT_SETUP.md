@@ -16,10 +16,15 @@ See `docs/CONNECT-ASTRO-FLEET-STANDARD.md` (peer copy) · root `docs/server-ops-
 
 ## Host steps (root)
 
-1. Create `site-connectgroup`; own `.data/`.
-2. Install unit from `deploy/connectgroup.service`.
-3. Install Caddy from `deploy/connectgroup.co.caddy` → `/etc/caddy/sites.d/`.
-4. `caddy validate` + reload; `pnpm --filter connectgroup-astro run build`; `sudo site-ctl restart connectgroup` (after allowlisting the unit).
+Code + prod build + `.env.prod.staged` are synced by webdev under `/opt/Astro-production/connectgroup.co`. Then as **root**:
+
+```bash
+bash /opt/Astro-production/connectgroup.co/deploy/bootstrap-root.sh
+```
+
+That script: creates `site-connectgroup`, installs `.env` / `.env.prod`, unit, Caddy site, allowlists `connectgroup` in `site-ctl`, enables the service, loopback smoke.
+
+Afterward: Cloudflare origin → `178.105.150.67`, SSL mode **Full** (not Full strict) while origin uses `tls internal`. Register domain + `INTERNAL_JOB_SECRET` in FLOW.
 
 ## Local
 
