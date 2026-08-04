@@ -122,26 +122,46 @@ export function getPostsByTag(tagId: number): PostEntry[] {
 }
 
 export function getPostsByAuthor(authorId: number): PostEntry[] {
+  const author = getAuthors().find((a) => a.id === authorId);
+  const aliasSlugs = new Set(
+    ["adm_connecthr", "connecthr"].includes(author?.slug || "")
+      ? ["adm_connecthr", "connecthr"]
+      : author?.slug
+        ? [author.slug]
+        : [],
+  );
+  const aliasIds = new Set(
+    aliasSlugs.size
+      ? getAuthors()
+          .filter((a) => aliasSlugs.has(a.slug))
+          .map((a) => a.id)
+      : [authorId],
+  );
   return getPosts()
-    .filter((p) => p.author === authorId)
+    .filter((p) => {
+      if (aliasIds.has(p.author)) return true;
+      if (author && p.authorName && p.authorName === author.name) return true;
+      if (aliasSlugs.size && aliasSlugs.has(p.authorSlug)) return true;
+      return p.author === authorId;
+    })
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
 
-export function getRelatedPosts(post: PostEntry, limit = 3): PostEntry[] {
-  const all = getPosts();
-  const scored = all
+/** Live Theme Builder "related" block uses recent posts (not category scoring). */
+export function getRelatedPosts(post: PostEntry, limit = 4): PostEntry[] {
+  return getPosts()
     .filter((p) => p.id !== post.id)
-    .map((p) => {
-      const catScore = p.categories.filter((c) => post.categories.includes(c)).length;
-      const tagScore = p.tags.filter((t) => post.tags.includes(t)).length;
-      return { p, score: catScore * 2 + tagScore };
-    })
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score || +new Date(b.p.date) - +new Date(a.p.date));
-  return (scored.length ? scored.map((x) => x.p) : all.filter((p) => p.id !== post.id)).slice(
-    0,
-    limit,
-  );
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+    .slice(0, limit);
+}
+
+export function getPrimaryCategoryName(post: PostEntry): string {
+  const cats = getCategories();
+  for (const id of post.categories || []) {
+    const cat = cats.find((c) => c.id === id);
+    if (cat?.name) return cat.name.replace(/&amp;/g, "&");
+  }
+  return "Blog";
 }
 
 export function normalizePath(pathname: string): string {

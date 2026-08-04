@@ -1,0 +1,132 @@
+---
+/**
+ * Astro contact form → /api/contact (Pipedrive + lead store).
+ * Attribution: full Ads/UTM capture via lib/attribution (peer-aligned).
+ */
+interface Props {
+  formId?: string;
+  formName?: string;
+}
+
+const {
+  formId = "connectfz-contact-lead",
+  formName = "Connect FZ Contact Form",
+} = Astro.props;
+---
+
+<form
+  id={formId}
+  class="sp-form"
+  method="post"
+  action={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
+  data-sp-contact-form
+  novalidate
+>
+  <input type="text" name="website" class="sp-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="form_name" value={formName} />
+  <input type="hidden" name="form_id" value={formId} />
+  <input type="hidden" name="submission_id" value="" />
+  <input type="hidden" name="page_url" value="" />
+  <input type="hidden" name="referrer_url" value="" />
+  <input type="hidden" name="initial_url" value="" />
+  <input type="hidden" name="landing_page_url" value="" />
+  <input type="hidden" name="submission_page_url" value="" />
+  <input type="hidden" name="utm_source" value="" />
+  <input type="hidden" name="utm_medium" value="" />
+  <input type="hidden" name="utm_campaign" value="" />
+  <input type="hidden" name="utm_term" value="" />
+  <input type="hidden" name="utm_content" value="" />
+  <input type="hidden" name="gclid" value="" />
+  <input type="hidden" name="gbraid" value="" />
+  <input type="hidden" name="wbraid" value="" />
+  <input type="hidden" name="fbclid" value="" />
+  <input type="hidden" name="msclkid" value="" />
+  <input type="hidden" name="campaign_id" value="" />
+  <input type="hidden" name="adgroup_id" value="" />
+  <input type="hidden" name="group_id" value="" />
+  <input type="hidden" name="creative_id" value="" />
+  <input type="hidden" name="keyword" value="" />
+  <input type="hidden" name="matchtype" value="" />
+  <input type="hidden" name="device" value="" />
+  <input type="hidden" name="network" value="" />
+  <input type="hidden" name="placement" value="" />
+  <input type="hidden" name="target" value="" />
+  <input type="hidden" name="adposition" value="" />
+  <input type="hidden" name="loc_physical_ms" value="" />
+  <input type="hidden" name="loc_interest_ms" value="" />
+  <input type="hidden" name="source" value="" />
+  <input type="hidden" name="first_touch_payload" value="" />
+  <input type="hidden" name="last_touch_payload" value="" />
+  <input type="hidden" name="first_visit_at" value="" />
+  <input type="hidden" name="latest_visit_at" value="" />
+  <input type="hidden" name="submitted_at" value="" />
+
+  <div class="sp-form__row">
+    <label>
+      First Name*
+      <input type="text" name="first-name" required autocomplete="given-name" />
+    </label>
+    <label>
+      Last Name*
+      <input type="text" name="last-name" required autocomplete="family-name" />
+    </label>
+  </div>
+  <div class="sp-form__row">
+    <label>
+      Email*
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label>
+      Phone Number*
+      <input type="tel" name="phone" class="wpcf7-phonetext" required autocomplete="tel" aria-required="true" />
+    </label>
+  </div>
+  <label>
+    Message
+    <textarea name="message" rows="5"></textarea>
+  </label>
+  <button type="submit">Get in Touch</button>
+  <p class="sp-form__status" data-sp-form-status role="status" aria-live="polite"></p>
+</form>
+
+<script define:vars={{ formId, formName }}>
+  import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById(formId);
+    if (!(form instanceof HTMLFormElement)) return;
+
+    function setHidden(name, value) {
+      var input = form.querySelector('[name="' + name + '"]');
+      if (input) input.value = value || '';
+    }
+
+    function captureTracking() {
+      var captured = captureAttribution(formId, formName);
+      populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+      setHidden('page_url', window.location.href);
+      setHidden('submission_page_url', window.location.href);
+      setHidden('referrer_url', document.referrer || '');
+      if (!form.dataset.submissionId) {
+        form.dataset.submissionId = crypto.randomUUID();
+      }
+      setHidden('submission_id', form.dataset.submissionId);
+      setHidden('submitted_at', new Date().toISOString());
+    }
+
+    captureTracking();
+    form.addEventListener('submit', function () {
+      captureTracking();
+    });
+  });
+</script>
+
+<style>
+  .sp-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+  }
+</style>

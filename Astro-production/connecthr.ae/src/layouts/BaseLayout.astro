@@ -2,6 +2,7 @@
 import SEOHead from "../components/SEOHead.astro";
 import ElementorHeader from "../components/ElementorHeader.astro";
 import ElementorFooter from "../components/ElementorFooter.astro";
+import ElementorPopups from "../components/ElementorPopups.astro";
 import ElementorScripts from "../components/ElementorScripts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
@@ -118,6 +119,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
       </div>
     </main>
     <ElementorFooter lang={lang} />
+    <ElementorPopups />
     <ElementorScripts />
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>

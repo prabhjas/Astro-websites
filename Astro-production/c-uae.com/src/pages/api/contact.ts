@@ -1,5 +1,10 @@
 import type { APIRoute } from 'astro';
-import { deriveAttributionFromRequest, normaliseAttribution, attributionFromPageUrl } from '@/lib/attribution/server';
+import {
+  attributionFromPageUrl,
+  deriveAttributionFromRequest,
+  mergeAttributionIntoContactForm,
+  normaliseAttribution,
+} from '@/lib/attribution/server';
 import { FileLeadStore } from '@/lib/leads/file-store';
 import { deliverStoredLead } from '@/lib/leads/service';
 import type { LeadSubmissionRecord } from '@/lib/leads/types';
@@ -187,6 +192,7 @@ export const POST: APIRoute = async ({ request }) => {
   const attributionPayload = normaliseAttribution({ ...requestAttribution, ...input });
   const firstTouchPayload = normaliseAttribution(parseAttributionJson(form.firstTouchPayload));
   const lastTouchPayload = normaliseAttribution(parseAttributionJson(form.lastTouchPayload || JSON.stringify(attributionPayload)));
+  mergeAttributionIntoContactForm(form, lastTouchPayload, firstTouchPayload, attributionPayload);
 
   const store = new FileLeadStore({
     rootDir: env.leadStoreDir,

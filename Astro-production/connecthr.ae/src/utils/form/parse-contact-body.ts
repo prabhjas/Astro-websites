@@ -46,9 +46,13 @@ export function parseContactFormBody(
     firstName: get('firstName') ?? get('first_name') ?? get('first-name'),
     lastName: get('lastName') ?? get('last_name') ?? get('last-name'),
     email: get('email') ?? get('your-email'),
-    phone: get('phone') ?? findFieldValue(raw, 'phonetext'),
+    phone:
+      get('phone') ??
+      get('your-phone') ??
+      findFieldValue(raw, 'your-phone') ??
+      findFieldValue(raw, 'phonetext'),
     message: buildMessage(get),
-    company: get('company'),
+    company: get('company') ?? get('company-name') ?? get('your-company'),
     location: get('location') ?? get('countrytext-787'),
     country: get('country') ?? get('countrytext-787'),
     city: get('city'),
