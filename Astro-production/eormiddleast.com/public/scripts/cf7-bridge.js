@@ -248,6 +248,14 @@
         event.stopPropagation();
         if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
 
+        if (typeof window.__eorApplyAttribution === "function") {
+          try {
+            window.__eorApplyAttribution(form);
+          } catch {
+            /* attribution must never block submit */
+          }
+        }
+
         const result = validate(form);
         if (!result.ok) {
           form.classList.add("invalid");

@@ -21,6 +21,6 @@ node scripts/fleet-local.mjs smoke connectresources
 - Posts JSON also holds CPTs `guides` and `press-release` (path-prefixed)
 - Raw crawl: `_crawl/` · assets under `public/wp-content/…`
 - Forms: JSON `POST /api/contact/` · CMS: `@connect/site-cms` `FEATURES_FULL_CMS`
-- Port **5084** · package `connectresources-astro`
+- Port **5086** · package `connectresources-astro`
 - Keep `PUBLIC_SITE_URL=https://connectresources.ae`
 - Never commit `.env` or `.data/`
