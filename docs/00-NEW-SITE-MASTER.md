@@ -127,8 +127,26 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 
 - [ ] Redirect CSV/JSON imported under `imports/redirects/` (or peer path)
 - [ ] Sample old URLs 301 to new targets locally
-- [ ] `/robots.txt`, sitemap(s), `/llms.txt` (if peer has them) return 200 from Node
-- [ ] `PUBLIC_SITE_URL` in local `.env` = `http://127.0.0.1:<PORT>` for smoke
+- [ ] `/robots.txt`, sitemap(s), `/llms.txt` (+ `/llm.txt` alias) return 200 from Node
+- [ ] `PUBLIC_SITE_URL` in local `.env` = **`https://<canonical-host>`** (never `127.0.0.1` — Astro inlines `PUBLIC_*` at build time)
+
+### Dynamic `/llms.txt` (fleet standard)
+
+New sites **must** ship the peer dynamic llms routes when cloning the fleet template — this is **per site**, not one shared file for the whole fleet.
+
+| Piece | Path (peer pattern) |
+|-------|---------------------|
+| Public routes | `src/pages/llms.txt.ts`, `src/pages/llm.txt.ts` |
+| Resolver | `src/lib/seo/llms-serve.ts` → auto from sitemap/pages/posts, or FLOW full override |
+| Site seed copy | `src/data/llms-defaults.json` (title, summary, groups — edit per brand) |
+
+**Behaviour:**
+
+1. **Auto (default)** — `/llms.txt` regenerates from **that domain’s** published pages/posts/sitemap when content changes (no manual rebuild of a static file).
+2. **Override** — if FLOW saves a full body under that site’s `.data/internal-admin/`, that text wins until cleared.
+3. Cloning a template that already has these files includes the feature; sites scaffolded **without** them (legacy gaps) need the routes + seed copied from a peer before go-live.
+
+**Smoke:** `curl -sI http://127.0.0.1:<PORT>/llms.txt` → `200` + `text/plain`.
 
 **Next → Phase 06**
 
@@ -231,6 +249,8 @@ node scripts/fleet-local.mjs smoke <id>
 
 - [ ] Build succeeds
 - [ ] Fleet smoke green
+- [ ] `PUBLIC_SITE_URL` is `https://<canonical>` (not `127.0.0.1`) before any server sync
+- [ ] Built `dist/server/entry.mjs` has no `127.0.0.1` / `localhost` host baked in
 - [ ] No unexpected secrets in `git status`
 
 ### B. Forms & attribution
@@ -298,6 +318,16 @@ Site is ready for **you to deploy** when:
 
 **Paste for Cursor after sign-off:**  
 *Phase 01–10 complete for \<domain\>. Run final high-level checks from docs/00-NEW-SITE-MASTER.md and prepare server cutover per CONNECT-CADDY-DEPLOYMENT.md.*
+
+---
+
+## Deferred fleet gaps (tracked — do not forget)
+
+| Gap | Sites | Status | Notes |
+|-----|-------|--------|-------|
+| Dynamic `/llms.txt` (+ `/llm.txt`, `llms-defaults.json`, `llms-serve`) | **cbss.ae**, **iberiaworkforce.com** | **Deferred** (Aug 2026) — do **not** block other deploys | Already live without it. Backfill from a peer (e.g. `spheavyrental.ae` / `connectgroup.co`) in a later pass. See Phase 05 § Dynamic `/llms.txt`. |
+
+When picking this up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / generator + a brand-specific `src/data/llms-defaults.json`, rebuild, smoke `curl -sI /llms.txt`.
 
 ---
 

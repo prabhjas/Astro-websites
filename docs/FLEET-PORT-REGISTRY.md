@@ -83,9 +83,9 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | Port | Domain | Notes |
 |------|--------|--------|
 | 5080 | evolutionmiddleast.com | Full CMS peer · live Caddy |
-| 5081 | cbss.ae | Leads-heavy peer · live Caddy |
+| 5081 | cbss.ae | Leads-heavy peer · live Caddy · **deferred:** no dynamic `/llms.txt` yet (see `00-NEW-SITE-MASTER.md` § Deferred) |
 | 5082 | spheavyrental.ae | Full CMS peer · live Caddy |
-| 5083 | iberiaworkforce.com | Leads + EN/ES · live Caddy |
+| 5083 | iberiaworkforce.com | Leads + EN/ES · live Caddy · **deferred:** no dynamic `/llms.txt` yet (see `00-NEW-SITE-MASTER.md` § Deferred) |
 | 5084 | connecthr.ae | In fleet; **not** in live Caddyfile yet |
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
@@ -93,13 +93,13 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5088 | connectresources.sa | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
 | 5089 | iberiaeor.com | Live WP clone extracted (kit-6 Manrope/Lato); local smoke green; malware scan: 0 PHP in public |
 | 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
-| 5091 | connectstaff.ae | Scaffolded (dev merge) |
-| 5092 | c-uae.com | Scaffolded (dev merge) |
-| 5093 | kinzahr.com | Full CMS scaffold (local); **not** in live Caddyfile yet |
+| 5091 | connectstaff.ae | Scaffolded · `Caddyfile.production` block ready (server cutover pending) |
+| 5092 | c-uae.com | Scaffolded · `Caddyfile.production` block ready (not pushing yet) |
+| 5093 | kinzahr.com | Scaffolded · `Caddyfile.production` block ready (not pushing yet) |
 | 5096 | connectfz.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
 
-“Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group (see `caddy/Caddyfile.production`).
+“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` in git includes live Tier‑1 plus EOR/Staff/C‑UAE/Kinza and other scaffolded blocks from `dev` (Connect HR, Connect Resources SA, Iberia EOR, Connect FZ, Royal Visa). Apply to the host only when the matching Node unit is ready.
 
 ---
 
