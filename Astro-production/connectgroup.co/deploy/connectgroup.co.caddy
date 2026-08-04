@@ -1,11 +1,21 @@
-# /etc/caddy/sites.d/connectgroup.co.caddy
-# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
-# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+# connectgroup.co -> 127.0.0.1:5085 (systemd: connectgroup.service)
+#
+# Cutover from the old static /var/www/astro-sites/connectgroup site to the
+# Astro SSR Node service. Node serves pages, dist/client assets and /api/*.
+#
+# See _README.md in this directory for why the scheme prefixes and `tls internal`
+# are required behind Cloudflare.
 
-http://connectgroup.co, http://www.connectgroup.co, https://connectgroup.co, https://www.connectgroup.co {
+http://connectgroup.co, http://www.connectgroup.co,
+https://connectgroup.co, https://www.connectgroup.co {
 	tls internal
-	encode gzip zstd
+	encode zstd gzip
+
 	reverse_proxy 127.0.0.1:5085
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
 	header {
 		X-Content-Type-Options nosniff
 		Referrer-Policy strict-origin-when-cross-origin
