@@ -326,6 +326,15 @@ div.wpcf7-response-output.sp-status-visible,
   padding: 12px 24px !important;
 }
 
+/* Insights archive hero — cityscape + magnifying glass (blog-bg.webp) */
+.elementor-1504 .elementor-element.elementor-element-da05cfb {
+  background-image: url("/wp-content/uploads/2024/07/blog-bg.webp") !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: 320px;
+}
+
 /* Testimonial carousel dots — center like live */
 .elementor-widget-testimonial-carousel .swiper-pagination,
 .elementor-testimonial-carousel .swiper-pagination,
