@@ -1,0 +1,83 @@
+# Canonical interim redirects for royalvisa.ae
+# Source: live WordPress probe 2026-08-04 (same pattern as connectresources.sa peer).
+# Drop future Rank Math / Redirection rules exports under imports/redirects/
+# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# FLOW will own day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  # Confirmed live 301s → real pages / posts
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /freelance-visa-dubai/
+    to: /freelance-visa-dubai-installment/
+    status: 301
+  - from: /silver-visa-uae/
+    to: /silver-visa-uae-requirement-all-requirements-exact-costs-how-to-get-approved-fast/
+    status: 301
+  - from: /services/silver-visa/
+    to: /silver-visa/
+    status: 301
+  - from: /services/residence-visa/
+    to: /residence-visa/
+    status: 301
+  - from: /visa/
+    to: /visa-cancellation-and-final-settlement/
+    status: 301
+  - from: /uae-visa/
+    to: /uae-visa-rejection-reasons-points-to-stay-aware-of-in-2024/
+    status: 301
+
+  # Confirmed live → homepage
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+
+  # Live dumps these to /; fleet maps to the real service pages (peer SA pattern)
+  - from: /services/golden-visa/
+    to: /golden-visa/
+    status: 301
+  - from: /services/family-visa/
+    to: /family-visa/
+    status: 301
+  - from: /services/freelance-visa/
+    to: /freelance-visa/
+    status: 301
+  - from: /services/property-visa/
+    to: /property-visa/
+    status: 301
+
+  # Sensible aliases (404 on live; fleet maps to canonical pages)
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301
+  - from: /visa-services/
+    to: /golden-visa/
+    status: 301

@@ -1,0 +1,20 @@
+# Permanent redirects — SEO / migration
+# Import staging: imports/redirects/
+# Regenerate host copies: pnpm redirects:generate
+redirects:
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php/
+    to: /
+    status: 301
+  # Rank Math — verified against live connecthr.ae (2026-08-04)
+  - from: /tips-to-find-the-best-hrms-software-in-uae/
+    to: /best-hrms-software-in-dubai-2026-compare-uae-compliance-features-pricing/
+    status: 301
+  - from: /what-is-hrms/
+    to: /what-is-human-resource-management-system-hrms/
+    status: 301
+  - from: /what-is-human-resource-management-system/
+    to: /what-is-human-resource-management-system-hrms/
+    status: 301

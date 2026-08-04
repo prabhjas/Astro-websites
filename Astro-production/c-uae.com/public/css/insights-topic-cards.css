@@ -1,0 +1,291 @@
+/* Live insights Articles-by-Topic card grid (from eormiddleast.com custom CSS) */
+
+.top-info {
+    display:flex;
+    align-items:center;
+    margin-top:25px;
+    margin-bottom:15px;
+}
+
+.top-info .author{
+    border-radius: 4px;
+    background: rgba(245, 107, 1, 0.20);
+    padding: 4px 8px;
+    color:  #2E282A;
+    font-family: Nunito, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px;
+    letter-spacing: 0.28px;
+    margin-right:20px;
+}
+
+.top-info .date{
+    color: #2E282A;
+    font-family: Nunito, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height:21px;
+    letter-spacing: 0.28px;
+}
+
+.loop-wrap .post-grid {
+    min-width: 0;
+}
+
+.loop-wrap .post-grid img,
+.loop-wrap .post-grid .img-fluid {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+}
+
+.post-grid h3{
+    color: #18191F;
+    font-family: Nunito, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0 0 10px;
+}
+
+.post-grid p{
+    color: #2E282A;
+    font-family: Nunito, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0 0 12px;
+}
+
+.post-grid a{
+    color: #F56B01;
+    font-family: Nunito, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0.32px;
+    text-decoration: none;
+}
+
+.post-grid a i{
+    position:relative;
+    left:5px;
+    top:1.5px;
+    font-size:18px;
+}
+
+.loop-wrap {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 40px;
+    margin-top: 20px;
+}
+
+/* Topic filter buttons — match live orange pills */
+.elementor-shortcode .btn.filter-button,
+button.btn.filter-button {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background: #F56B01;
+    color: #fff;
+    margin: 0 8px 12px 0;
+    padding: 10px 16px;
+    font-family: Nunito, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.elementor-shortcode .btn.filter-button:hover,
+.elementor-shortcode .btn.filter-button.active,
+.elementor-shortcode .btn.filter-button:focus-visible,
+button.btn.filter-button:hover,
+button.btn.filter-button.active,
+button.btn.filter-button:focus-visible {
+    color: #fff;
+    background: #3d2f1f;
+    outline: 0;
+    box-shadow: none;
+}
+
+.elementor-shortcode .btn:focus {
+    outline: 0;
+    box-shadow: none !important;
+}
+
+#pagination-container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+#pagination-container .simple-pagination li {
+    display: inline-block;
+    float: none;
+}
+
+#pagination-container .simple-pagination .current,
+#pagination-container .light-theme .current {
+    background: #F56B01 !important;
+    border-color: #F56B01 !important;
+    color: #fff !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .post-grid h3{
+      font-size: 20px;
+  }
+  .loop-wrap {
+      grid-template-columns: repeat(1,1fr);
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px)  {
+  .post-grid h3{
+      font-size: 18px;
+  }
+  .top-info .author {
+      font-size: 12px;
+      margin-right: 10px;
+  }
+  .top-info .date {
+      font-size: 12px;
+  }
+  .loop-wrap {
+      grid-template-columns: repeat(2,1fr);
+      gap: 24px;
+  }
+}
+
+/* Popular loop-carousel (Stay Updated With Latest Insights) */
+.elementor-widget-loop-carousel {
+  position: relative;
+  padding: 0 48px;
+}
+
+.elementor-widget-loop-carousel .swiper,
+.elementor-widget-loop-carousel .elementor-loop-container {
+  overflow: hidden;
+}
+
+.elementor-widget-loop-carousel .swiper-slide {
+  height: auto;
+}
+
+.elementor-widget-loop-carousel .elementor-swiper-button {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #f56b01;
+  color: #f56b01;
+  background: #fff;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 5;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.elementor-widget-loop-carousel .elementor-swiper-button-prev {
+  left: 0;
+}
+
+.elementor-widget-loop-carousel .elementor-swiper-button-next {
+  right: 0;
+}
+
+.elementor-widget-loop-carousel .elementor-swiper-button i {
+  font-size: 18px;
+  line-height: 1;
+  font-style: normal;
+}
+
+/* Fallback arrows if eicons font fails */
+.elementor-widget-loop-carousel .elementor-swiper-button-prev .eicon-chevron-left::before,
+.elementor-widget-loop-carousel .elementor-swiper-button-prev i::before {
+  content: "‹";
+  font-family: Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.elementor-widget-loop-carousel .elementor-swiper-button-next .eicon-chevron-right::before,
+.elementor-widget-loop-carousel .elementor-swiper-button-next i::before {
+  content: "›";
+  font-family: Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.elementor-widget-loop-carousel .swiper-slide .elementor-widget-image img,
+.elementor-widget-loop-carousel .elementor-21574 img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.elementor-widget-loop-carousel .elementor-21574 .top-info,
+.post-slider .top-info {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.elementor-widget-loop-carousel .elementor-21574 h3,
+.post-slider .elementor-21574 h3 {
+  font-family: Nunito, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: #18191f;
+}
+
+.elementor-widget-loop-carousel .elementor-21574 p,
+.post-slider .elementor-21574 p {
+  font-family: Nunito, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #2e282a;
+  margin: 0 0 12px;
+}
+
+.elementor-widget-loop-carousel .elementor-21574 a,
+.post-slider .elementor-21574 a {
+  color: #f56b01;
+  font-family: Nunito, sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .elementor-widget-loop-carousel {
+    padding: 0 36px;
+  }
+}

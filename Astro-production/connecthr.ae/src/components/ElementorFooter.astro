@@ -1,0 +1,13 @@
+---
+import footerEn from "../data/footer.html?raw";
+import footerAr from "../data/footer.ar.html?raw";
+
+interface Props {
+  lang?: "en" | "ar";
+}
+
+const { lang = "en" } = Astro.props;
+const footerHtml = lang === "ar" ? footerAr : footerEn;
+---
+
+<footer class="sp-elementor-footer" set:html={footerHtml} />

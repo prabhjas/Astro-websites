@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import archiveCss from "../../../data/archive-css.json";
+import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import { renderArchiveShell } from "../../../lib/blog-shell";
+import { breadcrumbSchema } from "../../../lib/seo";
+
+export function getStaticPaths() {
+  const paths = authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+  // Live WP author slug — keep even if authors.json is remapped
+  if (!paths.some((p) => p.params.slug === "adm_connecthr") && authors[0]) {
+    paths.push({
+      params: { slug: "adm_connecthr" },
+      props: { author: { ...authors[0], slug: "adm_connecthr", path: "/author/adm_connecthr/" } },
+    });
+  }
+  return paths;
+}
+
+const { author } = Astro.props;
+const sorted = getPostsByAuthor(author.id);
+const { items } = paginate(sorted, 1, Math.max(POSTS_PER_PAGE, 12));
+const displayName = stripHtml(author.name) || "Connect HR";
+const shellHtml = renderArchiveShell({
+  title: `Author: ${displayName}`,
+  posts: items,
+  categoryName: displayName,
+});
+---
+
+<BaseLayout
+  currentPath={author.path}
+  menuActivePath="/blogs/"
+  extraCss={[...(archiveCss as string[])]}
+  bodyClass="archive author author-connecthr"
+  seo={{
+    title: `Author: ${displayName} | Connect HR`,
+    description: author.description || `Articles by ${displayName}.`,
+    canonical: author.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blogs", url: "/blogs/" },
+        { name: displayName, url: author.path },
+      ]),
+    ],
+  }}
+>
+  <div set:html={shellHtml} />
+</BaseLayout>

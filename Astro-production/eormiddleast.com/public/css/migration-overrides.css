@@ -1,0 +1,231 @@
+/* Match live Elementor kit-8 defaults (override any leftover SP kit CSS) */
+body.elementor-kit-8,
+.elementor-kit-8 {
+  font-family: Roboto, sans-serif;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#wpadminbar {
+  display: none !important;
+}
+
+/*
+  Live site canvas: Hello Elementor body is white (or transparent → white).
+  Do NOT force a black body — Core Services + Contact sections inherit white.
+  Dark sections get backgrounds from Elementor CSS + elementor-bg-fallback.css.
+*/
+
+/*
+  Single posts: keep header transparent like other pages (Elementor #FFDD0400).
+  With body margin 0, the dark post canvas sits behind white nav — matches live overlay.
+  Do not force a solid black header bar.
+*/
+
+/* Mobile nav styles live in /css/eor-mobile-nav.css */
+
+.elementor img {
+  height: auto;
+  max-width: 100%;
+}
+
+.wpcf7 input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Insights topic filter/pagination visuals live in /css/insights-topic-cards.css */
+
+/* Live EOR: hide CF7 tracking / country helper fields */
+#transaction_hide,
+.gclid_tag,
+.wpcf7 .gclid_tag,
+form.wpcf7-form #transaction_hide,
+input[name="gclid_field"],
+input[name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name="gclid_field"],
+.wpcf7-form-control-wrap[data-name="initial_url"] {
+  display: none !important;
+}
+
+/* We only use intlTelInput for phone — hide countrySelect chrome only.
+   Do NOT hide .country-list globally: intl-tel-input uses that class for its dropdown. */
+.country-select:not(.intl-tel-input .country-list),
+.country-select-input,
+.wpcf7-form .country-select {
+  display: none !important;
+}
+
+/* countrySelect plugin list (sibling of country-select), not intl-tel dropdown */
+.country-select + .country-list,
+body > ul.country-list.country-select-list {
+  display: none !important;
+}
+
+/* Prevent duplicate intl-tel dial-code chrome if a second init slips through */
+.intl-tel-input + .intl-tel-input,
+.wpcf7-form-control-wrap > .intl-tel-input ~ .intl-tel-input {
+  display: none !important;
+}
+
+/* Keep intl-tel country dropdown above form chrome */
+.intl-tel-input .country-list {
+  display: none;
+  z-index: 30;
+}
+.intl-tel-input .country-list:not(.hide) {
+  display: block !important;
+}
+
+/* CF7 country-phone flag sprites (grey boxes without these PNGs) */
+.iti-flag,
+.country-select .flag,
+.intl-tel-input .iti-flag {
+  background-image: url("/js/phone-flags/flags.png") !important;
+  background-repeat: no-repeat !important;
+}
+
+.intl-tel-input .iti-flag {
+  height: 15px;
+  box-shadow: 0 0 1px 0 #888;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+  .iti-flag,
+  .country-select .flag,
+  .intl-tel-input .iti-flag {
+    background-image: url("/js/phone-flags/flags@2x.png") !important;
+    background-size: 5630px 15px !important;
+  }
+}
+
+/* Undo Hello theme link underline inside Elementor */
+.elementor a {
+  text-decoration: none;
+}
+
+#top-header {
+  position: relative;
+  z-index: 99;
+}
+
+/* Accordion FAQ visual defaults when Elementor widget CSS is light */
+.elementor-accordion .elementor-tab-content:not(.elementor-active) {
+  display: none;
+}
+
+.elementor-accordion .elementor-tab-title {
+  cursor: pointer;
+}
+
+.elementor-accordion .elementor-accordion-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Contact form validation + status (visible on dark catalog forms) */
+.sp-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sp-field-invalid,
+.wpcf7-form-control.sp-field-invalid {
+  outline: 2px solid #ff6b6b !important;
+  outline-offset: 1px;
+}
+
+.wpcf7-response-output,
+.wpcf7 form .wpcf7-response-output,
+div.wpcf7-response-output,
+[data-sp-form-status] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+/* Visible thank-you / error (CF7 classes used on other sites + sp-status fallback) */
+.wpcf7-response-output.sp-status-visible,
+.wpcf7 form .wpcf7-response-output.sp-status-visible,
+div.wpcf7-response-output.sp-status-visible,
+[data-sp-form-status].sp-status-visible,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.sent .wpcf7-response-output,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  margin: 1rem 0 0 !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 8px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-ok,
+[data-sp-form-status].sp-status-visible.sp-status-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form.sent .wpcf7-response-output {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: #46b450 !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-err,
+[data-sp-form-status].sp-status-visible.sp-status-err,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #dc3232 !important;
+}
+
+/* Contact Us: orange info column — white text/links + paper-plane icons */
+.elementor-1706 .elementor-element-857c984 .icon-box-content,
+.elementor-1706 .elementor-element-857c984 .icon-box-content p,
+.elementor-1706 .elementor-element-857c984 .icon-box-content a,
+.elementor-1706 .elementor-element-857c984 .icon-box-content .title,
+.elementor-1706 .elementor-element-857c984 .icon-box-content .description {
+  color: #ffffff !important;
+}
+
+.elementor-1706 .elementor-element-857c984 .icon-box-icon .icon i,
+.elementor-1706 .elementor-element-857c984 .fas.fa-paper-plane,
+.elementor-1706 .elementor-element-857c984 .far.fa-paper-plane {
+  color: #ffffff !important;
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+}
+
+.elementor-1706 .elementor-element-857c984 .fa-paper-plane::before {
+  content: "\f1d8";
+}
+

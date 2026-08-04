@@ -1,0 +1,41 @@
+# c-uae.com -> 127.0.0.1:5092 (systemd: cuae.service)
+#
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile — see caddy/Caddyfile.production).
+# This file is the site block to keep in sync with the live fleet Caddyfile.
+#
+# When deploying / adding this site on the server you MUST also:
+#   1. Ensure the shared one-hop HTTP alt-host block lists http://www.c-uae.com
+#      and redirects to https://c-uae.com{uri}
+#   2. Match PUBLIC_SITE_URL=https://c-uae.com
+#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5092 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+c-uae.com, www.c-uae.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.c-uae.com
+	redir @noncanonical https://c-uae.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5092
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/c-uae.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

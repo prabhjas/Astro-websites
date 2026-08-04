@@ -1,0 +1,37 @@
+---
+interface Props {
+  page: number;
+  totalPages: number;
+  basePath: string;
+}
+
+const { page, totalPages, basePath } = Astro.props;
+
+function hrefFor(n: number) {
+  if (n <= 1) return basePath.endsWith("/") ? basePath : `${basePath}/`;
+  const base = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
+  return `${base}/page/${n}/`;
+}
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+{
+  totalPages > 1 && (
+    <nav class="sp-pagination" aria-label="Pagination">
+      {page > 1 ? <a href={hrefFor(page - 1)} rel="prev">Prev</a> : <span>Prev</span>}
+      {pages.map((n) =>
+        n === page ? (
+          <span class="is-active" aria-current="page">
+            {n}
+          </span>
+        ) : (
+          <a href={hrefFor(n)}>
+            {n}
+          </a>
+        ),
+      )}
+      {page < totalPages ? <a href={hrefFor(page + 1)} rel="next">Next</a> : <span>Next</span>}
+    </nav>
+  )
+}
