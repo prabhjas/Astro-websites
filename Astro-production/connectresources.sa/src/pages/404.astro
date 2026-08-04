@@ -11,7 +11,7 @@ Astro.response.statusText = 'Not Found';
 ---
 
 <!doctype html>
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +23,7 @@ Astro.response.statusText = 'Not Found';
     <meta name="robots" content="noindex, follow" />
     <link
       rel="icon"
-      href="/wp-content/uploads/2024/09/cropped-FAVICON-CR-ROUNDED-32x32.png"
+      href="/wp-content/uploads/2025/01/CRS-logo.png"
       sizes="32x32"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,10 +35,10 @@ Astro.response.statusText = 'Not Found';
     <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     <style>
       :root {
-        --eme-ink: #0b092d;
-        --eme-blue: #1c1cd1;
-        --eme-mist: #f3f5fb;
-        --eme-line: #d8dcea;
+        --ink: #0b092d;
+        --accent: #C8102E;
+        --mist: #f3f5fb;
+        --line: #d8dcea;
       }
 
       * {
@@ -49,10 +49,10 @@ Astro.response.statusText = 'Not Found';
         margin: 0;
         min-height: 100vh;
         font-family: Manrope, 'Segoe UI', sans-serif;
-        color: var(--eme-ink);
+        color: var(--ink);
         background:
-          radial-gradient(ellipse 80% 50% at 50% -10%, rgba(28, 28, 209, 0.12), transparent),
-          linear-gradient(180deg, #ffffff 0%, var(--eme-mist) 100%);
+          radial-gradient(ellipse 80% 50% at 50% -10%, rgba(200, 16, 46, 0.12), transparent),
+          linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
       }
 
       .wrap {
@@ -77,13 +77,13 @@ Astro.response.statusText = 'Not Found';
         display: inline-block;
         margin: 0 0 0.75rem;
         padding: 0.2rem 0.65rem;
-        border: 1px solid var(--eme-line);
+        border: 1px solid var(--line);
         border-radius: 999px;
         font-size: 0.8rem;
         font-weight: 700;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: var(--eme-blue);
+        color: var(--accent);
         background: #fff;
       }
 
@@ -124,22 +124,22 @@ Astro.response.statusText = 'Not Found';
 
       .actions a.primary {
         color: #fff;
-        background: var(--eme-blue);
+        background: var(--accent);
       }
 
       .actions a.primary:hover {
-        background: #1515b0;
+        background: #aa0d27;
       }
 
       .actions a.secondary {
-        color: var(--eme-ink);
+        color: var(--ink);
         background: #fff;
-        border: 1px solid var(--eme-line);
+        border: 1px solid var(--line);
       }
 
       .actions a.secondary:hover {
-        border-color: var(--eme-blue);
-        color: var(--eme-blue);
+        border-color: var(--accent);
+        color: var(--accent);
       }
     </style>
   </head>
@@ -147,7 +147,7 @@ Astro.response.statusText = 'Not Found';
     <main class="wrap">
       <a class="logo" href="/" aria-label="Connect Resources Saudi home">
         <img
-          src="/wp-content/uploads/2024/03/main-logo-300x94.png"
+          src="/wp-content/uploads/2025/01/CRS-logo.png"
           width="300"
           height="94"
           alt="Connect Resources Saudi"
