@@ -89,7 +89,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5084 | connecthr.ae | In fleet; **not** in live Caddyfile yet |
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
-| 5090 | eormiddleast.com | Scaffolded (dev merge) |
+| 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 | 5091 | connectstaff.ae | Scaffolded (dev merge) |
 | 5092 | c-uae.com | Scaffolded (dev merge) |
 
