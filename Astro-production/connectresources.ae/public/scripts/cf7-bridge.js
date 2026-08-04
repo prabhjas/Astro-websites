@@ -259,10 +259,87 @@
     });
   }
 
+  function ensureHiddenField(form, name, value) {
+    let input = form.querySelector(`[name="${name}"]`);
+    if (!input) {
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      form.appendChild(input);
+    }
+    if (value !== undefined) {
+      // Prefer existing non-empty values (e.g. server-rendered fields).
+      if (!String(input.value || "").trim()) input.value = value || "";
+    }
+    return input;
+  }
+
+  function captureTrackingFields(form) {
+    const params = new URLSearchParams(window.location.search);
+    const pageUrl = window.location.href;
+    let initial = "";
+    try {
+      initial = sessionStorage.getItem("cg_initial_url") || pageUrl;
+      if (!sessionStorage.getItem("cg_initial_url")) {
+        sessionStorage.setItem("cg_initial_url", pageUrl);
+      }
+    } catch {
+      initial = pageUrl;
+    }
+
+    const TRACKING_FIELDS = {
+      gclid: ["gclid"],
+      gbraid: ["gbraid"],
+      wbraid: ["wbraid"],
+      fbclid: ["fbclid"],
+      msclkid: ["msclkid"],
+      utm_source: ["utm_source"],
+      utm_medium: ["utm_medium"],
+      utm_campaign: ["utm_campaign"],
+      utm_term: ["utm_term"],
+      utm_content: ["utm_content"],
+      campaign_id: ["campaign_id", "campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroup_id", "adgroupid"],
+      group_id: ["group_id", "groupid"],
+      creative_id: ["creative_id", "creativeid", "creative"],
+      keyword: ["keyword", "kw", "q", "utm_term"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target: ["target", "targetid", "target_id"],
+      target_id: ["target_id", "targetid", "target"],
+      adposition: ["adposition", "ad_position"],
+      loc_physical_ms: ["loc_physical_ms", "locphysicalms"],
+      loc_interest_ms: ["loc_interest_ms", "locinterestms"],
+      gad_source: ["gad_source", "gadsource"],
+      source: ["source", "gad_source", "gadsource"],
+    };
+
+    const firstParam = (aliases) => {
+      for (const alias of aliases) {
+        const v = params.get(alias);
+        if (v) return v;
+      }
+      return "";
+    };
+
+    Object.keys(TRACKING_FIELDS).forEach((name) => {
+      ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+    });
+
+    ensureHiddenField(form, "initial_url", initial);
+    ensureHiddenField(form, "landing_page_url", initial);
+    ensureHiddenField(form, "page_url", pageUrl);
+    ensureHiddenField(form, "submission_page_url", pageUrl);
+    ensureHiddenField(form, "referrer_url", document.referrer || "");
+  }
+
   function wireForm(form) {
     if (!(form instanceof HTMLFormElement) || form.dataset.spContactWired === "1") return;
     form.dataset.spContactWired = "1";
     wireInputGuards(form);
+    captureTrackingFields(form);
 
     form.addEventListener(
       "submit",
@@ -270,6 +347,8 @@
         event.preventDefault();
         event.stopPropagation();
         if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+
+        captureTrackingFields(form);
 
         const result = validate(form);
         if (!result.ok) {
@@ -354,6 +433,7 @@
           } catch {
             /* ignore */
           }
+          captureTrackingFields(form);
           showCf7Message(form, successMsg, false);
           // Re-assert after CF7/intlTel quirks (same as Evolution)
           setTimeout(() => showCf7Message(form, successMsg, false), 100);

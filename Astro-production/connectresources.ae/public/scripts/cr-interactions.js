@@ -118,6 +118,48 @@
    * Page-design CSS forced every :hover dropdown visible with !important, so siblings
    * could stay painted while Impreza left .opened on the previous item.
    */
+  function refreshSmartSliders() {
+    try {
+      window.dispatchEvent(new Event("resize"));
+      if (window._N2 && typeof window._N2.trigger === "function") {
+        window._N2.trigger(window, "resize");
+      }
+    } catch (e) {
+      /* Smart Slider optional */
+    }
+  }
+
+  function bindSmartSliderRefresh() {
+    var debounced;
+    function schedule() {
+      window.clearTimeout(debounced);
+      debounced = window.setTimeout(function () {
+        refreshSmartSliders();
+        window.setTimeout(refreshSmartSliders, 400);
+      }, 120);
+    }
+    window.addEventListener("resize", schedule);
+    window.matchMedia("(max-width: 900px)").addEventListener("change", schedule);
+    document.querySelectorAll(".ush_menu_2 .w-nav-control").forEach(function (btn) {
+      btn.addEventListener("click", schedule);
+    });
+    document.querySelectorAll(".ush_menu_2 .w-nav-arrow").forEach(function (arrow) {
+      arrow.addEventListener("click", schedule);
+    });
+    if (typeof ResizeObserver !== "undefined") {
+      document.querySelectorAll('[id^="n2-ss-"]').forEach(function (el) {
+        if (!/^n2-ss-\d+$/.test(el.id)) return;
+        var col = el.closest(".wpb_text_column, .g-cols");
+        if (!col) return;
+        try {
+          new ResizeObserver(schedule).observe(col);
+        } catch (e) {
+          /* ignore */
+        }
+      });
+    }
+  }
+
   function bindExclusiveMegaMenus(root) {
     var navs = (root || document).querySelectorAll(".w-nav.type_desktop");
     navs.forEach(function (nav) {
@@ -166,12 +208,16 @@
     applyUpbColors();
     bindTabs(document);
     bindExclusiveMegaMenus(document);
+    bindSmartSliderRefresh();
+    refreshSmartSliders();
     // Re-apply after Ultimate / theme JS mutate DOM
     window.setTimeout(applyUpbColors, 50);
     window.setTimeout(applyUpbColors, 400);
     window.setTimeout(function () {
       bindTabs(document);
       bindExclusiveMegaMenus(document);
+      refreshSmartSliders();
     }, 400);
+    window.setTimeout(refreshSmartSliders, 1200);
   });
 })();
