@@ -1,0 +1,17 @@
+---
+import { getInsightsPageData, getInsightsTotalPages, serveArchivePage } from '../../../lib/archives.ts';
+
+export function getStaticPaths() {
+  const total = getInsightsTotalPages();
+  const paths = [];
+  for (let p = 2; p <= total; p++) {
+    paths.push({ params: { page: String(p) } });
+  }
+  return paths;
+}
+
+const page = parseInt(Astro.params.page!, 10);
+const data = getInsightsPageData(page);
+if (!data || page < 2) return new Response('Not found', { status: 404 });
+return serveArchivePage(data);
+---

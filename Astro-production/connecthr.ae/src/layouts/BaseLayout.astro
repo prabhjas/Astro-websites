@@ -1,0 +1,124 @@
+---
+import SEOHead from "../components/SEOHead.astro";
+import ElementorHeader from "../components/ElementorHeader.astro";
+import ElementorFooter from "../components/ElementorFooter.astro";
+import ElementorScripts from "../components/ElementorScripts.astro";
+import type { SeoInput } from "../lib/seo";
+import type { SeoData } from "../lib/content";
+import liveCssOrder from "../data/live-css-order.json";
+import inlineHeadCss from "../data/inline-head.css?raw";
+import inlineHeadCssAr from "../data/inline-head.ar.css?raw";
+import { resolveInternalAdminDir } from "../env/server";
+import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
+import "../styles/global.css";
+
+interface Props {
+  seo?: SeoInput;
+  fallback?: SeoData;
+  extraCss?: string[];
+  currentPath?: string;
+  /** Force header nav active item (e.g. "/blog/" on single posts) */
+  menuActivePath?: string;
+  bodyClass?: string;
+  /** WPML language — drives <html lang/dir> and EN vs AR header/footer */
+  lang?: "en" | "ar";
+}
+
+const {
+  seo = {},
+  fallback,
+  extraCss = [],
+  currentPath = Astro.url.pathname,
+  menuActivePath,
+  bodyClass = "",
+  lang = currentPath.startsWith("/ar/") || currentPath === "/ar" ? "ar" : "en",
+} = Astro.props;
+
+const isRtl = lang === "ar";
+const htmlLang = isRtl ? "ar" : "en-AE";
+
+/**
+ * Inline <head> CSS mirrored from the live site (wp-custom-css / Customizer,
+ * global-styles + Elementor global colours, custom @font-face, WP Rocket used-CSS).
+ * These define the CSS variables + custom rules that the linked post-*.css files
+ * reference — accordion/FAQ open gradient, counter hover, sticky-bar gradient,
+ * footer colours all live here. Injected after the linked stylesheets so it wins.
+ */
+const headInlineCss = isRtl ? inlineHeadCssAr : inlineHeadCss;
+
+/**
+ * Stylesheet set = exact live-homepage order (live-css-order.json, captured by
+ * scripts/extract-connecthr.mjs) + this page's Elementor CSS (extraCss) + local
+ * migration helpers. Data-driven so it tracks Connect HR's real WP kit/plugins.
+ */
+const stylesheets = [
+  ...new Set([
+    ...(liveCssOrder as string[]),
+    ...extraCss,
+    "/css/wp-custom.css",
+    "/css/elementor-bg-fallback.css",
+    "/css/migration-overrides.css",
+  ]),
+];
+
+/** FLOW/file or env GTM/GA4 — SSR into HTML so it appears in View Source */
+let gtmHead = "";
+let gtmBody = "";
+let gtmFooter = "";
+try {
+  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
+  gtmHead = gtm.headScript;
+  gtmBody = gtm.bodyHtml;
+  gtmFooter = gtm.footerScript;
+} catch {
+  /* keep public pages resilient */
+}
+const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
+---
+
+<!doctype html>
+<html lang={htmlLang} dir={isRtl ? "rtl" : "ltr"}>
+  <head>
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <style is:inline set:html={headInlineCss}></style>
+    <meta
+      name="sp-contact-endpoint"
+      content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
+    />
+    <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
+      window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
+    </script>
+    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
+    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
+    {!hasGtm ? (
+      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    ) : (
+      <script is:inline>
+        window.__runtimeGtmLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+      </script>
+    )}
+  </head>
+  <body
+    class:list={[
+      "wp-custom-logo",
+      "elementor-default",
+      "elementor-kit-9",
+      "elementor-page",
+      isRtl && "rtl",
+      bodyClass,
+    ]}
+  >
+    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} lang={lang} />
+    <main id="content" class="site-main">
+      <div class="page-content">
+        <slot />
+      </div>
+    </main>
+    <ElementorFooter lang={lang} />
+    <ElementorScripts />
+    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
+  </body>
+</html>

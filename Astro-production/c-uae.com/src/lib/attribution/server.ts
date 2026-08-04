@@ -57,3 +57,29 @@ export function deriveAttributionFromRequest(request: Request): AttributionValue
     submission_page_url: referer,
   });
 }
+
+/** Pull Ads/UTM query params from a page URL when form hidden fields were empty. */
+export function attributionFromPageUrl(pageUrl: string | undefined): AttributionValues {
+  if (!pageUrl) return {};
+  try {
+    const url = new URL(pageUrl, 'http://localhost');
+    const source: Record<string, unknown> = {
+      landing_page_url: pageUrl,
+      submission_page_url: pageUrl,
+    };
+    for (const key of ATTRIBUTION_PRIMARY_KEYS) {
+      const aliases = ATTRIBUTION_KEY_ALIASES[key] || [key];
+      for (const alias of aliases) {
+        const value = sanitiseAttributionValue(url.searchParams.get(alias));
+        if (value) {
+          source[key] = value;
+          break;
+        }
+      }
+    }
+    return normaliseAttribution(source);
+  } catch {
+    return {};
+  }
+}
+

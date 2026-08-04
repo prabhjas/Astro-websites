@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /search/
+
+Sitemap: https://connecthr.ae/sitemap_index.xml

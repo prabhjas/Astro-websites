@@ -1,0 +1,46 @@
+# connecthr.ae -> 127.0.0.1:5084 (systemd: connecthr.service)
+#
+# PRODUCTION STANDARD (same shape as caddy/Caddyfile.production site blocks).
+#
+# STATUS: Port 5084 is reserved in scripts/fleet-sites.json and this snippet is
+# ready, but connecthr.ae is NOT yet present in the live fleet Caddyfile
+# (caddy/Caddyfile.production). Wire it in on server cutover.
+#
+# When deploying on the server you MUST:
+#   1. Add this site block to /etc/caddy/Caddyfile (and sync caddy/Caddyfile.production)
+#   2. Add http://www.connecthr.ae to the shared one-hop HTTP alt-host block:
+#        @connecthr host www.connecthr.ae
+#        redir @connecthr https://connecthr.ae{uri} permanent
+#   3. Match PUBLIC_SITE_URL=https://connecthr.ae
+#   4. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   5. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5084 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+connecthr.ae, www.connecthr.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connecthr.ae
+	redir @noncanonical https://connecthr.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5084
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connecthr.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

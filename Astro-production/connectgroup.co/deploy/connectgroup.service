@@ -1,0 +1,27 @@
+[Unit]
+Description=Connect Group (connectgroup.co) Astro SSR server
+After=network.target
+
+[Service]
+Type=simple
+User=site-connectgroup
+Group=site-connectgroup
+WorkingDirectory=/opt/Astro-production/connectgroup.co
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit.
+EnvironmentFile=/opt/Astro-production/connectgroup.co/.env.prod
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5085 /usr/bin/node dist/server/entry.mjs
+Restart=always
+RestartSec=5
+
+MemoryMax=256M
+MemoryHigh=200M
+CPUQuota=50%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/Astro-production/connectgroup.co/.data
+
+[Install]
+WantedBy=multi-user.target

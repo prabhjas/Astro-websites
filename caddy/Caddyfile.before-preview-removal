@@ -1,0 +1,134 @@
+# Astro production fleet. Each domain proxies the complete request surface to
+# its loopback-only Node service, including pages, client assets and /api/*.
+# Cloudflare terminates public TLS; `tls internal` secures the origin hop without
+# public ACME issuance. Cloudflare SSL mode must be Full, not Full (strict).
+#
+# Validate before reloading:
+#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
+#   systemctl reload caddy
+
+# evolutionmiddleast.com -> evolutionmiddleast.service
+http://evolutionmiddleast.com, http://www.evolutionmiddleast.com,
+https://evolutionmiddleast.com, https://www.evolutionmiddleast.com {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5080
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/evolutionmiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# cbss.ae -> cbss.service
+http://cbss.ae, http://www.cbss.ae,
+https://cbss.ae, https://www.cbss.ae {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5081
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/cbss.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# spheavyrental.ae -> spheavyrental.service
+http://spheavyrental.ae, http://www.spheavyrental.ae,
+https://spheavyrental.ae, https://www.spheavyrental.ae {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5082
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/spheavyrental.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# iberiaworkforce.com -> iberiaworkforce.service
+http://iberiaworkforce.com, http://www.iberiaworkforce.com,
+https://iberiaworkforce.com, https://www.iberiaworkforce.com {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5083
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/iberiaworkforce.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectgroup.co -> connectgroup.service
+http://connectgroup.co, http://www.connectgroup.co,
+https://connectgroup.co, https://www.connectgroup.co {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5085
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectgroup.co-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# Evolution Middle East preview -> http://178.105.150.67:8090
+# Proxies to the same Node app the real domain will use, so what you see here
+# is exactly what goes live at cutover.
+:8090 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5080
+	header X-Robots-Tag "noindex, nofollow"
+}
+
+# CBSS preview -> http://178.105.150.67:8091
+:8091 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5081
+	header X-Robots-Tag "noindex, nofollow"
+}

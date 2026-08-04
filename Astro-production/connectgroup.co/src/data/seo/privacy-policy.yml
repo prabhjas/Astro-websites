@@ -1,0 +1,22 @@
+# Privacy Policy SEO — from Rank Math export (Phase 1 mirror still uses baked-in HTML tags)
+
+title: "Privacy Policy - Connect Group"
+description: "Carefully read our privacy policy to gain a clear understanding of how we collect, use, safeguard, or otherwise handle Personal Information."
+canonical: "/privacy-policy/"
+robots: "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+keywords: "Privacy Policy, Connect Group"
+
+og:
+  title: "Privacy Policy | Connect Group"
+  description: "Carefully read our privacy policy to gain a clear understanding of how we collect, use, safeguard, or otherwise handle Personal Information."
+  type: "article"
+  locale: "en_US"
+
+twitter:
+  card: "summary_large_image"
+  title: "Privacy Policy | Connect Group"
+  description: "Carefully read our privacy policy to gain a clear understanding of how we collect, use, safeguard, or otherwise handle Personal Information."
+
+schema:
+  pageType: "WebPage"
+  organizationName: "Connect Group"
