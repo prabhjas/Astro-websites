@@ -43,7 +43,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
 | **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
 | **5095** | redo.ae | `redo.ae` | placeholder |
-| **5096** | connectfz.com | `connectfz.com` | placeholder |
+| **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | placeholder |
 | **5098** | kpmpro.ae | `kpmpro.ae` | placeholder |
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | placeholder |
@@ -95,6 +95,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5091 | connectstaff.ae | Scaffolded (dev merge) |
 | 5092 | c-uae.com | Scaffolded (dev merge) |
 | 5093 | kinzahr.com | Full CMS scaffold (local); **not** in live Caddyfile yet |
+| 5096 | connectfz.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 
 “Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group (see `caddy/Caddyfile.production`).
 

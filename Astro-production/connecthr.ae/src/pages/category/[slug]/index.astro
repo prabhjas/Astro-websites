@@ -1,8 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
 import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import {
   getCategoryBySlug,
   getPostsByCategory,
@@ -10,6 +8,8 @@ import {
   POSTS_PER_PAGE,
   stripHtml,
 } from "../../../lib/content";
+import { renderArchiveShell } from "../../../lib/blog-shell";
+import archiveCss from "../../../data/archive-css.json";
 import { breadcrumbSchema } from "../../../lib/seo";
 import { notFoundResponse } from "../../../lib/not-found";
 
@@ -22,10 +22,17 @@ if (!category) {
 }
 const sorted = getPostsByCategory(category.id);
 const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const archiveHtml = renderArchiveShell({
+  title: stripHtml(category.name),
+  posts: items,
+  categoryName: stripHtml(category.name),
+});
 ---
 
 <BaseLayout
   currentPath={category.path}
+  bodyClass={`archive category category-${category.id} elementor-page elementor-page-2953`}
+  extraCss={archiveCss as string[]}
   seo={{
     title: `${stripHtml(category.name)} Archives | Connect HR`,
     description: category.description || `Articles in ${category.name} from Connect HR.`,
@@ -38,32 +45,14 @@ const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
       ]),
     ],
   }}
+  menuActivePath="/blogs/"
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs
-        items={[
-          { name: "Home", href: "/" },
-          { name: "Blog", href: "/blogs/" },
-          { name: category.name },
-        ]}
-      />
-      <h1 set:html={category.name} />
-      {category.description && <p set:html={category.description} />}
-    </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts in this category yet.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={category.path} />
-  </section>
+  <div class="sp-page-content sp-archive" set:html={archiveHtml} />
+  {
+    totalPages > 1 && (
+      <div class="sp-container" style="padding: 0 0 3rem">
+        <Pagination page={page} totalPages={totalPages} basePath={category.path} />
+      </div>
+    )
+  }
 </BaseLayout>
