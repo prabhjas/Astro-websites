@@ -1,0 +1,32 @@
+[Unit]
+Description=Connect Staff Astro SSR server (Caddy reverse-proxies to this)
+After=network.target
+
+[Service]
+Type=simple
+# Tier 1: dedicated user (create on host before enabling). Until then, do not
+# ship this file over the live unit without ops review — live may still be root.
+User=site-connectstaff
+Group=site-connectstaff
+WorkingDirectory=/opt/Astro-production/connectstaff.ae
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/connectstaff.ae/.env.prod
+Environment=NODE_ENV=production
+# HOST/PORT set here — not in .env.prod (fleet rule)
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5084 /usr/bin/node dist/server/entry.mjs
+Restart=always
+RestartSec=5
+
+# Tier 1 resource + sandbox (CONNECT-ASTRO-FLEET-STANDARD §6.2)
+MemoryMax=256M
+MemoryHigh=200M
+CPUQuota=50%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/Astro-production/connectstaff.ae/.data /var/connectstaff/enhanced-live
+# Add other LEAD_STORE_DIR / INTERNAL_* paths under /var/... here if used.
+
+[Install]
+WantedBy=multi-user.target

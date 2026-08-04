@@ -1,0 +1,127 @@
+---
+import headerHtml from "../data/header.html?raw";
+
+interface Props {
+  currentPath?: string;
+  /** Force a nav href active (e.g. "/blog/" for single posts) */
+  menuActivePath?: string;
+}
+
+const { currentPath = "/", menuActivePath } = Astro.props;
+
+function normalize(path: string) {
+  if (!path || path === "/") return "/";
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+const path = normalize(menuActivePath || currentPath);
+
+function pickActiveHref(current: string, hrefs: string[]) {
+  const matches = hrefs
+    .map(normalize)
+    .filter((h) => {
+      if (h === "/") return current === "/";
+      return current === h || current.startsWith(h);
+    })
+    .sort((a, b) => b.length - a.length);
+  return matches[0] || "";
+}
+
+function withActiveState(html: string, current: string) {
+  // Remove snapshot active classes (always "Home" from crawl)
+  let out = html
+    .replace(/\s*elementor-item-active/g, "")
+    .replace(/\s*current-menu-item/g, "")
+    .replace(/\s*current_page_item/g, "")
+    .replace(/\s*current-menu-ancestor/g, "")
+    .replace(/\s*current-menu-parent/g, "")
+    .replace(/\s*aria-current="page"/g, "");
+
+  const allHrefs = [...out.matchAll(/\bhref="(\/[^"#]*)"/g)].map((m) => m[1]);
+  const activeDeep = pickActiveHref(current, allHrefs);
+  if (!activeDeep) return out;
+
+  // Resolve which TOP-LEVEL item should get the orange underline
+  let activeTop = activeDeep;
+  const topHrefs = ["/", "/services/", "/about-us/", "/blog/", "/contact-us/"];
+  if (!topHrefs.includes(normalize(activeDeep))) {
+    // Deepest match is a submenu link — find owning top-level parent from HTML structure
+    const liBlocks = out.split(/<\/li>/i);
+    for (const block of liBlocks) {
+      if (!block.includes(`href="${activeDeep}"`) && !block.includes(`href="${normalize(activeDeep)}"`))
+        continue;
+      // Find first elementor-item (non-sub) href in this top-level branch
+      const top = block.match(
+        /<a\s+[^>]*class="elementor-item(?![^"]*sub-item)[^"]*"[^>]*href="(\/[^"#]*)"|<a\s+[^>]*href="(\/[^"#]*)"[^>]*class="elementor-item(?![^"]*sub-item)[^"]*"/i,
+      );
+      if (top) {
+        activeTop = top[1] || top[2];
+        break;
+      }
+    }
+    // Fallback: service child pages
+    if (
+      !topHrefs.includes(normalize(activeTop)) &&
+      /^\/(services|heavy-machinery-rental|construction-equipment-rental|generator-rental|scaffold-rental)\//.test(
+        current,
+      )
+    ) {
+      activeTop = "/services/";
+    }
+  }
+
+  const markTop = normalize(activeTop);
+  const markDeep = normalize(activeDeep);
+
+  out = out.replace(/<a\s+([^>]*?)>/gi, (full, attrs: string) => {
+    const hrefMatch = attrs.match(/\bhref="([^"]+)"/i);
+    if (!hrefMatch) return full;
+    const h = normalize(hrefMatch[1]);
+    const isSub = /\belementor-sub-item\b/.test(attrs);
+    const isTopPointer = h === markTop && !isSub;
+    const isDeep = h === markDeep;
+
+    if (!isTopPointer && !isDeep) return full;
+
+    let next = attrs;
+    if (isTopPointer) {
+      if (/\bclass="/i.test(next)) {
+        next = next.replace(/\bclass="([^"]*)"/i, (_m, cls: string) => {
+          const cleaned = cls.replace(/\belementor-item-active\b/g, "").replace(/\s+/g, " ").trim();
+          return `class="${cleaned} elementor-item-active"`;
+        });
+      } else {
+        next = `class="elementor-item elementor-item-active" ${next}`;
+      }
+      if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    } else if (isDeep && isSub) {
+      if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    }
+    return `<a ${next}>`;
+  });
+
+  out = out.replace(
+    /<li\b([^>]*class=")([^"]*)("[\s\S]*?<a\b[^>]*\b(?:elementor-item-active|aria-current="page")\b)/gi,
+    (full, pre, cls, rest) => {
+      const beforeNested = rest.split(/<li\b/i)[0];
+      if (!/elementor-item-active|aria-current="page"/.test(beforeNested)) {
+        if (!/\bcurrent-menu-ancestor\b/.test(cls)) {
+          return `<li${pre}${cls} current-menu-ancestor${rest}`;
+        }
+        return full;
+      }
+      let c = cls;
+      if (!/\bcurrent-menu-item\b/.test(c)) c += " current-menu-item";
+      if (!/\bcurrent_page_item\b/.test(c)) c += " current_page_item";
+      return `<li${pre}${c}${rest}`;
+    },
+  );
+
+  return out;
+}
+
+const html = withActiveState(headerHtml, path);
+---
+
+{/* Impreza header HTML already includes <header id="page-header"> */}
+<div class="cr-site-header" data-cr-site-header set:html={html} />

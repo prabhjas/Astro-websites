@@ -1,0 +1,38 @@
+{
+  "siteTitle": "EOR Middle East",
+  "summary": "EOR Middle East helps companies hire, pay, and manage employees across the Middle East with Employer of Record, PEO, payroll, immigration, and HR support.",
+  "details": "Services cover Employer of Record (EOR), Professional Employment Organization (PEO), payroll outsourcing, immigration, relocation, contractor hire, and country-specific HR solutions across the UAE, Saudi Arabia, Qatar, Bahrain, Oman, Egypt, and other Middle East markets.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Countries",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Insights cover EOR, payroll, immigration, and HR topics for expanding into the Middle East.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Assist your Middle East expansion with EOR Middle East — hire, pay, and manage teams locally without setting up an entity."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About EOR Middle East — HR, payroll, immigration, and PEO support for regional expansion."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact EOR Middle East for EOR, PEO, payroll, and HR enquiries across the Middle East."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Latest insights on Employer of Record, payroll, and hiring in the Middle East."
+    }
+  }
+}
