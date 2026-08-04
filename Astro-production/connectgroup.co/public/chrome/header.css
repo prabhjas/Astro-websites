@@ -118,6 +118,10 @@ background: rgba(41, 56, 148, 0.20) !important;
 #mega-nav1 #mega-menu-wrap-max_mega_menu_1 #mega-menu-max_mega_menu_1 > li.mega-menu-item > a.mega-menu-link{
     background:transparent !important;
     color:#fff;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.32px !important;
 }
 
 .mega-menu-item-31540{
@@ -223,7 +227,7 @@ ul#mega-menu-max_mega_menu_1 {
     flex-wrap:wrap !important;
     width:100% !important;
     gap:10px; 
-    margin-bottom: 30px;
+    margin-bottom: 16px;
 }
 
 #mega-menu-item-31582 .e-n-tab-title,
@@ -231,6 +235,14 @@ ul#mega-menu-max_mega_menu_1 {
     flex:0 0 auto !important;
     text-align:center;
     margin:0px !important;
+}
+
+/* Brands: center logos with text */
+#mega-menu-item-31582 .elementor-image-box-wrapper,
+.elementor-31594 .elementor-widget-image-box .elementor-image-box-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
 }
 
 }/* End custom CSS */
@@ -2003,15 +2015,44 @@ font-family: "Plus Jakarta Sans" !important;
 }
 
 /*
- * Shared header bar: force the live About Us / marketing navy (#060D1D).
- * Template 27130 ships transparent (Iberia overlays a dark hero). Pages like
- * About Us use body.bg-gray-2, so without this the white logo/nav vanish.
+ * Shared header bar: transparent over hero on desktop; glass bar on ≤991px.
+ * Absolute overlay so body #111 does not show as a solid black strip above the hero.
  */
 .elementor-27130.elementor-location-header,
-.elementor-27130 .elementor-element.elementor-element-527f83a.header-new,
-.elementor-27130 .elementor-element.elementor-element-527f83a:not(.elementor-motion-effects-element-type-background),
-.elementor-27130 .elementor-element.elementor-element-527f83a > .elementor-motion-effects-container > .elementor-motion-effects-layer {
-  background-color: #060D1D !important;
+.elementor-27554.elementor-location-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+@media (min-width: 992px) {
+  .elementor-27130 .elementor-element.elementor-element-527f83a.header-new,
+  .elementor-27130 .elementor-element.elementor-element-527f83a:not(.elementor-motion-effects-element-type-background),
+  .elementor-27130 .elementor-element.elementor-element-527f83a > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6.header-new,
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6:not(.elementor-motion-effects-element-type-background),
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .elementor-27130 .elementor-element.elementor-element-527f83a.header-new,
+  .elementor-27130 .elementor-element.elementor-element-527f83a:not(.elementor-motion-effects-element-type-background),
+  .elementor-27130 .elementor-element.elementor-element-527f83a > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6.header-new,
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6:not(.elementor-motion-effects-element-type-background),
+  .elementor-27554 .elementor-element.elementor-element-cc95ce6 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background: rgba(6, 13, 29, 0.4) !important;
+    background-color: rgba(6, 13, 29, 0.4) !important;
+    background-image: none !important;
+  }
 }
 
 /*
@@ -2114,10 +2155,17 @@ li#mega-menu-item-31469 { display: none !important; }
   text-align: left !important;
   margin: 0 !important;
   color: #fff !important;
+  font-size: 18px !important;
+  line-height: 27px !important;
+  font-family: "Plus Jakarta Sans", SF Pro Display, sans-serif !important;
+  font-weight: 400 !important;
+  padding: 11px 14px 12px !important;
 }
 .elementor-35149 .service-menu .e-n-tab-title .e-n-tab-title-text,
 #mega-menu-item-35463 .e-n-tab-title-text {
   color: #fff !important;
+  font-size: 18px !important;
+  line-height: 27px !important;
 }
 .service-menu .e-n-tab-title[aria-selected="true"],
 .service-menu .e-n-tab-title[aria-selected="false"]:hover,
@@ -2429,3 +2477,193 @@ li#mega-menu-item-31469 { display: none !important; }
 .elementor-35149 .elementor-element.elementor-element-cd01f01{--padding-top:20px;--padding-bottom:20px;--padding-left:0px;--padding-right:0px;}
 .elementor-35149 .elementor-element.elementor-element-dad8d8e{--margin-top:-22px;--margin-bottom:0px;--margin-left:0px;--margin-right:0px;}
 .elementor-35149 .elementor-element.elementor-element-caf053b{--n-tabs-direction:row;--n-tabs-heading-direction:column;--n-tabs-heading-width:240px;--n-tabs-title-flex-basis:content;--n-tabs-title-flex-shrink:initial;padding:0px 0px 0px 0px;--n-tabs-heading-justify-content:flex-start;--n-tabs-title-width:initial;--n-tabs-title-height:initial;--n-tabs-title-align-items:initial;--n-tabs-heading-wrap:wrap;}
+
+
+/* === CG header chrome (authoritative — keep at file end) === */
+
+/* Kill thin top white/gray strip (load-more laser + html white flash) */
+html {
+  background: #111111 !important;
+  background-color: #111111 !important;
+}
+body {
+  background: #111111 !important;
+  background-color: #111111 !important;
+}
+/* Contact Us (page 27093): keep full-bleed Contact-Us-Bg — do not solid-fill body */
+body.page-id-27093 {
+  background-color: #111111 !important;
+  background-image: url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-attachment: scroll !important;
+}
+.ald_laser_loader,
+.ald_laser_loader.show,
+.ald_loader_progress,
+.ald_laser_loader .ald_loader_progress {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  z-index: -1 !important;
+}
+
+.elementor-27130.elementor-location-header,
+.elementor-27554.elementor-location-header,
+header.elementor-location-header {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+@media (min-width: 992px) {
+  .elementor-27130 .elementor-element-527f83a.header-new,
+  .elementor-27554 .elementor-element-cc95ce6.header-new {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+}
+@media (max-width: 991px) {
+  /* Match open hamburger header: fixed 80px, no stacked Elementor padding */
+  .elementor-27130 .elementor-element-527f83a.header-new,
+  .elementor-27554 .elementor-element-cc95ce6.header-new {
+    background: rgba(6, 13, 29, 0.4) !important;
+    background-color: rgba(6, 13, 29, 0.4) !important;
+    background-image: none !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-sizing: border-box !important;
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 80px !important;
+    padding: 20px 24px !important;
+    border-bottom: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .elementor-27130 .header-new > .elementor-container,
+  .elementor-27554 .header-new > .elementor-container {
+    height: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    align-items: center !important;
+  }
+  .elementor-27130 .header-new .elementor-widget-wrap,
+  .elementor-27554 .header-new .elementor-widget-wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    align-items: center !important;
+    align-content: center !important;
+  }
+}
+
+/*
+ * Absolute overlay header: legacy heroes used margin-top:-84px when the header
+ * was in-flow. That now pulls titles under the logo (EOR, brand pages, etc.).
+ */
+.elementor-element.elementor-element-3c859d0 {
+  margin-top: 0 !important;
+  padding-top: 120px !important;
+}
+@media (max-width: 991px) {
+  .elementor-element.elementor-element-3c859d0 {
+    padding-top: 110px !important;
+  }
+}
+.elementor-location-header .elementor-element-1f0a7d0,
+.elementor-location-header .elementor-element-6e85cb3 {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  max-width: none !important;
+}
+.elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-desktop,
+.elementor-location-header .elementor-element-6e85cb3.elementor-hidden-desktop,
+.elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-tablet,
+.elementor-location-header .elementor-element-6e85cb3.elementor-hidden-tablet,
+.elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-mobile,
+.elementor-location-header .elementor-element-6e85cb3.elementor-hidden-mobile {
+  display: block !important;
+}
+
+.elementor-26466 > .elementor-element-127944e {
+  padding-top: 100px !important;
+}
+@media (max-width: 991px) {
+  .elementor-26466 > .elementor-element-127944e {
+    padding-top: 110px !important;
+  }
+}
+
+/* Desktop: nav then Let’s Talk (Figma). Mobile order lives in mobile-nav.css */
+.elementor-27554 .elementor-element-27baa37 > .elementor-widget-wrap,
+.elementor-27130 .elementor-element-7b95034 > .elementor-widget-wrap {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+}
+@media (min-width: 992px) {
+  .elementor-27554 .elementor-element-0a81870,
+  .elementor-27130 .elementor-element-1e14a49,
+  .elementor-location-header #mega-menu-wrap-max_mega_menu_1 {
+    order: 1 !important;
+  }
+  .elementor-27554 .elementor-element-6e85cb3,
+  .elementor-27130 .elementor-element-1f0a7d0 {
+    order: 2 !important;
+  }
+}
+
+/* Hero eyebrow — match freezone page label (e.g. UAE FREEZONE COMPANY SETUP) */
+.elementor-31775 .elementor-element-cg-eor-eyebrow,
+.elementor-31775 .cg-hero-eyebrow {
+  text-align: start !important;
+  margin: 0 0 10px 0 !important;
+}
+.elementor-31775 .elementor-element-cg-eor-eyebrow .elementor-heading-title,
+.elementor-31775 .cg-hero-eyebrow .elementor-heading-title,
+.cg-hero-eyebrow-label {
+  font-family: "Plus Jakarta Sans", "SF Pro Display", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  line-height: 16.8px !important;
+  letter-spacing: -0.3px !important;
+  color: #7A87DA !important;
+  margin: 0 !important;
+}
+@media (max-width: 767px) {
+  .elementor-31775 .elementor-element-cg-eor-eyebrow .elementor-heading-title,
+  .elementor-31775 .cg-hero-eyebrow .elementor-heading-title,
+  .cg-hero-eyebrow-label {
+    font-size: 12px !important;
+    text-align: center !important;
+  }
+  .elementor-31775 .elementor-element-cg-eor-eyebrow,
+  .elementor-31775 .cg-hero-eyebrow {
+    text-align: center !important;
+  }
+}
+
