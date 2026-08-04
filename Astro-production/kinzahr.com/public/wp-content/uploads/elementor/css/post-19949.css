@@ -1,0 +1,42 @@
+.elementor-19949 .elementor-element.elementor-element-cda1ddf{--display:flex;--flex-direction:column;--container-widget-width:100%;--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;--padding-top:60px;--padding-bottom:60px;--padding-left:20px;--padding-right:20px;}.elementor-widget-heading .elementor-heading-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );color:var( --e-global-color-primary );}.elementor-19949 .elementor-element.elementor-element-7c6c885{width:100%;max-width:100%;text-align:start;}.elementor-19949 .elementor-element.elementor-element-7c6c885.elementor-element{--flex-grow:0;--flex-shrink:0;}.elementor-19949 .elementor-element.elementor-element-7c6c885 .elementor-heading-title{font-family:"SF PRO DISPLAY", Sans-serif;font-size:55px;font-weight:600;line-height:60px;letter-spacing:-0.96px;color:#0F202B;}.elementor-19949 .elementor-element.elementor-element-53f8686{width:100%;max-width:100%;text-align:start;}.elementor-19949 .elementor-element.elementor-element-53f8686.elementor-element{--flex-grow:0;--flex-shrink:0;}.elementor-19949 .elementor-element.elementor-element-53f8686 .elementor-heading-title{font-family:"SF PRO DISPLAY", Sans-serif;font-size:18px;font-weight:400;line-height:28px;color:#2D3A43;}.elementor-widget-divider{--divider-color:var( --e-global-color-secondary );}.elementor-widget-divider .elementor-divider__text{color:var( --e-global-color-secondary );font-family:var( --e-global-typography-secondary-font-family ), Sans-serif;font-weight:var( --e-global-typography-secondary-font-weight );}.elementor-widget-divider.elementor-view-stacked .elementor-icon{background-color:var( --e-global-color-secondary );}.elementor-widget-divider.elementor-view-framed .elementor-icon, .elementor-widget-divider.elementor-view-default .elementor-icon{color:var( --e-global-color-secondary );border-color:var( --e-global-color-secondary );}.elementor-widget-divider.elementor-view-framed .elementor-icon, .elementor-widget-divider.elementor-view-default .elementor-icon svg{fill:var( --e-global-color-secondary );}.elementor-19949 .elementor-element.elementor-element-51518a8{--divider-border-style:solid;--divider-color:#10918E;--divider-border-width:2px;}.elementor-19949 .elementor-element.elementor-element-51518a8 .elementor-divider-separator{width:100%;}.elementor-19949 .elementor-element.elementor-element-51518a8 .elementor-divider{padding-block-start:5px;padding-block-end:5px;}.elementor-widget-text-editor{font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );color:var( --e-global-color-text );}.elementor-widget-text-editor.elementor-drop-cap-view-stacked .elementor-drop-cap{background-color:var( --e-global-color-primary );}.elementor-widget-text-editor.elementor-drop-cap-view-framed .elementor-drop-cap, .elementor-widget-text-editor.elementor-drop-cap-view-default .elementor-drop-cap{color:var( --e-global-color-primary );border-color:var( --e-global-color-primary );}.elementor-19949 .elementor-element.elementor-element-7885284{width:100%;max-width:100%;text-align:start;font-family:"SF PRO DISPLAY", Sans-serif;font-size:20px;font-weight:400;line-height:30px;color:#2D3A43;}.elementor-19949 .elementor-element.elementor-element-7885284.elementor-element{--flex-grow:0;--flex-shrink:0;}:root{--page-title-display:none;}@media(max-width:767px){.elementor-19949 .elementor-element.elementor-element-7c6c885{width:100%;max-width:100%;}.elementor-19949 .elementor-element.elementor-element-7c6c885 .elementor-heading-title{font-size:40px;line-height:48px;letter-spacing:-0.72px;}.elementor-19949 .elementor-element.elementor-element-53f8686{width:100%;max-width:100%;}.elementor-19949 .elementor-element.elementor-element-7885284{width:100%;max-width:100%;}}/* Start custom CSS for text-editor, class: .elementor-element-7885284 */h2,h3,h4,h5{
+    color:#0F202B !important;
+}
+
+h2{
+    line-height: 43px !important;
+}
+
+h3{
+    line-height: 37px !important;
+}/* End custom CSS */
+/* Start Custom Fonts CSS */@font-face {
+	font-family: 'SF PRO DISPLAY';
+	font-style: normal;
+	font-weight: normal;
+	font-display: auto;
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot?#iefix') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'SF PRO DISPLAY';
+	font-style: normal;
+	font-weight: bold;
+	font-display: auto;
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot?#iefix') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Bold.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'SF PRO DISPLAY';
+	font-style: normal;
+	font-weight: 500;
+	font-display: auto;
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot?#iefix') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.ttf') format('truetype');
+}
+/* End Custom Fonts CSS */
