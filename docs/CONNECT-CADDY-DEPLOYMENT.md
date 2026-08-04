@@ -25,7 +25,7 @@
 | `tls internal` / HSTS / security headers | Skip | Required (see production Caddyfile) |
 | Apex ↔ www canonical redirects | Skip | Required — must match `PUBLIC_SITE_URL` |
 | One-hop HTTP alt-host redirect block | Skip | Required when adding a site |
-| `PUBLIC_SITE_URL` | `http://127.0.0.1:<PORT>` OK for smoke | Must be `https://<canonical-host>` |
+| `PUBLIC_SITE_URL` | Must stay `https://<canonical-host>` (fleet-local keeps this; localhost breaks live canonicals) | Must be `https://<canonical-host>` |
 | Cloudflare SSL Full | N/A | **Full** (not Flexible / not Full strict with `tls internal`) |
 
 Keep Caddy snippets in git for deploy day; do not try to mirror production Caddy locally unless you are debugging TLS/redirects on purpose.
@@ -209,6 +209,16 @@ node scripts/fleet-local.mjs smoke <site-id>
 | Connect Group | 5085 |
 
 No Caddy, no HSTS, no apex/www redirects locally — Node on loopback is enough.
+
+**Hard rule:** `fleet-local` keeps `PUBLIC_SITE_URL=https://<canonical-host>` (never `http://127.0.0.1:<port>`).
+Astro inlines `PUBLIC_*` at build time — a localhost value ships bad `<link rel="canonical">` / `og:url` to production.
+Before any server sync, verify:
+
+```bash
+grep '^PUBLIC_SITE_URL=' Astro-production/<domain>/.env
+# must be https://… — never 127.0.0.1 / localhost
+grep -R "127.0.0.1" Astro-production/<domain>/dist/server/entry.mjs && echo FAIL || echo OK
+```
 
 ---
 
