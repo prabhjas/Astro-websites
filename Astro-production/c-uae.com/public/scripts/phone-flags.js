@@ -62,14 +62,30 @@
     });
   }
 
+  function isHiddenMultistepPanel(el) {
+    return Boolean(el.closest(".cf7-step, .form-main"));
+  }
+
   function isVisible(el) {
     if (!(el instanceof HTMLElement)) return false;
-    if (el.closest("#transaction_hide, .gclid_tag, [style*='display:none'], [style*='display: none']")) {
-      return false;
-    }
+    if (el.closest("#transaction_hide, .gclid_tag")) return false;
+    // Multistep wizards keep later steps display:none — still init phone fields.
+    if (isHiddenMultistepPanel(el)) return true;
+    if (el.closest("[style*='display:none'], [style*='display: none']")) return false;
     const style = window.getComputedStyle(el);
     if (style.display === "none" || style.visibility === "hidden") return false;
     return true;
+  }
+
+  function syncDialPadding(input) {
+    const wrap = input.closest(".intl-tel-input");
+    if (!wrap) return;
+    const flag = wrap.querySelector(".selected-flag, .flag-container");
+    if (!flag) return;
+    const w = Math.ceil(flag.getBoundingClientRect().width || 0);
+    if (w > 0) {
+      input.style.setProperty("padding-left", w + 16 + "px", "important");
+    }
   }
 
   async function detectCountryFromIp() {
@@ -109,7 +125,10 @@
     const phones = [...document.querySelectorAll("input.wpcf7-phonetext, input[name^='phonetext-']")].filter(
       (el) => isVisible(el) && !el.closest(".intl-tel-input"),
     );
-    if (!phones.length) return;
+    if (!phones.length) {
+      document.querySelectorAll(".intl-tel-input input.wpcf7-phonetext").forEach(syncDialPadding);
+      return;
+    }
 
     injectFlagSpriteCss();
     await ensureScript(ITI_JS);
@@ -161,17 +180,6 @@
       }
     });
 
-    function syncDialPadding(input) {
-      const wrap = input.closest(".intl-tel-input");
-      if (!wrap) return;
-      const flag = wrap.querySelector(".selected-flag, .flag-container");
-      if (!flag) return;
-      const w = Math.ceil(flag.getBoundingClientRect().width || 0);
-      if (w > 0) {
-        input.style.setProperty("padding-left", w + 16 + "px", "important");
-      }
-    }
-
     phones.forEach((el) => {
       syncDialPadding(el);
       try {
@@ -181,10 +189,11 @@
         /* ignore */
       }
     });
-    // Layout settles after fonts/flags
     setTimeout(() => phones.forEach(syncDialPadding), 100);
     setTimeout(() => phones.forEach(syncDialPadding), 500);
   }
+
+  window.__SP_INIT_PHONE_FLAGS__ = init;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

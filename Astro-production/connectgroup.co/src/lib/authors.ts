@@ -16,6 +16,20 @@ const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
 const ORIGIN = 'https://connectgroup.co';
 
+function siteOrigin(): string {
+  return (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || ORIGIN).trim().replace(/\/$/, '') || ORIGIN;
+}
+
+function absoluteSeoUrl(value: string, fallbackPath = '/'): string {
+  const origin = siteOrigin();
+  const raw = String(value || fallbackPath).trim() || fallbackPath;
+  try {
+    return new URL(raw, `${origin}/`).href;
+  } catch {
+    return `${origin}${fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`}`;
+  }
+}
+
 export interface AuthorSocial {
   type: string;
   url: string;
@@ -265,10 +279,12 @@ function patchHeadMeta(html: string, data: AuthorPageData): string {
   const pageSuffix = currentPage > 1 ? ` - Page ${currentPage} of ${totalPages}` : '';
   const title = author.og?.title || `${author.name}, Author at Connect Group${pageSuffix}`;
   const description = author.description || author.bio || '';
-  const canonical =
+  const canonical = absoluteSeoUrl(
     currentPage === 1
       ? author.canonical
-      : `${ORIGIN}/author/${author.slug}/page/${currentPage}/`;
+      : `/author/${author.slug}/page/${currentPage}/`,
+    `/author/${author.slug}/`,
+  );
 
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
 

@@ -5,13 +5,25 @@
   let booting = false;
 
   function parseSettings(el) {
+    let node = el;
+    for (let i = 0; i < 6 && node; i++) {
+      const raw = node.getAttribute?.("data-settings");
+      if (raw && /slides_per_view|slides_to_show|autoplay|loop/i.test(raw)) {
+        try {
+          return JSON.parse(raw.replace(/&quot;/g, '"'));
+        } catch {
+          /* keep walking */
+        }
+      }
+      node = node.parentElement;
+    }
     const widget = el.closest("[data-settings]") || el.closest(".elementor-widget");
-    const raw =
+    const fallback =
       widget?.getAttribute("data-settings") ||
       el.getAttribute("data-settings") ||
       "{}";
     try {
-      return JSON.parse(raw.replace(/&quot;/g, '"'));
+      return JSON.parse(fallback.replace(/&quot;/g, '"'));
     } catch {
       return {};
     }
@@ -65,10 +77,22 @@
     const prev = parent?.querySelector(
       ".elementor-swiper-button-prev, .swiper-button-prev",
     );
+    const pagination = parent?.querySelector(
+      ".swiper-pagination, .elementor-swiper-pagination",
+    );
 
-    const desktop = num(settings.slides_to_show || settings.slides_per_view, 3);
-    const tablet = num(settings.slides_to_show_tablet, Math.min(2, desktop));
-    const mobile = num(settings.slides_to_show_mobile, 1);
+    const desktop = num(
+      settings.slides_to_show || settings.slides_per_view || settings.slidesPerView,
+      3,
+    );
+    const tablet = num(
+      settings.slides_to_show_tablet || settings.slides_per_view_tablet,
+      Math.min(2, desktop),
+    );
+    const mobile = num(
+      settings.slides_to_show_mobile || settings.slides_per_view_mobile,
+      1,
+    );
     let space = 30;
     const spaceRaw = settings.image_spacing_custom || settings.space_between;
     if (typeof spaceRaw === "object" && spaceRaw) space = num(spaceRaw.size, 30);
@@ -76,9 +100,12 @@
 
     destroyIfAny(el);
 
-    const slides = el.querySelectorAll(".swiper-slide").length;
-    // Manual probe: loop works with 4 slides / 3-up when instance is clean
-    const loop = settings.infinite !== "no" && slides > desktop;
+    const slides = el.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)").length;
+    const loopEnabled =
+      settings.loop === "yes" ||
+      settings.infinite === "yes" ||
+      (settings.infinite !== "no" && settings.loop !== "no");
+    const loop = loopEnabled && slides > desktop;
 
     const base = {
       slidesPerView: desktop,
@@ -95,6 +122,14 @@
           : false,
       navigation:
         next && prev ? { nextEl: next, prevEl: prev } : undefined,
+      pagination:
+        pagination && settings.pagination && settings.pagination !== "none"
+          ? {
+              el: pagination,
+              clickable: true,
+              type: settings.pagination === "fraction" ? "fraction" : "bullets",
+            }
+          : undefined,
       breakpoints: {
         0: { slidesPerView: mobile, spaceBetween: space },
         768: { slidesPerView: tablet, spaceBetween: space },

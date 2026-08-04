@@ -171,13 +171,27 @@ function loadDotEnvFile(): void {
 
 function readEnv(name: string): string | undefined {
   const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined;
+  if (typeof fromProcess === 'string') return fromProcess;
+
+  // Astro may bake the whole build-time env into import.meta.env. Never trust
+  // baked secrets — only public/site keys may fall back to meta.
+  const allowMetaFallback =
+    name.startsWith('PUBLIC_') ||
+    name === 'SITE' ||
+    name === 'BASE_URL' ||
+    name === 'ASSETS_PREFIX' ||
+    name === 'MODE' ||
+    name === 'DEV' ||
+    name === 'PROD' ||
+    name === 'SSR';
+  if (!allowMetaFallback) return undefined;
+
   const metaEnv =
     typeof import.meta !== 'undefined' && import.meta.env
       ? (import.meta.env as Record<string, string | undefined>)
       : undefined;
   const fromMeta = metaEnv?.[name];
-  const value = fromProcess ?? fromMeta;
-  return typeof value === 'string' ? value : undefined;
+  return typeof fromMeta === 'string' ? fromMeta : undefined;
 }
 
 /** Resolve INTERNAL_ADMIN_DIR without requiring Pipedrive secrets (safe for public SEO routes). */

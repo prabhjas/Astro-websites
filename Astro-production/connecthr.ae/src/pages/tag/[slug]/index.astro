@@ -1,8 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
 import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import {
   getTagBySlug,
   getPostsByTag,
@@ -10,6 +8,8 @@ import {
   POSTS_PER_PAGE,
   stripHtml,
 } from "../../../lib/content";
+import { renderArchiveShell } from "../../../lib/blog-shell";
+import archiveCss from "../../../data/archive-css.json";
 import { breadcrumbSchema } from "../../../lib/seo";
 import { notFoundResponse } from "../../../lib/not-found";
 
@@ -22,10 +22,17 @@ if (!tag) {
 }
 const sorted = getPostsByTag(tag.id);
 const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const archiveHtml = renderArchiveShell({
+  title: stripHtml(tag.name),
+  posts: items,
+  categoryName: stripHtml(tag.name),
+});
 ---
 
 <BaseLayout
   currentPath={tag.path}
+  bodyClass={`archive tag tag-${tag.id} elementor-page elementor-page-2953`}
+  extraCss={archiveCss as string[]}
   seo={{
     title: `Tag: ${stripHtml(tag.name)} | Connect HR`,
     description: tag.description || `Posts tagged ${tag.name}.`,
@@ -38,25 +45,14 @@ const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
       ]),
     ],
   }}
+  menuActivePath="/blogs/"
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Blog", href: "/blogs/" }, { name: tag.name }]} />
-      <h1 set:html={tag.name} />
-    </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts with this tag.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
-  </section>
+  <div class="sp-page-content sp-archive" set:html={archiveHtml} />
+  {
+    totalPages > 1 && (
+      <div class="sp-container" style="padding: 0 0 3rem">
+        <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
+      </div>
+    )
+  }
 </BaseLayout>

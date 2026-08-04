@@ -328,7 +328,10 @@
           }
 
           const successMsg = data.message || SUCCESS_MSG;
-          clearLegacyFormFields(form);
+          const isMultistep = Boolean(form.querySelector(".form-main .cf7-step"));
+          if (!isMultistep) {
+            clearLegacyFormFields(form);
+          }
           clearErrors(form);
           try {
             const phone = form.querySelector(PHONE_SEL);
@@ -343,9 +346,23 @@
           } catch {
             /* ignore */
           }
-          showCf7Message(form, successMsg, false);
-          setTimeout(() => showCf7Message(form, successMsg, false), 100);
-          setTimeout(() => showCf7Message(form, successMsg, false), 300);
+          try {
+            form.dispatchEvent(
+              new CustomEvent("sp-contact-success", {
+                bubbles: true,
+                detail: { message: successMsg, data },
+              }),
+            );
+          } catch {
+            /* ignore */
+          }
+          if (isMultistep) {
+            showCf7Message(form, "", false);
+          } else {
+            showCf7Message(form, successMsg, false);
+            setTimeout(() => showCf7Message(form, successMsg, false), 100);
+            setTimeout(() => showCf7Message(form, successMsg, false), 300);
+          }
         } catch (err) {
           showCf7Message(form, err instanceof Error ? err.message : FAIL_MSG, true);
         } finally {

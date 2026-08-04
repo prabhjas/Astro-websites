@@ -49,6 +49,60 @@ export function normaliseAttribution(source: Record<string, unknown>): Attributi
   return values;
 }
 
+/** Fill empty form tracking fields from attribution (URL / first-last touch). */
+export function mergeAttributionIntoContactForm<T extends Record<string, unknown>>(
+  form: T,
+  ...sources: Array<AttributionValues | null | undefined>
+): T {
+  const pick = (attrKey: AttributionKey, ...formKeys: string[]) => {
+    for (const key of formKeys) {
+      const current = form[key];
+      if (typeof current === 'string' && current.trim()) return;
+    }
+    for (const source of sources) {
+      if (!source) continue;
+      const value = source[attrKey];
+      if (typeof value === 'string' && value.trim()) {
+        (form as Record<string, unknown>)[formKeys[0]] = value;
+        return;
+      }
+    }
+  };
+
+  pick('gclid', 'gclid');
+  pick('gbraid', 'gbraid');
+  pick('wbraid', 'wbraid');
+  pick('fbclid', 'fbclid');
+  pick('msclkid', 'msclkid');
+  pick('utm_source', 'utmSource');
+  pick('utm_medium', 'utmMedium');
+  pick('utm_campaign', 'utmCampaign');
+  pick('utm_term', 'utmTerm');
+  pick('utm_content', 'utmContent');
+  pick('campaign_id', 'campaignId');
+  pick('adgroup_id', 'adgroupId');
+  pick('group_id', 'groupId');
+  pick('creative_id', 'creativeId');
+  pick('keyword', 'keyword');
+  pick('matchtype', 'matchtype');
+  pick('device', 'device');
+  pick('network', 'network');
+  pick('placement', 'placement');
+  pick('target', 'targetId', 'target');
+  pick('target', 'target');
+  pick('adposition', 'adposition');
+  pick('loc_physical_ms', 'locPhysicalMs');
+  pick('loc_interest_ms', 'locInterestMs');
+  pick('gad_source', 'source');
+  pick('source', 'source');
+
+  if (!(form as { targetId?: string }).targetId && (form as { target?: string }).target) {
+    (form as Record<string, unknown>).targetId = (form as { target?: string }).target;
+  }
+
+  return form;
+}
+
 export function deriveAttributionFromRequest(request: Request): AttributionValues {
   const referer = request.headers.get('referer') || '';
   return normaliseAttribution({
@@ -56,4 +110,29 @@ export function deriveAttributionFromRequest(request: Request): AttributionValue
     referrer_url: referer,
     submission_page_url: referer,
   });
+}
+
+/** Pull Ads/UTM query params from a page URL when form hidden fields were empty. */
+export function attributionFromPageUrl(pageUrl: string | undefined): AttributionValues {
+  if (!pageUrl) return {};
+  try {
+    const url = new URL(pageUrl, 'http://localhost');
+    const source: Record<string, unknown> = {
+      landing_page_url: pageUrl,
+      submission_page_url: pageUrl,
+    };
+    for (const key of ATTRIBUTION_PRIMARY_KEYS) {
+      const aliases = ATTRIBUTION_KEY_ALIASES[key] || [key];
+      for (const alias of aliases) {
+        const value = sanitiseAttributionValue(url.searchParams.get(alias));
+        if (value) {
+          source[key] = value;
+          break;
+        }
+      }
+    }
+    return normaliseAttribution(source);
+  } catch {
+    return {};
+  }
 }

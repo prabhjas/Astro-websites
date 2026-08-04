@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { posts, pages, stripHtml } from "../lib/content";
+import { breadcrumbSchema } from "../lib/seo";
+
+const index = {
+  pages: pages.map((p) => ({
+    title: stripHtml(p.title),
+    path: p.path,
+    excerpt: stripHtml(p.excerpt || p.content).slice(0, 180),
+  })),
+  posts: posts.map((p) => ({
+    title: stripHtml(p.title),
+    path: p.path,
+    excerpt: stripHtml(p.excerpt || p.content).slice(0, 180),
+    date: p.date,
+    image: p.featuredImage,
+  })),
+};
+---
+
+<BaseLayout
+  currentPath="/search/"
+  seo={{
+    title: "Search | Connect UAE",
+    description: "Search Connect UAE pages and articles.",
+    canonical: "/search/",
+    noindex: true,
+    schemas: [breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Search", url: "/search/" }])],
+  }}
+>
+  <section class="sp-archive-hero">
+    <div class="sp-container">
+      <h1>Search</h1>
+      <form id="sp-search-form" style="margin-top: 1.25rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap">
+        <input
+          id="sp-search-input"
+          type="search"
+          name="q"
+          placeholder="Search equipment, guides, services…"
+          style="min-width:min(480px, 100%); padding:0.85rem 1rem; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:#fff"
+        />
+        <button type="submit" style="background:var(--sp-accent); color:#fff; border:0; padding:0.85rem 1.25rem; cursor:pointer">Search</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="sp-container" style="padding: 1rem 0 4rem">
+    <p id="sp-search-summary">Enter a keyword to search pages and blog posts.</p>
+    <div id="sp-search-results"></div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ index }}>
+  const form = document.getElementById("sp-search-form");
+  const input = document.getElementById("sp-search-input");
+  const summary = document.getElementById("sp-search-summary");
+  const results = document.getElementById("sp-search-results");
+
+  function render(q) {
+    const needle = (q || "").trim().toLowerCase();
+    if (!needle) {
+      summary.textContent = "Enter a keyword to search pages and blog posts.";
+      results.innerHTML = "";
+      return;
+    }
+    const pageHits = index.pages.filter(
+      (p) => p.title.toLowerCase().includes(needle) || p.excerpt.toLowerCase().includes(needle),
+    );
+    const postHits = index.posts.filter(
+      (p) => p.title.toLowerCase().includes(needle) || p.excerpt.toLowerCase().includes(needle),
+    );
+    summary.textContent = `Found ${pageHits.length + postHits.length} result(s) for “${q}”.`;
+    let html = "";
+    if (pageHits.length) {
+      html += `<h2 style="font-family:var(--sp-font-display);letter-spacing:.04em">Pages</h2><ul>`;
+      for (const p of pageHits) {
+        html += `<li style="margin:.5rem 0"><a href="${p.path}" style="color:var(--sp-yellow)">${p.title}</a></li>`;
+      }
+      html += `</ul>`;
+    }
+    if (postHits.length) {
+      html += `<h2 style="font-family:var(--sp-font-display);letter-spacing:.04em;margin-top:1.5rem">Posts</h2><div class="sp-blog-grid" style="margin-top:1rem">`;
+      for (const p of postHits) {
+        html += `<article class="sp-post-card"><a class="sp-post-card__media" href="${p.path}">${
+          p.image
+            ? `<img src="${p.image}" alt="${p.title}" loading="lazy" width="640" height="400" />`
+            : `<div style="width:100%;height:100%;background:#1f1f1f"></div>`
+        }</a><div class="sp-post-card__body"><h3 class="sp-post-card__title"><a href="${p.path}">${p.title}</a></h3><p class="sp-post-card__excerpt">${p.excerpt}…</p></div></article>`;
+      }
+      html += `</div>`;
+    }
+    results.innerHTML = html;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("q")) {
+    input.value = params.get("q");
+    render(params.get("q"));
+  }
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = input.value || "";
+    const url = new URL(window.location.href);
+    url.searchParams.set("q", q);
+    history.replaceState({}, "", url);
+    render(q);
+  });
+</script>

@@ -155,36 +155,63 @@ function ensureEnv(site) {
     if (overwrite || !current) map.set(key, value);
   };
 
-  set('PUBLIC_SITE_URL', `http://127.0.0.1:${site.port}`, { overwrite: true });
+  // Always keep the production canonical host. PUBLIC_* is inlined at `astro build`,
+  // so overwriting with http://127.0.0.1:<port> ships localhost canonicals/og:url to prod.
+  // Local fleet still listens on 127.0.0.1:<port>; only SEO absolute URLs use https://domain.
+  const canonicalHost =
+    site.canonicalHost ||
+    (site.domain === 'evolutionmiddleast.com' ? 'www.evolutionmiddleast.com' : site.domain);
+  const localUrl = `http://127.0.0.1:${site.port}`;
+  set('PUBLIC_SITE_URL', `https://${canonicalHost}`, { overwrite: true });
+  // Convenience for local testing — not used for Astro SEO/canonical bake-in.
+  set('FLEET_LOCAL_URL', localUrl, { overwrite: true });
   set('INTERNAL_JOB_SECRET', 'local-fleet-test-secret', { overwrite: true });
   set('LEAD_STORE_DIR', '.data/leads', { overwrite: true });
   set('LOG_LEVEL', 'info');
 
-  // Required by Evolution / SP Heavy getServerEnv() — placeholders for local only.
-  set('PIPEDRIVE_API_TOKEN', 'local-dev-placeholder');
+  // Required by getServerEnv() when missing — do NOT overwrite real secrets.
+  // Prefer empty over baking a fake token into the Astro server bundle.
+  set('PIPEDRIVE_API_TOKEN', '');
   set('PIPEDRIVE_COMPANY_DOMAIN', 'connectgroup2');
-  set('PIPEDRIVE_OWNER_ID', '1');
+  set('PIPEDRIVE_OWNER_ID', '');
   set('PIPEDRIVE_LEAD_SOURCE_ID', '270');
-  set('WEBSITE_ID', '1');
+  set('WEBSITE_ID', '');
 
+  // If a previous run left the local placeholder, clear it so .env can be fixed
+  // without a manual edit, and so rebuilds don't keep baking a dead token.
+  if (String(map.get('PIPEDRIVE_API_TOKEN') || '').trim() === 'local-dev-placeholder') {
+    map.set('PIPEDRIVE_API_TOKEN', '');
+  }
   const out = [];
   const written = new Set();
+  let injectedLocalHint = false;
   for (const item of order) {
     if (item.type === 'raw') {
+      // Drop stale local-hint comments so we don't stack duplicates on every env run.
+      if (/^#\s*Local test URL \(fleet-local\)/.test(item.line)) continue;
       out.push(item.line);
       continue;
     }
     if (written.has(item.key)) continue;
     written.add(item.key);
+    if (item.key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
     out.push(`${item.key}=${map.get(item.key)}`);
   }
   for (const [key, value] of map) {
-    if (!written.has(key)) out.push(`${key}=${value}`);
+    if (written.has(key)) continue;
+    if (key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
+    out.push(`${key}=${value}`);
   }
 
   writeFileSync(envPath, `${out.join('\n').replace(/\n+$/, '')}\n`);
   mkdirSync(join(dir, '.data', 'leads'), { recursive: true });
-  console.log(`  env ready: ${site.dir}/.env → :${site.port}`);
+  console.log(`  env ready: ${site.dir}/.env → canonical https://${canonicalHost} · local ${localUrl}`);
 }
 
 /** Windows: Node execFileSync does not resolve .cmd shims without the extension. */

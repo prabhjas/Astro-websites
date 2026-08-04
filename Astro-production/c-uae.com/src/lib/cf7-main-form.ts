@@ -160,6 +160,14 @@ export function injectCanonicalCf7Forms(
   return html.replace(
     /<div class="wpcf7\b[^>]*>[\s\S]*?<\/form>\s*<\/div>/gi,
     (block) => {
+      // Keep multistep wizards (business-setup etc.) — do not replace with simple main-form
+      if (
+        /cf7-step|step-count|class="form-main"/.test(block) &&
+        /cf7-step/.test(block)
+      ) {
+        return block;
+      }
+
       const formId =
         block.match(/data-wpcf7-id=["'](\d+)["']/)?.[1] ||
         block.match(/name="_wpcf7"\s+value=["'](\d+)["']/)?.[1] ||
