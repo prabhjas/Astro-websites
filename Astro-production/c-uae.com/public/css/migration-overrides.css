@@ -341,4 +341,24 @@ div.wpcf7-response-output.sp-status-visible,
   gap: 4px;
 }
 
+/*
+  Multistep (.form-main) must not inherit global CF7 chrome from live-inline.css
+  (Bebas Neue labels, yellow submit, full-width stacking).
+*/
+.form-main .wpcf7-form label,
+.form-main label {
+  font-family: Manrope, sans-serif !important;
+}
+.form-main .wpcf7-submit,
+.form-main input[type="submit"] {
+  font-family: Manrope, sans-serif !important;
+  background: #3d1457 !important;
+  color: #fff !important;
+  width: auto !important;
+}
+.form-main .info-data .wpcf7-form-control-wrap input {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
 
