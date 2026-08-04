@@ -1,8 +1,11 @@
 # Connect Group — New site → Astro fleet → FLOW (full standard)
 
+**Start with the numbered lifecycle:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) (this file is Phase 03 detail).
+
 **One playbook to take any website (WordPress clone, static export, or greenfield) into the Connect Group Astro fleet and wire it for the central FLOW / CMS platform.**
 
-Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*
+Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*  
+Or (preferred): *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
 
 | Field | Value |
 |-------|--------|

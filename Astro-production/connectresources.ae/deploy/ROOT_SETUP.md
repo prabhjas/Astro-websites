@@ -1,7 +1,7 @@
 # Root setup for connectresources.ae (CONNECT-ASTRO-FLEET-STANDARD)
 
 App path: `/opt/Astro-production/connectresources.ae`  
-Unit name: `connectresources` · Port: **5087** · Unix user: **`site-connectresources`**
+Unit name: `connectresources` · Port: **5086** · Unix user: **`site-connectresources`**
 
 Full host checklist: repo `docs/server-ops-only.md`.
 
@@ -53,7 +53,7 @@ Use `http://`+`https://`+`tls internal` template — **not** bare hostnames (CF 
 cd /opt/Astro-production
 pnpm --filter connectresources-astro run build
 sudo site-ctl restart connectresources
-curl -sS http://127.0.0.1:5087/api/health/
+curl -sS http://127.0.0.1:5086/api/health/
 ```
 
 Preserve on rsync: `.env.prod`, `.data/`.  

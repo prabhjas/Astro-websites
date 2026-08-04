@@ -9,6 +9,8 @@ Monorepo for Connect Group production Astro sites: one workspace, shared version
 | **Node** | `>=22.12.0` |
 | **Package manager** | **pnpm** `>=9.15.0` (see `packageManager` in root `package.json`) |
 
+**New website / developer workflow:** start at **[docs/00-NEW-SITE-MASTER.md](docs/00-NEW-SITE-MASTER.md)** (numbered phases → final deploy checks).
+
 ---
 ## What this repo is for
 
@@ -36,8 +38,9 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
 ├── docs/                                ← Cursor guides + playbooks
-│   ├── CURSOR-CONVERT-STATIC-TO-ASTRO.md
-│   ├── CURSOR-RUN-FLEET.md
+│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle)
+│   ├── CONNECT-FLOW-SITE-ONBOARDING.md
+│   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
 ├── Astro-production/                    ← live-shaped sites
 │   ├── evolutionmiddleast.com/          ← full CMS + WP mirror

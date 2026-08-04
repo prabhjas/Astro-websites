@@ -1,23 +1,34 @@
 # connectgroup.co -> 127.0.0.1:5085 (systemd: connectgroup.service)
 #
-# Cutover from the old static /var/www/astro-sites/connectgroup site to the
-# Astro SSR Node service. Node serves pages, dist/client assets and /api/*.
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile — see caddy/Caddyfile.production).
+# This file is the site block to keep in sync with the live fleet Caddyfile.
 #
-# See _README.md in this directory for why the scheme prefixes and `tls internal`
-# are required behind Cloudflare.
+# When deploying / adding this site on the server you MUST also:
+#   1. Ensure the shared one-hop HTTP alt-host block lists http://www.connectgroup.co
+#      and redirects to https://connectgroup.co{uri}
+#   2. Match PUBLIC_SITE_URL=https://connectgroup.co
+#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5085 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
-http://connectgroup.co, http://www.connectgroup.co,
-https://connectgroup.co, https://www.connectgroup.co {
+connectgroup.co, www.connectgroup.co {
 	tls internal
 	encode zstd gzip
+
+	@noncanonical host www.connectgroup.co
+	redir @noncanonical https://connectgroup.co{uri} permanent
 
 	reverse_proxy 127.0.0.1:5085
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
 	header @static Cache-Control "public, max-age=31536000, immutable"
-
 	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {
