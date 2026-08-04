@@ -44,6 +44,7 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── cbss.ae/                         ← leads-heavy marketing
 │   ├── spheavyrental.ae/                ← full CMS (SP data store)
 │   ├── iberiaworkforce.com/             ← leads + EN/ES marketing
+│   ├── connectresources.ae/             ← full CMS + Impreza WP mirror
 │   └── deploy-host/                     ← restic backup units
 ```
 
@@ -78,6 +79,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 | cbss.ae | **5081** | `cbss` | Leads only | — |
 | spheavyrental.ae | **5082** | `spheavyrental` | Full | `src/data/posts.json` (+ categories/tags/…) |
 | iberiaworkforce.com | **5083** | `iberiaworkforce` | Leads only | — |
+| connectresources.ae | **5084** | `connectresources` | Full | `src/data/posts.json` (+ pages/guides/press) |
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 
@@ -214,6 +216,7 @@ Open:
 - http://127.0.0.1:5081/ — CBSS  
 - http://127.0.0.1:5082/ — SP Heavy  
 - http://127.0.0.1:5083/ — Iberia  
+- http://127.0.0.1:5084/ — Connect Resources  
 
 ### 5. Single-site (optional)
 

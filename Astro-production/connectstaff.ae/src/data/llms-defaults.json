@@ -1,0 +1,57 @@
+{
+  "siteTitle": "Connect Staff",
+  "summary": "Connect Staff is a UAE-based HR and workforce partner helping companies expand to Abu Dhabi with EOR, PEO, payroll outsourcing, staff outsourcing, visa services, recruitment, Emiratisation, and HR consultancy.",
+  "details": "Connect Staff is officially accredited by MOHRE and operates as a single local partner for hiring, payroll, sponsorship, compliance, and immigration in Abu Dhabi without requiring a local entity.",
+  "groupOrder": [
+    "HR Services",
+    "Visa & Government Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover HR outsourcing, visas, recruitment, Emiratisation, and business setup topics for Abu Dhabi and the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Connect Staff homepage — expand to Abu Dhabi with EOR, PEO, and HR services."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect Staff."
+    },
+    "/contact/": {
+      "group": "Company Pages",
+      "title": "Contact",
+      "description": "Contact Connect Staff."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "HR, visa, and workforce insights for Abu Dhabi."
+    },
+    "/employer-of-record-abu-dhabi/": {
+      "group": "HR Services",
+      "title": "Employer of Record Abu Dhabi",
+      "description": "EOR services in Abu Dhabi."
+    },
+    "/peo-abu-dhabi/": {
+      "group": "HR Services",
+      "title": "PEO Abu Dhabi",
+      "description": "Professional Employer Organization services."
+    },
+    "/payroll-outsourcing-abu-dhabi/": {
+      "group": "HR Services",
+      "title": "Payroll Outsourcing Abu Dhabi",
+      "description": "Payroll outsourcing for businesses in Abu Dhabi."
+    },
+    "/staff-outsourcing-abu-dhabi/": {
+      "group": "HR Services",
+      "title": "Staff Outsourcing Abu Dhabi",
+      "description": "Staff outsourcing solutions."
+    }
+  }
+}
