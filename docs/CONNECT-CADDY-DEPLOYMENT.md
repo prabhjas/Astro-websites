@@ -53,7 +53,7 @@ Your live production Caddyfile is in git as:
 | c-uae.com | 5092 | Yes | `https://c-uae.com` |
 | kinzahr.com | 5093 | Yes (git target) | `https://kinzahr.com` |
 
-**Gap:** connecthr.ae (**5084**) and later reserved ports — wire each on server cutover using §4. Connect Staff / Kinza blocks are in `caddy/Caddyfile.production`; still need server install + systemd units on go-live.
+**Gap:** connecthr.ae (**5084**) and later reserved ports — wire each on server cutover using §4. EOR / Staff / C‑UAE / Kinza blocks are in `caddy/Caddyfile.production`; **live `/etc/caddy` install is owner-only** — see **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** (do not treat git presence as “already on the host”).
 
 Older iteration files under `caddy/` remain for history only.
 
