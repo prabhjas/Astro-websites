@@ -1,6 +1,8 @@
 ---
 import headerEn from "../data/header.html?raw";
 import headerAr from "../data/header.ar.html?raw";
+import headerHomeEn from "../data/header-home.html?raw";
+import headerHomeAr from "../data/header-home.ar.html?raw";
 
 interface Props {
   currentPath?: string;
@@ -10,7 +12,6 @@ interface Props {
 }
 
 const { currentPath = "/", menuActivePath, lang = "en" } = Astro.props;
-const headerHtml = lang === "ar" ? headerAr : headerEn;
 
 function normalize(path: string) {
   if (!path || path === "/") return "/";
@@ -18,12 +19,25 @@ function normalize(path: string) {
 }
 
 const path = normalize(menuActivePath || currentPath);
+const normalizedCurrent = normalize(currentPath);
+// EN home is "/"; WPML AR home is "/ar/" — both use the hero header template.
+const isHome = normalizedCurrent === "/" || normalizedCurrent === "/ar/";
+// Live site: homepage uses Elementor header 5406/7088 (includes hero).
+// All other pages use header 72/6359 (nav only) so page heroes stay correct.
+const headerHtml = isHome
+  ? lang === "ar"
+    ? headerHomeAr
+    : headerHomeEn
+  : lang === "ar"
+    ? headerAr
+    : headerEn;
 
 function pickActiveHref(current: string, hrefs: string[]) {
   const matches = hrefs
     .map(normalize)
     .filter((h) => {
-      if (h === "/") return current === "/";
+      // Treat EN "/" and AR "/ar/" as exact home matches only
+      if (h === "/" || h === "/ar/") return current === h;
       return current === h || current.startsWith(h);
     })
     .sort((a, b) => b.length - a.length);
@@ -46,7 +60,7 @@ function withActiveState(html: string, current: string) {
 
   // Resolve which TOP-LEVEL item should get the orange underline
   let activeTop = activeDeep;
-  const topHrefs = ["/", "/services/", "/about-us/", "/blogs/", "/contact-us/"];
+  const topHrefs = ["/", "/features/", "/about-us/", "/blogs/", "/contact/", "/pricing/", "/case-studies/"];
   if (!topHrefs.includes(normalize(activeDeep))) {
     // Deepest match is a submenu link — find owning top-level parent from HTML structure
     const liBlocks = out.split(/<\/li>/i);
@@ -62,14 +76,14 @@ function withActiveState(html: string, current: string) {
         break;
       }
     }
-    // Fallback: service child pages
+    // Fallback: product / industry child pages → Features
     if (
       !topHrefs.includes(normalize(activeTop)) &&
-      /^\/(services|heavy-machinery-rental|construction-equipment-rental|generator-rental|scaffold-rental)\//.test(
+      /^\/(hr-software|wps-payroll|visa-management|document-generator|dynamic-dashboard|features|health-care|construction|finance|shipping-logistics|fb-food|hr-software-hotels|hr-software-hospitals)\b/.test(
         current,
       )
     ) {
-      activeTop = "/services/";
+      activeTop = "/features/";
     }
   }
 
@@ -126,7 +140,7 @@ function withActiveState(html: string, current: string) {
 const html = withActiveState(headerHtml, path);
 ---
 
-<header class="sp-elementor-header" data-sp-elementor-header set:html={html} />
+<div class="sp-elementor-header" data-sp-elementor-header set:html={html} />
 
 <script is:inline>
   document.querySelectorAll("[data-sp-elementor-header] .elementor-menu-toggle").forEach((toggle) => {
