@@ -9,16 +9,22 @@ import { injectRuntimeGtmLoader } from './gtm/inject';
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
-const ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.evolutionmiddleast.com')
-  .trim()
-  .replace(/\/$/, '');
+const DEFAULT_ORIGIN = 'https://www.evolutionmiddleast.com';
+
+function siteOrigin(): string {
+  return (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || DEFAULT_ORIGIN).trim().replace(/\/$/, '') || DEFAULT_ORIGIN;
+}
+
+/** Keep ORIGIN alias for breadcrumb path rewrites. */
+const ORIGIN = DEFAULT_ORIGIN;
 
 function resolveCanonicalUrl(post: Pick<BlogPost, 'canonical' | 'slug'>): string {
+  const origin = siteOrigin();
   const value = post.canonical || `/${post.slug}/`;
   try {
-    return new URL(value, `${ORIGIN}/`).href;
+    return new URL(value, `${origin}/`).href;
   } catch {
-    return `${ORIGIN}/${post.slug}/`;
+    return `${origin}/${post.slug}/`;
   }
 }
 

@@ -1,0 +1,65 @@
+---
+/**
+ * Blog / Insights index — mirror live Elementor page (src/legacy/blog.cleaned.html).
+ * Load More uses /api/blog/load-more (WP admin-ajax is not available on Astro).
+ */
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+export const prerender = false;
+
+const INITIAL_CARDS = 16;
+const PER_PAGE = 16;
+
+function decorateBlogLoadMore(html: string): string {
+  let out = html;
+
+  // Mark ECS load-more nav for our client script
+  out = out.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${PER_PAGE}" data-offset="${INITIAL_CARDS}" data-loading-text="Loading...">`,
+  );
+
+  // Point button away from /blog/?page=2 full navigation
+  out = out.replace(
+    /(<nav[^>]*ecs-load-more-button[^>]*>[\s\S]*?<a[^>]*href=")[^"]*(")/i,
+    '$1javascript:void(0)$2',
+  );
+
+  if (!out.includes('blog-load-more.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/blog-load-more.js" defer></script>\n</body>`,
+    );
+  }
+
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`,
+    );
+  }
+
+  if (!out.includes('cf-email-decode.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/cf-email-decode.js" defer></script>\n</body>`,
+    );
+  }
+
+  return out;
+}
+
+const legacy = serveLegacyPage('blog');
+if (legacy.status !== 200) {
+  return legacy;
+}
+
+const html = decorateBlogLoadMore(await legacy.text());
+
+return new Response(html, {
+  headers: {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Cache-Control': 'public, max-age=0',
+  },
+});
+---

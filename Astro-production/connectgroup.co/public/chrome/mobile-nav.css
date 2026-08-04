@@ -52,10 +52,16 @@
   justify-content: space-between;
   gap: 0.75rem;
   flex-shrink: 0;
-  min-height: 64px;
-  padding: 0.85rem 1.15rem;
-  background: #060d1d;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-sizing: border-box;
+  /* Match Figma closed bar: h-20, py-5 (20), px-6 (24) */
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  padding: 20px 24px;
+  background: rgba(6, 13, 29, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0;
 }
 
 .cg-mnav__logo {
@@ -385,13 +391,54 @@
     visibility: hidden !important;
   }
 
-  /* Closed mobile header — match design: logo | Let’s Talk | hamburger */
+  /* Closed mobile/tablet header — same 80px box as open hamburger header */
   .elementor-27130 .elementor-element-527f83a.header-new,
   .elementor-27554 .elementor-element-cc95ce6.header-new,
   .elementor-location-header .header-new {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 12px 16px !important;
-    background-color: #060d1d !important;
+    border-bottom: 0 !important;
+    box-sizing: border-box !important;
+    height: 80px !important;
+    min-height: 80px !important;
+    max-height: 80px !important;
+    padding: 20px 24px !important;
+    background: rgba(6, 13, 29, 0.4) !important;
+    background-color: rgba(6, 13, 29, 0.4) !important;
+    background-image: none !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .elementor-27130 .elementor-element-527f83a.header-new > .elementor-container,
+  .elementor-27554 .elementor-element-cc95ce6.header-new > .elementor-container,
+  .elementor-location-header .header-new > .elementor-container {
+    height: 100% !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .elementor-27130 .header-new .elementor-column,
+  .elementor-27554 .header-new .elementor-column,
+  .elementor-location-header .header-new .elementor-column {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
+
+  /* Kill Elementor’s default 10px widget-wrap padding (was inflating bar to ~121px) */
+  .elementor-27130 .header-new .elementor-widget-wrap,
+  .elementor-27554 .header-new .elementor-widget-wrap,
+  .elementor-location-header .header-new .elementor-widget-wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    align-content: center !important;
+    align-items: center !important;
   }
 
   .elementor-27130 .elementor-element-17c89f9 img,
@@ -407,10 +454,11 @@
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: 12px !important;
+    /* Figma tablet: gap-5 (20px) between Let’s Talk and hamburger */
+    gap: 20px !important;
   }
 
-  /* Mobile order: logo | Let’s Talk | hamburger (phone only) */
+  /* Mobile order: logo | Let’s Talk | hamburger (Figma tablet/mobile) */
   .elementor-27130 .elementor-element-1f0a7d0,
   .elementor-27554 .elementor-element-6e85cb3,
   .elementor-location-header .cg-header-cta-wrap {
@@ -437,12 +485,28 @@
 
   #mega-menu-wrap-max_mega_menu_1 .mega-menu-toggle .mega-toggle-block-1 {
     margin: 0 !important;
+    width: 26px !important;
+    height: 26px !important;
+    position: relative !important;
   }
 
+  /* Pure CSS hamburger — do not depend on dashicons font loading */
   #mega-menu-wrap-max_mega_menu_1 .mega-menu-toggle .mega-toggle-block-1:after {
-    font-size: 28px !important;
-    color: #fff !important;
-    line-height: 1 !important;
+    content: "" !important;
+    font-family: none !important;
+    font-size: 0 !important;
+    color: transparent !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 22px !important;
+    height: 2px !important;
+    background: #fff !important;
+    border-radius: 2px !important;
+    box-shadow: 0 7px 0 #fff, 0 14px 0 #fff !important;
+    position: absolute !important;
+    top: 5px !important;
+    right: 0 !important;
+    left: auto !important;
   }
 
   span.mega-toggle-label-closed,
@@ -467,73 +531,63 @@
   }
 }
 
-/* Let’s Talk — phone only (hide on tablet + desktop) */
-@media (min-width: 768px) {
-  .elementor .elementor-location-header .elementor-element-1f0a7d0,
-  .elementor .elementor-location-header .elementor-element-6e85cb3,
-  .elementor .elementor-location-header .cg-header-cta-wrap,
-  .elementor-location-header a.cg-header-cta,
-  a.elementor-button.elementor-button-link.elementor-size-sm.cg-header-cta {
-    display: none !important;
-  }
+/* Let’s Talk — visible on desktop, tablet, and mobile (Figma all 3 screens) */
+.elementor .elementor-location-header .elementor-element-1f0a7d0,
+.elementor .elementor-location-header .elementor-element-6e85cb3,
+.elementor .elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-desktop,
+.elementor .elementor-location-header .elementor-element-6e85cb3.elementor-hidden-desktop,
+.elementor .elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-tablet,
+.elementor .elementor-location-header .elementor-element-6e85cb3.elementor-hidden-tablet,
+.elementor .elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-mobile,
+.elementor .elementor-location-header .elementor-element-6e85cb3.elementor-hidden-mobile,
+.elementor .elementor-location-header .cg-header-cta-wrap,
+.elementor .elementor-location-header .elementor-widget-button.cg-header-cta-wrap {
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 0 0 12px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-@media (max-width: 767px) {
-  .elementor .elementor-location-header .elementor-element-1f0a7d0,
-  .elementor .elementor-location-header .elementor-element-6e85cb3,
-  .elementor .elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-mobile,
-  .elementor .elementor-location-header .elementor-element-6e85cb3.elementor-hidden-mobile,
-  .elementor .elementor-location-header .elementor-element-1f0a7d0.elementor-hidden-phone,
-  .elementor .elementor-location-header .elementor-element-6e85cb3.elementor-hidden-phone,
-  .elementor .elementor-location-header .cg-header-cta-wrap,
-  .elementor .elementor-location-header .elementor-widget-button.elementor-hidden-mobile.cg-header-cta-wrap {
-    display: block !important;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
+.elementor-27130 .elementor-element-1f0a7d0 .elementor-button,
+.elementor-27554 .elementor-element-6e85cb3 .elementor-button,
+.elementor-location-header a.cg-header-cta,
+a.elementor-button.elementor-button-link.elementor-size-sm.cg-header-cta,
+a.cg-header-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #fff !important;
+  color: #000 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  padding: 8px 16px !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+  font-family: "Plus Jakarta Sans", "SF Pro Display", sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 150% !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
 
-  .elementor-27130 .elementor-element-1f0a7d0 .elementor-button,
-  .elementor-27554 .elementor-element-6e85cb3 .elementor-button,
-  .elementor-location-header a.cg-header-cta,
-  a.elementor-button.elementor-button-link.elementor-size-sm.cg-header-cta,
-  a.cg-header-cta {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #fff !important;
-    color: #000 !important;
-    border: 0 !important;
-    border-radius: 6px !important;
-    padding: 8px 16px !important;
-    min-height: 0 !important;
-    box-shadow: none !important;
-    font-family: "Plus Jakarta Sans", "SF Pro Display", sans-serif !important;
-    font-size: 16px !important;
-    font-style: normal !important;
-    font-weight: 400 !important;
-    line-height: 150% !important;
-    text-decoration: none !important;
-    white-space: nowrap !important;
-  }
+.elementor-27130 .elementor-element-1f0a7d0 .elementor-button-content-wrapper,
+.elementor-27554 .elementor-element-6e85cb3 .elementor-button-content-wrapper {
+  justify-content: center;
+}
 
-  .elementor-27130 .elementor-element-1f0a7d0 .elementor-button-content-wrapper,
-  .elementor-27554 .elementor-element-6e85cb3 .elementor-button-content-wrapper {
-    justify-content: center;
-  }
-
-  .elementor-27130 .elementor-element-1f0a7d0 .elementor-button-text,
-  .elementor-27554 .elementor-element-6e85cb3 .elementor-button-text,
-  .elementor-location-header a.cg-header-cta .elementor-button-text,
-  a.cg-header-cta .elementor-button-text {
-    color: #000 !important;
-    font-family: "Plus Jakarta Sans", "SF Pro Display", sans-serif !important;
-    font-size: 16px !important;
-    font-style: normal !important;
-    font-weight: 400 !important;
-    line-height: 150% !important;
-  }
+.elementor-27130 .elementor-element-1f0a7d0 .elementor-button-text,
+.elementor-27554 .elementor-element-6e85cb3 .elementor-button-text,
+.elementor-location-header a.cg-header-cta .elementor-button-text,
+a.cg-header-cta .elementor-button-text {
+  color: #000 !important;
+  font-family: "Plus Jakarta Sans", "SF Pro Display", sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 150% !important;
 }
 

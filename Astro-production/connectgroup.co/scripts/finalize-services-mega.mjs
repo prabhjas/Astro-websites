@@ -15,7 +15,7 @@ const HEADER_CSS = join(ROOT, 'src/legacy/chrome/header.css');
 const LINK_BY_LABEL = {
   'UAE Free Zone': '/dubai-free-zone/',
   'UAE Mainland': '/dubai-mainland/',
-  'UAE Offshore': '/dubai-offshore/',
+  'UAE Offshore': '/uae-offshore-company-setup/',
   'PRO Services': '/pro-services/',
   'EOR (Employer of Record)': '/employer-of-record/',
   'PEO (Professional Employer Organization)': '/professional-employer-organization-uae/',
