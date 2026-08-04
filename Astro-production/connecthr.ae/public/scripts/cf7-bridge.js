@@ -100,7 +100,9 @@
 
   function getPhoneValue(form) {
     const phone =
-      form.querySelector("input.wpcf7-phonetext, input[name='phonetext-597'], input[name='phone'], input[type='tel']");
+      form.querySelector(
+        "input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']",
+      );
     if (!phone) return "";
 
     try {
@@ -126,9 +128,85 @@
       form.innerText ||
       ""
     ).toLowerCase();
-    if (/catalog|pricing|quote/.test(heading)) return "SP Heavy Catalog Form";
-    if (/rental|rent/.test(heading)) return "SP Heavy Rental Form";
-    return "SP Heavy Contact Form";
+    if (/demo|trial|pricing|quote/.test(heading)) return "Connect HR Demo Form";
+    if (/payroll|visa|leave|attendance/.test(heading)) return "Connect HR Product Form";
+    return "Connect HR Contact Form";
+  }
+
+  function ensureHiddenField(form, name, value) {
+    let input = form.querySelector(`[name="${name}"]`);
+    if (!input) {
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      form.appendChild(input);
+    }
+    if (value !== undefined) {
+      // Prefer existing non-empty values (e.g. server-rendered fields).
+      if (!String(input.value || "").trim()) input.value = value || "";
+    }
+    return input;
+  }
+
+  function captureTrackingFields(form) {
+    const params = new URLSearchParams(window.location.search);
+    const pageUrl = window.location.href;
+    let initial = "";
+    try {
+      initial = sessionStorage.getItem("cg_initial_url") || pageUrl;
+      if (!sessionStorage.getItem("cg_initial_url")) {
+        sessionStorage.setItem("cg_initial_url", pageUrl);
+      }
+    } catch {
+      initial = pageUrl;
+    }
+
+    const TRACKING_FIELDS = {
+      gclid: ["gclid"],
+      gbraid: ["gbraid"],
+      wbraid: ["wbraid"],
+      fbclid: ["fbclid"],
+      msclkid: ["msclkid"],
+      utm_source: ["utm_source"],
+      utm_medium: ["utm_medium"],
+      utm_campaign: ["utm_campaign"],
+      utm_term: ["utm_term"],
+      utm_content: ["utm_content"],
+      campaign_id: ["campaign_id", "campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroup_id", "adgroupid"],
+      group_id: ["group_id", "groupid"],
+      creative_id: ["creative_id", "creativeid", "creative"],
+      keyword: ["keyword", "kw", "q", "utm_term"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target: ["target", "targetid", "target_id"],
+      target_id: ["target_id", "targetid", "target"],
+      adposition: ["adposition", "ad_position"],
+      loc_physical_ms: ["loc_physical_ms", "locphysicalms"],
+      loc_interest_ms: ["loc_interest_ms", "locinterestms"],
+      gad_source: ["gad_source", "gadsource"],
+      source: ["source", "gad_source", "gadsource"],
+    };
+
+    const firstParam = (aliases) => {
+      for (const alias of aliases) {
+        const v = params.get(alias);
+        if (v) return v;
+      }
+      return "";
+    };
+
+    Object.keys(TRACKING_FIELDS).forEach((name) => {
+      ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+    });
+
+    ensureHiddenField(form, "initial_url", initial);
+    ensureHiddenField(form, "landing_page_url", initial);
+    ensureHiddenField(form, "page_url", pageUrl);
+    ensureHiddenField(form, "submission_page_url", pageUrl);
+    ensureHiddenField(form, "referrer_url", document.referrer || "");
   }
 
   function sanitizeNameInput(el) {
@@ -152,7 +230,7 @@
     form.dataset.spInputGuards = "1";
 
     const nameFields = form.querySelectorAll(
-      "[name='first-name'], [name='firstName'], [name='last-name'], [name='lastName'], [name='your-name'], [name='name']",
+      "[name='first-name'], [name='firstName'], [name='last-name'], [name='lastName'], [name='your-name'], [name='name'], [name='full-name'], [name='full_name']",
     );
     nameFields.forEach((el) => {
       el.setAttribute("inputmode", "text");
@@ -177,11 +255,15 @@
     const errors = {};
 
     const first =
-      form.querySelector("[name='first-name'], [name='firstName'], [name='your-name']");
+      form.querySelector(
+        "[name='first-name'], [name='firstName'], [name='your-name'], [name='full-name'], [name='full_name'], [name='name']",
+      );
     const last = form.querySelector("[name='last-name'], [name='lastName']");
     const email = form.querySelector("[name='your-email'], [name='email']");
     const phoneEl =
-      form.querySelector("input.wpcf7-phonetext, input[name='phonetext-597'], input[name='phone'], input[type='tel']");
+      form.querySelector(
+        "input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']",
+      );
 
     if (first) sanitizeNameInput(first);
     if (last) sanitizeNameInput(last);
@@ -191,13 +273,20 @@
     const firstVal = String(first?.value || "").trim();
     const lastVal = String(last?.value || "").trim();
     const emailVal = String(email?.value || "").trim();
+    const isFullNameOnly = first && /full-?name|your-name|^name$/i.test(first.getAttribute("name") || "");
 
-    const firstErr = nameError(firstVal, "First name");
-    if (firstErr) {
-      errors.name = firstErr;
-      showFieldError(first, firstErr);
-    }
-    if (last) {
+    if (isFullNameOnly || !last) {
+      const nameErr = nameError(firstVal, "Name");
+      if (nameErr) {
+        errors.name = nameErr;
+        showFieldError(first, nameErr);
+      }
+    } else {
+      const firstErr = nameError(firstVal, "First name");
+      if (firstErr) {
+        errors.name = firstErr;
+        showFieldError(first, firstErr);
+      }
       const lastErr = nameError(lastVal, "Last name");
       if (lastErr) {
         errors.lastName = lastErr;
@@ -247,6 +336,7 @@
     if (!(form instanceof HTMLFormElement) || form.dataset.spContactWired === "1") return;
     form.dataset.spContactWired = "1";
     wireInputGuards(form);
+    captureTrackingFields(form);
 
     form.addEventListener(
       "submit",
@@ -254,6 +344,8 @@
         event.preventDefault();
         event.stopPropagation();
         if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+
+        captureTrackingFields(form);
 
         const result = validate(form);
         if (!result.ok) {
@@ -272,7 +364,10 @@
         if (result.phone) {
           fd.set("phonetext-597", result.phone);
           fd.set("phone", result.phone);
+          if (!fd.get("your-phone")) fd.set("your-phone", result.phone);
         }
+        const fullName = fd.get("full-name") || fd.get("full_name") || fd.get("your-name");
+        if (fullName && !fd.get("name")) fd.set("name", String(fullName));
         if (!fd.get("page_url")) fd.set("page_url", window.location.href);
         if (!fd.get("initial_url")) fd.set("initial_url", window.location.href);
         if (!fd.get("form_name")) fd.set("form_name", detectFormName(form));

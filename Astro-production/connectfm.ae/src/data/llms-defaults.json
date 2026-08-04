@@ -1,0 +1,37 @@
+{
+  "siteTitle": "Connect FM",
+  "summary": "Connect FM is a UAE facility management company offering HVAC, plumbing, cleaning, pest control, property maintenance, security, and annual maintenance contracts across Dubai and the Emirates.",
+  "details": "Services cover HVAC, plumbing, electrical, cleaning and housekeeping, pest control, property maintenance, landscaping, pool care, security guards, CCTV, smart home, waste and fleet management, plus AMC plans for residential and commercial properties.",
+  "blogHome": "/blog/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog covers facility management, HVAC, plumbing, pest control, and property care across the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Full-service facility management across the UAE with Connect FM."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect FM — certified facility management partner in the UAE."
+    },
+    "/contact/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Connect FM for facility management and AMC enquiries."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "Latest facility management guides and tips from Connect FM."
+    }
+  }
+}

@@ -18,8 +18,7 @@ const siteUrl = (
 export default defineConfig({
   site: siteUrl,
   output: 'static',
-  adapter: node({ mode: 'standalone' }),
-  // Caddy terminates TLS and reverse-proxies to Node over plain HTTP.
+  adapter: node({ mode: 'standalone' }),  // Caddy terminates TLS and reverse-proxies to Node over plain HTTP.
   // Without allowedDomains, Astro ignores X-Forwarded-Proto, builds the
   // request URL as http://, and checkOrigin rejects HTTPS visitors' form
   // POSTs with "Cross-site POST form submissions are forbidden" (403).
