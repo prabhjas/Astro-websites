@@ -9,7 +9,18 @@ import { injectRuntimeGtmLoader } from './gtm/inject';
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
-const ORIGIN = 'https://www.evolutionmiddleast.com';
+const ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://www.evolutionmiddleast.com')
+  .trim()
+  .replace(/\/$/, '');
+
+function resolveCanonicalUrl(post: Pick<BlogPost, 'canonical' | 'slug'>): string {
+  const value = post.canonical || `/${post.slug}/`;
+  try {
+    return new URL(value, `${ORIGIN}/`).href;
+  } catch {
+    return `${ORIGIN}/${post.slug}/`;
+  }
+}
 
 export interface TocEntry {
   id: string;
@@ -333,6 +344,7 @@ function patchHeadMeta(html: string, post: BlogPost): string {
   let out = html;
   const metaTitle = post.metaTitle || post.title;
   const metaDescription = post.metaDescription || post.description;
+  const canonical = resolveCanonicalUrl(post);
 
   out = out.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(metaTitle)}</title>`);
   out = out.replace(
@@ -341,7 +353,7 @@ function patchHeadMeta(html: string, post: BlogPost): string {
   );
   out = out.replace(
     /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i,
-    `<link rel="canonical" href="${post.canonical}" />`,
+    `<link rel="canonical" href="${canonical}" />`,
   );
   if (post.robots) {
     if (out.includes('name="robots"')) {
@@ -359,7 +371,7 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i,
     `<meta property="og:description" content="${escapeHtml(post.og.description || metaDescription)}" />`,
   );
-  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${post.canonical}" />`);
+  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
   if (post.og.image) {
     if (out.includes('property="og:image"')) {
       out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${post.og.image}" />`);

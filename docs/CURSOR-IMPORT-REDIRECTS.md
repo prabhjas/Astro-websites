@@ -8,7 +8,8 @@
 | **Updated** | 2026-08-03 |
 | **Staging folder** | `Astro-production/<domain>/imports/redirects/` |
 | **Live source of truth (now)** | `Astro-production/<domain>/src/data/redirects.yml` |
-| **Runtime (SSR)** | `.data/internal-admin/redirects.json` (gitignored) + YAML sync |
+| **Runtime (SSR)** | `.data/internal-admin/redirects.json` (gitignored) — middleware merges YAML + JSON; **JSON wins** on duplicate `from` |
+| **Hit stats (not rules)** | `.data/internal-admin/redirect-stats.json` — counters only |
 | **FLOW later** | `POST /api/internal/redirects/import` + save/delete APIs |
 
 Paste into Cursor (fill in the blanks):

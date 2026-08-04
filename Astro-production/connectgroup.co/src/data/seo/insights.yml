@@ -1,0 +1,22 @@
+# Insights SEO — from Rank Math export (Phase 1 mirror still uses baked-in HTML tags)
+
+title: "Insights on Business Solutions | Connect Group"
+description: "Explore expert insights and articles on business solutions, industry trends, and best practices to enhance your success at Connect Group."
+canonical: "/insights/"
+robots: "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+keywords: "Connect Group insights, business solutions, industry trends"
+
+og:
+  title: "Insights on Business Solutions | Connect Group"
+  description: "Explore expert insights and articles on business solutions, industry trends, and best practices to enhance your success at Connect Group."
+  type: "article"
+  locale: "en_US"
+
+twitter:
+  card: "summary_large_image"
+  title: "Insights | Connect Group"
+  description: "Explore expert insights and articles on business solutions, industry trends, and best practices to enhance your success at Connect Group."
+
+schema:
+  pageType: "WebPage"
+  organizationName: "Connect Group"

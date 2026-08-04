@@ -1,0 +1,22 @@
+# /etc/caddy/sites.d/connecthr.ae.caddy
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Origin SSL mode must be Full (not Full strict) — origin uses tls internal.
+# Cloudflare DNS must point apex (+ www) at this host before traffic reaches Astro.
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+
+http://connecthr.ae, http://www.connecthr.ae, https://connecthr.ae, https://www.connecthr.ae {
+	tls internal
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5084
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connecthr.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

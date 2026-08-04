@@ -1,7 +1,7 @@
 # Root / ops setup — connectstaff.ae
 
 App tree: `/opt/Astro-production/connectstaff.ae`  
-Unit name: `connectstaff` · PORT **5084** · Unix user: **`site-connectstaff`**  
+Unit name: `connectstaff` · PORT **5086** · Unix user: **`site-connectstaff`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
 Templates here match **live Tier 1**: non-root unit, required `.env.prod`, Caddy `http://`+`https://`+`tls internal`.
@@ -59,7 +59,7 @@ Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
 cd /opt/Astro-production   # fleet pnpm workspace root
 pnpm --filter connectstaff-astro run build
 sudo site-ctl restart connectstaff
-curl -sS http://127.0.0.1:5084/api/health/
+curl -sS http://127.0.0.1:5086/api/health/
 ```
 
 Preserve on sync: `.env.prod`, `.data/`. Builds read non-secret `.env` only — webdev never needs Pipedrive from prod.
