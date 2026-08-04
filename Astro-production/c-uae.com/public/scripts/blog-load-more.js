@@ -1,6 +1,5 @@
 /**
- * SP Heavy blog Load More — Elementor/ECS replacement.
- * Appends into the image grid (data-sp-blog-grid), not the featured list.
+ * C-UAE insights / category Load More — ECS posts grid.
  */
 (function () {
   function ready(fn) {
@@ -26,7 +25,14 @@
     if (!btn) return;
 
     var nextPage = Number(nav.getAttribute("data-next-page") || "2") || 2;
-    var perPage = Number(nav.getAttribute("data-per-page") || "12") || 12;
+    var perPage =
+      Number(nav.getAttribute("data-per-page") || "") ||
+      grid.querySelectorAll("article.elementor-post").length ||
+      12;
+    var offset =
+      Number(nav.getAttribute("data-offset") || "") ||
+      grid.querySelectorAll("article.elementor-post").length ||
+      perPage;
     var loading = false;
     var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
@@ -39,15 +45,20 @@
     function onClick(event) {
       event.preventDefault();
       event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
       if (loading || nav.hidden) return;
       loading = true;
       setLabel("Loading...");
 
+      var categoryId = nav.getAttribute("data-category-id") || "";
       var url =
         "/api/blog/load-more/?page=" +
         encodeURIComponent(String(nextPage)) +
         "&perPage=" +
-        encodeURIComponent(String(perPage));
+        encodeURIComponent(String(perPage)) +
+        "&offset=" +
+        encodeURIComponent(String(offset)) +
+        (categoryId ? "&categoryId=" + encodeURIComponent(categoryId) : "");
 
       fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
         .then(function (res) {
@@ -57,11 +68,19 @@
         .then(function (data) {
           if (!data || !data.ok || typeof data.html !== "string") throw new Error("bad payload");
           if (data.html) grid.insertAdjacentHTML("beforeend", data.html);
+          offset = Number(data.nextOffset != null ? data.nextOffset : offset + perPage);
+          nav.setAttribute("data-offset", String(offset));
           if (data.hasMore && data.nextPage) {
             nextPage = data.nextPage;
             nav.setAttribute("data-next-page", String(nextPage));
             if (btn.tagName === "A") {
-              btn.setAttribute("href", "/insights/page/" + nextPage + "/");
+              var base = categoryId
+                ? window.location.pathname
+                : "/insights/page/" + nextPage + "/";
+              btn.setAttribute(
+                "href",
+                categoryId ? base.replace(/\/?$/, "/") + "?page=" + nextPage : base,
+              );
             }
             setLabel(defaultLabel);
           } else {
