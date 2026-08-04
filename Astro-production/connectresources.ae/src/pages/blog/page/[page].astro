@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { getPosts, paginate, POSTS_PER_PAGE } from "../../../lib/content";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const pageNum = Number(Astro.params.page || "1");
+if (!Number.isFinite(pageNum) || pageNum < 2) {
+  return notFoundResponse();
+}
+
+const sorted = [...getPosts()].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+const totalPages = Math.max(1, Math.ceil(sorted.length / POSTS_PER_PAGE));
+if (pageNum > totalPages) {
+  return notFoundResponse();
+}
+const { items, page, totalPages: tp } = paginate(sorted, pageNum, POSTS_PER_PAGE);
+---
+
+<BaseLayout
+  currentPath="/blog/"
+  menuActivePath="/blog/"
+  bodyClass="archive blog l-body"
+  seo={{
+    title: `Blog — Page ${page} | Connect Resources`,
+    description: "Insights on EOR, PEO, staffing, payroll and HR in Dubai and the UAE.",
+    canonical: `/blog/page/${page}/`,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blog/" },
+        { name: `Page ${page}`, url: `/blog/page/${page}/` },
+      ]),
+    ],
+  }}
+>
+  <main id="page-content" class="l-main">
+    <section class="l-section height_small">
+      <div class="l-section-h i-cf">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Blog", href: "/blog/" },
+            { name: `Page ${page}` },
+          ]}
+        />
+        <h1>Blog</h1>
+        <p>Page {page} of {tp}</p>
+      </div>
+    </section>
+    <section class="l-section">
+      <div class="l-section-h i-cf">
+        <div class="sp-blog-grid">
+          {items.map((post) => <PostCard post={post} />)}
+        </div>
+        <Pagination basePath="/blog/" page={page} totalPages={tp} />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

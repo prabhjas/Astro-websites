@@ -1,0 +1,31 @@
+# cbss.ae -> 127.0.0.1:5081 (systemd: cbss.service)
+#
+# Moved verbatim out of /etc/caddy/Caddyfile on 2026-07-31 when the SSR sites
+# were split into sites.d/. Behaviour is unchanged.
+#
+# See _README.md in this directory for why the scheme prefixes and `tls internal`
+# are required behind Cloudflare.
+
+http://cbss.ae, http://www.cbss.ae,
+https://cbss.ae, https://www.cbss.ae {
+	tls internal
+	encode zstd gzip
+
+	reverse_proxy 127.0.0.1:5081
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	log {
+		output file /var/log/caddy/cbss.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

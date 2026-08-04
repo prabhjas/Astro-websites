@@ -43,14 +43,32 @@ function ensureDirs() {
   mkdirSync(LOG_DIR, { recursive: true });
 }
 
+function isRunnable(site) {
+  if (site.status === 'placeholder') return false;
+  if (site.status === 'scaffolded') return true;
+  return existsSync(join(sitePath(site), 'package.json'));
+}
+
 function resolveSites(selector) {
   const all = REGISTRY.sites;
-  if (!selector || selector === 'all') return all;
+  if (!selector || selector === 'all') {
+    const runnable = all.filter(isRunnable);
+    const skipped = all.length - runnable.length;
+    if (skipped > 0) {
+      console.log(`Note: skipping ${skipped} placeholder site(s); use "list" to see all reserved ports.`);
+    }
+    return runnable;
+  }
   const ids = selector.split(',').map((s) => s.trim()).filter(Boolean);
   const found = [];
   for (const id of ids) {
     const site = all.find((s) => s.id === id || s.dir === id || s.domain === id);
     if (!site) die(`Unknown site: ${id}\nKnown: ${all.map((s) => s.id).join(', ')}`);
+    if (!isRunnable(site)) {
+      die(
+        `${site.id} is a placeholder (port ${site.port} reserved). Scaffold it first — see docs/00-NEW-SITE-MASTER.md and docs/FLEET-PORT-REGISTRY.md`,
+      );
+    }
     found.push(site);
   }
   return found;
@@ -87,14 +105,16 @@ function isAlive(pid) {
 
 function cmdList() {
   console.log('Fleet sites (same ports as production systemd units):\n');
-  console.log(['ID', 'DOMAIN', 'PORT', 'PATH'].map((h) => h.padEnd(22)).join(''));
+  console.log(['ID', 'DOMAIN', 'PORT', 'STATUS', 'PATH'].map((h) => h.padEnd(22)).join(''));
   for (const s of REGISTRY.sites) {
     console.log(
-      [s.id, s.domain, String(s.port), `Astro-production/${s.dir}`]
-        .map((v, i) => v.padEnd(i === 3 ? 48 : 22))
+      [s.id, s.domain, String(s.port), s.status || '?', `Astro-production/${s.dir}`]
+        .map((v, i) => v.padEnd(i === 4 ? 48 : 22))
         .join(''),
     );
   }
+  const next = Math.max(...REGISTRY.sites.map((s) => s.port)) + 1;
+  console.log(`\nNext free port: ${next}  ·  Full registry: docs/FLEET-PORT-REGISTRY.md`);
 }
 
 function ensureEnv(site) {
@@ -167,14 +187,17 @@ function ensureEnv(site) {
   console.log(`  env ready: ${site.dir}/.env → :${site.port}`);
 }
 
+/** Windows: Node execFileSync does not resolve .cmd shims without the extension. */
+const PNPM = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+
 function runPnpm(site, args, label) {
   console.log(`\n▸ ${site.id}: ${label}`);
-  execFileSync('pnpm', args, { cwd: sitePath(site), stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: sitePath(site), stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 function runPnpmRoot(args, label) {
   console.log(`\n▸ root: ${label}`);
-  execFileSync('pnpm', args, { cwd: ROOT, stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: ROOT, stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 async function stopSite(site) {

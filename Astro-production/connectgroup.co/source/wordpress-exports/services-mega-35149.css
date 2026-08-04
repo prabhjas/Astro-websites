@@ -1,0 +1,169 @@
+/* Services mega-menu (Elementor template 35149) — from live connectgroup.co */
+.elementor-35149 .elementor-element.elementor-element-84048a6{--display:flex;--flex-direction:column;--container-widget-width:100%;--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;}
+.elementor-35149 .elementor-element.elementor-element-8d53a95{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--border-radius:0px 20px 20px 0px;--padding-top:20px;--padding-bottom:20px;--padding-left:10px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-eab1602{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--padding-top:10px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-2589e99 .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:21px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-5f21588 .elementor-button{background-color:#61CE7000;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:700;line-height:14px;fill:#D4D7F9;color:#D4D7F9;padding:0px 0px 0px 0px;}
+.elementor-35149 .elementor-element.elementor-element-5f21588{margin:0px 0px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-35149 .elementor-element.elementor-element-5f21588 .elementor-button-content-wrapper{flex-direction:row-reverse;}
+.elementor-35149 .elementor-element.elementor-element-ee049d4{--display:flex;--flex-direction:row;--container-widget-width:initial;--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-4a084d7{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-0456077:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-0456077{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-0456077 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-0456077 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-0456077:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-0456077:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-0456077 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-025625c:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-025625c{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-025625c .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-025625c .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-025625c:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-025625c:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-025625c .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-3fa3850:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-3fa3850 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-5a679bb{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-615615d:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-615615d{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-615615d .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-615615d .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-615615d:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-615615d:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-615615d .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-67e3f92{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--border-radius:0px 20px 20px 0px;--padding-top:20px;--padding-bottom:20px;--padding-left:10px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-34b844b{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--padding-top:10px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-239a077 .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:21px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-4bb6fc9 .elementor-button{background-color:#61CE7000;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:700;line-height:14px;fill:#D4D7F9;color:#D4D7F9;padding:0px 0px 0px 0px;}
+.elementor-35149 .elementor-element.elementor-element-4bb6fc9{margin:0px 0px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-35149 .elementor-element.elementor-element-4bb6fc9 .elementor-button-content-wrapper{flex-direction:row-reverse;}
+.elementor-35149 .elementor-element.elementor-element-8e9399a{--display:flex;--flex-direction:row;--container-widget-width:initial;--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-f8453c6{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-961597b:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-961597b{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-961597b .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-961597b .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-961597b:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-961597b:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-961597b .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-711367a:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-711367a{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-711367a .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-711367a .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-711367a:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-711367a:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-711367a .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-9f25de3:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-9f25de3 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-9fd8fb1{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-2586cb6:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-2586cb6 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-f0d265e:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-f0d265e .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-142e69d{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--border-radius:0px 20px 20px 0px;--padding-top:20px;--padding-bottom:20px;--padding-left:10px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-1c3cc58{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--padding-top:10px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-d1f05aa .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:21px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-f82e1d0 .elementor-button{background-color:#61CE7000;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:700;line-height:14px;fill:#D4D7F9;color:#D4D7F9;padding:0px 0px 0px 0px;}
+.elementor-35149 .elementor-element.elementor-element-f82e1d0{margin:0px 0px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-35149 .elementor-element.elementor-element-f82e1d0 .elementor-button-content-wrapper{flex-direction:row-reverse;}
+.elementor-35149 .elementor-element.elementor-element-d16abb4{--display:flex;--flex-direction:row;--container-widget-width:initial;--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-51c2411{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-639274e:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-639274e{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-639274e .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-639274e .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-639274e:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-639274e:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-639274e .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-c351b89:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-c351b89{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-c351b89 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-c351b89 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-c351b89:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-c351b89:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-c351b89 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-e4e2232{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-cd01f01{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--border-radius:0px 20px 20px 0px;--padding-top:20px;--padding-bottom:20px;--padding-left:10px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-74a83a0{--display:flex;--gap:0px 0px;--row-gap:0px;--column-gap:0px;--padding-top:10px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-974c468 .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:21px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-1d28e65 .elementor-button{background-color:#61CE7000;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:700;line-height:14px;fill:#D4D7F9;color:#D4D7F9;padding:0px 0px 0px 0px;}
+.elementor-35149 .elementor-element.elementor-element-1d28e65{margin:0px 0px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-35149 .elementor-element.elementor-element-1d28e65 .elementor-button-content-wrapper{flex-direction:row-reverse;}
+.elementor-35149 .elementor-element.elementor-element-471df07{--display:flex;--flex-direction:row;--container-widget-width:initial;--container-widget-height:100%;--container-widget-flex-grow:1;--container-widget-align-self:stretch;--flex-wrap-mobile:wrap;--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-6f6e3b1{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-ebba244:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-ebba244{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-ebba244 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-ebba244 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-ebba244:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-ebba244:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-ebba244 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-d18eead:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-d18eead{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-d18eead .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-d18eead .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-d18eead:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-d18eead:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-d18eead .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-06afa5c:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-06afa5c .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-dad8d8e{--display:flex;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9:hover{background-color:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9{padding:10px 14px 10px 14px;border-style:solid;border-width:01px 01px 01px 01px;border-color:#D4D7F900;border-radius:8px 8px 8px 8px;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9 .elementor-image-box-wrapper{text-align:start;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9 .elementor-image-box-title{margin-bottom:3px;font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9:has(:hover) .elementor-image-box-title,
+					 .elementor-35149 .elementor-element.elementor-element-740c2a9:has(:focus) .elementor-image-box-title{color:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-740c2a9 .elementor-image-box-description{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:20px;color:#D4D7F9;}
+.elementor-35149 .elementor-element.elementor-element-caf053b{--n-tabs-direction:row;--n-tabs-heading-direction:column;--n-tabs-heading-width:342px;--n-tabs-title-flex-basis:content;--n-tabs-title-flex-shrink:initial;padding:0px 0px 0px 0px;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;border-radius:20px 20px 20px 20px;box-shadow:0px 4px 12px 0px rgba(250, 250, 250, 0.09);--n-tabs-heading-justify-content:flex-start;--n-tabs-title-width:initial;--n-tabs-title-height:initial;--n-tabs-title-align-items:flex-start;--n-tabs-heading-wrap:wrap;--n-tabs-title-justify-content:flex-start;--n-tabs-title-text-align:start;--n-tabs-gap:0px;--n-tabs-title-border-radius:8px 8px 8px 8px;--n-tabs-title-padding-top:11px;--n-tabs-title-padding-right:14px;--n-tabs-title-padding-bottom:12px;--n-tabs-title-padding-left:14px;--n-tabs-title-font-size:18px;--n-tabs-title-color:#FFFFFF;--n-tabs-title-direction:row;--n-tabs-icon-order:1;--n-tabs-title-justify-content-toggle:initial;--n-tabs-title-align-items-toggle:center;--n-tabs-icon-size:14px;--n-tabs-icon-gap:10px;--n-tabs-icon-color:#2B262600;--n-tabs-icon-color-active:#FFFFFF;}
+.elementor-35149 .elementor-element.elementor-element-caf053b > .e-n-tabs > .e-n-tabs-heading > .e-n-tab-title[aria-selected='false']:not( :hover ){background:#02010100;}
+.elementor-35149 .elementor-element.elementor-element-caf053b.elementor-widget-n-tabs > .e-n-tabs[data-touch-mode='false'] > .e-n-tabs-heading > .e-n-tab-title[aria-selected="false"]:hover{background:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;}
+.elementor-35149 .elementor-element.elementor-element-caf053b.elementor-widget-n-tabs > .e-n-tabs > .e-n-tabs-heading > .e-n-tab-title[aria-selected="true"], .elementor-35149 .elementor-element.elementor-element-caf053b.elementor-widget-n-tabs > .e-n-tabs[data-touch-mode='true'] > .e-n-tabs-heading > .e-n-tab-title[aria-selected="false"]:hover{background:#29389433;border-style:solid;border-width:1px 1px 1px 1px;border-color:#D4D7F940;}
+.elementor-35149 .elementor-element.elementor-element-caf053b.elementor-widget-n-tabs > .e-n-tabs > .e-n-tabs-heading > :is( .e-n-tab-title > .e-n-tab-title-text, .e-n-tab-title ){font-family:"Plus Jakarta Sans", SF Pro Display;font-weight:400;line-height:27px;}
+@media(min-width:768px){.elementor-35149 .elementor-element.elementor-element-4a084d7{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-5a679bb{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-f8453c6{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-9fd8fb1{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-51c2411{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-e4e2232{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-cd01f01{--width:100%;}
+.elementor-35149 .elementor-element.elementor-element-6f6e3b1{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-dad8d8e{--width:50%;}
+.elementor-35149 .elementor-element.elementor-element-caf053b{--n-tabs-heading-width:250px;--n-tabs-title-font-size:16px;}
+.elementor-35149 .elementor-element.elementor-element-caf053b.elementor-widget-n-tabs > .e-n-tabs > .e-n-tabs-heading > :is( .e-n-tab-title > .e-n-tab-title-text, .e-n-tab-title ){line-height:24px;}
+@media(max-width:767px){.elementor-35149 .elementor-element.elementor-element-8d53a95{--padding-top:0px;--padding-bottom:0px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-eab1602{--padding-top:30px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-5a679bb{--margin-top:-22px;--margin-bottom:0px;--margin-left:0px;--margin-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-67e3f92{--padding-top:20px;--padding-bottom:10px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-34b844b{--padding-top:10px;--padding-bottom:10px;--padding-left:20px;--padding-right:10px;}
+.elementor-35149 .elementor-element.elementor-element-9fd8fb1{--margin-top:-22px;--margin-bottom:0px;--margin-left:0px;--margin-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-142e69d{--padding-top:20px;--padding-bottom:20px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-cd01f01{--padding-top:20px;--padding-bottom:20px;--padding-left:0px;--padding-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-dad8d8e{--margin-top:-22px;--margin-bottom:0px;--margin-left:0px;--margin-right:0px;}
+.elementor-35149 .elementor-element.elementor-element-caf053b{--n-tabs-direction:row;--n-tabs-heading-direction:column;--n-tabs-heading-width:240px;--n-tabs-title-flex-basis:content;--n-tabs-title-flex-shrink:initial;padding:0px 0px 0px 0px;--n-tabs-heading-justify-content:flex-start;--n-tabs-title-width:initial;--n-tabs-title-height:initial;--n-tabs-title-align-items:initial;--n-tabs-heading-wrap:wrap;}

@@ -79,6 +79,7 @@ const {
     set("submission_id", crypto.randomUUID());
     for (const key of [
       "gclid",
+      "gbraid",
       "campaign_id",
       "adgroup_id",
       "creative_id",
@@ -86,8 +87,36 @@ const {
       "matchtype",
       "device",
       "network",
+      "placement",
+      "target",
+      "target_id",
+      "adposition",
+      "loc_interest_ms",
+      "loc_physical_ms",
+      "gad_source",
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
     ]) {
-      if (params.has(key)) set(key, params.get(key) || "");
+      const aliases: Record<string, string[]> = {
+        campaign_id: ["campaign_id", "campaignid", "gad_campaignid"],
+        adgroup_id: ["adgroup_id", "adgroupid"],
+        creative_id: ["creative_id", "creative", "creativeid"],
+        target: ["target", "targetid", "target_id"],
+        target_id: ["target_id", "targetid", "target"],
+        keyword: ["keyword", "kw", "q", "utm_term"],
+      };
+      const keys = aliases[key] || [key];
+      let value = "";
+      for (const alias of keys) {
+        if (params.has(alias)) {
+          value = params.get(alias) || "";
+          break;
+        }
+      }
+      if (value) set(key, value);
     }
   }
 </script>

@@ -10,7 +10,7 @@ Share this with anyone cloning CBSS / Evolution / Iberia / SP Heavy patterns int
 | **Host** | `webdev@178.105.150.67` (`Astro`) · `/opt/Astro-production/` |
 | **Reference implementations** | Leads-heavy: **cbss.ae** · Full CMS APIs: **evolutionmiddleast.com** · Slim marketing + EN/ES: **iberiaworkforce.com** · Mirror CMS: **spheavyrental.ae** |
 
-**Related (detail):** [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [server-side-work](server-side-work.md) · [local-fleet-test](local-fleet-test.md) · [server-ops-only](server-ops-only.md)
+**Related (detail):** [FLEET-PORT-REGISTRY](FLEET-PORT-REGISTRY.md) · [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) · [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [server-side-work](server-side-work.md) · [local-fleet-test](local-fleet-test.md) · [server-ops-only](server-ops-only.md)
 
 ---
 
@@ -246,13 +246,28 @@ New sites with serious phone capture: copy **CBSS** intl-tel + `/api/geo`.
 
 Used to preselect phone country — not as a hard security boundary.
 
-### 6.5 Attribution
+### 6.5 Attribution (required)
 
-`src/lib/attribution/`:
+`src/lib/attribution/` — keep in sync with peers (`connectgroup.co` is the reference):
 
-- Capture: `gclid`, `gbraid`, `wbraid`, `fbclid`, `msclkid`, `utm_*`, campaign/adgroup/creative, keyword, matchtype, device, network, placement, etc.
-- Client (CBSS): URL params + `sessionStorage` landing/referrer
-- Server: merge body + request → store on lead + map to `PIPEDRIVE_FIELD_*`
+| File | Role |
+|------|------|
+| `config.ts` | `ATTRIBUTION_PRIMARY_KEYS` + `ATTRIBUTION_KEY_ALIASES` |
+| `client.ts` | First/last touch → cookies + storage; populate form hidden fields |
+| `server.ts` | `normaliseAttribution` + `mergeAttributionIntoContactForm` |
+
+**Must capture** (URL aliases in parentheses): `gclid`, `gbraid`, `wbraid`, `fbclid`, `msclkid`, `utm_*`, `campaign_id` (`campaignid`, `gad_campaignid`), `adgroup_id` (`adgroupid`), `creative_id` (`creative`), `keyword`, `matchtype`, `device`, `network`, `placement`, `target`/`target_id` (`targetid`), `adposition`, `loc_physical_ms`, `loc_interest_ms`, `gad_source`.
+
+Wire **every** submit path:
+
+1. Astro forms — `captureAttribution` / `populateAttributionFields`
+2. Legacy mirrors — `astro-mirror-fixes.js` `captureTrackingFields` must **ensureHiddenField** for the full map (not only pre-existing inputs)
+3. Custom JS (CBSS `SiteScripts`) — same alias map in the JSON body
+4. `parse-contact-body.ts` — accept Ads-style names; `contact.ts` calls `mergeAttributionIntoContactForm` after validate
+
+Pipedrive: `PIPEDRIVE_FIELD_*` defaults live in `env/server.ts` even when `.env` lines are commented. Store values on the lead payload for FLOW / retries.
+
+Full checklist: [CONNECT-FLOW-SITE-ONBOARDING.md § Attribution](CONNECT-FLOW-SITE-ONBOARDING.md#attribution--google-ads--utm-required).
 
 ### 6.6 Rate limit
 
@@ -367,8 +382,8 @@ Local equivalent: `node scripts/fleet-local.mjs smoke <id>`.
 - [ ] `404.astro` + middleware blocks old dashboards
 - [ ] `GET /api/health`
 - [ ] `POST /api/contact` JSON + honeypot + validate + rate limit
+- [ ] Attribution wired (full Ads/UTM alias set — see onboarding § Attribution; not “if paid traffic expected” only)
 - [ ] Geo endpoint if using intl-tel / flags
-- [ ] Attribution wired if paid traffic expected
 - [ ] File lead store + Pipedrive + retry APIs
 - [ ] `/api/internal/*` bearer-only
 - [ ] `.env.example` complete; no SMTP / HOST / PORT
@@ -423,8 +438,10 @@ Day-by-day history: [15-platform-work-plan](../Astro-production/evolutionmiddlea
 | cbss.ae | `cbss` | 5081 | `site-cbss` |
 | spheavyrental.ae | `spheavyrental` | 5082 | `site-spheavyrental` |
 | iberiaworkforce.com | `iberiaworkforce` | 5083 | `site-iberiaworkforce` |
+| connecthr.ae | `connecthr` | 5084 | `site-connecthr` |
+| connectgroup.co | `connectgroup` | 5085 | `site-connectgroup` |
 
-Next free local/server port for site #5: **5084** (confirm free on host).
+Next free local/server port: **5086** (confirm free on host).
 
 ---
 
@@ -464,4 +481,5 @@ See `packages/site-cms/README.md`.
 |------|--------|
 | 2026-07-31 | v1.0 — Single shareable playbook |
 | 2026-07-31 | v1.1 — `@connect/site-cms` leads + auth |
+| 2026-08-03 | v1.3 — Attribution required fleet-wide (Ads/UTM aliases); link to onboarding § Attribution |
 | 2026-07-31 | v1.2 — Phase B: posts/redirects/GTM/SEO/uploads handlers centralized |

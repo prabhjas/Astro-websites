@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+/** Live WordPress sends /blog/ → /insights/ */
+return Astro.redirect("/insights/", 301);
+---
