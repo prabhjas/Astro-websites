@@ -77,12 +77,55 @@ const label = 'block text-sm font-medium text-ink';
     btn.disabled = true;
     btnLabel.textContent = strings.sending;
     msg.className = 'hidden';
-    // Help routing/attribution in the CRM.
+
+    const params = new URLSearchParams(location.search);
+    const first = (...keys) => {
+      for (const key of keys) {
+        const value = params.get(key);
+        if (value) return value;
+      }
+      return '';
+    };
     data.landed_url = location.href;
+    data.page_url = location.href;
+    data.submission_page_url = location.href;
+    data.landing_page_url = location.href;
+    data.referrer_url = document.referrer || '';
+    data.gclid = first('gclid');
+    data.gbraid = first('gbraid');
+    data.wbraid = first('wbraid');
+    data.fbclid = first('fbclid');
+    data.msclkid = first('msclkid');
+    data.utm_source = first('utm_source');
+    data.utm_medium = first('utm_medium');
+    data.utm_campaign = first('utm_campaign');
+    data.utm_term = first('utm_term');
+    data.utm_content = first('utm_content');
+    data.campaign_id = first('campaign_id', 'campaignid', 'gad_campaignid', 'campaign');
+    data.adgroup_id = first('adgroup_id', 'adgroupid');
+    data.creative_id = first('creative_id', 'creativeid', 'creative');
+    data.keyword = first('keyword', 'kw', 'q', 'utm_term');
+    data.matchtype = first('matchtype');
+    data.device = first('device');
+    data.network = first('network');
+    data.placement = first('placement', 'displayad');
+    data.target = first('target', 'targetid', 'target_id');
+    data.target_id = first('target_id', 'targetid', 'target');
+    data.adposition = first('adposition', 'ad_position');
+    data.loc_physical_ms = first('loc_physical_ms', 'locphysicalms');
+    data.loc_interest_ms = first('loc_interest_ms', 'locinterestms');
+    data.gad_source = first('gad_source', 'gadsource');
+    data.source = first('source', 'gad_source', 'gadsource');
+    data.form_name = data.form_name || 'Iberia Workforce Contact Form';
+    data.submission_id =
+      (typeof crypto !== 'undefined' && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
+    data.submitted_at = new Date().toISOString();
 
     try {
-      // Live Caddy currently proxies /api/lead only (full reverse-proxy pending Tier 1).
-      const res = await fetch('/api/lead/', {
+      // Prefer fleet /api/contact; keep /api/lead as back-compat alias.
+      const res = await fetch('/api/contact/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

@@ -52,8 +52,10 @@ export { GET } from '@connect/site-cms/astro/posts/index';
 
 ## Features for site #5+
 
+Follow the full playbook: [`docs/CONNECT-FLOW-SITE-ONBOARDING.md`](../../docs/CONNECT-FLOW-SITE-ONBOARDING.md).
+
 1. Add `Astro-production/<domain>/`
 2. Depend on `@connect/site-cms`: `workspace:*`
 3. `src/cms.ts` bind + middleware `import './cms'`
-4. Copy thin mounts from Evolution (full) or Iberia (leads-only)
-5. Implement posts adapter only if the site needs blog CMS
+4. Copy thin mounts from SP / connectgroup (full) or Iberia (leads-only)
+5. Implement posts adapter only if the site needs blog CMS in FLOW

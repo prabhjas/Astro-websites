@@ -1,8 +1,10 @@
 # /etc/caddy/sites.d/evolutionmiddleast.com.caddy
-# Prefer: import /etc/caddy/sites.d/*.caddy  (fleet standard)
+# Behind Cloudflare: do NOT use bare hostnames (auto-HTTPS 301 :80→:443 loops with
+# Flexible SSL). Explicit http:// + https:// + tls internal matches live Evolution/CBSS.
 # Validate before reload: caddy validate --config /etc/caddy/Caddyfile
 
-evolutionmiddleast.com, www.evolutionmiddleast.com {
+http://evolutionmiddleast.com, http://www.evolutionmiddleast.com, https://evolutionmiddleast.com, https://www.evolutionmiddleast.com {
+	tls internal
 	encode gzip zstd
 	reverse_proxy 127.0.0.1:5080
 	header {

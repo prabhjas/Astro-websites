@@ -8,7 +8,8 @@ Type=simple
 User=site-spheavyrental
 Group=site-spheavyrental
 WorkingDirectory=/opt/Astro-production/spheavyrental.ae
-EnvironmentFile=-/opt/Astro-production/spheavyrental.ae/.env.prod
+# REQUIRED — no leading "-". Missing .env.prod must fail the unit (do not boot without secrets).
+EnvironmentFile=/opt/Astro-production/spheavyrental.ae/.env.prod
 Environment=NODE_ENV=production
 # HOST/PORT in unit only — not in .env.prod
 ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5082 /usr/bin/node ./dist/server/entry.mjs
