@@ -1,0 +1,107 @@
+/**
+ * KinzaHR form layout — full-width fields + aligned First/Last name row.
+ * Live WP uses CSS columns on .kzf1 (staggers names) and bare inputs (~313px).
+ * Blog sidebar (.blog-form) already grids .kzf1 with margin-bottom:-15px; keep
+ * CF7 <p> top margin (~18px) so Email does not slide under the name inputs.
+ */
+.kzform .kzf1 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  columns: auto !important;
+  column-count: auto !important;
+  width: 100%;
+}
+
+.kzform .kzf1 > div {
+  break-inside: avoid;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Match live: labels stay inline (CF7 uses label + <br> + input) */
+.kzform label {
+  margin-bottom: 5px;
+}
+
+/* Match live CF7 paragraph rhythm (18px vertical). */
+.kzform p {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.kzform .kzf1 p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.kzform > .kzf1 + div > p:first-child,
+.kzform > .kzf1 + p {
+  margin-top: 18px;
+}
+
+.kzform input[type='text'],
+.kzform input[type='email'],
+.kzform input[type='tel'],
+.kzform input[type='url'],
+.kzform input.wpcf7-form-control:not([type='submit']):not([type='checkbox']):not([type='hidden']),
+.kzform textarea,
+.kzform .wpcf7-form-control-wrap,
+.kzform .intl-tel-input,
+.kzform .iti {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.kzform .intl-tel-input input,
+.kzform .iti input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.kzform textarea {
+  display: block;
+  min-height: 95px;
+}
+
+.kzform .sbt-btn,
+.kzform .sbt-btn p {
+  margin-top: 18px;
+  margin-bottom: 0;
+}
+
+.kzform .sbt-btn .wpcf7-submit,
+.kzform input[type='submit'] {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 767px) {
+  .kzform .kzf1 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .kzform .kzf1 > div {
+    margin-bottom: 14px;
+  }
+}
+
+/*
+ * Sticky sidebar forms and the sticky header both default to Elementor z-index 99.
+ * DOM order then paints the form over the menu on scroll. Keep the header above,
+ * and clear the ~81px header so First/Last name never sit inside the nav bar.
+ */
+.elementor-location-header .elementor-sticky--active,
+.elementor-element-6f7aa16.elementor-sticky--active,
+.elementor-element-e1ad642.elementor-sticky--active {
+  z-index: 1000 !important;
+}
+
+.blog-form.elementor-sticky--active,
+.elementor-element-0933e6e.elementor-sticky--active,
+.elementor-element-16a1fb7.elementor-sticky--active,
+.elementor-element-d0c0271.elementor-sticky--active {
+  z-index: 10 !important;
+}
