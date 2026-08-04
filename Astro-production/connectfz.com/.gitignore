@@ -23,7 +23,3 @@ _crawl/
 _ref/
 astro-tmp/
 .data/
-
-
-# GitHub rejects files >100MB
-public/wp-content/uploads/**/*.mp4
