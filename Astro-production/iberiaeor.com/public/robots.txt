@@ -1,0 +1,9 @@
+# Iberia EOR — Astro
+
+User-agent: *
+Allow: /
+Allow: /licence/
+Disallow: /api/
+Disallow: /search/
+
+Sitemap: https://iberiaeor.com/sitemap_index.xml

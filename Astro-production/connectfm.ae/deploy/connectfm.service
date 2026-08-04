@@ -1,0 +1,26 @@
+[Unit]
+Description=connectfm.ae Astro SSR server (Caddy reverse-proxies to this)
+After=network.target
+
+[Service]
+Type=simple
+User=site-connectfm
+Group=site-connectfm
+WorkingDirectory=/opt/Astro-production/connectfm.ae
+EnvironmentFile=/opt/Astro-production/connectfm.ae/.env.prod
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5087 /usr/bin/node ./dist/server/entry.mjs
+Restart=always
+RestartSec=5
+
+MemoryMax=256M
+MemoryHigh=200M
+CPUQuota=50%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/Astro-production/connectfm.ae/.data
+
+[Install]
+WantedBy=multi-user.target

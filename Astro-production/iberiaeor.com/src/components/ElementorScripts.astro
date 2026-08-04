@@ -1,0 +1,126 @@
+---
+/**
+ * Load Elementor + Hello frontend scripts in live site order (subset needed for layout/nav).
+ */
+---
+
+<script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
+<script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<!-- intlTelInput must load before Elementor webpack AMD, or it never attaches to jQuery.fn -->
+<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
+<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/utils.js"></script>
+<script is:inline src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
+<script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
+<script is:inline>
+  window.elementorFrontendConfig = window.elementorFrontendConfig || {
+    environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+    i18n: { shareOnFacebook: "Share on Facebook", shareOnTwitter: "Share on Twitter", pinIt: "Pin it", download: "Download", downloadImage: "Download image", fullscreen: "Fullscreen", zoom: "Zoom", share: "Share", playVideo: "Play Video", previous: "Previous", next: "Next", close: "Close" },
+    is_rtl: false,
+    breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+    responsive: {
+      breakpoints: {
+        mobile: { label: "Mobile Portrait", value: 767, default_value: 767, direction: "max", is_enabled: true },
+        mobile_extra: { label: "Mobile Landscape", value: 880, default_value: 880, direction: "max", is_enabled: false },
+        tablet: { label: "Tablet Portrait", value: 1024, default_value: 1024, direction: "max", is_enabled: true },
+        tablet_extra: { label: "Tablet Landscape", value: 1200, default_value: 1200, direction: "max", is_enabled: false },
+        laptop: { label: "Laptop", value: 1366, default_value: 1366, direction: "max", is_enabled: false },
+        widescreen: { label: "Widescreen", value: 2400, default_value: 2400, direction: "min", is_enabled: false },
+      },
+    },
+    version: "3.31.2",
+    is_static: false,
+    experimentalFeatures: {},
+    urls: { assets: "/wp-content/plugins/elementor/assets/" },
+    settings: { page: [], editorPreferences: [] },
+    kit: {},
+    post: { id: 0, title: "", excerpt: "", featuredImage: false },
+    elements: { data: {}, nestedElements: {}, hasPopUps: false },
+  };
+</script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline>
+  window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
+    ajaxurl: "/api/contact",
+    nonce: "astro",
+    urls: { assets: "/wp-content/plugins/elementor-pro/assets/", rest: "/" },
+    settings: {},
+    popup: { hasPopUps: false },
+  };
+</script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"></script>
+<script is:inline src="/scripts/sp-carousels.js"></script>
+<script is:inline src="/wp-content/themes/datatech/assets/js/owl.carousel.min.js"></script>
+<script is:inline src="/scripts/eor-owl-blog.js"></script>
+<script is:inline src="/scripts/eor-mobile-nav.js"></script>
+<script is:inline src="/scripts/elementor-counters.js"></script>
+<script is:inline src="/scripts/phone-flags.js"></script>
+<script is:inline src="/scripts/blog-load-more.js"></script>
+<script>
+  import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
+
+  function applyAttribution(form: HTMLFormElement) {
+    const formId = form.id || form.getAttribute('name') || 'eor-cf7';
+    const named = form.querySelector('[name="form_name"]') as HTMLInputElement | null;
+    const formName =
+      named?.value || form.getAttribute('aria-label') || 'Iberia EOR Contact Form';
+    const captured = captureAttribution(formId, formName);
+    populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+  }
+
+  (window as Window & { __eorApplyAttribution?: (form: HTMLFormElement) => void }).__eorApplyAttribution =
+    applyAttribution;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .querySelectorAll<HTMLFormElement>(
+        'form.wpcf7-form, form[data-sp-contact-form], form.cg-contact-form',
+      )
+      .forEach((form) => applyAttribution(form));
+  });
+</script>
+<script is:inline src="/scripts/cf7-bridge.js"></script>
+<script is:inline src="/scripts/jquery.simplePagination.min.js"></script>
+<script is:inline src="/scripts/insights-topic-filter.js"></script>
+<script is:inline src="/scripts/accordion.js"></script>
+<script is:inline>
+  // Prevent Elementor lazy-bg CSS from wiping section backgrounds without its runtime
+  document.querySelectorAll(".e-con, .elementor-section").forEach((el) => {
+    el.classList.add("e-lazyloaded", "e-no-lazyload");
+  });
+
+  // Inject motion-effects layer hosts so Elementor CSS backgrounds can paint
+  document
+    .querySelectorAll(".elementor-motion-effects-element-type-background")
+    .forEach((el) => {
+      if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
+      const wrap = document.createElement("div");
+      wrap.className = "elementor-motion-effects-container";
+      const layer = document.createElement("div");
+      layer.className = "elementor-motion-effects-layer";
+      wrap.appendChild(layer);
+      el.insertBefore(wrap, el.firstChild);
+    });
+
+  document.querySelectorAll(".elementor-element-populated").forEach((el) => {
+    const parent = el.parentElement;
+    if (!parent || !parent.classList.contains("elementor-column")) return;
+    // column background via widget-wrap motion layer
+    const styleSheet = [...document.styleSheets];
+    // ensure container exists for column wrap backgrounds
+    if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
+    // Only inject if Elementor CSS targets this wrap's motion layer — heuristic: has background settings class on column
+    if (!/background/i.test(parent.getAttribute("data-settings") || "")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "elementor-motion-effects-container";
+    const layer = document.createElement("div");
+    layer.className = "elementor-motion-effects-layer";
+    wrap.appendChild(layer);
+    el.insertBefore(wrap, el.firstChild);
+  });
+</script>
