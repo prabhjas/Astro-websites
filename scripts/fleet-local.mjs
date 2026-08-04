@@ -161,7 +161,10 @@ function ensureEnv(site) {
   const canonicalHost =
     site.canonicalHost ||
     (site.domain === 'evolutionmiddleast.com' ? 'www.evolutionmiddleast.com' : site.domain);
+  const localUrl = `http://127.0.0.1:${site.port}`;
   set('PUBLIC_SITE_URL', `https://${canonicalHost}`, { overwrite: true });
+  // Convenience for local testing — not used for Astro SEO/canonical bake-in.
+  set('FLEET_LOCAL_URL', localUrl, { overwrite: true });
   set('INTERNAL_JOB_SECRET', 'local-fleet-test-secret', { overwrite: true });
   set('LEAD_STORE_DIR', '.data/leads', { overwrite: true });
   set('LOG_LEVEL', 'info');
@@ -175,22 +178,34 @@ function ensureEnv(site) {
 
   const out = [];
   const written = new Set();
+  let injectedLocalHint = false;
   for (const item of order) {
     if (item.type === 'raw') {
+      // Drop stale local-hint comments so we don't stack duplicates on every env run.
+      if (/^#\s*Local test URL \(fleet-local\)/.test(item.line)) continue;
       out.push(item.line);
       continue;
     }
     if (written.has(item.key)) continue;
     written.add(item.key);
+    if (item.key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
     out.push(`${item.key}=${map.get(item.key)}`);
   }
   for (const [key, value] of map) {
-    if (!written.has(key)) out.push(`${key}=${value}`);
+    if (written.has(key)) continue;
+    if (key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
+    out.push(`${key}=${value}`);
   }
 
   writeFileSync(envPath, `${out.join('\n').replace(/\n+$/, '')}\n`);
   mkdirSync(join(dir, '.data', 'leads'), { recursive: true });
-  console.log(`  env ready: ${site.dir}/.env → :${site.port}`);
+  console.log(`  env ready: ${site.dir}/.env → canonical https://${canonicalHost} · local ${localUrl}`);
 }
 
 /** Windows: Node execFileSync does not resolve .cmd shims without the extension. */
