@@ -1,1 +1,0 @@
-Quarantined 2026-08-03: HTML page dumps (WP Rocket / eormiddleast.com) that were saved with image or CSS extensions after failed media fetches. Not deployed from public/. Safe to delete after confirming media re-fetch if needed.

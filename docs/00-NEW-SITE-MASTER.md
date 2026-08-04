@@ -6,7 +6,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Ten sites scaffolded; rest are reserved placeholders. |
+| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Eleven sites scaffolded; rest are reserved placeholders. |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` |
 

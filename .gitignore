@@ -55,6 +55,12 @@ dist.prev-*/
 local/pids/
 local/logs/
 
+# Scratch WP crawl / parity dumps (use per-site `_crawl/` which sites already gitignore)
+_crawl/
+
+# Quarantined bad media dumps (HTML masquerading as images/CSS) — never deploy
+Astro-production/**/_quarantine-html-masquerade/
+
 # Per-site runtime data / env (never commit)
 Astro-production/**/.data/
 Astro-production/**/.env

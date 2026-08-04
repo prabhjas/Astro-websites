@@ -27,6 +27,9 @@ const ORIGIN_ALIASES = [
   'https://www.kinzahr.com',
   'http://kinzahr.com',
   'http://www.kinzahr.com',
+  // Staging host still referenced by some Elementor @font-face rules
+  'https://dev.kinzahr.com',
+  'http://dev.kinzahr.com',
 ];
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
@@ -75,7 +78,7 @@ function toLocalPath(url) {
 
 function unescapeElementorUrls(text) {
   return text.replace(
-    /https?:\\\/\\\/(?:www\.)?kinzahr\.com/gi,
+    /https?:\\\/\\\/(?:www\.)?(?:dev\.)?kinzahr\.com/gi,
     'https://kinzahr.com',
   );
 }
@@ -92,8 +95,8 @@ function collectUrls(text) {
     .replace(/\\\//g, '/');
 
   const patterns = [
-    /https?:\/\/(?:www\.)?kinzahr\.com\/[^"'<>\\]+/gi,
-    /url\(\s*['"]?(https?:\/\/(?:www\.)?kinzahr\.com[^'")]+)['"]?\s*\)/gi,
+    /https?:\/\/(?:www\.)?(?:dev\.)?kinzahr\.com\/[^"'<>\\]+/gi,
+    /url\(\s*['"]?(https?:\/\/(?:www\.)?(?:dev\.)?kinzahr\.com[^'")]+)['"]?\s*\)/gi,
     // Root-relative uploads (video/svg/json/images) from Elementor data-settings.
     // Stop at whitespace/comma so srcset "img.jpg 300w, img-300x191.jpg 300w" yields each URL.
     /(?:^|["'\s(:,])(\/wp-content\/(?:uploads|plugins|themes)\/[^"'<>?\s,]+\.(?:mp4|webm|mov|svg|json|png|jpe?g|webp|gif|woff2?|css|js))/gi,
@@ -236,14 +239,14 @@ function cleanHtml(html) {
 }
 
 function rewriteOriginUrls(text) {
-  let out = text.replace(/https?:\\\/\\\/(?:www\.)?kinzahr\.com/gi, '');
+  let out = text.replace(/https?:\\\/\\\/(?:www\.)?(?:dev\.)?kinzahr\.com/gi, '');
   // Absolute origins FIRST. A bare //domain pass before this turns
   // https://kinzahr.com/x into https:/x (broken — CSS/JS never load).
-  out = out.replace(/https?:\/\/(?:www\.)?kinzahr\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
+  out = out.replace(/https?:\/\/(?:www\.)?(?:dev\.)?kinzahr\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );
   // Protocol-relative only (not the // inside https://)
-  out = out.replace(/(?<!:)\/\/(?:www\.)?kinzahr\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
+  out = out.replace(/(?<!:)\/\/(?:www\.)?(?:dev\.)?kinzahr\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );
   // Repair already-broken rewrites from older prepares

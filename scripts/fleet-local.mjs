@@ -169,13 +169,19 @@ function ensureEnv(site) {
   set('LEAD_STORE_DIR', '.data/leads', { overwrite: true });
   set('LOG_LEVEL', 'info');
 
-  // Required by Evolution / SP Heavy getServerEnv() — placeholders for local only.
-  set('PIPEDRIVE_API_TOKEN', 'local-dev-placeholder');
+  // Required by getServerEnv() when missing — do NOT overwrite real secrets.
+  // Prefer empty over baking a fake token into the Astro server bundle.
+  set('PIPEDRIVE_API_TOKEN', '');
   set('PIPEDRIVE_COMPANY_DOMAIN', 'connectgroup2');
-  set('PIPEDRIVE_OWNER_ID', '1');
+  set('PIPEDRIVE_OWNER_ID', '');
   set('PIPEDRIVE_LEAD_SOURCE_ID', '270');
-  set('WEBSITE_ID', '1');
+  set('WEBSITE_ID', '');
 
+  // If a previous run left the local placeholder, clear it so .env can be fixed
+  // without a manual edit, and so rebuilds don't keep baking a dead token.
+  if (String(map.get('PIPEDRIVE_API_TOKEN') || '').trim() === 'local-dev-placeholder') {
+    map.set('PIPEDRIVE_API_TOKEN', '');
+  }
   const out = [];
   const written = new Set();
   let injectedLocalHint = false;
