@@ -326,4 +326,39 @@ div.wpcf7-response-output.sp-status-visible,
   padding: 12px 24px !important;
 }
 
+/* Testimonial carousel dots — center like live */
+.elementor-widget-testimonial-carousel .swiper-pagination,
+.elementor-testimonial-carousel .swiper-pagination,
+.elementor-element-3481353 .swiper-pagination {
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 4px;
+}
+
+/*
+  Multistep (.form-main) must not inherit global CF7 chrome from live-inline.css
+  (Bebas Neue labels, yellow submit, full-width stacking).
+*/
+.form-main .wpcf7-form label,
+.form-main label {
+  font-family: Manrope, sans-serif !important;
+}
+.form-main .wpcf7-submit,
+.form-main input[type="submit"] {
+  font-family: Manrope, sans-serif !important;
+  background: #3d1457 !important;
+  color: #fff !important;
+  width: auto !important;
+}
+.form-main .info-data .wpcf7-form-control-wrap input {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
 
