@@ -17,7 +17,7 @@ Production Astro migration of [https://connectresources.ae/](https://connectreso
 | | |
 |--|--|
 | Package | `connectresources-astro` |
-| Port | **5084** |
+| Port | **5086** |
 | Unit | `connectresources` |
 | Peer scaffold | `spheavyrental.ae` |
 
