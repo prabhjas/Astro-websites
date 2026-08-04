@@ -79,15 +79,25 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 
 ---
 
-## Production sites
+## Production / fleet sites
 
-| Domain | Local / unit port | Unit name | CMS features | Blog content (on disk) |
-|--------|-------------------|-----------|--------------|-------------------------|
-| evolutionmiddleast.com | **5080** | `evolutionmiddleast` | Full | `src/content/blog/*.json` |
-| cbss.ae | **5081** | `cbss` | Leads only | — |
-| spheavyrental.ae | **5082** | `spheavyrental` | Full | `src/data/posts.json` (+ categories/tags/…) |
-| iberiaworkforce.com | **5083** | `iberiaworkforce` | Leads only | — |
-| connectresources.ae | **5084** | `connectresources` | Full | `src/data/posts.json` (+ pages/guides/press) |
+**Canonical port + status list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
+**44 domains** · ports **5080–5123** · next free **5124** · **10 scaffolded** / **34 placeholders**
+
+| Domain | Port | Unit | Status | CMS shape |
+|--------|------|------|--------|-----------|
+| evolutionmiddleast.com | **5080** | `evolutionmiddleast` | scaffolded | Full |
+| cbss.ae | **5081** | `cbss` | scaffolded | Leads only |
+| spheavyrental.ae | **5082** | `spheavyrental` | scaffolded | Full |
+| iberiaworkforce.com | **5083** | `iberiaworkforce` | scaffolded | Leads only |
+| connecthr.ae | **5084** | `connecthr` | scaffolded | Full |
+| connectgroup.co | **5085** | `connectgroup` | scaffolded | Full |
+| connectresources.ae | **5086** | `connectresources` | scaffolded | Full |
+| eormiddleast.com | **5090** | `eormiddleast` | scaffolded | Full |
+| connectstaff.ae | **5091** | `connectstaff` | scaffolded | Full |
+| c-uae.com | **5092** | `cuae` | scaffolded | Full |
+
+All other reserved domains (placeholders) are listed in the port registry.
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 
