@@ -21,11 +21,11 @@ export function defaultRobotsContent(siteOrigin: string): string {
 
 export function defaultLlmContent(): string {
   return [
-    '# Connect Group LLM guidance',
+    '# Connect UAE LLM guidance',
     '# Edit this file from the internal SEO dashboard.',
     '# Describe the site, preferred citations, and any crawl constraints for AI systems.',
     '',
-    'Site: https://connectgroup.co',
+    'Site: https://c-uae.com',
     '',
   ].join('\n');
 }
