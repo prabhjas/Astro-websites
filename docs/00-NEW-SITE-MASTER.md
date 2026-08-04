@@ -6,14 +6,17 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Eleven sites scaffolded; rest are reserved placeholders. |
+| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
-| **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` |
+| **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
+| **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs |
+| **Owner Caddy (last)** | **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** — root/systemd/Caddy only; not a developer local step |
 
 ```text
- 01 Scan  →  02 Convert  →  03 Fleet+CMS  →  04 Forms  →  05 Redirects/SEO
-      →  06 Local test  →  07 Security gates  →  08 Deploy templates
-      →  09 Server cutover  →  10 Final checks  →  YOU DEPLOY
+ 01 Scan  →  02 Convert  →  03 Fleet+CMS  →  04 Forms  →  05 Redirects/SEO/slash
+      →  06 Local test  →  07 Security gates  →  08 Deploy templates (git only)
+      →  09 App sync (webdev)  →  10 Verify checklist
+      →  OWNER: Caddy + root units (separate doc)  →  public smoke
 ```
 
 ---
@@ -37,12 +40,13 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | **[02](#phase-02--convert--place-the-site)** Convert / place | Building pages into the fleet folder | [CURSOR-CONVERT-STATIC-TO-ASTRO](CURSOR-CONVERT-STATIC-TO-ASTRO.md) | Site under `Astro-production/<domain>/` |
 | **[03](#phase-03--fleet-register--cms--flow)** Fleet + CMS + FLOW | Wiring Node, `@connect/site-cms`, APIs | [CONNECT-FLOW-SITE-ONBOARDING](CONNECT-FLOW-SITE-ONBOARDING.md) | Port registered, thin mounts, `cms.ts` bound |
 | **[04](#phase-04--forms-attribution--pipedrive)** Forms / attribution | Contact + Pipedrive + Ads/UTM | [CONNECT-ASTRO-NEW-SITE-PLAYBOOK](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) (§ forms) + FLOW onboarding § Attribution | All forms post to `/api/contact` with attribution |
-| **[05](#phase-05--redirects--seo-interim)** Redirects / SEO | Until FLOW UI owns them | [CURSOR-IMPORT-REDIRECTS](CURSOR-IMPORT-REDIRECTS.md) | Imports + robots/sitemap paths work |
+| **[05](#phase-05--redirects--seo-interim)** Redirects / SEO / slash | Until FLOW UI owns them | [CURSOR-IMPORT-REDIRECTS](CURSOR-IMPORT-REDIRECTS.md) · [10-GO-LIVE-VERIFY](10-GO-LIVE-VERIFY-CHECKLIST.md) §1–2 | Imports + robots/sitemap + trailing slash |
 | **[06](#phase-06--local-run--test)** Local run + test | Daily until green | [CURSOR-RUN-FLEET](CURSOR-RUN-FLEET.md) · [local-fleet-test](local-fleet-test.md) | `fleet-local` up + smoke green |
 | **[07](#phase-07--security--harden-gates)** Security / harden | Before calling the site “done” | FLOW onboarding § Harden gates | G-gates + env/secret rules pass |
-| **[08](#phase-08--deploy-templates-caddy--systemd)** Deploy templates | Before asking ops/server | [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) · peer `deploy/` | `deploy/*.service` + `*.caddy` + `ROOT_SETUP.md` |
-| **[09](#phase-09--server-cutover)** Server cutover | Production only | [server-side-work](server-side-work.md) · [server-ops-only](server-ops-only.md) · peer `docs/13-go-live-server-handoff.md` | Unit + Caddy + CF Full + public smoke |
-| **[10](#phase-10--final-high-level-checks-before-you-deploy)** Final checks | Last step before deploy sign-off | This file § Final | Checklist below all green |
+| **[08](#phase-08--deploy-templates-caddy--systemd)** Deploy templates (git) | Before asking owner/server | [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) · peer `deploy/` | `deploy/*` + git Caddy block noted — **do not** reload live Caddy yourself |
+| **[09](#phase-09--server-cutover)** App sync (webdev) | Production host | [server-side-work](server-side-work.md) · peer handoff | Code + `.env.prod` on host; loopback health OK |
+| **[10](#phase-10--final-high-level-checks-before-you-deploy)** Final checks | Before owner Caddy | **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs green |
+| **Owner** | Last — live edge | **[OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)** · [OPS-OWNER-DYNAMIC-GTM-GA4](OPS-OWNER-DYNAMIC-GTM-GA4.md) | Root units + `/etc/caddy` + public smoke |
 
 **Supporting (not a phase):** [CLAUDE-CONNECTGROUP-HANDOFF](CLAUDE-CONNECTGROUP-HANDOFF.md) (GitHub/context) · [`caddy/`](../caddy/README.md) (Caddy archive) · [`packages/site-cms`](../packages/site-cms/README.md) · per-site `CONNECT-ASTRO-FLEET-STANDARD.md`
 
@@ -129,6 +133,23 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Sample old URLs 301 to new targets locally
 - [ ] `/robots.txt`, sitemap(s), `/llms.txt` (+ `/llm.txt` alias) return 200 from Node
 - [ ] `PUBLIC_SITE_URL` in local `.env` = **`https://<canonical-host>`** (never `127.0.0.1` — Astro inlines `PUBLIC_*` at build time)
+- [ ] Absolute `<link rel="canonical">` on pages (not relative; matches live host)
+- [ ] **Trailing slash:** bare paths redirect to `…/` (see below)
+
+### Trailing slash (fleet standard)
+
+Bare extensionless URLs must not stay at 200 without a slash.
+
+| Approach | When to use |
+|----------|-------------|
+| `trailingSlash: "always"` in `astro.config.mjs` | Preferred for CMS/prerender peers (`spheavy`, `c-uae`, `connectgroup`, `eor`, …) |
+| Middleware 301/308 for extensionless paths | Required when static file serving bypasses Astro redirects (`kinzahr`, `evolution`, `connectstaff` pattern) |
+
+```bash
+curl -sSI "http://127.0.0.1:<PORT>/about-us" | head -12   # expect 301 Location: /about-us/
+```
+
+Full checks: [10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md) §1.
 
 ### Dynamic `/llms.txt` (fleet standard)
 
@@ -194,7 +215,7 @@ node scripts/fleet-local.mjs smoke <site-id>
 
 ---
 
-## Phase 08 — Deploy templates (Caddy + systemd)
+## Phase 08 — Deploy templates in git (not live Caddy)
 
 **When:** App is green locally; prepare server artifacts in git.  
 **Detail:** [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) · copy `deploy/` from peer
@@ -204,120 +225,65 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production`
 - [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`
-- [ ] Sync site block into `caddy/Caddyfile.production` (git) when cutover is planned
+- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned
+- [ ] GTM: re-export `resolveEffectiveGtmConfig` from `src/lib/gtm/store.ts`; `.env.example` has `PUBLIC_GTM_ID` / `PUBLIC_GA4_ID`
 
-**Caddy / HSTS / apex↔www are server-only** — do not require them for local sign-off.
+**Do not** edit `/etc/caddy/Caddyfile` or reload Caddy as a developer step. That is **owner-only** — [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md).
 
 **Next → Phase 09**
 
 ---
 
-## Phase 09 — Server cutover
+## Phase 09 — Server app sync (webdev)
 
-**When:** You (or ops) deploy to `178.105.150.67`.  
-**Detail:** [server-side-work.md](server-side-work.md) · [server-ops-only.md](server-ops-only.md) · peer `docs/13-go-live-server-handoff.md` · [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md)
+**When:** Code is ready on `178.105.150.67` under `/opt/Astro-production/<domain>/`.  
+**Detail:** [server-side-work.md](server-side-work.md) · peer `docs/13-go-live-server-handoff.md`
 
-- [ ] Code under `/opt/Astro-production/<domain>/`
-- [ ] `site-<unit>` user; `.data/` writable; `.env.prod` 0640; build `.env` with **https** canonical URL
-- [ ] `systemctl enable --now <unit>` — `curl http://127.0.0.1:<PORT>/api/health/` OK
-- [ ] Update live `/etc/caddy/Caddyfile` (site block + one-hop HTTP list) to match `caddy/Caddyfile.production`
-- [ ] `sudo -u caddy caddy validate --config /etc/caddy/Caddyfile` then `systemctl reload caddy`
-- [ ] Cloudflare: DNS proxied, SSL **Full** (not Flexible; not Full strict with `tls internal` alone)
-- [ ] WAF allows robots/sitemap/llms paths (see peer go-live handoff)
-- [ ] Register domain + `INTERNAL_JOB_SECRET` in FLOW
-- [ ] Public smoke: homepage, form POST, `/api/health/`, redirects, SEO files
+- [ ] Portable deploy (dist + real `node_modules`, not laptop symlink tree)
+- [ ] `.env` (PUBLIC / build) + `.env.prod` (secrets) on host — never print tokens in chat
+- [ ] Loopback smoke: `curl http://127.0.0.1:<PORT>/api/health/` → 200
+- [ ] Interim `nohup` OK only until owner installs systemd
+- [ ] Run **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** on loopback
 
-**Next → Phase 10**
+**Stop here for Caddy / `useradd` / `site-ctl` ALLOWED / `systemctl enable`.** Hand off to owner:
+
+→ **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)**
+
+**Next → Phase 10** (verify) then owner Caddy
 
 ---
 
-## Phase 10 — Final high-level checks (before you deploy)
+## Phase 10 — Final high-level checks
 
-Run this once the site is “feature complete” locally (and again after server cutover).  
-Replace `<PORT>`, `<id>`, `<domain>`, `<canonical>`.
+Use the dedicated checklist (kept in sync with today’s fleet standards):
 
-### A. Repo / build
+### → **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)**
 
-```bash
-cd /path/to/Astro-websites
-pnpm install
-# Build the site (peer script name — usually from site dir)
-pnpm --filter <package-name> build   # or: cd Astro-production/<domain> && pnpm build
-node scripts/fleet-local.mjs up <id>
-node scripts/fleet-local.mjs smoke <id>
-```
+Minimum before asking owner for Caddy:
 
-- [ ] Build succeeds
-- [ ] Fleet smoke green
-- [ ] `PUBLIC_SITE_URL` is `https://<canonical>` (not `127.0.0.1`) before any server sync
-- [ ] Built `dist/server/entry.mjs` has no `127.0.0.1` / `localhost` host baked in
-- [ ] No unexpected secrets in `git status`
+- [ ] Trailing slash redirects (bare → `/`)
+- [ ] Absolute canonicals + robots/sitemap/llms 200
+- [ ] `/runtime-gtm.js` works (`resolveEffectiveGtmConfig` / recreateScript loader)
+- [ ] Contact + gclid/UTM + Pipedrive path
+- [ ] Internal APIs deny without bearer
+- [ ] Deploy artifacts in git; no quarantine/bak/`_crawl` junk
 
-### B. Forms & attribution
-
-```bash
-# Health
-curl -sS "http://127.0.0.1:<PORT>/api/health/"
-
-# Contact (adjust JSON to peer schema)
-curl -sS -X POST "http://127.0.0.1:<PORT>/api/contact" \
-  -H 'content-type: application/json' \
-  -d '{"name":"Test User","email":"test@example.com","phone":"+971500000000","message":"fleet check","gclid":"test-gclid","campaignId":"1","device":"m"}'
-```
-
-- [ ] Invalid body rejected
-- [ ] Valid body accepted; lead file under `.data/`
-- [ ] Attribution fields present on stored lead when sent
-
-### C. FLOW / internal (if featured)
-
-```bash
-SECRET='<INTERNAL_JOB_SECRET>'
-curl -sS -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $SECRET" \
-  "http://127.0.0.1:<PORT>/api/internal/leads"
-# Full CMS also: /api/internal/posts , redirects , gtm as peer
-curl -sS -o /dev/null -w '%{http_code}\n' \
-  "http://127.0.0.1:<PORT>/api/internal/leads"   # expect 401 without bearer
-```
-
-- [ ] Bearer OK → 200
-- [ ] No bearer → 401
-
-### D. Deploy artifacts present in git
-
-- [ ] `Astro-production/<domain>/deploy/<unit>.service`
-- [ ] `Astro-production/<domain>/deploy/<domain>.caddy`
-- [ ] `Astro-production/<domain>/deploy/ROOT_SETUP.md`
-- [ ] `scripts/fleet-sites.json` entry
-- [ ] `caddy/Caddyfile.production` updated when going live (or ticket for ops)
-
-### E. Production-only (after cutover)
-
-```bash
-curl -sI "https://<canonical>/" | head
-curl -sI "https://www.<domain>/" | head    # should land on canonical
-curl -sS "https://<canonical>/api/health/"
-curl -sI "https://<canonical>/robots.txt"
-```
-
-- [ ] Canonical host matches `PUBLIC_SITE_URL`
-- [ ] Cloudflare SSL Full; no redirect loop
-- [ ] Form works on live hostname
-- [ ] FLOW can reach internal APIs with bearer
+After owner Caddy + Cloudflare Full, re-run the same checklist on **public HTTPS**.
 
 ---
 
 ## Definition of done (sign-off)
 
-Site is ready for **you to deploy** when:
+Site is ready for **owner Caddy / public DNS** when:
 
 1. Phases **01–08** checkboxes complete  
-2. Phase **10 A–D** green locally  
-3. Phase **09 + 10 E** green on server (or scheduled with ops using Caddy doc)  
-4. No open malware / secret / harden-gate failures  
+2. Phase **09** loopback health green  
+3. **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** green on loopback  
+4. Owner runs **[OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)** + public verify + [OPS-OWNER-DYNAMIC-GTM-GA4](OPS-OWNER-DYNAMIC-GTM-GA4.md)  
+5. No open malware / secret / harden-gate failures  
 
 **Paste for Cursor after sign-off:**  
-*Phase 01–10 complete for \<domain\>. Run final high-level checks from docs/00-NEW-SITE-MASTER.md and prepare server cutover per CONNECT-CADDY-DEPLOYMENT.md.*
+*Phase 01–10 complete for \<domain\>. Loopback verify green per docs/10-GO-LIVE-VERIFY-CHECKLIST.md. Owner: run docs/OPS-OWNER-CADDY-CUTOVER.md.*
 
 ---
 
@@ -326,8 +292,9 @@ Site is ready for **you to deploy** when:
 | Gap | Sites | Status | Notes |
 |-----|-------|--------|-------|
 | Dynamic `/llms.txt` (+ `/llm.txt`, `llms-defaults.json`, `llms-serve`) | **cbss.ae**, **iberiaworkforce.com** | **Deferred** (Aug 2026) — do **not** block other deploys | Already live without it. Backfill from a peer (e.g. `spheavyrental.ae` / `connectgroup.co`) in a later pass. See Phase 05 § Dynamic `/llms.txt`. |
+| Owner root bootstrap (systemd + live Caddy) | **eor, staff, cuae, kinza** | **Pending owner** | App + interim loopback done. Run [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
 
-When picking this up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / generator + a brand-specific `src/data/llms-defaults.json`, rebuild, smoke `curl -sI /llms.txt`.
+When picking llms up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / generator + a brand-specific `src/data/llms-defaults.json`, rebuild, smoke `curl -sI /llms.txt`.
 
 ---
 
@@ -343,9 +310,11 @@ When picking this up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / ge
 | 05 | [CURSOR-IMPORT-REDIRECTS](CURSOR-IMPORT-REDIRECTS.md) | Redirect imports |
 | 06 | [CURSOR-RUN-FLEET](CURSOR-RUN-FLEET.md) / [local-fleet-test](local-fleet-test.md) | Local run |
 | 07 | (gates inside FLOW onboarding) | Harden |
-| 08–09 | [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) / [server-ops-only](server-ops-only.md) | Caddy + server |
+| 08 | [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) | Caddy **patterns** (git templates) |
+| 09–10 | [server-ops-only](server-ops-only.md) · **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** | App sync + verify |
+| Owner | **[OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)** · [OPS-OWNER-DYNAMIC-GTM-GA4](OPS-OWNER-DYNAMIC-GTM-GA4.md) | Live Caddy + GTM (end) |
 | — | [docs/README](README.md) | Full index |
 
 ---
 
-*Aug 2026 — single entry for upcoming websites. Existing playbooks stay as detail; this file orders them.*
+*Aug 2026 — single entry for upcoming websites. Existing playbooks stay as detail; this file orders them. Caddy/root stays owner-only.*
