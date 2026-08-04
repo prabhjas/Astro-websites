@@ -36,6 +36,7 @@ function loadRedirects() {
 // Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
 export default defineConfig({
   site: siteUrl,
+  trailingSlash: 'always',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   security: {
