@@ -487,6 +487,24 @@ div#transaction_hide,
     color: #0f1941 !important;
   }
 
+  /* Expanded accordion row — match live (red label + chevron) */
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-anchor,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-anchor .w-nav-title {
+    color: #c2121f !important;
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-arrow,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened .w-nav-arrow,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-arrow:before,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened .w-nav-arrow:before {
+    color: #c2121f !important;
+  }
+
+  /* Hamburger open: keep level_1 panel visible (Impreza adds html.w-nav-open) */
+  html.w-nav-open body.state_mobiles .ush_menu_2 .w-nav-list.level_1 {
+    display: block !important;
+  }
+
   /* Contact US is a red button — keep label white (overrides navy link color) */
   body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.w-btn,
   body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.us-btn-style_1,

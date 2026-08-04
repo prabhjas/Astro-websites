@@ -13,7 +13,7 @@ WorkingDirectory=/opt/Astro-production/connectstaff.ae
 EnvironmentFile=/opt/Astro-production/connectstaff.ae/.env.prod
 Environment=NODE_ENV=production
 # HOST/PORT set here — not in .env.prod (fleet rule)
-ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5084 /usr/bin/node dist/server/entry.mjs
+ExecStart=/usr/bin/env HOST=127.0.0.1 PORT=5091 /usr/bin/node dist/server/entry.mjs
 Restart=always
 RestartSec=5
 

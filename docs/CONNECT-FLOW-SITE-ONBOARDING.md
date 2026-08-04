@@ -1,12 +1,15 @@
 # Connect Group — New site → Astro fleet → FLOW (full standard)
 
+**Start with the numbered lifecycle:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) (this file is Phase 03 detail).
+
 **One playbook to take any website (WordPress clone, static export, or greenfield) into the Connect Group Astro fleet and wire it for the central FLOW / CMS platform.**
 
-Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*
+Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*  
+Or (preferred): *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
 
 | Field | Value |
 |-------|--------|
-| **Version** | 1.0 — 2026-08-03 |
+| **Version** | 1.1 — 2026-08-03 |
 | **Monorepo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Shared CMS** | `@connect/site-cms` (`packages/site-cms`) |
 | **Runtime** | Astro **7.1.6** + `@astrojs/node` **11.0.3** (pnpm catalog) |
@@ -87,7 +90,7 @@ For FLOW “see posts, sitemap, redirects, GTM on this domain” you almost alwa
 
 ### Step B — Register in the fleet
 
-Edit `scripts/fleet-sites.json` — next free port (**5086+** after connectresources.ae on 5085; eormiddleast uses **5090**; confirm against §7 and the live host):
+Edit `scripts/fleet-sites.json` — next free port (**5093+**; 5080–5087 + 5090/5092 reserved — see § Port map):
 
 ```json
 {
@@ -212,6 +215,8 @@ Ops happens only in **FLOW** → bearer APIs.
 
 Contact client **must** send `Content-Type: application/json` (not multipart FormData) so Origin checks work behind Caddy.
 
+**Attribution (required for every site):** copy `src/lib/attribution/{config,client,server}.ts` from a peer and wire capture on **all** contact paths (React/Astro forms **and** legacy WP mirrors). See [§ Attribution / Google Ads / UTM](#attribution--google-ads--utm-required).
+
 ### Step I — Env
 
 | File | Role |
@@ -311,6 +316,101 @@ Writes return **JSON** (`{ success: true, … }`), not HTML redirects.
 
 Public SEO endpoints (sitemaps / robots / llms) stay as normal Astro routes under `src/pages/` — FLOW edits data via internal SEO APIs; the site serves the public files.
 
+### Interim redirects import (before FLOW UI)
+
+If a developer shares a Rank Math / SEO **CSV or JSON** export before the dashboard is ready:
+
+1. Save under `Astro-production/<domain>/imports/redirects/`
+2. Follow [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md)
+3. Merge into `src/data/redirects.yml` + run `redirects:generate`
+
+After FLOW: use `/api/internal/redirects/*` from the dashboard; keep `imports/redirects/` as audit only.
+
+### Interim GTM / GA4 (before FLOW UI)
+
+Shared resolver: `@connect/site-cms` → `resolveEffectiveGtmConfig` (Connect Group, Evolution, SP Heavy, Connect HR).
+
+Until FLOW edits tags via `/api/internal/gtm/*`, set IDs on the site env / `.env.prod`:
+
+```bash
+# Astro-production/<domain>/.env  (laptop) or .env.prod (server)
+PUBLIC_GTM_ID=GTM-AAAA,GTM-BBBB   # one or more Tag Manager containers
+PUBLIC_GA4_ID=G-XXXX,G-YYYY       # one or more GA4 measurement IDs
+```
+
+Lists accept comma, space, or semicolon separators. Both vars can be set; the loader injects every valid ID. A lone `G-…` in `PUBLIC_GTM_ID` is also accepted as GA4.
+
+Priority for `/runtime-gtm.js` (and SSR inject when present):
+
+1. FLOW file `.data/internal-admin/gtm.json` (if snippets present)
+2. Optional `GTM_HEAD_SCRIPT` / `GTM_BODY_HTML` / `GTM_FOOTER_SCRIPT`
+3. `PUBLIC_GTM_ID` + `PUBLIC_GA4_ID` → standard snippets
+
+Do **not** hardcode tags into every legacy HTML file — the runtime loader injects them.
+
+Verify: `curl -s http://127.0.0.1:<port>/runtime-gtm.js | grep -E 'GTM-|G-'`
+
+### Attribution / Google Ads / UTM (required)
+
+Every fleet site must capture paid-traffic and UTM params on lead submit and map them into the file lead store + Pipedrive custom fields.
+
+**Reference implementation (copy from peer):** `connectgroup.co` / `evolutionmiddleast.com` / `spheavyrental.ae` / `cbss.ae`.
+
+#### Required files
+
+| Path | Role |
+|------|------|
+| `src/lib/attribution/config.ts` | Primary keys + URL aliases (`campaignid` → `campaign_id`, etc.) |
+| `src/lib/attribution/client.ts` | Browser capture → cookies / localStorage first+last touch |
+| `src/lib/attribution/server.ts` | `normaliseAttribution` + `mergeAttributionIntoContactForm` |
+| `src/utils/form/parse-contact-body.ts` | Accept canonical **and** Google Ads names (`campaignid`, `adgroupid`, `creative`, `targetid`, …) |
+| `src/pages/api/contact.ts` | After validate: `mergeAttributionIntoContactForm(form, lastTouch, firstTouch, attribution)` |
+| Contact UI | Hidden fields + `captureAttribution` / `populateAttributionFields`, **or** full param map in legacy JS |
+
+#### Params that must be captured
+
+From the landing URL (ValueTrack / UTMs), including aliases:
+
+| Canonical (form / store) | Also accept from URL |
+|--------------------------|----------------------|
+| `gclid`, `gbraid`, `wbraid`, `fbclid`, `msclkid` | same |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` | same |
+| `campaign_id` | `campaignid`, `gad_campaignid`, `campaign` |
+| `adgroup_id` | `adgroupid` |
+| `creative_id` | `creative`, `creativeid` |
+| `keyword` | `kw`, `q`, `utm_term` |
+| `matchtype`, `device`, `network`, `placement` | same |
+| `target` / `target_id` | `targetid` |
+| `adposition` | `ad_position` |
+| `loc_physical_ms`, `loc_interest_ms` | camelCase variants |
+| `gad_source` | `gadsource` (also may fill `source`) |
+
+Keys live in `ATTRIBUTION_PRIMARY_KEYS` / `ATTRIBUTION_KEY_ALIASES` in `config.ts` — keep that file identical across sites when extending.
+
+#### Wire every contact path
+
+1. **Astro / shared forms** (`ContactForm.astro`, `ContactForm.cg.astro`): hidden inputs for the fields above + `captureAttribution` / `populateAttributionFields` on load and submit.
+2. **Legacy WP / Elementor mirrors** (`public/js/astro-mirror-fixes.js` → `captureTrackingFields`): **create** hidden inputs (do not only set fields that already exist). Use the same alias map as `config.ts`.
+3. **Custom site scripts** (e.g. CBSS `SiteScripts.astro` `getUrlParams()`): same alias map when building the JSON body.
+4. **Server:** `parse-contact-body` aliases + `mergeAttributionIntoContactForm` so Pipedrive still gets values if the client only sent Ads-style names.
+
+#### Pipedrive field keys
+
+`PIPEDRIVE_FIELD_*` in `.env` / `.env.example` may stay commented. Peers ship **hashed defaults** in `src/env/server.ts` (`fieldKeys`) for message, gclid, campaign, keyword, loc_*, device, network, etc. Override in `.env.prod` only when a domain uses different Pipedrive keys.
+
+Do **not** assume “commented in `.env` = disabled”.
+
+#### Smoke (attribution)
+
+```bash
+# After submit from a URL like:
+# /contact-us/?gclid=…&campaignid=…&device=c&network=x&loc_physical_ms=…&loc_interest_ms=…&gbraid=…&gad_source=1
+# Check the new lead under .data/leads/state/*.json — payload must include:
+#   gclid, campaignId, device, network, locPhysicalMs, locInterestMs, gbraid, source (from gad_source)
+```
+
+Empty optional Ads fields (blank `keyword`, `adgroupid`, …) are fine; non-empty ones must not be dropped.
+
 ---
 
 ## 5. Harden gates (must pass before “done”)
@@ -329,6 +429,7 @@ Public SEO endpoints (sitemaps / robots / llms) stay as normal Astro routes unde
 | G10 | allowedDomains | Apex + www (+ local for laptop) |
 | G11 | Thin mounts | `/api/internal/**` re-exports `@connect/site-cms` only |
 | G12 | FLOW reads | Bearer GET posts / redirects / gtm / leads succeed |
+| G13 | Attribution | Ads/UTM aliases captured on legacy + Astro forms; lead payload has gclid/campaignId/device/… when present in URL |
 
 ---
 
@@ -365,20 +466,23 @@ Astro-production/<domain>/
 
 ## 7. Port map (current)
 
+Canonical list: **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** + `scripts/fleet-sites.json`.
+
 | ID | Domain | Port |
 |----|--------|------|
 | evolutionmiddleast | evolutionmiddleast.com | 5080 |
 | cbss | cbss.ae | 5081 |
 | spheavyrental | spheavyrental.ae | 5082 |
 | iberiaworkforce | iberiaworkforce.com | 5083 |
-| connectstaff | connectstaff.ae | 5084 |
-| connectresources | connectresources.ae | 5085 |
-| connecthr | connecthr.ae | 5086 *(host / planned)* |
-| connectgroup | connectgroup.co | 5087 *(host / planned)* |
+| connecthr | connecthr.ae | 5084 |
+| connectgroup | connectgroup.co | 5085 |
+| connectresources | connectresources.ae | 5086 |
 | eormiddleast | eormiddleast.com | 5090 |
+| connectstaff | connectstaff.ae | 5091 |
 | cuae | c-uae.com | 5092 |
+| *(next free)* | | **5124** |
 
-Next free in `scripts/fleet-sites.json` (this monorepo): **5087+** for new sites (avoid **5090** eormiddleast, **5092** cuae); on the production host follow the table above and pick the next unused loopback port.
+Do not invent ports — take the next free from the registry.
 ---
 
 ## 8. What not to do
@@ -407,9 +511,11 @@ Next free in `scripts/fleet-sites.json` (this monorepo): **5087+** for new sites
 - [ ] Posts/taxonomy adapters if full CMS
 - [ ] No `/internal/operations` UI; middleware 404
 - [ ] Health, contact JSON, 404.astro, geo if needed
+- [ ] Attribution: `lib/attribution/*` + parse aliases + contact merge; legacy mirror / SiteScripts capture full Ads+UTM set
 - [ ] `.env.example` fleet-shaped; unique secret locally
 - [ ] `fleet-local` smoke green
 - [ ] Bearer smoke: posts / redirects / gtm / leads (as featured)
+- [ ] Attribution smoke: submit with `?gclid=&campaignid=&device=&loc_physical_ms=` → lead JSON populated
 
 ### Deploy / FLOW
 
@@ -445,4 +551,5 @@ openssl rand -hex 32
 
 | Date | Change |
 |------|--------|
+| 2026-08-03 | v1.1 — Attribution / Google Ads / UTM required for all sites (aliases, legacy mirror, Pipedrive defaults note) |
 | 2026-08-03 | v1.0 — Single clone → fleet → FLOW onboarding doc; connectgroup.co completed FULL_CMS thin mounts |

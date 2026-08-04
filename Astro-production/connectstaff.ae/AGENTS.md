@@ -2,7 +2,7 @@
 
 WordPress → Astro Phase 1 static mirror of https://connectstaff.ae/
 
-Peer scaffold: `evolutionmiddleast.com` (FEATURES_FULL_CMS). Port **5084**.
+Peer scaffold: `evolutionmiddleast.com` (FEATURES_FULL_CMS). Port **5091**.
 
 ## Common commands
 
