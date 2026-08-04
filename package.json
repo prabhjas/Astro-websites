@@ -16,5 +16,8 @@
     "fleet:install": "pnpm install",
     "fleet:build": "pnpm -r --filter './Astro-production/*' run build",
     "fleet:build:trio": "pnpm --filter evolutionmiddleast-astro --filter astro-cbss --filter spheavy-rental run build"
+  },
+  "devDependencies": {
+    "playwright": "1.49.0"
   }
 }

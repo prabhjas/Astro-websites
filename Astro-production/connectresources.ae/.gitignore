@@ -1,5 +1,5 @@
-# build output
-dist/
+# build output (root only — do not ignore plugin paths like .../Assets/dist/)
+/dist/
 .astro/
 node_modules/
 
