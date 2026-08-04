@@ -30,3 +30,13 @@ Also: [`caddy/`](../caddy/README.md) (Caddy archive) · [CLAUDE-CONNECTGROUP-HAN
 Shared CMS package: [`packages/site-cms`](../packages/site-cms/README.md) (`@connect/site-cms`).
 
 Per-site docs live under each `Astro-production/<domain>/docs/` (including `CONNECT-ASTRO-FLEET-STANDARD.md` and `13-go-live-server-handoff.md`).
+
+---
+
+## Owner / ops only (not for day-to-day developers)
+
+| Doc | Use |
+|-----|-----|
+| **[OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md)** | Dynamic GTM/GA4 via `/runtime-gtm.js` + `.env` → FLOW override. Run at end of go-live. Do **not** paste static tags into pages/posts. |
+
+Keep GTM/GA4 ownership here — do not fold this into `00-NEW-SITE-MASTER.md` developer phases.

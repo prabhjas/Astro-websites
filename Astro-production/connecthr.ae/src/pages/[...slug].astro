@@ -1,17 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
-import PostCard from "../components/PostCard.astro";
 import {
-  getCategories,
   getPageByPath,
   getPublishedPostByPath,
   getCaseStudyByPath,
-  getRelatedPosts,
-  formatDate,
   stripHtml,
   normalizePath,
 } from "../lib/content";
+import { renderSinglePostShell } from "../lib/blog-shell";
+import singlePostCss from "../data/single-post-css.json";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -32,7 +29,6 @@ if (!page && !caseStudy && !post) {
 const entry = page || caseStudy || post!;
 const lang: "en" | "ar" = path.startsWith("/ar/") || path === "/ar/" ? "ar" : "en";
 const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
-const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const homeCrumb = lang === "ar" ? { name: "الرئيسية", href: "/ar/" } : { name: "Home", href: "/" };
 
@@ -41,7 +37,6 @@ const pageCrumbs =
     ? [homeCrumb, { name: stripHtml(entry.title), href: undefined as string | undefined }]
     : [];
 
-const related = post ? getRelatedPosts(post, 3) : [];
 const postCrumbs = post
   ? [homeCrumb, { name: "Blog", href: "/blogs/" }, { name: stripHtml(post.title) }]
   : [];
@@ -82,20 +77,23 @@ const seo =
         ],
       };
 
+const postContentHtml = post
+  ? (("bodyHtml" in post && post.bodyHtml) || post.content || "")
+  : "";
+const postShellHtml = post ? renderSinglePostShell(post, postContentHtml) : "";
+
 const extraCss = [
   ...((entry as { pageCss?: string[] }).pageCss || []),
   (entry as { elementorCss?: string }).elementorCss ||
     `/wp-content/uploads/elementor/css/post-${entry.id}.css`,
+  ...(post ? (singlePostCss as string[]) : []),
 ];
 
 const bodyClass = page
   ? `page page-id-${page.id} elementor-page elementor-page-${page.id}`
   : caseStudy
     ? `case_studies single single-case_studies postid-${caseStudy.id} elementor-page elementor-page-${caseStudy.id}`
-    : `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-${post!.id}`;
-
-// Posts render their Elementor body when they have one; otherwise the article template.
-const postUsesElementor = !!post?.bodyHtml && /elementor-page|data-elementor-id/.test(post.bodyHtml);
+    : `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-2959`;
 ---
 
 <BaseLayout
@@ -110,58 +108,8 @@ const postUsesElementor = !!post?.bodyHtml && /elementor-page|data-elementor-id/
   {
     page || caseStudy ? (
       <div class="sp-page-content" set:html={html} />
-    ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
     ) : (
-      <article class="sp-article sp-container">
-        <header class="sp-article__header">
-          <Breadcrumbs items={postCrumbs} />
-          <h1 set:html={post!.title} />
-          <div class="sp-article__meta">
-            <time datetime={post!.date}>{formatDate(post!.date)}</time>
-            {post!.authorName && (
-              <>
-                {" "}
-                · <a href={`/author/${post!.authorSlug}/`}>{post!.authorName}</a>
-              </>
-            )}
-            {catNames.length > 0 && (
-              <>
-                {" "}
-                ·{" "}
-                {catNames.map((c, i) => (
-                  <>
-                    {i > 0 ? ", " : ""}
-                    <a href={c.path}>{c.name}</a>
-                  </>
-                ))}
-              </>
-            )}
-          </div>
-        </header>
-        {post!.featuredImage && (
-          <figure style="margin: 0 0 1.75rem">
-            <img
-              src={post!.featuredImage}
-              alt={stripHtml(post!.title)}
-              width="1200"
-              height="675"
-              loading="eager"
-            />
-          </figure>
-        )}
-        <div class="sp-article__content" set:html={html} />
-        {related.length > 0 && (
-          <section class="sp-related">
-            <h2>Related Posts</h2>
-            <div class="sp-blog-grid">
-              {related.map((p) => (
-                <PostCard post={p} />
-              ))}
-            </div>
-          </section>
-        )}
-      </article>
+      <div class="sp-page-content sp-single-post" set:html={postShellHtml} />
     )
   }
 </BaseLayout>

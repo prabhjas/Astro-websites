@@ -1,0 +1,9 @@
+# Permanent redirects — SEO / migration
+# Connect FM live blog is /blog/. Keep /insights/ as an alias to that archive.
+redirects:
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301

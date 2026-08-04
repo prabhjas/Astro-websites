@@ -31,6 +31,18 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
+    // Use Response directly: Astro redirect() has coerced non-GET to 301 in practice.
+    // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
+    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+      const target = `${pathname}/${context.url.search}`;
+      const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
+      return new Response(null, {
+        status,
+        headers: { Location: target },
+      });
+    }
+
     // Per-site dashboard UI removed — content/leads managed via central CMS → /api/internal/*
     if (
       pathname === '/internal/operations' ||
@@ -45,7 +57,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
-    if (pathname.startsWith('/api/internal/') || pathname === '/api/health') {
+    if (pathname.startsWith('/api/internal/') || pathname === '/api/health' || pathname === '/api/health/') {
       return next();
     }
 

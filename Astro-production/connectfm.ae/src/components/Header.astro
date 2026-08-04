@@ -1,0 +1,339 @@
+---
+import { site, type NavItem } from "../lib/content";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+function isActive(href: string, current: string) {
+  if (href === "/") return current === "/";
+  return current === href || current.startsWith(href);
+}
+
+function hasActiveChild(item: NavItem, current: string): boolean {
+  if (!item.children?.length) return false;
+  return item.children.some(
+    (c) => isActive(c.href, current) || hasActiveChild(c, current),
+  );
+}
+---
+
+<header class="sp-header" data-sp-header>
+  <div class="sp-header__bar">
+    <a class="sp-header__logo" href="/" aria-label={site.name}>
+      <img src={site.logo} alt={site.name} width="160" height="48" loading="eager" />
+    </a>
+
+    <nav class="sp-header__nav" aria-label="Primary">
+      <ul class="sp-menu">
+        {
+          site.navigation.map((item) => (
+            <li
+              class:list={[
+                "sp-menu__item",
+                item.children?.length && "has-children",
+                isActive(item.href, currentPath) && "is-active",
+                hasActiveChild(item, currentPath) && "is-active",
+              ]}
+            >
+              <a href={item.href}>{item.label}</a>
+              {item.children?.length ? (
+                <ul class="sp-submenu">
+                  {item.children.map((child) => (
+                    <li
+                      class:list={[
+                        "sp-submenu__item",
+                        child.children?.length && "has-children",
+                        isActive(child.href, currentPath) && "is-active",
+                      ]}
+                    >
+                      <a href={child.href}>{child.label}</a>
+                      {child.children?.length ? (
+                        <ul class="sp-submenu sp-submenu--nested">
+                          {child.children.map((grand) => (
+                            <li class:list={[isActive(grand.href, currentPath) && "is-active"]}>
+                              <a href={grand.href}>{grand.label}</a>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="sp-header__cta" href="/contact-us/#form">Get a free quote</a>
+
+    <button
+      class="sp-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="sp-mobile-nav"
+      data-sp-nav-toggle
+    >
+      <span class="sr-only">Menu</span>
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="sp-mobile" id="sp-mobile-nav" hidden data-sp-mobile-nav>
+    <ul>
+      {
+        site.navigation.map((item) => (
+          <li>
+            <a href={item.href} class:list={[isActive(item.href, currentPath) && "is-active"]}>
+              {item.label}
+            </a>
+            {item.children?.length ? (
+              <ul>
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.href}>{child.label}</a>
+                    {child.children?.length ? (
+                      <ul>
+                        {child.children.map((grand) => (
+                          <li>
+                            <a href={grand.href}>{grand.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
+        ))
+      }
+    </ul>
+    <a class="sp-header__cta sp-header__cta--mobile" href="/contact-us/#form">Get a free quote</a>
+  </div>
+</header>
+
+<style>
+  .sp-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .sp-header.is-scrolled {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .sp-header__bar {
+    width: min(1240px, calc(100% - 2rem));
+    margin: 0 auto;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .sp-header__logo img {
+    display: block;
+    width: auto;
+    height: 48px;
+  }
+
+  .sp-header__nav {
+    margin-left: auto;
+  }
+
+  .sp-menu {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sp-menu__item {
+    position: relative;
+  }
+
+  .sp-menu__item > a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 0.9rem;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .sp-menu__item.is-active > a,
+  .sp-menu__item > a:hover {
+    color: var(--sp-yellow);
+  }
+
+  .sp-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 260px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: 0.18s ease;
+    z-index: 20;
+  }
+
+  .sp-menu__item:hover > .sp-submenu,
+  .sp-submenu__item:hover > .sp-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .sp-submenu a {
+    display: block;
+    padding: 0.7rem 1rem;
+    color: #eee;
+    font-size: 0.9rem;
+  }
+
+  .sp-submenu a:hover,
+  .sp-submenu .is-active > a {
+    color: var(--sp-yellow);
+    background: rgba(255, 221, 4, 0.06);
+  }
+
+  .sp-submenu--nested {
+    left: 100%;
+    top: 0;
+  }
+
+  .sp-header__cta {
+    background: var(--sp-accent);
+    color: #fff !important;
+    padding: 0.8rem 1.15rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+  }
+
+  .sp-header__cta:hover {
+    background: #c66a0b;
+  }
+
+  .sp-header__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    padding: 0;
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+  .sp-header__toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #fff;
+    margin: 5px auto;
+  }
+
+  .sp-mobile {
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: #000;
+    padding: 1rem 1.25rem 1.5rem;
+  }
+
+  .sp-mobile ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sp-mobile a {
+    display: block;
+    padding: 0.7rem 0;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .sp-mobile a.is-active,
+  .sp-mobile a:hover {
+    color: var(--sp-yellow);
+  }
+
+  .sp-mobile ul ul {
+    padding-left: 1rem;
+  }
+
+  .sp-header__cta--mobile {
+    display: inline-flex;
+    margin-top: 1rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  @media (max-width: 980px) {
+    .sp-header__nav,
+    .sp-header__cta:not(.sp-header__cta--mobile) {
+      display: none;
+    }
+
+    .sp-header__toggle {
+      display: inline-block;
+    }
+
+    .sp-mobile {
+      display: block;
+    }
+
+    .sp-mobile[hidden] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector("[data-sp-header]");
+  const toggle = document.querySelector("[data-sp-nav-toggle]");
+  const mobile = document.querySelector("[data-sp-mobile-nav]");
+
+  const onScroll = () => {
+    header?.classList.toggle("is-scrolled", window.scrollY > 12);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    if (mobile) {
+      if (open) mobile.setAttribute("hidden", "");
+      else mobile.removeAttribute("hidden");
+    }
+  });
+</script>

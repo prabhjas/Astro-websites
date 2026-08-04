@@ -65,7 +65,7 @@ export function parseContactFormBody(
     city: get('city'),
     postcode: get('postcode'),
     campaign: get('campaign') ?? get('your-subject'),
-    campaignId: get('campaignId') ?? get('campaign_id'),
+    campaignId: get('campaignId') ?? get('campaign_id') ?? get('campaignid') ?? get('gad_campaignid'),
     leadSource: get('leadSource') ?? get('lead_source'),
     formName: get('formName') ?? get('form_name'),
     formSource: get('formSource') ?? get('form_source'),

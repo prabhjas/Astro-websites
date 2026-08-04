@@ -159,3 +159,465 @@ div.wpcf7-response-output.sp-status-visible,
   border-color: #dc3232 !important;
 }
 
+/* Elementor Pro demo popups (mirrored markup + vanilla open/close) */
+#chr-popup-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 1rem;
+  pointer-events: none;
+}
+#chr-popup-modal.dialog-visible {
+  display: flex !important;
+}
+#chr-popup-modal .dialog-widget-content {
+  position: relative;
+  max-width: min(1100px, 100%);
+  width: 100%;
+  max-height: 94vh;
+  overflow: visible;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  pointer-events: all;
+}
+#chr-popup-modal .dialog-lightbox-message {
+  width: 100%;
+  max-height: 94vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+}
+#chr-popup-modal .dialog-close-button,
+#chr-popup-modal .dialog-lightbox-close-button {
+  position: absolute !important;
+  top: 16px !important;
+  right: 16px !important;
+  inset-inline-end: 16px !important;
+  inset-inline-start: auto !important;
+  z-index: 100000 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: #7bf880 !important;
+  color: #101419 !important;
+  cursor: pointer !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+  pointer-events: all !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.12);
+}
+#chr-popup-modal .dialog-close-button svg {
+  display: block !important;
+  width: 14px !important;
+  height: 14px !important;
+  fill: #101419 !important;
+  pointer-events: none;
+}
+#chr-popup-modal .dialog-close-button .eicon-close {
+  display: none !important;
+}
+#chr-popup-modal [data-elementor-type="popup"] {
+  display: block !important;
+}
+#chr-popup-modal .elementor-counter-number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— Mega menu (Elementor Pro n-menu) —— */
+.elementor-widget-n-menu .e-n-menu-content > .e-con:not(.e-active) {
+  display: none;
+}
+
+.elementor-widget-n-menu .e-n-menu:not([data-layout="dropdown"]) .e-n-menu-content > .e-con.e-active {
+  display: flex !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1002;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.12);
+}
+
+/* Keep header above page content while mega panel open */
+.sp-elementor-header,
+.elementor-location-header {
+  position: relative;
+  z-index: 1001;
+}
+
+.elementor-widget-n-menu .e-n-menu-item.e-current > .e-n-menu-title,
+.elementor-widget-n-menu .e-n-menu-title.e-current .e-n-menu-title-text {
+  color: #0d6e6e;
+}
+
+/* Desktop: Elementor also needs .e-active on the .e-n-menu-content wrapper for top:100% */
+.elementor-widget-n-menu .e-n-menu:not([data-layout="dropdown"]) .e-n-menu-content.e-active {
+  display: block;
+}
+
+/* Elementor responsive visibility (kit may omit these on Astro) */
+@media (max-width: 767px) {
+  .elementor-hidden-mobile,
+  .elementor-hidden-phone {
+    display: none !important;
+  }
+}
+@media (max-width: 1024px) {
+  .elementor-hidden-tablet {
+    display: none !important;
+  }
+}
+@media (min-width: 1025px) {
+  .elementor-hidden-desktop {
+    display: none !important;
+  }
+}
+
+/* Align menu_mob / menu-main with e-n-menu-tablet breakpoint (992) */
+@media (min-width: 993px) {
+  .elementor-widget-n-menu.menu_mob {
+    display: none !important;
+  }
+}
+
+/* Mobile / tablet — match live e-n-menu-tablet kit (992px) */
+@media (max-width: 992px) {
+  /* Full-bleed drawer: without Elementor Pro stretch JS, wrapper collapses to toggle width */
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] {
+    --stretch-width: 100vw;
+    --stretch-left: 0px;
+    --stretch-right: 0px;
+  }
+
+  /* Fixed full-viewport drawer — absolute+100vw from a right-side toggle clips to a thin strip */
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-toggle[aria-expanded="true"] + .e-n-menu-wrapper {
+    display: flex !important;
+    --n-menu-wrapper-display: flex;
+    position: fixed !important;
+    top: var(--chr-mobile-menu-top, 72px);
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    z-index: 1003;
+    background: #fff;
+    max-height: calc(100vh - var(--chr-mobile-menu-top, 72px));
+    max-height: calc(100dvh - var(--chr-mobile-menu-top, 72px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 8px 20px 32px;
+    box-sizing: border-box;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-heading,
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-item {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-title-text {
+    white-space: normal;
+    overflow: visible;
+  }
+
+  /* Accordion submenus — must work even if data-layout is set late */
+  .elementor-widget-n-menu .e-n-menu-content > .e-con:not(.e-active) {
+    display: none !important;
+  }
+  .elementor-widget-n-menu .e-n-menu-content.e-active,
+  .elementor-widget-n-menu .e-n-menu-content > .e-con.e-active,
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content.e-active,
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content > .e-con.e-active {
+    display: flex !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    background: #fff;
+  }
+
+  .elementor-widget-n-menu .e-n-menu-title {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  /* Dropdown chevrons — home header (5406) inherits white indicator color from the
+     gradient nav; on the white drawer that makes closed arrows invisible. Match menu_mob. */
+  .elementor-5406 .elementor-widget-n-menu .e-n-menu,
+  .elementor-7088 .elementor-widget-n-menu .e-n-menu,
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] {
+    --n-menu-dropdown-indicator-color-normal: #009a79;
+    --n-menu-dropdown-indicator-color-hover: #009a79;
+    --n-menu-dropdown-indicator-color-active: #009a79;
+    --n-menu-dropdown-indicator-size: 12px;
+  }
+
+  .elementor-widget-n-menu .e-n-menu-dropdown-icon {
+    display: flex !important;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-inline-start: auto !important;
+    min-width: 24px;
+    min-height: 24px;
+    color: var(--n-menu-dropdown-indicator-color-normal, #009a79);
+  }
+
+  .elementor-widget-n-menu .e-n-menu-dropdown-icon svg {
+    width: var(--n-menu-dropdown-indicator-size, 12px) !important;
+    height: var(--n-menu-dropdown-indicator-size, 12px) !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    fill: currentColor !important;
+  }
+
+  /* Mega-menu panels → compact mobile list (same as inner-page menu_mob) */
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content .e-con {
+    --flex-direction: column;
+    --width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content .elementor-widget-icon-box .elementor-icon-box-wrapper {
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: start !important;
+    gap: 12px;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content .elementor-icon-box-title {
+    margin-block-end: 0 !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content .elementor-icon-box-icon {
+    flex: 0 0 auto;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content .elementor-icon-box-content {
+    flex: 1 1 auto;
+    text-align: start !important;
+  }
+
+  /* Prefer mobile menu widget when both desktop + mobile copies exist */
+  .elementor-widget-n-menu.menu-main {
+    display: none !important;
+  }
+  .elementor-widget-n-menu.menu_mob {
+    display: block !important;
+  }
+}
+
+/* Hero background video must fill section */
+.elementor-background-video-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.elementor-background-video-hosted {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Background YouTube embed fill */
+.elementor-background-video-container iframe.elementor-background-video-embed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw;
+  min-height: 100%;
+  min-width: 177.77%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+}
+.home-header > .elementor-container,
+.elementor-element-e9a775c > .elementor-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* —— Icon SVGs: without Elementor size vars, viewBox SVGs render enormous —— */
+.e-font-icon-svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.elementor-widget-search {
+  --e-search-icon-label-size: 18px;
+  --e-search-icon-clear-size: 14px;
+  --e-search-icon-submit-size: 18px;
+  --e-search-icon-label-absolute-width: 18px;
+  --e-search-icon-clear-absolute-width: 14px;
+}
+.elementor-widget-search .e-search-label > svg,
+.elementor-widget-search .e-search-input-wrapper > svg,
+.elementor-widget-search .e-search-submit > svg {
+  width: var(--e-search-icon-label-size, 18px) !important;
+  height: var(--e-search-icon-label-size, 18px) !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  flex: 0 0 auto;
+}
+.elementor-widget-search .e-search-input-wrapper > svg.e-fas-times,
+.elementor-widget-search .e-search-input-wrapper > svg.e-font-icon-svg {
+  width: var(--e-search-icon-clear-size, 14px) !important;
+  height: var(--e-search-icon-clear-size, 14px) !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
+  /* Clear (X) only when the field has a value — otherwise it renders as a giant black X */
+  display: none !important;
+}
+.elementor-widget-search .e-search.chr-search-has-value .e-search-input-wrapper > svg.e-fas-times,
+.elementor-widget-search .e-search.chr-search-has-value .e-search-input-wrapper > svg.e-font-icon-svg {
+  display: inline-block !important;
+}
+/* Pro search marks itself .hidden until its JS boots; that JS is not mirrored */
+.elementor-widget-search .e-search.hidden {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Home mobile menu: keep drawer out of document flow even inside hero header 5406 */
+@media (max-width: 992px) {
+  /* Don't require data-layout=dropdown — JS may set it late; home has no menu_mob copy */
+  .elementor-5406 .elementor-widget-n-menu .e-n-menu > .e-n-menu-wrapper,
+  .elementor-7088 .elementor-widget-n-menu .e-n-menu > .e-n-menu-wrapper,
+  .elementor-widget-n-menu .e-n-menu .e-n-menu-wrapper {
+    display: none;
+  }
+  .elementor-5406 .elementor-widget-n-menu .e-n-menu-toggle[aria-expanded="true"] + .e-n-menu-wrapper,
+  .elementor-7088 .elementor-widget-n-menu .e-n-menu-toggle[aria-expanded="true"] + .e-n-menu-wrapper,
+  .elementor-widget-n-menu .e-n-menu-toggle[aria-expanded="true"] + .e-n-menu-wrapper,
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-toggle[aria-expanded="true"] + .e-n-menu-wrapper {
+    display: flex !important;
+    position: fixed !important;
+    top: var(--chr-mobile-menu-top, 72px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    z-index: 10050 !important;
+    background: #fff;
+    max-height: calc(100dvh - var(--chr-mobile-menu-top, 72px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 8px 20px 32px;
+    box-sizing: border-box;
+  }
+
+  html.chr-n-menu-open {
+    overflow: hidden;
+  }
+
+  /* When menu open on home, don't let header hero expand with menu content */
+  html.chr-n-menu-open .elementor-5406.elementor-location-header,
+  html.chr-n-menu-open .elementor-7088.elementor-location-header {
+    z-index: 10040;
+  }
+  html.chr-n-menu-open .elementor-5406 .home-header,
+  html.chr-n-menu-open .elementor-5406 .elementor-element-e9a775c {
+    /* Keep hero from stretching when menu markup is briefly in-flow */
+    overflow: hidden;
+  }
+}
+
+/* TOC list basics if Pro CSS is late */
+.elementor-toc__list-wrapper {
+  list-style: none;
+  margin: 0;
+  padding: 12px 16px 16px;
+  counter-reset: item;
+}
+.elementor-toc__list-item {
+  counter-increment: item;
+}
+.elementor-toc__list-item-text-wrapper {
+  display: flex;
+  gap: 0.35rem;
+}
+.elementor-toc__list-item-text-wrapper::before {
+  content: counters(item, ".") ". ";
+  flex: 0 0 auto;
+  opacity: 0.7;
+}
+.elementor-toc__list-item-text {
+  display: block;
+  padding: 0.35rem 0;
+  color: inherit;
+  text-decoration: none;
+}
+.elementor-toc--collapsed .elementor-toc__body {
+  display: none;
+}
+
+/* Contact / demo form — match live name|phone row + iti phone width */
+.wpcf7 .name-field > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.wpcf7 .name-field .iti,
+.wpcf7 .name-field .intl-tel-input {
+  width: 100%;
+  display: block;
+}
+.wpcf7 .name-field input,
+.wpcf7 .name-field .iti input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.wpcf7 select.wpcf7-select,
+.wpcf7 textarea.wpcf7-textarea {
+  border-radius: 8px;
+  border: 1px solid #e7e6e7;
+  box-shadow: 0 1px 2px 0 rgba(10, 13, 18, 0.05);
+}
+
+/* Loop cards (2618): keep theme-post-title visible (kit may hide .elementor-page-title) */
+.elementor-2618 .elementor-widget-theme-post-title.elementor-page-title,
+.elementor-2618 .elementor-element-6ff835e.elementor-page-title,
+.ecs-posts .elementor-2618 .elementor-page-title {
+  display: block !important;
+}
+.elementor-2618 .elementor-element-6ff835e .elementor-heading-title,
+.elementor-2618 .elementor-element-6ff835e .elementor-heading-title a {
+  display: block;
+  color: #2c2b2c !important;
+  font-family: "General Sans", Sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .elementor-2618 .elementor-element-6ff835e .elementor-heading-title,
+  .elementor-2618 .elementor-element-6ff835e .elementor-heading-title a {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+

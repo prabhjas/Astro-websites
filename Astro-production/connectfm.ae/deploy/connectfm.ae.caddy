@@ -1,0 +1,29 @@
+# connectfm.ae -> 127.0.0.1:5087 (systemd: connectfm.service)
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+connectfm.ae, www.connectfm.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectfm.ae
+	redir @noncanonical https://connectfm.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5087
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectfm.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

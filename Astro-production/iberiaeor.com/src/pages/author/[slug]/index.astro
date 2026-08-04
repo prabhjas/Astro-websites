@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import { breadcrumbSchema } from "../../../lib/seo";
+
+export function getStaticPaths() {
+  return authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const sorted = getPostsByAuthor(author.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+---
+
+<BaseLayout
+  currentPath={author.path}
+  seo={{
+    title: `Author: ${stripHtml(author.name)} | Iberia EOR`,
+    description: author.description || `Articles by ${author.name}.`,
+    canonical: author.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: author.name, url: author.path },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-archive-hero">
+    <div class="sp-container">
+      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
+      <h1 set:html={author.name} />
+      {author.description && <p set:html={author.description} />}
+    </div>
+  </section>
+  <section class="sp-container" style="padding: 1rem 0 4rem">
+    {
+      items.length ? (
+        <div class="sp-blog-grid">
+          {items.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      ) : (
+        <p>No posts by this author.</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+  </section>
+</BaseLayout>
