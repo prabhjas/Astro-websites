@@ -39,16 +39,21 @@ Astro-websites/                          ← git monorepo (this repo)
 │   └── pull-iberia-env.sh
 ├── docs/                                ← Cursor guides + playbooks
 │   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle)
+│   ├── FLEET-PORT-REGISTRY.md           ← all domains + ports + status
 │   ├── CONNECT-FLOW-SITE-ONBOARDING.md
 │   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
-├── Astro-production/                    ← live-shaped sites
-│   ├── evolutionmiddleast.com/          ← full CMS + WP mirror
-│   ├── cbss.ae/                         ← leads-heavy marketing
-│   ├── spheavyrental.ae/                ← full CMS (SP data store)
-│   ├── iberiaworkforce.com/             ← leads + EN/ES marketing
-│   ├── connectresources.ae/             ← full CMS + Impreza WP mirror
+├── caddy/                               ← production Caddyfile mirror + ops archive
+├── Astro-production/                    ← one folder per domain
+│   ├── evolutionmiddleast.com/          ← scaffolded (full CMS)
+│   ├── cbss.ae/                         ← scaffolded (leads)
+│   ├── …                                ← see FLEET-PORT-REGISTRY (44 domains)
 │   └── deploy-host/                     ← restic backup units
+├── packages/
+│   └── site-cms/                        ← @connect/site-cms (shared CMS APIs)
+├── scripts/
+│   ├── fleet-sites.json                 ← ports / dirs / unit names / status
+│   └── fleet-local.mjs                  ← local prod-like runner + smoke
 ```
 
 ### Runtime model (production)
@@ -57,7 +62,7 @@ Astro-websites/                          ← git monorepo (this repo)
 Browser / FLOW
     │  HTTPS :443
     ▼
-Caddy (TLS, reverse_proxy)     ← prefer one file per site under sites.d/
+Caddy (TLS, reverse_proxy)     ← single fleet Caddyfile (see caddy/Caddyfile.production)
     │  127.0.0.1:<PORT>
     ▼
 systemd unit per site          ← node dist/server/entry.mjs  (NOT astro dev)
