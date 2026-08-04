@@ -277,12 +277,12 @@ const intel = [
               compliant, and operational in as few as three days.
             </p>
             <div class="uaeo-btn-row">
-              <a class="uaeo-btn uaeo-btn-light" href={contact}>Start Your Offshore Setup</a>
+              <a class="uaeo-btn uaeo-btn-light" href="https://connectgroup2.pipedrive.com/scheduler/A8ExDZT6O/meeting-with-connect-group" target="_blank" rel="noopener">Start Your Offshore Setup</a>
               <a class="uaeo-btn uaeo-btn-outline" href="#uaeo-advantages">Learn More</a>
             </div>
           </div>
           <div class="uaeo-hero-art">
-            <img src={`${img}/hero-img.webp`} alt="UAE offshore company formation" width="640" height="640" loading="eager" />
+            <img src={`${img}/hero-img.webp`} alt="UAE offshore company formation" width="669" height="698" loading="eager" />
           </div>
         </div>
 
@@ -355,8 +355,8 @@ const intel = [
     <!-- JURISDICTIONS -->
     <section class="uaeo-section">
       <div class="uaeo-wrap">
-        <h2 class="uaeo-h2 uaeo-center">RAK ICC or JAFZA Offshore:<br />Connect Group finds your fit</h2>
-        <p class="uaeo-sub uaeo-center uaeo-maxw">
+        <h2 class="uaeo-h2 uaeo-center" style="text-align: center;">RAK ICC or JAFZA Offshore:<br />Connect Group finds your fit</h2>
+        <p class="uaeo-sub uaeo-center uaeo-maxw" style="text-align: center;">
           The UAE has two primary offshore jurisdictions. Connect Group has worked with both since 2016. We compare
           them against your objectives, budget and banking profile before recommending a single one.
         </p>
@@ -512,24 +512,6 @@ const intel = [
       </div>
     </section>
 
-    <!-- MARKET INTEL -->
-    <section class="uaeo-section uaeo-intel">
-      <div class="uaeo-wrap">
-        <h2 class="uaeo-h2">UAE Market Intel</h2>
-        <p class="uaeo-sub">Secrets to scaling with speed</p>
-        <div class="uaeo-cards3">
-          {intel.map((c) => (
-            <a class="uaeo-intel-card" href="/insights/">
-              <img src={c.src} alt="" loading="lazy" />
-              <div class="uaeo-intel-body">
-                <h3>{c.t}</h3>
-                <p>{c.d}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
   </main>
 
   {/* Chrome JS — same stack the mainland page uses so the mega menu + header behave identically. */}
@@ -569,6 +551,7 @@ const intel = [
   .uaeo-section { padding: 90px 0; }
   .uaeo-center { text-align: center; }
   .uaeo-maxw { max-width: 860px; margin-left: auto; margin-right: auto; }
+  .uaeo-sub.uaeo-maxw { margin: 0 auto 18px; }
   .uaeo-center-btn { text-align: center; margin-top: 44px; }
 
   .uaeo-h2 { color: #1a1a1a; font-size: 40px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; }
@@ -590,16 +573,28 @@ const intel = [
   .uaeo-btn-outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.55); }
   .uaeo-btn-dark, .uaeo-btn-black { background: #121212; color: #fff; }
 
-  /* HERO */
+  /* HERO — desktop: the design's wave background (Figma 6089:17441 export, taller
+     than the hero so the wave sits upper-right and flows down) + engraved cube icon.
+     Tablet/mobile override background-image with the baked hero-bkg-*.webp below. */
   .uaeo-hero {
-    background: var(--uaeo-navy-deep) url('/uae-offshore/hero-bkg-desktop.webp') center / cover no-repeat;
-    color: #fff; padding: 160px 0 80px;
+    position: relative; overflow: hidden;
+    background: var(--uaeo-navy-deep) url('/uae-offshore/hero-wave-bg.webp') center top / cover no-repeat;
+    /* header is position:absolute (~83px) over the hero — clear it + breathing room */
+    color: #fff; padding: 120px 0 80px;
   }
   .uaeo-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
   .uaeo-hero h1 { color: #fff; font-size: 60px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 24px; }
   .uaeo-hero-lead { color: #c9d0ff; font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 640px; }
   .uaeo-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .uaeo-hero-art img { width: 100%; max-width: 560px; margin-left: auto; }
+  /* Icon at the approved size, natural aspect ratio.
+     Chrome CSS forces height:640px + object-fit:fill on images here — undo it. */
+  .uaeo .uaeo-hero-art img {
+    width: clamp(220px, 24vw, 350px);
+    height: auto !important;
+    object-fit: contain;
+    aspect-ratio: auto;
+    margin: 0 auto;
+  }
   .uaeo-brands { text-align: center; margin-top: 56px; }
   .uaeo-brands h2 { color: #fff; font-size: 26px; font-weight: 600; margin: 0 0 8px; }
   .uaeo-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
@@ -710,7 +705,7 @@ const intel = [
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
-    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-tablet.webp'); }
+    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-tablet.webp'); background-position: center top; }
     .uaeo-process { background-image: url('/uae-offshore/bkg-tablet.webp'); }
     .uaeo-why { background-image: url('/uae-offshore/why-bkg-tablet.webp'); }
     .uaeo-cards3 { grid-template-columns: repeat(2, 1fr); }
@@ -735,7 +730,7 @@ const intel = [
     .uaeo-juris-row { grid-template-columns: 150px 1fr; }
   }
   @media (max-width: 560px) {
-    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-mobile.webp'); }
+    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-mobile.webp'); background-position: center top; }
     .uaeo-process { background-image: url('/uae-offshore/bkg-mobile.webp'); }
     .uaeo-why { background-image: url('/uae-offshore/why-bkg-mobile.webp'); }
     .uaeo-cards3, .uaeo-steps { grid-template-columns: 1fr; }

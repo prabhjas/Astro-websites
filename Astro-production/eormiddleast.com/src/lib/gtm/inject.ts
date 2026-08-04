@@ -10,9 +10,18 @@ export function injectRuntimeGtmLoader(html: string): string {
 }
 
 function stripLegacyAnalytics(html: string): string {
-  return html
-    .replace(/<script[^>]+googletagmanager\.com\/gtm\.js[\s\S]*?<\/script>/gi, '')
+  // Only strip within a single <script>...</script> block — never cross script boundaries
+  // (a greedy cross-script match can delete most of the document).
+  let out = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (block) => {
+    if (/googletagmanager\.com\/(?:gtm\.js|ns\.html)/i.test(block)) return '';
+    if (/['"]GTM-[A-Z0-9]+['"]/.test(block) && /dataLayer|gtm\.js|googletagmanager/i.test(block)) return '';
+    if (/window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/i.test(block) && /gtag\(['"]config['"]/i.test(block)) return '';
+    return block;
+  });
+  out = out
+    .replace(/<noscript[^>]*>[\s\S]*?googletagmanager[\s\S]*?<\/noscript>/gi, '')
     .replace(/<iframe[^>]+googletagmanager\.com\/ns\.html[\s\S]*?<\/iframe>/gi, '')
-    .replace(/<script[^>]+googletagmanager\.com\/gtag\/js[^>]*><\/script>\s*/gi, '')
-    .replace(/<script>\s*window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\];[\s\S]*?gtag\('config'[\s\S]*?<\/script>/gi, '');
+    .replace(/<!--\s*Google Tag Manager\s*(?:\(noscript\))?\s*-->/gi, '')
+    .replace(/<!--\s*End Google Tag Manager\s*(?:\(noscript\))?\s*-->/gi, '');
+  return out;
 }
