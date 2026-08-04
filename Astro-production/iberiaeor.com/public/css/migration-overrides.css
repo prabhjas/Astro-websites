@@ -267,41 +267,87 @@ body.elementor-page-241 nav.rank-math-breadcrumb,
   background: #0036cc !important;
   color: #fff !important;
 }
-/* Phone flag chrome — keep dial-code strip on the left like live */
+/* Phone flag chrome — dial-code strip stays inside the input border */
 .main-form .intl-tel-input,
 .wpcf7-form .intl-tel-input,
 .sp-form .intl-tel-input,
 .ct-form .intl-tel-input {
   width: 100% !important;
-  margin-bottom: 16px;
+  margin-bottom: 16px !important;
   position: relative !important;
   display: block !important;
+}
+/* Margin lives on the wrapper only — otherwise flag-container stretches into the gap */
+.main-form .intl-tel-input input.wpcf7-phonetext,
+.main-form .intl-tel-input input[type="tel"],
+.main-form .intl-tel-input input[type="text"],
+.wpcf7-form .intl-tel-input input.wpcf7-phonetext,
+.wpcf7-form .intl-tel-input input[type="tel"],
+.wpcf7-form .intl-tel-input input[type="text"],
+.sp-form .intl-tel-input input.wpcf7-phonetext,
+.sp-form .intl-tel-input input[type="tel"],
+.ct-form .intl-tel-input input[type="tel"] {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  padding-left: 110px !important;
+  height: auto !important;
 }
 .main-form .intl-tel-input .flag-container,
 .wpcf7-form .intl-tel-input .flag-container,
 .sp-form .intl-tel-input .flag-container,
 .ct-form .intl-tel-input .flag-container {
   position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
+  top: 1px !important;
+  bottom: 1px !important;
+  left: 1px !important;
   right: auto !important;
+  padding: 0 !important;
   z-index: 3 !important;
+  height: auto !important;
 }
 .main-form .intl-tel-input.separate-dial-code .selected-flag,
 .wpcf7-form .intl-tel-input.separate-dial-code .selected-flag,
-.sp-form .intl-tel-input.separate-dial-code .selected-flag {
-  display: table !important;
+.sp-form .intl-tel-input.separate-dial-code .selected-flag,
+.ct-form .intl-tel-input.separate-dial-code .selected-flag {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px;
+  box-sizing: border-box !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  min-width: 96px !important;
+  max-width: 120px;
+  padding: 0 10px 0 12px !important;
+  margin: 0 !important;
   background: #f3f7fa !important;
-  border-radius: 15px 0 0 15px;
+  border-radius: 14px 0 0 14px !important;
   z-index: 3 !important;
+}
+.main-form .intl-tel-input .selected-flag .iti-flag,
+.wpcf7-form .intl-tel-input .selected-flag .iti-flag,
+.sp-form .intl-tel-input .selected-flag .iti-flag {
+  position: static !important;
+  display: inline-block !important;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+.main-form .intl-tel-input .selected-flag .iti-arrow,
+.wpcf7-form .intl-tel-input .selected-flag .iti-arrow,
+.sp-form .intl-tel-input .selected-flag .iti-arrow {
+  position: static !important;
+  margin: 0 0 0 4px !important;
+  flex-shrink: 0;
 }
 .main-form .intl-tel-input .selected-dial-code,
 .wpcf7-form .intl-tel-input .selected-dial-code,
 .sp-form .intl-tel-input .selected-dial-code {
   color: #202020 !important;
-  display: table-cell !important;
+  display: inline-block !important;
   vertical-align: middle !important;
+  padding-left: 0 !important;
+  line-height: 1 !important;
+  font-size: 15px !important;
 }
 .main-form .intl-tel-input .iti-flag,
 .wpcf7-form .intl-tel-input .iti-flag,
@@ -312,19 +358,9 @@ body.elementor-page-241 nav.rank-math-breadcrumb,
   width: 20px !important;
   height: 15px !important;
 }
-.main-form .intl-tel-input input.wpcf7-phonetext,
-.main-form .intl-tel-input input[type="tel"],
-.main-form .intl-tel-input input[type="text"],
-.wpcf7-form .intl-tel-input input.wpcf7-phonetext,
-.wpcf7-form .intl-tel-input input[type="tel"],
-.wpcf7-form .intl-tel-input input[type="text"],
-.sp-form .intl-tel-input input.wpcf7-phonetext,
-.sp-form .intl-tel-input input[type="tel"] {
-  padding-left: 110px !important;
-}
 
 
-/* Single-post sidebar form (.sp-form) — white card, blue submit (live Contact Form) */
+/* Single-post sidebar form (.sp-form) — white fields, orange submit (live post-234 custom CSS) */
 .sp-form .wpcf7 input[type="text"],
 .sp-form .wpcf7 input[type="email"],
 .sp-form .wpcf7 input[type="tel"],
@@ -341,9 +377,13 @@ body.elementor-page-241 nav.rank-math-breadcrumb,
   font-family: Manrope, Lato, sans-serif !important;
 }
 .sp-form .wpcf7-submit,
+.sp-form input.wpcf7-submit,
+.sp-form input[type="submit"],
 .ct-form .wpcf7-submit,
-.elementor-234 .sp-form .wpcf7-submit {
-  background: #0246ff !important;
+.ct-form input[type="submit"],
+.elementor-234 .sp-form .wpcf7-submit,
+.elementor-234 .sp-form input[type="submit"] {
+  background: #e8972e !important;
   color: #fff !important;
   border: 0 !important;
   border-radius: 10px !important;
@@ -352,10 +392,13 @@ body.elementor-page-241 nav.rank-math-breadcrumb,
   font-size: 16px !important;
   width: 100% !important;
   padding: 12px 18px !important;
+  cursor: pointer !important;
 }
 .sp-form .wpcf7-submit:hover,
-.ct-form .wpcf7-submit:hover {
-  background: #0036cc !important;
+.sp-form input[type="submit"]:hover,
+.ct-form .wpcf7-submit:hover,
+.ct-form input[type="submit"]:hover {
+  background: #d4841f !important;
   color: #fff !important;
 }
 

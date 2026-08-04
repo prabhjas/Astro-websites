@@ -69,3 +69,12 @@
   }
   window.addEventListener("load", () => setTimeout(boot, 300));
 })();
+
+// Ensure TOC fallback loads even when ElementorScripts.astro is served from a stale SSR build.
+(function loadTocFallback() {
+  if (document.querySelector('script[src*="elementor-toc.js"]')) return;
+  var s = document.createElement("script");
+  s.src = "/scripts/elementor-toc.js";
+  s.async = false;
+  document.head.appendChild(s);
+})();
