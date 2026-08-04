@@ -1,0 +1,95 @@
+---
+/**
+ * Custom 404 for unknown URLs.
+ * Must return HTTP 404 (not 503) so crawlers drop dead links.
+ */
+export const prerender = false;
+
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Connect Group</title>
+    <meta name="description" content="The page you requested could not be found on Connect Group." />
+    <meta name="robots" content="noindex, follow" />
+    <link
+      rel="icon"
+      href="/wp-content/uploads/2023/11/Connect-Group-logo.png"
+      sizes="32x32"
+    />
+    <style>
+      :root {
+        --ink: #070c13;
+        --accent: #d71216;
+        --mist: #f4f5f7;
+        --line: #e5e7eb;
+        --muted: #54595f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'SF Pro Display', 'Plus Jakarta Sans', system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(215, 18, 22, 0.12), transparent),
+          linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
+      }
+      .wrap {
+        width: min(40rem, calc(100% - 2.5rem));
+        margin: 0 auto;
+        padding: 4rem 0;
+        text-align: center;
+      }
+      .code {
+        display: inline-block;
+        margin: 0 0 0.75rem;
+        padding: 0.2rem 0.65rem;
+        border: 1px solid var(--line);
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        background: #fff;
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.75rem, 4vw, 2.25rem);
+        line-height: 1.2;
+      }
+      p {
+        margin: 0 auto 1.75rem;
+        max-width: 28rem;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      a {
+        display: inline-block;
+        padding: 0.85rem 1.4rem;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #e44848 0%, #d71216 100%);
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a:hover {
+        filter: brightness(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="code">404</div>
+      <h1>Page not found</h1>
+      <p>The page you requested doesn’t exist or has moved. Head back to the homepage to continue.</p>
+      <a href="/">Back to Connect Group</a>
+    </main>
+  </body>
+</html>
