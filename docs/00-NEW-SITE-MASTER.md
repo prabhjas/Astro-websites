@@ -128,7 +128,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Redirect CSV/JSON imported under `imports/redirects/` (or peer path)
 - [ ] Sample old URLs 301 to new targets locally
 - [ ] `/robots.txt`, sitemap(s), `/llms.txt` (if peer has them) return 200 from Node
-- [ ] `PUBLIC_SITE_URL` in local `.env` = `http://127.0.0.1:<PORT>` for smoke
+- [ ] `PUBLIC_SITE_URL` in local `.env` = **`https://<canonical-host>`** (never `127.0.0.1` — Astro inlines `PUBLIC_*` at build time)
 
 **Next → Phase 06**
 
@@ -231,6 +231,8 @@ node scripts/fleet-local.mjs smoke <id>
 
 - [ ] Build succeeds
 - [ ] Fleet smoke green
+- [ ] `PUBLIC_SITE_URL` is `https://<canonical>` (not `127.0.0.1`) before any server sync
+- [ ] Built `dist/server/entry.mjs` has no `127.0.0.1` / `localhost` host baked in
 - [ ] No unexpected secrets in `git status`
 
 ### B. Forms & attribution

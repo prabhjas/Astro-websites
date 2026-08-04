@@ -155,7 +155,13 @@ function ensureEnv(site) {
     if (overwrite || !current) map.set(key, value);
   };
 
-  set('PUBLIC_SITE_URL', `http://127.0.0.1:${site.port}`, { overwrite: true });
+  // Always keep the production canonical host. PUBLIC_* is inlined at `astro build`,
+  // so overwriting with http://127.0.0.1:<port> ships localhost canonicals/og:url to prod.
+  // Local fleet still listens on 127.0.0.1:<port>; only SEO absolute URLs use https://domain.
+  const canonicalHost =
+    site.canonicalHost ||
+    (site.domain === 'evolutionmiddleast.com' ? 'www.evolutionmiddleast.com' : site.domain);
+  set('PUBLIC_SITE_URL', `https://${canonicalHost}`, { overwrite: true });
   set('INTERNAL_JOB_SECRET', 'local-fleet-test-secret', { overwrite: true });
   set('LEAD_STORE_DIR', '.data/leads', { overwrite: true });
   set('LOG_LEVEL', 'info');
