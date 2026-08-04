@@ -371,10 +371,10 @@ Astro-production/<domain>/
 | cbss | cbss.ae | 5081 |
 | spheavyrental | spheavyrental.ae | 5082 |
 | iberiaworkforce | iberiaworkforce.com | 5083 |
-| connectresources | connectresources.ae | 5084 |
+| connectresources | connectresources.ae | 5086 |
 | connectgroup | connectgroup.co | 5085 |
 
-Next free: **5086+**.
+Next free: **5124** (see repo `docs/FLEET-PORT-REGISTRY.md`).
 
 ---
 
