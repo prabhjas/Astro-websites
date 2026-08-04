@@ -44,13 +44,14 @@ export function parseContactFormBody(
   return {
     name:
       get('name') ??
+      get('Name') ??
       get('full-name') ??
       get('full_name') ??
       get('your-name') ??
       get('sub'),
     firstName: get('firstName') ?? get('first_name') ?? get('first-name'),
     lastName: get('lastName') ?? get('last_name') ?? get('last-name'),
-    email: get('email') ?? get('your-email') ?? get('sub2'),
+    email: get('email') ?? get('Email') ?? get('your-email') ?? get('sub2'),
     phone: get('phone') ?? findFieldValue(raw, 'phonetext'),
     message: buildMessage(get) ?? get('sub5'),
     company: get('company'),

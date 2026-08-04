@@ -68,6 +68,12 @@ html = html.replace(
   `$1\n\t${catSelectInner}\n$2`,
 );
 
+/** Point Elementor search widget at local search page (live used site root). */
+html = html.replace(
+  /(<form class="elementor-search-form"[^>]*action=")[^"]*(")/i,
+  `$1/search/$2`,
+);
+
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
