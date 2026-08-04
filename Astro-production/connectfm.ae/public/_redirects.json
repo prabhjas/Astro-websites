@@ -1,0 +1,12 @@
+[
+  {
+    "from": "/insights/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/insights",
+    "to": "/blog/",
+    "status": 301
+  }
+]

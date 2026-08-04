@@ -77,6 +77,14 @@
   box-sizing: border-box !important;
 }
 
+/* Match live CF7: center success/error response under the submit button */
+.kzform .wpcf7-response-output,
+.wpcf7-form .wpcf7-response-output,
+.wpcf7-form.sent .wpcf7-response-output,
+.wpcf7-form.invalid .wpcf7-response-output {
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   .kzform .kzf1 {
     grid-template-columns: 1fr;

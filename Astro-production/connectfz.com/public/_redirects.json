@@ -1,0 +1,17 @@
+[
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/contact-us/",
+    "to": "/contact/",
+    "status": 301
+  }
+]
