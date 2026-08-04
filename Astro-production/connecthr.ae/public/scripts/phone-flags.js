@@ -112,6 +112,18 @@
     if (!phones.length) return;
 
     injectFlagSpriteCss();
+
+    // intlTelInput is a jQuery plugin — wait for jQuery first
+    const jqReady = await new Promise((resolve) => {
+      const start = Date.now();
+      (function tick() {
+        if (window.jQuery) return resolve(true);
+        if (Date.now() - start > 5000) return resolve(false);
+        setTimeout(tick, 40);
+      })();
+    });
+    if (!jqReady) return;
+
     await ensureScript(ITI_JS);
     await ensureScript(UTILS_JS);
     const ready = await waitForIntlTel(5000);
@@ -147,9 +159,16 @@
     phones.forEach((el) => applyCountry($(el), geoCountry));
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
+  function boot() {
     init();
+    // CF7 / Elementor may inject forms late (popups)
+    [400, 1200, 3000].forEach((ms) => setTimeout(init, ms));
+    window.addEventListener("chr:popup-opened", () => setTimeout(init, 50));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
   }
 })();

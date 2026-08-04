@@ -35,7 +35,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5085** | connectgroup.co | `connectgroup.co` | scaffolded |
 | **5086** | connectresources.ae | `connectresources.ae` | scaffolded |
 | **5087** | connectfm.ae | `connectfm.ae` | scaffolded |
-| **5088** | connectresources.sa | `connectresources.sa` | placeholder |
+| **5088** | connectresources.sa | `connectresources.sa` | scaffolded (local ready; Caddy template in git) |
 | **5089** | iberiaeor.com | `iberiaeor.com` | scaffolded |
 | **5090** | eormiddleast.com | `eormiddleast.com` | scaffolded |
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
@@ -43,8 +43,8 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
 | **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
 | **5095** | redo.ae | `redo.ae` | placeholder |
-| **5096** | connectfz.com | `connectfz.com` | placeholder |
-| **5097** | royalvisa.ae | `royalvisa.ae` | placeholder |
+| **5096** | connectfz.com | `connectfz.com` | scaffolded |
+| **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
 | **5098** | kpmpro.ae | `kpmpro.ae` | placeholder |
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | placeholder |
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **11 scaffolded** · **33 placeholders** · next free **5124**
+**Totals:** 44 sites · **15 scaffolded** · **29 placeholders** · next free **5124**
 
 ---
 
@@ -90,11 +90,14 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
 | 5087 | connectfm.ae | FULL_CMS peer (c-uae shape); live WP extract |
+| 5088 | connectresources.sa | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
 | 5089 | iberiaeor.com | Live WP clone extracted (kit-6 Manrope/Lato); local smoke green; malware scan: 0 PHP in public |
 | 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 | 5091 | connectstaff.ae | Scaffolded (dev merge) |
 | 5092 | c-uae.com | Scaffolded (dev merge) |
 | 5093 | kinzahr.com | Full CMS scaffold (local); **not** in live Caddyfile yet |
+| 5096 | connectfz.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
+| 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
 
 “Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group (see `caddy/Caddyfile.production`).
 

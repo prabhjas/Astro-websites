@@ -1,0 +1,136 @@
+/* Royal Visa — CF7 / contact form skin (live parity) */
+
+/* Landing (dark green) form */
+.landing-form input,
+.landing-form textarea {
+  border-radius: 15px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff;
+}
+.landing-form input::placeholder,
+.landing-form textarea::placeholder {
+  color: #fff !important;
+}
+.landing-form p {
+  color: #0b7242;
+}
+.landing-form .contactform input[type='submit'] {
+  background: #fff !important;
+  color: #0b7242 !important;
+}
+
+/* Standard contactform (contact page + sidebar) */
+.contactform {
+  display: block;
+  width: 100%;
+}
+.contactform label {
+  display: block;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 0;
+}
+.contactform p {
+  margin: 0 0 14px;
+}
+.contactform input[type='text'],
+.contactform input[type='email'],
+.contactform input[type='tel'],
+.contactform input.wpcf7-form-control:not([type='submit']):not([type='checkbox']):not([type='hidden']),
+.contactform textarea {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 15px;
+  border: 1px solid #c4edbc;
+  background: #fff;
+  padding: 15px 20px;
+  margin: 0;
+  display: block;
+}
+.contactform textarea {
+  height: 110px;
+  min-height: 90px;
+  resize: vertical;
+}
+.contactform .wpcf7-form-control-wrap,
+.contactform .intl-tel-input,
+.contactform .iti {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: block;
+  margin: 0;
+}
+.contactform .intl-tel-input input,
+.contactform .iti input,
+.contactform .iti__tel-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+/* intl-tel-input separate dial code row — keep clear of next field */
+.contactform .iti,
+.contactform .intl-tel-input {
+  margin-bottom: 0;
+}
+.contactform label:has(.iti),
+.contactform label:has(.intl-tel-input),
+.contactform label:has(.wpcf7-phonetext) {
+  margin-bottom: 14px;
+}
+.contactform input[type='submit'],
+.contactform .wpcf7-submit {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #afce2b;
+  border: 1px solid #afce2b;
+  font-size: 18px;
+  color: #fff !important;
+  font-weight: 500;
+  line-height: 27.9px;
+  padding: 12px 16px !important;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.contactform input[type='submit']:hover,
+.contactform .wpcf7-submit:hover {
+  color: #000 !important;
+}
+
+/* Contact page dark panel uses white fields with green border */
+.elementor-element-0dc2e76 .contactform input,
+.elementor-element-0dc2e76 .contactform textarea,
+.landing-form .contactform input:not([type='submit']),
+.landing-form .contactform textarea {
+  border: 1px solid #c4edbc !important;
+  background: #fff !important;
+  color: #1f232b !important;
+}
+.landing-form .contactform input::placeholder,
+.landing-form .contactform textarea::placeholder {
+  color: #888 !important;
+}
+
+/* Sticky sidebar form under sticky header */
+.elementor-location-header .elementor-sticky--active,
+.elementor-element-6f7aa16.elementor-sticky--active {
+  z-index: 1000 !important;
+}
+.elementor-element-f006bfc.elementor-sticky--active {
+  z-index: 10 !important;
+}
+.elementor-element-f006bfc .contactform label {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+}
+.elementor-element-f006bfc .contactform input:not([type='submit']):not([type='checkbox']):not([type='hidden']),
+.elementor-element-f006bfc .contactform textarea,
+.elementor-element-f006bfc .contactform .wpcf7-form-control-wrap,
+.elementor-element-f006bfc .contactform .iti {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
