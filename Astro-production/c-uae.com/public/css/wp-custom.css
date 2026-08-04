@@ -102,16 +102,20 @@
 }
 
 /* CF7 wraps input inside label — use :has, not adjacent sibling */
+.form-main .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked),
+.form-main .wpcf7-form-control.wpcf7-radio label.selected,
 .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked),
 .wpcf7-form-control.wpcf7-radio label.selected {
-  background-color: #3D1457;
-  color: #fff;
+  background-color: #3D1457 !important;
+  color: #fff !important;
   border-color: #3D1457;
 }
 
+.form-main .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked) .wpcf7-list-item-label,
+.form-main .wpcf7-form-control.wpcf7-radio label.selected .wpcf7-list-item-label,
 .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked) .wpcf7-list-item-label,
 .wpcf7-form-control.wpcf7-radio label.selected .wpcf7-list-item-label {
-  color: #fff;
+  color: #fff !important;
 }
 
 .form-main .back-next-btn p,
@@ -249,8 +253,13 @@ button.next-btn i {
 
 
 @media (max-width: 767px) {
+    .form-main .step-count,
     .step-count{
         position:unset;
+    }
+    .form-main .info-data p,
+    .info-data p {
+        flex-direction: column;
     }
 }
 
