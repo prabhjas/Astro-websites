@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
+import {
+  getPageByPath,
+  getPublishedPostByPath,
+  getRelatedPosts,
+  stripHtml,
+  normalizePath,
+} from "../lib/content";
+import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { notFoundResponse } from "../lib/not-found";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slugPath = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/${slugPath}`);
+
+const page = getPageByPath(path);
+const post = page ? null : getPublishedPostByPath(path);
+
+if (!page && !post) {
+  return notFoundResponse();
+}
+
+const entry = page || post!;
+const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+
+const pageCrumbs = page
+  ? (() => {
+      const crumbs = [
+        { name: "Home", href: "/" },
+        { name: stripHtml(page.title), href: undefined as string | undefined },
+      ];
+      const parts = path.replace(/^\/|\/$/g, "").split("/").filter(Boolean);
+      if (parts.length >= 2) {
+        crumbs.splice(1, 0, {
+          name: parts[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+          href: `/${parts[0]}/`,
+        });
+      }
+      return crumbs;
+    })()
+  : [];
+
+const related = post ? getRelatedPosts(post, 3) : [];
+const postCrumbs = post
+  ? [
+      { name: "Home", href: "/" },
+      { name: "Insights", href: "/insights/" },
+      { name: stripHtml(post.title) },
+    ]
+  : [];
+
+const seo = page
+  ? {
+      title: page.seo.title,
+      description: page.seo.description,
+      canonical: path,
+      ogImage: page.seo.ogImage,
+      schemas: [
+        ...(page.seo.schemas || []),
+        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+      ],
+    }
+  : {
+      title: post!.seo.title || stripHtml(post!.title),
+      description: post!.seo.description || stripHtml(post!.excerpt),
+      canonical: path,
+      ogImage: post!.seo.ogImage || post!.featuredImage,
+      ogType: "article" as const,
+      publishedTime: post!.date,
+      modifiedTime: post!.modified,
+      authorName: post!.authorName,
+      schemas: [
+        ...(post!.seo.schemas || []),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        articleSchema({
+          title: stripHtml(post!.title),
+          description: post!.seo.description || stripHtml(post!.excerpt),
+          url: path,
+          image: post!.featuredImage || post!.seo.ogImage,
+          datePublished: post!.date,
+          dateModified: post!.modified,
+          authorName: post!.authorName,
+        }),
+      ],
+    };
+
+const isListingArchive =
+  !!page &&
+  (path.startsWith("/categories/") ||
+    path.startsWith("/locations/") ||
+    page.wpType === "mt_listing_archive");
+
+const extraCss = page
+  ? [
+      ...(page.pageCss || []),
+      page.elementorCss ||
+        (page.wpType === "mt_listing_archive"
+          ? undefined
+          : `/wp-content/uploads/elementor/css/post-${page.id}.css`),
+    ].filter(Boolean) as string[]
+  : [
+      ...(post!.pageCss || []),
+      "/wp-content/uploads/elementor/css/post-33241.css",
+      post!.elementorCss,
+    ].filter(Boolean) as string[];
+
+const postElementorId =
+  post?.bodyHtml?.match(/data-elementor-id="(\d+)"/)?.[1] ||
+  post?.elementorCss?.match(/post-(\d+)\.css/)?.[1] ||
+  "33241";
+
+const postUsesElementor =
+  !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
+
+const pageBodyClass = page
+  ? isListingArchive
+    ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
+    : `page page-id-${page.id} elementor-page elementor-page-${page.id}`
+  : postUsesElementor
+    ? `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-${postElementorId} hide_post_featured_image is_header_semitransparent elementor-template-full-width`
+    : `single single-post postid-${post!.id} post post-id-${post!.id} hide_post_featured_image is_header_semitransparent elementor-template-full-width elementor-page elementor-page-33241`;
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={pageBodyClass}
+  fallback={entry.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={post ? "/insights/" : undefined}
+>
+  {
+    page ? (
+      <div class:list={["sp-page-content", isListingArchive && "cfz-listing-archive-wrap"]} set:html={html} />
+    ) : postUsesElementor ? (
+      <div class="sp-page-content" set:html={post!.bodyHtml} />
+    ) : (
+      <ConnectFzSinglePost post={post!} html={html} related={related} />
+    )
+  }
+</BaseLayout>
