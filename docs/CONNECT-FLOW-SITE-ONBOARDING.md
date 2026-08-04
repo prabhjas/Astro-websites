@@ -376,8 +376,9 @@ Astro-production/<domain>/
 | connecthr | connecthr.ae | 5086 *(host / planned)* |
 | connectgroup | connectgroup.co | 5087 *(host / planned)* |
 | eormiddleast | eormiddleast.com | 5090 |
+| cuae | c-uae.com | 5092 |
 
-Next free in `scripts/fleet-sites.json` (this monorepo): **5086+** for new sites (avoid **5090** — eormiddleast); on the production host follow the table above and pick the next unused loopback port.
+Next free in `scripts/fleet-sites.json` (this monorepo): **5087+** for new sites (avoid **5090** eormiddleast, **5092** cuae); on the production host follow the table above and pick the next unused loopback port.
 ---
 
 ## 8. What not to do
