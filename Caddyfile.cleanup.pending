@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------
+# Astro SSR sites (Node-backed, one systemd unit each) live in their own files.
+# The Node process renders each route and serves its own dist/client assets and
+# /api/* endpoints. Never add a partial /api/lead-only proxy to these sites.
+#
+# Validate before reloading:
+#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+# ---------------------------------------------------------------------------
+import /etc/caddy/sites.d/*.caddy
+
+# Evolution Middle East preview -> http://178.105.150.67:8090
+# Proxies to the same Node app the real domain will use, so what you see here
+# is exactly what goes live at cutover.
+:8090 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5080
+	header X-Robots-Tag "noindex, nofollow"
+}
+
+# CBSS preview -> http://178.105.150.67:8091
+:8091 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5081
+	header X-Robots-Tag "noindex, nofollow"
+}
