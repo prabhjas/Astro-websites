@@ -90,16 +90,16 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
 | 5087 | connectfm.ae | FULL_CMS peer (c-uae shape); live WP extract |
-| 5088 | connectresources.sa | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
+| 5088 | connectresources.sa | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
 | 5089 | iberiaeor.com | Live WP clone extracted (kit-6 Manrope/Lato); local smoke green; malware scan: 0 PHP in public |
-| 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
-| 5091 | connectstaff.ae | Scaffolded · `Caddyfile.production` block ready (server cutover pending) |
-| 5092 | c-uae.com | Scaffolded · `Caddyfile.production` block ready (not pushing yet) |
-| 5093 | kinzahr.com | Scaffolded · `Caddyfile.production` block ready (not pushing yet) |
-| 5096 | connectfz.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
-| 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green; block in `caddy/Caddyfile.production` (apply on cutover) |
+| 5090 | eormiddleast.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
+| 5091 | connectstaff.ae | Scaffolded · in `Caddyfile.production` (server cutover pending) |
+| 5092 | c-uae.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
+| 5093 | kinzahr.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
+| 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
+| 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
 
-“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` in git includes live Tier‑1 plus EOR/Staff/C‑UAE/Kinza and other scaffolded blocks from `dev` (Connect HR, Connect Resources SA, Iberia EOR, Connect FZ, Royal Visa). Apply to the host only when the matching Node unit is ready.
+“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists **only** the nine cutover targets: Tier‑1 (Evolution, CBSS, SP Heavy, Iberia Workforce, Connect Group) + EOR, Connect Staff, C‑UAE, KinzaHR. Other scaffolded domains keep ports reserved but stay out of the live Caddyfile until their Node unit is ready.
 
 ---
 

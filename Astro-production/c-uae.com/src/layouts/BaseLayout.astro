@@ -7,7 +7,7 @@ import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import { resolveInternalAdminDir } from "../env/server";
-import { readGlobalGtmConfig, sanitiseGtmSnippet } from "../lib/gtm/store";
+import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 import "../styles/global.css";
 
 interface Props {
@@ -89,15 +89,15 @@ const stylesheets = [
     "/css/migration-overrides.css",
   ]),
 ].filter((href) => !FOREIGN_KIT_BLOCKLIST.has(href));
-/** Dashboard Global GTM — SSR into HTML so it appears in View Source */
+/** FLOW/file or env GTM — SSR into HTML so it appears in View Source */
 let gtmHead = "";
 let gtmBody = "";
 let gtmFooter = "";
 try {
-  const gtm = await readGlobalGtmConfig(resolveInternalAdminDir());
-  gtmHead = sanitiseGtmSnippet(gtm?.headScript || "");
-  gtmBody = sanitiseGtmSnippet(gtm?.bodyHtml || "");
-  gtmFooter = sanitiseGtmSnippet(gtm?.footerScript || "");
+  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
+  gtmHead = gtm.headScript;
+  gtmBody = gtm.bodyHtml;
+  gtmFooter = gtm.footerScript;
 } catch {
   /* keep public pages resilient */
 }
