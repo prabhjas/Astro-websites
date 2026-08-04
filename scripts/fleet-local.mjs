@@ -43,14 +43,32 @@ function ensureDirs() {
   mkdirSync(LOG_DIR, { recursive: true });
 }
 
+function isRunnable(site) {
+  if (site.status === 'placeholder') return false;
+  if (site.status === 'scaffolded') return true;
+  return existsSync(join(sitePath(site), 'package.json'));
+}
+
 function resolveSites(selector) {
   const all = REGISTRY.sites;
-  if (!selector || selector === 'all') return all;
+  if (!selector || selector === 'all') {
+    const runnable = all.filter(isRunnable);
+    const skipped = all.length - runnable.length;
+    if (skipped > 0) {
+      console.log(`Note: skipping ${skipped} placeholder site(s); use "list" to see all reserved ports.`);
+    }
+    return runnable;
+  }
   const ids = selector.split(',').map((s) => s.trim()).filter(Boolean);
   const found = [];
   for (const id of ids) {
     const site = all.find((s) => s.id === id || s.dir === id || s.domain === id);
     if (!site) die(`Unknown site: ${id}\nKnown: ${all.map((s) => s.id).join(', ')}`);
+    if (!isRunnable(site)) {
+      die(
+        `${site.id} is a placeholder (port ${site.port} reserved). Scaffold it first — see docs/00-NEW-SITE-MASTER.md and docs/FLEET-PORT-REGISTRY.md`,
+      );
+    }
     found.push(site);
   }
   return found;
@@ -87,14 +105,16 @@ function isAlive(pid) {
 
 function cmdList() {
   console.log('Fleet sites (same ports as production systemd units):\n');
-  console.log(['ID', 'DOMAIN', 'PORT', 'PATH'].map((h) => h.padEnd(22)).join(''));
+  console.log(['ID', 'DOMAIN', 'PORT', 'STATUS', 'PATH'].map((h) => h.padEnd(22)).join(''));
   for (const s of REGISTRY.sites) {
     console.log(
-      [s.id, s.domain, String(s.port), `Astro-production/${s.dir}`]
-        .map((v, i) => v.padEnd(i === 3 ? 48 : 22))
+      [s.id, s.domain, String(s.port), s.status || '?', `Astro-production/${s.dir}`]
+        .map((v, i) => v.padEnd(i === 4 ? 48 : 22))
         .join(''),
     );
   }
+  const next = Math.max(...REGISTRY.sites.map((s) => s.port)) + 1;
+  console.log(`\nNext free port: ${next}  ·  Full registry: docs/FLEET-PORT-REGISTRY.md`);
 }
 
 function ensureEnv(site) {
@@ -135,46 +155,76 @@ function ensureEnv(site) {
     if (overwrite || !current) map.set(key, value);
   };
 
-  set('PUBLIC_SITE_URL', `http://127.0.0.1:${site.port}`, { overwrite: true });
+  // Always keep the production canonical host. PUBLIC_* is inlined at `astro build`,
+  // so overwriting with http://127.0.0.1:<port> ships localhost canonicals/og:url to prod.
+  // Local fleet still listens on 127.0.0.1:<port>; only SEO absolute URLs use https://domain.
+  const canonicalHost =
+    site.canonicalHost ||
+    (site.domain === 'evolutionmiddleast.com' ? 'www.evolutionmiddleast.com' : site.domain);
+  const localUrl = `http://127.0.0.1:${site.port}`;
+  set('PUBLIC_SITE_URL', `https://${canonicalHost}`, { overwrite: true });
+  // Convenience for local testing — not used for Astro SEO/canonical bake-in.
+  set('FLEET_LOCAL_URL', localUrl, { overwrite: true });
   set('INTERNAL_JOB_SECRET', 'local-fleet-test-secret', { overwrite: true });
   set('LEAD_STORE_DIR', '.data/leads', { overwrite: true });
   set('LOG_LEVEL', 'info');
 
-  // Required by Evolution / SP Heavy getServerEnv() — placeholders for local only.
-  set('PIPEDRIVE_API_TOKEN', 'local-dev-placeholder');
+  // Required by getServerEnv() when missing — do NOT overwrite real secrets.
+  // Prefer empty over baking a fake token into the Astro server bundle.
+  set('PIPEDRIVE_API_TOKEN', '');
   set('PIPEDRIVE_COMPANY_DOMAIN', 'connectgroup2');
-  set('PIPEDRIVE_OWNER_ID', '1');
+  set('PIPEDRIVE_OWNER_ID', '');
   set('PIPEDRIVE_LEAD_SOURCE_ID', '270');
-  set('WEBSITE_ID', '1');
+  set('WEBSITE_ID', '');
 
+  // If a previous run left the local placeholder, clear it so .env can be fixed
+  // without a manual edit, and so rebuilds don't keep baking a dead token.
+  if (String(map.get('PIPEDRIVE_API_TOKEN') || '').trim() === 'local-dev-placeholder') {
+    map.set('PIPEDRIVE_API_TOKEN', '');
+  }
   const out = [];
   const written = new Set();
+  let injectedLocalHint = false;
   for (const item of order) {
     if (item.type === 'raw') {
+      // Drop stale local-hint comments so we don't stack duplicates on every env run.
+      if (/^#\s*Local test URL \(fleet-local\)/.test(item.line)) continue;
       out.push(item.line);
       continue;
     }
     if (written.has(item.key)) continue;
     written.add(item.key);
+    if (item.key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
     out.push(`${item.key}=${map.get(item.key)}`);
   }
   for (const [key, value] of map) {
-    if (!written.has(key)) out.push(`${key}=${value}`);
+    if (written.has(key)) continue;
+    if (key === 'PUBLIC_SITE_URL' && !injectedLocalHint) {
+      out.push(`# Local test URL (fleet-local): ${localUrl}  — keep PUBLIC_SITE_URL as https canonical`);
+      injectedLocalHint = true;
+    }
+    out.push(`${key}=${value}`);
   }
 
   writeFileSync(envPath, `${out.join('\n').replace(/\n+$/, '')}\n`);
   mkdirSync(join(dir, '.data', 'leads'), { recursive: true });
-  console.log(`  env ready: ${site.dir}/.env → :${site.port}`);
+  console.log(`  env ready: ${site.dir}/.env → canonical https://${canonicalHost} · local ${localUrl}`);
 }
+
+/** Windows: Node execFileSync does not resolve .cmd shims without the extension. */
+const PNPM = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 
 function runPnpm(site, args, label) {
   console.log(`\n▸ ${site.id}: ${label}`);
-  execFileSync('pnpm', args, { cwd: sitePath(site), stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: sitePath(site), stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 function runPnpmRoot(args, label) {
   console.log(`\n▸ root: ${label}`);
-  execFileSync('pnpm', args, { cwd: ROOT, stdio: 'inherit', env: process.env });
+  execFileSync(PNPM, args, { cwd: ROOT, stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
 }
 
 async function stopSite(site) {

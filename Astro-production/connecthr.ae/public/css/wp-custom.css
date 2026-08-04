@@ -1,0 +1,777 @@
+.ref-cta{
+	background:linear-gradient(77deg, #0045DC 0%, #0ABF94 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.single-post .wpcf7 form.sent
+.single-post .wpcf7-response-output {
+    color: #d1ecf1;
+}
+
+.arabic-toggle .elementor-toggle-icon-right {
+    float: left !important;
+}
+
+
+div#transaction_hide {
+    display: none !important;
+}
+.light-green{
+   color:#7BF880;	
+}
+
+.brown{
+	color:#DA5B25;
+}
+
+p.pv {
+    text-align: center;
+    font-size: 12px;
+}
+
+.cat-form .wpcf7 form label {
+  display: block;
+  position: relative;
+  border-bottom: 1px solid #0045DC;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0045DC;
+}
+
+.cat-form .wpcf7 form textarea {
+	height: 65px;
+}
+
+
+.cat-form .wpcf7 form input[type="text"],
+.cat-form .wpcf7 form input[type="email"],
+.cat-form .wpcf7 form select,
+.cat-form .wpcf7 form textarea {
+  font-family: "General Sans";
+  width: 100%;
+  border: none;
+  padding:8px 0 0 0;
+  background: transparent;
+  font-size: 14px;
+	outline:0;
+  font-weight: 500;
+  line-height:21px;
+  color: #fff;
+}
+
+.cat-form .wpcf7 form input::placeholder,
+.cat-form .wpcf7 form textarea::placeholder {
+  color: #ACDEFF;
+}
+
+.cat-form .wpcf7 form select {
+   color: #ACDEFF;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cat-form .wpcf7 form input[type="submit"] {
+  background: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 24px */
+  letter-spacing: 0.32px;
+  color:#2C2B2C;
+	 margin-bottom: 0px;
+}
+
+
+.single-post .content-box h2{
+    font-size:32px !important;
+    line-height:35px ;
+	  font-weight: 600 !important;
+}
+
+
+/* ---Form end--- */
+
+.line-border{
+    border-bottom: 1px solid; /* thickness */
+  border-image: linear-gradient(77deg, #0045DC 0%, #0ABF94 100%);
+  border-image-slice: 1;
+}
+
+
+
+
+.reviews-hover:hover p , .reviews-hover:hover div{
+    color:#fff !important;
+}
+
+.reviews-hover:hover .elementor-widget-container {
+    border-color:#0ABF94 !important;
+}
+
+.home-cr{
+background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;	
+}
+
+.shipping-text{
+	background: linear-gradient(90deg, #004DFF 0%, #001139 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.endtoend{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.cta-wether{
+    background: linear-gradient(180deg, rgba(1, 22, 72, 0.00) 45.77%, rgba(1, 22, 72, 0.20) 95.77%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.hov-tex{ 
+border-radius: 20px;
+background: #FAFAFA;
+}
+
+.hov-tex:hover{
+	background:#021340;
+	
+}
+
+.hov-tex:hover .elementor-image-box-content .elementor-image-box-title{
+	color:#fff;
+}
+
+.hov-tex:hover .elementor-image-box-content .elementor-image-box-description{
+	color:#D1EEFF;
+}
+
+
+
+
+.work-flow{
+	background: linear-gradient(90deg, #009A79 0%, #000 100%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+
+.pay-tick ul li{
+ background: #EBFEF7;
+    padding: 4px 12px 4px 12px !important;
+    border-radius: 100px;
+	margin-bottom: 8px !important;
+}
+
+
+.payroll-heading{
+	background: var(--Gradients-Blue, linear-gradient(90deg, #000 0%, #004DFF 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+
+.payroll-second{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.easly-addapt{
+	background: linear-gradient(225deg, #021340 0%, #009A79 96.23%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+
+.tracker-offer .elementor-toggle .elementor-tab-title.elementor-active,
+.elementor-tab-title.elementor-active{
+background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.visa-grad{
+background: var(--Gradients-Blue, linear-gradient(90deg, #000 0%, #004DFF 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+
+.keg-head{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+
+.con-hr-gr{
+	
+	background:  linear-gradient(77deg, #0045DC 0%, #0ABF94 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+
+.emp-heading-trans{
+	background: linear-gradient(90deg, #000 0%, #009A79 99.99%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+
+
+.foo-toggle .elementor-tab-title.elementor-active{
+    border-radius: 8px;
+    background: var(--Primary-Green-50, #EBFEF7);
+color: #000 !important;
+}
+
+.foo-toggle .elementor-tab-title.elementor-active{
+    border-radius: 8px;
+    background: var(--Primary-Green-50, #EBFEF7);
+color: #000 !important;
+}
+
+.faq-grad .elementor-active a.elementor-toggle-title  {
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+
+
+
+.foo-toggle .elementor-widget-container .elementor-accordion .elementor-accordion-item {
+    border-bottom: 1px solid  #E7E6E7;
+    margin-bottom:16px;
+    padding-bottom:16px;
+    
+}
+
+.f-acc{
+	list-style:none;
+	padding-left:0;
+	margin: 0;
+}
+.f-acc li{
+    padding-bottom:10px;
+}
+
+
+#btn-grad{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+box-shadow: 0px 2px 9px 0px rgba(44, 43, 44, 0.15);
+}
+
+#hvr-btn:hover{
+background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+box-shadow: 0px 2px 9px 0px rgba(44, 43, 44, 0.15);
+}
+
+.leave-encas{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+.leave-automat{
+	background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.onbord-head{
+	background: linear-gradient(246deg, #2FD8AA 0%, #0D0D0D 69.34%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.blue-grad{
+	background: linear-gradient(268deg, #004DFF 43.67%, #000 99.82%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+.blue-grad-1{
+	background: linear-gradient(2300deg, #004DFF 14.65%, #000 82.81%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+
+.gradient-bg{
+  background: linear-gradient(77deg, #0045DC 0%, #0ABF94 100%);
+}
+
+.heading-trans{
+	background: linear-gradient(89deg, #000 46.47%, #009A79 100.01%);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.faq-brdr .elementor-toggle .elementor-tab-title.elementor-active,
+.faq-brdr .elementor-tab-title.elementor-active
+{
+    background: var(--Gradients-Button, linear-gradient(77deg, #0045DC 0%, #0ABF94 100%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tick-list ul li{
+ background: #EBFEF7;
+    padding: 4px 8px 4px 6px !important;
+    border-radius: 100px;
+	margin-bottom: 10px !important;
+}
+
+.tick-list-2 ul li{
+ background: #ffffff21;
+    padding: 4px 12px 4px 12px !important;
+    border-radius: 100px;
+	margin-bottom: 10px !important;
+}
+
+.count{
+    color:#D1D0D1;
+    margin-right:10px;
+}
+
+.light-blue-gd {
+  background: linear-gradient(77deg, #0045DC 0%, #0ABF94 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* Optional fallback */
+}
+
+.green{
+	color:#009A79;
+}
+.elementor-icon-box-title {
+    margin-top: 0px;
+}
+
+.divider .elementor-divider-separator {
+    height: 8px; 
+    width:120px;
+    border: none;
+    border-radius: 99999px;
+    background: linear-gradient(90deg, #0045DC 0%, #0ABF94 100%) !important;
+    border:none !important;
+}
+
+
+/* ------ */
+
+
+.tog-sec .elementor-toggle-title {
+    position: relative;
+    padding-left: 45px;
+    z-index: 1;
+	  display:flex;
+}
+
+/* Shared icon style */
+.tog-sec .elementor-toggle-title::before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 0; 
+}
+
+
+.tog-sec .elementor-toggle-title span {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    background-color: transparent;
+}
+
+.tog-sec .elementor-tab-title.elementor-active a {
+    background: linear-gradient(77deg, #0045DC 0%, #0ABF94 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+    font-weight: bold; 
+}
+
+
+.tog-sec .elementor-toggle-item:nth-of-type(1) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon.svg');
+}
+
+/* Icon for 2nd item */
+.tog-sec .elementor-toggle-item:nth-of-type(2) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon-1.svg');
+}
+
+/* Icon for 3rd item */
+.tog-sec .elementor-toggle-item:nth-of-type(3) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon-2.svg');
+}
+
+/* Icon for four item */
+.tog-sec .elementor-toggle-item:nth-of-type(4) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon-3.svg');
+}
+
+/* Icon for five item */
+.tog-sec .elementor-toggle-item:nth-of-type(5) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon-4.svg');
+}
+.tog-sec .elementor-toggle-item:nth-of-type(6) .elementor-toggle-title::before {
+    background-image: url('/wp-content/uploads/2025/08/Featured-icon-4.svg');
+}
+
+.bx-height .elementor-widget-container{
+    min-height:240px;
+}
+
+
+.hr-list li {
+  background: linear-gradient(77deg, #0045DC 0%, #0ABF94 60%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.icon-faq{
+    width:30px;
+}
+
+.visa-box .elementor-icon-box-wrapper {
+    min-height:200px;
+}
+
+.list-insurance li{
+   border-radius: 12px;
+   border:1px solid #0537AA;
+   padding:16px !important;
+   margin-bottom:20px !important;
+}
+
+.pricing-box .c2 {
+  position: relative;
+  border-radius: 12px;
+  background: linear-gradient(77deg, #0045DC, #0ABF94);
+	margin:10px;
+}
+
+.pricing-box .c2::before {
+  content: "";
+  position: absolute;
+  top: 1.4px;
+  left: 1.4px;
+  right: 1.4px;
+  bottom: 1.3px;
+  background: white; 
+  border-radius: 11px;
+}
+
+/* contact form */
+.main-form {
+    display:flex;
+    gap:40px;
+}
+
+.form-c1{
+	width:50%;
+}
+
+.form-c2{
+	width:50%;
+}
+
+.wpcf7 input,
+.wpcf7 textarea,
+.wpcf7 select {
+  width: 100% ;
+  box-sizing: border-box;
+	margin-bottom:12px;
+	border-radius: 8px;
+  border: 1px solid #E7E6E7;
+  padding:12px 14px;
+  background:#fff;
+	box-shadow: 0 1px 2px 0 rgba(10, 13, 18, 0.05);
+
+}
+
+.wpcf7 input[type="submit"] {
+  width: 100% ;
+	margin-top:15px;
+}
+
+.name-field {
+    display:flex;
+    gap:20px;
+}
+
+.main-form p{
+    margin:0px;
+}
+
+/* ::placeholder{
+	color:#888789;
+}
+ */
+
+.c2-wrap {
+
+	display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+}
+
+.form-c2{
+    padding: 20px 16px;
+    border:1px solid #EFF0F0;
+    background:#FAFAFA;
+    border-radius:8px; 
+}
+
+.form-c2  .para {
+  color: #000;
+  font-family: "General Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 4 00;
+  line-height:24px;
+  margin-bottom:15px;
+}
+
+
+.checkbox-block {
+    display: flex;
+    gap:10px;
+	  margin-bottom:20px;
+}
+
+.checkbox-block .wpcf7-list-item {
+	margin:0px;
+}
+
+.checkbox-block span.wpcf7-list-item-label{
+    display: none;
+}
+
+.checkbox-content h3{
+    margin-top:0px;
+    margin-bottom:10px;
+	  color: #3D3C3D;
+    font-family: "General Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height:24px;
+}
+
+.checkbox-content p{
+  color:#535862;
+  font-family: "General Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.mid-device{
+	display:none;
+}
+
+.hov-box .elementor-widget-wrap:hover{
+    background:#004DFF !important ;
+}
+
+.hov-box .elementor-widget-wrap:hover .elementor-icon path {
+  fill: white;
+  transition: fill 0.3s ease;
+}
+
+.hov-box .elementor-widget-wrap h3{
+	 margin-top:0px !important;
+}
+
+
+.hov-box .elementor-widget-wrap:hover h3{
+    color:#fff !important;
+}
+
+
+.hov-box .elementor-widget-wrap:hover p{
+    color:#D0FBE9 !important;
+}
+
+ .hov-box .elementor-widget-wrap:hover .elementor-button{
+    background:#fafafa !important;
+    color:#004DFF !important;
+}
+ 
+
+.hov-box .elementor-widget-wrap:hover .elementor-button-icon path{
+	fill:#004DFF;
+}
+
+.hov-box .elementor-widget-wrap:hover .elementor-icon svg {
+  fill: white !important;
+  transition: fill 0.3s ease;
+}
+
+.hov-box .elementor-widget-wrap:hover .elementor-icon svg {
+  fill: white !important;
+  transition: fill 0.3s ease;
+}
+
+.hov-box .elementor-widget-wrap:hover img{
+    filter: grayscale(0) brightness(0) invert(1);
+}
+
+.home-header {
+  background-image: url('/wp-content/uploads/2025/09/Desktop-bg.webp'); 
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat; 
+	width:100%;
+  height: 100%; 
+
+}
+
+.testimonial-home .elementor-element.elementor-element-d7d0f86.elementor-column.elementor-element[data-element_type="column"] > .elementor-widget-wrap.elementor-element-populated {
+    align-content: space-between;
+    align-items: space-between;
+    width: 100%;
+    min-height: 300px;
+}
+
+.home-counter span.elementor-counter-number-suffix {
+    color: #1C6EFF;
+}
+
+
+
+
+/* Mobile media */
+@media (max-width: 767px) {
+    .icon-faq{
+    width:20px;
+}
+	
+.visa-box .elementor-icon-box-wrapper {
+    min-height:unset;
+}	
+	
+	.main-form{
+		display:unset;
+	}	
+	
+	.form-c1{
+	 width:100%;
+   }
+
+		.form-c2 {
+		margin-top: -60px;
+			width:100%;
+   }
+	
+	
+.c2-wrap {
+    grid-template-columns: repeat(1, 1fr);
+	gap:0px;
+	}
+	
+.mid-device{
+	display:block;
+}	
+	
+	.desktop{
+		display:none;
+	}	
+	
+span.mid-device {
+    text-align: center;
+}
+	
+.name-field {
+    display: unset;
+}
+	
+.testimonial-home .elementor-element.elementor-element-d7d0f86.elementor-column.elementor-element[data-element_type="column"] > .elementor-widget-wrap.elementor-element-populated 
+{
+    min-height: 450px;
+}
+	
+	
+}
+
+/* media 768 to 991 */
+
+@media screen and (min-device-width: 768px) and (max-device-width: 991px) { 
+  .main-form{
+		display:unset;
+	}	
+	
+	.form-c1{
+	 width:100%;
+   }
+
+  .form-c2{
+	 width:100%;
+		margin-top: -60px;
+  }
+	
+	.c2-wrap {
+		grid-template-columns: repeat(1, 1fr);
+	}
+	
+.mid-device{
+	display:block;
+}	
+	
+	.desktop{
+		display:none;
+	}		
+	
+span.mid-device {
+    text-align: center;
+}	
+	
+}

@@ -1,0 +1,574 @@
+/* Connect Resources — migration overrides (Impreza mirror) */
+
+/* Avoid double-canvas if any leftover wrappers remain */
+.cr-site-header > .l-header,
+.cr-site-footer > .l-footer {
+  /* header/footer HTML is the real chrome */
+}
+
+/* Ensure fixed header doesn't leave a gap when theme JS hasn't run yet */
+body.l-body {
+  margin: 0;
+}
+
+/* Hide WP admin / rocket leftovers if present in snapshots */
+#wpadminbar,
+.rocket-lazyload {
+  display: none !important;
+}
+
+/*
+ * Fixed header offset for ALL pages.
+ * Impreza uses `.l-header.pos_fixed ~ .l-main > .l-section:first-of-type > .l-section-h`,
+ * but our chrome wraps the header in `.cr-site-header`, which breaks that sibling selector
+ * and leaves the first section tucked under the fixed header (~115px).
+ */
+:root {
+  --header-height: 115px;
+  --header-sticky-height: 90px;
+}
+
+/* Restore Impreza fixed-header offset (broken by .cr-site-header wrapper) */
+.header_hor .cr-site-header ~ .l-main,
+.header_hor .cr-site-header ~ main {
+  scroll-padding-top: var(--header-height);
+}
+
+.header_hor .cr-site-header ~ .l-main > .l-section:first-of-type > .l-section-h,
+.header_hor .cr-site-header ~ .l-main > form > .l-section:first-of-type > .l-section-h,
+.header_hor .cr-site-header ~ main.l-main > .l-section:first-of-type > .l-section-h,
+.header_hor .cr-site-header ~ main > .l-section:first-of-type > .l-section-h,
+.header_hor .cr-site-header ~ main > article.l-section > .l-section-h {
+  padding-top: var(--header-height) !important;
+}
+
+/* Pages whose first block isn't a normal VC section */
+.header_hor .cr-site-header ~ .l-main:not(:has(> .l-section:first-of-type > .l-section-h)),
+.header_hor .cr-site-header ~ main:not(:has(> .l-section:first-of-type > .l-section-h)):not(:has(> article.l-section > .l-section-h)) {
+  padding-top: var(--header-height);
+}
+
+@media (max-width: 900px) {
+  :root {
+    /* Match live: top bar 36px + middle 70px */
+    --header-height: 106px;
+  }
+
+  /*
+   * page-design/home.css forces min-height:80px on .at_middle (max-width:932px),
+   * but live Impreza mobiles use middle_height:70px. Undo the dump override.
+   */
+  body .l-subheader.at_middle {
+    min-height: 0 !important;
+    height: 70px !important;
+  }
+}
+
+/* Contact “Want to Build Your Career” band (class from live Impreza design) */
+.g_bg {
+  background: var(
+    --gradient-purple-dblue,
+    linear-gradient(135deg, #3b2675 0%, #0b1347 100%)
+  ) !important;
+}
+
+/* Interest field — keep visible (some page-design CSS wrongly hides .label_r) */
+.wpcf7-form .label_r {
+  display: block !important;
+}
+
+/* Select2 multi-select: compact dropdown like live, not a native listbox */
+select.wpcf7-selct_multiselct,
+select.wpcf7-selct-multiselct {
+  min-height: 0 !important;
+  height: auto !important;
+}
+select.wpcf7-selct_multiselct.select2-hidden-accessible,
+select.wpcf7-selct-multiselct.select2-hidden-accessible {
+  display: none !important;
+}
+.wpcf7-form .select2-container {
+  width: 100% !important;
+  max-width: 100%;
+  display: block !important;
+}
+.wpcf7-form .select2-container .select2-selection--multiple {
+  min-height: 48px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+/*
+ * Ultimate VC row background fallback:
+ * Live uses .upb_color[data-bg-color] + ultimate_bg.js to paint the previous row.
+ * Key Services (mainacclerationrow) uses white link text and needs the dark band.
+ */
+section.mainacclerationrow,
+section.mainacclerationrow.l-section {
+  background-color: #0b1347 !important;
+  color: #ffffff;
+}
+
+section.mainacclerationrow .us_custom_e4309256,
+section.mainacclerationrow .us_custom_ee5e22b5,
+section.mainacclerationrow .us_custom_e4309256 p,
+section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
+  color: #ffffff !important;
+}
+
+/* Keep white service links readable even if Ultimate JS fails */
+.mainacclerationrow .us_custom_3b5ba931 a,
+.mainacclerationrow .t_r a,
+.mainacclerationrow .w-iconbox-link,
+.mainacclerationrow ul li a {
+  color: #ffffff !important;
+}
+
+/* Font Awesome family alias — Impreza icons use font-family:fontawesome */
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "fontawesome";
+  font-weight: 900;
+  src: url("/wp-content/themes/Impreza/fonts/fa-solid-900.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "fontawesome";
+  font-weight: 400;
+  src: url("/wp-content/themes/Impreza/fonts/fa-regular-400.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "fontawesome";
+  font-weight: 300;
+  src: url("/wp-content/themes/Impreza/fonts/fa-light-300.woff2") format("woff2");
+}
+
+/*
+ * Mega-menu: only the hovered/opened top-level item may show its panel.
+ * Page-design dumps used `body .menu-item:hover > .level_2 { display:block !important }`
+ * which left previous panels visible when switching HR → Visa.
+ */
+.header_hor .w-nav.type_desktop .menu-item.level_1:not(:hover):not(.opened) > .w-nav-list.level_2 {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.header_hor .w-nav.type_desktop .menu-item.level_1:hover > .w-nav-list.level_2,
+.header_hor .w-nav.type_desktop .menu-item.level_1.opened > .w-nav-list.level_2 {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Phone intl-tel-input: keep flag + dial code visible */
+.intl-tel-input,
+.iti {
+  width: 100%;
+  display: block;
+}
+.intl-tel-input .selected-flag,
+.iti__selected-flag {
+  z-index: 2;
+}
+
+/* Hero / content images: avoid Impreza height:inherit shrinking heroes */
+.l-main .l-section:first-of-type .w-image,
+.l-main .l-section:first-of-type .w-image-h,
+.l-main .us_custom_f91fe372 .w-image,
+.l-main .us_custom_f91fe372 .w-image-h,
+.l-main .img_peo.w-image,
+.l-main .img_peo .w-image-h {
+  height: auto !important;
+  max-height: none !important;
+}
+.l-main .l-section:first-of-type .w-image img,
+.l-main .us_custom_f91fe372 .w-image img,
+.l-main .img_peo img {
+  max-height: none !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  object-fit: contain;
+}
+
+/*
+ * Insights (/insights/) — missing live `us_custom-css` block.
+ * - Hero uses `.col_padding` + `margin-top: 6rem`; zero inner padding so we
+ *   don't stack the fixed-header offset on top of that margin.
+ * - `.box_padding` / `.box_padding1` give the sidebar form + newsletter inset.
+ */
+.header_hor .cr-site-header ~ main.l-main > .l-section.col_padding:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ .l-main > .l-section.col_padding:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main > .l-section.col_padding:first-of-type > .l-section-h.i-cf,
+.col_padding .l-section-h.i-cf {
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Insights / blog sidebar “Write to us” lilac box — keep fields inset */
+.box_padding .ult-content-box,
+.ult-content-box-container.box_padding > .ult-content-box {
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+.box_padding .ult-content-box .wpcf7,
+.box_padding .ult-content-box form.wpcf7-form {
+  margin: 0;
+}
+
+.box_padding .ult-content-box .wpcf7-form > [class*="col-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  float: none !important;
+  display: block !important;
+}
+
+.box_padding .ult-content-box input.wpcf7-form-control,
+.box_padding .ult-content-box textarea.wpcf7-form-control,
+.box_padding .ult-content-box .wpcf7-form-control-wrap,
+.box_padding .ult-content-box .intl-tel-input,
+.box_padding .ult-content-box .iti {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.box_padding1 .ult-content-box {
+  padding: 2rem;
+  margin-top: 1.4rem;
+  margin-bottom: 1.4rem;
+}
+
+/* Newsletter subscribe row: email + button side-by-side (live us_custom-css) */
+.lab_sp2 {
+  display: block;
+  width: 100%;
+}
+
+.lab_sp2 .col-lg-6.col-md-6.col-sm-6.col-xs-12 {
+  display: inline-block !important;
+  vertical-align: middle;
+  padding-right: 15px;
+  width: 49% !important;
+  max-width: 49% !important;
+  float: none !important;
+  box-sizing: border-box;
+}
+
+.lab_sp2 .col-lg-6.col-md-6.col-sm-6.col-xs-12 input.wpcf7-form-control:not([type="submit"]),
+.lab_sp2 .col-lg-6.col-md-6.col-sm-6.col-xs-12 .wpcf7-form-control-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.lab_sp2 .buttons-area input[type="submit"],
+.sub_p .lab_sp2 input[type="submit"],
+.box_padding1 .lab_sp2 input[type="submit"] {
+  margin-top: 0 !important;
+  width: auto !important;
+  min-width: 170px;
+  max-width: none !important;
+  display: inline-block !important;
+}
+
+.lab_sp2 .buttons-area .btn-block,
+.sub_p .btn-block {
+  width: auto !important;
+  display: inline-block !important;
+}
+
+.lab_sp2 .gclid_tag,
+.lab_sp2 [id="transaction_hide"] {
+  display: none !important;
+}
+
+/* CF7 helper fields (countrytext, gclid, etc.) — live us_custom-css */
+div#transaction_hide,
+#transaction_hide,
+.gclid_tag {
+  display: none !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .lab_sp2 .col-lg-6.col-md-6.col-sm-6.col-xs-12 {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    padding-right: 0;
+  }
+
+  .lab_sp2 input[type="submit"],
+  .sub_p input[type="submit"] {
+    width: 100% !important;
+    margin-top: 10px !important;
+  }
+}
+
+.contact_blogpage input[type="submit"]:not(.w-btn) {
+  margin-top: 0.4rem;
+  font-weight: 500 !important;
+  text-transform: initial !important;
+  width: 100% !important;
+  letter-spacing: 0em !important;
+  border-radius: 5px;
+}
+
+.contact_blogpage input[type="text"],
+.contact_blogpage textarea,
+.contact_blogpage .wpcf7 input[type="url"],
+.contact_blogpage .wpcf7 input[type="email"],
+.contact_blogpage .wpcf7 input[type="tel"] {
+  border-radius: 5px;
+}
+
+.sub_p input[type="submit"] {
+  margin-top: 0px;
+}
+
+.g-loadmore .us-btn-style_1 {
+  font-weight: 500 !important;
+  border-radius: 5px !important;
+  text-transform: inherit !important;
+  letter-spacing: 0em !important;
+}
+
+/*
+ * Mobile header top bar: hide Featured-on image and let phone /
+ * Request a Proposal span the bar (live us_custom parity + cleanup).
+ */
+@media (max-width: 900px) {
+  .l-subheader.at_top .ush_html_1,
+  .l-subheader.at_top .w-html.ush_html_1,
+  .l-subheader.at_top .ush_image_2,
+  .l-subheader.at_top .top-img {
+    display: none !important;
+  }
+
+  .l-subheader.at_top .l-subheader-cell.at_left {
+    display: none !important;
+  }
+
+  .l-subheader.at_top .l-subheader-h {
+    padding-inline: 12px;
+    box-sizing: border-box;
+  }
+
+  .l-subheader.at_top .l-subheader-cell.at_center {
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 100%;
+    justify-content: space-between;
+  }
+
+  .l-subheader.at_top .ush_menu_3 {
+    width: 100%;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-list.level_1 {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.35rem;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-list.level_1 > .menu-item {
+    float: none;
+  }
+
+  /* PRESS is desktop-only (home.css rule — keep sitewide) */
+  .l-subheader.at_top .ush_menu_3 li#menu-item-29087,
+  .hide_mob li#menu-item-29087,
+  .hide_mob li#menu-item-33997 {
+    display: none !important;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-anchor {
+    white-space: nowrap;
+    color: #ffffff !important;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-title {
+    font-size: 12px;
+    letter-spacing: 0;
+    color: #ffffff !important;
+    line-height: 36px !important;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-list.level_1,
+  .l-subheader.at_top .ush_menu_3 .w-nav-list.level_1 > .menu-item,
+  .l-subheader.at_top .ush_menu_3 .w-nav-anchor {
+    line-height: 36px !important;
+    height: 36px !important;
+  }
+
+  .l-subheader.at_top {
+    overflow: visible;
+    min-height: 36px;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-anchor {
+    padding-inline: 0 !important;
+  }
+
+  .l-subheader.at_top .ush_menu_3 .w-nav-title i,
+  .l-subheader.at_top .ush_menu_3 .w-nav-title .far,
+  .l-subheader.at_top .ush_menu_3 .w-nav-title .fas {
+    color: #ffffff !important;
+  }
+
+  .l-subheader.at_top .l-subheader-cell.at_center,
+  .l-subheader.at_top .ush_menu_3,
+  .l-subheader.at_top .ush_menu_3 .w-nav-list,
+  .l-subheader.at_top .ush_menu_3 .w-nav-list.level_1 {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+  }
+}
+
+/*
+ * Mobile main menu — match live Impreza dropdown:
+ * content-height panel (not forced full-screen), navy links,
+ * current item red, Contact button white on red.
+ * When a mega submenu opens, panel grows up to viewport and scrolls.
+ */
+@media (max-width: 900px) {
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1,
+  body.state_mobiles .w-nav.type_mobile.ush_menu_2 .w-nav-list.level_1 {
+    position: absolute !important;
+    /* Live Impreza: bleed past .l-subheader-h padding (-1rem each side) */
+    left: -1rem !important;
+    right: -1rem !important;
+    width: auto !important;
+    top: 100% !important;
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(100vh - var(--header-height, 106px)) !important;
+    max-height: calc(100dvh - var(--header-height, 106px)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background: #ffffff !important;
+    color: #0f1941 !important;
+    padding: 0 16px !important;
+    z-index: 10000 !important;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 8px 24px rgba(15, 25, 65, 0.12);
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > .w-nav-anchor,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > .w-nav-anchor .w-nav-title {
+    color: #0f1941 !important;
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.current-menu-item > .w-nav-anchor,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.current-menu-item > .w-nav-anchor .w-nav-title,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.current_page_item > .w-nav-anchor,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.current_page_item > .w-nav-anchor .w-nav-title {
+    color: #c2121f !important;
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item .w-nav-arrow {
+    color: #0f1941 !important;
+  }
+
+  /* Expanded accordion row — match live (red label + chevron) */
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-anchor,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-anchor .w-nav-title {
+    color: #c2121f !important;
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-arrow,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened .w-nav-arrow,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened > .w-nav-arrow:before,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.opened .w-nav-arrow:before {
+    color: #c2121f !important;
+  }
+
+  /* Hamburger open: keep level_1 panel visible (Impreza adds html.w-nav-open) */
+  html.w-nav-open body.state_mobiles .ush_menu_2 .w-nav-list.level_1 {
+    display: block !important;
+  }
+
+  /* Contact US is a red button — keep label white (overrides navy link color) */
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.w-btn,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.us-btn-style_1,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.w-btn .w-nav-title,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item > a.w-nav-anchor.us-btn-style_1 .w-nav-title,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 > .menu-item.button_prhead > a {
+    color: #ffffff !important;
+  }
+
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 .w-btn,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 a.w-btn,
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_1 .us-btn-style_1 {
+    color: #ffffff !important;
+    background: #c2121f !important;
+  }
+
+  /* Mega submenu panels on mobile — full width, scrollable */
+  body.state_mobiles .ush_menu_2 .w-nav-list.level_2 {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+}
+
+/*
+ * Footer column widths from live Theme Options / us_custom CSS.
+ * Not present in loaded page-design sheets, so mobile footer was
+ * stacking full-width instead of the live 2-column link grid.
+ */
+.i_r {
+  width: 33% !important;
+}
+
+.i_rrrr {
+  width: 50% !important;
+}
+
+.footer_middle {
+  background: #0b1447 !important;
+}
+
+@media (max-width: 1024px) {
+  .l-footer .g-cols.stacking_default.via_flex > .wpb_column.i_rrrr,
+  .l-footer .g-cols.via_flex > .wpb_column.i_rrrr {
+    width: 50% !important;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .l-footer .g-cols.stacking_default.via_flex > .wpb_column.i_r,
+  .l-footer .g-cols.via_flex > .wpb_column.i_r {
+    width: 33% !important;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  /* Keep social / ISO band full width above the 2-col link grid */
+  .l-footer .footer_middle.hide_on_default .g-cols.via_flex > .wpb_column.vc_col-sm-1\/5:not(.i_rrrr):not(.i_r) {
+    width: 100% !important;
+  }
+}

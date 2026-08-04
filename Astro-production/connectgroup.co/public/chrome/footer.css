@@ -1,0 +1,529 @@
+/* Auto-extracted footer (elementor-28308) + lite chrome layout */
+
+/* Minimal Elementor layout — scoped to shared chrome only */
+.elementor-location-header .elementor-section,
+.elementor-location-footer .elementor-section {
+  position: relative;
+  width: 100%;
+}
+.elementor-location-header .elementor-container,
+.elementor-location-footer .elementor-container {
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  max-width: 1140px;
+}
+.elementor-location-header.elementor-section-stretched .elementor-container,
+.elementor-location-footer .elementor-section-full_width > .elementor-container {
+  max-width: 100%;
+}
+.elementor-location-header .elementor-column,
+.elementor-location-footer .elementor-column {
+  position: relative;
+  display: flex;
+  min-height: 1px;
+}
+.elementor-location-header .elementor-widget-wrap,
+.elementor-location-footer .elementor-widget-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 100%;
+  position: relative;
+}
+.elementor-location-header .elementor-widget-wrap > .elementor-element,
+.elementor-location-footer .elementor-widget-wrap > .elementor-element {
+  width: 100%;
+}
+/* Elementor "width: auto" widgets must shrink to content (nav + Let’s Talk, footer links) */
+.elementor-location-header .elementor-widget-wrap > .elementor-widget__width-auto,
+.elementor-location-footer .elementor-widget-wrap > .elementor-widget__width-auto {
+  width: auto;
+  max-width: 100%;
+  flex: 0 1 auto;
+}
+.elementor-location-header .elementor-col-50,
+.elementor-location-footer .elementor-col-50 { width: 50%; }
+.elementor-location-header .elementor-col-100,
+.elementor-location-footer .elementor-col-100 { width: 100%; }
+.elementor-location-header .elementor-widget-image img {
+  max-width: 100%;
+  height: auto;
+  border: none;
+  display: inline-block;
+}
+/* Header CTA button without full Elementor frontend.css */
+.elementor-location-header .elementor-button-wrapper {
+  display: flex;
+}
+.elementor-location-header .elementor-button {
+  display: inline-block;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  border: none;
+  cursor: pointer;
+}
+.elementor-location-header .elementor-button-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+/* Footer brand pills / inline icon lists */
+.elementor-location-footer .elementor-icon-list--layout-inline .elementor-icon-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+}
+.elementor-location-footer .elementor-icon-list--layout-inline .elementor-icon-list-item {
+  margin: 0;
+}
+.elementor-location-footer .elementor-heading-title {
+  margin: 0;
+  padding: 0;
+}
+.elementor-location-footer .elementor-heading-title a {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .elementor-location-header .elementor-column,
+  .elementor-location-footer .elementor-column,
+  .elementor-location-header .elementor-col-50,
+  .elementor-location-footer .elementor-col-50 {
+    width: 100%;
+  }
+  .elementor-location-header .elementor-container,
+  .elementor-location-footer .elementor-container {
+    flex-wrap: wrap;
+  }
+}
+
+.elementor-28308 .elementor-element.elementor-element-27685fb:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-27685fb > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url("/wp-content/uploads/2025/10/Footer-Section-Desktop-scaled.webp");background-position:center center;background-repeat:no-repeat;background-size:cover;}
+.elementor-28308 .elementor-element.elementor-element-27685fb{transition:background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;padding:50px 0px 0px 0px;}
+.elementor-28308 .elementor-element.elementor-element-27685fb > .elementor-background-overlay{transition:background 0.3s, border-radius 0.3s, opacity 0.3s;}
+.elementor-28308 .elementor-element.elementor-element-f0b249c.elementor-column > .elementor-widget-wrap{justify-content:center;}
+.elementor-28308 .elementor-element.elementor-element-f0b249c > .elementor-element-populated{margin:0px 10px 0px 10px;--e-column-margin-right:10px;--e-column-margin-left:10px;padding:0px 0px 0px 0px;}
+.elementor-28308 .elementor-element.elementor-element-d5fdd9c{padding:0px 0px 10px 0px;}
+.elementor-28308 .elementor-element.elementor-element-c9aa1d2{text-align:start;}
+.elementor-28308 .elementor-element.elementor-element-c9aa1d2 .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:32px;font-weight:600;line-height:41px;letter-spacing:-0.9px;color:#FFFFFF;}
+.elementor-28308 .elementor-element.elementor-element-9cd697c{text-align:start;}
+.elementor-28308 .elementor-element.elementor-element-9cd697c .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:18px;font-weight:400;line-height:27px;color:#D1D1D1;}
+.elementor-28308 .elementor-element.elementor-element-8cde095{margin:-30px 0px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-5f1b13c > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url("/wp-content/uploads/2025/08/only-flower.png");background-position:bottom right;background-repeat:no-repeat;background-size:40% auto;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c{transition:background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;padding:60px 0px 25px 0px;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c > .elementor-background-overlay{transition:background 0.3s, border-radius 0.3s, opacity 0.3s;}
+.elementor-28308 .elementor-element.elementor-element-29d32de > .elementor-element-populated{padding:0px 0px 0px 0px;}
+.elementor-28308 .elementor-element.elementor-element-6d26f03{text-align:start;}
+.elementor-28308 .elementor-element.elementor-element-6d26f03 img{width:100%;max-width:100%;}
+.elementor-28308 .elementor-element.elementor-element-b68af1e .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:400;line-height:21px;color:#D1D1D1;}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-items:not(.elementor-inline-items) .elementor-icon-list-item:not(:last-child){padding-block-end:calc(10px/2);}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-items:not(.elementor-inline-items) .elementor-icon-list-item:not(:first-child){margin-block-start:calc(10px/2);}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item{margin-inline:calc(10px/2);}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-items.elementor-inline-items{margin-inline:calc(-10px/2);}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item:after{inset-inline-end:calc(-10px/2);}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-icon i{transition:color 0.3s;}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-icon svg{transition:fill 0.3s;}
+.elementor-28308 .elementor-element.elementor-element-52bb431{--e-icon-list-icon-size:14px;--icon-vertical-offset:0px;}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-item > .elementor-icon-list-text, .elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-item > a{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:14px;font-weight:500;line-height:1.4em;}
+.elementor-28308 .elementor-element.elementor-element-52bb431 .elementor-icon-list-text{color:#FFFFFF;transition:color 0.3s;}
+.elementor-28308 .elementor-element.elementor-element-4d27775{--spacer-size:20px;}
+.elementor-28308 .elementor-element.elementor-element-47e46ab{width:auto;max-width:auto;margin:0px 40px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-28308 .elementor-element.elementor-element-47e46ab .elementor-heading-title{font-family:"SF Pro Display", SF Pro Display;font-size:18px;font-weight:400;line-height:28px;color:#FFFFFF;}
+.elementor-28308 .elementor-element.elementor-element-ff0197e{width:auto;max-width:auto;margin:0px 40px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-28308 .elementor-element.elementor-element-ff0197e .elementor-heading-title{font-family:"SF Pro Display", SF Pro Display;font-size:18px;font-weight:400;line-height:28px;color:#FFFFFF;}
+.elementor-28308 .elementor-element.elementor-element-ab80082{--grid-template-columns:repeat(0, auto);text-align:left;margin:40px 0px calc(var(--kit-widget-spacing, 0px) + 40px) 0px;--grid-column-gap:8px;--grid-row-gap:0px;}
+.elementor-28308 .elementor-element.elementor-element-ab80082 .elementor-social-icon{background-color:#02010100;--icon-padding:0em;}
+.elementor-28308 .elementor-element.elementor-element-ab80082 .elementor-social-icon i{color:#02010100;}
+.elementor-28308 .elementor-element.elementor-element-ab80082 .elementor-social-icon svg{fill:#02010100;}
+.elementor-28308 .elementor-element.elementor-element-cf053b3 .elementor-heading-title{font-family:"Plus Jakarta Sans", SF Pro Display;font-size:16px;font-weight:400;line-height:24px;color:#767676;}
+.elementor-28308 .elementor-element.elementor-element-a7ab998 > .elementor-element-populated{padding:0px 0px 0px 0px;}
+@media(min-width:768px){.elementor-28308 .elementor-element.elementor-element-16f2f84{width:70%;}
+.elementor-28308 .elementor-element.elementor-element-a2b7630{width:30%;}
+.elementor-28308 .elementor-element.elementor-element-29d32de{width:60%;}
+.elementor-28308 .elementor-element.elementor-element-a7ab998{width:40%;}}
+@media(max-width:1024px){.elementor-28308 .elementor-element.elementor-element-27685fb:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-27685fb > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url("/wp-content/uploads/2025/10/Footer-Section-Tablet.webp");background-position:center center;}
+.elementor-28308 .elementor-element.elementor-element-27685fb{padding:30px 10px 0px 10px;}
+.elementor-28308 .elementor-element.elementor-element-c9aa1d2 .elementor-heading-title{font-size:32px;line-height:41px;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-5f1b13c > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-size:383px auto;}}
+@media(max-width:767px){.elementor-28308 .elementor-element.elementor-element-27685fb:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-27685fb > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url("/wp-content/uploads/2025/10/Footer-Section-Mobile-scaled.webp");}
+.elementor-28308 .elementor-element.elementor-element-27685fb{margin-top:0px;margin-bottom:0px;padding:30px 0px 0px 0px;}
+.elementor-28308 .elementor-element.elementor-element-f0b249c > .elementor-element-populated{margin:0px 0px 0px 0px;--e-column-margin-right:0px;--e-column-margin-left:0px;padding:0px 0px 0px 0px;}
+.elementor-28308 .elementor-element.elementor-element-c9aa1d2 .elementor-heading-title{font-size:24px;line-height:31px;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c:not(.elementor-motion-effects-element-type-background), .elementor-28308 .elementor-element.elementor-element-5f1b13c > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image:url("/wp-content/uploads/2025/08/Footer-Mobile.webp");background-position:bottom left;background-size:cover;}
+.elementor-28308 .elementor-element.elementor-element-5f1b13c{padding:60px 10px 25px 10px;}}
+
+/* Desktop mega menu brand typography (header.css only sets 22px inside max-device-width:992) */
+.header-new #mega-menu-wrap-max_mega_menu_1 #mega-menu-max_mega_menu_1 > li.mega-menu-item > a.mega-menu-link {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.32px !important;
+  line-height: 40px !important;
+  height: 40px !important;
+  color: #fff !important;
+  background: transparent !important;
+  padding: 0 15px !important;
+}
+/* Top-nav submenu chevrons (match mainland / other service pages) */
+.header-new #mega-menu-max_mega_menu_1 > li.mega-menu-item-has-children > a.mega-menu-link > span.mega-indicator {
+  display: inline-block !important;
+  width: 14px !important;
+  height: 14px !important;
+  margin-left: 2px !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  background: transparent !important;
+}
+.header-new #mega-menu-max_mega_menu_1 > li.mega-menu-item-has-children > a.mega-menu-link > span.mega-indicator:after {
+  content: "" !important;
+  font-family: inherit !important;
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+  margin: 3px auto 0 !important;
+  border-right: 1.5px solid #fff !important;
+  border-bottom: 1.5px solid #fff !important;
+  transform: rotate(45deg) !important;
+  background: none !important;
+}
+
+/* Services mega: match mainland (Elementor 35149) — do not shrink left nav */
+#mega-menu-item-35463 .e-n-tabs-heading,
+.elementor-35149 .service-menu .e-n-tabs-heading,
+#cd .e-n-tabs-heading {
+  gap: 8px !important;
+  padding: 30px 20px !important;
+}
+#mega-menu-item-35463 .e-n-tab-title,
+.elementor-35149 .service-menu .e-n-tab-title,
+#cd .e-n-tab-title {
+  padding: 11px 14px 12px !important;
+  min-height: 0 !important;
+  font-size: 18px !important;
+  line-height: 27px !important;
+  font-family: "Plus Jakarta Sans", SF Pro Display, sans-serif !important;
+  font-weight: 400 !important;
+}
+#mega-menu-item-35463 .e-n-tab-title-text,
+.elementor-35149 .service-menu .e-n-tab-title-text,
+#cd .e-n-tab-title-text {
+  font-size: 18px !important;
+  line-height: 27px !important;
+  font-family: "Plus Jakarta Sans", SF Pro Display, sans-serif !important;
+  font-weight: 400 !important;
+  color: #fff !important;
+}
+#mega-menu-item-35463 .elementor-widget-image-box,
+.elementor-35149 .elementor-widget-image-box {
+  padding: 10px 14px !important;
+}
+#mega-menu-item-35463 .elementor-image-box-title,
+.elementor-35149 .elementor-image-box-title {
+  font-size: 16px !important;
+  line-height: 24px !important;
+  margin-bottom: 3px !important;
+}
+#mega-menu-item-35463 .elementor-image-box-description,
+.elementor-35149 .elementor-image-box-description {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+
+/* Our Brands mega: vertically center logos with title + description */
+#mega-menu-item-31582 .elementor-image-box-wrapper,
+.elementor-31594 .elementor-widget-image-box .elementor-image-box-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+#mega-menu-item-31582 .elementor-image-box-img,
+.elementor-31594 .elementor-widget-image-box .elementor-image-box-img {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  margin: 0 12px 0 0 !important;
+  width: 96px !important;
+  max-width: 96px !important;
+}
+#mega-menu-item-31582 .elementor-image-box-img img,
+.elementor-31594 .elementor-widget-image-box .elementor-image-box-img img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 64px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+#mega-menu-item-31582 .elementor-image-box-content,
+.elementor-31594 .elementor-widget-image-box .elementor-image-box-content {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  height: auto !important;
+}
+#mega-menu-item-31582 .elementor-widget-image-box,
+.elementor-31594 .elementor-widget-image-box {
+  height: auto !important;
+  align-self: flex-start !important;
+}
+#mega-menu-item-31582 .e-n-tabs-heading,
+.elementor-31594 .e-n-tabs-heading {
+  margin-bottom: 16px !important;
+}
+@media only screen and (max-device-width: 992px) {
+  .header-new #mega-menu-wrap-max_mega_menu_1 #mega-menu-max_mega_menu_1 > li.mega-menu-item > a.mega-menu-link {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.96px !important;
+  }
+}
+
+/* Footer CF7 form — match other service pages (no Bootstrap reboot) */
+#pix-page-footer fieldset.hidden-fields-container {
+  display: none !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+#pix-page-footer fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+#pix-page-footer .form-design input,
+#pix-page-footer .form-design textarea,
+#pix-page-footer .form-design select,
+#pix-page-footer .form-design .wpcf7-form-control {
+  box-sizing: border-box !important;
+}
+#pix-page-footer .form-design p {
+  margin-bottom: 14px !important;
+}
+#pix-page-footer .form-design .chek-box {
+  margin-top: 10px !important;
+  margin-bottom: 12px !important;
+}
+#pix-page-footer .form-design .chek-box .wpcf7-list-item {
+  margin: 0 8px 8px 0 !important;
+}
+#pix-page-footer .form-design .wpcf7-form-control.wpcf7-text,
+#pix-page-footer .form-design .wpcf7-form-control.wpcf7-email {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  padding: 15px 16px !important;
+  margin-top: 4px !important;
+}
+#pix-page-footer .form-design .wpcf7-form-control.wpcf7-phonetext {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  padding: 15px 16px 15px 96px !important;
+  margin-top: 4px !important;
+}
+#pix-page-footer .form-design .two-col {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 20px !important;
+}
+#pix-page-footer .form-design .two-col > .left,
+#pix-page-footer .form-design .two-col > .rit {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto !important;
+}
+#pix-page-footer .form-design .intl-tel-input,
+#pix-page-footer .form-design .iti {
+  width: 100% !important;
+  display: block !important;
+  position: relative !important;
+}
+#pix-page-footer .form-design .intl-tel-input input.wpcf7-phonetext,
+#pix-page-footer .form-design .iti input.wpcf7-phonetext {
+  padding: 15px 16px 15px 118px !important;
+  height: 48px !important;
+  line-height: 1.25 !important;
+  margin-top: 4px !important;
+  box-sizing: border-box !important;
+  font-family: "Plus Jakarta Sans", SF Pro Display, sans-serif !important;
+}
+#pix-page-footer .form-design .intl-tel-input .flag-container,
+#pix-page-footer .form-design .iti__flag-container {
+  top: 4px !important;
+  bottom: auto !important;
+  height: 48px !important;
+  padding: 0 !important;
+}
+#pix-page-footer .form-design .intl-tel-input .selected-flag,
+#pix-page-footer .form-design .iti__selected-flag {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  height: 48px !important;
+  min-width: 108px !important;
+  padding: 0 10px 0 14px !important;
+  box-sizing: border-box !important;
+}
+#pix-page-footer .form-design .intl-tel-input .selected-flag .iti-flag,
+#pix-page-footer .form-design .iti__flag {
+  position: static !important;
+  left: auto !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+#pix-page-footer .form-design .intl-tel-input .selected-flag .iti-arrow,
+#pix-page-footer .form-design .iti__arrow {
+  position: static !important;
+  margin-left: 4px !important;
+  border-top-color: #ffffff !important;
+}
+#pix-page-footer .form-design .selected-dial-code,
+#pix-page-footer .form-design .iti__selected-dial-code,
+#pix-page-footer .selected-dial-code {
+  padding: 0 2px 0 0 !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  font-family: "Plus Jakarta Sans", SF Pro Display, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+#pix-page-footer .form-design .wpcf7-phonetext,
+#pix-page-footer .form-design .intl-tel-input input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+}
+#pix-page-footer .form-design .two-col {
+  align-items: flex-end !important;
+}
+#pix-page-footer .form-design .two-col > .left,
+#pix-page-footer .form-design .two-col > .rit {
+  display: flex !important;
+  flex-direction: column !important;
+}
+#pix-page-footer .form-design .two-col label {
+  margin: 0 0 4px !important;
+  line-height: 1.3 !important;
+}
+
+/* Social icons: left + less space above */
+#pix-page-footer .elementor-element-ab80082 {
+  margin: 12px 0 20px 0 !important;
+  text-align: left !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-self: start !important;
+}
+#pix-page-footer .elementor-element-ab80082 .elementor-widget-container,
+#pix-page-footer .elementor-element-ab80082 .elementor-social-icons-wrapper,
+#pix-page-footer .elementor-element-ab80082 .elementor-grid {
+  display: flex !important;
+  justify-content: flex-start !important;
+  justify-items: start !important;
+  align-items: center !important;
+  text-align: left !important;
+  margin: 0 !important;
+  gap: 8px !important;
+  width: auto !important;
+}
+#pix-page-footer .elementor-element-ab80082 .elementor-social-icon {
+  background: transparent !important;
+  color: #fafafa !important;
+}
+/* Do NOT set fill on <svg> — that paints a solid white circle over the icon paths */
+#pix-page-footer .elementor-element-ab80082 .elementor-social-icon svg {
+  fill: none !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  overflow: visible !important;
+}
+#pix-page-footer .elementor-element-ab80082 .elementor-social-icon svg rect {
+  fill: none !important;
+  stroke: #fafafa !important;
+}
+#pix-page-footer .elementor-element-ab80082 .elementor-social-icon svg path {
+  fill: #fafafa !important;
+  stroke: none !important;
+}
+#pix-page-footer .elementor-element-29d32de > .elementor-widget-wrap {
+  justify-content: flex-start !important;
+}
+
+
+/* Shared chrome polish when Elementor frontend is present */
+.elementor-location-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+}
+.elementor-location-header .header-new {
+  background: transparent;
+}
+#pix-page-footer .elementor-element-47e46ab,
+#pix-page-footer .elementor-element-ff0197e {
+  width: auto !important;
+  display: inline-block;
+}
+#pix-page-footer .elementor-element-29d32de > .elementor-widget-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+}
+#pix-page-footer .foo-list .elementor-icon-list-item a {
+  text-decoration: none;
+}
+#pix-page-footer .submit-btn button {
+  cursor: pointer;
+  border: none;
+}
+
+/* Resources + About Us on one row */
+#pix-page-footer .elementor-element-47e46ab,
+#pix-page-footer .elementor-element-ff0197e {
+  width: auto !important;
+  max-width: none !important;
+  flex: 0 0 auto !important;
+  display: block !important;
+  margin-right: 40px !important;
+}
+#pix-page-footer .elementor-element-29d32de > .elementor-widget-wrap {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  column-gap: 0 !important;
+  row-gap: 12px !important;
+}
+#pix-page-footer .elementor-social-icons-wrapper {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+#pix-page-footer .elementor-social-icon {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}

@@ -25,7 +25,7 @@
         {
           title: 'UAE Offshore',
           desc: 'Register your offshore company in the UAE',
-          href: '/dubai-offshore/',
+          href: '/uae-offshore-company-setup/',
         },
         {
           title: 'PRO Services',

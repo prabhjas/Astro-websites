@@ -1,0 +1,373 @@
+/* Match live Elementor kit-8 defaults (override any leftover SP kit CSS) */
+body.elementor-kit-8,
+.elementor-kit-8 {
+  font-family: Roboto, sans-serif;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#wpadminbar {
+  display: none !important;
+}
+
+/*
+  Live site canvas: Hello Elementor body is white (or transparent → white).
+  Do NOT force a black body — Core Services + Contact sections inherit white.
+  Dark sections get backgrounds from Elementor CSS + elementor-bg-fallback.css.
+*/
+
+/*
+  Single posts: keep header transparent like other pages (Elementor #FFDD0400).
+  With body margin 0, the dark post canvas sits behind white nav — matches live overlay.
+  Do not force a solid black header bar.
+*/
+
+/* Mobile nav styles live in /css/eor-mobile-nav.css */
+
+.elementor img {
+  height: auto;
+  max-width: 100%;
+}
+
+.wpcf7 input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Insights topic filter/pagination visuals live in /css/insights-topic-cards.css */
+
+/* Live EOR: hide CF7 tracking / country helper fields */
+#transaction_hide,
+.gclid_tag,
+.wpcf7 .gclid_tag,
+form.wpcf7-form #transaction_hide,
+input[name="gclid_field"],
+input[name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name="gclid_field"],
+.wpcf7-form-control-wrap[data-name="initial_url"] {
+  display: none !important;
+}
+
+/* We only use intlTelInput for phone — hide countrySelect chrome only.
+   Do NOT hide .country-list globally: intl-tel-input uses that class for its dropdown. */
+.country-select:not(.intl-tel-input .country-list),
+.country-select-input,
+.wpcf7-form .country-select {
+  display: none !important;
+}
+
+/* countrySelect plugin list (sibling of country-select), not intl-tel dropdown */
+.country-select + .country-list,
+body > ul.country-list.country-select-list {
+  display: none !important;
+}
+
+/* Prevent duplicate intl-tel dial-code chrome if a second init slips through */
+.intl-tel-input + .intl-tel-input,
+.wpcf7-form-control-wrap > .intl-tel-input ~ .intl-tel-input {
+  display: none !important;
+}
+
+/* Keep intl-tel country dropdown above form chrome */
+.intl-tel-input .country-list {
+  display: none;
+  z-index: 30;
+}
+.intl-tel-input .country-list:not(.hide) {
+  display: block !important;
+}
+
+/* CF7 country-phone flag sprites (grey boxes without these PNGs) */
+.iti-flag,
+.country-select .flag,
+.intl-tel-input .iti-flag {
+  background-image: url("/js/phone-flags/flags.png") !important;
+  background-repeat: no-repeat !important;
+}
+
+.intl-tel-input .iti-flag {
+  height: 15px;
+  box-shadow: 0 0 1px 0 #888;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+  .iti-flag,
+  .country-select .flag,
+  .intl-tel-input .iti-flag {
+    background-image: url("/js/phone-flags/flags@2x.png") !important;
+    background-size: 5630px 15px !important;
+  }
+}
+
+/* Undo Hello theme link underline inside Elementor */
+.elementor a {
+  text-decoration: none;
+}
+
+#top-header {
+  position: relative;
+  z-index: 99;
+}
+
+/* Accordion FAQ visual defaults when Elementor widget CSS is light */
+.elementor-accordion .elementor-tab-content:not(.elementor-active) {
+  display: none;
+}
+
+.elementor-accordion .elementor-tab-title {
+  cursor: pointer;
+}
+
+.elementor-accordion .elementor-accordion-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Contact form validation + status (visible on dark catalog forms) */
+.sp-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sp-field-invalid,
+.wpcf7-form-control.sp-field-invalid {
+  outline: 2px solid #ff6b6b !important;
+  outline-offset: 1px;
+}
+
+.wpcf7-response-output,
+.wpcf7 form .wpcf7-response-output,
+div.wpcf7-response-output,
+[data-sp-form-status] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+/* Visible thank-you / error (CF7 classes used on other sites + sp-status fallback) */
+.wpcf7-response-output.sp-status-visible,
+.wpcf7 form .wpcf7-response-output.sp-status-visible,
+div.wpcf7-response-output.sp-status-visible,
+[data-sp-form-status].sp-status-visible,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.sent .wpcf7-response-output,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  margin: 1rem 0 0 !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 8px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-ok,
+[data-sp-form-status].sp-status-visible.sp-status-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form.sent .wpcf7-response-output {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: #46b450 !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-err,
+[data-sp-form-status].sp-status-visible.sp-status-err,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #dc3232 !important;
+}
+
+/*
+  Contact Us (page 1494): live Theme Builder hides the footer contact band
+  (section.footer_raj / shortcode 901e7f1). Keep the in-page form only.
+*/
+.page-id-1494 .footer_raj,
+.elementor-page-1494 .footer_raj {
+  display: none !important;
+}
+
+/* Footer / site chrome — live kit boxed container is 1280px */
+.elementor-57.elementor-location-footer .elementor-section.elementor-section-boxed > .elementor-container,
+.sp-elementor-footer .elementor-section.elementor-section-boxed > .elementor-container,
+.footer_raj > .elementor-container {
+  max-width: 1280px !important;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CF7 main-form submit — live child theme #3D1457 (never SP yellow) */
+.main-form input.wpcf7-submit,
+.main-form [type="submit"],
+.main-form button.wpcf7-submit {
+  background: #3d1457 !important;
+  background-color: #3d1457 !important;
+  color: #fff !important;
+  border: 1px solid #3d1457 !important;
+  border-radius: 12px !important;
+  font-family: inherit !important;
+  text-transform: none !important;
+}
+
+/*
+  Shared main-form look (footer + Contact Us + single-post Let's Chat).
+  Matches child theme lavender fields / gray labels.
+*/
+.main-form input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]):not(.wpcf7-phonetext):not([name^="phonetext"]),
+.main-form textarea,
+.main-form select {
+  border: 0 !important;
+  border-radius: 8px !important;
+  padding: 13px 24px !important;
+  background: #faf6fe !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.main-form label {
+  color: #a5a3b7 !important;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+.main-form #transaction_hide,
+.main-form .hidden-fields-container,
+.wpcf7 #transaction_hide,
+.wpcf7 .hidden-fields-container {
+  display: none !important;
+}
+
+.footer_raj .elementor-element-f908490 a,
+.elementor-element-f908490 a {
+  cursor: pointer;
+}
+
+/* Back-to-top control sits above footer content */
+.elementor-element-f908490 {
+  z-index: 20;
+}
+
+/*
+  Phone intl-tel-input (separateDialCode): do not crush padding with main-form rules.
+  Flag + dial code need left space so digits don't overlap "+92".
+*/
+.main-form .intl-tel-input,
+.footer_raj .intl-tel-input,
+.cntct-form .intl-tel-input,
+.intl-tel-input {
+  width: 100%;
+  display: block;
+}
+
+.main-form .intl-tel-input.separate-dial-code input,
+.footer_raj .intl-tel-input.separate-dial-code input,
+.cntct-form .intl-tel-input.separate-dial-code input,
+.intl-tel-input.separate-dial-code input.wpcf7-phonetext,
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+  padding-left: 108px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.intl-tel-input.separate-dial-code .selected-flag,
+.selected-flag {
+  min-width: 92px !important;
+  width: auto !important;
+  padding-left: 10px !important;
+}
+
+.intl-tel-input .flag-container {
+  z-index: 2;
+}
+
+.main-form .intl-tel-input input,
+.footer_raj .main-form .intl-tel-input input {
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #faf6fe !important;
+}
+
+/* Single-post Let's Chat card — keep form compact like live sidebar */
+.elementor-1544 .main-form.blog-form textarea {
+  height: 100px;
+}
+
+.elementor-1544 .main-form.blog-form input,
+.elementor-1544 .main-form.blog-form select {
+  padding: 12px 24px !important;
+}
+
+/* Insights archive hero — cityscape + magnifying glass (blog-bg.webp) */
+.elementor-1504 .elementor-element.elementor-element-da05cfb {
+  background-image: url("/wp-content/uploads/2024/07/blog-bg.webp") !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  min-height: 320px;
+}
+
+/* Testimonial carousel dots — center like live */
+.elementor-widget-testimonial-carousel .swiper-pagination,
+.elementor-testimonial-carousel .swiper-pagination,
+.elementor-element-3481353 .swiper-pagination {
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 4px;
+}
+
+/*
+  Multistep (.form-main) must not inherit global CF7 chrome from live-inline.css
+  (Bebas Neue labels, yellow submit, full-width stacking).
+*/
+.form-main .wpcf7-form label,
+.form-main label {
+  font-family: Manrope, sans-serif !important;
+}
+.form-main .wpcf7-submit,
+.form-main input[type="submit"] {
+  font-family: Manrope, sans-serif !important;
+  background: #3d1457 !important;
+  color: #fff !important;
+  width: auto !important;
+}
+.form-main .info-data .wpcf7-form-control-wrap input {
+  width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+

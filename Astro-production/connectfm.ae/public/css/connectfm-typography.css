@@ -1,0 +1,855 @@
+span.gd-color {
+    background: linear-gradient(178deg, #04B5F2 18.75%, #F8C705 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Blog Pages Typography */
+
+.single-post h2 {
+  font-size: 32px;
+}
+
+.single-post h3{
+  font-size: 28px;
+}
+
+.single-post h4{
+  font-size: 24px;
+}
+
+.single-post h5{
+  font-size: 20px;
+}
+
+@media (max-width: 1023px) {
+ h1 {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 110%;
+  }
+
+  h2 {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 110%;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 140%;
+  }
+
+  h4 {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 150%;
+  }
+
+  .h2_32 h2 {
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h2_46 h2 {
+    font-size: 34px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h2_48 h2 {
+    font-size: 36px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+	
+.h2_62 h2 {
+    font-size: 42px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h3_24 h3 {
+    font-size: 20px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h3_32 h3 {
+    font-size: 22px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h4_32 h4 {
+    font-size: 22px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+}
+@media (min-width: 1024px) {
+  h1 {
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 110%;
+  }
+
+  h2 {
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 110%;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 140%;
+  }
+
+  h4 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 140%;
+  }
+
+.h2_32 h2 {
+    font-size: 32px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h2_46 h2 {
+    font-size: 46px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h2_48 h2 {
+    font-size: 48px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+	
+.h2_62 h2 {
+    font-size: 62px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h3_24 h3 {
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h3_32 h3 {
+    font-size: 32px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+.h4_32 h4 {
+    font-size: 32px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.64px !important;
+}
+
+}
+
+/* Category step form */
+.form_category .width_half {
+    width: 100% !important;
+}
+.form_category .col_two {
+    display: grid !important
+;
+}
+.form_category button {
+    width: 100% !important;
+}
+.form_category .heading_form {
+    margin-top: 1.6rem !important;
+}
+.form_category .info_person {
+    margin-top: 1.6rem !important;
+}
+
+.form_category .text_title {
+    margin-top: 1.6rem !important;
+}
+/* end */
+
+/* Checkbox field in step form */
+.multi-service-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+/* --- Hide native checkboxes --- */
+.multi-service-options input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Label buttons checkbox --- */
+.multi-service-options label {
+  background: #f1faff;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 8px 12px 8px 36px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 15px !important;
+  color: #003049;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: auto !important;
+  flex: 1 1 calc(33% - 10px);
+}
+
+/* --- Icon before text checkbox --- */
+.multi-service-options label::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background-size: contain;
+  background-repeat: no-repeat !important;
+  background-position: center;
+}
+
+/* --- Hover effect checkbox --- */
+.multi-service-options label:hover {
+  border-color: #009ED5;
+  background: #f1faff;
+}
+
+/* --- Selected (checked) state — uses sibling selector checkbox --- */
+.wpcf7-form-control.wpcf7-checkbox label:has(input[type="checkbox"]:checked) {
+  border-color: #009ED5;
+  background: #f1faff;
+  color: #000;
+}
+
+/* --- Assign icons for each service checkbox --- */
+.multi-service-options .wpcf7-list-item:nth-child(1) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/HVAC.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(2) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Plumbing.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(3) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Electrical-Services.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(4) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(5) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Pest-Control-Services.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(6) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Security-Systems.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(7) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Landscaping-Services.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(8) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Waste-Management.svg');
+}
+.multi-service-options .wpcf7-list-item:nth-child(9) label::before {
+  background-image: none;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* end */
+
+
+
+/* Add similar ones for other services */
+
+
+.letter_space {
+    line-height: 110% !important;
+  letter-spacing: -0.96px !important;
+}
+.icon_text .elementor-image-box-img {
+    margin-right: 10px !important;
+}
+.step_form input.wpcf7-form-control.wpcf7-text {
+    border-radius: 8px !important;
+    border: 1px solid rgba(0, 27, 76, 0.10) !important;
+    background: #FAFCFF !important;
+    color: rgba(0, 27, 76, 0.25) !important;
+    font-family: "DM Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    width: 100% !important;
+}
+.col_two {
+    display: inline-flex !important
+;
+
+    gap: 20px !important;
+    justify-content: center;
+    align-items: center;
+}
+.whatsapp-btn p {
+    margin: 0px !important;
+}
+.quickcall-btn p {
+    margin: 0px !important;
+}
+.quickcall-btn button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #003F55;
+  color: #fff;
+font-family: "DM Sans";
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+margin: 0px;
+}
+
+.quickcall-btn button:hover {
+  background-color: #003F55;
+}
+
+.quickcall-btn img {
+  width: 20px;
+  height: 20px;
+}
+.whatsapp-btn button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color:#1B9849;
+  color: #fff;
+font-family: "DM Sans";
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+margin: 0px;
+}
+
+.whatsapp-btn button:hover {
+  background-color: #1B9849;
+}
+
+.whatsapp-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+
+/* Only affect the "service-options" radio group */
+.service-options .wpcf7-list-item label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.service-options .wpcf7-list-item label::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Individual icons */
+.service-options .wpcf7-list-item:nth-child(1) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/HVAC.svg');
+}
+.service-options .wpcf7-list-item:nth-child(2) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Plumbing.svg');
+}
+.service-options .wpcf7-list-item:nth-child(3) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Electrical-Services.svg');
+}
+.service-options .wpcf7-list-item:nth-child(4) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
+}
+.service-options .wpcf7-list-item:nth-child(5) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Pest-Control-Services.svg');
+}
+.service-options .wpcf7-list-item:nth-child(6) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Security-Systems.svg');
+}
+.service-options .wpcf7-list-item:nth-child(7) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Landscaping-Services.svg');
+}
+.service-options .wpcf7-list-item:nth-child(8) label::before {
+  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Waste-Management.svg');
+}
+.service-options .wpcf7-list-item:nth-child(9) label::before {
+    background-image: none;
+    width: 0px !important;
+    height: 0px !important;
+}
+
+
+
+
+/* Multi Step Form css */
+.form-main {
+    background:#FFFEFC;
+    padding:20px;
+    border-radius:16px;
+   
+}
+
+.form-main label{
+    color:#232932;
+    font-family: "DM Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30.8px;
+		letter-spacing: -0.48px;
+}
+
+.form-main .next-btn,
+.form-main .prev-btn,
+.form-main input[type="submit"] {
+  padding: 10px 22px;
+  border: 1px solid #3547CA;
+  opacity: 0.8;
+  background: #3547CA;
+  color: #fff;
+/*   border-radius: 12px; */
+  margin-top: auto;
+  align-self: flex-start; 
+}
+
+/* Arrange the radio buttons horizontally with spacing */
+.wpcf7-form-control.wpcf7-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+	padding-top: 24px;
+}
+.wpcf7-form-control .wpcf7-list-item {
+  margin:0px;
+}
+/* Hide the native radio inputs */
+
+.wpcf7-form-control input[type="radio"] {
+  display: none;
+}
+
+/* Style the labels to look like buttons */
+.wpcf7-form-control.wpcf7-radio label {
+  padding: 8px 12px;
+  background-color: #E5F5FB;
+  border-radius: 8px;
+  color: #232932;
+  
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover state (visible border) */
+.wpcf7-form-control.wpcf7-radio label:hover {
+  border-color: #009ED5 !important;
+  z-index: 2;
+}
+
+/* ✅ Selected (checked) state */
+.wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked) {
+  border-color: #009ED5 !important;
+  background-color: #E5F5FB !important;
+  box-shadow: 0 0 0 1px #009ED5 inset !important;
+  z-index: 3;
+}
+
+
+.back-next-btn p {
+    display: inline-flex;
+    gap: 6px;
+	    margin-top: 30px;
+}
+button.next-btn i {
+    position: relative;
+    left: 10px;
+}
+button.next-btn {
+    background: #003F55 !important;
+    border: 1px solid #003F55 !important;
+    color: #FEFFFF ! IMPORTANT;
+    font-family: "DM Sans" !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+opacity: 1 !important;
+border-radius: 12px !important;
+}
+button.prev-btn {
+    background: #fff !important;
+    border: 1px solid #007EAA!important;
+    color: #007EAA ! IMPORTANT;
+    font-family: "DM Sans" !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+opacity: 1!important;
+border-radius: 12px !important;
+}
+
+
+.info-data p {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.step-count {
+	position: absolute;
+    right: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1F1A4B;
+  line-height: 21px;
+
+}
+.next-btn:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed;
+	background: #3547CA;
+}
+
+
+
+.cf7-step.step-4 p label {
+     color: var(--Text-3, #7B7F84);
+font-family: "DM Sans";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 140%;
+letter-spacing: -0.4px;
+}
+label.info_person {
+    color: var(--Text-5, #232932) !important;
+    font-family: "DM Sans" !important;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 140% !important;
+    letter-spacing: -0.48px !important;
+}
+input.wpcf7-form-control.wpcf7-text.wpcf7-validates-as-required.info_field {
+    border-radius: 0px !important;
+    background: #fff !important;
+    border-width: 0px 0px 1px 0px !important;
+    border-color: #E9EAEA !important;
+    padding: 10px 0px 10px 20px !important;
+    font-family: "DM Sans" !important;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: -0.4px;
+}
+input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.info_field {
+    padding-left: 6rem !important;
+}
+.col_two {
+    display: inline-flex !important
+;
+    gap: 20px !important;
+}
+.width_half {
+    width: 49% !important;
+}
+.form_btn button.next-btn {
+    border-radius: 12px !important;
+    background: #FBD337 !important;
+    color: #003F55 !important;
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    border-width: 0px !important;
+}
+label.text_title {
+    color: #007EAA !important;
+    font-family: "DM Sans" ! IMPORTANT;
+    font-size: 24px ! IMPORTANT;
+    font-style: normal;
+    font-weight: 700 !important;
+    line-height: 140% !important;
+    letter-spacing: -0.48px !important;
+}
+
+label.text_desc {
+    color: var(--Text-3, #7B7F84) ! IMPORTANT;
+    font-family: "DM Sans";
+    font-size: 18px !important;
+    font-style: normal;
+    font-weight: 400 !IMPORTANT;
+    line-height: 150%;
+margin-top: 10px !important;
+}
+.text_bullet p {
+    color: var(--Text-5, #232932);
+    font-family: "DM Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.text_li p {
+    color: #232932 !important;
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 150%;
+}
+label.text_belowbtn {
+    color: var(--Text-3, #7B7F84);
+    font-family: "DM Sans";
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 150%;
+margin-top: 10px !important;
+}
+
+label.text_abovebtn {
+    color: var(--Text-5, #232932);
+    font-family: "DM Sans";
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+.cf7-step.step-4 div p {
+    color:#1F1A4B;
+    font-size:16px;
+    font-weight:700;
+}
+
+.cf7-step.step-4 ul li p {
+    font-size:14px;
+    font-weight:400;
+    margin:0px;
+    
+}
+
+.cf7-step.step-4 .call-btn p{
+    font-size:14px;
+    font-weight:500;
+     padding-top:10px;
+}
+
+.cf7-step.step-4 .call-btn p button{
+   margin-top: 10px;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 0;
+    background: #1B9849;
+    border: 1px solid #1B9849;
+    
+}
+
+
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+input.wpcf7-form-control.wpcf7-text {
+    width: 100% !important;
+}
+    .upload-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .upload-text,
+    .upload-button {
+      width: 100%;
+    }
+
+    .upload-button {
+             margin-top: 8px;
+        text-align: center;
+        line-height: 10px !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+    }
+  }
+
+
+
+.back-next-btn p{
+  width:100%
+}
+
+/* Default style (desktop/tablet) */
+.next-btn {
+  width: auto;
+}
+
+/* Mobile style: full width button */
+@media (max-width: 768px) {
+.quickcall-btn button {
+width: 100% !important;
+	}
+..whatsapp-btn button  {
+width: 100% !important;
+	}
+
+.col_two {
+    display: grid !important
+;
+    gap: 10px !important;
+}
+.width_half {
+    width: 100% !important;
+}
+  .next-btn {
+    width: 100%;
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+    .step-count{
+        position:unset;
+    }
+}
+
+/* End */
+
+/* corners cut layout */
+
+@media (min-width: 1500px) and (max-width: 1920px) {
+.header_sec {
+    width: 31% !important;
+}
+.wide_screenheader {
+    padding: 2rem 14rem !important;
+}
+	.service_secabtus{
+padding: 6rem 0rem 6rem 0rem;
+}
+.hero_sec {
+    padding: 7% 0px 7% 0px;
+}
+.service_sec {
+    padding: 7rem 0rem 0rem 0rem;
+}
+	.service_secwaste {
+padding: 11rem 0rem 4rem 0rem;
+}
+.cta_sec {
+    padding: 5rem 0rem !important;
+}
+.service_secsecurity {
+    padding-top: 11rem;
+}
+	.service_secbottom {
+   padding-bottom: 14rem;
+
+}
+	.hero_seccontact{
+  padding: 4% 0px 4% 0px;
+}
+.col_form {
+    margin-top: -14rem;
+}
+.service_sechome {
+    padding: 6rem 0rem;
+}
+.service_secacclean {
+    padding: 11rem 0rem;
+}
+}
+
+/* end  */
+
+.wpcf7-form-control:focus {
+    outline: 0;
+    box-shadow: none;
+}
+@media (max-width: 767px) {
+
+.icon_text h3.elementor-image-box-title{
+    
+    margin-left: 10px !important;
+}
+
+.icon_text .elementor-image-box-wrapper {
+    display: inline-flex !important
+;
+}
+}
+label.blue_text {
+    color: var(--rich-electric-blue-5, #009ED5) !important;
+    font-family: "DM Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}

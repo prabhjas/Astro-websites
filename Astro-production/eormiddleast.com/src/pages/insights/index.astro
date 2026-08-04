@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import { getPageByPath, getPosts } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = false;
+
+/**
+ * Live archive is /insights/ (Elementor). Keep markup; wire Load More to our API.
+ */
+const page = getPageByPath("/insights/");
+if (!page) throw new Error("Insights page missing");
+
+const totalPosts = getPosts().length;
+const INITIAL_GRID = 12;
+const hasMore = totalPosts > INITIAL_GRID;
+
+let html = page.bodyHtml || page.content;
+
+if (hasMore) {
+  html = html.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
+  );
+  html = html.replace(
+    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
+    `$1/insights/page/2/$2`,
+  );
+} else {
+  html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
+}
+
+let ecsSeen = 0;
+html = html.replace(
+  /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi,
+  (full, attrs) => {
+    ecsSeen += 1;
+    if (ecsSeen === 2 && !/data-sp-blog-grid/.test(attrs)) {
+      return `<div${attrs} data-sp-blog-grid="1">`;
+    }
+    return full;
+  },
+);
+
+const extraCss = [
+  ...(page.pageCss || []),
+  page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+  "/wp-content/uploads/elementor/css/post-21423.css",
+  "/wp-content/uploads/elementor/css/post-21574.css",
+  "/css/insights-topic-cards.css",
+];
+---
+
+<BaseLayout
+  currentPath="/insights/"
+  bodyClass={`page page-id-${page.id} elementor-page-${page.id}`}
+  extraCss={extraCss}
+  fallback={page.seo}
+  seo={{
+    title: page.seo.title || "Insights | EOR Middle East",
+    description:
+      page.seo.description ||
+      "EOR, PEO, payroll and HR insights across the Middle East.",
+    canonical: "/insights/",
+    ogImage: page.seo.ogImage,
+    schemas: [
+      ...(page.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>

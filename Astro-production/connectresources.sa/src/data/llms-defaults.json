@@ -1,0 +1,66 @@
+{
+  "siteTitle": "Connect Resources Saudi",
+  "summary": "Connect Resources Saudi is a business expansion partner in Saudi Arabia offering Employer of Record (EOR), outsourcing, payroll, recruitment, and business setup services for companies entering the Kingdom.",
+  "details": "Based in Riyadh, Connect Resources helps employers navigate Saudi regulations including Saudization, GOSI, visas, and company formation — with or without a local entity.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover EOR, payroll, company formation, visas, and compliance topics for Saudi Arabia.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Connect Resources Saudi homepage — business expansion solutions in KSA."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect Resources Saudi."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Connect Resources Saudi."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "EOR, payroll, and expansion insights for Saudi Arabia."
+    },
+    "/eor-service/": {
+      "group": "Services",
+      "title": "EOR Service",
+      "description": "Employer of Record services in Saudi Arabia."
+    },
+    "/eor-service/outsourcing/": {
+      "group": "Services",
+      "title": "Outsourcing Service",
+      "description": "Outsourcing services in Saudi Arabia."
+    },
+    "/eor-service/payroll-service/": {
+      "group": "Services",
+      "title": "Payroll Service",
+      "description": "Payroll services in Saudi Arabia."
+    },
+    "/eor-service/recruitment-service/": {
+      "group": "Services",
+      "title": "Recruitment Service",
+      "description": "Recruitment services in Saudi Arabia."
+    },
+    "/eor-service/business-setup/": {
+      "group": "Services",
+      "title": "Business Setup",
+      "description": "Business setup services in Saudi Arabia."
+    },
+    "/privacy-policy/": {
+      "group": "Other Pages",
+      "title": "Privacy Policy",
+      "description": "Privacy policy for Connect Resources Saudi."
+    }
+  }
+}

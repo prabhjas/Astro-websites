@@ -1,0 +1,164 @@
+---
+import headerEn from "../data/header.html?raw";
+import headerAr from "../data/header.ar.html?raw";
+import headerHomeEn from "../data/header-home.html?raw";
+import headerHomeAr from "../data/header-home.ar.html?raw";
+
+interface Props {
+  currentPath?: string;
+  /** Force a nav href active (e.g. "/blogs/" for single posts) */
+  menuActivePath?: string;
+  lang?: "en" | "ar";
+}
+
+const { currentPath = "/", menuActivePath, lang = "en" } = Astro.props;
+
+function normalize(path: string) {
+  if (!path || path === "/") return "/";
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+const path = normalize(menuActivePath || currentPath);
+const normalizedCurrent = normalize(currentPath);
+// EN home is "/"; WPML AR home is "/ar/" — both use the hero header template.
+const isHome = normalizedCurrent === "/" || normalizedCurrent === "/ar/";
+// Live site: homepage uses Elementor header 5406/7088 (includes hero).
+// All other pages use header 72/6359 (nav only) so page heroes stay correct.
+const headerHtml = isHome
+  ? lang === "ar"
+    ? headerHomeAr
+    : headerHomeEn
+  : lang === "ar"
+    ? headerAr
+    : headerEn;
+
+function pickActiveHref(current: string, hrefs: string[]) {
+  const matches = hrefs
+    .map(normalize)
+    .filter((h) => {
+      // Treat EN "/" and AR "/ar/" as exact home matches only
+      if (h === "/" || h === "/ar/") return current === h;
+      return current === h || current.startsWith(h);
+    })
+    .sort((a, b) => b.length - a.length);
+  return matches[0] || "";
+}
+
+function withActiveState(html: string, current: string) {
+  // Remove snapshot active classes (always "Home" from crawl)
+  let out = html
+    .replace(/\s*elementor-item-active/g, "")
+    .replace(/\s*current-menu-item/g, "")
+    .replace(/\s*current_page_item/g, "")
+    .replace(/\s*current-menu-ancestor/g, "")
+    .replace(/\s*current-menu-parent/g, "")
+    .replace(/\s*aria-current="page"/g, "");
+
+  const allHrefs = [...out.matchAll(/\bhref="(\/[^"#]*)"/g)].map((m) => m[1]);
+  const activeDeep = pickActiveHref(current, allHrefs);
+  if (!activeDeep) return out;
+
+  // Resolve which TOP-LEVEL item should get the orange underline
+  let activeTop = activeDeep;
+  const topHrefs = ["/", "/features/", "/about-us/", "/blogs/", "/contact/", "/pricing/", "/case-studies/"];
+  if (!topHrefs.includes(normalize(activeDeep))) {
+    // Deepest match is a submenu link — find owning top-level parent from HTML structure
+    const liBlocks = out.split(/<\/li>/i);
+    for (const block of liBlocks) {
+      if (!block.includes(`href="${activeDeep}"`) && !block.includes(`href="${normalize(activeDeep)}"`))
+        continue;
+      // Find first elementor-item (non-sub) href in this top-level branch
+      const top = block.match(
+        /<a\s+[^>]*class="elementor-item(?![^"]*sub-item)[^"]*"[^>]*href="(\/[^"#]*)"|<a\s+[^>]*href="(\/[^"#]*)"[^>]*class="elementor-item(?![^"]*sub-item)[^"]*"/i,
+      );
+      if (top) {
+        activeTop = top[1] || top[2];
+        break;
+      }
+    }
+    // Fallback: product / industry child pages → Features
+    if (
+      !topHrefs.includes(normalize(activeTop)) &&
+      /^\/(hr-software|wps-payroll|visa-management|document-generator|dynamic-dashboard|features|health-care|construction|finance|shipping-logistics|fb-food|hr-software-hotels|hr-software-hospitals)\b/.test(
+        current,
+      )
+    ) {
+      activeTop = "/features/";
+    }
+  }
+
+  const markTop = normalize(activeTop);
+  const markDeep = normalize(activeDeep);
+
+  out = out.replace(/<a\s+([^>]*?)>/gi, (full, attrs: string) => {
+    const hrefMatch = attrs.match(/\bhref="([^"]+)"/i);
+    if (!hrefMatch) return full;
+    const h = normalize(hrefMatch[1]);
+    const isSub = /\belementor-sub-item\b/.test(attrs);
+    const isTopPointer = h === markTop && !isSub;
+    const isDeep = h === markDeep;
+
+    if (!isTopPointer && !isDeep) return full;
+
+    let next = attrs;
+    if (isTopPointer) {
+      if (/\bclass="/i.test(next)) {
+        next = next.replace(/\bclass="([^"]*)"/i, (_m, cls: string) => {
+          const cleaned = cls.replace(/\belementor-item-active\b/g, "").replace(/\s+/g, " ").trim();
+          return `class="${cleaned} elementor-item-active"`;
+        });
+      } else {
+        next = `class="elementor-item elementor-item-active" ${next}`;
+      }
+      if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    } else if (isDeep && isSub) {
+      if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    }
+    return `<a ${next}>`;
+  });
+
+  out = out.replace(
+    /<li\b([^>]*class=")([^"]*)("[\s\S]*?<a\b[^>]*\b(?:elementor-item-active|aria-current="page")\b)/gi,
+    (full, pre, cls, rest) => {
+      const beforeNested = rest.split(/<li\b/i)[0];
+      if (!/elementor-item-active|aria-current="page"/.test(beforeNested)) {
+        if (!/\bcurrent-menu-ancestor\b/.test(cls)) {
+          return `<li${pre}${cls} current-menu-ancestor${rest}`;
+        }
+        return full;
+      }
+      let c = cls;
+      if (!/\bcurrent-menu-item\b/.test(c)) c += " current-menu-item";
+      if (!/\bcurrent_page_item\b/.test(c)) c += " current_page_item";
+      return `<li${pre}${c}${rest}`;
+    },
+  );
+
+  return out;
+}
+
+const html = withActiveState(headerHtml, path);
+---
+
+<div class="sp-elementor-header" data-sp-elementor-header set:html={html} />
+
+<script is:inline>
+  document.querySelectorAll("[data-sp-elementor-header] .elementor-menu-toggle").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!expanded));
+      toggle.classList.toggle("elementor-active", !expanded);
+      const dropdown = toggle.parentElement?.querySelector(
+        ".elementor-nav-menu--dropdown.elementor-nav-menu__container",
+      );
+      if (dropdown) {
+        dropdown.setAttribute("aria-hidden", String(expanded));
+        dropdown.classList.toggle("elementor-menu-open", !expanded);
+        dropdown.style.maxHeight = expanded ? "" : "100vh";
+        dropdown.style.overflow = expanded ? "" : "auto";
+        dropdown.style.display = expanded ? "" : "block";
+      }
+      document.documentElement.classList.toggle("elementor-menu-open", !expanded);
+    });
+  });
+</script>

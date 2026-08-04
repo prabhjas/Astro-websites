@@ -17,7 +17,7 @@ const LINK_FIXES = {
   '#|Explore Overview|GLOBAL WORKFORCE': '/global-workforce-solutions/',
   '#|Explore Overview|VISA SERVICES': '/visa-services/',
   '#|Explore Overview|HR SERVICES': '/hr-services/',
-  '#|UAE Offshore': '/dubai-offshore/',
+  '#|UAE Offshore': '/uae-offshore-company-setup/',
   '/uae-freezone-company-setup/': '/dubai-free-zone/',
   '/uae-mainland-company-setup/': '/dubai-mainland/',
   '/professional-employer-organization-uae': '/professional-employer-organization-uae/',
@@ -46,7 +46,7 @@ function fixMegaLinks($) {
       else if (heading.includes('HR')) href = '/hr-services/';
     }
 
-    if (href === '#' && text === 'UAE Offshore') href = '/dubai-offshore/';
+    if (href === '#' && text === 'UAE Offshore') href = '/uae-offshore-company-setup/';
 
     if (LINK_FIXES[href]) href = LINK_FIXES[href];
 
