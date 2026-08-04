@@ -1,0 +1,520 @@
+---
+/**
+ * Contractor Hire UAE — built from the CG v3.0 Figma design
+ * (desktop 5476:6588 · tablet 5521:8811 · mobile 5521:9940).
+ * Uses the shared site chrome (BaseLayout → Header/Footer, same as
+ * /uae-offshore-company-setup/ and /uae-mainland-company-setup/).
+ * Assets in /public/contractor-hire/img/. Styles scoped under .chire-.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../lib/seo';
+
+const seo = loadPageSeo('contractor-hire');
+
+const img = '/contractor-hire/img';
+const contact = '/contact-us/';
+
+const stats = [
+  { big: 'MoHRE', small: 'Licensed and accredited' },
+  { big: '10+', small: 'Industries we place contractors in' },
+  { big: 'Zero', small: 'Entity needed to hire through us' },
+  { big: '5 days', small: 'Average contractor onboarding time' },
+];
+
+const brands = [
+  { src: `${img}/logo-connect.svg`, alt: 'Connect Resources' },
+  { src: `${img}/logo-kinza.svg`, alt: 'Kinza HR' },
+  { src: `${img}/logo-connectstaff.svg`, alt: 'Connect Staff' },
+  { src: `${img}/logo-crsaudi.svg`, alt: 'Connect Resources Saudi' },
+];
+
+const risks = [
+  {
+    title: 'Misclassification fines',
+    body: 'MOHRE tests four things: control over hours, integration into your team, economic dependence on you alone, and whether the contractor holds their own valid permit. Fail one and the relationship becomes employment, with fines from AED 100,000 to AED 1,000,000 and full back-payment of gratuity, leave and benefits from day one.',
+  },
+  {
+    title: 'Foreign payments, MOHRE will find it',
+    body: 'Many international companies pay contractors in Dubai through overseas transfers without a UAE employment contract. While it may seem convenient, it can create a serious compliance risk. If MOHRE determines the individual is working without the proper employment status, your business could face fines and compliance issues.',
+  },
+  {
+    title: 'No legal way to pay them in the UAE',
+    body: 'Companies without a UAE entity or trade licence have no framework to pay a contractor compliantly. No WPS registration, no local banking structure, no MOHRE-recognised payment channel. The engagement is effectively illegal from the first invoice.',
+  },
+];
+
+const audience = [
+  'Scaling teams that need expertise without expanding headcount',
+  'Project-driven businesses with a scope, a budget and an end date',
+  'International companies in the UAE with no entity and no way to pay',
+  'Businesses bridging a gap until the right permanent hire is in place',
+  'Companies that found the right person but not the right legal structure',
+];
+
+const steps = [
+  { t: 'Define the role and scope', d: 'We start with your deliverables, timeline, and budget. That is all we need to get started.' },
+  { t: 'Source and shortlist verified contractors', d: 'From there, we identify talent with the right skills and valid UAE permits. Shortlist with you in 48 to 72 hours.' },
+  { t: 'Vet, background check, and confirm permit status', d: 'Every contractor is verified for permit, licence, and visa status before they are presented. No permit, no shortlist.' },
+  { t: 'Draft a MOHRE-compliant service agreement', d: 'Once you confirm your choice, we draft an MOHRE-compliant service agreement and set up the payment channel. No entity on your side is required.' },
+  { t: 'Onboard, pay, and manage invoices', d: 'We set up the payment structure so professionals are paid correctly through a compliant UAE channel.' },
+  { t: 'Monitor compliance throughout the engagement', d: 'Permit renewals, contract updates and compliance checks are tracked continuously so nothing lapses mid-project.' },
+];
+
+const industries = [
+  'Technology', 'Finance and Accounting', 'Engineering', 'Marketing and Digital',
+  'Legal and Compliance', 'HR and Talent', 'Healthcare', 'Operations',
+  'Creative and Design', 'Project Management',
+];
+
+const testimonials = [
+  {
+    quote: 'We needed a senior developer for a four-month project and had no bandwidth to run a full recruitment process. Connect Group had three verified candidates in front of us within three days. The whole engagement ran through their structure and we had zero compliance issues from start to finish.',
+    name: 'F. Thompson',
+    role: 'CTO, Fintech Company, Dubai',
+  },
+  {
+    quote: 'We have an HR team, and we know how to hire. What we did not want to do was build a separate process for every specialist we brought in on a project basis. Connect Group takes that entirely off our plate. The engagement structure, the compliance, the payments. We bring them the brief, and they handle the rest.',
+    name: 'R. Al Hamdan',
+    role: 'HR Director, Engineering Firm, Abu Dhabi',
+  },
+  {
+    quote: 'We are based in the UK with no UAE entity and no legal way to pay someone in Dubai. Connect Group became our employer of record on the ground, handled the contract, the payment structure and all the compliance. The specialist was onboarded and working within two weeks. We never had to set up a thing.',
+    name: 'S. Wilson',
+    role: 'COO, Consulting Firm, London',
+  },
+];
+
+const faqs = [
+  {
+    q: 'We have no UAE entity. Can we still engage a specialist through Connect Group?',
+    a: 'Yes. This is the most common reason companies come to us. Connect Group acts as the employer of record in the UAE, manages the engagement structure and handles payments through a compliant local channel. You direct the work, we carry the legal and compliance layer. No UAE trade licence, visa quota or MOHRE registration required on your side.',
+    open: true,
+  },
+  {
+    q: 'How are payments handled if we have no local banking or UAE structure?',
+    a: 'We pay the contractor through our own MOHRE-recognised, WPS-registered payment channel and invoice you directly. You never need a UAE bank account, a local entity or a WPS setup of your own — the compliant payment structure sits entirely on our side.',
+    open: false,
+  },
+  {
+    q: 'How quickly can Connect Group source and onboard a specialist for a live project?',
+    a: 'When you already have the person in mind, a compliant contract and payment channel can be live in a matter of days. When we are sourcing, we typically shortlist verified, permit-ready contractors within 48 to 72 hours and onboard in around five days.',
+    open: false,
+  },
+  {
+    q: 'Does Emiratisation apply to specialists engaged through Connect Group?',
+    a: 'Emiratisation obligations attach to the employing entity. Because the specialist is engaged through Connect Group’s structure rather than added to your own headcount, the associated obligations are managed on our side — we confirm exactly how this applies to your situation in writing before anything starts.',
+    open: false,
+  },
+  {
+    q: 'We are based in the UAE but do not want to manage the contractor hiring process ourselves. Can Connect Group handle it for us?',
+    a: 'Absolutely. Even with your own entity, you can hand the entire engagement to us — sourcing, vetting, the MOHRE-compliant agreement, payments and ongoing compliance monitoring — so your team stays focused on the work while we carry the administrative and legal load.',
+    open: false,
+  },
+];
+---
+
+<BaseLayout seo={seo}>
+  <Fragment slot="head">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {/* Chrome CSS stack — same set the legacy pages load so the shared header/footer render identically. */}
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/maxmegamenu/style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/themes/essentials/inc/css/bootstrap.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/wp-scss-cache/pixfort-core-style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/common/main.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/header.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/plusjakartasans.css?ver=1785312815" />
+  </Fragment>
+
+  <main class="chire">
+    <!-- HERO -->
+    <section class="chire-hero">
+      <div class="chire-wrap">
+        <div class="chire-hero-grid">
+          <div>
+            <p class="chire-eyebrow">Contractor Hire UAE</p>
+            <h1><span class="gold">Specialist talent.</span><span class="white">On your terms.</span></h1>
+            <p class="chire-hero-lead">
+              You have a project. You have the right person. The only thing standing between you and
+              getting started is a compliant way to engage them in the UAE. That is exactly what
+              Connect Group provides.
+            </p>
+            <div class="chire-btn-row">
+              <a class="chire-btn chire-btn-light" href={contact}>Speak to a Specialist</a>
+              <a class="chire-btn chire-btn-outline" href={contact}>Schedule a Meeting</a>
+            </div>
+          </div>
+          <div class="chire-hero-art">
+            <img src={`${img}/hero-3d.png`} alt="Specialist contractor hire in the UAE" width="520" height="520" loading="eager" />
+          </div>
+        </div>
+
+        <div class="chire-brands">
+          <h2>Our Specialist Brands</h2>
+          <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
+          <div class="chire-brand-row">
+            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+          </div>
+        </div>
+
+        <div class="chire-stats">
+          {stats.map((s) => (
+            <div class="chire-stat">
+              <div class="big">{s.big}</div>
+              <div class="small">{s.small}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- RISK -->
+    <section class="chire-section">
+      <div class="chire-wrap chire-risk-grid">
+        <div>
+          <h2 class="chire-h2">The risk every business faces when hiring contractors in the UAE</h2>
+          <p class="chire-sub">Engaging a contractor without the right structure looks simple — until compliance catches up. Here is what is actually at stake.</p>
+        </div>
+        <div class="chire-risk-cards">
+          {risks.map((r) => (
+            <div class="chire-risk-card">
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA V1 — dark, glass-fan art at the bottom (Figma 5479:9046) -->
+    <section class="chire-ctav1">
+      <div class="chire-wrap">
+        <h2>Tell us the role. We handle the <span>contract</span>, the <span>compliance</span> and the <span>payments</span>.</h2>
+        <p>From the first brief to the final invoice, Connect Group manages every part of the engagement so nothing falls outside the UAE legal framework.</p>
+        <a class="chire-btn chire-btn-slate" href={contact}>Send Us the Brief</a>
+      </div>
+      <img class="chire-ctav1-art" src={`${img}/cta-holographic.png`} alt="" aria-hidden="true" loading="lazy" />
+    </section>
+
+    <!-- WHO -->
+    <section class="chire-section">
+      <div class="chire-wrap chire-who-grid">
+        <div class="chire-who-img"><img src={`${img}/woman-meeting.jpg`} alt="Planning a contractor engagement" loading="lazy" /></div>
+        <div>
+          <h2 class="chire-h2">Who comes to Connect Group for Contractor Hire in the UAE?</h2>
+          <p class="chire-sub">Contractor hire fits a specific kind of business. If any of these sound like you, we can help.</p>
+          <ul class="chire-checklist">
+            {audience.map((a) => (
+              <li><img src={`${img}/check.svg`} alt="" aria-hidden="true" /><span>{a}</span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAVENDER BAND: process → industries → testimonials (gradient per design) -->
+    <div class="chire-band">
+      <section class="chire-section chire-process">
+        <div class="chire-wrap">
+          <h2 class="chire-h2">How Connect Group's Contractor Hire service works?</h2>
+          <p class="chire-sub">Everything between your first conversation and their first day, managed by Connect Group.</p>
+          <div class="chire-steps">
+            {steps.map((s) => (
+              <div class="chire-step">
+                <h3>{s.t}</h3>
+                <p>{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="chire-section chire-industries">
+        <div class="chire-wrap">
+          <div class="chire-industries-card">
+            <h2 class="chire-h2">Industries and roles we place contractors in the UAE</h2>
+            <div class="chire-tags">
+              {industries.map((t) => <span class="chire-tag">{t}</span>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chire-section chire-testi">
+        <div class="chire-wrap">
+          <h2 class="chire-h2 chire-center">What clients say about hiring specialists (contractors) through Connect Group?</h2>
+          <p class="chire-sub chire-center">Three different situations. The compliance was handled in all of them.</p>
+          <div class="chire-testi-grid">
+            {testimonials.map((t) => (
+              <div class="chire-testi-card">
+                <img class="qmark" src={`${img}/quote.svg`} alt="" aria-hidden="true" />
+                <blockquote>{t.quote}</blockquote>
+                <div class="who">
+                  <strong>{t.name}</strong>
+                  <span>{t.role}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- PRICING — indigo bg, glass panels art right (Figma 5487:7545) -->
+    <section class="chire-pricing">
+      <div class="chire-wrap chire-pricing-grid">
+        <div>
+          <p class="chire-eyebrow chire-eyebrow-onblue">Pricing</p>
+          <h2>Every engagement is priced around your brief. Not a rate card.</h2>
+          <p class="lead">Contractor hire in the UAE depends on the role, the duration and whether we are sourcing the person or you already have them in mind. Connect Group builds the full cost of engagement for your specific situation and confirms it in writing before anything moves.</p>
+          <p class="fine">No surprises, no hidden fees, nothing marked up without your sign-off.</p>
+          <a class="chire-btn chire-btn-light" href={contact}>Get Your Custom Quote</a>
+        </div>
+      </div>
+      <img class="chire-pricing-art" src={`${img}/value-crystal.png`} alt="" aria-hidden="true" loading="lazy" />
+    </section>
+
+    <!-- FAQ -->
+    <section class="chire-section">
+      <div class="chire-wrap">
+        <p class="chire-eyebrow chire-eyebrow-teal">Frequently Asked Questions</p>
+        <h2 class="chire-h2">What companies ask before they engage their first UAE specialist</h2>
+        <div class="chire-faq-list">
+          {faqs.map((f) => (
+            <details class="chire-faq" open={f.open}>
+              <summary>
+                {f.q}
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA — pastel gradient card (per design) -->
+    <section class="chire-section chire-finalcta-wrap">
+      <div class="chire-wrap">
+        <div class="chire-finalcta">
+          <h2>You have read enough.<br />The next step is a brief.</h2>
+          <p>Role, scope, timeline. That is all we need. Everything after that is on us.</p>
+          <a class="chire-btn chire-btn-black" href={contact}>Speak to a Contractor Hire Specialist</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {/* Chrome JS — same stack the legacy pages use so the mega menu + header behave identically. */}
+  <script is:inline src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+  <script is:inline>
+    var pixfort_main_object = { name: 'mainVals', dataPopupBase: '', dataPixOverlay: 'pix-overlay-2', dataPopupCheckLink: '' };
+    var PIX_JS_OPTIONS = { dataPopupBase: '', dataPagePopupsBase: '', mobileBreakPoint: '1024' };
+    var PIX_POPUPS_OPTIONS = [];
+  </script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/pixfort-core/dist/front/index.bundle-898a720260c818ad1bb5.js?ver=1785312815" defer></script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=1785312815" defer></script>
+  <script is:inline src="/js/astro-mirror-fixes.js" defer></script>
+</BaseLayout>
+
+<style>
+  .chire {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #1a1a1a;
+    background: #fff; /* chrome header.css sets body #111 — page canvas is white */
+    line-height: 1.5;
+    --c-navy: #1c2166;
+    --c-slate: #4051b5;
+    --c-slate-soft: #7a87da;
+    --c-indigo: #3b47ae;
+    --c-dark: #0a0a20;
+    --c-gold: #ffd88a;
+    --c-teal: #007c91;
+    --c-lav: #d4d7f9;
+    --c-silver: #767676;
+  }
+  .chire * { box-sizing: border-box; }
+  /* pixfort/theme CSS sets serif on bare h1-h6 — force the design font inside the page */
+  .chire h1, .chire h2, .chire h3, .chire h4,
+  .chire summary, .chire blockquote, .chire p, .chire a, .chire span, .chire li {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .chire img { max-width: 100%; display: block; }
+  .chire-wrap { max-width: 1300px; margin: 0 auto; padding: 0 40px; }
+  .chire-section { padding: 90px 0; }
+  .chire-center { text-align: center; }
+  .chire-h2 { font-size: 40px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; color: #1a1a1a; }
+  .chire-sub { color: var(--c-silver); font-size: 17px; margin: 0 0 18px; }
+  .chire-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 14px; color: #c9d0ff; }
+  .chire-eyebrow-teal { color: var(--c-teal); }
+  .chire-eyebrow-onblue { color: rgba(255, 255, 255, 0.75); }
+
+  .chire-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; border-radius: 10px; padding: 14px 26px;
+    border: 1.5px solid transparent; text-decoration: none; line-height: 1;
+    transition: transform 0.15s ease; cursor: pointer;
+  }
+  .chire-btn:hover { transform: translateY(-2px); }
+  .chire-btn-light { background: #fff; color: #121212; }
+  .chire-btn-outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+  .chire-btn-black { background: #121212; color: #fff; }
+  .chire-btn-slate { background: var(--c-slate-soft); color: #fff; }
+
+  /* HERO */
+  .chire-hero {
+    color: #fff; padding: 70px 0 80px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(60% 80% at 78% 40%, rgba(122, 79, 214, 0.55), transparent 60%),
+      radial-gradient(50% 60% at 8% 90%, rgba(193, 70, 46, 0.25), transparent 60%),
+      linear-gradient(135deg, #191c47 0%, #2a2b6e 45%, #3a2c72 100%);
+  }
+  .chire-hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: url('/contractor-hire/img/hero-photo.jpg') center / cover no-repeat;
+    opacity: 0.35; mix-blend-mode: screen; pointer-events: none;
+  }
+  .chire-hero .chire-wrap { position: relative; z-index: 2; }
+  .chire-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
+  .chire-hero h1 { font-size: 60px; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 24px; }
+  .chire-hero h1 .gold { color: var(--c-gold); display: block; }
+  .chire-hero h1 .white { color: #fff; display: block; }
+  .chire-hero-lead { color: rgba(255, 255, 255, 0.86); font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 620px; }
+  .chire-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .chire-hero-art img { width: 100%; max-width: 520px; margin-left: auto; filter: drop-shadow(0 30px 60px rgba(80, 40, 160, 0.5)); }
+  .chire-brands { text-align: center; margin-top: 54px; }
+  .chire-brands h2 { font-size: 26px; font-weight: 600; margin: 0 0 8px; color: #fff; }
+  .chire-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
+  .chire-brand-row { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
+  .chire-brand-row img { height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.92; }
+  .chire-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 54px; }
+  .chire-stat { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 26px 28px; text-align: center; }
+  .chire-stat .big { font-size: 32px; font-weight: 600; }
+  .chire-stat .small { font-size: 14px; color: rgba(255, 255, 255, 0.78); margin-top: 8px; }
+
+  /* RISK */
+  .chire-risk-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 60px; align-items: start; }
+  .chire-risk-cards { display: flex; flex-direction: column; gap: 16px; }
+  .chire-risk-card { background: #fafafa; border: 1px solid #ececf3; border-radius: 16px; padding: 26px 28px; }
+  .chire-risk-card h3 { font-size: 22px; font-weight: 600; margin: 0 0 10px; }
+  .chire-risk-card p { color: var(--c-silver); font-size: 15px; line-height: 1.6; margin: 0; }
+
+  /* CTA V1 — dark with glass-fan art (fix #1) */
+  .chire-ctav1 { background: var(--c-dark); color: #fff; text-align: center; padding: 90px 0 0; overflow: hidden; }
+  .chire-ctav1 h2 { color: #fff; font-size: 44px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; max-width: 900px; margin: 0 auto 20px; }
+  .chire-ctav1 h2 span { color: var(--c-slate-soft); }
+  .chire-ctav1 p { color: rgba(255, 255, 255, 0.8); font-size: 17px; line-height: 1.6; max-width: 700px; margin: 0 auto 30px; }
+  .chire-ctav1-art { width: 100%; max-width: 1440px; margin: 40px auto 0; display: block; }
+
+  /* WHO */
+  .chire-who-grid { display: grid; grid-template-columns: 0.85fr 1.1fr; gap: 70px; align-items: center; }
+  .chire-who-img { border-radius: 24px; overflow: hidden; aspect-ratio: 1 / 1; }
+  .chire-who-img img { width: 100%; height: 100%; object-fit: cover; }
+  .chire-checklist { display: flex; flex-direction: column; gap: 16px; padding: 0; margin: 26px 0 0; }
+  .chire-checklist li { display: flex; gap: 14px; align-items: flex-start; list-style: none; font-size: 17px; }
+  .chire-checklist img { width: 23px; height: 23px; margin-top: 2px; flex: none; }
+
+  /* LAVENDER BAND (fix #2): white → lavender → soft white across process/industries/testimonials */
+  .chire-band { background: linear-gradient(180deg, #ffffff 0%, #e9ebfc 22%, var(--c-lav) 48%, #dfe2fb 72%, #f4f5fe 100%); }
+  .chire-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 34px; }
+  .chire-step { background: #fdfdfe; border: 1px solid #ececf3; border-radius: 16px; padding: 30px 34px; }
+  .chire-step h3 { font-size: 21px; font-weight: 600; margin: 0 0 10px; }
+  .chire-step p { color: var(--c-silver); font-size: 15px; line-height: 1.6; margin: 0; }
+  .chire-industries { padding-top: 0; }
+  .chire-industries-card { background: #fff; border-radius: 28px; padding: 64px 40px; text-align: center; }
+  .chire-industries-card h2 { max-width: 700px; margin: 0 auto 34px; }
+  .chire-tags { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; max-width: 1000px; margin: 0 auto; }
+  .chire-tag { background: #eef0fe; color: #2e3a8c; font-size: 16px; font-weight: 500; padding: 12px 22px; border-radius: 999px; }
+  .chire-testi { padding-top: 0; }
+  .chire-testi .chire-h2 { max-width: 820px; margin-left: auto; margin-right: auto; }
+  .chire-testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
+  .chire-testi-card { background: #fff; border: 1px solid #ececf3; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; }
+  .chire-testi-card .qmark { width: 24px; height: 22px; margin-bottom: 18px; opacity: 0.5; }
+  .chire-testi-card blockquote { margin: 0; font-size: 15.5px; line-height: 1.6; color: #3a3a45; flex: 1; }
+  .chire-testi-card .who { margin-top: 22px; }
+  .chire-testi-card .who strong { display: block; font-size: 17px; }
+  .chire-testi-card .who span { color: var(--c-silver); font-size: 13px; }
+
+  /* PRICING — indigo + glass panels right (fix #3) */
+  .chire-pricing { position: relative; background: var(--c-indigo); color: #fff; overflow: hidden; padding: 90px 0; }
+  .chire-pricing-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 0.9fr 1.1fr; }
+  .chire-pricing h2 { color: #fff; font-size: 42px; font-weight: 600; line-height: 1.22; letter-spacing: -0.02em; margin: 0 0 22px; max-width: 600px; }
+  .chire-pricing .lead { color: rgba(255, 255, 255, 0.88); font-size: 17px; line-height: 1.6; margin: 0 0 18px; max-width: 640px; }
+  .chire-pricing .fine { color: rgba(255, 255, 255, 0.75); font-size: 17px; margin: 0 0 30px; max-width: 520px; }
+  .chire-pricing-art {
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    width: 52%; max-width: 720px; object-fit: contain; opacity: 0.95; pointer-events: none;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+  }
+
+  /* FAQ */
+  .chire-faq-list { border-top: 1px solid #e5e5ee; margin-top: 30px; }
+  .chire-faq { border-bottom: 1px solid #e5e5ee; padding: 24px 0; }
+  .chire-faq summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; cursor: pointer; list-style: none; font-size: 18px; font-weight: 500; }
+  .chire-faq summary::-webkit-details-marker { display: none; }
+  .chire-faq svg { flex: none; width: 20px; height: 20px; color: var(--c-teal); transition: transform 0.2s ease; }
+  .chire-faq[open] svg { transform: rotate(180deg); }
+  .chire-faq p { color: var(--c-silver); font-size: 15.5px; line-height: 1.65; margin: 14px 0 0; max-width: 1150px; }
+
+  /* FINAL CTA — pastel gradient card (fix #4) */
+  .chire-finalcta-wrap { padding-top: 30px; }
+  .chire-finalcta {
+    border-radius: 28px; text-align: center; padding: 90px 60px;
+    background:
+      radial-gradient(55% 90% at 12% 30%, rgba(120, 160, 255, 0.5), transparent 60%),
+      radial-gradient(50% 90% at 88% 35%, rgba(255, 200, 130, 0.55), transparent 60%),
+      radial-gradient(60% 90% at 40% 90%, rgba(150, 220, 230, 0.4), transparent 65%),
+      #fdfbf7;
+  }
+  .chire-finalcta h2 { font-size: 48px; font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; margin: 0 0 20px; }
+  .chire-finalcta p { color: #3a3a45; font-size: 17px; margin: 0 0 30px; }
+
+  /* RESPONSIVE — tablet (Figma 5521:8811) */
+  @media (max-width: 1024px) {
+    .chire-hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .chire-hero-art { display: none; }
+    .chire-hero-lead { margin-left: auto; margin-right: auto; }
+    .chire-btn-row { justify-content: center; }
+    .chire-stats { grid-template-columns: repeat(2, 1fr); }
+    .chire-brand-row { gap: 44px; }
+    .chire-risk-grid, .chire-who-grid { grid-template-columns: 1fr; gap: 36px; }
+    .chire-pricing-grid { grid-template-columns: 1fr; }
+    .chire-pricing-art { position: static; transform: none; width: 100%; max-width: 560px; margin: 40px auto 0; }
+    .chire-testi-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 860px) {
+    .chire-wrap { padding: 0 24px; }
+    .chire-section { padding: 60px 0; }
+    .chire-h2 { font-size: 30px; }
+    .chire-hero h1 { font-size: 42px; }
+    .chire-ctav1 h2 { font-size: 30px; }
+    .chire-pricing h2 { font-size: 30px; }
+    .chire-finalcta { padding: 60px 28px; }
+    .chire-finalcta h2 { font-size: 32px; }
+    .chire-steps { grid-template-columns: 1fr; }
+  }
+  /* RESPONSIVE — mobile (Figma 5521:9940) */
+  @media (max-width: 560px) {
+    .chire-hero h1 { font-size: 34px; }
+    .chire-btn-row { flex-direction: column; }
+    .chire-btn-row .chire-btn { width: 100%; }
+    .chire-stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .chire-stat { padding: 20px 16px; }
+    .chire-stat .big { font-size: 26px; }
+    .chire-brand-row { gap: 28px 40px; }
+    .chire-brand-row img { height: 30px; }
+    .chire-industries-card { padding: 44px 22px; }
+  }
+</style>

@@ -1,0 +1,34 @@
+{
+  "name": "connectgroup-astro",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Connect Group (connectgroup.co) — Astro fleet site",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 4326 --host",
+    "build": "astro build",
+    "preview": "astro preview --port 4326 --host",
+    "start": "node ./dist/server/entry.mjs",
+    "redirects:generate": "node scripts/generate-redirects.mjs",
+    "prebuild": "pnpm run redirects:generate",
+    "test": "node --import tsx --test tests/contact-form.test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "catalog:",
+    "@connect/site-cms": "workspace:*",
+    "astro": "catalog:",
+    "nodemailer": "catalog:",
+    "yaml": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
+    "cheerio": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

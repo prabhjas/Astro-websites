@@ -1,0 +1,725 @@
+# ---------------------------------------------------------------------------
+# Astro SSR sites (Node-backed, one systemd unit each) live in their own files.
+# They differ from every static block below: no root/file_server, because the
+# Node process renders each route AND serves its own dist/client assets and
+# /api/* endpoints. Never add a partial /api/lead-only proxy to those sites.
+#
+# Validate before reloading:
+#   caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+# ---------------------------------------------------------------------------
+import /etc/caddy/sites.d/*.caddy
+
+http://alburaq.ae, http://www.alburaq.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/alburaq
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://c-uae.com, http://www.c-uae.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/c-uae
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://companyformationsaudi.com, http://www.companyformationsaudi.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/companyformationsaudi
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectbusinesscenter.com, http://www.connectbusinesscenter.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectbusinesscenter
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectbusinesscenters.com, http://www.connectbusinesscenters.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectbusinesscenters
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectfreelance.ae, http://www.connectfreelance.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectfreelance
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectfz.com, http://www.connectfz.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectfz
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connecthr.ae, http://www.connecthr.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connecthr
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectresources.ae, http://www.connectresources.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectresources-ae
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectresources.info, http://www.connectresources.info {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectresources-info
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectresources.sa, http://www.connectresources.sa {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectresources-sa
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://connectstaff.ae, http://www.connectstaff.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/connectstaff
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://digitizengrow.com, http://www.digitizengrow.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/digitizengrow
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://emiratiguard.com, http://www.emiratiguard.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/emiratiguard
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://emiratisationgate.org, http://www.emiratisationgate.org {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/emiratisationgate
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://emiratisationgateway.com, http://www.emiratisationgateway.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/emiratisationgateway
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://emiratisationhub.com, http://www.emiratisationhub.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/emiratisationhub
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://emiratisationnafis.org, http://www.emiratisationnafis.org {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/emiratisationnafis
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://eormiddleast.com, http://www.eormiddleast.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/eormiddleast
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+# The Astro SSR site blocks (evolutionmiddleast.com, cbss.ae, spheavyrental.ae,
+# iberiaworkforce.com) now live in /etc/caddy/sites.d/ — see the import at the
+# top of this file and sites.d/_README.md.
+http://freelancerdxb.com, http://www.freelancerdxb.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/freelancerdxb
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://iberiaeor.com, http://www.iberiaeor.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/iberiaeor
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+# iberiaworkforce.com moved to /etc/caddy/sites.d/iberiaworkforce.com.caddy on
+# 2026-07-31: static file_server + /api/lead-only proxy -> full reverse proxy
+# to the Node app on :5083.
+http://interlibya.com, http://www.interlibya.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/interlibya
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://izi.ae, http://www.izi.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/izi
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://kinzahr.com, http://www.kinzahr.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/kinzahr
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://kpmpro.ae, http://www.kpmpro.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/kpmpro
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://kubernesys.com, http://www.kubernesys.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/kubernesys
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://mbs-consultancy.com, http://www.mbs-consultancy.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/mbs-consultancy
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://movey.ae, http://www.movey.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/movey
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://ngmanpower.com, http://www.ngmanpower.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/ngmanpower
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://peomiddleast.com, http://www.peomiddleast.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/peomiddleast
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://pittant.com, http://www.pittant.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/pittant
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://raadrecruitment.ae, http://www.raadrecruitment.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/raadrecruitment
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://redo.ae, http://www.redo.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/redo
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://royalvisa.ae, http://www.royalvisa.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/royalvisa
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://saudicompanyformation.com, http://www.saudicompanyformation.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/saudicompanyformation
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://snapsale.ae, http://www.snapsale.ae {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/snapsale
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://thefreelancergate.com, http://www.thefreelancergate.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/thefreelancergate
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://theuaegate.com, http://www.theuaegate.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/theuaegate
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+http://vistaoutsourcing.com, http://www.vistaoutsourcing.com {
+	encode zstd gzip
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	root * /var/www/astro-sites/vistaoutsourcing
+	try_files {path} {path}/index.html
+	file_server
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
+:80 {
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	handle /api/lead/* {
+		reverse_proxy 127.0.0.1:5055
+	}
+	redir / /evolutionmiddleast/ 302
+	handle_path /alburaq/* {
+		root * /var/www/astro-sites/alburaq
+		file_server
+	}
+	handle_path /c-uae/* {
+		root * /var/www/astro-sites/c-uae
+		file_server
+	}
+	handle_path /companyformationsaudi/* {
+		root * /var/www/astro-sites/companyformationsaudi
+		file_server
+	}
+	handle_path /connectbusinesscenter/* {
+		root * /var/www/astro-sites/connectbusinesscenter
+		file_server
+	}
+	handle_path /connectbusinesscenters/* {
+		root * /var/www/astro-sites/connectbusinesscenters
+		file_server
+	}
+	handle_path /connectfreelance/* {
+		root * /var/www/astro-sites/connectfreelance
+		file_server
+	}
+	handle_path /connectfz/* {
+		root * /var/www/astro-sites/connectfz
+		file_server
+	}
+	handle_path /connectgroup/* {
+		root * /var/www/astro-sites/connectgroup
+		file_server
+	}
+	handle_path /connecthr/* {
+		root * /var/www/astro-sites/connecthr
+		file_server
+	}
+	handle_path /connectresources-ae/* {
+		root * /var/www/astro-sites/connectresources-ae
+		file_server
+	}
+	handle_path /connectresources-info/* {
+		root * /var/www/astro-sites/connectresources-info
+		file_server
+	}
+	handle_path /connectresources-sa/* {
+		root * /var/www/astro-sites/connectresources-sa
+		file_server
+	}
+	handle_path /connectstaff/* {
+		root * /var/www/astro-sites/connectstaff
+		file_server
+	}
+	handle_path /digitizengrow/* {
+		root * /var/www/astro-sites/digitizengrow
+		file_server
+	}
+	handle_path /emiratiguard/* {
+		root * /var/www/astro-sites/emiratiguard
+		file_server
+	}
+	handle_path /emiratisationgate/* {
+		root * /var/www/astro-sites/emiratisationgate
+		file_server
+	}
+	handle_path /emiratisationgateway/* {
+		root * /var/www/astro-sites/emiratisationgateway
+		file_server
+	}
+	handle_path /emiratisationhub/* {
+		root * /var/www/astro-sites/emiratisationhub
+		file_server
+	}
+	handle_path /emiratisationnafis/* {
+		root * /var/www/astro-sites/emiratisationnafis
+		file_server
+	}
+	handle_path /eormiddleast/* {
+		root * /var/www/astro-sites/eormiddleast
+		file_server
+	}
+	handle_path /evolutionmiddleast/* {
+		root * /var/www/astro-sites/evolutionmiddleast
+		file_server
+	}
+	handle_path /freelancerdxb/* {
+		root * /var/www/astro-sites/freelancerdxb
+		file_server
+	}
+	handle_path /iberiaeor/* {
+		root * /var/www/astro-sites/iberiaeor
+		file_server
+	}
+	handle_path /interlibya/* {
+		root * /var/www/astro-sites/interlibya
+		file_server
+	}
+	handle_path /izi/* {
+		root * /var/www/astro-sites/izi
+		file_server
+	}
+	handle_path /kinzahr/* {
+		root * /var/www/astro-sites/kinzahr
+		file_server
+	}
+	handle_path /kpmpro/* {
+		root * /var/www/astro-sites/kpmpro
+		file_server
+	}
+	handle_path /kubernesys/* {
+		root * /var/www/astro-sites/kubernesys
+		file_server
+	}
+	handle_path /mbs-consultancy/* {
+		root * /var/www/astro-sites/mbs-consultancy
+		file_server
+	}
+	handle_path /movey/* {
+		root * /var/www/astro-sites/movey
+		file_server
+	}
+	handle_path /ngmanpower/* {
+		root * /var/www/astro-sites/ngmanpower
+		file_server
+	}
+	handle_path /peomiddleast/* {
+		root * /var/www/astro-sites/peomiddleast
+		file_server
+	}
+	handle_path /pittant/* {
+		root * /var/www/astro-sites/pittant
+		file_server
+	}
+	handle_path /raadrecruitment/* {
+		root * /var/www/astro-sites/raadrecruitment
+		file_server
+	}
+	handle_path /redo/* {
+		root * /var/www/astro-sites/redo
+		file_server
+	}
+	handle_path /royalvisa/* {
+		root * /var/www/astro-sites/royalvisa
+		file_server
+	}
+	handle_path /saudicompanyformation/* {
+		root * /var/www/astro-sites/saudicompanyformation
+		file_server
+	}
+	handle_path /snapsale/* {
+		root * /var/www/astro-sites/snapsale
+		file_server
+	}
+	handle_path /thefreelancergate/* {
+		root * /var/www/astro-sites/thefreelancergate
+		file_server
+	}
+	handle_path /theuaegate/* {
+		root * /var/www/astro-sites/theuaegate
+		file_server
+	}
+	handle_path /vistaoutsourcing/* {
+		root * /var/www/astro-sites/vistaoutsourcing
+		file_server
+	}
+}
+
+# Alburaq staging preview
+:4323 {
+	encode zstd gzip
+	root * /opt/Astro-staging/alburaq/dist
+	try_files {path} {path}/index.html =404
+	file_server
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header *.html Cache-Control "no-cache"
+}
+
+# Evolution Middle East preview -> http://178.105.150.67:8090
+# Proxies to the same Node app the real domain will use, so what you see here
+# is exactly what goes live at cutover.
+:8090 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5080
+	header X-Robots-Tag "noindex, nofollow"
+}
+
+# CBSS preview -> http://178.105.150.67:8091
+:8091 {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:5081
+	header X-Robots-Tag "noindex, nofollow"
+}
