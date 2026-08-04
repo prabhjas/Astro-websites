@@ -40,7 +40,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5090** | eormiddleast.com | `eormiddleast.com` | scaffolded |
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
-| **5093** | kinzahr.com | `kinzahr.com` | placeholder |
+| **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
 | **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
 | **5095** | redo.ae | `redo.ae` | placeholder |
 | **5096** | connectfz.com | `connectfz.com` | placeholder |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **10 scaffolded** · **34 placeholders** · next free **5124**
+**Totals:** 44 sites · **11 scaffolded** · **33 placeholders** · next free **5124**
 
 ---
 
@@ -92,6 +92,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 | 5091 | connectstaff.ae | Scaffolded (dev merge) |
 | 5092 | c-uae.com | Scaffolded (dev merge) |
+| 5093 | kinzahr.com | Full CMS scaffold (local); **not** in live Caddyfile yet |
 
 “Scaffolded” ≠ production cutover complete. Production Caddy today covers Evolution, CBSS, SP Heavy, Iberia, Connect Group (see `caddy/Caddyfile.production`).
 
