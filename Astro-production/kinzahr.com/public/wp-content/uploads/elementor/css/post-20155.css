@@ -25,29 +25,29 @@ background: linear-gradient(270deg, #15C1BD 0%, #10918E 25%, #10918E 75%, #15C1B
 	font-style: normal;
 	font-weight: normal;
 	font-display: auto;
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot');
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot?#iefix') format('embedded-opentype'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Regular.woff') format('woff'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Regular.ttf') format('truetype');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.eot?') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Regular.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'SF PRO DISPLAY';
 	font-style: normal;
 	font-weight: bold;
 	font-display: auto;
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot');
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot?#iefix') format('embedded-opentype'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Bold.woff') format('woff'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.ttf') format('truetype');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.eot?') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Bold.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-BoldItalic.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'SF PRO DISPLAY';
 	font-style: normal;
 	font-weight: 500;
 	font-display: auto;
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot');
-	src: url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot?#iefix') format('embedded-opentype'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Medium.woff') format('woff'),
-		url('https://dev.kinzahr.com/wp-content/uploads/2024/02/SF-Pro-Display-Medium.ttf') format('truetype');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot');
+	src: url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.eot?') format('embedded-opentype'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.woff') format('woff'),
+		url('/wp-content/uploads/2024/02/SF-Pro-Display-Medium.ttf') format('truetype');
 }
 /* End Custom Fonts CSS */

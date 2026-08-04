@@ -1499,8 +1499,9 @@
       // CF7 country-phone plugin prepends dial codes on every keyup when nationalMode
       // is false / + is stripped — that produced +971971971… while typing.
       try {
-        $('.wpcf7-phonetext, input.cg-phone-input').off('keyup');
+        $('.wpcf7-phonetext, input.cg-phone-input, input[name="your-phone"], input[type="tel"]').off('keyup');
         $(document).off('keyup', '.wpcf7-phonetext');
+        $(document).off('keyup', 'input[name="your-phone"]');
       } catch (e) {}
     }
 
@@ -1508,7 +1509,7 @@
       if (typeof window.jQuery === 'undefined') return;
       var $ = window.jQuery;
       var country = (code || window.__astroDetectedCountry || '').toLowerCase();
-      var $phones = $('.wpcf7-phonetext, input.cg-phone-input');
+      var $phones = $('.wpcf7-phonetext, input.cg-phone-input, input[name="your-phone"]');
       var $countries = $('.wpcf7-countrytext, input.cg-country-input');
 
       if (!$phones.length && !$countries.length) return;
@@ -1598,7 +1599,9 @@
     ensureLink(FLAG_SELECT_CSS, 'astro-nbcpf-cs-css');
     injectFlagSpriteCss();
 
-    var phones = document.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input');
+    var phones = document.querySelectorAll(
+      '.wpcf7-phonetext, input.cg-phone-input, input[name="your-phone"]',
+    );
     var countries = document.querySelectorAll('.wpcf7-countrytext, input.cg-country-input');
     if (!phones.length && !countries.length) return;
 
@@ -1763,11 +1766,12 @@
       '.elementor-menu-toggle:not(.elementor-active) .elementor-menu-toggle__icon--close{display:none;}',
       '.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open{display:none;}',
       /* Contact form response + validation */
-      '.wpcf7-form .wpcf7-response-output{display:none;margin:1em 0 .5em;padding:.65em 1em;border:2px solid #00a0d2;background:rgba(0,160,210,.08);color:inherit;border-radius:4px;font-size:14px;line-height:1.4;min-height:1.4em;}',
-      '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ok{display:block!important;border-color:#00a0d2;background:rgba(0,160,210,.1);}',
-      '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ng,.wpcf7-form .wpcf7-response-output.wpcf7-validation-errors{display:block!important;border-color:#dc3232;background:rgba(220,50,50,.08);}',
-      '.wpcf7-form input.astro-field-error,.wpcf7-form textarea.astro-field-error{outline:2px solid #dc3232;outline-offset:1px;}',
-      '.wpcf7-form .astro-experience-tip,.wpcf7-form .wpcf7-not-valid-tip{display:block;color:#dc3232;font-size:12px;margin-top:8px;line-height:1.3;}',
+      '.wpcf7-form .wpcf7-response-output{display:none;margin:1em 0 .5em;padding:.65em 1em;border:2px solid #00a0d2;background:rgba(0,160,210,.08);color:inherit;border-radius:4px;font-size:14px;line-height:1.4;min-height:1.4em;text-align:center;}',
+      '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ok{display:block!important;border-color:#00a0d2;background:rgba(0,160,210,.1);text-align:center;}',
+      '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ng,.wpcf7-form .wpcf7-response-output.wpcf7-validation-errors{display:block!important;border-color:#dc3232;background:rgba(220,50,50,.08);text-align:center;}',
+      '.wpcf7-form.sent .wpcf7-response-output,.wpcf7-form.invalid .wpcf7-response-output{text-align:center;}',
+      '.wpcf7-form input.astro-field-error,.wpcf7-form textarea.astro-field-error,.wpcf7-form .intl-tel-input.astro-field-error,.wpcf7-form .iti.astro-field-error{outline:2px solid #dc3232;outline-offset:1px;}',
+      '.wpcf7-form .astro-experience-tip,.wpcf7-form .astro-field-tip,.wpcf7-form .wpcf7-not-valid-tip{display:block;color:#dc3232;font-size:12px;margin-top:6px;line-height:1.3;}',
       '.form-design .wpcf7-response-output,.form-design .wpcf7-response-output.wpcf7-mail-sent-ok,.form-design .wpcf7-response-output.wpcf7-mail-sent-ng,.form-design .wpcf7-response-output.wpcf7-validation-errors{color:#ffffff!important;background:rgba(0,160,210,.22)!important;}',
       '.form-design .wpcf7-response-output.wpcf7-mail-sent-ng,.form-design .wpcf7-response-output.wpcf7-validation-errors{background:rgba(220,50,50,.28)!important;border-color:#ff8a8a!important;}',
       '.form-design .astro-experience-tip,.form-design .wpcf7-not-valid-tip{color:#ff6b6b;}',
@@ -2018,7 +2022,7 @@
     }
 
     function syncPhoneNumbers(form) {
-      form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]').forEach(function (phone) {
+      form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"], input[name="your-phone"], input[type="tel"]').forEach(function (phone) {
         try {
           var dialCode = '';
           var full = '';
@@ -2058,7 +2062,7 @@
     function buildContactFormPayload(form) {
       syncPhoneNumbers(form);
       var snapshots = [];
-      form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]').forEach(function (phone) {
+      form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"], input[name="your-phone"], input[type="tel"]').forEach(function (phone) {
         snapshots.push({ el: phone, value: phone.value });
         if (phone.dataset.astroFullPhone) phone.value = phone.dataset.astroFullPhone;
       });
@@ -2101,16 +2105,20 @@
       output.setAttribute('aria-hidden', text ? 'false' : 'true');
       output.setAttribute('data-astro-message', text);
       output.classList.remove('wpcf7-validation-errors', 'wpcf7-mail-sent-ok', 'wpcf7-mail-sent-ng');
+      form.classList.remove('sent', 'invalid', 'failed', 'submitting');
       if (text) {
         output.classList.add(isError ? 'wpcf7-mail-sent-ng' : 'wpcf7-mail-sent-ok');
+        form.classList.add(isError ? 'invalid' : 'sent');
         output.style.display = 'block';
         output.style.visibility = 'visible';
         output.style.opacity = '1';
+        output.style.textAlign = 'center';
         if (form.closest('.form-design') || form.querySelector('.form-design')) {
           output.style.color = '#ffffff';
         }
       } else {
         output.style.display = 'none';
+        output.style.removeProperty('text-align');
       }
       if (status) status.textContent = text;
       if (text) {
@@ -2121,19 +2129,47 @@
       return output;
     }
 
+    var PHONE_INPUT_SELECTOR =
+      '.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"], input[name="your-phone"], input[type="tel"]';
+
     function clearFieldErrors(form) {
       form.querySelectorAll('.astro-field-error').forEach(function (el) {
         el.classList.remove('astro-field-error');
         el.removeAttribute('aria-invalid');
       });
-      var tip = form.querySelector('.astro-experience-tip');
-      if (tip) tip.remove();
+      form.querySelectorAll('.astro-field-tip, .astro-experience-tip').forEach(function (tip) {
+        tip.remove();
+      });
     }
 
-    function markFieldError(el) {
+    function fieldErrorHost(el) {
+      if (!el) return null;
+      var wrap =
+        el.closest('.wpcf7-form-control-wrap') ||
+        el.closest('.intl-tel-input') ||
+        el.closest('.iti') ||
+        el.parentElement;
+      return wrap || el;
+    }
+
+    function markFieldError(el, message) {
       if (!el) return;
       el.classList.add('astro-field-error');
       el.setAttribute('aria-invalid', 'true');
+      var itiWrap = el.closest('.intl-tel-input') || el.closest('.iti');
+      if (itiWrap) itiWrap.classList.add('astro-field-error');
+      if (!message) return;
+      var host = fieldErrorHost(el);
+      if (!host) return;
+      var tip = host.querySelector(':scope > .astro-field-tip');
+      if (!tip) {
+        tip = document.createElement('span');
+        tip.className = 'astro-field-tip wpcf7-not-valid-tip';
+        tip.setAttribute('role', 'alert');
+        host.appendChild(tip);
+      }
+      tip.textContent = message;
+      tip.hidden = false;
     }
 
     function showExperienceRequiredTip(form) {
@@ -2164,7 +2200,7 @@
     }
 
     function getPhoneDigits(form) {
-      var phone = form.querySelector('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]');
+      var phone = form.querySelector(PHONE_INPUT_SELECTOR);
       if (!phone) return '';
       var dialCode = '';
       if (window.jQuery) {
@@ -2198,16 +2234,16 @@
       var fullName = getFieldValue(form, ['full-name', 'your-name', 'name', 'full_name']);
       var nameValue = fullName || [firstName, lastName].filter(Boolean).join(' ').trim();
       if (!nameValue) {
-        markFieldError(nameEl);
-        if (lastNameEl && !lastName) markFieldError(lastNameEl);
+        markFieldError(nameEl, 'Full name is required.');
+        if (lastNameEl && !lastName) markFieldError(lastNameEl, 'Last name is required.');
         errors.push('name');
         detailMessages.push('Full name is required.');
       } else if (fieldContainsLink(nameValue) || fieldContainsHtml(nameValue)) {
         spamHit = true;
-        markFieldError(nameEl);
+        markFieldError(nameEl, 'Links and HTML are not allowed.');
         errors.push('name');
       } else if (!NAME_RE.test(nameValue)) {
-        markFieldError(nameEl);
+        markFieldError(nameEl, 'Full name must contain only letters and spaces.');
         errors.push('name');
         detailMessages.push('Full name must contain only letters and spaces.');
       }
@@ -2215,23 +2251,23 @@
       var emailEl = form.querySelector('[name="your-email"]') || form.querySelector('[name="email"]');
       var email = getFieldValue(form, ['your-email', 'email']);
       if (!email) {
-        markFieldError(emailEl);
+        markFieldError(emailEl, 'Email is required.');
         errors.push('email');
         detailMessages.push('Email is required.');
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email) || /\s/.test(email)) {
-        markFieldError(emailEl);
+        markFieldError(emailEl, 'Please enter a valid email address.');
         errors.push('email');
         detailMessages.push('Please enter a valid email address.');
       } else if (fieldContainsHtml(email) || /(^|\+)[^@]*https?/i.test(email)) {
         spamHit = true;
-        markFieldError(emailEl);
+        markFieldError(emailEl, 'Links and HTML are not allowed.');
         errors.push('email');
       }
 
-      var phoneEl = form.querySelector('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]');
+      var phoneEl = form.querySelector(PHONE_INPUT_SELECTOR);
       var phoneDigits = getPhoneDigits(form);
       if (!phoneDigits) {
-        markFieldError(phoneEl);
+        markFieldError(phoneEl, 'Phone number is required.');
         errors.push('phone');
         detailMessages.push('Phone number is required.');
       }
@@ -2240,11 +2276,11 @@
       if (subjectEl) {
         var subject = String(subjectEl.value || '').trim();
         if (!subject) {
-          markFieldError(subjectEl);
+          markFieldError(subjectEl, 'Subject is required.');
           errors.push('subject');
         } else if (fieldContainsLink(subject) || fieldContainsHtml(subject)) {
           spamHit = true;
-          markFieldError(subjectEl);
+          markFieldError(subjectEl, 'Links and HTML are not allowed.');
           errors.push('subject');
         }
       }
@@ -2253,12 +2289,12 @@
       if (messageEl) {
         var message = String(messageEl.value || '').trim();
         if (!message) {
-          markFieldError(messageEl);
+          markFieldError(messageEl, 'Message is required.');
           errors.push('message');
           detailMessages.push('Message is required.');
         } else if (fieldContainsLink(message) || fieldContainsHtml(message)) {
           spamHit = true;
-          markFieldError(messageEl);
+          markFieldError(messageEl, 'Links and HTML are not allowed.');
           errors.push('message');
         }
       } else {
@@ -2274,12 +2310,12 @@
       if (companyEl) {
         var company = String(companyEl.value || '').trim();
         if (!company) {
-          markFieldError(companyEl);
+          markFieldError(companyEl, 'Company name is required.');
           errors.push('company');
           detailMessages.push('Company name is required.');
         } else if (fieldContainsLink(company) || fieldContainsHtml(company)) {
           spamHit = true;
-          markFieldError(companyEl);
+          markFieldError(companyEl, 'Links and HTML are not allowed.');
           errors.push('company');
         }
       }
@@ -2288,12 +2324,13 @@
       form.querySelectorAll('input[type="text"], input[type="search"], textarea').forEach(function (el) {
         if (!el || el.disabled || el.readOnly) return;
         if (el.classList.contains('wpcf7-phonetext') || el.classList.contains('cg-phone-input')) return;
+        if (el.matches(PHONE_INPUT_SELECTOR)) return;
         if (isTrackingOrMetaField(el) || !isVisibleFormControl(el)) return;
         var val = String(el.value || '');
         if (!val.trim()) return;
         if (fieldContainsLink(val) || fieldContainsHtml(val)) {
           spamHit = true;
-          markFieldError(el);
+          markFieldError(el, 'Links and HTML are not allowed.');
           if (errors.indexOf('spam') === -1) errors.push('spam');
         }
       });
@@ -2312,7 +2349,7 @@
         if (!onlyExperience) {
           var msg = spamHit
             ? 'Links and HTML are not allowed in form fields.'
-            : detailMessages[0] || 'Please provide all required information.';
+            : 'Please provide all required information.';
           showCf7Message(form, msg, true);
         } else {
           showCf7Message(form, '', false);
@@ -2329,7 +2366,7 @@
     }
 
     function enforcePhoneDigitsOnly(form) {
-      form.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input, input[name^="phonetext"], input[name="phone"]').forEach(function (phone) {
+      form.querySelectorAll(PHONE_INPUT_SELECTOR).forEach(function (phone) {
         if (phone.dataset.astroDigitsOnly) return;
         phone.dataset.astroDigitsOnly = '1';
         phone.setAttribute('inputmode', 'numeric');
@@ -2518,15 +2555,33 @@
       captureTrackingFields(form);
       enforcePhoneDigitsOnly(form);
       enforceNameLettersOnly(form);
-      // Ensure message is marked required in the DOM (some CF7 dumps omit the class).
+      // Mark core fields required across all CF7 mirrors (LP, contact, footer, blog).
+      form
+        .querySelectorAll(
+          '[name="f-name"], [name="first_name"], [name="full-name"], [name="your-name"], [name="name"], [name="full_name"]',
+        )
+        .forEach(function (el) {
+          el.setAttribute('aria-required', 'true');
+          el.classList.add('wpcf7-validates-as-required');
+        });
+      form.querySelectorAll('[name="your-email"], [name="email"]').forEach(function (el) {
+        el.setAttribute('aria-required', 'true');
+        el.classList.add('wpcf7-validates-as-required');
+      });
+      form.querySelectorAll(PHONE_INPUT_SELECTOR).forEach(function (el) {
+        el.setAttribute('aria-required', 'true');
+        el.classList.add('wpcf7-validates-as-required');
+      });
       form.querySelectorAll('[name="your-message"], [name="message"]').forEach(function (el) {
         el.setAttribute('aria-required', 'true');
         el.classList.add('wpcf7-validates-as-required');
       });
-      form.querySelectorAll('[name="company-name"], [name="company"], [name="company_name"], [name="your-company"]').forEach(function (el) {
-        el.setAttribute('aria-required', 'true');
-        el.classList.add('wpcf7-validates-as-required');
-      });
+      form
+        .querySelectorAll('[name="company-name"], [name="company"], [name="company_name"], [name="your-company"]')
+        .forEach(function (el) {
+          el.setAttribute('aria-required', 'true');
+          el.classList.add('wpcf7-validates-as-required');
+        });
     });
   }
 
