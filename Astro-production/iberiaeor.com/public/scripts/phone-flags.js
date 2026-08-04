@@ -24,8 +24,11 @@
       FLAG_PNG +
       '")!important;background-repeat:no-repeat!important;}' +
       ".intl-tel-input{width:100%!important;position:relative!important;display:block!important;}" +
-      ".intl-tel-input .flag-container{right:auto!important;left:0!important;z-index:3!important;}" +
-      ".intl-tel-input.separate-dial-code .selected-flag{display:table!important;background:#f3f7fa!important;}" +
+      ".intl-tel-input input{margin-bottom:0!important;margin-top:0!important;}" +
+      ".intl-tel-input .flag-container{right:auto!important;left:1px!important;top:1px!important;bottom:1px!important;padding:0!important;z-index:3!important;}" +
+      ".intl-tel-input.separate-dial-code .selected-flag{display:flex!important;align-items:center!important;height:100%!important;min-height:0!important;padding:0 10px 0 12px!important;background:#f3f7fa!important;border-radius:14px 0 0 14px!important;}" +
+      ".intl-tel-input .selected-flag .iti-flag,.intl-tel-input .selected-flag .iti-arrow{position:static!important;margin:0!important;}" +
+      ".intl-tel-input .selected-flag .iti-arrow{margin-left:4px!important;}" +
       ".intl-tel-input .iti-flag{width:20px;height:15px;display:inline-block!important;box-shadow:0 0 1px 0 #888;}" +
       ".intl-tel-input.separate-dial-code input{padding-left:110px!important;}" +
       "@media only screen and (-webkit-min-device-pixel-ratio:2)," +
