@@ -1,0 +1,135 @@
+# Permanent redirects — SEO / migration
+# Merged 2026-08-03 from imports/redirects/2026-08-03-redirection-log.csv (merge mode)
+redirects:
+  - from: /es/
+    to: /es/iberia-eor-landing-page-english-2/
+    status: 301
+  - from: /ru/
+    to: /ru/about-us/
+    status: 301
+  - from: /blog/
+    to: https://iberiaeor.com/insights
+    status: 301
+  - from: /blog
+    to: /insights/
+    status: 301
+  - from: /home-new-restricted/
+    to: https://iberiaeor.com/
+    status: 301
+  - from: /eor-saudi-arabia/
+    to: https://iberiaeor.com/saudi-arabia/employer-of-record
+    status: 301
+  - from: /employer-of-record-israel/
+    to: https://iberiaeor.com/israel/employer-of-record
+    status: 301
+  - from: /outsource-your-complete-payroll-services-benefits/
+    to: https://iberiaeor.com/payroll-outsourcing-advantages-and-disadvantages/
+    status: 301
+  - from: /country-page/
+    to: https://iberiaeor.com/
+    status: 301
+  - from: /location/uae/
+    to: https://iberiaeor.com/uae
+    status: 301
+  - from: /bahrain/employer-of-record-r/
+    to: https://iberiaeor.com/bahrain/employer-of-record
+    status: 301
+  - from: /eor-oman/
+    to: https://iberiaeor.com/oman/employer-of-record
+    status: 301
+  - from: /location/bahrain/
+    to: https://iberiaeor.com/bahrain
+    status: 301
+  - from: /location/qatar/
+    to: https://iberiaeor.com/qatar
+    status: 301
+  - from: /bahrain/country-service-page/
+    to: https://iberiaeor.com/bahrain
+    status: 301
+  - from: /location/oman/
+    to: https://iberiaeor.com/oman
+    status: 301
+  - from: /eor-egypt/
+    to: https://iberiaeor.com/egypt/employer-of-record
+    status: 301
+  - from: /location/kuwait/
+    to: https://iberiaeor.com/kuwait
+    status: 301
+  - from: /old-employer-of-record/
+    to: https://iberiaeor.com/employer-of-record
+    status: 301
+  - from: /eor-lebanon/
+    to: https://iberiaeor.com/lebanon/employer-of-record
+    status: 301
+  - from: /contact-us-new/
+    to: https://iberiaeor.com/contact-us
+    status: 301
+  - from: /pros-and-cons-of-outsourcing-payroll/
+    to: https://iberiaeor.com/payroll-outsourcing-advantages-and-disadvantages/
+    status: 301
+  - from: /employer-of-record-uae/
+    to: https://iberiaeor.com/uae/employer-of-record
+    status: 301
+  - from: /employer-of-record/employer-of-record/
+    to: /egypt/employer-of-record
+    status: 301
+  - from: /middle-east-eor/
+    to: https://iberiaeor.com/
+    status: 301
+  - from: /employer-of-record-lebanon/
+    to: https://iberiaeor.com/lebanon/employer-of-record
+    status: 301
+  - from: /eor-jordan/
+    to: https://iberiaeor.com/jordan/employer-of-record
+    status: 301
+  - from: /employer-of-record-qatar/
+    to: https://iberiaeor.com/qatar/employer-of-record
+    status: 301
+  - from: /employer-of-record-jordan/
+    to: https://iberiaeor.com/jordan/employer-of-record
+    status: 301
+  - from: /location/jordan/
+    to: https://iberiaeor.com/jordan
+    status: 301
+  - from: /eor-israel/
+    to: https://iberiaeor.com/israel/employer-of-record
+    status: 301
+  - from: /kuwait-visit-visa-new-rules-2023-everything-you-need-to-know/
+    to: https://iberiaeor.com/kuwait-visit-visa-new-rules
+    status: 301
+  - from: /employer-of-record-saudi-arabia/
+    to: https://iberiaeor.com/saudi-arabia/employer-of-record
+    status: 301
+  - from: /hr-management-2/
+    to: /hr-management
+    status: 301
+  - from: /eor-pedia-2/
+    to: https://iberiaeor.com/eor-pedia
+    status: 301
+  - from: /eor-qatar/
+    to: https://iberiaeor.com/qatar/employer-of-record
+    status: 301
+  - from: /eor-uae/
+    to: https://iberiaeor.com/uae/employer-of-record
+    status: 301
+  - from: /remote-workers-hire-2/
+    to: /remote-workers-hire
+    status: 301
+  - from: /professional-employer-organization-uae/
+    to: https://iberiaeor.com/uae/professional-employment-organization
+    status: 301
+  - from: /employer-of-record-egypt/
+    to: https://iberiaeor.com/egypt/employer-of-record
+    status: 301
+  - from: /peo-professional-employment-organization-2/
+    to: /peo-professional-employment-organization
+    status: 301
+  - from: /countries-page-new/
+    to: https://iberiaeor.com/saudi-arabia
+    status: 301
+  - from: /payroll-outsourcing-process/
+    to: /payroll-outsourcing-process-uae/
+    status: 301
+  - from: /service-new/
+    to: https://iberiaeor.com/employer-of-record
+    status: 301

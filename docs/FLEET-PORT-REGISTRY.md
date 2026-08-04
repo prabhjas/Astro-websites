@@ -34,9 +34,9 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5084** | connecthr.ae | `connecthr.ae` | scaffolded |
 | **5085** | connectgroup.co | `connectgroup.co` | scaffolded |
 | **5086** | connectresources.ae | `connectresources.ae` | scaffolded |
-| **5087** | connectfm.ae | `connectfm.ae` | placeholder |
+| **5087** | connectfm.ae | `connectfm.ae` | scaffolded |
 | **5088** | connectresources.sa | `connectresources.sa` | placeholder |
-| **5089** | iberiaeor.com | `iberiaeor.com` | placeholder |
+| **5089** | iberiaeor.com | `iberiaeor.com` | scaffolded |
 | **5090** | eormiddleast.com | `eormiddleast.com` | scaffolded |
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
@@ -89,6 +89,8 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5084 | connecthr.ae | In fleet; **not** in live Caddyfile yet |
 | 5085 | connectgroup.co | Full CMS · live Caddy |
 | 5086 | connectresources.ae | Scaffolded (dev merge) |
+| 5087 | connectfm.ae | FULL_CMS peer (c-uae shape); live WP extract |
+| 5089 | iberiaeor.com | Live WP clone extracted (kit-6 Manrope/Lato); local smoke green; malware scan: 0 PHP in public |
 | 5090 | eormiddleast.com | Scaffolded · deploy templates + `Caddyfile.production` block ready |
 | 5091 | connectstaff.ae | Scaffolded (dev merge) |
 | 5092 | c-uae.com | Scaffolded (dev merge) |

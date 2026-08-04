@@ -1,0 +1,113 @@
+/* Extracted from live iberiaeor.com Elementor custom CSS */
+.faq-border .elementor-accordion-item {
+    border-top:0px solid !important;
+    border-left:0px solid !important;
+    border-right:0px solid !important;
+}
+
+.selected-flag {
+    min-width: 100px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+}
+
+.offer-faq .elementor-accordion-item{
+    border-radius:15px;
+}
+
+.offer-faq .elementor-tab-content{
+    border:0px;
+}
+
+.offer-faq .elementor-accordion-item{
+ 		 margin-bottom:15px;
+    border:1px solid #B5E3F3 !important;
+	
+}
+.landing-form .selected-flag{
+	background:none !important;
+}
+
+
+.form-linear{
+	border-radius: 30px;
+background: var(--Degradado1, linear-gradient(94deg, #CDEEFF 0.19%, #A2D8EB 77.57%, #C3EFFE 98.13%));
+}
+
+
+.yellow{
+	color:#FFC983;
+}
+
+.blue{
+	color:#0246FF;
+}
+
+.counter p.elementor-counter-title {
+    text-align: center;
+}
+
+.main-form input[type=text], 
+.main-form input[type=date], 
+.main-form input[type=email], 
+.main-form input[type=number], 
+.main-form input[type=password], 
+.main-form input[type=search], 
+.main-form input[type=tel], 
+.main-form input[type=url], 
+.main-form select, 
+.main-form textarea {
+  border-radius: 15px;
+  border: 1px solid #B5E3F3;
+  padding: 15px 20px; 
+	width:100%
+}
+
+
+.main-form textarea{
+  height:100px;
+  resize:none;
+}
+
+.main-form ::placeholder{
+  color: #B1B0B0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 31px;
+}
+
+.main-form  input[type="submit"]{
+    border:0px;
+    width:100%;
+	font-weight: 500 !important;
+}
+
+.boxes .elementor-icon-box-wrapper {
+    min-height: 150px;
+}
+
+.wpcf7 form.invalid .wpcf7-response-output, .wpcf7 form.unaccepted .wpcf7-response-output, .wpcf7 form.payment-required .wpcf7-response-output {
+    border-color: #ffb900;
+    color: #ffb900;
+}
+
+.wpcf7 form.sent .wpcf7-response-output {
+    border-color:#ffb900;
+    color: #ffb900;
+}
+
+.list-sec  li{
+    margin-bottom:10px !important;
+    border-radius: 999px;
+    background: #EBFAF2;
+    padding:4px 8px 4px 6px !important;
+}
+
+.img-bx-sec .elementor-image-box-content {
+    margin-bottom: 6px;
+}
+
+h3.elementor-author-box__name {
+    margin-top: 0px;
+}
