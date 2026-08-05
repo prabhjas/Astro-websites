@@ -1,0 +1,131 @@
+{
+  "name": "NG Manpower",
+  "shortName": "NGManpower",
+  "url": "https://ngmanpower.com",
+  "description": "Manpower outsourcing, staffing solutions & workforce management in the UAE.",
+  "email": "contact@ngmanpower.com",
+  "phone": "+971 4 331 6688",
+  "phoneTel": "+97143316688",
+  "whatsapp": "+97143316688",
+  "whatsappUrl": "https://wa.me/97143316688",
+  "logo": "/wp-content/uploads/2023/05/logo-NG-manpower.png",
+  "logoSvg": "",
+  "ogImage": "",
+  "favicon": "/wp-content/uploads/2023/06/cropped-logo-NG-manpower-1-32x32.png",
+  "appleTouchIcon": "/wp-content/uploads/2023/06/cropped-logo-NG-manpower-1-180x180.png",
+  "favicon192": "/wp-content/uploads/2023/06/cropped-logo-NG-manpower-1-192x192.png",
+  "colors": {
+    "primary": "#0B1F3A",
+    "secondary": "#1B4F72",
+    "text": "#333333",
+    "accent": "#C9A227",
+    "white": "#FFFFFF"
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Industries",
+      "href": "/industries/"
+    },
+    {
+      "label": "Construction",
+      "href": "/construction/"
+    },
+    {
+      "label": "Electromechanical",
+      "href": "/electromechanical/"
+    },
+    {
+      "label": "Landscaping",
+      "href": "/landscaping/"
+    },
+    {
+      "label": "Oil and Gas",
+      "href": "/oil-and-gas/"
+    },
+    {
+      "label": "Factories",
+      "href": "/factories/"
+    },
+    {
+      "label": "Logistics",
+      "href": "/logistics/"
+    },
+    {
+      "label": "Food Industry",
+      "href": "/food-industry/"
+    },
+    {
+      "label": "Warehouse",
+      "href": "/warehouse/"
+    },
+    {
+      "label": "Manufacturing",
+      "href": "/manufacturing/"
+    },
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Insights",
+      "href": "/insights/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
+  ],
+  "footerServices": [],
+  "footerQuickLinks": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Industries",
+      "href": "/industries/"
+    },
+    {
+      "label": "Insights",
+      "href": "/insights/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
+  ],
+  "social": {},
+  "address": {
+    "street": "",
+    "locality": "Dubai",
+    "region": "Dubai",
+    "postalCode": "",
+    "country": "AE"
+  },
+  "cssFiles": [
+    "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+    "/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/cache/min/1/wp-content/plugins/wp-carousel-free/public/css/swiper-bundle.min.css",
+    "/wp-content/cache/min/1/wp-content/plugins/wp-carousel-free/public/css/font-awesome.min.css",
+    "/wp-content/plugins/wp-carousel-free/public/css/jquery.fancybox.min.css",
+    "/wp-content/plugins/wp-carousel-free/public/css/wp-carousel-free-public.min.css",
+    "/wp-content/themes/Impreza/css/style.min.css",
+    "/wp-content/themes/Impreza-child/style.css",
+    "/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css",
+    "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/style.min.css",
+    "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/animate.min.css",
+    "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/tooltip.min.css",
+    "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/stats-counter.min.css",
+    "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider.min.css"
+  ]
+}

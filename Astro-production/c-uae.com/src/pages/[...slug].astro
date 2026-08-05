@@ -91,15 +91,18 @@ const seo = page
       schemas: [
         ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
-        articleSchema({
-          title: stripHtml(post!.title),
-          description: post!.seo.description || stripHtml(post!.excerpt),
-          url: path,
-          image: post!.featuredImage || post!.seo.ogImage,
-          datePublished: post!.date,
-          dateModified: post!.modified,
-          authorName: post!.authorName,
-        }),
+        articleSchema(
+          {
+            title: stripHtml(post!.title),
+            description: post!.seo.description || stripHtml(post!.excerpt),
+            url: path,
+            image: post!.featuredImage || post!.seo.ogImage,
+            datePublished: post!.date,
+            dateModified: post!.modified,
+            authorName: post!.authorName,
+          },
+          Astro.url.origin,
+        ),
       ],
     };
 

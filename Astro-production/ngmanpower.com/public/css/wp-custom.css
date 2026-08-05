@@ -1,0 +1,936 @@
+
+input.wpcf7-form-control.wpcf7-text.wpcf7-validates-as-required {
+    width: 100% !important;
+}
+textarea.wpcf7-form-control.wpcf7-textarea {
+    width: 100% !important;
+}
+.custom-blog *{
+    font-family:poppins ;
+}
+
+.custom-blog i{
+    font-family:fontawesome;
+}
+
+/* FA5 brands/solid must win over the legacy fontawesome override above */
+.custom-blog i.fab,
+.custom-blog .fab {
+    font-family: "Font Awesome 5 Brands" !important;
+    font-weight: 400;
+}
+.custom-blog i.fas,
+.custom-blog .fas {
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900;
+}
+
+
+.custom-blog .author_bio_section {
+    display:none;
+}
+
+.custom-blog  span.elementor-post-info__item-prefix {
+    font-weight: 600;
+}
+
+/**footer icon**/
+.logo img, .navbar-header .logo img {
+    height: auto !important;
+    max-width: 320px !important;
+}
+
+
+p.width_r {
+    display: flex !important;
+    width: 140% !important;
+}
+
+/**end**/
+
+
+/**header**/
+.elementor-nav-menu--main.elementor-nav-menu__container.elementor-nav-menu--layout-horizontal.e--pointer-underline.e--animation-fade {
+    background: #163E87 !important;
+}
+/**end**/
+/***table code**/
+.table_prabh .container {
+    box-shadow: 0px 0px 10px 10px rgba(125, 175, 228, 0.18);
+    border-radius: 8px;
+	margin-top: -5%;
+    background: #ffffff;
+}
+
+
+.pum-theme-29260 .pum-container, .pum-theme-lightbox .pum-container {
+  
+    box-shadow: 0 0 30px 0 #02020200 !important;
+    02: ;
+    background-color: #fff0 !important;
+}
+.okhaloma-contact textarea {
+    margin-top: 0px !important;
+}
+.pull-left {
+    font-size: 16px;
+}
+.contact_button_head a {
+    background: #2a81cc;
+}
+.header-info-labels a {
+    color: #F7BB44 !important;
+}
+
+.mt-car-search {
+    display: none;
+}
+/***Blog code***/
+.single-post .header-title-breadcrumb-overlay h1.blog_bread {
+    visibility: hidden !important;
+}
+.mt-car-search .search-field.form-control {
+    
+    width: 100px !important;
+    
+}
+
+.navbar-default .navbar-nav > li.current-menu-item > a::before {
+  display:none;
+}
+.pull-right span {
+    display: none;
+}
+aside#block-8, aside#block-9 {
+    margin-bottom: 0px !important;
+}
+footer .footer-top .widget-title {
+    
+	font-size: 20px !important;}
+#nav_menu-2, #nav_menu-1 {
+    margin-top: 0px !important;
+    padding: 0px !important;
+}
+
+article ul li {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 400;
+    
+}
+#transaction_hide{
+	display:none;
+}
+.intl-tel-input input, .intl-tel-input input[type=tel], .intl-tel-input input[type=text] {
+    
+    padding-left: 90px !important;
+    
+}
+.okhaloma-contact textarea {
+    
+    margin-top: 15px;
+}
+.bullet_prab h2.elementor-icon-box-title {
+    display: none;
+}
+.okhaloma-contact textarea {
+    height: 110px;
+}
+.okhaloma-contact input, .okhaloma-contact textarea {
+    padding: 12px 20px !important;
+ 
+    margin-bottom: 15px !important;
+   
+}
+p {
+   
+    color: #000000;
+}
+nav li li:hover ul {
+    display: block !important;
+}
+nav li:hover ul ul {
+    display: none;
+}
+a {
+    color: var( --e-global-color-primary );
+}
+.single-post a {
+    color: #0071c2;
+    font-weight: bold;
+}
+.footer-div-parent {
+   
+    display: block !important;
+}
+footer p {
+    color: #ffffff;
+    font-size: 15px;
+}
+aside#block-2 {
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+aside#block-3 {
+    margin-top: 0px;
+}
+#block-6 p a {
+    color: #ffffff;
+    font-family: 'Poppins';
+	    margin-left: 10px;
+	font-weight: normal;
+    display: inline-flex;
+	  line-height: 21px;
+}
+#block-6 p.fa {
+    margin-bottom: 20px;
+}
+figure.wp-block-image.size-full {
+    margin-bottom: 1em;
+}
+#block-4 span.has-inline-color.has-white-color {
+    font-size: 24px !important;
+    font-weight: bold;
+}
+
+
+p.copyright span {
+    color: #cfd5de !important;
+	font-family: Poppins !important;
+}
+.author_bio_section {
+    border-top: 1.5px dashed #ccc;
+
+}
+.is-sticky .row {
+    display: none;
+}
+p.author_links {
+    display: none;
+}
+.author_bio_section .avatar.photo {
+    max-width: 100%;  
+	    margin-right: 20px;
+}
+.author_details img {
+    height: fit-content;
+}
+p.author_details{
+	margin-top: 40px;
+	align-items: center;
+	display: flex;
+}
+p.author_name {
+    display: none;
+}
+.top-header {
+    background: #01367f !important;
+}
+.is_header_semitransparent .header-title-breadcrumb-overlay > .container {
+   
+    background: #02224f;
+}
+.is_header_semitransparent .header-title-breadcrumb-overlay h1 {
+    color: #fff !important;
+}
+.arrow_landing i.fas.fa-chevron-right {
+    margin-top: 5px;
+}
+.arrow_landing h2.elementor-icon-box-title {
+    display: none;
+}
+
+.breadcrumb {
+   
+    display: none;
+    
+}
+.is_header_semitransparent .header-title-breadcrumb-overlay h1 {
+    color: #000;
+}
+
+.header-title-breadcrumb-overlay {
+   
+    padding: 0px 0;
+    
+}
+
+
+@media only screen and (max-width: 767px){
+	.desktop_banner{
+		display:none;
+	}
+body.is_header_semitransparent .header-title-breadcrumb-overlay > .container {
+    padding-bottom: 0px !important;
+}
+}
+.is_header_semitransparent .header-title-breadcrumb-overlay > .container {
+    padding-top: 150px;
+    backdrop-filter: blur(3px);
+    padding-bottom: 120px;
+    width: 100%;
+}
+.header-title-breadcrumb-overlay.text-center.rocket-lazyload.lazyloaded {
+   
+	background: rgb(0 0 0) !important;
+
+}
+.col-md-4.sidebar-content.sidebar-right {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 40px;
+}
+.footer-before-content {
+    
+    display: none;
+   
+}
+.okhaloma-contact input, .okhaloma-contact textarea {
+border: 1px solid #222 !important;
+}
+
+@media only screen and (max-width: 767px){
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle {
+    margin: 15px!important;
+}
+	.logo img, .navbar-header .logo img {
+   height: 30px !important;
+		max-width: 200px !important;
+}
+	header #navbar .sub-menu .menu-item > a {
+    color: #fff !important;
+}
+	
+}
+
+
+.select-categories{
+	display: none;
+}
+
+.slider-state-search{
+	width: 33%
+}
+
+
+
+.slider-state-submit
+{
+	width: 33%;
+}
+
+.mt_listing_content_sidebar_part_next_event{
+	display: none;
+}
+
+.mt_listing_content_sidebar_part_author_listing{
+	display: none
+}
+
+.mt_listing_content_sidebar_part_add_place{
+	display: none
+}
+
+@media (max-width: 991px){
+	.mt-car-search .submit {
+     margin-top: 0; 
+    width: 100%;
+}
+	.navbar-default {
+    background: #003580f2 !important;
+}
+}
+@media only screen and (max-width: 767px) {
+	
+html, body {
+    width: auto!important;
+    overflow-x:hidden !important;
+}	
+	
+h1.elementor-heading-title.elementor-size-default {
+    line-height: 1.2em !important;
+}	
+	
+	footer .footer-top {
+    background: url('https://ngmanpower.com/wp-content/uploads/2023/03/Footer-Bkg-Mobile.png');
+	background-repeat: no-repeat;
+    background-attachment: default;
+    background-position: top right;
+    background-size: cover;
+	
+}
+	
+	body.is_header_semitransparent .navbar-default {
+      background: #003580f2 !important;
+    }
+	p.author_details {
+   
+    display: block;
+}
+	.listing-taxonomy-shortcode {
+    
+    display: inline-flex !important;
+    width: 49.5% !important;
+}
+	.text-center.header-info-group {
+    font-size: 12px;
+}
+.header-title-breadcrumb-overlay.text-center {
+    background: #02224f !important;
+}
+	.avatar.photo {
+    width: auto;
+}
+	header .header-infos .header-info-labels {
+   
+    float: left !important;
+}
+	.header-infos {
+    overflow: inherit !important;
+   
+}
+}
+ 
+
+@media only screen and (max-width: 1200px)
+{
+	.mt-car-search .row .slider-state-select, .mt-car-search .row .slider-state-search {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    width: 100%;
+}
+}
+
+.listing-taxonomy-shortcode{
+	float:none;
+	display: inline-grid;
+	width: 24.75%;
+}
+.navbar-default {
+    background-color: #003580f2!important;
+}
+
+
+.footer-div-parent {
+    position: relative;
+    display: none;
+}
+.mt-car-search .row {
+  
+    background: #0071c2;
+
+}
+.mtsearchform-style-v2.mt-car-search .submit .form-control {
+    background: #0071c2!important;
+}
+.fa-map-marker:before {
+    
+    color: #0071c2;
+}
+
+.loader-theme .pin {
+  
+    background: #0071c2;
+ 
+}
+.back-to-top {
+    background: #0071c2;
+    color: #ffffff;
+	right: auto;
+    left: 50px;
+}
+.title-subtile-holder .section-separator {
+ 
+    background: #0071c2!important;
+}
+.listings_category_image_shortcode_holder .category_icon_holder {
+    background: #007ac2!important;
+}
+.button-winona.btn.btn-sm {
+   
+    background: #0071c2!important;
+}
+.blog-posts-shortcode .time-n-date, .blog-posts-shortcode .text-element.content-element p a::before {
+    background: #0071c2!important;
+}
+
+
+.mt-listing-search-taxonomy button.form-control.btn {
+     background: #007ac2!important;
+}
+
+.mt-car-search form {
+    
+    display: table;
+    background-color: #febb02;
+    padding: 4px;
+    border-radius: 4px;
+    margin: 24px 0 16px;
+    position: relative;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width:992px){
+	.navbar-header{
+		padding-left:30px;
+	}
+	
+}
+
+h4.heading a.link-raigor:hover{
+	color:#0071C2!important;
+}
+
+.post-name a:hover,
+.listing-details-author-social-profiles li i{
+	color:#0071C2!important;
+}
+
+.mt-listing-search-taxonomy .checkboxes-categories .checkbox-inline input:checked ~ .checkmark, .styling-checkboxes .checkbox-inline input:checked ~ .checkmark,
+.mt_listing_header_section .embed button,
+form#add-new-review button.button-listing,
+.pagination .page-numbers.current,
+.pagination a.page-numbers:before{
+		background-color:#0071C2!important;
+}
+
+.nav-menu-account.oklahoma-logoin{
+	display:none;
+}
+
+
+
+
+#box1 {
+	 border-radius: 25px;
+	padding: 22px;
+-webkit-box-shadow: 4px 4px 8px -2px rgba(0,0,0,0.8); 
+box-shadow: 4px 4px 8px -2px rgba(0,0,0,0.8);
+}
+
+#box1:hover{
+	transition: transform .4s;
+	ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05); 
+}
+
+#navbar ul.sub-menu li a {
+    color: #151515 !important;
+}
+#prabh_consult{
+	top:0;
+	position: sticky;
+}
+.header-title-breadcrumb-overlay h1 {
+  
+    font-size: 34px;
+    
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 2160px){
+	.mobile_banner{
+		display:none;
+	}
+footer .footer-top {
+    background: url('https://ngmanpower.com/wp-content/uploads/2023/03/Footer-Bkg-Desktop.png');
+	background-repeat: no-repeat;
+    background-attachment: default;
+    background-position: bottom right;
+    background-size: cover;
+	
+}
+
+#navbar ul.nav>.menu-item>a {
+    padding: 5px 10px!important;
+    border-radius: 2px !important;
+    margin-top: 10px!important;
+}
+
+}
+#block-6 p.fa {
+    color: #18B5F7;
+}
+
+/*----saranya-----*/
+
+.elementor-28347 .elementor-element.elementor-element-b8b1ff6:not(.elementor-motion-effects-element-type-background){
+	margin-left: 200px;
+	margin-right: 200px;
+}
+
+
+.elementor-28347 .elementor-element.elementor-element-6b340a6 .jet-posts .jet-more {
+    background-color: #217DBA00;
+    color: #217DBA;
+    text-decoration: none;
+    border-style: solid;
+    border-color: #02010100;
+    align-self: flex-start;
+    margin-left: -30px;
+}
+
+aside#block-10 {
+    margin: 
+0px
+ !important;
+    padding: 
+0px
+;
+}
+
+/*cost calculator popupform*/
+
+div#popmake-31475 {
+    padding: 18px;
+    border-radius: 3px;
+    border: 8px solid #000000;
+    box-shadow: 0px 0px 30px 0px rgba( 2, 2, 2, 1.00 );
+    background-color: rgba( 255, 255, 255, 1.00 ) !important;
+}
+
+.stepper_buttons p {
+    display: flex;
+    justify-content: space-between;
+}
+
+.custom_modal_popup_form label {
+    margin: 0px;
+    max-width: 100%;
+    width: inherit;
+    font-weight: unset;
+    font-size: 16px !important;
+    line-height: 24px;
+    color: #0d3f86;
+    margin-bottom: 8px !important;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.custom_modal_popup_form label em {
+    color: red;
+}
+.intl-tel-input.allow-dropdown input[type=text] {
+    padding-left: 100px !important;
+/* 	text-align:center; */
+    
+}
+
+.custom_modal_popup_form .intl-tel-input.allow-dropdown input[type=text] {
+    padding-left: 100px !important;
+    margin-top: 8px !important;
+}
+
+.custom_modal_popup_form .field_group {
+    margin-bottom: 25px;
+}
+
+.multisteps_main_wrapper input[type="text"], .multisteps_main_wrapper input[type="email"], .multisteps_main_wrapper input[type="tel"], .multisteps_main_wrapper select {
+           display: block;
+    width: 100% !important;
+    font-family: inherit;
+    color: #0d3f86;
+    padding: 0px 0px 8px !important;
+    border: none;
+    outline: none;
+    border-radius: 0px !important;
+    appearance: none;
+    background-image: none;
+    background-position: initial;
+    background-size: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    transform: translateZ(0px);
+    font-size: 24px;
+    -webkit-font-smoothing: antialiased;
+    line-height: unset;
+    -webkit-text-fill-color: #0d3f8669;
+    animation: 1ms ease 0s 1 normal none running native-autofill-in;
+    transition: background-color 1e+08s ease 0s, box-shadow 0.1s ease-out 0s;
+    box-shadow: rgb(48 77 159 / 78%) 0px 1px;
+    background-color: transparent !important;
+    font-weight: 400;
+}
+
+.multisteps_main_wrapper input[type="text"]:focus, .multisteps_main_wrapper input[type="email"]:focus, .multisteps_main_wrapper input[type="email"]:focus, .multisteps_main_wrapper select:focus {
+          box-shadow: rgb(46 79 95) 0px 2px !important;
+    -webkit-text-fill-color: #0d3f86 !important;
+    border: none !important;
+}
+
+input.error {
+    box-shadow: #ff4d4f 0px 1px !important;
+}
+
+.stepper_buttons button.next_button {
+    background: #00b7fb;
+    padding: 15px 50px;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    font-family: 'Poppins';
+}
+
+.stepper_buttons button {
+    cursor: pointer;
+}
+.stepper_buttons button {
+    width: 200px;
+    height: 51px;
+	    font-weight: 500;
+}
+
+.custom_modal_popup_form h3 {
+    font-size: 25px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    line-height: 33px;
+	color: #0d3f86;
+}
+
+.country-select.inside .wpcf7-countrytext {
+    padding-left: 52px !important;
+}
+
+label.vh {
+    visibility: hidden;
+}
+
+.main_steps span.wpcf7-form-control-wrap .wpcf7-radio {
+    width: 100%;
+}
+
+.main_steps .wpcf7-list-item {
+    padding: 16px 9px 10px;
+    background: #f5f5f5;
+    display: block;
+    max-width: 337px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border: 1px solid #2667ff;
+    display: flex;
+    flex-flow: row;
+    margin-left: 0px;
+}
+
+.main_steps .wpcf7-list-item label {
+    margin: 0px;
+    max-width: 100%;
+    width: 100%;
+    font-weight: unset;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgb(4, 69, 175);
+    margin-bottom: 8px !important;
+    display: flex;
+}
+
+.main_steps input[type="radio"] {
+    margin-right: 13px;
+    width: 30px;
+}
+
+.main_steps span.wpcf7-list-item-label {
+    font-weight: 400 !important;
+}
+
+.main_steps span.wpcf7-list-item-label {
+    margin: 0px;
+    max-width: 100%;
+    width: inherit;
+    font-weight: unset;
+    font-size: 16px;
+    line-height: 24px;
+        color: #8d3aaa;
+    margin-bottom: 8px !important;
+    position: relative;
+    top: 4px;
+}
+
+.errorborder {
+    border-color: red !important;
+}
+
+input.radioerror {
+    box-shadow: #e3282a 0px 0px 0px 1px inset !important;
+}
+
+.main_steps span.wpcf7-form-control-wrap .wpcf7-radio {
+    width: 100%;
+}
+
+.main_steps .wpcf7-list-item {
+    padding: 16px 9px 10px;
+    background: #f5f5f5;
+    display: block;
+    max-width: 410px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border: 1px solid #0d3f86;
+    display: flex;
+    flex-flow: row;
+    margin-left: 0px;
+}
+
+.main_steps .wpcf7-list-item label {
+    margin: 0px;
+    max-width: 100%;
+    width: 100%;
+    font-weight: unset;
+    font-size: 16px;
+    line-height: 24px;
+    color:#0d3f86;
+    margin-bottom: 8px !important;
+    display: flex;
+}
+
+.main_steps .trigger {
+    border: 2px solid #8d3aaa !important;
+    color: #8d3aaa !important;
+    border-width: 2px;
+}
+
+.main_steps input[type="radio"] {
+    margin-right: 13px;
+    width: 30px;
+}
+
+.main_steps span.wpcf7-list-item-label {
+    font-weight: 400;
+}
+
+.main_steps span.wpcf7-list-item-label {
+    margin: 0px;
+    max-width: 100%;
+    width: inherit;
+    font-weight: unset;
+    font-size: 16px;
+    line-height: 24px;
+    color:#0d3f86;
+    margin-bottom: 8px !important;
+    position: relative;
+    top: 4px;
+}
+
+.errorborder .wpcf7-list-item {
+    border-color: red !important;
+}
+
+.main_steps .fancy-select {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.countradiobutton span.wpcf7-list-item {
+    display: inline-block;
+    width: auto;
+    padding: 0px;
+    border: 0px;
+    background: #0000;
+    max-width: 60px;
+    margin-right: 10px;
+}
+
+.countradiobutton span.wpcf7-list-item {
+    margin-bottom: 0px;
+    position: relative;
+}
+
+.countradiobutton span.wpcf7-list-item label {
+    display: block;
+    position: relative;
+    margin-right: 8px;
+}
+
+.countradiobutton input[type="radio"] {
+    width: 60px;
+    height: 60px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-right: 10px;
+    position: relative;
+        box-shadow: rgb(24 108 210 / 60%) 0px 0px 0px 1px inset;
+    border: none;
+    border: none;
+    outline: 0;
+    margin: 0px !important;
+    cursor: pointer;
+}
+
+.main_steps span.wpcf7-list-item-label {
+    font-weight: 400;
+}
+.countradiobutton span.wpcf7-list-item-label {
+    font-size: 10px;
+    position: absolute;
+    left: 0px;
+    right: 0;
+    margin: 0 auto;
+    font-size: 22px;
+    top: 19px;
+    /* max-width: 60px; */
+    color: #cfcfcf;
+    text-align: center;
+    cursor: pointer;
+}
+
+.countradiobutton input[type="radio"]:checked:before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    /* background: #000; */
+       background: rgb(13 63 134);
+}
+
+.multisteps_main_wrapper .error-message {
+    margin-bottom: 20px;
+}
+
+.laststepsubmitbtn input[type="submit"] {
+    max-width: 100%;
+    width: 100% !important;
+    margin: 30px 0px;
+}
+
+p.error-message {
+    color: red;
+    font-weight: 400;
+    font-size: 21px;
+}
+
+#c-form .wpcf7 div.wpcf7-response-output {
+    text-align: center;
+    color: #fff;
+}
+
+#c-form span.wpcf7-not-valid-tip {
+    color: #fff !important;
+}
+
+#c-form .wpcf7 form.sent .wpcf7-response-output {
+    border-color: #fff;
+    text-align: center !important;
+    color: #fff;
+}
+
+#consult .intl-tel-input.separate-dial-code .selected-dial-code{
+	padding-left:10px;
+}
+
+.selected-flag {
+    min-width: 90px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+}
