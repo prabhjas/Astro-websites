@@ -25,8 +25,13 @@ if (!slug) {
 const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
 const hasLegacyMirror = existsSync(cleanedPath);
 
-if (isPageSlug(slug) || slug === 'blog' || hasLegacyMirror) {
-  return serveLegacyPage(slug === 'blog' ? 'blog' : slug);
+// /blog/ and /insights/ are handled by dedicated pages (insights canonical; blog redirects).
+if (slug === 'blog' || slug === 'insights') {
+  return Astro.redirect('/insights/', 301);
+}
+
+if (isPageSlug(slug) || hasLegacyMirror) {
+  return serveLegacyPage(slug);
 }
 
 // Dashboard-managed posts without a legacy mirror
