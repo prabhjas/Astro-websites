@@ -1,0 +1,219 @@
+/* Connect Freelance author directory (page 22576) */
+.elementor-22576 .astro-author-dir-col.elementor-column > .elementor-widget-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.elementor-22576 .astro-author-meta-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.elementor-22576 .astro-author-dir-col .elementor-widget-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.elementor-22576 .astro-author-dir-col .astro-author-meta-row .elementor-heading-title {
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0;
+}
+
+.elementor-22576 .astro-author-dir-col .astro-author-meta-row .elementor-heading-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.elementor-22576 .astro-author-dir-col .astro-author-meta-row .elementor-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.elementor-22576 .astro-author-dir-col .astro-author-meta-row .elementor-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.elementor-22576 .astro-author-dir-col .elementor-widget-heading:not(.elementor-widget__width-auto) .elementor-heading-title {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  padding-top: 10px;
+  margin: 0;
+}
+
+.elementor-22576 .elementor-element-edfd3ac {
+  padding: 40px 0 60px;
+}
+
+.elementor-22576 .elementor-element-edfd3ac > .elementor-container {
+  flex-wrap: wrap;
+}
+
+.elementor-22576 .elementor-element-edfd3ac .astro-author-dir-col {
+  width: 25%;
+  margin-bottom: 30px;
+}
+
+/* Connect Freelance author archive (template 22597) */
+.elementor-22597 .filter-post .main-profile.astro-author-visible,
+.elementor-22597 .filter-post .main-profile {
+  display: block !important;
+}
+
+.elementor-22597 .filter-post .main-profile.astro-author-hidden {
+  display: none !important;
+}
+
+.elementor-22597 #loadMore {
+  display: none;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.elementor-22597 #loadMore.astro-show {
+  display: block !important;
+}
+
+.elementor-22597 #loadMore a {
+  border: 2px solid #b82e29;
+  padding: 10px 20px;
+  color: #b82e29;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.elementor-22597 .author-sec2 {
+  width: 85%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+.elementor-22597 .auth-name {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.elementor-22597 .auth-name h2 {
+  color: #1e1e1e;
+  font-family: Inter, sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  margin: 0 15px 0 0;
+}
+
+.elementor-22597 .auth-img img {
+  width: 250px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.elementor-22597 .auth-bio p {
+  color: #1e1e1e;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-top: 15px;
+}
+
+.elementor-22597 .filter-post {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px !important;
+  margin-top: 70px;
+}
+
+.elementor-22597 .post-wrap {
+  background: #fff;
+  box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+a.main-post.post-wrap {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.main-post.post-wrap:hover h3 {
+  color: #b82e29;
+}
+
+.elementor-22597 .post-wrap .img-wrap img {
+  width: 100%;
+  margin-bottom: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: block;
+}
+
+.elementor-22597 .post-wrap h3 {
+  color: #000;
+  font-size: 24px !important;
+  font-weight: 600;
+  line-height: 30px !important;
+  margin: 0 0 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.elementor-22597 .post-wrap p {
+  color: #333;
+  font-size: 16px;
+  line-height: 24px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+
+.elementor-22597 .post-ct {
+  padding: 10px 15px 30px;
+}
+
+.elementor-22597 .astro-author-pagination {
+  width: 85%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .elementor-22597 .filter-post {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .elementor-22576 .elementor-element-edfd3ac .astro-author-dir-col {
+    width: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-22597 .filter-post {
+    grid-template-columns: 1fr;
+  }
+
+  .elementor-22576 .elementor-element-edfd3ac .astro-author-dir-col {
+    width: 100%;
+  }
+}

@@ -1,0 +1,65 @@
+# Canonical interim redirects for connectfreelance.ae
+# Confirmed against live WordPress 2026-08-05.
+# Drop Rank Math / Redirection exports under imports/redirects/
+# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+#
+# Middleware normalises paths to a trailing slash before match, so each
+# logical rule is stored once as `/path/` (no bare `/path` twin).
+# FLOW will own day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  # Short aliases → real pages
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+
+  # Live WP: /blog/ → home
+  - from: /blog/
+    to: /
+    status: 301
+
+  # Homepage aliases
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+
+  # Live WP aliases (confirmed 2026-08-05)
+  - from: /health-insurance/
+    to: /health-insurance-for-uae-residence-visa/
+    status: 301
+  - from: /services/
+    to: /
+    status: 301
+  - from: /become-a-partner/
+    to: /
+    status: 301
+  - from: /freelance-visa-dubai/
+    to: /
+    status: 301
+
+  # Live has a real /insurance/ page (200). Interim until mirrored:
+  - from: /insurance/
+    to: /car-insurance/
+    status: 301
+
+  # Author slug aliases → canonical profiles
+  - from: /author/jerryl-lance-alva/
+    to: /author/jerryl-lance/
+    status: 301
+  - from: /author/desery-dandan/
+    to: /author/desery/
+    status: 301
+  - from: /author/jerryl/
+    to: /author/jerryl-lance/
+    status: 301
+
+  # Broken / malformed WP export link seen in footer/menus
+  - from: /https-connectfreelance-ae-freelance-business-ideas-to-launch-in-2023/
+    to: /
+    status: 301

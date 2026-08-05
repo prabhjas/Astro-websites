@@ -41,7 +41,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
-| **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
+| **5094** | connectfreelance.ae | `connectfreelance.ae` | scaffolded (local WP mirror in progress) |
 | **5095** | redo.ae | `redo.ae` | placeholder |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **15 scaffolded** · **29 placeholders** · next free **5124**
+**Totals:** 44 sites · **16 scaffolded** · **28 placeholders** · next free **5124**
 
 ---
 
@@ -96,6 +96,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5091 | connectstaff.ae | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5092 | c-uae.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5093 | kinzahr.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
+| 5094 | connectfreelance.ae | Full CMS WP mirror (royalvisa peer); local scaffold in progress |
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
 
