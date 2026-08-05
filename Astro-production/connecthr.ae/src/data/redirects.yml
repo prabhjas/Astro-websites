@@ -8,6 +8,10 @@ redirects:
   - from: /index.php/
     to: /
     status: 301
+  # Live WP alias → canonical contact page
+  - from: /contact-us/
+    to: /contact/
+    status: 301
   # Rank Math — verified against live connecthr.ae (2026-08-04)
   - from: /tips-to-find-the-best-hrms-software-in-uae/
     to: /best-hrms-software-in-dubai-2026-compare-uae-compliance-features-pricing/

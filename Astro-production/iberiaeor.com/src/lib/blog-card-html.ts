@@ -63,7 +63,7 @@ export function renderBlogCardHtml(post: PostEntry): string {
 				<div data-elementor-type="loop" data-elementor-id="540" class="elementor elementor-540 post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass}" data-elementor-post-type="elementor_library">
 					<section class="elementor-section elementor-top-section elementor-element elementor-element-b01304e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b01304e" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 						<div class="elementor-container elementor-column-gap-no">
-					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-730151a col-hov" data-id="730151a" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-730151a" data-id="730151a" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-dbe211f elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="dbe211f" data-element_type="widget" data-widget_type="theme-post-featured-image.default">
 				<div class="elementor-widget-container">

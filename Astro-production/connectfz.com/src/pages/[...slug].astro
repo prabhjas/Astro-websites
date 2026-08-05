@@ -4,7 +4,6 @@ import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
 import {
   getPageByPath,
   getPublishedPostByPath,
-  getRelatedPosts,
   stripHtml,
   normalizePath,
 } from "../lib/content";
@@ -44,7 +43,6 @@ const pageCrumbs = page
     })()
   : [];
 
-const related = post ? getRelatedPosts(post, 3) : [];
 const postCrumbs = post
   ? [
       { name: "Home", href: "/" },
@@ -94,6 +92,14 @@ const isListingArchive =
     path.startsWith("/locations/") ||
     page.wpType === "mt_listing_archive");
 
+/** Single-post Elementor Pro widgets + FA brands (live loads these on template 33241). */
+const SINGLE_POST_WIDGET_CSS = [
+  "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css",
+  "/wp-content/plugins/elementor-pro/assets/css/widget-author-box.min.css",
+  "/wp-content/plugins/elementor-pro/assets/css/widget-share-buttons.min.css",
+  "/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css",
+];
+
 const extraCss = page
   ? [
       ...(page.pageCss || []),
@@ -104,6 +110,7 @@ const extraCss = page
     ].filter(Boolean) as string[]
   : [
       ...(post!.pageCss || []),
+      ...SINGLE_POST_WIDGET_CSS,
       "/wp-content/uploads/elementor/css/post-33241.css",
       post!.elementorCss,
     ].filter(Boolean) as string[];
@@ -119,7 +126,7 @@ const postUsesElementor =
 const pageBodyClass = page
   ? isListingArchive
     ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
-    : `page page-id-${page.id} elementor-page elementor-page-${page.id}`
+    : `page page-id-${page.id} elementor-page elementor-page-${page.id} elementor-template-full-width`
   : postUsesElementor
     ? `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-${postElementorId} hide_post_featured_image is_header_semitransparent elementor-template-full-width`
     : `single single-post postid-${post!.id} post post-id-${post!.id} hide_post_featured_image is_header_semitransparent elementor-template-full-width elementor-page elementor-page-33241`;
@@ -139,7 +146,7 @@ const pageBodyClass = page
     ) : postUsesElementor ? (
       <div class="sp-page-content" set:html={post!.bodyHtml} />
     ) : (
-      <ConnectFzSinglePost post={post!} html={html} related={related} />
+      <ConnectFzSinglePost post={post!} html={html} />
     )
   }
 </BaseLayout>

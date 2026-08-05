@@ -177,7 +177,7 @@ function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
     tags: resolveTagIds(post.tags),
     author: author?.id || previous?.author || 1,
     authorName: author?.name || String(post.author || "Connect HR"),
-    authorSlug: author?.slug || String(post.authorSlug || "connecthr"),
+    authorSlug: author?.slug || String(post.authorSlug || "adm_connecthr"),
     featuredImage:
       (post.featuredImage && typeof post.featuredImage === "object"
         ? (post.featuredImage as { src?: string }).src
