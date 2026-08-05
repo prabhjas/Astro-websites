@@ -33,7 +33,14 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string;
+let html = (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string;
+/** Astro sanitizes `<button>` in set:html; Impreza load-more needs a clickable control. */
+if (page && path === "/insights/") {
+  html = html.replace(
+    /<button class="w-btn us-btn-style_1">\s*<span class="w-btn-label">Load More<\/span>\s*<\/button>/gi,
+    '<a href="#" class="w-btn us-btn-style_1" role="button"><span class="w-btn-label">Load More</span></a>',
+  );
+}
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page

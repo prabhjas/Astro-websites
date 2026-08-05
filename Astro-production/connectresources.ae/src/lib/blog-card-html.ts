@@ -7,6 +7,31 @@ const ARROW_ICON = `<svg aria-hidden="true" class="e-font-icon-svg e-fas-arrow-r
 
 export const BLOG_LOAD_MORE_PER_PAGE = 12;
 
+/** Matches Impreza us_grid_3 tax_query on /insights/. */
+export const INSIGHTS_MAIN_GRID_CATEGORY_SLUGS = [
+  "career-tips",
+  "case-studies",
+  "employee-relocation",
+  "employer-of-record",
+  "executive-search",
+  "global-mobility",
+  "hiring-and-recruitment",
+  "hr-outsourcing",
+  "interview-questions-tips",
+  "payroll-outsourcing",
+  "peo-eor",
+  "permanent-recruitment",
+  "professional-employer-organization",
+  "remote-work",
+  "resume-wiritng-tips",
+  "staff-outsourcing",
+  "tips-for-employer",
+  "tips-for-employer-ar",
+  "tips-for-interviewer",
+  "uncategorized",
+  "visa-services",
+];
+
 function escapeAttr(value: string): string {
   return value
     .replace(/&/g, "&amp;")
