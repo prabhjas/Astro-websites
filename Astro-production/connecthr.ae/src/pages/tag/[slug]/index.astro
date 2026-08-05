@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Pagination from "../../../components/Pagination.astro";
+import {
+  getTagBySlug,
+  getPostsByTag,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../lib/content";
+import { renderArchiveShell } from "../../../lib/blog-shell";
+import archiveCss from "../../../data/archive-css.json";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const tag = getTagBySlug(slug);
+if (!tag) {
+  return notFoundResponse();
+}
+const sorted = getPostsByTag(tag.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const archiveHtml = renderArchiveShell({
+  title: stripHtml(tag.name),
+  posts: items,
+  categoryName: stripHtml(tag.name),
+});
+---
+
+<BaseLayout
+  currentPath={tag.path}
+  bodyClass={`archive tag tag-${tag.id} elementor-page elementor-page-2953`}
+  extraCss={archiveCss as string[]}
+  seo={{
+    title: `Tag: ${stripHtml(tag.name)} | Connect HR`,
+    description: tag.description || `Posts tagged ${tag.name}.`,
+    canonical: tag.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blogs/" },
+        { name: tag.name, url: tag.path },
+      ]),
+    ],
+  }}
+  menuActivePath="/blogs/"
+>
+  <div class="sp-page-content sp-archive" set:html={archiveHtml} />
+  {
+    totalPages > 1 && (
+      <div class="sp-container" style="padding: 0 0 3rem">
+        <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
+      </div>
+    )
+  }
+</BaseLayout>

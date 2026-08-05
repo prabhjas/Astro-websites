@@ -1,0 +1,604 @@
+/* Match live Elementor kit-8 defaults (override any leftover SP kit CSS) */
+body.elementor-kit-8,
+.elementor-kit-8 {
+  font-family: Roboto, sans-serif;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+#wpadminbar {
+  display: none !important;
+}
+
+/*
+  Live site canvas: Hello Elementor body is white (or transparent → white).
+  Do NOT force a black body — Core Services + Contact sections inherit white.
+  Dark sections get backgrounds from Elementor CSS + elementor-bg-fallback.css.
+*/
+
+/*
+  Single posts: keep header transparent like other pages (Elementor #FFDD0400).
+  With body margin 0, the dark post canvas sits behind white nav — matches live overlay.
+  Do not force a solid black header bar.
+*/
+
+/* Mobile nav styles live in /css/eor-mobile-nav.css */
+
+.elementor img {
+  height: auto;
+  max-width: 100%;
+}
+
+.wpcf7 input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Insights topic filter/pagination visuals live in /css/insights-topic-cards.css */
+
+/* Live EOR: hide CF7 tracking / country helper fields */
+#transaction_hide,
+.gclid_tag,
+.wpcf7 .gclid_tag,
+form.wpcf7-form #transaction_hide,
+input[name="gclid_field"],
+input[name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name="gclid_field"],
+.wpcf7-form-control-wrap[data-name="initial_url"] {
+  display: none !important;
+}
+
+/* We only use intlTelInput for phone — hide countrySelect chrome only.
+   Do NOT hide .country-list globally: intl-tel-input uses that class for its dropdown. */
+.country-select:not(.intl-tel-input .country-list),
+.country-select-input,
+.wpcf7-form .country-select {
+  display: none !important;
+}
+
+/* countrySelect plugin list (sibling of country-select), not intl-tel dropdown */
+.country-select + .country-list,
+body > ul.country-list.country-select-list {
+  display: none !important;
+}
+
+/* Prevent duplicate intl-tel dial-code chrome if a second init slips through */
+.intl-tel-input + .intl-tel-input,
+.wpcf7-form-control-wrap > .intl-tel-input ~ .intl-tel-input {
+  display: none !important;
+}
+
+/* Keep intl-tel country dropdown above form chrome */
+.intl-tel-input .country-list {
+  display: none;
+  z-index: 30;
+}
+.intl-tel-input .country-list:not(.hide) {
+  display: block !important;
+}
+
+/* CF7 country-phone flag sprites (grey boxes without these PNGs) */
+.iti-flag,
+.country-select .flag,
+.intl-tel-input .iti-flag {
+  background-image: url("/js/phone-flags/flags.png") !important;
+  background-repeat: no-repeat !important;
+}
+
+.intl-tel-input .iti-flag {
+  height: 15px;
+  box-shadow: 0 0 1px 0 #888;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx) {
+  .iti-flag,
+  .country-select .flag,
+  .intl-tel-input .iti-flag {
+    background-image: url("/js/phone-flags/flags@2x.png") !important;
+    background-size: 5630px 15px !important;
+  }
+}
+
+/* Undo Hello theme link underline inside Elementor */
+.elementor a {
+  text-decoration: none;
+}
+
+#top-header {
+  position: relative;
+  z-index: 99;
+}
+
+/* Accordion FAQ visual defaults when Elementor widget CSS is light */
+.elementor-accordion .elementor-tab-content:not(.elementor-active) {
+  display: none;
+}
+
+.elementor-accordion .elementor-tab-title {
+  cursor: pointer;
+}
+
+.elementor-accordion .elementor-accordion-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Contact form validation + status (visible on dark catalog forms) */
+.sp-field-error {
+  display: block;
+  margin-top: 0.35rem;
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sp-field-invalid,
+.wpcf7-form-control.sp-field-invalid {
+  outline: 2px solid #ff6b6b !important;
+  outline-offset: 1px;
+}
+
+.wpcf7-response-output,
+.wpcf7 form .wpcf7-response-output,
+div.wpcf7-response-output,
+[data-sp-form-status] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  color: #ffffff !important;
+}
+
+/* Visible thank-you / error (CF7 classes used on other sites + sp-status fallback) */
+.wpcf7-response-output.sp-status-visible,
+.wpcf7 form .wpcf7-response-output.sp-status-visible,
+div.wpcf7-response-output.sp-status-visible,
+[data-sp-form-status].sp-status-visible,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form .wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.sent .wpcf7-response-output,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  margin: 1rem 0 0 !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 8px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-ok,
+[data-sp-form-status].sp-status-visible.sp-status-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form.sent .wpcf7-response-output {
+  background: rgba(34, 197, 94, 0.2) !important;
+  border-color: #46b450 !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-err,
+[data-sp-form-status].sp-status-visible.sp-status-err,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #dc3232 !important;
+}
+
+/* Contact Us: orange info column — white text/links + paper-plane icons */
+.elementor-1706 .elementor-element-857c984 .icon-box-content,
+.elementor-1706 .elementor-element-857c984 .icon-box-content p,
+.elementor-1706 .elementor-element-857c984 .icon-box-content a,
+.elementor-1706 .elementor-element-857c984 .icon-box-content .title,
+.elementor-1706 .elementor-element-857c984 .icon-box-content .description {
+  color: #ffffff !important;
+}
+
+.elementor-1706 .elementor-element-857c984 .icon-box-icon .icon i,
+.elementor-1706 .elementor-element-857c984 .fas.fa-paper-plane,
+.elementor-1706 .elementor-element-857c984 .far.fa-paper-plane {
+  color: #ffffff !important;
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+}
+
+.elementor-1706 .elementor-element-857c984 .fa-paper-plane::before {
+  content: "\f1d8";
+}
+
+/* —— Connect FZ blog single (Elementor template 33241) —— */
+body.single-post {
+  background: #fff;
+  color: #222;
+}
+
+body.single-post .sp-breadcrumbs,
+body.single-post .sp-breadcrumbs a,
+body.single-post .sp-breadcrumbs span {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cfz-related-posts__title {
+  font-family: Poppins, sans-serif;
+  font-size: 1.75rem;
+  color: #02224f;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.cfz-related-posts .elementor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 991px) {
+  .cfz-related-posts .elementor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cfz-related-posts .elementor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .elementor-33241 .elementor-element-995b476 {
+    padding: 100px 16px 48px !important;
+  }
+
+  .elementor-33241 .elementor-element-a78ec33 {
+    padding: 32px 16px !important;
+  }
+
+  .elementor-33241 .prt {
+    position: static;
+  }
+}
+
+/* —— Blog category archives —— */
+.cfz-archive-hero {
+  background: #02224f;
+  color: #fff;
+  padding: 120px 20px 48px;
+}
+
+.cfz-archive-hero__inner {
+  width: min(1140px, 100%);
+  margin: 0 auto;
+}
+
+.cfz-archive-hero h1 {
+  font-family: Poppins, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  margin: 0.75rem 0 0.5rem;
+  color: #fff;
+}
+
+.cfz-archive-hero p {
+  max-width: 720px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cfz-archive-hero .sp-breadcrumbs a,
+.cfz-archive-hero .sp-breadcrumbs span {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cfz-archive-grid {
+  width: min(1140px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+}
+
+.cfz-archive-grid .elementor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 991px) {
+  .cfz-archive-hero {
+    padding-top: 96px;
+  }
+
+  .cfz-archive-grid .elementor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .cfz-archive-grid .elementor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* —— Location / emirate listing archives —— */
+.cfz-listing-archive-wrap,
+.cfz-listing-archive {
+  background: #fff;
+  color: #222;
+}
+
+.cfz-listing-archive .taxonomy-listing-page,
+.cfz-listing-archive-wrap .taxonomy-listing-page {
+  padding-bottom: 40px;
+}
+
+.cfz-listing-archive .sbvcgmap-map-wrapper,
+.cfz-listing-archive-wrap .sbvcgmap-map-wrapper {
+  /* Maps need Google Maps JS; keep height but hide blank grey box noise */
+  max-height: 280px;
+  overflow: hidden;
+  background: #e8eef5;
+}
+
+.cfz-listing-archive .single-listing,
+.cfz-listing-archive-wrap .single-listing {
+  margin-bottom: 1.25rem;
+}
+
+.cfz-listing-archive .listing_post_image img,
+.cfz-listing-archive-wrap .listing_post_image img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .cfz-listing-archive .sbvcgmap-map-wrapper,
+  .cfz-listing-archive-wrap .sbvcgmap-map-wrapper {
+    display: none;
+  }
+
+  .cfz-listing-archive .checkboxes-categories,
+  .cfz-listing-archive-wrap .checkboxes-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+}
+
+
+/* —— Footer certification logos: always one horizontal row —— */
+footer .sidebar-1 #block-10 {
+  margin: 14px 0 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.cfz-footer-certs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.cfz-footer-certs img {
+  display: block;
+  flex: 0 1 auto;
+  width: clamp(56px, 30%, 78px);
+  max-width: 78px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
+}
+
+/* Keep the 4 footer columns aligned on desktop (certs must not blow out the col) */
+@media (min-width: 992px) {
+  footer .footer-row-1 > .row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  footer .footer-row-1 > .row > [class*="col-md-"] {
+    float: none;
+    width: 25%;
+    max-width: 25%;
+    flex: 0 0 25%;
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    box-shadow: none !important;
+  }
+
+  footer .sidebar-1,
+  footer .sidebar-2,
+  footer .sidebar-3,
+  footer .sidebar-4 {
+    border: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  footer .footer-top .widget-title {
+    font-size: 20px !important;
+  }
+
+  footer .footer-top .menu .menu-item a,
+  footer .textwidget p,
+  footer .sidebar-1 p,
+  footer p {
+    font-size: 15px !important;
+  }
+
+  footer .sidebar-1 .cfz-footer-certs img {
+    width: 70px;
+    max-width: 70px;
+  }
+}
+
+@media (max-width: 991px) {
+  .cfz-footer-certs {
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .cfz-footer-certs img {
+    width: 64px;
+    max-width: 64px;
+  }
+
+  /* Tighten mobile footer bottom spacing under certs / columns */
+  footer .footer-row-1 {
+    padding-bottom: 8px !important;
+    margin-bottom: 0 !important;
+  }
+
+  footer .footer-top {
+    padding-bottom: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  footer .footer-row-2,
+  footer .footer-row-3 {
+    display: none;
+  }
+
+  footer .sidebar-1,
+  footer .sidebar-2,
+  footer .sidebar-3,
+  footer .sidebar-4 {
+    margin-bottom: 18px;
+    padding-bottom: 0;
+  }
+
+  footer .sidebar-4 {
+    margin-bottom: 0;
+  }
+
+  footer .footer-div-parent {
+    display: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+/* —— Header blue (beats oklahoma-mt-style #151515 !important) —— */
+.navbar-default,
+header.header1 .navbar-default,
+body .navbar-default,
+body.is_header_semitransparent .navbar-default,
+body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
+  background-color: #003580 !important;
+  background: #003580f2 !important;
+}
+
+@media (max-width: 991px) {
+  .navbar-default,
+  header.header1 .navbar-default,
+  body .navbar-default,
+  body.is_header_semitransparent .navbar-default,
+  body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default,
+  header.header1,
+  html.cfz-nav-open header.header1,
+  html.cfz-nav-open .navbar-default {
+    background: #003580f2 !important;
+    background-color: #003580f2 !important;
+  }
+
+  /* Override wp-custom.css mobile #007ac2 */
+  body .navbar-default {
+    background: #003580f2 !important;
+  }
+}
+
+/* —— Insights paginated pages —— */
+.cfz-insights-page {
+  width: min(1140px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2.5rem 0 4rem;
+}
+
+.cfz-insights-page .elementor-posts-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 28px;
+}
+
+.cfz-insights-page .elementor-post__thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cfz-insights-page .elementor-post__title {
+  font-family: Poppins, sans-serif;
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #02224f;
+}
+
+.cfz-insights-page .elementor-post__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cfz-insights-page .elementor-post-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.cfz-insights-page .elementor-post__read-more {
+  color: #007ac2;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.cfz-insights-page .elementor-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  font-weight: 600;
+}
+
+.cfz-insights-page .elementor-pagination a {
+  color: #c9a227;
+  text-decoration: none;
+}
+
+.cfz-insights-page .elementor-pagination span.page-numbers {
+  color: #999;
+}
+
+@media (max-width: 767px) {
+  .cfz-insights-page .elementor-posts-container {
+    grid-template-columns: 1fr;
+  }
+}

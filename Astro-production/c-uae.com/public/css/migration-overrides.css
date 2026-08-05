@@ -224,6 +224,24 @@ div.wpcf7-response-output.sp-status-visible,
   margin-right: auto;
 }
 
+/*
+  Live single-post hero uses Manrope for the post title and "Let's Chat".
+  Breadcrumb CSS on live omits font-family (falls back to body Roboto) while
+  child-theme .main-form label uses Plus Jakarta Sans — visible mismatch.
+  Align breadcrumb + sidebar Let's Chat form to Manrope (footer keeps
+  child-theme Plus Jakarta Sans).
+*/
+.blog-breadcrumb,
+.blog-breadcrumb a {
+  font-family: Manrope, sans-serif !important;
+}
+
+.elementor-1544 .main-form,
+.elementor-1544 .main-form.blog-form,
+.main-form.blog-form {
+  font-family: Manrope, sans-serif !important;
+}
+
 /* CF7 main-form submit — live child theme #3D1457 (never SP yellow) */
 .main-form input.wpcf7-submit,
 .main-form [type="submit"],
@@ -235,6 +253,13 @@ div.wpcf7-response-output.sp-status-visible,
   border-radius: 12px !important;
   font-family: inherit !important;
   text-transform: none !important;
+}
+
+.elementor-1544 .main-form input.wpcf7-submit,
+.elementor-1544 .main-form [type="submit"],
+.main-form.blog-form input.wpcf7-submit,
+.main-form.blog-form [type="submit"] {
+  font-family: Manrope, sans-serif !important;
 }
 
 /*
@@ -252,11 +277,41 @@ div.wpcf7-response-output.sp-status-visible,
   box-sizing: border-box;
 }
 
+.elementor-1544 .main-form input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]),
+.elementor-1544 .main-form textarea,
+.elementor-1544 .main-form select,
+.elementor-1544 .main-form .intl-tel-input input,
+.main-form.blog-form input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]),
+.main-form.blog-form textarea,
+.main-form.blog-form select,
+.main-form.blog-form .intl-tel-input input {
+  font-family: Manrope, sans-serif !important;
+}
+
+.elementor-1544 .main-form input::placeholder,
+.elementor-1544 .main-form textarea::placeholder,
+.elementor-1544 .main-form select::placeholder,
+.main-form.blog-form input::placeholder,
+.main-form.blog-form textarea::placeholder,
+.main-form.blog-form select::placeholder {
+  font-family: Manrope, sans-serif !important;
+  opacity: 1;
+}
+
 .main-form label {
   color: #a5a3b7 !important;
   font-size: 14px;
   font-weight: 400;
   line-height: 40px;
+}
+
+.elementor-1544 .main-form label,
+.elementor-1544 .main-form .wpcf7-form label,
+.elementor-1544 .main-form .wpcf7-list-item-label,
+.main-form.blog-form label,
+.main-form.blog-form .wpcf7-form label,
+.main-form.blog-form .wpcf7-list-item-label {
+  font-family: Manrope, sans-serif !important;
 }
 
 .main-form #transaction_hide,

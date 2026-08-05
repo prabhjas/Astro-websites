@@ -1,0 +1,50 @@
+{
+  "name": "connectfm-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Connect FM — Astro site for connectfm.ae",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
+    "astro": "astro",
+    "extract": "node scripts/extract-wp.mjs",
+    "extract:bodies": "node scripts/refresh-bodies-cheerio.mjs",
+    "fetch-assets": "node scripts/fetch-assets.mjs",
+    "blog:images": "node scripts/sync-blog-images.mjs",
+    "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
+    "sitemap:parity": "node scripts/compare-live-sitemaps.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/node": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "astro": "catalog:",
+    "cheerio": "catalog:",
+    "nodemailer": "9.0.3",
+    "sharp": "0.35.3",
+    "tailwindcss": "catalog:",
+    "yaml": "catalog:",
+    "zod": "4.4.3",
+    "@connect/site-cms": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.3",
+    "@types/nodemailer": "8.0.1",
+    "eslint": "10.8.0",
+    "eslint-plugin-astro": "3.0.1",
+    "playwright": "1.49.0",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "catalog:",
+    "typescript-eslint": "8.65.0"
+  }
+}

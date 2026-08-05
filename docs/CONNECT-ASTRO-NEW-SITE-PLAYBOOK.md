@@ -10,7 +10,7 @@ Share this with anyone cloning CBSS / Evolution / Iberia / SP Heavy patterns int
 | **Host** | `webdev@178.105.150.67` (`Astro`) · `/opt/Astro-production/` |
 | **Reference implementations** | Leads-heavy: **cbss.ae** · Full CMS APIs: **evolutionmiddleast.com** · Slim marketing + EN/ES: **iberiaworkforce.com** · Mirror CMS: **spheavyrental.ae** |
 
-**Related (detail):** [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [server-side-work](server-side-work.md) · [local-fleet-test](local-fleet-test.md) · [server-ops-only](server-ops-only.md)
+**Related (detail):** [FLEET-PORT-REGISTRY](FLEET-PORT-REGISTRY.md) · [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) · [CONNECT-ASTRO-FLEET-STANDARD](../Astro-production/evolutionmiddleast.com/docs/CONNECT-ASTRO-FLEET-STANDARD.md) · [15-platform-work-plan](../Astro-production/evolutionmiddleast.com/docs/15-platform-work-plan.md) · [server-side-work](server-side-work.md) · [local-fleet-test](local-fleet-test.md) · [server-ops-only](server-ops-only.md)
 
 ---
 
