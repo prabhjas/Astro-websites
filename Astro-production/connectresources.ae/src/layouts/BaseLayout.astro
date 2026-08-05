@@ -5,6 +5,7 @@ import ElementorFooter from "../components/ElementorFooter.astro";
 import LicenceStrip from "../components/LicenceStrip.astro";
 import { licence } from "../lib/licence";
 import ElementorScripts from "../components/ElementorScripts.astro";
+import ElementorFrontend from "../components/ElementorFrontend.astro";
 import FloatContacts from "../components/FloatContacts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
@@ -21,6 +22,10 @@ interface Props {
   /** Force header nav active item (e.g. "/blog/" on single posts) */
   menuActivePath?: string;
   bodyClass?: string;
+  /** Load Elementor frontend runtime (carousels / accordion / sticky). */
+  loadElementor?: boolean;
+  /** Elementor Canvas pages: no theme header/footer (page owns chrome). */
+  hideSiteChrome?: boolean;
 }
 
 const {
@@ -30,6 +35,8 @@ const {
   currentPath = Astro.url.pathname,
   menuActivePath,
   bodyClass = "",
+  loadElementor = false,
+  hideSiteChrome = false,
 } = Astro.props;
 
 /** Prefer live homepage stylesheet order (Impreza + plugins). */
@@ -92,14 +99,17 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
     {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
-    <div class="l-canvas type_wide">
-      <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    <div class:list={["l-canvas", "type_wide", hideSiteChrome && "l-canvas--elementor-canvas"]}>
+      {!hideSiteChrome ? (
+        <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+      ) : null}
       <slot />
-      <ElementorFooter />
+      {!hideSiteChrome ? <ElementorFooter /> : null}
     </div>
-    {licence.number ? <LicenceStrip /> : null}
+    {!hideSiteChrome && licence.number ? <LicenceStrip /> : null}
     <FloatContacts />
     <ElementorScripts />
+    {loadElementor ? <ElementorFrontend /> : null}
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>
 </html>
