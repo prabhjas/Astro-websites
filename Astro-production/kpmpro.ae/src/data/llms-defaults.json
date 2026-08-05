@@ -1,0 +1,66 @@
+{
+  "siteTitle": "KPM Pro Dubai",
+  "summary": "KPM Pro helps global citizens obtain UAE residency visas and a pathway to luxury living in Dubai — Golden Visa, Silver Visa, Freelance, Family, Property, and Residence visas.",
+  "details": "Based in Dubai (City Tower 2, Sheikh Zayed Road), KPM Pro is part of Connect Group and guides clients through UAE visa services with compliance-focused support.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover UAE visas, Golden/Silver residency, freelance permits, family sponsorship, and Dubai immigration guides.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "KPM Pro Dubai homepage — UAE visa services and luxury living pathway."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About KPM Pro Dubai."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact KPM Pro for UAE visa assistance."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "UAE visa guides and immigration insights."
+    },
+    "/golden-visa/": {
+      "group": "Services",
+      "title": "Golden Visa",
+      "description": "UAE Golden Visa services with KPM Pro."
+    },
+    "/silver-visa/": {
+      "group": "Services",
+      "title": "Silver Visa",
+      "description": "UAE Silver Visa services with KPM Pro."
+    },
+    "/freelance-visa/": {
+      "group": "Services",
+      "title": "Freelance Visa",
+      "description": "Dubai freelance visa services with KPM Pro."
+    },
+    "/family-visa/": {
+      "group": "Services",
+      "title": "Family Visa",
+      "description": "UAE family visa sponsorship with KPM Pro."
+    },
+    "/property-visa/": {
+      "group": "Services",
+      "title": "Property Visa",
+      "description": "UAE property visa services with KPM Pro."
+    },
+    "/residence-visa/": {
+      "group": "Services",
+      "title": "Residence Visa",
+      "description": "UAE residence visa services with KPM Pro."
+    }
+  }
+}
