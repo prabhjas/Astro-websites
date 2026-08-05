@@ -346,6 +346,84 @@ div#transaction_hide,
 }
 
 /*
+ * Link colors — live parity
+ * - Utility bar (top): white text on navy (incl. current-menu-* on tel link)
+ * - Main content tel/mailto (contact blocks, etc.): #0B1347
+ */
+#page-header .l-subheader.at_top .w-nav-anchor,
+#page-header .l-subheader.at_top .w-nav-anchor .w-nav-title,
+#page-header .l-subheader.at_top .w-nav-list.level_1 a,
+.l-subheader.at_top .w-nav-anchor,
+.l-subheader.at_top .w-nav-anchor .w-nav-title,
+.l-subheader.at_top .w-nav-list.level_1 a,
+.l-subheader.at_top .w-html a,
+.l-subheader.at_top .w-text a,
+.l-subheader.at_top .w-nav-item.current-menu-item > .w-nav-anchor,
+.l-subheader.at_top .w-nav-item.current-menu-ancestor > .w-nav-anchor,
+.l-subheader.at_top #menu-item-19850 > .w-nav-anchor {
+  color: #ffffff !important;
+}
+
+#page-header .l-subheader.at_top .w-nav-anchor .w-nav-title i,
+.l-subheader.at_top .w-nav-anchor .w-nav-title i,
+.l-subheader.at_top .w-nav-anchor .far,
+.l-subheader.at_top .w-nav-anchor .fas {
+  color: #ffffff !important;
+}
+
+.no-touch #page-header .l-subheader.at_top .w-nav-anchor:hover,
+.no-touch #page-header .l-subheader.at_top .w-nav-anchor:hover .w-nav-title,
+.no-touch .l-subheader.at_top .w-nav-anchor:hover,
+.no-touch .l-subheader.at_top .w-nav-anchor:hover .w-nav-title {
+  color: #ffffff !important;
+}
+
+main#page-content .w-iconbox-text a[href^="tel:"],
+main#page-content .w-iconbox-text a[href^="mailto:"],
+.l-main .w-iconbox-text a[href^="tel:"],
+.l-main .w-iconbox-text a[href^="mailto:"],
+.w-iconbox.color_primary .w-iconbox-text a[href^="tel:"],
+.w-iconbox.color_primary .w-iconbox-text a[href^="mailto:"],
+main#page-content a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor),
+main#page-content a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor),
+.l-main a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor),
+.l-main a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor) {
+  color: #0b1347 !important;
+  text-decoration: none;
+}
+
+.no-touch main#page-content .w-iconbox-text a[href^="tel:"]:hover,
+.no-touch main#page-content .w-iconbox-text a[href^="mailto:"]:hover,
+.no-touch .l-main .w-iconbox-text a[href^="tel:"]:hover,
+.no-touch .l-main .w-iconbox-text a[href^="mailto:"]:hover,
+.no-touch main#page-content a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch main#page-content a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch .l-main a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch .l-main a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor):hover {
+  color: #0b1347 !important;
+  text-decoration: underline;
+}
+
+/* MOHRE approval badge — compact like live (not full 320px asset width) */
+.newhomepagebanner img[src*="mohre-logo"],
+.l-main img[src*="mohre-logo"],
+img[src*="mohre-logo-en"] {
+  max-width: 200px !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.newhomepagebanner .w-image:has(img[src*="mohre-logo"]),
+.l-main .w-image:has(img[src*="mohre-logo"]) {
+  max-width: 200px;
+}
+
+.newhomepagebanner .w-image:has(img[src*="mohre-logo"]) .w-image-h,
+.l-main .w-image:has(img[src*="mohre-logo"]) .w-image-h {
+  max-width: 200px;
+}
+
+/*
  * Mobile header top bar: hide Featured-on image and let phone /
  * Request a Proposal span the bar (live us_custom parity + cleanup).
  */
