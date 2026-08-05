@@ -123,19 +123,29 @@ export function getPostsByTag(tagId: number): PostEntry[] {
 
 export function getPostsByAuthor(authorId: number): PostEntry[] {
   const author = getAuthors().find((a) => a.id === authorId);
+  // Live WP author archive /author/adm_connecthr/ (user id 8) aggregates all
+  // "Connect HR" bylines — mirrored posts also use ids 6/12 and slug connecthr.
+  const isInternalConnectHr =
+    author?.slug === "adm_connecthr" ||
+    author?.slug === "connecthr" ||
+    authorId === 8 ||
+    authorId === 12 ||
+    authorId === 6;
   const aliasSlugs = new Set(
-    ["adm_connecthr", "connecthr"].includes(author?.slug || "")
+    isInternalConnectHr
       ? ["adm_connecthr", "connecthr"]
       : author?.slug
         ? [author.slug]
         : [],
   );
   const aliasIds = new Set(
-    aliasSlugs.size
-      ? getAuthors()
-          .filter((a) => aliasSlugs.has(a.slug))
-          .map((a) => a.id)
-      : [authorId],
+    isInternalConnectHr
+      ? [8, 12, 6]
+      : aliasSlugs.size
+        ? getAuthors()
+            .filter((a) => aliasSlugs.has(a.slug))
+            .map((a) => a.id)
+        : [authorId],
   );
   return getPosts()
     .filter((p) => {
