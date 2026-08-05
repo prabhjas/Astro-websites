@@ -199,7 +199,7 @@ function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
     },
     elementorCss: previous?.elementorCss,
     pageCss: previous?.pageCss || [
-      "/assets/images/elementor/css/post-652.css",
+      "/wp-content/uploads/elementor/css/post-652.css",
       "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
     ],
     status: post.status || "published",

@@ -51,6 +51,33 @@ function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
 }
 
+function sanitizeAssetRef(raw) {
+  let s = raw.trim();
+  s = s.split("#")[0].split("?")[0];
+  s = s.replace(/[)\]}>].*$/, "");
+  if (!/^\/(?:wp-content|wp-includes|assets\/images)\//.test(s)) return null;
+  if (!/\.[a-z0-9]{2,5}$/i.test(s)) return null;
+  return s;
+}
+
+function decodeWpFilenameVariants(url) {
+  const variants = [url];
+  try {
+    const u = new URL(url);
+    if (u.pathname.includes("u2013")) {
+      const alt = u.pathname.replace(/u2013/g, "\u2013");
+      variants.push(`${u.origin}${alt}`);
+    }
+    if (u.pathname.includes("u2014")) {
+      const alt = u.pathname.replace(/u2014/g, "\u2014");
+      variants.push(`${u.origin}${alt}`);
+    }
+  } catch {
+    /* ignore */
+  }
+  return [...new Set(variants)];
+}
+
 function shouldLocalize(url) {
   try {
     const u = new URL(url);
@@ -59,6 +86,7 @@ function shouldLocalize(url) {
     return (
       u.pathname.startsWith("/wp-content/") ||
       u.pathname.startsWith("/wp-includes/") ||
+      u.pathname.startsWith("/assets/images/") ||
       /\.(css|js|mjs|map|woff2?|ttf|eot|otf|svg|png|jpe?g|gif|webp|avif|ico|json|mp4|webm|mov|pdf)$/i.test(
         u.pathname,
       )
@@ -109,8 +137,13 @@ function collectUrls(text) {
       if (!raw || raw.startsWith("data:") || raw.startsWith("#")) continue;
       raw = raw.replace(/\\/g, "").split('"')[0].split("'")[0].split("&")[0];
       raw = raw.split(/\s+\d+w/)[0].split(",")[0].replace(/[.,;)\]]+$/, "").trim();
-      if (raw.startsWith("/wp-content/") || raw.startsWith("/wp-includes/")) {
+      if (raw.startsWith("/wp-content/") || raw.startsWith("/wp-includes/") || raw.startsWith("/assets/images/")) {
         raw = ORIGIN + raw;
+      }
+      const sanitized = raw.startsWith("http") ? toLocalPath(raw.split("?")[0]) : sanitizeAssetRef(raw);
+      if (sanitized && (sanitized.startsWith("/wp-content/") || sanitized.startsWith("/wp-includes/") || sanitized.startsWith("/assets/images/"))) {
+        found.add(ORIGIN + sanitized);
+        continue;
       }
       if (shouldLocalize(raw)) found.add(raw.split("#")[0].split("?")[0]);
     }
@@ -186,7 +219,11 @@ async function mapPool(items, limit, fn) {
 }
 
 async function downloadList(remotes) {
-  const jobs = remotes.map((remote) => ({
+  const expanded = new Set();
+  for (const remote of remotes) {
+    for (const v of decodeWpFilenameVariants(remote)) expanded.add(v);
+  }
+  const jobs = [...expanded].map((remote) => ({
     remote,
     dest: path.join(PUBLIC, toLocalPath(remote).replace(/^\//, "")),
   }));
