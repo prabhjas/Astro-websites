@@ -1,6 +1,11 @@
 {
   "missing": [
     {
+      "remote": "https://connectresources.ae/wp-content/uploads/elementor/css/post-652.css",
+      "rel": "/wp-content/uploads/elementor/css/post-652.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-652.css"
+    },
+    {
       "remote": "https://connectresources.ae/wp-content/themes/hello-elementor/assets/css/theme.css",
       "rel": "/wp-content/themes/hello-elementor/assets/css/theme.css",
       "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/hello-elementor/assets/css/theme.css"
@@ -9,6 +14,21 @@
       "remote": "https://connectresources.ae/wp-content/themes/hello-elementor/assets/css/header-footer.css",
       "rel": "/wp-content/themes/hello-elementor/assets/css/header-footer.css",
       "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/hello-elementor/assets/css/header-footer.css"
+    },
+    {
+      "remote": "https://connectresources.ae/wp-content/uploads/elementor/css/post-19.css",
+      "rel": "/wp-content/uploads/elementor/css/post-19.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-19.css"
+    },
+    {
+      "remote": "https://connectresources.ae/wp-content/uploads/elementor/css/post-153.css",
+      "rel": "/wp-content/uploads/elementor/css/post-153.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-153.css"
+    },
+    {
+      "remote": "https://connectresources.ae/wp-content/uploads/elementor/css/post-158.css",
+      "rel": "/wp-content/uploads/elementor/css/post-158.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-158.css"
     },
     {
       "remote": "https://connectresources.ae/wp-content/themes/hello-elementor/style.css",
@@ -26,6 +46,11 @@
       "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css"
     },
     {
+      "remote": "https://connectresources.ae/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+      "rel": "/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/google-fonts/css/bebasneue.css"
+    },
+    {
       "remote": "https://connectresources.ae/wp-content/themes/Impreza/common/css/vendor/images/marker-icon.png)}.header_hor",
       "rel": "/wp-content/themes/Impreza/common/css/vendor/images/marker-icon.png)}.header_hor",
       "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/Impreza/common/css/vendor/images/marker-icon.png)}.header_hor"
@@ -36,124 +61,29 @@
       "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider.min.css"
     },
     {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-300x300.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-300x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-300x300.png"
+      "remote": "https://connectresources.ae/wp-content/cache/min/1/assets/images/smile_fonts/Defaults/Defaults.css",
+      "rel": "/wp-content/cache/min/1/assets/images/smile_fonts/Defaults/Defaults.css",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/cache/min/1/assets/images/smile_fonts/Defaults/Defaults.css"
     },
     {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-150x150.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-150x150.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-150x150.png"
+      "remote": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png);background-repeat:no-repeat;background-color:",
+      "rel": "/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png);background-repeat:no-repeat;background-color:",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png);background-repeat:no-repeat;background-color:"
     },
     {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-75x75.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-75x75.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-75x75.png"
+      "remote": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png)}}.iti-flag.np{background-color:transparent}.country-select{position:relative}.country-select",
+      "rel": "/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png)}}.iti-flag.np{background-color:transparent}.country-select{position:relative}.country-select",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png)}}.iti-flag.np{background-color:transparent}.country-select{position:relative}.country-select"
     },
     {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-300x300.png",
-      "rel": "/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-300x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-300x300.png"
+      "remote": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png);background-size:5630px",
+      "rel": "/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png);background-size:5630px",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png);background-size:5630px"
     },
     {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-150x150.png",
-      "rel": "/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-150x150.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-150x150.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-75x75.png",
-      "rel": "/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-75x75.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-75x75.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/PEO-u2013-Professional-Employer-Organization-Dubai-UAE-with-connect-resources-min-2-271x300.png",
-      "rel": "/wp-content/uploads/2022/06/PEO-u2013-Professional-Employer-Organization-Dubai-UAE-with-connect-resources-min-2-271x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/PEO-u2013-Professional-Employer-Organization-Dubai-UAE-with-connect-resources-min-2-271x300.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-150x150.webp",
-      "rel": "/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-150x150.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-150x150.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-75x75.webp",
-      "rel": "/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-75x75.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-75x75.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u540du4e49u96c7u4e3buff08u5916u5305uff09u2014u2014u5febu901fu5f00u5c55u8fd0u8425uff0cu6ce8u518cu624bu7eedu65e0u9700u963bu788d-image-258x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u540du4e49u96c7u4e3buff08u5916u5305uff09u2014u2014u5febu901fu5f00u5c55u8fd0u8425uff0cu6ce8u518cu624bu7eedu65e0u9700u963bu788d-image-258x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u540du4e49u96c7u4e3buff08u5916u5305uff09u2014u2014u5febu901fu5f00u5c55u8fd0u8425uff0cu6ce8u518cu624bu7eedu65e0u9700u963bu788d-image-258x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4f01u4e1au6ce8u518cu2014u2014u7ec4u5efau60a8u5728u963fu8054u914bu7684u4e13u5c5eu5b9eu4f53u516cu53f8-image-257x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u4f01u4e1au6ce8u518cu2014u2014u7ec4u5efau60a8u5728u963fu8054u914bu7684u4e13u5c5eu5b9eu4f53u516cu53f8-image-257x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4f01u4e1au6ce8u518cu2014u2014u7ec4u5efau60a8u5728u963fu8054u914bu7684u4e13u5c5eu5b9eu4f53u516cu53f8-image-257x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-300x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-300x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-300x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-150x150.webp",
-      "rel": "/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-150x150.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-150x150.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-75x75.webp",
-      "rel": "/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-75x75.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-75x75.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u62dbu8058u670du52a1u2014u2014u4e3au60a8u7504u9009u7cbeu82f1u56e2u961f-image-258x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u62dbu8058u670du52a1u2014u2014u4e3au60a8u7504u9009u7cbeu82f1u56e2u961f-image-258x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u62dbu8058u670du52a1u2014u2014u4e3au60a8u7504u9009u7cbeu82f1u56e2u961f-image-258x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u4e13u6ce8u4e8eu4f01u4e1au589eu957fuff0cu5176u4f59u8fd0u8425u4e0eu652fu6301u4e8bu52a1u5168u90e8u7531u6211u4eecu4ee3u7ba1u3002-image-258x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u4e13u6ce8u4e8eu4f01u4e1au589eu957fuff0cu5176u4f59u8fd0u8425u4e0eu652fu6301u4e8bu52a1u5168u90e8u7531u6211u4eecu4ee3u7ba1u3002-image-258x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e13u6ce8u4e8eu4f01u4e1au589eu957fuff0cu5176u4f59u8fd0u8425u4e0eu652fu6301u4e8bu52a1u5168u90e8u7531u6211u4eecu4ee3u7ba1u3002-image-258x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2025/09/u670du52a1u4f18u52bf-image-section-237x300.webp",
-      "rel": "/wp-content/uploads/2025/09/u670du52a1u4f18u52bf-image-section-237x300.webp",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u670du52a1u4f18u52bf-image-section-237x300.webp"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-300x169.jpg",
-      "rel": "/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-300x169.jpg",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-300x169.jpg"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-1024x576.jpg",
-      "rel": "/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-1024x576.jpg",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-1024x576.jpg"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Executive-Search-firm-u2013-Industries-of-work-with-connect-resources-min-271x300.png",
-      "rel": "/wp-content/uploads/2022/06/Executive-Search-firm-u2013-Industries-of-work-with-connect-resources-min-271x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Executive-Search-firm-u2013-Industries-of-work-with-connect-resources-min-271x300.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-300x300.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-300x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-300x300.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-150x150.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-150x150.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-150x150.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-75x75.png",
-      "rel": "/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-75x75.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-75x75.png"
-    },
-    {
-      "remote": "https://connectresources.ae/wp-content/uploads/2022/06/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-with-Connect-Resources-min-253x300.png",
-      "rel": "/wp-content/uploads/2022/06/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-with-Connect-Resources-min-253x300.png",
-      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-with-Connect-Resources-min-253x300.png"
+      "remote": "https://connectresources.ae/assets/images/elementor/google-fonts/fonts/bebasneue-jtusjig69ck48gw7pxoo9wlhyw.woff2",
+      "rel": "/assets/images/elementor/google-fonts/fonts/bebasneue-jtusjig69ck48gw7pxoo9wlhyw.woff2",
+      "dest": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/assets/images/elementor/google-fonts/fonts/bebasneue-jtusjig69ck48gw7pxoo9wlhyw.woff2"
     },
     {
       "remote": "https://connectresources.ae/wp-content/plugins/formidable-pro/images/intl-tel-input/globe.png);}@media",
@@ -168,6 +98,12 @@
   ],
   "failures": [
     {
+      "remoteUrl": "https://connectresources.ae/wp-content/uploads/elementor/css/post-652.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-652.css",
+      "status": "failed",
+      "error": "404 Not Found"
+    },
+    {
       "remoteUrl": "https://connectresources.ae/wp-content/themes/hello-elementor/assets/css/theme.css",
       "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/hello-elementor/assets/css/theme.css",
       "status": "failed",
@@ -176,6 +112,24 @@
     {
       "remoteUrl": "https://connectresources.ae/wp-content/themes/hello-elementor/assets/css/header-footer.css",
       "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/hello-elementor/assets/css/header-footer.css",
+      "status": "failed",
+      "error": "404 Not Found"
+    },
+    {
+      "remoteUrl": "https://connectresources.ae/wp-content/uploads/elementor/css/post-19.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-19.css",
+      "status": "failed",
+      "error": "404 Not Found"
+    },
+    {
+      "remoteUrl": "https://connectresources.ae/wp-content/uploads/elementor/css/post-153.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-153.css",
+      "status": "failed",
+      "error": "404 Not Found"
+    },
+    {
+      "remoteUrl": "https://connectresources.ae/wp-content/uploads/elementor/css/post-158.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/css/post-158.css",
       "status": "failed",
       "error": "404 Not Found"
     },
@@ -198,6 +152,12 @@
       "error": "404 Not Found"
     },
     {
+      "remoteUrl": "https://connectresources.ae/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+      "status": "failed",
+      "error": "404 Not Found"
+    },
+    {
       "remoteUrl": "https://connectresources.ae/wp-content/themes/Impreza/common/css/vendor/images/marker-icon.png)}.header_hor",
       "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/themes/Impreza/common/css/vendor/images/marker-icon.png)}.header_hor",
       "status": "failed",
@@ -210,146 +170,32 @@
       "error": "404 Not Found"
     },
     {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-300x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-300x300.png",
+      "remoteUrl": "https://connectresources.ae/wp-content/cache/min/1/assets/images/smile_fonts/Defaults/Defaults.css",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/cache/min/1/assets/images/smile_fonts/Defaults/Defaults.css",
       "status": "failed",
       "error": "404 Not Found"
     },
     {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-150x150.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-150x150.png",
+      "remoteUrl": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png);background-repeat:no-repeat;background-color:",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png);background-repeat:no-repeat;background-color:",
       "status": "failed",
       "error": "404 Not Found"
     },
     {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-75x75.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources-min-75x75.png",
+      "remoteUrl": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png)}}.iti-flag.np{background-color:transparent}.country-select{position:relative}.country-select",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png)}}.iti-flag.np{background-color:transparent}.country-select{position:relative}.country-select",
       "status": "failed",
       "error": "404 Not Found"
     },
     {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-300x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-300x300.png",
+      "remoteUrl": "https://connectresources.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png);background-size:5630px",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags@2x.png);background-size:5630px",
       "status": "failed",
       "error": "404 Not Found"
     },
     {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-150x150.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-150x150.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-75x75.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/05/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-Connect-Resources-min-75x75.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/PEO-u2013-Professional-Employer-Organization-Dubai-UAE-with-connect-resources-min-2-271x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/PEO-u2013-Professional-Employer-Organization-Dubai-UAE-with-connect-resources-min-2-271x300.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-150x150.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-150x150.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-75x75.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e3au4ec0u4e48u9009u62e9u6211u4eec-comment-75x75.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u540du4e49u96c7u4e3buff08u5916u5305uff09u2014u2014u5febu901fu5f00u5c55u8fd0u8425uff0cu6ce8u518cu624bu7eedu65e0u9700u963bu788d-image-258x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u540du4e49u96c7u4e3buff08u5916u5305uff09u2014u2014u5febu901fu5f00u5c55u8fd0u8425uff0cu6ce8u518cu624bu7eedu65e0u9700u963bu788d-image-258x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4f01u4e1au6ce8u518cu2014u2014u7ec4u5efau60a8u5728u963fu8054u914bu7684u4e13u5c5eu5b9eu4f53u516cu53f8-image-257x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4f01u4e1au6ce8u518cu2014u2014u7ec4u5efau60a8u5728u963fu8054u914bu7684u4e13u5c5eu5b9eu4f53u516cu53f8-image-257x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-300x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-300x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-150x150.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-150x150.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-75x75.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4ebau529bu8d44u6e90u5916u5305uff08Staff-Outsourcinguff09u2014u4e13u4e1au3001u53efu9760u7684u4ebau529bu8d44u6e90u7ba1u7406-image-75x75.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u62dbu8058u670du52a1u2014u2014u4e3au60a8u7504u9009u7cbeu82f1u56e2u961f-image-258x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u62dbu8058u670du52a1u2014u2014u4e3au60a8u7504u9009u7cbeu82f1u56e2u961f-image-258x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u4e13u6ce8u4e8eu4f01u4e1au589eu957fuff0cu5176u4f59u8fd0u8425u4e0eu652fu6301u4e8bu52a1u5168u90e8u7531u6211u4eecu4ee3u7ba1u3002-image-258x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u4e13u6ce8u4e8eu4f01u4e1au589eu957fuff0cu5176u4f59u8fd0u8425u4e0eu652fu6301u4e8bu52a1u5168u90e8u7531u6211u4eecu4ee3u7ba1u3002-image-258x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2025/09/u670du52a1u4f18u52bf-image-section-237x300.webp",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2025/09/u670du52a1u4f18u52bf-image-section-237x300.webp",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-300x169.jpg",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-300x169.jpg",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-1024x576.jpg",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2024/01/JORDAN-VISA-ON-ARRIVAL-u2013-VISA-POLICY-REQUIREMENTS-ELIGIBILITY-1024x576.jpg",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Executive-Search-firm-u2013-Industries-of-work-with-connect-resources-min-271x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Executive-Search-firm-u2013-Industries-of-work-with-connect-resources-min-271x300.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-300x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-300x300.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-150x150.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-150x150.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-75x75.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Recruitment-u2013-Dubai-UAE-with-Connect-Resources2-min-75x75.png",
-      "status": "failed",
-      "error": "404 Not Found"
-    },
-    {
-      "remoteUrl": "https://connectresources.ae/wp-content/uploads/2022/06/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-with-Connect-Resources-min-253x300.png",
-      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/wp-content/uploads/2022/06/Employment-Visa-Outsourcing-Services-in-Dubai-u2013-UAE-with-Connect-Resources-min-253x300.png",
+      "remoteUrl": "https://connectresources.ae/assets/images/elementor/google-fonts/fonts/bebasneue-jtusjig69ck48gw7pxoo9wlhyw.woff2",
+      "destPath": "/Users/rajpalsingh/Projects/Astro-websites/Astro-production/connectresources.ae/public/assets/images/elementor/google-fonts/fonts/bebasneue-jtusjig69ck48gw7pxoo9wlhyw.woff2",
       "status": "failed",
       "error": "404 Not Found"
     },
