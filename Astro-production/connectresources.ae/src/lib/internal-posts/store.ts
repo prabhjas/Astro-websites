@@ -21,7 +21,7 @@ import {
 } from "./taxonomy-store";
 
 const ROOT_DIR = process.cwd();
-const PUBLIC_UPLOADS_DIR = join(ROOT_DIR, "public/wp-content/uploads/internal-posts");
+const PUBLIC_UPLOADS_DIR = join(ROOT_DIR, "public/assets/images/internal-posts");
 const SITE_ORIGIN = process.env.PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://connectresources.ae";
 
 export type PostStatus = "draft" | "published" | "trash";
@@ -199,7 +199,7 @@ function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
     },
     elementorCss: previous?.elementorCss,
     pageCss: previous?.pageCss || [
-      "/wp-content/uploads/elementor/css/post-652.css",
+      "/assets/images/elementor/css/post-652.css",
       "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
     ],
     status: post.status || "published",
@@ -311,7 +311,7 @@ export function getUploadDestinationPath(fileName: string): {
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
   return {
     filePath: join(dir, finalName),
-    publicUrl: `/wp-content/uploads/internal-posts/${yyyy}/${mm}/${finalName}`,
+    publicUrl: `/assets/images/internal-posts/${yyyy}/${mm}/${finalName}`,
   };
 }
 
