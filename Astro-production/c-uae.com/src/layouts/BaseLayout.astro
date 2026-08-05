@@ -1,0 +1,152 @@
+---
+import SEOHead from "../components/SEOHead.astro";
+import ElementorHeader from "../components/ElementorHeader.astro";
+import ElementorFooter from "../components/ElementorFooter.astro";
+import LicenceStrip from "../components/LicenceStrip.astro";
+import ElementorScripts from "../components/ElementorScripts.astro";
+import type { SeoInput } from "../lib/seo";
+import type { SeoData } from "../lib/content";
+import liveCssOrder from "../data/live-css-order.json";
+import { resolveInternalAdminDir } from "../env/server";
+import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
+import "../styles/global.css";
+
+interface Props {
+  seo?: SeoInput;
+  fallback?: SeoData;
+  extraCss?: string[];
+  currentPath?: string;
+  /** Force header nav active item (e.g. "/blog/" on single posts) */
+  menuActivePath?: string;
+  bodyClass?: string;
+}
+
+const {
+  seo = {},
+  fallback,
+  extraCss = [],
+  currentPath = Astro.url.pathname,
+  menuActivePath,
+  bodyClass = "",
+} = Astro.props;
+
+/** Live c-uae.com Elementor kit is post-10. */
+const KIT_CSS = "/wp-content/uploads/elementor/css/post-10.css";
+const FOREIGN_KIT_BLOCKLIST = new Set([
+  "/wp-content/uploads/elementor/css/post-8.css",
+  "/wp-content/uploads/elementor/css/post-19.css",
+  "/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+]);
+
+const globalCss = [
+  "/wp-content/plugins/contact-form-7/includes/css/styles.css",
+  "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+  "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+  "/wp-content/themes/hello-elementor/theme.min.css",
+  "/wp-content/themes/hello-elementor/header-footer.min.css",
+  "/wp-content/plugins/elementor/assets/css/frontend.min.css",
+  "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css",
+  "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css",
+  KIT_CSS,
+  "/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-divider.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-toggle.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-tabs.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-image-box.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-text-editor.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-video.min.css",
+  "/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css",
+  "/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css",
+  "/wp-content/plugins/elementor-pro/assets/css/widget-search-form.min.css",
+  "/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css",
+  "/wp-content/themes/hello-elementor/style.css",
+  "/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+];
+
+/** Exact stylesheet order from live homepage (?nowprocket=1), minus page-specific CSS handled via extraCss */
+const baseCss = [
+  ...globalCss,
+  ...(liveCssOrder as string[]).filter(
+    (href) =>
+      !globalCss.includes(href) &&
+      !FOREIGN_KIT_BLOCKLIST.has(href) &&
+      !href.includes("/elementor/css/post-8.css") &&
+      !href.includes("/elementor/css/post-19.css"),
+  ),
+];
+
+const stylesheets = [
+  ...new Set([
+    ...baseCss,
+    ...extraCss,
+    "/css/wp-custom.css",
+    "/css/elementor-bg-fallback.css",
+    "/css/simplePagination.min.css",
+    "/css/migration-overrides.css",
+  ]),
+].filter((href) => !FOREIGN_KIT_BLOCKLIST.has(href));
+/** FLOW/file or env GTM — SSR into HTML so it appears in View Source */
+let gtmHead = "";
+let gtmBody = "";
+let gtmFooter = "";
+try {
+  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
+  gtmHead = gtm.headScript;
+  gtmBody = gtm.bodyHtml;
+  gtmFooter = gtm.footerScript;
+} catch {
+  /* keep public pages resilient */
+}
+const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
+---
+
+<!doctype html>
+<html lang="en-AE">
+  <head>
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <meta
+      name="sp-contact-endpoint"
+      content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
+    />
+    <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
+      window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
+    </script>
+    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
+    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
+    {!hasGtm ? (
+      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    ) : (
+      <script is:inline>
+        window.__runtimeGtmLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+      </script>
+    )}
+  </head>
+  <body
+    class:list={[
+      "wp-custom-logo",
+      "elementor-default",
+      "elementor-kit-10",
+      "elementor-page",
+      bodyClass,
+    ]}
+  >
+    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    <main id="content" class="site-main">
+      <div class="page-content">
+        <slot />
+      </div>
+    </main>
+    <ElementorFooter />
+    <LicenceStrip />
+    <ElementorScripts />
+    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
+  </body>
+</html>

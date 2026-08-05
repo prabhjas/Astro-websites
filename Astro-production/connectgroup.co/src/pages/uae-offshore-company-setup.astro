@@ -1,0 +1,747 @@
+---
+/**
+ * UAE Offshore Company Setup — built from the CG v3.0 Figma design (node 5795:10756).
+ * Uses the shared site chrome (BaseLayout → Header/Footer, same as /uae-mainland-company-setup/).
+ * Page assets live in /public/uae-offshore/ (from the design's asset kit + Figma exports).
+ * All styles are scoped under .uaeo- so nothing leaks into existing pages.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../lib/seo';
+
+const seo = loadPageSeo('uae-offshore-company-setup');
+
+const img = '/uae-offshore';
+const contact = '/contact-us/';
+
+const stats = [
+  { big: '15,000+', small: 'Businesses set up in the UAE' },
+  { big: '3 days', small: 'RAK ICC minimum setup time' },
+  { big: '0%', small: 'Tax on offshore income' },
+  { big: '100%', small: 'Foreign ownership, no local sponsor' },
+];
+
+const brands = [
+  { src: `${img}/brands/cr-saudi.png`, alt: 'Connect Resources Saudi' },
+  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE' },
+  { src: `${img}/brands/connect-fz.png`, alt: 'Connect FZ' },
+  { src: `${img}/brands/saudi-company-formation.png`, alt: 'Saudi Company Formation' },
+];
+
+const useCases = [
+  {
+    icon: `${img}/icons/holding-structures.svg`,
+    title: 'Holding Structures',
+    body: 'Use your offshore company to hold shares in UAE businesses or overseas subsidiaries. Dividends flow up to the holding level, keeping operating risk away from your accumulated wealth.',
+  },
+  {
+    icon: `${img}/icons/property-investors.svg`,
+    title: 'Property Investors',
+    body: "Both RAK ICC and JAFZA offshore companies can own freehold property in Dubai's designated investment zones. Holding property through a corporate structure makes succession planning simpler and avoids the probate process entirely.",
+  },
+  {
+    icon: `${img}/icons/ip-ownership.svg`,
+    title: 'IP Ownership',
+    body: 'Register trademarks, patents and software copyrights at the offshore entity level, then license them to your operating companies. Connect Group advises on the substance requirements that apply under current UAE tax rules.',
+  },
+  {
+    icon: `${img}/icons/family-offices.svg`,
+    title: 'Family Offices',
+    body: "The UAE is among the world's top 10 wealth management jurisdictions in 2026. RAK ICC family office structures give families the privacy, flexibility and international credibility that serious wealth planning requires.",
+  },
+  {
+    icon: `${img}/icons/special-purpose-vehicles.svg`,
+    title: 'Special Purpose Vehicles',
+    body: 'Create a separate legal entity around a specific asset, deal or liability. SPVs are widely used in real estate transactions, private equity and project finance where keeping one asset isolated from the rest of your structure matters.',
+  },
+  {
+    icon: `${img}/icons/international-trading.svg`,
+    title: 'International Trading',
+    body: 'Invoice international clients, hold multi-currency accounts and manage cross-border transactions through a UAE-registered entity. No physical office in the UAE is required to operate this way.',
+  },
+];
+
+const advantages = [
+  {
+    t: '0% Tax on Offshore Income',
+    d: 'Offshore companies are exempt from UAE corporate tax. They cannot generate UAE-sourced income, so the 9% rate does not apply to them.',
+  },
+  {
+    t: 'Shareholder Privacy',
+    d: 'No public register of shareholders exists for UAE offshore entities. UBO disclosure is required to authorities only.',
+  },
+  {
+    t: '100% Foreign Ownership',
+    d: 'No local sponsor, no UAE partner, no equity sharing. Full ownership from day one under both RAK ICC and JAFZA frameworks.',
+  },
+  {
+    t: 'UAE Banking Access',
+    d: 'Both jurisdictions support UAE bank account opening with Emirates NBD, Mashreq and RAKBank, subject to KYC approval.',
+  },
+  {
+    t: 'Dubai Property Ownership',
+    d: "Both RAK ICC (since Emiri Decree No. 12 of 2024) and JAFZA can hold freehold property in Dubai's designated investment zones.",
+  },
+  {
+    t: 'No Audit Requirement',
+    d: 'RAK ICC offshore companies have no mandatory audit. That saves AED 5,000 to AED 15,000 annually versus an operating entity.',
+  },
+];
+
+const jurisdictions = [
+  {
+    label: 'Jurisdiction 01',
+    name: 'RAK ICC',
+    rows: [
+      ['Setup time', '3 to 5 working days'],
+      ['Audit requirement', 'None'],
+      ['Dubai property', 'Yes, since 2024'],
+      ['Minimum directors', '1'],
+      ['Minimum capital', 'None required'],
+      ['Best for', 'Holding structures, IP ownership, wealth planning, SPVs and cost-conscious investors. 35 to 40% cheaper than JAFZA.'],
+    ],
+  },
+  {
+    label: 'Jurisdiction 02',
+    name: 'JAFZA Offshore',
+    rows: [
+      ['Setup time', '5 to 7 working days'],
+      ['Audit requirement', 'May apply'],
+      ['Dubai property', 'Yes, long established'],
+      ['Minimum directors', '1 (reduced in 2024)'],
+      ['Minimum capital', 'Strongest of the two'],
+      ['Best for', 'Businesses needing maximum banking strength, a Dubai address or structures where institutional partners require the JAFZA name.'],
+    ],
+  },
+];
+
+const steps = [
+  {
+    n: '1',
+    t: 'It Starts With Your Objective',
+    d: 'We understand what you want to achieve. From there, we recommend RAK ICC or JAFZA based on your purpose, banking profile and budget. The right jurisdiction is confirmed before anything is touched.',
+  },
+  {
+    n: '2',
+    t: 'Your Company Name Is Secured',
+    d: 'Three name options go in simultaneously. Approval typically arrives within 24 hours. We flag naming restrictions upfront so nothing comes back rejected.',
+  },
+  {
+    n: '3',
+    t: 'Documents Prepared and Submitted',
+    d: 'We prepare the full document set, notarised passport copies, proof of address, bank reference letters and beneficial owner declaration, and submit everything in one complete package. No back and forth, no missing items on first submission.',
+  },
+  {
+    n: '4',
+    t: 'Your Certificate Arrives',
+    d: 'RAK ICC typically delivers in 3 to 5 working days. JAFZA in 5 to 7. Your full corporate kit follows, including the certificate of incorporation, share certificates and statutory registers.',
+  },
+  {
+    n: '5',
+    t: 'Registered, Banked and Ready',
+    d: 'FTA corporate tax registration is filed the same day the certificate is issued. Then we prepare your bank-ready file and introduce you to a banking partner whose criteria fit your structure. Your offshore company is fully operational.',
+  },
+];
+
+const why = [
+  {
+    icon: `${img}/icons/one-person-full-accountability.svg`,
+    t: 'One Person. Full Accountability.',
+    d: 'You are not passed between departments. One Connect Group specialist manages your file from the first brief to the delivered certificate. You always know who to call. They always know your structure.',
+  },
+  {
+    icon: `${img}/icons/done-before-you-think-to-ask.svg`,
+    t: 'Done Before You Think to Ask.',
+    d: 'Most providers complete the incorporation and stop. Connect Group files FTA corporate tax registration immediately after the certificate is issued. Late registration carries a flat AED 10,000 penalty. With us, that never applies to you.',
+  },
+  {
+    icon: `${img}/icons/the-right-bank-first-time.svg`,
+    t: 'The Right Bank. First Time.',
+    d: 'We build your full bank-ready file first. That includes the structure chart, source-of-funds narrative and expected transaction profile. We match you to banking partners whose KYC criteria align with your specific offshore structure.',
+  },
+  {
+    icon: `${img}/icons/9-years-of-knowing-what-changes-next.svg`,
+    t: '9 Years of Knowing What Changes Next.',
+    d: 'Connect Group has been forming companies in the UAE since 2016. Every change in the offshore landscape, from the 2024 RAK ICC property update to the FTA registration mandate, has been absorbed into our process before it affects our clients.',
+  },
+  {
+    icon: `${img}/icons/you-approve-it-then-it-moves-er-1.svg`,
+    t: 'You Approve It. Then It Moves.',
+    d: 'Government fees, registered agent fees and service charges are itemised separately and confirmed in writing. Nothing moves until you have approved the full breakdown. No surprises on the first invoice.',
+  },
+  {
+    icon: `${img}/icons/we-tell-you-what-fits-not-what-we-prefer.svg`,
+    t: 'We Tell You What Fits. Not What We Prefer.',
+    d: 'Connect Group recommends a jurisdiction based on your specific objectives, not on which one is easier to process. If RAK ICC fits, we say so. If JAFZA is the right call for your banking profile or property plans, we say that instead.',
+  },
+];
+
+const testimonials = [
+  {
+    quote: '"We needed a holding structure for three Dubai properties. Connect Group recommended RAK ICC based on the 2024 property rule change and our banking profile. Certificate in four days, bank account open six weeks later. Every step managed for us."',
+    initials: 'AM',
+    name: 'A. Mansoor',
+    role: 'Property Investor, Dubai',
+  },
+  {
+    quote: '"Connect Group structured our IP holding correctly under the 2026 corporate tax rules. Two other providers had not flagged this as a consideration at all. The royalty arrangement is clean and the FTA registration was filed on day one."',
+    initials: 'JP',
+    name: 'J. Petrova',
+    role: 'CEO, Software Company, Cyprus',
+  },
+  {
+    quote: '"Connect Group made a complex process incredibly simple. They put together a proper, bank-ready file and made the right introduction, getting our account open in just a few weeks. The file preparation alone was worth the investment. Phenomenal service!."',
+    initials: 'SK',
+    name: 'S. Kaur',
+    role: 'Director, Trading Company, Singapore',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What is a UAE offshore company?',
+    a: '<p>A legal entity registered with RAK ICC or JAFZA. It can hold assets, open UAE bank accounts and trade internationally. It cannot conduct business inside the UAE, rent office space or sponsor visas. It is built for holding, asset protection and international trading.</p>',
+  },
+  {
+    q: 'How does Connect Group choose between RAK ICC and JAFZA for me?',
+    a: '<p>Connect Group evaluates three things: your primary purpose, your budget and your banking requirements. RAK ICC suits most holding and wealth structuring needs at 35 to 40% lower cost. JAFZA is recommended when banking strength or a Dubai address is the priority. The recommendation is confirmed in writing before any filing begins.</p>',
+  },
+  {
+    q: 'Can my offshore company own property in Dubai?',
+    a: "<p>Yes. JAFZA offshore companies have held this right since 2003. RAK ICC gained the right to hold Dubai freehold property following Emiri Decree No. 12 of 2024. Both can own property in Dubai's designated investment zones.</p>",
+  },
+  {
+    q: 'Does an offshore company pay UAE corporate tax?',
+    a: '<p>Offshore companies are exempt from corporate tax. They cannot generate UAE-sourced income so the 9% rate does not apply. However, FTA registration is mandatory for every UAE entity. Connect Group files this on day one to avoid the AED 10,000 late registration penalty.</p>',
+  },
+  {
+    q: 'How does Connect Group help open a UAE bank account?',
+    a: '<p>Banking takes 4 to 12 weeks and requires a complete file. Connect Group prepares:</p><ul><li>A clear corporate structure chart</li><li>A credible source-of-funds narrative</li><li>A description of expected transaction types</li></ul><p>Connect Group then introduces you to banking partners whose KYC criteria match your structure. This significantly improves approval rates.</p>',
+  },
+  {
+    q: 'What documents does Connect Group need to start?',
+    a: '<ul><li>Notarised passport copies of all shareholders and directors</li><li>Recent proof of residential address</li><li>Bank reference letters</li><li>Beneficial owner declaration</li><li>Three proposed company names</li></ul><p>Connect Group provides a precise checklist at the start of every engagement.</p>',
+  },
+  {
+    q: 'Are there ongoing compliance obligations?',
+    a: '<p>Yes. Annual renewal is required. RAK ICC late penalties start at 10% in month two and reach 50% by month five. FTA returns must be filed within nine months of the financial year end. Connect Group advises on all ongoing obligations at incorporation, not after the first deadline passes.</p>',
+  },
+];
+
+const intel = [
+  { src: `${img}/intel-1.jpg`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+  { src: `${img}/intel-2.jpg`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+  { src: `${img}/intel-3.jpg`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+];
+---
+
+<BaseLayout seo={seo}>
+  <Fragment slot="head">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    {/*
+      Chrome CSS stack — the same set /uae-mainland-company-setup/ loads, so the shared
+      Elementor/Max-Mega-Menu/pixfort header + footer render identically here.
+    */}
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/maxmegamenu/style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/themes/essentials/inc/css/bootstrap.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/wp-scss-cache/pixfort-core-style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/common/main.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/header.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/plusjakartasans.css?ver=1785312815" />
+  </Fragment>
+
+  <main class="uaeo">
+    <!-- HERO -->
+    <section class="uaeo-hero">
+      <div class="uaeo-wrap">
+        <div class="uaeo-hero-grid">
+          <div>
+            <p class="uaeo-eyebrow uaeo-eyebrow-light">Offshore Company Setup UAE</p>
+            <h1>Built for investors who mean business.</h1>
+            <p class="uaeo-hero-lead">
+              Since 2016, Connect Group has established over 15,000 international businesses in the
+              UAE. We build robust corporate structures through premium jurisdictions like RAK ICC
+              and JAFZA, securing you complete foreign ownership, zero tax on international income,
+              and freedom from local physical obligations. Every entity is correctly filed, fully
+              compliant, and operational in as few as three days.
+            </p>
+            <div class="uaeo-btn-row">
+              <a class="uaeo-btn uaeo-btn-light" href="https://connectgroup2.pipedrive.com/scheduler/A8ExDZT6O/meeting-with-connect-group" target="_blank" rel="noopener">Start Your Offshore Setup</a>
+              <a class="uaeo-btn uaeo-btn-outline" href="#uaeo-advantages">Learn More</a>
+            </div>
+          </div>
+          <div class="uaeo-hero-art">
+            <img src={`${img}/hero-img.webp`} alt="UAE offshore company formation" width="669" height="698" loading="eager" />
+          </div>
+        </div>
+
+        <div class="uaeo-brands">
+          <h2>Our Specialist Brands</h2>
+          <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
+          <div class="uaeo-brand-row">
+            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+          </div>
+        </div>
+
+        <div class="uaeo-stats">
+          {stats.map((s) => (
+            <div class="uaeo-stat">
+              <div class="uaeo-stat-big">{s.big}</div>
+              <div class="uaeo-stat-small">{s.small}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="uaeo-section uaeo-usecases">
+      <div class="uaeo-wrap">
+        <h2 class="uaeo-h2 uaeo-center">Who uses a UAE<br />Offshore company?</h2>
+        <p class="uaeo-sub-blue uaeo-center">
+          Connect Group sets up offshore companies for investors, founders and family offices across six common use cases.
+        </p>
+        <div class="uaeo-cards3">
+          {useCases.map((c) => (
+            <div class="uaeo-card">
+              <img class="uaeo-card-icon" src={c.icon} alt="" aria-hidden="true" loading="lazy" />
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+          ))}
+        </div>
+        <div class="uaeo-center-btn">
+          <a class="uaeo-btn uaeo-btn-dark" href={contact}>Find Your Offshore Structure</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section class="uaeo-section" id="uaeo-advantages">
+      <div class="uaeo-wrap uaeo-adv-grid">
+        <div>
+          <h2 class="uaeo-h2">What a UAE Offshore company formation gives you?</h2>
+          <p class="uaeo-sub">Six verified advantages. All in place from day one. All backed by current UAE law.</p>
+          <div class="uaeo-adv-list">
+            {advantages.map((a) => (
+              <details class="uaeo-adv-item" open>
+                <summary>
+                  {a.t}
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </summary>
+                <p>{a.d}</p>
+              </details>
+            ))}
+          </div>
+          <a class="uaeo-btn uaeo-btn-dark" href={contact}>Speak to an Offshore Specialist</a>
+        </div>
+        <div class="uaeo-adv-art">
+          <img src={`${img}/advantages-img.webp`} alt="0% tax on offshore income" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- JURISDICTIONS -->
+    <section class="uaeo-section">
+      <div class="uaeo-wrap">
+        <h2 class="uaeo-h2 uaeo-center" style="text-align: center;">RAK ICC or JAFZA Offshore:<br />Connect Group finds your fit</h2>
+        <p class="uaeo-sub uaeo-center uaeo-maxw" style="text-align: center;">
+          The UAE has two primary offshore jurisdictions. Connect Group has worked with both since 2016. We compare
+          them against your objectives, budget and banking profile before recommending a single one.
+        </p>
+        <div class="uaeo-juris-grid">
+          {jurisdictions.map((j) => (
+            <div class="uaeo-juris">
+              <div class="uaeo-juris-head">
+                <div class="uaeo-juris-label">{j.label}</div>
+                <div class="uaeo-juris-name">{j.name}</div>
+              </div>
+              <dl>
+                {j.rows.map(([k, v]) => (
+                  <div class="uaeo-juris-row">
+                    <dt>{k}</dt>
+                    <dd>{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ))}
+        </div>
+        <p class="uaeo-sub uaeo-center" style="margin-top: 40px;">Need advice on finding the right jurisdiction?</p>
+        <div class="uaeo-center-btn" style="margin-top: 14px;">
+          <a class="uaeo-btn uaeo-btn-dark" href={contact}>Speak to an Offshore Specialist</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="uaeo-section uaeo-process">
+      <div class="uaeo-wrap">
+        <h2 class="uaeo-h2 uaeo-center">How Connect Group handles your UAE Offshore company formation?</h2>
+        <p class="uaeo-sub-light uaeo-center uaeo-maxw">
+          Five steps. One point of contact. Connect Group manages every submission, every follow-up and every
+          authority interaction from brief to certificate.
+        </p>
+        <div class="uaeo-steps">
+          {steps.map((s) => (
+            <div class="uaeo-step">
+              <span class="uaeo-step-n">{s.n}</span>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
+          ))}
+        </div>
+        <div class="uaeo-center-btn">
+          <a class="uaeo-btn uaeo-btn-black" href={contact}>Send Your Offshore Brief</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="uaeo-section">
+      <div class="uaeo-wrap uaeo-pricing-grid">
+        <div>
+          <p class="uaeo-eyebrow uaeo-eyebrow-teal">Pricing</p>
+          <h2 class="uaeo-h2">Quoted around your structure. Not a rate card.</h2>
+          <p class="uaeo-sub">
+            Every offshore engagement is different. Your jurisdiction, structure, shareholder profile and banking
+            requirements all shape the cost.
+          </p>
+          <p class="uaeo-sub">
+            Connect Group builds the full picture for your specific brief. Government fees are itemised at cost.
+            Your service fee is confirmed in writing before anything is filed.
+          </p>
+          <a class="uaeo-btn uaeo-btn-black" href={contact}>Get Your Custom Quote</a>
+        </div>
+        <div class="uaeo-price-cards">
+          <div class="uaeo-price-card">
+            <div class="uaeo-price-k">Government fees</div>
+            <div class="uaeo-price-v">At cost</div>
+          </div>
+          <div class="uaeo-price-card">
+            <div class="uaeo-price-k">Cost depends on</div>
+            <div class="uaeo-price-v">Jurisdiction and structure</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CONNECT GROUP -->
+    <section class="uaeo-section uaeo-why">
+      <div class="uaeo-wrap">
+        <h2 class="uaeo-h2 uaeo-center">Why Connect Group for your<br />UAE Offshore company setup?</h2>
+        <p class="uaeo-sub uaeo-center uaeo-maxw">
+          Hundreds of offshore formation providers operate in the UAE. Here is what separates Connect Group from the rest.
+        </p>
+        <div class="uaeo-cards3">
+          {why.map((c) => (
+            <div class="uaeo-card">
+              <img class="uaeo-card-icon" src={c.icon} alt="" aria-hidden="true" loading="lazy" />
+              <h3>{c.t}</h3>
+              <p>{c.d}</p>
+            </div>
+          ))}
+        </div>
+        <div class="uaeo-center-btn">
+          <a class="uaeo-btn uaeo-btn-black" href={contact}>Work With Connect Group</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="uaeo-section">
+      <div class="uaeo-wrap">
+        <p class="uaeo-eyebrow uaeo-eyebrow-teal uaeo-center">From the People Using It</p>
+        <h2 class="uaeo-h2 uaeo-center">What clients say about Offshore setup<br />with Connect Group?</h2>
+        <div class="uaeo-cards3 uaeo-testi-grid">
+          {testimonials.map((t) => (
+            <div class="uaeo-testi">
+              <svg class="uaeo-quote" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.6 5.2C6 7 4 9.9 4 13.6c0 3 1.8 5.2 4.3 5.2 2.2 0 3.8-1.6 3.8-3.8 0-2-1.4-3.5-3.4-3.5-.3 0-.7 0-.8.1.3-1.8 1.9-3.8 3.7-4.8L9.6 5.2zm9 0C15 7 13 9.9 13 13.6c0 3 1.8 5.2 4.3 5.2 2.2 0 3.8-1.6 3.8-3.8 0-2-1.4-3.5-3.4-3.5-.3 0-.7 0-.8.1.3-1.8 1.9-3.8 3.7-4.8l-2-1.6z"/></svg>
+              <div class="uaeo-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote>{t.quote}</blockquote>
+              <div class="uaeo-testi-who">
+                <strong>{t.initials}</strong>
+                <div class="uaeo-testi-name">{t.name}</div>
+                <div class="uaeo-testi-role">{t.role}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="uaeo-section">
+      <div class="uaeo-wrap">
+        <p class="uaeo-eyebrow uaeo-eyebrow-teal">Common Questions</p>
+        <h2 class="uaeo-h2">Frequently Asked Questions About<br />UAE Offshore Company Setup</h2>
+        <p class="uaeo-sub">The questions every client asks before filing. Answered directly, without preamble.</p>
+        <div class="uaeo-faq-list">
+          {faqs.map((f, i) => (
+            <details class="uaeo-faq" open={i === 0}>
+              <summary>
+                {f.q}
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </summary>
+              <div class="uaeo-faq-a" set:html={f.a} />
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="uaeo-section uaeo-finalcta-wrap">
+      <div class="uaeo-wrap">
+        <div class="uaeo-finalcta">
+          <h2>Your UAE Offshore company. Set up by people who have done this 15,000 times.</h2>
+          <p>One conversation with the right person saves months of wrong decisions.</p>
+          <a class="uaeo-btn uaeo-btn-black" href={contact}>Start Your Offshore Setup</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  {/* Chrome JS — same stack the mainland page uses so the mega menu + header behave identically. */}
+  <script is:inline src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+  <script is:inline>
+    var pixfort_main_object = { name: 'mainVals', dataPopupBase: '', dataPixOverlay: 'pix-overlay-2', dataPopupCheckLink: '' };
+    var PIX_JS_OPTIONS = { dataPopupBase: '', dataPagePopupsBase: '', mobileBreakPoint: '1024' };
+    var PIX_POPUPS_OPTIONS = [];
+  </script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/pixfort-core/dist/front/index.bundle-898a720260c818ad1bb5.js?ver=1785312815" defer></script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=1785312815" defer></script>
+  <script is:inline src="/js/astro-mirror-fixes.js" defer></script>
+</BaseLayout>
+
+<style>
+  .uaeo {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #1a1a1a;
+    background: #fff; /* chrome/pixfort body bg is dark — keep our sections on white */
+    line-height: 1.5;
+    --uaeo-navy: #232a7c;
+    --uaeo-navy-deep: #1c2166;
+    --uaeo-slate: #4051b5;
+    --uaeo-teal: #007c91;
+    --uaeo-cream: #fff3dd;
+    --uaeo-lavender: #d9dbfa;
+    --uaeo-silver: #767676;
+  }
+  .uaeo * { box-sizing: border-box; }
+  /* The chrome stack (pixfort/bootstrap) sets its own heading fonts — force the design font back. */
+  .uaeo h1, .uaeo h2, .uaeo h3, .uaeo h4, .uaeo p, .uaeo a, .uaeo li, .uaeo dt, .uaeo dd,
+  .uaeo blockquote, .uaeo summary, .uaeo div, .uaeo span, .uaeo strong {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .uaeo img { max-width: 100%; display: block; }
+  .uaeo-wrap { max-width: 1300px; margin: 0 auto; padding: 0 40px; }
+  .uaeo-section { padding: 90px 0; }
+  .uaeo-center { text-align: center; }
+  .uaeo-maxw { max-width: 860px; margin-left: auto; margin-right: auto; }
+  .uaeo-sub.uaeo-maxw { margin: 0 auto 18px; }
+  .uaeo-center-btn { text-align: center; margin-top: 44px; }
+
+  .uaeo-h2 { color: #1a1a1a; font-size: 40px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; }
+  .uaeo-sub { color: var(--uaeo-silver); font-size: 17px; margin: 0 0 18px; }
+  .uaeo-sub-blue { color: var(--uaeo-slate); font-size: 17px; margin: 0 auto 44px; max-width: 900px; }
+  .uaeo-sub-light { color: rgba(255, 255, 255, 0.85); font-size: 17px; margin: 0 auto 48px; }
+  .uaeo-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 14px; }
+  .uaeo-eyebrow-teal { color: var(--uaeo-teal); }
+  .uaeo-eyebrow-light { color: #c9d0ff; }
+
+  .uaeo-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; border-radius: 10px; padding: 14px 26px;
+    border: 1.5px solid transparent; text-decoration: none; line-height: 1;
+    transition: transform 0.15s ease; cursor: pointer;
+  }
+  .uaeo-btn:hover { transform: translateY(-2px); }
+  .uaeo-btn-light { background: #fff; color: #121212; }
+  .uaeo-btn-outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+  .uaeo-btn-dark, .uaeo-btn-black { background: #121212; color: #fff; }
+
+  /* HERO — desktop: the design's wave background (Figma 6089:17441 export, taller
+     than the hero so the wave sits upper-right and flows down) + engraved cube icon.
+     Tablet/mobile override background-image with the baked hero-bkg-*.webp below. */
+  .uaeo-hero {
+    position: relative; overflow: hidden;
+    background: var(--uaeo-navy-deep) url('/uae-offshore/hero-wave-bg.webp') center top / cover no-repeat;
+    /* header is position:absolute (~83px) over the hero — clear it + breathing room */
+    color: #fff; padding: 120px 0 80px;
+  }
+  .uaeo-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
+  .uaeo-hero h1 { color: #fff; font-size: 60px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 24px; }
+  .uaeo-hero-lead { color: #c9d0ff; font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 640px; }
+  .uaeo-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  /* Icon at the approved size, natural aspect ratio.
+     Chrome CSS forces height:640px + object-fit:fill on images here — undo it. */
+  .uaeo .uaeo-hero-art img {
+    width: clamp(220px, 24vw, 350px);
+    height: auto !important;
+    object-fit: contain;
+    aspect-ratio: auto;
+    margin: 0 auto;
+  }
+  .uaeo-brands { text-align: center; margin-top: 56px; }
+  .uaeo-brands h2 { color: #fff; font-size: 26px; font-weight: 600; margin: 0 0 8px; }
+  .uaeo-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
+  .uaeo-brand-row { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+  .uaeo-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
+  .uaeo-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
+  .uaeo-stat { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 26px 28px; text-align: center; }
+  .uaeo-stat-big { color: #fff; font-size: 32px; font-weight: 600; }
+  .uaeo-stat-small { font-size: 14px; color: rgba(255, 255, 255, 0.78); margin-top: 8px; }
+
+  /* USE CASES / WHY cards */
+  .uaeo-usecases { background: linear-gradient(180deg, var(--uaeo-lavender) 0%, #e9ebfc 45%, #ffffff 100%); }
+  .uaeo-cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .uaeo-card { background: #fff; border-radius: 16px; padding: 34px 30px; box-shadow: 0 4px 24px rgba(30, 30, 80, 0.05); }
+  .uaeo-card-icon { width: 56px; height: 56px; object-fit: contain; margin-bottom: 22px; }
+  .uaeo-card h3 { color: #1a1a1a; font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .uaeo-card p { color: var(--uaeo-silver); font-size: 15px; line-height: 1.6; margin: 0; }
+
+  /* ADVANTAGES */
+  .uaeo-adv-grid { display: grid; grid-template-columns: 1fr 0.9fr; gap: 60px; align-items: start; }
+  .uaeo-adv-list { border-top: 1px solid #e7e7ef; margin: 28px 0 34px; }
+  .uaeo-adv-item { border-bottom: 1px solid #e7e7ef; padding: 18px 0; }
+  .uaeo-adv-item summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer; list-style: none; font-size: 18px; font-weight: 600; color: var(--uaeo-slate); }
+  .uaeo-adv-item summary::-webkit-details-marker { display: none; }
+  .uaeo-adv-item svg { flex: none; width: 20px; height: 20px; transition: transform 0.2s ease; transform: rotate(180deg); }
+  .uaeo-adv-item:not([open]) svg { transform: rotate(0deg); }
+  .uaeo-adv-item p { color: var(--uaeo-silver); font-size: 15px; line-height: 1.6; margin: 10px 0 0; max-width: 520px; }
+  .uaeo-adv-art img { width: 100%; }
+
+  /* JURISDICTIONS */
+  .uaeo-juris-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; margin-top: 48px; }
+  .uaeo-juris-head { background: var(--uaeo-cream); border-radius: 16px; text-align: center; padding: 26px; margin-bottom: 12px; }
+  .uaeo-juris-label { color: #1a1a1a; font-size: 18px; font-weight: 600; }
+  .uaeo-juris-name { color: #1a1a1a; font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+  .uaeo-juris dl { margin: 0; }
+  .uaeo-juris-row { display: grid; grid-template-columns: 180px 1fr; gap: 16px; padding: 18px 8px; border-bottom: 1px solid #e7e7ef; }
+  .uaeo-juris-row dt { font-weight: 600; font-size: 15px; margin: 0; }
+  .uaeo-juris-row dd { color: var(--uaeo-silver); font-size: 15px; margin: 0; line-height: 1.55; }
+
+  /* PROCESS */
+  .uaeo-process { /* headings forced white below */
+    background: var(--uaeo-navy) url('/uae-offshore/bkg-desktop.webp') center / cover no-repeat;
+    color: #fff;
+  }
+  .uaeo-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .uaeo-step { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 30px; }
+  .uaeo-step-n { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 8px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); font-weight: 600; margin-bottom: 18px; }
+  .uaeo-step h3 { color: #fff; font-size: 21px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .uaeo-step p { color: rgba(255, 255, 255, 0.82); font-size: 14.5px; line-height: 1.6; margin: 0; }
+
+  .uaeo-process .uaeo-h2 { color: #fff; }
+
+  /* PRICING */
+  .uaeo-pricing-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+  .uaeo-pricing-grid .uaeo-btn { margin-top: 12px; }
+  .uaeo-price-cards { display: flex; flex-direction: column; gap: 22px; }
+  .uaeo-price-card { background: var(--uaeo-cream); border-radius: 16px; padding: 28px 32px; }
+  .uaeo-price-k { font-size: 16px; margin-bottom: 6px; }
+  .uaeo-price-v { color: #1a1a1a; font-size: 28px; font-weight: 600; letter-spacing: -0.01em; }
+
+  /* WHY */
+  .uaeo-why { background: #efecfa url('/uae-offshore/why-bkg-desktop.webp') center / cover no-repeat; }
+
+  /* TESTIMONIALS */
+  .uaeo-testi-grid { margin-top: 48px; }
+  .uaeo-testi { background: #fff; border: 1px solid #ececf3; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; }
+  .uaeo-quote { width: 24px; height: 24px; color: #c9c9d6; margin-bottom: 10px; }
+  .uaeo-stars { color: #121212; letter-spacing: 3px; font-size: 20px; margin-bottom: 16px; }
+  .uaeo-testi blockquote { margin: 0; font-size: 16px; line-height: 1.6; color: #3a3a45; flex: 1; }
+  .uaeo-testi-who { margin-top: 22px; }
+  .uaeo-testi-who strong { display: block; font-size: 17px; }
+  .uaeo-testi-name { font-size: 16px; margin-top: 2px; }
+  .uaeo-testi-role { color: var(--uaeo-silver); font-size: 13.5px; margin-top: 2px; }
+
+  /* FAQ */
+  .uaeo-faq-list { border-top: 1px solid #e5e5ee; margin-top: 34px; }
+  .uaeo-faq { border-bottom: 1px solid #e5e5ee; padding: 24px 0; }
+  .uaeo-faq summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; cursor: pointer; list-style: none; font-size: 18px; font-weight: 500; }
+  .uaeo-faq summary::-webkit-details-marker { display: none; }
+  .uaeo-faq svg { flex: none; width: 20px; height: 20px; color: var(--uaeo-teal); transition: transform 0.2s ease; }
+  .uaeo-faq[open] svg { transform: rotate(180deg); }
+  .uaeo-faq-a { color: var(--uaeo-silver); font-size: 15.5px; line-height: 1.65; }
+  .uaeo-faq-a p { margin: 14px 0 0; }
+  .uaeo-faq-a ul { margin: 14px 0 0; padding-left: 22px; }
+  .uaeo-faq-a li { margin-bottom: 6px; }
+
+  /* FINAL CTA */
+  .uaeo-finalcta-wrap { padding-top: 30px; }
+  .uaeo-finalcta {
+    border-radius: 28px; text-align: center; padding: 90px 60px;
+    background:
+      radial-gradient(55% 90% at 12% 30%, rgba(120, 160, 255, 0.5), transparent 60%),
+      radial-gradient(50% 90% at 88% 35%, rgba(255, 200, 130, 0.55), transparent 60%),
+      radial-gradient(60% 90% at 40% 90%, rgba(150, 220, 230, 0.4), transparent 65%),
+      #fdfbf7;
+  }
+  .uaeo-finalcta h2 { color: #1a1a1a; font-size: 44px; font-weight: 600; line-height: 1.18; letter-spacing: -0.02em; max-width: 980px; margin: 0 auto 20px; }
+  .uaeo-finalcta p { color: #3a3a45; font-size: 17px; margin: 0 0 30px; }
+
+  /* MARKET INTEL */
+  .uaeo-intel { padding-top: 30px; }
+  .uaeo-intel .uaeo-cards3 { margin-top: 34px; }
+  .uaeo-intel-card { background: #fafafa; border: 1px solid #ececf3; border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; display: block; }
+  .uaeo-intel-card img { width: 100%; aspect-ratio: 16 / 10.5; object-fit: cover; border-radius: 12px; padding: 18px 18px 0; }
+  .uaeo-intel-body { padding: 20px 22px 24px; }
+  .uaeo-intel-body h3 { color: #1a1a1a; font-size: 21px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .uaeo-intel-body p { color: var(--uaeo-silver); font-size: 15px; margin: 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-tablet.webp'); background-position: center top; }
+    .uaeo-process { background-image: url('/uae-offshore/bkg-tablet.webp'); }
+    .uaeo-why { background-image: url('/uae-offshore/why-bkg-tablet.webp'); }
+    .uaeo-cards3 { grid-template-columns: repeat(2, 1fr); }
+    .uaeo-steps { grid-template-columns: repeat(2, 1fr); }
+    /* tablet design (Figma 5866:10526): hero fully centered, no side art */
+    .uaeo-hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .uaeo-hero-art { display: none; }
+    .uaeo-hero-lead { margin-left: auto; margin-right: auto; }
+    .uaeo-btn-row { justify-content: center; }
+    .uaeo-brand-row { gap: 48px; }
+  }
+  @media (max-width: 860px) {
+    .uaeo-wrap { padding: 0 24px; }
+    .uaeo-section { padding: 60px 0; }
+    .uaeo-hero-grid, .uaeo-adv-grid, .uaeo-pricing-grid, .uaeo-juris-grid { grid-template-columns: 1fr; gap: 36px; }
+    .uaeo-hero h1 { font-size: 40px; }
+    .uaeo-h2 { font-size: 30px; }
+    .uaeo-hero-art { display: none; }
+    .uaeo-stats { grid-template-columns: repeat(2, 1fr); }
+    .uaeo-finalcta { padding: 60px 28px; }
+    .uaeo-finalcta h2 { font-size: 30px; }
+    .uaeo-juris-row { grid-template-columns: 150px 1fr; }
+  }
+  @media (max-width: 560px) {
+    .uaeo-hero { background-image: url('/uae-offshore/hero-bkg-mobile.webp'); background-position: center top; }
+    .uaeo-process { background-image: url('/uae-offshore/bkg-mobile.webp'); }
+    .uaeo-why { background-image: url('/uae-offshore/why-bkg-mobile.webp'); }
+    .uaeo-cards3, .uaeo-steps { grid-template-columns: 1fr; }
+    /* mobile design (Figma 5866:15089): stats stay 2×2, buttons stack full width */
+    .uaeo-stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .uaeo-stat { padding: 20px 16px; }
+    .uaeo-stat-big { font-size: 26px; }
+    .uaeo-hero h1 { font-size: 34px; }
+    .uaeo-btn-row { flex-direction: column; }
+    .uaeo-btn-row .uaeo-btn { width: 100%; }
+    .uaeo-brand-row { gap: 28px 40px; }
+    .uaeo-brand-row img { height: 30px; }
+  }
+</style>
