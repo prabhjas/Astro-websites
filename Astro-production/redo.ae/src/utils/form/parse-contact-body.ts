@@ -23,11 +23,25 @@ function findCountryCode(raw: Record<string, FormDataEntryValue>): string | unde
 function buildMessage(
   get: (key: string) => string | undefined,
 ): string | undefined {
-  const message = get('message') ?? get('your-message');
+  const message = get('message') ?? get('your-message') ?? get('textarea-292');
   const subject = get('your-subject') ?? get('subject');
   if (subject && message) return `Subject: ${subject}\n\n${message}`;
   if (subject) return `Subject: ${subject}`;
   return message;
+}
+
+/** Multistep quote wizard answers (radio-* + other-option) → message body. */
+function buildWizardSummary(raw: Record<string, FormDataEntryValue>): string | undefined {
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(raw)) {
+    if (typeof value !== 'string') continue;
+    const trimmed = value.trim();
+    if (!trimmed) continue;
+    if (/^radio-/i.test(key) || key === 'other-option') {
+      lines.push(`${key}: ${trimmed}`);
+    }
+  }
+  return lines.length ? lines.join('\n') : undefined;
 }
 
 export function parseContactFormBody(
@@ -50,15 +64,21 @@ export function parseContactFormBody(
   return {
     name:
       get('name') ??
+      get('Name') ??
       get('full-name') ??
       get('full_name') ??
       get('your-name') ??
       (combinedName || undefined),
     firstName,
     lastName,
-    email: get('email') ?? get('your-email'),
+    email: get('email') ?? get('Email') ?? get('your-email'),
     phone: get('phone') ?? get('your-phone') ?? findFieldValue(raw, 'phonetext') ?? findFieldValue(raw, 'your-phone'),
-    message: buildMessage(get) ?? get('description') ?? get('your-message'),
+    message:
+      buildMessage(get) ??
+      get('description') ??
+      get('your-message') ??
+      get('textarea-292') ??
+      buildWizardSummary(raw),
     company: get('company') ?? get('company-name') ?? get('company_name') ?? get('your-company'),
     location: get('location') ?? get('countrytext-787'),
     country: get('country') ?? get('countrytext-787'),
