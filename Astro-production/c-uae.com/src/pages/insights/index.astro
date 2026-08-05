@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import { getCategories, getPageByPath, getPosts, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = false;
+
+/**
+ * Live archive is /insights/ (Elementor). Keep markup; wire Load More to our API.
+ */
+const page = getPageByPath("/insights/");
+if (!page) throw new Error("Insights page missing");
+
+const totalPosts = getPosts().length;
+const INITIAL_GRID = 12;
+const hasMore = totalPosts > INITIAL_GRID;
+
+let html = page.bodyHtml || page.content;
+
+if (hasMore) {
+  html = html.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
+  );
+  html = html.replace(
+    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
+    `$1/insights/page/2/$2`,
+  );
+} else {
+  html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
+}
+
+/** c-uae insights has a single .ecs-posts grid (EOR peer had two). */
+let ecsSeen = 0;
+const ecsMatches = html.match(/<div[^>]*class="[^"]*ecs-posts[^"]*"[^>]*>/gi) || [];
+const gridIndex = ecsMatches.length; // mark the last (or only) grid
+html = html.replace(
+  /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi,
+  (full, attrs) => {
+    ecsSeen += 1;
+    if (ecsSeen === gridIndex && !/data-sp-blog-grid/.test(attrs)) {
+      return `<div${attrs} data-sp-blog-grid="1">`;
+    }
+    return full;
+  },
+);
+
+/** Rebuild WP Categories dropdown with Astro category paths (exclude junk WP terms). */
+const posts = getPosts();
+const usedCatIds = new Set(posts.flatMap((p) => p.categories || []));
+const catOptions = getCategories()
+  .filter((c) => usedCatIds.has(c.id))
+  .filter((c) => !/^!/.test(c.name || "") && c.slug !== "bez-rubriki" && c.slug !== "public")
+  .sort((a, b) => stripHtml(a.name).localeCompare(stripHtml(b.name)));
+
+const catSelectInner = [
+  `<option value="-1">Select Category</option>`,
+  ...catOptions.map((c) => {
+    const name = stripHtml(c.name).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const path = (c.path || `/category/${c.slug}/`).replace(/"/g, "");
+    return `<option class="level-0" value="${c.id}" data-path="${path}">${name}</option>`;
+  }),
+].join("\n\t");
+
+html = html.replace(
+  /(<select\s+name=['"]cat['"]\s+id=['"]cat['"]\s+class=['"]postform['"]\s*>)[\s\S]*?(<\/select>)/i,
+  `$1\n\t${catSelectInner}\n$2`,
+);
+
+/** Point Elementor search widget at local search page (live used site root). */
+html = html.replace(
+  /(<form class="elementor-search-form"[^>]*action=")[^"]*(")/i,
+  `$1/search/$2`,
+);
+
+const extraCss = [
+  ...(page.pageCss || []),
+  page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+  "/wp-content/uploads/elementor/css/post-1514.css",
+  "/css/insights-category.css",
+];
+---
+
+<BaseLayout
+  currentPath="/insights/"
+  bodyClass={`page page-id-${page.id} elementor-page-${page.id}`}
+  extraCss={extraCss}
+  fallback={page.seo}
+  seo={{
+    title: page.seo.title || "Insights | Connect UAE",
+    description:
+      page.seo.description ||
+      "Business setup, free zone and company formation insights from Connect UAE.",
+    canonical: "/insights/",
+    ogImage: page.seo.ogImage,
+    schemas: [
+      ...(page.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>

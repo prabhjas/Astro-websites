@@ -236,9 +236,22 @@
 
     document.querySelectorAll('.elementor-widget-lottie').forEach(function (widget) {
       var host = widget.querySelector('.e-lottie__animation');
-      if (!host || host.dataset.astroLottie) return;
+      if (!host) return;
+
+      // Elementor Pro and this shim both init Lottie → stacked duplicate SVGs.
+      function dedupeSvgs() {
+        var svgs = host.querySelectorAll('svg');
+        for (var i = 1; i < svgs.length; i++) svgs[i].remove();
+      }
+
+      if (host.dataset.astroLottie) {
+        dedupeSvgs();
+        return;
+      }
+
       if (host.querySelector('svg')) {
         host.dataset.astroLottie = '1';
+        dedupeSvgs();
         return;
       }
 
@@ -258,6 +271,7 @@
       }
 
       host.dataset.astroLottie = '1';
+      host.innerHTML = '';
       try {
         lottie.loadAnimation({
           container: host,
@@ -269,6 +283,10 @@
       } catch (e) {
         console.warn('[astro-mirror-fixes] lottie', e);
       }
+
+      // If Elementor inits later, collapse extras
+      setTimeout(dedupeSvgs, 800);
+      setTimeout(dedupeSvgs, 2000);
     });
   }
 
@@ -962,6 +980,8 @@
           return payload.length === 2 ? payload.toLowerCase() : '';
         }
       }
+      // ipwho.is rate-limit / error payloads still return HTTP 200
+      if (payload.success === false) return '';
       var code =
         payload.country_code ||
         payload.countryCode ||
@@ -974,28 +994,45 @@
       if (code.length > 2 && payload.country_code) {
         code = String(payload.country_code).trim().toLowerCase();
       }
+      // geojs uses "country" as ISO-2
+      if (code.length > 2 && payload.country && String(payload.country).length === 2) {
+        code = String(payload.country).trim().toLowerCase();
+      }
       return code.length === 2 ? code : '';
     }
 
+    function fetchJsonWithTimeout(url, ms) {
+      var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      var timer = setTimeout(function () {
+        if (ctrl) ctrl.abort();
+      }, ms || 2500);
+      return fetch(url, { credentials: 'omit', signal: ctrl ? ctrl.signal : undefined })
+        .then(function (res) {
+          if (!res.ok) throw new Error(String(res.status));
+          return res.json();
+        })
+        .finally(function () {
+          clearTimeout(timer);
+        });
+    }
+
     function lookupCountryByIp() {
+      // Prefer reliable free endpoints first (ipwho.is often rate-limits)
       var endpoints = [
-        'https://ipwho.is/',
         'https://get.geojs.io/v1/ip/country.json',
+        'https://ipapi.co/json/',
+        'https://ipwho.is/',
         'https://ipinfo.io/json',
       ];
       var i = 0;
-      return new Promise(function (resolve) {
+      var lookup = new Promise(function (resolve) {
         function next() {
           if (i >= endpoints.length) {
             resolve('');
             return;
           }
           var url = endpoints[i++];
-          fetch(url, { credentials: 'omit' })
-            .then(function (res) {
-              if (!res.ok) throw new Error(String(res.status));
-              return res.json();
-            })
+          fetchJsonWithTimeout(url, 2500)
             .then(function (data) {
               var code = parseCountry(data);
               if (code) resolve(code);
@@ -1007,6 +1044,14 @@
         }
         next();
       });
+      return Promise.race([
+        lookup,
+        new Promise(function (resolve) {
+          setTimeout(function () {
+            resolve('');
+          }, 7000);
+        }),
+      ]);
     }
 
     function syncDialCodeHidden($input) {
@@ -1021,6 +1066,7 @@
       if (typeof window.jQuery === 'undefined') return;
       var $ = window.jQuery;
       var country = (code || 'ae').toLowerCase();
+      window.__astroPhoneCountry = country;
       var $phones = $('.wpcf7-phonetext, input.cg-phone-input');
       var $countries = $('.wpcf7-countrytext, input.cg-country-input');
 
@@ -1029,13 +1075,13 @@
       $phones.each(function () {
         var $el = $(this);
         try {
-          if ($el.data('plugin_intlTelInput') || $el.data('intlTelInput')) {
-            $el.intlTelInput('destroy');
+          if ($el.data('plugin_intlTelInput') || $el.data('intlTelInput') || $el.parent().hasClass('intl-tel-input')) {
+            try { $el.intlTelInput('destroy'); } catch (eDestroy) {}
           }
         } catch (e) {}
         $el.intlTelInput({
           autoHideDialCode: true,
-          autoPlaceholder: true,
+          autoPlaceholder: 'aggressive',
           nationalMode: true,
           separateDialCode: true,
           hiddenInput: 'full_number',
@@ -1043,6 +1089,7 @@
           preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
           utilsScript: UTILS_JS,
         });
+        try { $el.intlTelInput('setCountry', country); } catch (eSet) {}
         syncDialCodeHidden($el);
         $el.off('countrychange.astroPhone').on('countrychange.astroPhone', function () {
           syncDialCodeHidden($(this));
@@ -1052,15 +1099,11 @@
       $countries.each(function () {
         var $el = $(this);
         try {
-          if ($el.data('countrySelect') || $el.parent().hasClass('country-select')) {
-            // countrySelect has no reliable destroy; re-init with defaultCountry
-          }
-        } catch (e) {}
-        try {
           $el.countrySelect({
             defaultCountry: country,
             preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
           });
+          try { $el.countrySelect('selectCountry', country); } catch (eSel) {}
         } catch (e2) {}
       });
     }
@@ -1072,18 +1115,34 @@
     var phones = document.querySelectorAll('.wpcf7-phonetext, input.cg-phone-input');
     var countries = document.querySelectorAll('.wpcf7-countrytext, input.cg-country-input');
     if (!phones.length && !countries.length) return;
-    if (window.__astroPhoneCountryApplied || window.__astroPhoneCountryPending) {
+
+    if (!window.__astroGeoCountryPromise) {
+      window.__astroGeoCountryPromise = lookupCountryByIp();
+    }
+
+    if (window.__astroPhoneCountryApplied) {
       injectFlagSpriteCss();
+      window.__astroGeoCountryPromise.then(function (code) {
+        if (code && code !== (window.__astroPhoneCountry || '')) applyCountry(code);
+      });
       return;
     }
+    if (window.__astroPhoneCountryPending) {
+      var startedAt = window.__astroPhoneCountryStartedAt || 0;
+      if (Date.now() - startedAt < 8000) {
+        injectFlagSpriteCss();
+        return;
+      }
+    }
     window.__astroPhoneCountryPending = true;
+    window.__astroPhoneCountryStartedAt = Date.now();
 
-    var chain = Promise.resolve();
     if (typeof window.jQuery === 'undefined') {
       window.__astroPhoneCountryPending = false;
       return;
     }
-    chain = chain
+
+    Promise.resolve()
       .then(function () {
         if (typeof window.jQuery.fn.intlTelInput === 'function') return true;
         return ensureScript(ITI_JS).then(function () {
@@ -1095,19 +1154,18 @@
         return ensureScript(CS_JS).then(function () {
           return waitForPlugin('countrySelect', 4000);
         });
-      });
-
-    chain
+      })
       .then(function () {
-        return lookupCountryByIp();
+        return window.__astroGeoCountryPromise;
       })
       .then(function (code) {
-        applyCountry(code || 'ae');
+        try { applyCountry(code || 'ae'); }
+        catch (eApply) { try { applyCountry('ae'); } catch (e2) {} }
         window.__astroPhoneCountryApplied = true;
         window.__astroPhoneCountryPending = false;
       })
       .catch(function () {
-        applyCountry('ae');
+        try { applyCountry('ae'); } catch (e3) {}
         window.__astroPhoneCountryApplied = true;
         window.__astroPhoneCountryPending = false;
       });
@@ -1122,7 +1180,23 @@
     }
     style.textContent = [
       /* Prevent horizontal scroll from stretched sections on mobile */
-      'html,body{overflow-x:hidden;max-width:100vw;}',
+      'html,body{overflow-x:hidden;max-width:100vw;background:#111!important;background-color:#111!important;}',
+      /* Contact Us only: restore full-bleed page background (not a second site header) */
+      'body.page-id-27093{background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;}',
+      'body.page-id-27093 .elementor-27130.elementor-location-header,body.page-id-27093 .elementor-27130 .header-new{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
+      '@media (max-width:991px){body.page-id-27093 .elementor-27130 .header-new{background:rgba(6,13,29,.4)!important;background-color:rgba(6,13,29,.4)!important;}}',
+      'body.page-id-27093 .elementor-27093 > .elementor-element-3f99223{padding-top:120px!important;}',
+      '.ald_laser_loader,.ald_laser_loader.show,.ald_loader_progress{display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;width:0!important;pointer-events:none!important;background:none!important;box-shadow:none!important;z-index:-1!important;}',
+      /* Header: desktop transparent overlay; mobile glass via mobile-nav.css */
+      '.elementor-27554.elementor-location-header,.elementor-27130.elementor-location-header{position:absolute;top:0;left:0;right:0;width:100%;z-index:100;background-color:transparent!important;background-image:none!important;}',
+      '@media (min-width:992px){.elementor-27554 .elementor-element-cc95ce6.header-new,.elementor-27554 .elementor-element-cc95ce6:not(.elementor-motion-effects-element-type-background),.elementor-27130 .elementor-element-527f83a.header-new,.elementor-27130 .elementor-element-527f83a:not(.elementor-motion-effects-element-type-background){background-color:transparent!important;background-image:none!important;}}',
+      '@media (max-width:991px){.elementor-27554 .elementor-element-cc95ce6.header-new,.elementor-27130 .elementor-element-527f83a.header-new{background:rgba(6,13,29,.4)!important;background-color:rgba(6,13,29,.4)!important;background-image:none!important;height:80px!important;min-height:80px!important;max-height:80px!important;padding:20px 24px!important;border-bottom:0!important;box-sizing:border-box!important;overflow:hidden!important;}.elementor-27554 .header-new .elementor-widget-wrap,.elementor-27130 .header-new .elementor-widget-wrap{padding:0!important;margin:0!important;min-height:0!important;}}',
+      '.elementor-element.elementor-element-3c859d0{margin-top:0!important;padding-top:120px!important;}',
+      '@media (max-width:991px){.elementor-element.elementor-element-3c859d0{padding-top:110px!important;}}',
+      /* EOR hero eyebrow — match freezone label style */
+      '.elementor-31775 .elementor-element-cg-eor-eyebrow,.elementor-31775 .cg-hero-eyebrow{text-align:start!important;margin:0 0 10px!important;}',
+      '.elementor-31775 .elementor-element-cg-eor-eyebrow .elementor-heading-title,.cg-hero-eyebrow-label{font-family:"Plus Jakarta Sans","SF Pro Display",sans-serif!important;font-size:15px!important;font-weight:500!important;text-transform:uppercase!important;line-height:16.8px!important;letter-spacing:-.3px!important;color:#7A87DA!important;margin:0!important;}',
+      '@media (max-width:767px){.elementor-31775 .elementor-element-cg-eor-eyebrow,.elementor-31775 .cg-hero-eyebrow{text-align:center!important;}.elementor-31775 .elementor-element-cg-eor-eyebrow .elementor-heading-title,.cg-hero-eyebrow-label{font-size:12px!important;}}',
       /* FAQ affordance */
       '.elementor-widget-accordion .elementor-tab-title{cursor:pointer;}',
       '.elementor-widget-accordion .elementor-tab-content:not(.elementor-active){display:none;}',
@@ -1184,9 +1258,13 @@
       '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ng,.wpcf7-form .wpcf7-response-output.wpcf7-validation-errors{display:block!important;border-color:#dc3232;background:rgba(220,50,50,.08);}',
       '.wpcf7-form input.astro-field-error,.wpcf7-form textarea.astro-field-error{outline:2px solid #dc3232;outline-offset:1px;}',
       '.wpcf7-form .astro-experience-tip,.wpcf7-form .astro-field-tip,.wpcf7-form .wpcf7-not-valid-tip{display:block;color:#dc3232;font-size:12px;margin-top:8px;line-height:1.3;}',
+      '#pix-page-footer .selected-dial-code,#pix-page-footer .iti__selected-dial-code{color:#fff!important;-webkit-text-fill-color:#fff!important;}',
       '.form-design .wpcf7-response-output,.form-design .wpcf7-response-output.wpcf7-mail-sent-ok,.form-design .wpcf7-response-output.wpcf7-mail-sent-ng,.form-design .wpcf7-response-output.wpcf7-validation-errors{color:#ffffff!important;background:rgba(0,160,210,.22)!important;}',
       '.form-design .wpcf7-response-output.wpcf7-mail-sent-ng,.form-design .wpcf7-response-output.wpcf7-validation-errors{background:rgba(220,50,50,.28)!important;border-color:#ff8a8a!important;}',
       '.form-design .astro-experience-tip,.form-design .astro-field-tip,.form-design .wpcf7-not-valid-tip{color:#ff6b6b;}',
+      /* CF7 hidden fields — browser fieldset border shows without Bootstrap reboot */
+      'fieldset.hidden-fields-container{display:none!important;border:0!important;margin:0!important;padding:0!important;height:0!important;overflow:hidden!important;}',
+      '#pix-page-footer fieldset{border:0;margin:0;padding:0;min-width:0;}',
       /* Footer full bleed */
       '.elementor-location-footer,.elementor-location-footer .elementor-section-stretched{width:100%!important;max-width:none!important;}',
       'body .container:has(> .elementor-location-footer){max-width:none!important;width:100%!important;padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;}',
@@ -1240,6 +1318,8 @@
 
   /** Nested Elementor tabs (mega-menu / other n-tabs widgets) */
   function ensureNestedTabs() {
+    var DESKTOP_BP = 992;
+
     document.querySelectorAll('.e-n-tabs').forEach(function (root) {
       if (root.dataset.astroNestedTabs) return;
       root.dataset.astroNestedTabs = '1';
@@ -1264,9 +1344,32 @@
         });
       }
 
+      function isDesktop() {
+        return window.matchMedia('(min-width: ' + DESKTOP_BP + 'px)').matches;
+      }
+
+      // Desktop: category panels switch on hover (live marketing chrome).
+      // Mobile/touch: keep click.
+      root.addEventListener(
+        'mouseenter',
+        function (e) {
+          if (!isDesktop()) return;
+          var title = e.target.closest('.e-n-tab-title');
+          if (!title || !root.contains(title)) return;
+          activate(title);
+        },
+        true,
+      );
+
       root.addEventListener('click', function (e) {
         var title = e.target.closest('.e-n-tab-title');
         if (!title || !root.contains(title)) return;
+        if (isDesktop()) {
+          // Allow real links inside titles; prevent sticky click-only feel
+          e.preventDefault();
+          activate(title);
+          return;
+        }
         e.preventDefault();
         activate(title);
       });
@@ -1831,8 +1934,206 @@
     });
   }
 
+  function ensureEorHeroEyebrow() {
+    // Match freezone hero label (“UAE FREEZONE COMPANY SETUP”) on EOR page
+    if (!/\/employer-of-record\/?$/.test(location.pathname)) return;
+    if (document.querySelector('.elementor-element-cg-eor-eyebrow, .cg-hero-eyebrow')) return;
+    var h1Wrap =
+      document.querySelector('.elementor-31775 .elementor-element-2ee3236') ||
+      document.querySelector('.elementor-element-3c859d0 h1.elementor-heading-title') &&
+        document.querySelector('.elementor-element-3c859d0 h1.elementor-heading-title').closest('.elementor-element');
+    if (!h1Wrap || !h1Wrap.parentNode) return;
+    var el = document.createElement('div');
+    el.className =
+      'elementor-element elementor-element-cg-eor-eyebrow cg-hero-eyebrow elementor-widget elementor-widget-heading';
+    el.setAttribute('data-id', 'cg-eor-eyebrow');
+    el.innerHTML =
+      '<p class="elementor-heading-title elementor-size-default cg-hero-eyebrow-label">Employer of Record Services in Dubai &amp; UAE</p>';
+    h1Wrap.parentNode.insertBefore(el, h1Wrap);
+  }
+
+  function killAldLaserLoader() {
+    // Ajax Load More “laser” top progress bar (purple→orange/red). Remove fully.
+    document.querySelectorAll('.ald_laser_loader, .ald_loader_progress').forEach(function (el) {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    });
+  }
+
+  function watchAldLaserLoader() {
+    if (window.__astroAldLaserWatch) return;
+    window.__astroAldLaserWatch = true;
+    killAldLaserLoader();
+    if (typeof MutationObserver === 'undefined') return;
+    var obs = new MutationObserver(function () {
+      if (document.querySelector('.ald_laser_loader, .ald_loader_progress')) {
+        killAldLaserLoader();
+      }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  function ensureHeaderChrome() {
+    // Dark page chrome — kills white/gray flash above absolute transparent header.
+    // Contact Us (page-id-27093) keeps Contact-Us-Bg image on body — only solid-fill html.
+    document.documentElement.style.setProperty('background', '#111111', 'important');
+    document.documentElement.style.setProperty('background-color', '#111111', 'important');
+    var isContactUs = document.body.classList.contains('page-id-27093');
+    if (isContactUs) {
+      document.body.style.setProperty(
+        'background-image',
+        'url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")',
+        'important',
+      );
+      document.body.style.setProperty('background-size', 'cover', 'important');
+      document.body.style.setProperty('background-repeat', 'no-repeat', 'important');
+      document.body.style.setProperty('background-position', 'center center', 'important');
+      document.body.style.setProperty('background-color', '#111111', 'important');
+      // Clear shorthand that would wipe the image if set earlier
+      document.body.style.removeProperty('background');
+    } else {
+      document.body.style.setProperty('background', '#111111', 'important');
+      document.body.style.setProperty('background-color', '#111111', 'important');
+    }
+    killAldLaserLoader();
+
+    // Overlay header on hero (Figma) — Elementor/theme CSS often leaves it static.
+    document
+      .querySelectorAll(
+        'header.elementor-location-header, .elementor-27554.elementor-location-header, .elementor-27130.elementor-location-header',
+      )
+      .forEach(function (el) {
+        el.style.setProperty('position', 'absolute', 'important');
+        el.style.setProperty('top', '0', 'important');
+        el.style.setProperty('left', '0', 'important');
+        el.style.setProperty('right', '0', 'important');
+        el.style.setProperty('width', '100%', 'important');
+        el.style.setProperty('z-index', '100', 'important');
+        el.style.setProperty('background', 'transparent', 'important');
+        el.style.setProperty('background-color', 'transparent', 'important');
+      });
+
+    var mobile = window.matchMedia('(max-width: 991px)').matches;
+    document
+      .querySelectorAll(
+        '.elementor-27554 .elementor-element-cc95ce6.header-new, .elementor-27130 .elementor-element-527f83a.header-new',
+      )
+      .forEach(function (el) {
+        if (mobile) {
+          el.style.setProperty('background', 'rgba(6, 13, 29, 0.4)', 'important');
+          el.style.setProperty('background-color', 'rgba(6, 13, 29, 0.4)', 'important');
+          el.style.setProperty('backdrop-filter', 'blur(12px)');
+          el.style.setProperty('-webkit-backdrop-filter', 'blur(12px)');
+          el.style.setProperty('box-sizing', 'border-box', 'important');
+          el.style.setProperty('height', '80px', 'important');
+          el.style.setProperty('min-height', '80px', 'important');
+          el.style.setProperty('max-height', '80px', 'important');
+          el.style.setProperty('padding', '20px 24px', 'important');
+          el.style.setProperty('border-bottom', '0', 'important');
+          el.style.setProperty('overflow', 'hidden', 'important');
+          el.querySelectorAll('.elementor-widget-wrap').forEach(function (wrap) {
+            wrap.style.setProperty('padding', '0', 'important');
+            wrap.style.setProperty('margin', '0', 'important');
+            wrap.style.setProperty('min-height', '0', 'important');
+          });
+        } else {
+          el.style.setProperty('background', 'transparent', 'important');
+          el.style.setProperty('background-color', 'transparent', 'important');
+          el.style.removeProperty('backdrop-filter');
+          el.style.removeProperty('-webkit-backdrop-filter');
+          el.style.removeProperty('height');
+          el.style.removeProperty('max-height');
+        }
+      });
+
+    // Keep hero copy clear of the absolute header (Figma spacing).
+    document.querySelectorAll('.elementor-26466 > .elementor-element-127944e').forEach(function (el) {
+      el.style.setProperty('padding-top', mobile ? '110px' : '100px', 'important');
+    });
+
+    // Brand/service heroes (3c859d0): cancel legacy -84px pull under absolute header
+    document.querySelectorAll('.elementor-element-3c859d0').forEach(function (el) {
+      el.style.setProperty('margin-top', '0', 'important');
+      var minPad = mobile ? 110 : 120;
+      var pt = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
+      if (pt < minPad) {
+        el.style.setProperty('padding-top', minPad + 'px', 'important');
+      } else {
+        el.style.setProperty('padding-top', Math.max(pt, minPad) + 'px', 'important');
+      }
+    });
+
+    // Shared-chrome inner pages: first content section often already has negative margin; ensure breathing room
+    document.querySelectorAll('.elementor-location-header ~ .elementor[data-elementor-type="wp-page"], .elementor-location-header ~ .elementor[data-elementor-type="page"]').forEach(function (el) {
+      if (el.classList.contains('elementor-26466')) return;
+      var first = el.querySelector(':scope > .elementor-section, :scope > .elementor-top-section, :scope > .e-con');
+      if (!first || first.classList.contains('elementor-element-3c859d0')) return;
+      var mgt = parseFloat(window.getComputedStyle(first).marginTop) || 0;
+      if (mgt < 0) first.style.setProperty('margin-top', '0', 'important');
+      var pt = parseFloat(window.getComputedStyle(first).paddingTop) || 0;
+      var minPad = mobile ? 110 : 120;
+      if (pt < minPad) first.style.setProperty('padding-top', minPad + 'px', 'important');
+    });
+
+    // Let’s Talk on all breakpoints — Elementor responsive may re-add hidden-* classes.
+    document
+      .querySelectorAll(
+        '.elementor-location-header .elementor-element-6e85cb3, .elementor-location-header .elementor-element-1f0a7d0',
+      )
+      .forEach(function (el) {
+        el.classList.remove(
+          'elementor-hidden-desktop',
+          'elementor-hidden-tablet',
+          'elementor-hidden-mobile',
+          'elementor-hidden-phone',
+        );
+        el.style.setProperty('display', 'block', 'important');
+        el.style.setProperty('visibility', 'visible', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+      });
+
+    // Figma CTA placement (DOM + flex order):
+    // Desktop (≥992): logo | nav | Let’s Talk
+    // Tablet/Mobile (≤991): logo | Let’s Talk | hamburger
+    document
+      .querySelectorAll(
+        '.elementor-27554 .elementor-element-27baa37 > .elementor-widget-wrap, .elementor-27130 .elementor-element-7b95034 > .elementor-widget-wrap',
+      )
+      .forEach(function (wrap) {
+        wrap.style.setProperty('display', 'flex', 'important');
+        wrap.style.setProperty('flex-direction', 'row', 'important');
+        wrap.style.setProperty('flex-wrap', 'nowrap', 'important');
+        wrap.style.setProperty('align-items', 'center', 'important');
+        wrap.style.setProperty('justify-content', 'flex-end', 'important');
+        // Figma: gap-5 (20) on tablet/mobile; slightly tighter on desktop nav|CTA
+        wrap.style.setProperty('gap', mobile ? '20px' : '12px', 'important');
+
+        var cta =
+          wrap.querySelector('.elementor-element-6e85cb3') ||
+          wrap.querySelector('.elementor-element-1f0a7d0') ||
+          wrap.querySelector('.cg-header-cta-wrap');
+        var menu =
+          wrap.querySelector('#mega-nav1') ||
+          wrap.querySelector('.elementor-element-0a81870') ||
+          wrap.querySelector('.elementor-element-1e14a49');
+        if (!cta || !menu) return;
+
+        if (mobile) {
+          cta.style.setProperty('order', '1', 'important');
+          menu.style.setProperty('order', '2', 'important');
+          if (cta.nextElementSibling !== menu) wrap.insertBefore(cta, menu);
+        } else {
+          menu.style.setProperty('order', '1', 'important');
+          cta.style.setProperty('order', '2', 'important');
+          if (menu.nextElementSibling !== cta) wrap.insertBefore(cta, menu.nextSibling);
+        }
+      });
+  }
+
   function boot() {
     safe(injectMirrorCss);
+    safe(watchAldLaserLoader);
+    safe(ensureHeaderChrome);
+    safe(ensureEorHeroEyebrow);
     safe(wireLegacyContactForms);
     safe(unwrapRocketLazyScripts);
     safe(prepareTestimonialCarousels);
@@ -1860,6 +2161,8 @@
     setTimeout(function () {
       safe(unwrapRocketLazyScripts);
       safe(nudgeElementor);
+      safe(ensureHeaderChrome);
+      safe(ensureEorHeroEyebrow);
       safe(ensureLazyImages);
       safe(animateCounters);
       safe(ensureBackgroundVideos);
@@ -1868,10 +2171,10 @@
       safe(ensureNestedCarousels);
       safe(ensureImageCarousels);
       safe(ensureClassicAccordion);
-    safe(ensureBootstrapCollapseAccordions);
-    safe(ensureNestedAccordion);
-    safe(decodeCloudflareEmails);
-    safe(ensureShareButtons);
+      safe(ensureBootstrapCollapseAccordions);
+      safe(ensureNestedAccordion);
+      safe(decodeCloudflareEmails);
+      safe(ensureShareButtons);
       safe(ensurePixfortAnimations);
       safe(ensureClassicTabs);
       safe(ensureNestedTabs);
@@ -1881,6 +2184,8 @@
     }, 1200);
     // Swiper / Elementor modules often finish later than DOMContentLoaded
     setTimeout(function () {
+      safe(ensureHeaderChrome);
+      safe(ensureEorHeroEyebrow);
       safe(ensureNestedCarousels);
       safe(ensureImageCarousels);
       safe(ensureTestimonialSwiper);
@@ -1895,6 +2200,18 @@
       safe(ensureScrollsequence);
       safe(ensurePhoneCountryFields);
     }, 2500);
+
+    if (!window.__astroHeaderChromeResize) {
+      window.__astroHeaderChromeResize = true;
+      window.addEventListener(
+        'resize',
+        function () {
+          safe(ensureHeaderChrome);
+          safe(ensureEorHeroEyebrow);
+        },
+        { passive: true },
+      );
+    }
   }
 
   function ensureMobileNav() {

@@ -1,0 +1,9 @@
+# EOR Middle East — eormiddleast.com
+# Full site details for AI crawlers: https://eormiddleast.com/llms.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /search/
+
+Sitemap: https://eormiddleast.com/sitemap_index.xml
