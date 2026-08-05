@@ -62,6 +62,11 @@ const postCrumbs = post
     ]
   : [];
 
+/** Page-specific robots overrides (meta only; keep sitemap in sync via seo.robots). */
+const PAGE_ROBOTS: Record<string, { noindex?: boolean; nofollow?: boolean }> = {
+  "/business-setup-dubai/": { noindex: true, nofollow: true },
+};
+
 const seo = page
   ? {
       title: page.seo.title,
@@ -72,6 +77,7 @@ const seo = page
         ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
       ],
+      ...(PAGE_ROBOTS[path] || {}),
     }
   : {
       title: post!.seo.title || stripHtml(post!.title),
