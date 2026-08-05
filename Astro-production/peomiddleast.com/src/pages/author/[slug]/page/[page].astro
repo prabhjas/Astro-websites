@@ -1,0 +1,18 @@
+---
+/**
+ * Author archive pagination — /author/{slug}/page/{n}/
+ */
+import { getAuthorPageData, serveAuthorArchive } from '../../../../lib/authors.ts';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const page = parseInt(Astro.params.page!, 10);
+const data = getAuthorPageData(slug, page);
+
+if (!data || page < 2 || Number.isNaN(page)) {
+  return new Response('Not found', { status: 404 });
+}
+
+return serveAuthorArchive(data);
+---
