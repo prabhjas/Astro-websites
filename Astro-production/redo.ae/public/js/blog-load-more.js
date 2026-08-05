@@ -96,7 +96,7 @@
             nextPage = data.nextPage;
             nav.setAttribute('data-next-page', String(nextPage));
             if (btn.tagName === 'A') {
-              btn.setAttribute('href', '/blog/?page=' + nextPage);
+              btn.setAttribute('href', '/insights/?page=' + nextPage);
             }
             setLabel(defaultLabel);
           } else {

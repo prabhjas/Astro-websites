@@ -57,6 +57,13 @@ export type ContactFormInput = {
   consent?: string | boolean;
   honeypot?: string;
   submittedAt?: string;
+  /** Local disk paths for files to attach in Pipedrive after lead create. */
+  attachments?: Array<{
+    storedPath: string;
+    originalName: string;
+    mimeType: string;
+    size: number;
+  }>;
 };
 
 export type NormalisedContactForm = {
@@ -115,6 +122,12 @@ export type NormalisedContactForm = {
   submissionId: string;
   consent: boolean;
   submittedAt: string;
+  attachments?: Array<{
+    storedPath: string;
+    originalName: string;
+    mimeType: string;
+    size: number;
+  }>;
 };
 
 export type ValidationResult =
@@ -228,6 +241,23 @@ export function normaliseFormData(input: ContactFormInput): NormalisedContactFor
     submissionId: sanitiseString(input.submissionId, 200),
     consent: input.consent === true || input.consent === 'true' || input.consent === '1' || input.consent === 'on',
     submittedAt: sanitiseString(input.submittedAt, 50) || new Date().toISOString(),
+    attachments: Array.isArray(input.attachments)
+      ? input.attachments
+          .filter(
+            (a) =>
+              a &&
+              typeof a.storedPath === 'string' &&
+              typeof a.originalName === 'string' &&
+              a.storedPath &&
+              a.originalName,
+          )
+          .map((a) => ({
+            storedPath: String(a.storedPath),
+            originalName: String(a.originalName).slice(0, 255),
+            mimeType: String(a.mimeType || 'application/octet-stream').slice(0, 120),
+            size: Number(a.size) || 0,
+          }))
+      : undefined,
   };
 }
 
@@ -268,12 +298,14 @@ export function validateContactForm(input: ContactFormInput): ValidationResult {
     errors.phone = 'Phone number is required.';
   }
 
-  if (!isMeaningfulValue(data.message)) {
-    errors.message = 'Message is required.';
-  } else if (containsLink(data.message) || containsHtml(data.message)) {
-    errors.message = rejectLinksMsg;
-  } else if (looksLikeSpamText(data.message)) {
-    errors.message = 'Please enter a valid message without links or spam content.';
+  // Message is optional on Redo forms (UI: "Message (Optional)").
+  // Still reject links/spam when a value is provided.
+  if (isMeaningfulValue(data.message)) {
+    if (containsLink(data.message) || containsHtml(data.message)) {
+      errors.message = rejectLinksMsg;
+    } else if (looksLikeSpamText(data.message)) {
+      errors.message = 'Please enter a valid message without links or spam content.';
+    }
   }
 
   // Company is required when the form includes a company field (contact/service forms).

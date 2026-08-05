@@ -159,7 +159,7 @@ for (const p of [
   if (![401, 403].includes(no.status)) report.fails.push(`INTERNAL_DENY ${no.status}`);
 }
 
-for (const p of ['/', '/contact-us/', '/blog/', '/golden-visa/', '/about-us/']) {
+for (const p of ['/', '/contact-us/', '/insights/', '/golden-visa/', '/about-us/']) {
   const g = await get(p);
   const checks = {
     path: p,
