@@ -1,0 +1,40 @@
+---
+import AuthorArchive from "../../../../components/AuthorArchive.astro";
+import { authors, getPostsByAuthor, paginate } from "../../../../lib/content";
+import type { AuthorEntry } from "../../../../lib/content-types";
+
+export function getStaticPaths() {
+  const perPage = 6;
+  const bySlug = new Map<string, AuthorEntry>();
+  for (const author of authors) bySlug.set(author.slug, author);
+  if (!bySlug.has("adm_connecthr") && authors[0]) {
+    bySlug.set("adm_connecthr", {
+      ...authors[0],
+      slug: "adm_connecthr",
+      path: "/author/adm_connecthr/",
+    });
+  }
+
+  const paths: {
+    params: { slug: string; page: string };
+    props: { author: AuthorEntry; pageNum: number };
+  }[] = [];
+
+  for (const author of bySlug.values()) {
+    const sorted = getPostsByAuthor(author.id);
+    const { totalPages } = paginate(sorted, 1, perPage);
+    for (let pageNum = 2; pageNum <= totalPages; pageNum++) {
+      paths.push({
+        params: { slug: author.slug, page: String(pageNum) },
+        props: { author, pageNum },
+      });
+    }
+  }
+  return paths;
+}
+
+const { author, pageNum } = Astro.props as { author: AuthorEntry; pageNum: number };
+const posts = getPostsByAuthor(author.id);
+---
+
+<AuthorArchive author={author} posts={posts} pageNum={pageNum} perPage={6} />
