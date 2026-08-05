@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { handleBlogLoadMoreGet } from '@/lib/blog-load-more-api';
 
 export const prerender = false;
 
@@ -76,7 +77,11 @@ async function lookupExternal(ip: string): Promise<string> {
 }
 
 /** Fleet-standard geo endpoint (Evolution shape). */
-export const GET: APIRoute = async ({ request, clientAddress }) => {
+export const GET: APIRoute = async ({ request, url, clientAddress }) => {
+  if (url.searchParams.get('loadMore') === '1') {
+    return handleBlogLoadMoreGet(url);
+  }
+
   const fromHeader = countryFromHeaders(request);
   if (fromHeader) {
     return Response.json(
