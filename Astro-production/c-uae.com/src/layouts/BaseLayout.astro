@@ -63,31 +63,41 @@ const globalCss = [
   "/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css",
   "/wp-content/plugins/elementor-pro/assets/css/widget-search-form.min.css",
   "/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css",
-  "/wp-content/themes/hello-elementor/style.css",
+  // Hello Elementor ships theme metadata in style.css; real resets/tables live in style.min.css
+  "/wp-content/themes/hello-elementor/style.min.css",
   "/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
 ];
+
+function normalizeStylesheetHref(href: string) {
+  if (href === "/wp-content/themes/hello-elementor/style.css") {
+    return "/wp-content/themes/hello-elementor/style.min.css";
+  }
+  return href;
+}
 
 /** Exact stylesheet order from live homepage (?nowprocket=1), minus page-specific CSS handled via extraCss */
 const baseCss = [
   ...globalCss,
   ...(liveCssOrder as string[]).filter(
     (href) =>
-      !globalCss.includes(href) &&
+      !globalCss.includes(normalizeStylesheetHref(href)) &&
       !FOREIGN_KIT_BLOCKLIST.has(href) &&
       !href.includes("/elementor/css/post-8.css") &&
       !href.includes("/elementor/css/post-19.css"),
   ),
-];
+].map(normalizeStylesheetHref);
 
 const stylesheets = [
-  ...new Set([
-    ...baseCss,
-    ...extraCss,
-    "/css/wp-custom.css",
-    "/css/elementor-bg-fallback.css",
-    "/css/simplePagination.min.css",
-    "/css/migration-overrides.css",
-  ]),
+  ...new Set(
+    [
+      ...baseCss,
+      ...extraCss,
+      "/css/wp-custom.css",
+      "/css/elementor-bg-fallback.css",
+      "/css/simplePagination.min.css",
+      "/css/migration-overrides.css",
+    ].map(normalizeStylesheetHref),
+  ),
 ].filter((href) => !FOREIGN_KIT_BLOCKLIST.has(href));
 /** FLOW/file or env GTM — SSR into HTML so it appears in View Source */
 let gtmHead = "";

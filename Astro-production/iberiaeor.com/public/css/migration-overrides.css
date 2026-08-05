@@ -172,7 +172,7 @@ div.wpa {
   }
 }
 
-/* Single-post sticky CF7 sidebar */
+/* Single-post: sticky the form block only (not the whole sidebar column) */
 .elementor-location-single .elementor-sticky,
 .elementor-234 .elementor-sticky,
 .elementor-location-single .ct-form.elementor-sticky,
@@ -181,37 +181,135 @@ div.wpa {
   z-index: 20;
 }
 
-/* Rank Math breadcrumbs — pale Home link + white current (blue hero pages) */
+@media (min-width: 1025px) {
+  /* Allow sticky inside the row without changing column layout */
+  .single-post .elementor-element-85a004a > .elementor-container,
+  .single .elementor-element-85a004a > .elementor-container,
+  .elementor-234 .elementor-element-85a004a > .elementor-container {
+    overflow: visible !important;
+  }
+
+  /* Stick only the form section (image + heading + CF7), keep column design intact */
+  .single-post .elementor-element-5e2cc20,
+  .single .elementor-element-5e2cc20,
+  .elementor-234 .elementor-element-5e2cc20 {
+    position: sticky !important;
+    top: var(--iberia-sticky-top, 16px) !important;
+    z-index: 5;
+    inset-inline-start: auto !important;
+    bottom: auto !important;
+  }
+
+  .single-post .elementor-element-5e2cc20 .elementor-sticky__spacer,
+  .single .elementor-element-5e2cc20 .elementor-sticky__spacer,
+  .elementor-234 .elementor-element-5e2cc20 .elementor-sticky__spacer {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .single-post .elementor-element-5e2cc20,
+  .single .elementor-element-5e2cc20,
+  .elementor-234 .elementor-element-5e2cc20 {
+    position: static !important;
+  }
+}
+
+/*
+  Rank Math breadcrumbs
+  Default = light service heroes (gradient #CDEFFF → #A2DBEB): blue Home + dark current
+  (matches live hire-a-contractor / employment-visa style screenshot).
+*/
 nav.rank-math-breadcrumb {
   font-family: Manrope, Lato, sans-serif;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
   margin: 0 0 0.75rem;
-  color: rgba(255, 255, 255, 0.78);
+  color: #1e1e1e;
 }
 nav.rank-math-breadcrumb p {
   margin: 0;
 }
 nav.rank-math-breadcrumb a {
-  color: rgba(255, 255, 255, 0.78) !important;
+  color: #0246ff !important;
   text-decoration: none !important;
 }
 nav.rank-math-breadcrumb a:hover {
-  color: #fff !important;
+  color: #0433b5 !important;
   text-decoration: underline !important;
 }
 nav.rank-math-breadcrumb .separator {
-  color: rgba(255, 255, 255, 0.78) !important;
+  color: #1e1e1e !important;
 }
 nav.rank-math-breadcrumb .last {
-  color: #fff !important;
+  color: #1e1e1e !important;
+}
+
+/*
+  Dark solid blue heroes (Elementor #0246FF) — pale Home + white current.
+  HR Services Spain = elementor-183 (Elementor CSS: a #A9E2FA / text #FFFFFF).
+*/
+body.elementor-page-183 nav.rank-math-breadcrumb,
+.elementor-183 nav.rank-math-breadcrumb,
+body.elementor-page-4614 nav.rank-math-breadcrumb,
+.elementor-4614 nav.rank-math-breadcrumb {
+  color: rgba(255, 255, 255, 0.9);
+}
+body.elementor-page-183 nav.rank-math-breadcrumb a,
+.elementor-183 nav.rank-math-breadcrumb a,
+body.elementor-page-4614 nav.rank-math-breadcrumb a,
+.elementor-4614 nav.rank-math-breadcrumb a {
+  color: #a9e2fa !important;
+}
+body.elementor-page-183 nav.rank-math-breadcrumb a:hover,
+.elementor-183 nav.rank-math-breadcrumb a:hover,
+body.elementor-page-4614 nav.rank-math-breadcrumb a:hover,
+.elementor-4614 nav.rank-math-breadcrumb a:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+body.elementor-page-183 nav.rank-math-breadcrumb .separator,
+.elementor-183 nav.rank-math-breadcrumb .separator,
+body.elementor-page-183 nav.rank-math-breadcrumb .last,
+.elementor-183 nav.rank-math-breadcrumb .last,
+body.elementor-page-4614 nav.rank-math-breadcrumb .separator,
+.elementor-4614 nav.rank-math-breadcrumb .separator,
+body.elementor-page-4614 nav.rank-math-breadcrumb .last,
+.elementor-4614 nav.rank-math-breadcrumb .last {
+  color: #ffffff !important;
 }
 
 /* Contact Us: no breadcrumb */
 body.elementor-page-241 nav.rank-math-breadcrumb,
 .elementor-241 nav.rank-math-breadcrumb,
 .elementor-241 .elementor-widget-breadcrumbs {
+  display: none !important;
+}
+
+/* About Us + Insights archive: no breadcrumb */
+body.elementor-page-96 nav.rank-math-breadcrumb,
+.elementor-96 nav.rank-math-breadcrumb,
+.elementor-96 .elementor-widget-breadcrumbs,
+body.page-id-96 nav.rank-math-breadcrumb,
+body.elementor-page-223 nav.rank-math-breadcrumb,
+.elementor-223 nav.rank-math-breadcrumb,
+.elementor-223 .elementor-widget-breadcrumbs,
+body.page-id-223 nav.rank-math-breadcrumb {
+  display: none !important;
+}
+
+/* Single blog posts: no breadcrumb */
+body.single-post .sp-post-breadcrumb,
+body.single .sp-post-breadcrumb,
+body.single-post nav.rank-math-breadcrumb,
+body.single nav.rank-math-breadcrumb,
+body.single-post .elementor-widget-breadcrumbs,
+body.single .elementor-widget-breadcrumbs,
+body.single-post nav.sp-breadcrumbs,
+body.single nav.sp-breadcrumbs,
+.elementor-234 .sp-post-breadcrumb,
+.elementor-234 nav.rank-math-breadcrumb {
   display: none !important;
 }
 
@@ -657,5 +755,14 @@ div.wpcf7-response-output.sp-status-visible,
 
 .elementor-1706 .elementor-element-857c984 .fa-paper-plane::before {
   content: "\f1d8";
+}
+
+/* Insights / related posts: kill dark .col-hov hover on blog cards */
+.elementor-post .col-hov:hover,
+.ecs-post-loop .col-hov:hover,
+.elementor-540 .col-hov:hover,
+.col-hov:hover {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 

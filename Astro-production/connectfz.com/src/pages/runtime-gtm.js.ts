@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { resolveInternalAdminDir } from "../env/server";
-import { readGlobalGtmConfig, sanitiseGtmSnippet } from "../lib/gtm/store";
+import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 
 export const prerender = false;
 
@@ -13,10 +13,10 @@ export const GET: APIRoute = async () => {
   let bodyHtml = "";
   let footerScript = "";
   try {
-    const config = await readGlobalGtmConfig(resolveInternalAdminDir());
-    headScript = sanitiseGtmSnippet(config?.headScript || "");
-    bodyHtml = sanitiseGtmSnippet(config?.bodyHtml || "");
-    footerScript = sanitiseGtmSnippet(config?.footerScript || "");
+    const config = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
+    headScript = config.headScript;
+    bodyHtml = config.bodyHtml;
+    footerScript = config.footerScript;
   } catch {
     /* public loader must stay resilient */
   }

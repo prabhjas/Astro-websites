@@ -57,12 +57,25 @@ const postCrumbs = post
     ]
   : [];
 
+function robotsFromSeo(robots?: { index?: string; follow?: string } | string | null) {
+  if (!robots) return undefined;
+  const raw =
+    typeof robots === "string"
+      ? robots.trim()
+      : [robots.index, robots.follow].filter(Boolean).join(", ");
+  if (!raw) return undefined;
+  // Only override default SEO robots when Rank Math set a restrictive directive
+  if (/\bnoindex\b/i.test(raw) || /\bnofollow\b/i.test(raw)) return raw;
+  return undefined;
+}
+
 const seo = page
   ? {
       title: page.seo.title,
       description: page.seo.description,
       canonical: path,
       ogImage: page.seo.ogImage,
+      robots: robotsFromSeo(page.seo.robots),
       schemas: [
         ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -74,6 +87,7 @@ const seo = page
       canonical: path,
       ogImage: post!.seo.ogImage || post!.featuredImage,
       ogType: "article" as const,
+      robots: robotsFromSeo(post!.seo.robots),
       publishedTime: post!.date,
       modifiedTime: post!.modified,
       authorName: post!.authorName,

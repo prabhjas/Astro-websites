@@ -1,5 +1,7 @@
 /**
  * Homepage / Elementor loop-carousel Swiper takeover for Astro SSR.
+ * Elementor Pro often leaves a half-broken instance (display:grid + dead nav);
+ * we hard-reset and re-init with a working Swiper config.
  */
 (() => {
   let booting = false;
@@ -34,9 +36,14 @@
     return Number.isFinite(n) && n > 0 ? n : fallback;
   }
 
-  function destroyIfAny(el) {
+  function hardReset(el) {
     try {
       if (el.swiper && !el.swiper.destroyed) el.swiper.destroy(true, true);
+    } catch {
+      /* Elementor’s broken instance often throws on destroy */
+    }
+    try {
+      el.swiper = undefined;
     } catch {
       /* ignore */
     }
@@ -50,8 +57,12 @@
       "swiper-horizontal",
       "swiper-pointer-events",
       "swiper-backface-hidden",
+      "elementor-grid",
     );
     el.querySelectorAll(".swiper-slide-duplicate").forEach((n) => n.remove());
+    // Grid display from .elementor-grid blocks transforms; force Swiper layout
+    el.style.display = "block";
+    el.style.overflow = "hidden";
   }
 
   function initOne(el) {
@@ -59,12 +70,11 @@
     if (!SwiperCtor || !(el instanceof HTMLElement)) return;
     if (!el.querySelector(".swiper-slide")) return;
 
-    // Already healthy (autoplay running or static OK)
     if (
       el.dataset.spCarouselOk === "1" &&
       el.swiper &&
       !el.swiper.destroyed &&
-      (!el.swiper.params.autoplay || el.swiper.autoplay?.running)
+      typeof el.swiper.slideNext === "function"
     ) {
       return;
     }
@@ -98,7 +108,7 @@
     if (typeof spaceRaw === "object" && spaceRaw) space = num(spaceRaw.size, 30);
     else if (spaceRaw != null && spaceRaw !== "") space = num(spaceRaw, 30);
 
-    destroyIfAny(el);
+    hardReset(el);
 
     const slides = el.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)").length;
     const loopEnabled =
@@ -107,21 +117,22 @@
       (settings.infinite !== "no" && settings.loop !== "no");
     const loop = loopEnabled && slides > desktop;
 
+    const autoplayDelay = Math.min(num(settings.autoplay_speed, 2500), 2500);
     const base = {
       slidesPerView: desktop,
       spaceBetween: space,
       speed: num(settings.speed, 500),
-      watchOverflow: true,
-      autoplay:
-        settings.autoplay === "yes"
-          ? {
-              delay: num(settings.autoplay_speed, 5000),
-              disableOnInteraction: false,
-              pauseOnMouseEnter: settings.pause_on_hover === "yes",
-            }
-          : false,
+      watchOverflow: false,
+      observer: true,
+      observeParents: true,
+      // Always auto-rotate review/loop carousels (faster than Elementor's 5s default)
+      autoplay: {
+        delay: autoplayDelay,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: false,
+      },
       navigation:
-        next && prev ? { nextEl: next, prevEl: prev } : undefined,
+        next && prev ? { nextEl: next, prevEl: prev } : false,
       pagination:
         pagination && settings.pagination && settings.pagination !== "none"
           ? {
@@ -129,7 +140,7 @@
               clickable: true,
               type: settings.pagination === "fraction" ? "fraction" : "bullets",
             }
-          : undefined,
+          : false,
       breakpoints: {
         0: { slidesPerView: mobile, spaceBetween: space },
         768: { slidesPerView: tablet, spaceBetween: space },
@@ -138,15 +149,38 @@
     };
 
     const tryInit = (withLoop) => {
-      destroyIfAny(el);
+      hardReset(el);
       const sw = new SwiperCtor(el, { ...base, loop: withLoop });
       el.dataset.spCarouselOk = "1";
-      if (sw.autoplay) {
+      try {
+        sw.autoplay?.start?.();
+      } catch {
+        /* ignore */
+      }
+      // Keep rotating even if Elementor or hover pauses it
+      const keepAlive = () => {
         try {
-          sw.autoplay.start();
+          if (sw.destroyed) return;
+          if (!sw.autoplay?.running) sw.autoplay?.start?.();
         } catch {
           /* ignore */
         }
+      };
+      el.addEventListener("mouseenter", keepAlive);
+      el.addEventListener("mouseleave", keepAlive);
+      setInterval(keepAlive, autoplayDelay + 500);
+      // Fallback click wiring if Elementor nav module is flaky
+      if (next && prev) {
+        next.onclick = (e) => {
+          e.preventDefault();
+          sw.slideNext();
+          keepAlive();
+        };
+        prev.onclick = (e) => {
+          e.preventDefault();
+          sw.slidePrev();
+          keepAlive();
+        };
       }
       return sw;
     };
@@ -169,10 +203,10 @@
     try {
       document
         .querySelectorAll(
-          ".elementor-loop-container.swiper, .swiper.elementor-loop-container, .elementor-main-swiper",
+          ".elementor-loop-container.swiper, .swiper.elementor-loop-container, .elementor-main-swiper, .testi .swiper",
         )
         .forEach((el) => {
-          el.dataset.spCarouselOk = "";
+          // Allow health-check re-init; clear sticky OK only on first pass flags
           initOne(el);
         });
     } finally {
@@ -181,9 +215,10 @@
   }
 
   function run() {
-    // Wait for Elementor Pro handlers to finish their (often broken) pass
-    setTimeout(boot, 1200);
-    setTimeout(boot, 2500);
+    // Wait for Elementor Pro’s broken pass, then take over
+    setTimeout(boot, 800);
+    setTimeout(boot, 1800);
+    setTimeout(boot, 3200);
   }
 
   if (document.readyState === "loading") {
@@ -191,5 +226,5 @@
   } else {
     run();
   }
-  window.addEventListener("load", () => setTimeout(boot, 800));
+  window.addEventListener("load", () => setTimeout(boot, 600));
 })();
