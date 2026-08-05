@@ -3,49 +3,357 @@
   "pidDir": "local/pids",
   "logDir": "local/logs",
   "sites": [
-    { "id": "evolutionmiddleast", "domain": "evolutionmiddleast.com", "dir": "evolutionmiddleast.com", "port": 5080, "unit": "evolutionmiddleast", "status": "scaffolded" },
-    { "id": "cbss", "domain": "cbss.ae", "dir": "cbss.ae", "port": 5081, "unit": "cbss", "status": "scaffolded" },
-    { "id": "spheavyrental", "domain": "spheavyrental.ae", "dir": "spheavyrental.ae", "port": 5082, "unit": "spheavyrental", "status": "scaffolded" },
-    { "id": "iberiaworkforce", "domain": "iberiaworkforce.com", "dir": "iberiaworkforce.com", "port": 5083, "unit": "iberiaworkforce", "status": "scaffolded" },
-    { "id": "connecthr", "domain": "connecthr.ae", "dir": "connecthr.ae", "port": 5084, "unit": "connecthr", "status": "scaffolded" },
-    { "id": "connectgroup", "domain": "connectgroup.co", "dir": "connectgroup.co", "port": 5085, "unit": "connectgroup", "status": "scaffolded" },
-    { "id": "connectresources", "domain": "connectresources.ae", "dir": "connectresources.ae", "port": 5086, "unit": "connectresources", "status": "scaffolded" },
-    { "id": "connectfm", "domain": "connectfm.ae", "dir": "connectfm.ae", "port": 5087, "unit": "connectfm", "status": "scaffolded" },
-    { "id": "connectresources-sa", "domain": "connectresources.sa", "dir": "connectresources.sa", "port": 5088, "unit": "connectresources-sa", "status": "scaffolded" },
-    { "id": "iberiaeor", "domain": "iberiaeor.com", "dir": "iberiaeor.com", "port": 5089, "unit": "iberiaeor", "status": "scaffolded" },
-    { "id": "eormiddleast", "domain": "eormiddleast.com", "dir": "eormiddleast.com", "port": 5090, "unit": "eormiddleast", "status": "scaffolded" },
-    { "id": "connectstaff", "domain": "connectstaff.ae", "dir": "connectstaff.ae", "port": 5091, "unit": "connectstaff", "status": "scaffolded" },
-    { "id": "cuae", "domain": "c-uae.com", "dir": "c-uae.com", "port": 5092, "unit": "cuae", "status": "scaffolded" },
-    { "id": "kinzahr", "domain": "kinzahr.com", "dir": "kinzahr.com", "port": 5093, "unit": "kinzahr", "status": "scaffolded" },
-    { "id": "connectfreelance", "domain": "connectfreelance.ae", "dir": "connectfreelance.ae", "port": 5094, "unit": "connectfreelance", "status": "placeholder" },
-    { "id": "redo", "domain": "redo.ae", "dir": "redo.ae", "port": 5095, "unit": "redo", "status": "scaffolded" },
-    { "id": "connectfz", "domain": "connectfz.com", "dir": "connectfz.com", "port": 5096, "unit": "connectfz", "status": "scaffolded" },
-    { "id": "royalvisa", "domain": "royalvisa.ae", "dir": "royalvisa.ae", "port": 5097, "unit": "royalvisa", "status": "scaffolded" },
-    { "id": "kpmpro", "domain": "kpmpro.ae", "dir": "kpmpro.ae", "port": 5098, "unit": "kpmpro", "status": "placeholder" },
-    { "id": "mbs-consultancy", "domain": "mbs-consultancy.com", "dir": "mbs-consultancy.com", "port": 5099, "unit": "mbs-consultancy", "status": "placeholder" },
-    { "id": "thefreelancergate", "domain": "thefreelancergate.com", "dir": "thefreelancergate.com", "port": 5100, "unit": "thefreelancergate", "status": "placeholder" },
-    { "id": "connectzone", "domain": "connectzone.ae", "dir": "connectzone.ae", "port": 5101, "unit": "connectzone", "status": "placeholder" },
-    { "id": "ngmanpower", "domain": "ngmanpower.com", "dir": "ngmanpower.com", "port": 5102, "unit": "ngmanpower", "status": "placeholder" },
-    { "id": "emiratiguard", "domain": "emiratiguard.com", "dir": "emiratiguard.com", "port": 5103, "unit": "emiratiguard", "status": "placeholder" },
-    { "id": "movey", "domain": "movey.ae", "dir": "movey.ae", "port": 5104, "unit": "movey", "status": "placeholder" },
-    { "id": "emiratisationgate", "domain": "emiratisationgate.org", "dir": "emiratisationgate.org", "port": 5105, "unit": "emiratisationgate", "status": "placeholder" },
-    { "id": "emiratisationgateway", "domain": "emiratisationgateway.com", "dir": "emiratisationgateway.com", "port": 5106, "unit": "emiratisationgateway", "status": "placeholder" },
-    { "id": "emiratisationhub", "domain": "emiratisationhub.com", "dir": "emiratisationhub.com", "port": 5107, "unit": "emiratisationhub", "status": "placeholder" },
-    { "id": "emiratisationnafis", "domain": "emiratisationnafis.org", "dir": "emiratisationnafis.org", "port": 5108, "unit": "emiratisationnafis", "status": "placeholder" },
-    { "id": "freelancerdxb", "domain": "freelancerdxb.com", "dir": "freelancerdxb.com", "port": 5109, "unit": "freelancerdxb", "status": "placeholder" },
-    { "id": "payrollmiddleeast", "domain": "payrollmiddleeast.org", "dir": "payrollmiddleeast.org", "port": 5110, "unit": "payrollmiddleeast", "status": "placeholder" },
-    { "id": "pittant", "domain": "pittant.com", "dir": "pittant.com", "port": 5111, "unit": "pittant", "status": "placeholder" },
-    { "id": "lladesigners", "domain": "lladesigners.com", "dir": "lladesigners.com", "port": 5112, "unit": "lladesigners", "status": "placeholder" },
-    { "id": "raadrecruitment", "domain": "raadrecruitment.ae", "dir": "raadrecruitment.ae", "port": 5113, "unit": "raadrecruitment", "status": "placeholder" },
-    { "id": "companyformationsaudi", "domain": "companyformationsaudi.com", "dir": "companyformationsaudi.com", "port": 5114, "unit": "companyformationsaudi", "status": "placeholder" },
-    { "id": "saudicompanyformation", "domain": "saudicompanyformation.com", "dir": "saudicompanyformation.com", "port": 5115, "unit": "saudicompanyformation", "status": "placeholder" },
-    { "id": "connectbusinesscenter", "domain": "connectbusinesscenter.com", "dir": "connectbusinesscenter.com", "port": 5116, "unit": "connectbusinesscenter", "status": "placeholder" },
-    { "id": "theuaegate", "domain": "theuaegate.com", "dir": "theuaegate.com", "port": 5117, "unit": "theuaegate", "status": "placeholder" },
-    { "id": "peomiddleeast", "domain": "peomiddleast.com", "dir": "peomiddleast.com", "port": 5118, "unit": "peomiddleeast", "status": "placeholder" },
-    { "id": "interlibya", "domain": "interlibya.com", "dir": "interlibya.com", "port": 5119, "unit": "interlibya", "status": "placeholder" },
-    { "id": "alburaq", "domain": "alburaq.ae", "dir": "alburaq.ae", "port": 5120, "unit": "alburaq", "status": "placeholder" },
-    { "id": "izi", "domain": "izi.ae", "dir": "izi.ae", "port": 5121, "unit": "izi", "status": "placeholder" },
-    { "id": "snapsale", "domain": "snapsale.ae", "dir": "snapsale.ae", "port": 5122, "unit": "snapsale", "status": "placeholder" },
-    { "id": "connectresources-info", "domain": "connectresources.info", "dir": "connectresources.info", "port": 5123, "unit": "connectresources-info", "status": "placeholder" }
+    {
+      "id": "evolutionmiddleast",
+      "domain": "evolutionmiddleast.com",
+      "dir": "evolutionmiddleast.com",
+      "port": 5080,
+      "unit": "evolutionmiddleast",
+      "status": "scaffolded"
+    },
+    {
+      "id": "cbss",
+      "domain": "cbss.ae",
+      "dir": "cbss.ae",
+      "port": 5081,
+      "unit": "cbss",
+      "status": "scaffolded"
+    },
+    {
+      "id": "spheavyrental",
+      "domain": "spheavyrental.ae",
+      "dir": "spheavyrental.ae",
+      "port": 5082,
+      "unit": "spheavyrental",
+      "status": "scaffolded"
+    },
+    {
+      "id": "iberiaworkforce",
+      "domain": "iberiaworkforce.com",
+      "dir": "iberiaworkforce.com",
+      "port": 5083,
+      "unit": "iberiaworkforce",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connecthr",
+      "domain": "connecthr.ae",
+      "dir": "connecthr.ae",
+      "port": 5084,
+      "unit": "connecthr",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectgroup",
+      "domain": "connectgroup.co",
+      "dir": "connectgroup.co",
+      "port": 5085,
+      "unit": "connectgroup",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectresources",
+      "domain": "connectresources.ae",
+      "dir": "connectresources.ae",
+      "port": 5086,
+      "unit": "connectresources",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectfm",
+      "domain": "connectfm.ae",
+      "dir": "connectfm.ae",
+      "port": 5087,
+      "unit": "connectfm",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectresources-sa",
+      "domain": "connectresources.sa",
+      "dir": "connectresources.sa",
+      "port": 5088,
+      "unit": "connectresources-sa",
+      "status": "scaffolded"
+    },
+    {
+      "id": "iberiaeor",
+      "domain": "iberiaeor.com",
+      "dir": "iberiaeor.com",
+      "port": 5089,
+      "unit": "iberiaeor",
+      "status": "scaffolded"
+    },
+    {
+      "id": "eormiddleast",
+      "domain": "eormiddleast.com",
+      "dir": "eormiddleast.com",
+      "port": 5090,
+      "unit": "eormiddleast",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectstaff",
+      "domain": "connectstaff.ae",
+      "dir": "connectstaff.ae",
+      "port": 5091,
+      "unit": "connectstaff",
+      "status": "scaffolded"
+    },
+    {
+      "id": "cuae",
+      "domain": "c-uae.com",
+      "dir": "c-uae.com",
+      "port": 5092,
+      "unit": "cuae",
+      "status": "scaffolded"
+    },
+    {
+      "id": "kinzahr",
+      "domain": "kinzahr.com",
+      "dir": "kinzahr.com",
+      "port": 5093,
+      "unit": "kinzahr",
+      "status": "scaffolded"
+    },
+    {
+      "id": "connectfreelance",
+      "domain": "connectfreelance.ae",
+      "dir": "connectfreelance.ae",
+      "port": 5094,
+      "unit": "connectfreelance",
+      "status": "placeholder"
+    },
+    {
+      "id": "redo",
+      "domain": "redo.ae",
+      "dir": "redo.ae",
+      "port": 5095,
+      "unit": "redo",
+      "status": "placeholder"
+    },
+    {
+      "id": "connectfz",
+      "domain": "connectfz.com",
+      "dir": "connectfz.com",
+      "port": 5096,
+      "unit": "connectfz",
+      "status": "placeholder"
+    },
+    {
+      "id": "royalvisa",
+      "domain": "royalvisa.ae",
+      "dir": "royalvisa.ae",
+      "port": 5097,
+      "unit": "royalvisa",
+      "status": "scaffolded"
+    },
+    {
+      "id": "kpmpro",
+      "domain": "kpmpro.ae",
+      "dir": "kpmpro.ae",
+      "port": 5098,
+      "unit": "kpmpro",
+      "status": "scaffolded"
+    },
+    {
+      "id": "mbs-consultancy",
+      "domain": "mbs-consultancy.com",
+      "dir": "mbs-consultancy.com",
+      "port": 5099,
+      "unit": "mbs-consultancy",
+      "status": "placeholder"
+    },
+    {
+      "id": "thefreelancergate",
+      "domain": "thefreelancergate.com",
+      "dir": "thefreelancergate.com",
+      "port": 5100,
+      "unit": "thefreelancergate",
+      "status": "placeholder"
+    },
+    {
+      "id": "connectzone",
+      "domain": "connectzone.ae",
+      "dir": "connectzone.ae",
+      "port": 5101,
+      "unit": "connectzone",
+      "status": "placeholder"
+    },
+    {
+      "id": "ngmanpower",
+      "domain": "ngmanpower.com",
+      "dir": "ngmanpower.com",
+      "port": 5102,
+      "unit": "ngmanpower",
+      "status": "placeholder"
+    },
+    {
+      "id": "emiratiguard",
+      "domain": "emiratiguard.com",
+      "dir": "emiratiguard.com",
+      "port": 5103,
+      "unit": "emiratiguard",
+      "status": "placeholder"
+    },
+    {
+      "id": "movey",
+      "domain": "movey.ae",
+      "dir": "movey.ae",
+      "port": 5104,
+      "unit": "movey",
+      "status": "placeholder"
+    },
+    {
+      "id": "emiratisationgate",
+      "domain": "emiratisationgate.org",
+      "dir": "emiratisationgate.org",
+      "port": 5105,
+      "unit": "emiratisationgate",
+      "status": "placeholder"
+    },
+    {
+      "id": "emiratisationgateway",
+      "domain": "emiratisationgateway.com",
+      "dir": "emiratisationgateway.com",
+      "port": 5106,
+      "unit": "emiratisationgateway",
+      "status": "placeholder"
+    },
+    {
+      "id": "emiratisationhub",
+      "domain": "emiratisationhub.com",
+      "dir": "emiratisationhub.com",
+      "port": 5107,
+      "unit": "emiratisationhub",
+      "status": "placeholder"
+    },
+    {
+      "id": "emiratisationnafis",
+      "domain": "emiratisationnafis.org",
+      "dir": "emiratisationnafis.org",
+      "port": 5108,
+      "unit": "emiratisationnafis",
+      "status": "placeholder"
+    },
+    {
+      "id": "freelancerdxb",
+      "domain": "freelancerdxb.com",
+      "dir": "freelancerdxb.com",
+      "port": 5109,
+      "unit": "freelancerdxb",
+      "status": "placeholder"
+    },
+    {
+      "id": "payrollmiddleeast",
+      "domain": "payrollmiddleeast.org",
+      "dir": "payrollmiddleeast.org",
+      "port": 5110,
+      "unit": "payrollmiddleeast",
+      "status": "placeholder"
+    },
+    {
+      "id": "pittant",
+      "domain": "pittant.com",
+      "dir": "pittant.com",
+      "port": 5111,
+      "unit": "pittant",
+      "status": "placeholder"
+    },
+    {
+      "id": "lladesigners",
+      "domain": "lladesigners.com",
+      "dir": "lladesigners.com",
+      "port": 5112,
+      "unit": "lladesigners",
+      "status": "placeholder"
+    },
+    {
+      "id": "raadrecruitment",
+      "domain": "raadrecruitment.ae",
+      "dir": "raadrecruitment.ae",
+      "port": 5113,
+      "unit": "raadrecruitment",
+      "status": "placeholder"
+    },
+    {
+      "id": "companyformationsaudi",
+      "domain": "companyformationsaudi.com",
+      "dir": "companyformationsaudi.com",
+      "port": 5114,
+      "unit": "companyformationsaudi",
+      "status": "placeholder"
+    },
+    {
+      "id": "saudicompanyformation",
+      "domain": "saudicompanyformation.com",
+      "dir": "saudicompanyformation.com",
+      "port": 5115,
+      "unit": "saudicompanyformation",
+      "status": "placeholder"
+    },
+    {
+      "id": "connectbusinesscenter",
+      "domain": "connectbusinesscenter.com",
+      "dir": "connectbusinesscenter.com",
+      "port": 5116,
+      "unit": "connectbusinesscenter",
+      "status": "placeholder"
+    },
+    {
+      "id": "theuaegate",
+      "domain": "theuaegate.com",
+      "dir": "theuaegate.com",
+      "port": 5117,
+      "unit": "theuaegate",
+      "status": "placeholder"
+    },
+    {
+      "id": "peomiddleeast",
+      "domain": "peomiddleast.com",
+      "dir": "peomiddleast.com",
+      "port": 5118,
+      "unit": "peomiddleeast",
+      "status": "scaffolded"
+    },
+    {
+      "id": "interlibya",
+      "domain": "interlibya.com",
+      "dir": "interlibya.com",
+      "port": 5119,
+      "unit": "interlibya",
+      "status": "placeholder"
+    },
+    {
+      "id": "alburaq",
+      "domain": "alburaq.ae",
+      "dir": "alburaq.ae",
+      "port": 5120,
+      "unit": "alburaq",
+      "status": "placeholder"
+    },
+    {
+      "id": "izi",
+      "domain": "izi.ae",
+      "dir": "izi.ae",
+      "port": 5121,
+      "unit": "izi",
+      "status": "placeholder"
+    },
+    {
+      "id": "snapsale",
+      "domain": "snapsale.ae",
+      "dir": "snapsale.ae",
+      "port": 5122,
+      "unit": "snapsale",
+      "status": "placeholder"
+    },
+    {
+      "id": "connectresources-info",
+      "domain": "connectresources.info",
+      "dir": "connectresources.info",
+      "port": 5123,
+      "unit": "connectresources-info",
+      "status": "placeholder"
+    }
   ]
 }

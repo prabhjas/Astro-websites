@@ -1,0 +1,19 @@
+# Canonical interim redirects for peomiddleast.com
+# Probed live 2026-08-05. Merge Rank Math exports under imports/redirects/ later.
+
+redirects:
+  - from: /about/
+    to: /
+    status: 301
+  - from: /about-us/
+    to: /
+    status: 301
+  - from: /contact-us/
+    to: /
+    status: 301
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
