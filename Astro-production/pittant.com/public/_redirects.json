@@ -1,0 +1,97 @@
+[
+  {
+    "from": "/about/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/aboutus/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/contact/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/contactus/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/get-in-touch/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/home-new/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/feed/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/sample-page/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/insights/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/calculate-payroll/",
+    "to": "/how-to-calculate-payroll-of-employeescalculate-payroll/",
+    "status": 301
+  },
+  {
+    "from": "/functional-evaluation-in-saudi-arabia/",
+    "to": "/performance-assessment-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/how-to-calculate-payroll-of-employeescalculate-payroll/",
+    "to": "/how-to-calculate-payroll-of-employees/",
+    "status": 301
+  },
+  {
+    "from": "/hr-reports/",
+    "to": "/types-of-hr-reports/",
+    "status": 301
+  },
+  {
+    "from": "/performance-management-system/",
+    "to": "/implementing-performance-management-system/",
+    "status": 301
+  },
+  {
+    "from": "/tips-for-drafting-a-strong-ksa-employment-contract/",
+    "to": "/employment-contract-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/top-5-benefits-of-using-payroll-software/",
+    "to": "/benefits-of-using-payroll-software/",
+    "status": 301
+  },
+  {
+    "from": "/what-is-hr-software-and-why-your-business-must-use-it/",
+    "to": "/what-is-hr-software/",
+    "status": 301
+  }
+]
