@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { paginate, stripHtml } from "../lib/content";
+import { breadcrumbSchema } from "../lib/seo";
+import type { AuthorEntry, PostEntry } from "../lib/content-types";
+
+interface Props {
+  author: AuthorEntry;
+  posts: PostEntry[];
+  pageNum?: number;
+  perPage?: number;
+}
+
+const { author, posts, pageNum = 1, perPage = 6 } = Astro.props;
+// Newest published posts first (matches expected WP author archive order).
+const sortedPosts = [...posts].sort((a, b) => {
+  const tb = Date.parse(b.date) || 0;
+  const ta = Date.parse(a.date) || 0;
+  if (tb !== ta) return tb - ta;
+  return (b.id || 0) - (a.id || 0);
+});
+const { items, page, totalPages } = paginate(sortedPosts, pageNum, perPage);
+const displayName = stripHtml(author.name) || "Connect HR";
+const basePath = author.path.endsWith("/") ? author.path : `${author.path}/`;
+const canonical =
+  page <= 1 ? basePath : `${basePath.replace(/\/$/, "")}/page/${page}/`;
+
+function hrefFor(n: number) {
+  if (n <= 1) return basePath;
+  return `${basePath.replace(/\/$/, "")}/page/${n}/`;
+}
+
+function excerptFor(html: string): string {
+  const decoded = String(html || "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+  const text = stripHtml(decoded).replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  if (text.length <= 280) return text;
+  return `${text.slice(0, 277).trim()}…`;
+}
+---
+
+<BaseLayout
+  currentPath={canonical}
+  menuActivePath="/blogs/"
+  rawMain={true}
+  bodyClass={`archive author author-${author.slug} author-${author.id}`}
+  seo={{
+    title: `${displayName} - Connect HR`,
+    description: author.description || `Articles by ${displayName}.`,
+    canonical,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blogs", url: "/blogs/" },
+        { name: displayName, url: basePath },
+      ]),
+    ],
+  }}
+>
+  {/* Live Hello Elementor author archive (not Elementor Theme Builder 2953). */}
+  <main id="content" class="site-main">
+    <div class="page-header">
+      <h1 class="entry-title">Author: <span>{displayName}</span></h1>
+    </div>
+
+    <div class="page-content">
+      {
+        items.length === 0 ? (
+          <p>No posts found.</p>
+        ) : (
+          items.map((post) => {
+            const title = stripHtml(post.title);
+            const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+            const image = String(post.featuredImage || "").trim();
+            const excerpt = excerptFor(post.excerpt || post.bodyHtml || post.content || "");
+            return (
+              <article class="post">
+                <h2 class="entry-title">
+                  <a href={href}>{title}</a>
+                </h2>
+                {image ? (
+                  <a href={href}>
+                    <img
+                      width="800"
+                      height="450"
+                      src={image}
+                      class="attachment-large size-large wp-post-image"
+                      alt={title}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ) : null}
+                {excerpt ? <p>{excerpt}</p> : null}
+              </article>
+            );
+          })
+        )
+      }
+    </div>
+
+    {
+      totalPages > 1 && (
+        <nav class="pagination" aria-label="Posts pagination">
+          <div class="nav-previous">
+            {page > 1 ? (
+              <a href={hrefFor(page - 1)}>
+                <span class="meta-nav">&larr;</span> Previous
+              </a>
+            ) : null}
+          </div>
+          <div class="nav-next">
+            {page < totalPages ? (
+              <a href={hrefFor(page + 1)}>
+                Next <span class="meta-nav">&rarr;</span>
+              </a>
+            ) : null}
+          </div>
+        </nav>
+      )
+    }
+  </main>
+</BaseLayout>

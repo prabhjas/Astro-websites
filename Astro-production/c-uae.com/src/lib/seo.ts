@@ -8,10 +8,27 @@ export type SeoInput = {
   ogType?: "website" | "article";
   schemas?: unknown[];
   noindex?: boolean;
+  nofollow?: boolean;
+  /** Full robots directive; wins over noindex/nofollow flags when set. */
+  robots?: string;
   publishedTime?: string;
   modifiedTime?: string;
   authorName?: string;
 };
+
+function robotsFromFlags(noindex?: boolean, nofollow?: boolean): string | undefined {
+  if (!noindex && !nofollow) return undefined;
+  return `${noindex ? "noindex" : "index"}, ${nofollow ? "nofollow" : "follow"}`;
+}
+
+function robotsFromSeoData(seo?: SeoData): string | undefined {
+  const r = seo?.robots;
+  if (!r) return undefined;
+  if (typeof r === "string") return r;
+  const index = r.index || "index";
+  const follow = r.follow || "follow";
+  return `${index}, ${follow}`;
+}
 
 export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   const title = input.title || fallback?.title || `${site.name} | EOR, PEO, Payroll and HR Solutions`;
@@ -20,7 +37,11 @@ export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
   const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
   const ogType = input.ogType || "website";
-  const robots = input.noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+  const robots =
+    input.robots ||
+    robotsFromFlags(input.noindex, input.nofollow) ||
+    robotsFromSeoData(fallback) ||
+    "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
 
   const schemas = [
     ...(input.schemas || fallback?.schemas || []),
