@@ -1,0 +1,132 @@
+/**
+ * Connect Freelance — Insights page layout parity with live.
+ * Scoped to posts widget 0215441 / loop template 545.
+ *
+ * Live Elementor uses flex-direction:ROW + wrap on the card widget-wrap so
+ * full-width image/title stack, then date (left) + Read More (right) share a row.
+ * Do NOT force flex-direction:column — that stacks/centers the CTA and breaks parity.
+ */
+
+/* Equal-height cards in the 3-col ECS grid */
+.elementor-element-0215441 .ecs-posts.elementor-grid {
+  align-items: stretch;
+}
+
+.elementor-element-0215441 .ecs-posts > article.elementor-post,
+.elementor-element-0215441 .ecs-posts > .elementor-post {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+.elementor-element-0215441 .ecs-posts .elementor.elementor-545 {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.elementor-element-0215441 .ecs-posts .elementor-545 > .elementor-section,
+.elementor-element-0215441 .ecs-posts .elementor-545 .elementor-container,
+.elementor-element-0215441 .ecs-posts .elementor-545 .elementor-column {
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.elementor-element-0215441 .ecs-posts .elementor-545 .elementor-column {
+  flex-direction: column;
+}
+
+/*
+ * Live post-545 only sets justify-content:space-between on this wrap.
+ * Keep Elementor’s default flex-direction:row + wrap so date | Read More share a row.
+ * align-content pushes that footer row to the bottom on tall equal-height cards.
+ */
+.elementor-element-0215441
+  .ecs-posts
+  .elementor-545
+  .elementor-element-11e3e38.elementor-column
+  > .elementor-widget-wrap {
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  align-content: space-between;
+}
+
+/* Featured image — full width, natural 16:9 from width/height attrs */
+.elementor-element-0215441 .ecs-posts .elementor-element-d937dc0 {
+  width: 100%;
+}
+.elementor-element-0215441 .ecs-posts .elementor-element-d937dc0 img {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Title stays full-bleed left (Lexend rules come from post-545.css) */
+.elementor-element-0215441 .ecs-posts .elementor-element-fbe94b3 {
+  width: 100%;
+}
+
+/*
+ * Live shows “January 5, 2026 –” (date + separator). Author email is in the DOM
+ * but must not expand the meta chip or sit under the title — collapse author text
+ * while keeping the list item so the :after separator still renders.
+ */
+.elementor-element-0215441
+  .ecs-posts
+  .elementor-element-46364c0
+  .elementor-icon-list-item[itemprop='author']
+  .elementor-icon-list-text,
+.elementor-element-0215441
+  .ecs-posts
+  .elementor-element-46364c0
+  .elementor-icon-list-item[itemprop='author']
+  .elementor-icon-list-text
+  a {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  letter-spacing: 0 !important;
+}
+
+/* Load More under grid — keep Elementor accent; ensure clickable */
+.elementor-element-0215441 .ecs-load-more-button {
+  text-align: center;
+}
+.elementor-element-0215441 .ecs-load-more-button .elementor-button {
+  margin-top: 20px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.elementor-element-0215441 .ecs-load-more-button a.elementor-button.disabled {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* Category filter row */
+.elementor-493 .elementor-element-2f66f91 .elementor-heading-title,
+.elementor-element-2f66f91 .elementor-heading-title {
+  font-family: Lexend, Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #1a1b1a;
+  margin: 0;
+}
+.elementor-element-34dd4ed select.postform,
+.elementor-element-34dd4ed select#cat {
+  font-family: Lexend, Inter, sans-serif;
+  font-size: 14px;
+  min-width: 220px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1b1a;
+}
