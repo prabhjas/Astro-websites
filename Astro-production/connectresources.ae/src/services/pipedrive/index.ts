@@ -181,6 +181,16 @@ async function createLead(
 }
 
 export async function createPipedriveLead(env: ServerEnv, form: NormalisedContactForm): Promise<PipedriveResult> {
+  if (!env.pipedriveApiToken.trim()) {
+    return {
+      success: false,
+      statusCode: 503,
+      error: 'PIPEDRIVE_API_TOKEN is not configured',
+      retryable: true,
+      errorCode: 'config_error',
+    };
+  }
+
   const personResult = await createPerson(env, form);
   if (!personResult.ok || !personResult.id) {
     const classified = classifyPipedriveError(
