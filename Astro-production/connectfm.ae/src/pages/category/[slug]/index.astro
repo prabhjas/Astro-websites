@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  BLOG_LOAD_MORE_PER_PAGE,
+  renderBlogCardsHtml,
+} from "../../../lib/blog-card-html";
+import {
+  getCategories,
+  getCategoryBySlug,
+  getPageByPath,
+  getPostsByCategory,
+  stripHtml,
+} from "../../../lib/content";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const category = getCategoryBySlug(slug);
+if (!category) {
+  return notFoundResponse();
+}
+
+/** Live category archives reuse the Blog Elementor loop-grid + card template 2553. */
+const blogPage = getPageByPath("/blog/");
+if (!blogPage) throw new Error("Blog page missing");
+
+const sorted = getPostsByCategory(category.id);
+const initialItems = Math.min(BLOG_LOAD_MORE_PER_PAGE, sorted.length);
+const cards = renderBlogCardsHtml(sorted.slice(0, initialItems));
+const hasMore = sorted.length > initialItems;
+const catName = stripHtml(category.name);
+
+let html = blogPage.bodyHtml || blogPage.content || "";
+
+// Swap loop cards for this category's posts
+html = html.replace(
+  /(<div[^>]*class="[^"]*elementor-loop-container[^"]*"[^>]*>)([\s\S]*?)(<\/div>\s*(?:<div[^>]*class="[^"]*e-loop__load-more|<\/div>\s*<div[^>]*class="[^"]*e-load-more))/i,
+  (_full, open, _inner, closeStart) => {
+    // Preserve leading <style id="loop-2553">…</style> if present in original inner
+    const styleMatch = String(_inner).match(/<style\b[^>]*>[\s\S]*?<\/style>/i);
+    const styleBlock = styleMatch ? styleMatch[0] + "\n" : "";
+    return `${open}${styleBlock}${cards}${closeStart}`;
+  },
+);
+
+if (hasMore) {
+  html = html.replace(
+    /<div([^>]*class="[^"]*e-loop__load-more[^"]*"[^>]*)>/i,
+    `<div$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${initialItems}" data-offset="${initialItems}" data-category-id="${category.id}">`,
+  );
+} else {
+  html = html.replace(
+    /<div[^>]*class="[^"]*e-loop__load-more[^"]*"[^>]*>[\s\S]*?<\/div>/i,
+    "",
+  );
+}
+
+let loopSeen = 0;
+const loopMatches = html.match(/<div[^>]*class="[^"]*elementor-loop-container[^"]*"[^>]*>/gi) || [];
+const loopIndex = loopMatches.length;
+html = html.replace(/<div([^>]*class="[^"]*elementor-loop-container[^"]*"[^>]*)>/gi, (_full, attrs) => {
+  loopSeen += 1;
+  if (loopSeen === loopIndex && !/data-sp-blog-grid/.test(attrs)) {
+    return `<div${attrs} data-sp-blog-grid="1">`;
+  }
+  return `<div${attrs}>`;
+});
+
+// Hero blurb → category archive title (match live "X Archives")
+const safeTitle = catName
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+html = html.replace(
+  /(<div[^>]*elementor-element-d9ce90c[^>]*>\s*)<p>[\s\S]*?<\/p>/i,
+  `$1<h1>${safeTitle} Archives</h1>`,
+);
+
+const posts = sorted;
+const usedCatIds = new Set(
+  getCategories()
+    .filter((c) => c.count > 0 || posts.some((p) => p.categories.includes(c.id)))
+    .map((c) => c.id),
+);
+const catOptions = getCategories()
+  .filter((c) => usedCatIds.has(c.id))
+  .filter((c) => !/^!/.test(c.name || "") && c.slug !== "bez-rubriki" && c.slug !== "public")
+  .sort((a, b) => stripHtml(a.name).localeCompare(stripHtml(b.name)));
+
+const catSelectInner = [
+  `<option value="-1">Select Category</option>`,
+  ...catOptions.map((c) => {
+    const name = stripHtml(c.name).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const path = (c.path || `/category/${c.slug}/`).replace(/"/g, "");
+    const selected = c.id === category.id ? " selected" : "";
+    return `<option class="level-0" value="${c.id}" data-path="${path}"${selected}>${name}</option>`;
+  }),
+].join("\n\t");
+
+html = html.replace(
+  /(<select\s+name=['"]cat['"]\s+id=['"]cat['"]\s+class=['"]postform['"]\s*>)[\s\S]*?(<\/select>)/i,
+  `$1\n\t${catSelectInner}\n$2`,
+);
+
+const extraCss = [
+  ...(blogPage.pageCss || []),
+  blogPage.elementorCss || `/wp-content/uploads/elementor/css/post-${blogPage.id}.css`,
+  "/wp-content/uploads/elementor/css/post-4131.css",
+  "/wp-content/uploads/elementor/css/post-2553.css",
+  "/css/insights-category.css",
+];
+---
+
+<BaseLayout
+  currentPath={category.path}
+  bodyClass={`archive category category-${category.slug} elementor-page elementor-page-${blogPage.id}`}
+  extraCss={extraCss}
+  seo={{
+    title: `${catName} Archives | Connect FM`,
+    description:
+      category.description ||
+      `Articles in ${catName} from Connect FM — facility management guides across Dubai and the UAE.`,
+    canonical: category.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blog/" },
+        { name: catName, url: category.path },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>

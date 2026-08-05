@@ -1,8 +1,11 @@
 # Connect Group — New site → Astro fleet → FLOW (full standard)
 
+**Start with the numbered lifecycle:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) (this file is Phase 03 detail).
+
 **One playbook to take any website (WordPress clone, static export, or greenfield) into the Connect Group Astro fleet and wire it for the central FLOW / CMS platform.**
 
-Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*
+Paste into Cursor: *Follow docs/CONNECT-FLOW-SITE-ONBOARDING.md for \<domain\>.*  
+Or (preferred): *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
 
 | Field | Value |
 |-------|--------|
@@ -87,7 +90,7 @@ For FLOW “see posts, sitemap, redirects, GTM on this domain” you almost alwa
 
 ### Step B — Register in the fleet
 
-Edit `scripts/fleet-sites.json` — next free port (**5086+** as of connectgroup.co on 5085):
+Edit `scripts/fleet-sites.json` — next free port (**5093+**; 5080–5087 + 5090/5092 reserved — see § Port map):
 
 ```json
 {
@@ -463,6 +466,8 @@ Astro-production/<domain>/
 
 ## 7. Port map (current)
 
+Canonical list: **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** + `scripts/fleet-sites.json`.
+
 | ID | Domain | Port |
 |----|--------|------|
 | evolutionmiddleast | evolutionmiddleast.com | 5080 |
@@ -471,9 +476,14 @@ Astro-production/<domain>/
 | iberiaworkforce | iberiaworkforce.com | 5083 |
 | connecthr | connecthr.ae | 5084 |
 | connectgroup | connectgroup.co | 5085 |
+| connectresources | connectresources.ae | 5086 |
+| iberiaeor | iberiaeor.com | 5089 |
+| eormiddleast | eormiddleast.com | 5090 |
+| connectstaff | connectstaff.ae | 5091 |
+| cuae | c-uae.com | 5092 |
+| *(next free)* | | **5124** |
 
-Next free: **5086+**.
-
+Do not invent ports — take the next free from the registry.
 ---
 
 ## 8. What not to do

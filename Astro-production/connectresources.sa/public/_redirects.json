@@ -1,0 +1,82 @@
+[
+  {
+    "from": "/outsourcing/",
+    "to": "/eor-service/outsourcing/",
+    "status": 301
+  },
+  {
+    "from": "/payroll-service/",
+    "to": "/eor-service/payroll-service/",
+    "status": 301
+  },
+  {
+    "from": "/recruitment-service/",
+    "to": "/eor-service/recruitment-service/",
+    "status": 301
+  },
+  {
+    "from": "/business-setup/",
+    "to": "/eor-service/business-setup/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/about/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/contact/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/privacy/",
+    "to": "/privacy-policy/",
+    "status": 301
+  },
+  {
+    "from": "/eor/",
+    "to": "/eor-service/",
+    "status": 301
+  },
+  {
+    "from": "/eor-services/",
+    "to": "/eor-service/",
+    "status": 301
+  },
+  {
+    "from": "/employer-of-record/",
+    "to": "/eor-service/",
+    "status": 301
+  },
+  {
+    "from": "/payroll/",
+    "to": "/eor-service/payroll-service/",
+    "status": 301
+  },
+  {
+    "from": "/recruitment/",
+    "to": "/eor-service/recruitment-service/",
+    "status": 301
+  },
+  {
+    "from": "/outsourcing-service/",
+    "to": "/eor-service/outsourcing/",
+    "status": 301
+  },
+  {
+    "from": "/services/",
+    "to": "/eor-service/",
+    "status": 301
+  }
+]

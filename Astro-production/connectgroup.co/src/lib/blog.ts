@@ -11,6 +11,21 @@ const BLOG_DIR = join(ROOT, 'src/content/blog');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
 const ORIGIN = 'https://connectgroup.co';
 
+/** Production host for absolute SEO URLs (canonical / og:url). Prefer env; never leave relative. */
+function siteOrigin(): string {
+  return (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || ORIGIN).trim().replace(/\/$/, '') || ORIGIN;
+}
+
+function absoluteSeoUrl(value: string, fallbackPath = '/'): string {
+  const origin = siteOrigin();
+  const raw = String(value || fallbackPath).trim() || fallbackPath;
+  try {
+    return new URL(raw, `${origin}/`).href;
+  } catch {
+    return `${origin}${fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`}`;
+  }
+}
+
 export interface TocEntry {
   id: string;
   text: string;
@@ -331,6 +346,8 @@ function patchHeadMeta(html: string, post: BlogPost): string {
   let out = html;
   const metaTitle = post.metaTitle || post.title;
   const metaDescription = post.metaDescription || post.description;
+  const canonical = absoluteSeoUrl(post.canonical, `/${post.slug}/`);
+  const ogImage = post.og.image ? absoluteSeoUrl(post.og.image, post.og.image) : '';
 
   out = out.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(metaTitle)}</title>`);
   out = out.replace(
@@ -339,7 +356,7 @@ function patchHeadMeta(html: string, post: BlogPost): string {
   );
   out = out.replace(
     /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i,
-    `<link rel="canonical" href="${post.canonical}" />`,
+    `<link rel="canonical" href="${canonical}" />`,
   );
   if (post.robots) {
     if (out.includes('name="robots"')) {
@@ -357,12 +374,12 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i,
     `<meta property="og:description" content="${escapeHtml(post.og.description || metaDescription)}" />`,
   );
-  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${post.canonical}" />`);
-  if (post.og.image) {
+  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
+  if (ogImage) {
     if (out.includes('property="og:image"')) {
-      out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${post.og.image}" />`);
+      out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${ogImage}" />`);
     } else {
-      out = out.replace('</head>', `<meta property="og:image" content="${post.og.image}" />\n</head>`);
+      out = out.replace('</head>', `<meta property="og:image" content="${ogImage}" />\n</head>`);
     }
   }
   return out;
