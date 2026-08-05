@@ -1,7 +1,7 @@
 /**
  * Blog / Insights Load More.
  * - Elementor/ECS grids: [data-sp-blog-load-more] / .ecs-load-more-button
- * - Impreza insights grid: .g-loadmore (us_ajax_grid replacement)
+ * - Impreza insights grid: .w-grid.pagination_ajax .g-loadmore (us_ajax_grid replacement)
  */
 (function () {
   function ready(fn) {
@@ -13,6 +13,71 @@
     var span = btn.querySelector(".w-btn-label, span");
     if (span) span.textContent = text;
     else btn.textContent = text;
+  }
+
+  function parseGridJson(grid) {
+    var jsonEl = grid.querySelector(".w-grid-json");
+    if (!jsonEl) return null;
+    try {
+      if (typeof jsonEl.onclick === "function") {
+        return jsonEl.onclick() || null;
+      }
+    } catch (_) {}
+    var raw = jsonEl.getAttribute("onclick") || "";
+    var m = raw.match(/return\s+(\{[\s\S]+\})\s*;?\s*$/);
+    if (!m) return null;
+    try {
+      return JSON.parse(m[1].replace(/&quot;/g, '"'));
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function ensureLoadMoreButton(nav) {
+    var btn = nav.querySelector("button, .w-btn, a[role='button'], a.w-btn");
+    if (btn) return btn;
+
+    var label = nav.querySelector(".w-btn-label");
+    var text = (label && label.textContent) || "Load More";
+    btn = document.createElement("a");
+    btn.href = "#";
+    btn.className = "w-btn us-btn-style_1";
+    btn.setAttribute("role", "button");
+    var span = document.createElement("span");
+    span.className = "w-btn-label";
+    span.textContent = text.trim() || "Load More";
+    btn.appendChild(span);
+    if (label) label.remove();
+    nav.appendChild(btn);
+    return btn;
+  }
+
+  function fetchLoadMore(url) {
+    return fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" }).then(
+      function (res) {
+        if (res.ok) return res.json();
+        throw new Error("HTTP " + res.status);
+      },
+    );
+  }
+
+  function loadMoreUrls(query) {
+    return [
+      "/api/blog/load-more/" + query,
+      "/api/geo/blog-load-more/" + query,
+      "/api/geo/country/?loadMore=1&" + query.replace(/^\?/, ""),
+    ];
+  }
+
+  function fetchLoadMoreWithFallback(query) {
+    var urls = loadMoreUrls(query);
+    var attempt = function (i) {
+      if (i >= urls.length) return Promise.reject(new Error("all endpoints failed"));
+      return fetchLoadMore(urls[i]).catch(function () {
+        return attempt(i + 1);
+      });
+    };
+    return attempt(0);
   }
 
   function wireElementorLoadMore() {
@@ -44,17 +109,13 @@
       loading = true;
       setButtonLabel(btn, "Loading...");
 
-      var url =
-        "/api/blog/load-more/?page=" +
+      var query =
+        "?page=" +
         encodeURIComponent(String(nextPage)) +
         "&perPage=" +
         encodeURIComponent(String(perPage));
 
-      fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
-        .then(function (res) {
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          return res.json();
-        })
+      fetchLoadMoreWithFallback(query)
         .then(function (data) {
           if (!data || !data.ok || typeof data.html !== "string") throw new Error("bad payload");
           if (data.html) grid.insertAdjacentHTML("beforeend", data.html);
@@ -83,28 +144,23 @@
   }
 
   function wireImprezaLoadMore() {
-    var loaders = document.querySelectorAll(".w-grid .g-loadmore");
-    if (!loaders.length) return;
+    var loaders = document.querySelectorAll(".w-grid.pagination_ajax .g-loadmore");
+    if (!loaders.length) {
+      loaders = document.querySelectorAll(".w-grid .g-loadmore");
+    }
 
     loaders.forEach(function (nav) {
       var grid = nav.closest(".w-grid");
       if (!grid) return;
       var list = grid.querySelector(".w-grid-list");
-      var btn = nav.querySelector("button, .w-btn, a");
-      if (!list || !btn) return;
+      if (!list) return;
 
-      // Read per-page from embedded grid JSON when available
-      var perPage = 4;
+      var btn = ensureLoadMoreButton(nav);
+      var cfg = parseGridJson(grid) || {};
+      var qa = (cfg.template_vars && cfg.template_vars.query_args) || {};
+      var perPage = Number(qa.posts_per_page) || 4;
       var nextPage = 2;
-      var jsonEl = grid.querySelector(".w-grid-json");
-      try {
-        if (jsonEl && typeof jsonEl.onclick === "function") {
-          var cfg = jsonEl.onclick() || {};
-          var qa = (cfg.template_vars && cfg.template_vars.query_args) || {};
-          if (qa.posts_per_page) perPage = Number(qa.posts_per_page) || perPage;
-        }
-      } catch (_) {}
-
+      var isInsights = grid.id === "us_grid_3" || grid.classList.contains("pagination_ajax");
       var loading = false;
       var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
@@ -128,19 +184,18 @@
         nav.classList.add("loading");
         setButtonLabel(btn, "Loading...");
 
-        var url =
-          "/api/blog/load-more/?format=impreza&page=" +
+        var query =
+          "?format=impreza&page=" +
           encodeURIComponent(String(nextPage)) +
           "&perPage=" +
           encodeURIComponent(String(perPage)) +
           "&exclude=" +
           encodeURIComponent(existingIds());
+        if (isInsights) {
+          query += "&grid=insights";
+        }
 
-        fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
-          .then(function (res) {
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            return res.json();
-          })
+        fetchLoadMoreWithFallback(query)
           .then(function (data) {
             if (!data || !data.ok || typeof data.html !== "string") throw new Error("bad payload");
             if (data.html) list.insertAdjacentHTML("beforeend", data.html);
@@ -164,6 +219,7 @@
       }
 
       btn.addEventListener("click", onClick, true);
+      nav.addEventListener("click", onClick, true);
     });
   }
 
