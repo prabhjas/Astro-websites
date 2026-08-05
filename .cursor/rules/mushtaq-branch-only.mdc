@@ -1,0 +1,12 @@
+---
+description: Always use mushtaq-branch as the working git branch for this repo
+alwaysApply: true
+---
+
+# Git branch: mushtaq-branch only
+
+- **Working branch:** `mushtaq-branch` — do all commits, pushes, and feature work here.
+- **Do not** switch to, commit on, or push `dev`, `main`, or other branches unless the user explicitly asks.
+- Before starting work: confirm `git branch --show-current` is `mushtaq-branch`; if not, `git checkout mushtaq-branch`.
+- After commits: push with `git push origin mushtaq-branch` only.
+- Remote tracking: `origin/mushtaq-branch`.

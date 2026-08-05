@@ -284,7 +284,7 @@ div.wpcf7-response-output.sp-status-visible,
 }
 
 /*
-  Shared main-form look (footer + Contact Us + single-post Let's Chat).
+  Shared main-form look (footer + Contact Us).
   Matches child theme lavender fields / gray labels.
 */
 .main-form input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]):not(.wpcf7-phonetext):not([name^="phonetext"]),
@@ -303,6 +303,53 @@ div.wpcf7-response-output.sp-status-visible,
   font-size: 14px;
   font-weight: 400;
   line-height: 40px;
+}
+
+/* Single-post sidebar emergency form — match live post-2619 .blog_form */
+.elementor-2619 .blog_form .main-form input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]),
+.elementor-2619 .blog_form .main-form textarea,
+.elementor-2619 .blog_form .main-form select {
+  border: 0 !important;
+  border-bottom: 0.682px solid #009ed5 !important;
+  border-width: 0 0 1px 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #bdbfc1 !important;
+  padding: 12px 20px !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 150% !important;
+}
+
+.elementor-2619 .blog_form .main-form textarea {
+  height: 3rem !important;
+  resize: vertical;
+}
+
+.elementor-2619 .blog_form .main-form input::placeholder,
+.elementor-2619 .blog_form .main-form textarea::placeholder {
+  color: #bdbfc1 !important;
+  opacity: 1;
+}
+
+.elementor-2619 .blog_form .main-form input.wpcf7-submit,
+.elementor-2619 .blog_form .main-form [type="submit"] {
+  background: #fafafa !important;
+  background-color: #fafafa !important;
+  color: #2c2b2c !important;
+  border: 1px solid #d1d0d1 !important;
+  border-radius: 5.574px !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 150% !important;
+  width: 100% !important;
+  text-transform: none !important;
+}
+
+.elementor-2619 .blog_form .main-form p {
+  margin: 0;
 }
 
 .main-form #transaction_hide,
@@ -375,6 +422,7 @@ div.wpcf7-response-output.sp-status-visible,
 /*
   Single-post TOC (left) + emergency form (right).
   Native sticky stays inside the content row (no overlap into header/footer).
+  Keep Elementor --width (20% / 50% / 30%) — never width:auto or columns collapse.
 */
 @media (min-width: 1025px) {
   .single-post .elementor-element-a044440.connectfm-sticky-row,
@@ -385,6 +433,34 @@ div.wpcf7-response-output.sp-status-visible,
     align-items: flex-start;
   }
 
+  /* Match live Elementor column proportions */
+  .single-post .elementor-element-a044440 > .e-con-inner > .elementor-element-fd60144,
+  .single .elementor-element-a044440 > .e-con-inner > .elementor-element-fd60144,
+  .single-post .elementor-element-a044440 > .elementor-element-fd60144,
+  .single .elementor-element-a044440 > .elementor-element-fd60144 {
+    flex: 0 0 20% !important;
+    width: 20% !important;
+    max-width: 20% !important;
+  }
+
+  .single-post .elementor-element-a044440 > .e-con-inner > .elementor-element-e2189fe,
+  .single .elementor-element-a044440 > .e-con-inner > .elementor-element-e2189fe,
+  .single-post .elementor-element-a044440 > .elementor-element-e2189fe,
+  .single .elementor-element-a044440 > .elementor-element-e2189fe {
+    flex: 0 0 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+
+  .single-post .elementor-element-a044440 > .e-con-inner > .elementor-element-9cee146,
+  .single .elementor-element-a044440 > .e-con-inner > .elementor-element-9cee146,
+  .single-post .elementor-element-a044440 > .elementor-element-9cee146,
+  .single .elementor-element-a044440 > .elementor-element-9cee146 {
+    flex: 0 0 30% !important;
+    width: 30% !important;
+    max-width: 30% !important;
+  }
+
   .single-post .elementor-element-fd60144.connectfm-col-sticky,
   .single-post .elementor-element-9cee146.connectfm-col-sticky,
   .single .elementor-element-fd60144.connectfm-col-sticky,
@@ -393,13 +469,27 @@ div.wpcf7-response-output.sp-status-visible,
     top: var(--connectfm-sticky-top, 120px) !important;
     align-self: flex-start !important;
     z-index: 2;
+    overflow: visible !important;
+    /* Cancel Elementor fixed sticky leftovers — keep column width */
+    inset-inline-start: auto !important;
+    bottom: auto !important;
+    width: var(--width, auto) !important;
+    max-width: var(--width, none) !important;
+    flex: 0 0 var(--width, auto) !important;
+  }
+
+  /* TOC can scroll internally when taller than viewport; form column stays full height like live */
+  .single-post .elementor-element-fd60144.connectfm-col-sticky,
+  .single .elementor-element-fd60144.connectfm-col-sticky {
     max-height: calc(100vh - var(--connectfm-sticky-top, 120px) - 16px);
     overflow-x: hidden;
     overflow-y: auto;
-    /* Cancel Elementor fixed sticky leftovers */
-    inset-inline-start: auto !important;
-    bottom: auto !important;
-    width: auto;
+  }
+
+  .single-post .elementor-element-9cee146.connectfm-col-sticky,
+  .single .elementor-element-9cee146.connectfm-col-sticky {
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .single-post .elementor-sticky__spacer,
