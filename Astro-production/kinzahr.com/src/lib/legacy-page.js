@@ -12,6 +12,31 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
+/** Paid LPs — always emit noindex,nofollow (HTML meta + X-Robots-Tag). */
+const NOINDEX_NOFOLLOW_SLUGS = new Set([
+  'best-recruitment-lp',
+  'headhunter-lp',
+  'recruitment-agency-lp',
+]);
+
+/** Force robots meta for selected slugs; returns html + optional response headers. */
+function applyNoIndexNoFollow(html, slug) {
+  if (!NOINDEX_NOFOLLOW_SLUGS.has(slug)) {
+    return { html, headers: {} };
+  }
+  const robots = 'noindex, nofollow';
+  let out = html;
+  if (/name=["']robots["']/i.test(out)) {
+    out = out.replace(
+      /<meta\s+name=["']robots["']\s+content=["'][^"']*["']\s*\/?>/i,
+      `<meta name="robots" content="${robots}" />`,
+    );
+  } else {
+    out = out.replace(/<\/head>/i, `<meta name="robots" content="${robots}" />\n</head>`);
+  }
+  return { html: out, headers: { 'X-Robots-Tag': robots } };
+}
+
 /** Resolve migrated relative SEO URLs to the canonical production origin. */
 function absolutizeSeoUrls(html, slug = 'homepage') {
   const fallbackPath = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
@@ -48,6 +73,8 @@ export function serveLegacyPage(slug) {
 
   const raw = readFileSync(cleanedPath, 'utf-8');
   let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
+  const noIndex = applyNoIndexNoFollow(html, slug);
+  html = noIndex.html;
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -61,6 +88,7 @@ export function serveLegacyPage(slug) {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=0',
+      ...noIndex.headers,
     },
   });
 }
