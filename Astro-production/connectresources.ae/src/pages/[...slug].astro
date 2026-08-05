@@ -13,6 +13,10 @@ import {
   smartSliderCssForHtml,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import {
+  isNoIndexNoFollowPath,
+  NOINDEX_NOFOLLOW_ROBOTS,
+} from "../lib/seo/sitemap-config";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -48,12 +52,15 @@ const postCrumbs = post
     ]
   : [];
 
+const lpNoIndex = isNoIndexNoFollowPath(path);
+
 const seo = page
   ? {
       title: page.seo.title,
       description: page.seo.description,
       canonical: path,
       ogImage: page.seo.ogImage,
+      ...(lpNoIndex ? { robots: NOINDEX_NOFOLLOW_ROBOTS } : {}),
       schemas: [
         ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
