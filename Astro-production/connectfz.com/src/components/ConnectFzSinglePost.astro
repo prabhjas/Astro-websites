@@ -11,27 +11,42 @@ import {
   stripHtml,
   type PostEntry,
 } from "../lib/content";
-import { renderBlogCardsHtml } from "../lib/blog-card-html";
 
 interface Props {
   post: PostEntry;
   html: string;
-  related?: PostEntry[];
 }
 
-const { post, html, related = [] } = Astro.props;
+const { post, html } = Astro.props;
 const catNames = getCategories().filter((c) => post.categories.includes(c.id));
 const author = post.authorSlug ? getAuthorBySlug(post.authorSlug) : undefined;
 const title = stripHtml(post.title);
 const updated = formatDate(post.modified || post.date);
-const avatar =
-  (author?.avatar || "").replace(/^https?:\/\/connectfz\.com/, "") ||
-  "/wp-content/uploads/2024/02/1948c721253c374176e07cb97d9a202f660ff32f7b275c0691fcbda9cf221629-96x96.jpeg";
-const avatarLg = avatar.replace(/-96x96\./, "-300x300.").replace(/\?.*$/, "");
+
+/** Prefer mystery-man Gravatar (live `?s=300&d=mm&r=g`); avoid bare hashes that return custom icons. */
+function resolveAuthorAvatar(raw: string | undefined): string {
+  const fallback =
+    "/wp-content/uploads/2024/02/1948c721253c374176e07cb97d9a202f660ff32f7b275c0691fcbda9cf221629-96x96.jpeg";
+  let src = (raw || "").replace(/^https?:\/\/connectfz\.com/, "").trim() || fallback;
+  src = src.replace(/-96x96\./, "-300x300.");
+  if (/gravatar\.com\/avatar\//i.test(src)) {
+    const base = src.replace(/\?.*$/, "");
+    return `${base}?s=300&d=mm&r=g`;
+  }
+  return src.replace(/\?.*$/, "") || fallback;
+}
+
+const avatarSrc = resolveAuthorAvatar(author?.avatar);
+/** Live template hides email-looking display names; show only a real name when present. */
+const authorDisplayName = (() => {
+  const name = (post.authorName || author?.name || "").trim();
+  if (!name || /@/.test(name)) return "";
+  return name;
+})();
 const authorBio = (author?.description || "").replace(/\r\n/g, "\n").trim();
+const showAuthorBox = Boolean(post.authorSlug || author || authorBio || authorDisplayName);
 const shareUrl = encodeURIComponent(`https://connectfz.com${post.path}`);
 const shareTitle = encodeURIComponent(title);
-const relatedHtml = related.length ? renderBlogCardsHtml(related) : "";
 const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
 ---
 
@@ -177,9 +192,9 @@ const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
                   </div>
 
                   {
-                    (authorBio || post.authorName) && (
+                    showAuthorBox && (
                       <div
-                        class="elementor-element elementor-element-40292ad elementor-author-box--avatar-yes elementor-author-box--biography-yes elementor-widget elementor-widget-author-box"
+                        class="elementor-element elementor-element-40292ad elementor-author-box--avatar-yes elementor-author-box--biography-yes elementor-author-box--link-no elementor-widget elementor-widget-author-box"
                         data-id="40292ad"
                         data-element_type="widget"
                         data-widget_type="author-box.default"
@@ -191,22 +206,27 @@ const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
                               class="elementor-author-box__avatar"
                             >
                               <img
-                                src={avatarLg || avatar}
-                                alt={`Picture of ${post.authorName}`}
+                                src={avatarSrc}
+                                alt={authorDisplayName ? `Picture of ${authorDisplayName}` : "Author"}
                                 loading="lazy"
                                 width="300"
                                 height="300"
                               />
                             </a>
                             <div class="elementor-author-box__text">
-                              <div class="elementor-author-box__name">
-                                <a href={author?.path || `/author/${post.authorSlug}/`}>
-                                  {post.authorName}
-                                </a>
-                              </div>
-                              {authorBio && (
-                                <div class="elementor-author-box__bio" set:html={authorBio.replace(/\n/g, "<br />")} />
-                              )}
+                              {
+                                authorDisplayName ? (
+                                  <div class="elementor-author-box__name">
+                                    <a href={author?.path || `/author/${post.authorSlug}/`}>
+                                      {authorDisplayName}
+                                    </a>
+                                  </div>
+                                ) : null
+                              }
+                              <div
+                                class="elementor-author-box__bio"
+                                set:html={authorBio ? authorBio.replace(/\n/g, "<br />") : ""}
+                              />
                             </div>
                           </div>
                         </div>
@@ -286,6 +306,32 @@ const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
                         </div>
                         <div class="elementor-grid-item" role="listitem">
                           <a
+                            class="elementor-share-btn elementor-share-btn_reddit"
+                            href={`https://reddit.com/submit?url=${shareUrl}&title=${shareTitle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on reddit"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-reddit" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_pinterest"
+                            href={`https://www.pinterest.com/pin/create/button/?url=${shareUrl}&description=${shareTitle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on pinterest"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-pinterest" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
                             class="elementor-share-btn elementor-share-btn_whatsapp"
                             href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`}
                             target="_blank"
@@ -329,14 +375,3 @@ const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
     </div>
   </section>
 </div>
-
-{
-  relatedHtml && (
-    <section class="cfz-related-posts">
-      <div class="elementor-container elementor-column-gap-default" style="max-width:1140px;margin:0 auto;padding:0 20px 60px">
-        <h2 class="cfz-related-posts__title">Related Articles</h2>
-        <div class="elementor-grid elementor-posts-container elementor-grid-3" set:html={relatedHtml} />
-      </div>
-    </section>
-  )
-}
