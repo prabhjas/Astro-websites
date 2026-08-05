@@ -68,6 +68,11 @@ div.wpa {
     flex: 0 0 auto;
   }
 
+  /* Guard: if markup + SmartMenus both inject indicators, keep one */
+  .sp-elementor-header .elementor-nav-menu--main a > .sub-arrow ~ .sub-arrow {
+    display: none !important;
+  }
+
   .sp-elementor-header .elementor-nav-menu--main .sub-arrow .e-font-icon-svg {
     width: 0.65em;
     height: 0.65em;

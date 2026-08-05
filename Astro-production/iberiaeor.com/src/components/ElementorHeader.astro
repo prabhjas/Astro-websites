@@ -106,21 +106,12 @@ function withActiveState(html: string, current: string) {
   return out;
 }
 
-/** Elementor Pro injects .sub-arrow via JS; on static Astro we stamp them into markup. */
-const SUB_ARROW =
-  '<span class="sub-arrow"><svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg></span>';
-
-function withSubmenuIcons(html: string) {
-  return html.replace(
-    /<li\b([^>]*\bmenu-item-has-children\b[^>]*)>(\s*)<a\b([^>]*)>([\s\S]*?)<\/a>/gi,
-    (full, liAttrs: string, ws: string, aAttrs: string, inner: string) => {
-      if (/\bsub-arrow\b/.test(inner)) return full;
-      return `<li${liAttrs}>${ws}<a${aAttrs}>${inner}${SUB_ARROW}</a>`;
-    },
-  );
-}
-
-const html = withSubmenuIcons(withActiveState(headerHtml, path));
+/**
+ * Do NOT stamp .sub-arrow into markup.
+ * Elementor Pro nav-menu + SmartMenus already append submenu_icon (SVG caret).
+ * Stamping here caused double carets (Services ▼▼, nested ▶▶).
+ */
+const html = withActiveState(headerHtml, path);
 ---
 
 <header class="sp-elementor-header" data-sp-elementor-header set:html={html} />
