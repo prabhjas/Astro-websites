@@ -1,0 +1,47 @@
+# Canonical interim redirects for redo.ae
+# Drop future Rank Math / Redirection rules exports under imports/redirects/
+# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# FLOW will own day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  # Common aliases → real pages
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+
+  # Homepage aliases
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+
+  # Insights is the live blog index; /blog/ is the fleet alias
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301
