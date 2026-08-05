@@ -62,11 +62,16 @@
     });
   }
 
+  function isHiddenMultistepPanel(el) {
+    return Boolean(el.closest(".cf7-step, .form-main"));
+  }
+
   function isVisible(el) {
     if (!(el instanceof HTMLElement)) return false;
-    if (el.closest("#transaction_hide, .gclid_tag, [style*='display:none'], [style*='display: none']")) {
-      return false;
-    }
+    if (el.closest("#transaction_hide, .gclid_tag")) return false;
+    // AMC wizard keeps later steps as display:none — still init those phone fields.
+    if (isHiddenMultistepPanel(el)) return true;
+    if (el.closest("[style*='display:none'], [style*='display: none']")) return false;
     const style = window.getComputedStyle(el);
     if (style.display === "none" || style.visibility === "hidden") return false;
     return true;
@@ -185,6 +190,8 @@
     setTimeout(() => phones.forEach(syncDialPadding), 100);
     setTimeout(() => phones.forEach(syncDialPadding), 500);
   }
+
+  window.__SP_INIT_PHONE_FLAGS__ = init;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

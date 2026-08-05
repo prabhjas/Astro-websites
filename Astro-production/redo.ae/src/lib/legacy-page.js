@@ -13,15 +13,21 @@ export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
 
   if (!existsSync(cleanedPath)) {
-    // Public visitors must get a real 404 — never 503 or internal prepare:page hints.
-    console.warn(`[legacy-page] Missing prepared HTML for "${slug}" → 404`);
+    // Public visitors must get a real 404 â€” never 503 or internal prepare:page hints.
+    console.warn(`[legacy-page] Missing prepared HTML for "${slug}" â†’ 404`);
     return notFoundResponse();
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
   let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
 
-  // Cloudflare email protection is not available locally — decode obfuscated addresses.
+  // Normalize CF7 form actions to the Astro contact endpoint (trailingSlash: always).
+  html = html.replace(
+    /\baction=(['"])[^'"]*wpcf7[^'"]*\1/gi,
+    'action=$1/api/contact/$1',
+  );
+
+  // Cloudflare email protection is not available locally â€” decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
     html = html.replace(
       /<\/body>/i,
@@ -29,11 +35,16 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  // CF7 → /api/contact + Ads/UTM capture (also injected at prepare time; keep as runtime safety).
+  // CF7 â†’ /api/contact + Ads/UTM capture (also injected at prepare time; keep as runtime safety).
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=20260805-popup-phone-v4" defer></script>\n</body>',
+    );
+  } else {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?v=[^"']*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260805-popup-phone-v4',
     );
   }
 
