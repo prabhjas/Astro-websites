@@ -259,4 +259,17 @@
   } catch {
     /* ignore */
   }
+
+  // Load single-post sticky form helper (fleet may serve a stale Astro script bundle)
+  if (
+    !window.__IBERIA_STICKY_BOOTED__ &&
+    document.querySelector(
+      ".single-post .elementor-element-5e2cc20, .elementor-234 .elementor-element-5e2cc20",
+    )
+  ) {
+    window.__IBERIA_STICKY_BOOTED__ = true;
+    const s = document.createElement("script");
+    s.src = "/scripts/elementor-sticky-columns.js";
+    document.head.appendChild(s);
+  }
 })();
