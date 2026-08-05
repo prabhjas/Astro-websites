@@ -42,7 +42,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
 | **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
-| **5095** | redo.ae | `redo.ae` | placeholder |
+| **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
 | **5098** | kpmpro.ae | `kpmpro.ae` | placeholder |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **15 scaffolded** · **29 placeholders** · next free **5124**
+**Totals:** 44 sites · **16 scaffolded** · **28 placeholders** · next free **5124**
 
 ---
 
@@ -97,6 +97,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5092 | c-uae.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5093 | kinzahr.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
+| 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01–10 local PASS on :5095 |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists **only** the nine cutover targets: Tier‑1 (Evolution, CBSS, SP Heavy, Iberia Workforce, Connect Group) + EOR, Connect Staff, C‑UAE, KinzaHR. Other scaffolded domains keep ports reserved but stay out of the live Caddyfile until their Node unit is ready.

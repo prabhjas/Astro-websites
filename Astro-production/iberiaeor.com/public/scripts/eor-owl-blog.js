@@ -59,12 +59,14 @@
       const settings = JSON.parse(raw.replace(/&quot;/g, '"'));
       return {
         items: Number(settings.item_show) || Number(settings.items) || 3,
-        autoplay: settings.autoplay === "yes" || settings.auto_play === "yes",
+        // Always auto-rotate on desktop + mobile
+        autoplay: settings.autoplay !== "no" && settings.auto_play !== "no",
         loop: settings.loop !== "no",
         margin: Number(settings.item_space) || Number(settings.margin) || 20,
+        autoplayTimeout: Number(settings.autoplay_speed) || 5000,
       };
     } catch {
-      return { items: 3, autoplay: true, loop: true, margin: 20 };
+      return { items: 3, autoplay: true, loop: true, margin: 20, autoplayTimeout: 5000 };
     }
   }
 
@@ -78,7 +80,7 @@
     const $ = window.jQuery;
 
     document.querySelectorAll(
-      ".blog_carousel.owl-carousel, .owl-carousel.curosel-style, .blog_wrap.owl-carousel",
+      ".blog_carousel.owl-carousel, .owl-carousel.curosel-style, .blog_wrap.owl-carousel, .owl-carousel",
     ).forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
       if (el.dataset.eorOwl === "1") return;
@@ -100,9 +102,9 @@
           items: opts.items,
           loop: opts.loop,
           margin: opts.margin,
-          autoplay: opts.autoplay,
-          autoplayTimeout: 5000,
-          autoplayHoverPause: true,
+          autoplay: true,
+          autoplayTimeout: opts.autoplayTimeout || 5000,
+          autoplayHoverPause: false,
           nav: true,
           dots: false,
           navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
