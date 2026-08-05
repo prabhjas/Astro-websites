@@ -126,10 +126,15 @@
     border-color 0.18s ease;
 }
 
+/*
+ * Deeper than the #10918e brand teal used elsewhere on the band: white 14px
+ * bold text over #10918e is only 3.84:1, under the 4.5:1 WCAG AA minimum.
+ * #0c7472 is the same hue and reads as the same button at 5.59:1.
+ */
 .kz-licence__btn--primary {
-  background: #10918e;
+  background: #0c7472;
   color: #fff;
-  border: 1px solid #10918e;
+  border: 1px solid #0c7472;
 }
 
 .kz-licence__btn--primary:hover,
