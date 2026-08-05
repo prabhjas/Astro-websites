@@ -6,7 +6,7 @@
 |----------|-----|-----|
 | **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** — develop → test → forms → security → git deploy templates → verify → **owner Caddy last** |
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **All 44 domains + ports + scaffolded vs placeholder** (share with developers) |
-| **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects — before/after cutover |
+| **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
