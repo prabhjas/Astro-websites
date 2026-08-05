@@ -9,7 +9,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
-| **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs |
+| **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |
 | **Owner Caddy (last)** | **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** — root/systemd/Caddy only; not a developer local step |
 
 ```text
@@ -188,7 +188,8 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] Site serves on `http://127.0.0.1:<PORT>`
 - [ ] Fleet smoke script green
 - [ ] Bearer smoke against `/api/internal/*` (posts/redirects/gtm/leads as featured) with test secret
-- [ ] Homepage + 2–3 key inner pages + 404
+- [ ] Homepage + 2–3 key inner pages + **404 shows this site’s brand/logo** (not a peer template)
+- [ ] After rebuild: restart Node; spot-check an inner page (avoid stale `dist` chunk hangs)
 - [ ] No secrets committed (`.env` / `.env.prod` gitignored)
 
 **Local does not need Caddy** — see [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) § Local vs server.
@@ -264,11 +265,16 @@ Minimum before asking owner for Caddy:
 - [ ] Trailing slash redirects (bare → `/`)
 - [ ] Absolute canonicals + robots/sitemap/llms 200
 - [ ] `/runtime-gtm.js` works (`resolveEffectiveGtmConfig` / recreateScript loader)
-- [ ] Contact + gclid/UTM + Pipedrive path
+- [ ] Contact + gclid/UTM + Pipedrive path (no SMTP / `FORM_NOTIFICATION_*` required)
 - [ ] Internal APIs deny without bearer
+- [ ] **404 branding** = this site only; logo file exists
+- [ ] **Content parity** vs live post/page sitemap; redirects don’t point at missing Astro paths
+- [ ] **Images:** featured + WP size variants used on insights/blog cards; served 200 after `public/` (+ `dist/client` or rebuild)
 - [ ] Deploy artifacts in git; no quarantine/bak/`_crawl` junk
 
 After owner Caddy + Cloudflare Full, re-run the same checklist on **public HTTPS**.
+
+Detail for §9–10 (404 / content / media / TOC / stale dist): **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)**.
 
 ---
 
