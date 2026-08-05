@@ -1,0 +1,44 @@
+---
+import type { AuthorDirectoryEntry } from '../../lib/authors.ts';
+import { getDisplayAuthor } from '../../lib/author-display.ts';
+
+interface Props {
+  entry: AuthorDirectoryEntry;
+}
+
+const { entry } = Astro.props;
+const display = getDisplayAuthor(entry.author);
+const { name, title, shortBio, avatarSrc, avatarAlt, profileUrl } = display;
+const count = entry.postCount;
+const countLabel = count === 1 ? '1 published blog' : `${count} published blogs`;
+---
+
+<article class="kpmpro-author-list-card">
+  <div class="kpmpro-author-list-card__image-wrap">
+    {
+      avatarSrc ? (
+        <img
+          src={avatarSrc}
+          alt={avatarAlt}
+          width="280"
+          height="280"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="kpmpro-author-list-card__initials" aria-hidden="true">
+          {name.slice(0, 1)}
+        </span>
+      )
+    }
+  </div>
+  <div class="kpmpro-author-list-card__body">
+    <h2 class="kpmpro-author-list-card__name">{name}</h2>
+    {title && <p class="kpmpro-author-list-card__role">{title}</p>}
+    {shortBio && <p class="kpmpro-author-list-card__bio">{shortBio}</p>}
+    <p class="kpmpro-author-list-card__count">{countLabel}</p>
+    <a class="kpmpro-author-list-card__cta" href={profileUrl}>
+      View Profile
+    </a>
+  </div>
+</article>

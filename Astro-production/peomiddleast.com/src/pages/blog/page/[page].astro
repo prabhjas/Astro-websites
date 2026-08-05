@@ -1,0 +1,20 @@
+---
+import { getBlogPageData, serveArchivePage } from '../../../lib/archives.ts';
+import { getAllBlogPosts, ARCHIVE_POSTS_PER_PAGE } from '../../../lib/blog.ts';
+
+export const prerender = false;
+
+const page = Number(Astro.params.page || '1');
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect('/blog/');
+}
+
+const total = getAllBlogPosts().length;
+const totalPages = Math.max(1, Math.ceil(total / ARCHIVE_POSTS_PER_PAGE));
+if (page > totalPages) {
+  return new Response('Not found', { status: 404 });
+}
+
+const data = getBlogPageData(page);
+return serveArchivePage(data);
+---

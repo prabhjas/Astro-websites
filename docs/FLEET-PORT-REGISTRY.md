@@ -45,7 +45,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
-| **5098** | kpmpro.ae | `kpmpro.ae` | placeholder |
+| **5098** | kpmpro.ae | `kpmpro.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | placeholder |
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
 | **5101** | connectzone.ae | `connectzone.ae` | placeholder |
@@ -65,7 +65,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5115** | saudicompanyformation.com | `saudicompanyformation.com` | placeholder |
 | **5116** | connectbusinesscenter.com | `connectbusinesscenter.com` | placeholder |
 | **5117** | theuaegate.com | `theuaegate.com` | placeholder |
-| **5118** | peomiddleast.com | `peomiddleast.com` | placeholder |
+| **5118** | peomiddleast.com | `peomiddleast.com` | scaffolded |
 | **5119** | interlibya.com | `interlibya.com` | placeholder |
 | **5120** | alburaq.ae | `alburaq.ae` | placeholder |
 | **5121** | izi.ae | `izi.ae` | placeholder |
@@ -99,8 +99,10 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
 | 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01–10 local PASS on :5095 |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
+| 5098 | kpmpro.ae | Scaffolded |
+| 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 
-“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists **only** the nine cutover targets: Tier‑1 (Evolution, CBSS, SP Heavy, Iberia Workforce, Connect Group) + EOR, Connect Staff, C‑UAE, KinzaHR. Other scaffolded domains keep ports reserved but stay out of the live Caddyfile until their Node unit is ready.
+“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 
 ---
 

@@ -1,0 +1,62 @@
+{
+  "siteTitle": "PEO Middle East",
+  "summary": "PEO Middle East helps companies hire, onboard, and manage compliant workforces across the Middle East through Professional Employer Organization (PEO), Employer of Record (EOR), payroll, and HR solutions.",
+  "details": "Based in Dubai and part of Connect Group, PEO Middle East supports regional expansion with PEO/EOR, payroll outsourcing, immigration, and relocation services across UAE, Saudi Arabia, Bahrain, Qatar, Oman, Kuwait, Egypt, Turkey, and more.",
+  "groupOrder": [
+    "Services",
+    "Locations",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Insights cover PEO vs EOR, Middle East hiring, payroll outsourcing, immigration, and workforce compliance.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "PEO Middle East homepage — deploy your workforce with PEO solutions."
+    },
+    "/contact/": {
+      "group": "Company Pages",
+      "title": "Contact",
+      "description": "Contact PEO Middle East."
+    },
+    "/insights/": {
+      "group": "Blog",
+      "title": "Insights",
+      "description": "PEO, EOR, and Middle East workforce insights."
+    },
+    "/request-a-quote/": {
+      "group": "Company Pages",
+      "title": "Request a Quote",
+      "description": "Get a free PEO quote."
+    },
+    "/uae-professional-employment-organization/": {
+      "group": "Services",
+      "title": "UAE PEO",
+      "description": "Professional Employer Organization services in the UAE."
+    },
+    "/uae-employer-of-record/": {
+      "group": "Services",
+      "title": "UAE EOR",
+      "description": "Employer of Record services in the UAE."
+    },
+    "/peo-pedia/": {
+      "group": "Company Pages",
+      "title": "PEO Pedia",
+      "description": "PEO terminology and guides."
+    },
+    "/price-plan/": {
+      "group": "Company Pages",
+      "title": "Pricing",
+      "description": "PEO Middle East service plans."
+    },
+    "/our-history/": {
+      "group": "Company Pages",
+      "title": "Our History",
+      "description": "About PEO Middle East."
+    }
+  }
+}
