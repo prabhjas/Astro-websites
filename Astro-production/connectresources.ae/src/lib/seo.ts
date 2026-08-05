@@ -8,11 +8,24 @@ export type SeoInput = {
   ogImage?: string;
   ogType?: "website" | "article";
   schemas?: unknown[];
+  /** Explicit robots meta (overrides fallback and noindex flag). */
+  robots?: string;
   noindex?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
   authorName?: string;
 };
+
+const DEFAULT_ROBOTS =
+  "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+
+function robotsFromSeoData(fallback?: SeoData): string | null {
+  if (!fallback?.robots) return null;
+  if (typeof fallback.robots === "string") return fallback.robots;
+  const index = fallback.robots.index || "index";
+  const follow = fallback.robots.follow || "follow";
+  return `${index}, ${follow}`;
+}
 
 export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   const title = input.title || fallback?.title || `${site.shortName} | Heavy Equipment Rental UAE`;
@@ -21,7 +34,10 @@ export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
   const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
   const ogType = input.ogType || "website";
-  const robots = input.noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+  const robots =
+    input.robots ||
+    robotsFromSeoData(fallback) ||
+    (input.noindex ? "noindex, nofollow" : DEFAULT_ROBOTS);
 
   const schemas = [
     ...(input.schemas || fallback?.schemas || []),
