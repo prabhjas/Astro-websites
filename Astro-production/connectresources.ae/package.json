@@ -17,6 +17,12 @@
     "extract": "node scripts/extract-wp.mjs",
     "refresh:bodies": "node scripts/refresh-bodies.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
+    "assets:offline": "node scripts/wp-offline-migrate.mjs",
+    "assets:parity": "node scripts/parity-fix.mjs",
+    "migrate:wp-assets": "node scripts/wp-self-contained-migration.mjs",
+    "migrate:wp-assets:dry": "node scripts/wp-self-contained-migration.mjs --dry-run",
+    "migrate:wp-assets:rewrite": "node scripts/wp-self-contained-migration.mjs --rewrite-only",
+    "migrate:fix-asset-refs": "node scripts/fix-broken-asset-refs.mjs",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
