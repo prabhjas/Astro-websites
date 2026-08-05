@@ -83,16 +83,30 @@ const seo = page
       ],
     };
 
+const isElementorPage = /data-elementor-type=["']wp-page["']/.test(html);
+/** Live WP uses Elementor Canvas for some LPs (own header/footer, no theme chrome). */
+const isElementorCanvas =
+  path === "/lp-page-cr/" ||
+  String((entry as { template?: string }).template || "").includes("elementor_canvas");
+const entryElementorCss = (entry as { elementorCss?: string }).elementorCss;
+
 const extraCss = [
   ...smartSliderCssForHtml(html),
   ...((entry.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
+  ...(entryElementorCss ? [entryElementorCss] : []),
 ];
 
 const hasMainShell = /id=["']page-content["']/.test(html);
 const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
+/** Elementor pages must not be wrapped in Impreza .l-section (breaks full-bleed layouts). */
+const renderRawHtml = isImprezaShell || isElementorPage;
 
 const bodyClass = page
-  ? `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
+  ? isElementorCanvas
+    ? `wp-singular page-template page-template-elementor_canvas page page-id-${page.id} elementor-default elementor-template-canvas elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child`
+    : isElementorPage
+      ? `page wp-singular page-template-default page-id-${page.id} elementor-default elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`
+      : `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
   : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
 ---
 
@@ -103,9 +117,11 @@ const bodyClass = page
   extraCss={extraCss}
   seo={seo}
   menuActivePath={post ? "/blog/" : undefined}
+  loadElementor={isElementorPage}
+  hideSiteChrome={isElementorCanvas}
 >
   {
-    isImprezaShell ? (
+    renderRawHtml ? (
       <Fragment set:html={html} />
     ) : page ? (
       <main id="page-content" class="l-main">

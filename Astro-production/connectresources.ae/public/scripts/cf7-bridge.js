@@ -105,7 +105,7 @@
 
   function getPhoneValue(form) {
     const phone =
-      form.querySelector("input.wpcf7-phonetext, input[name='phonetext-597'], input[name='phone'], input[type='tel']");
+      form.querySelector("input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']");
     if (!phone) return "";
 
     try {
@@ -187,7 +187,7 @@
     const last = form.querySelector("[name='last-name'], [name='lastName']");
     const email = form.querySelector("[name='your-email'], [name='email']");
     const phoneEl =
-      form.querySelector("input.wpcf7-phonetext, input[name='phonetext-597'], input[name='phone'], input[type='tel']");
+      form.querySelector("input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']");
 
     if (first) sanitizeNameInput(first);
     if (last) sanitizeNameInput(last);
