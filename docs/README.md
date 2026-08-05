@@ -4,8 +4,9 @@
 
 | Priority | Doc | Use |
 |----------|-----|-----|
-| **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** — development → test → forms → security → Caddy → final checks → deploy |
+| **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** — develop → test → forms → security → git deploy templates → verify → **owner Caddy last** |
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **All 44 domains + ports + scaffolded vs placeholder** (share with developers) |
+| **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects — before/after cutover |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
@@ -22,8 +23,9 @@ Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
 | 04 | [CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md) | Deep dive: forms, geo, Pipedrive, FLOW API |
 | 05 | [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md) | Import CSV/JSON redirects (until FLOW) |
 | 06 | [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md) · [local-fleet-test.md](local-fleet-test.md) | Clone, install, run + smoke locally |
-| 08–09 | [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) | Caddy + Cloudflare + ports (server & local notes) |
-| 09 | [server-side-work.md](server-side-work.md) · [server-ops-only.md](server-ops-only.md) | Server overview / root checklist |
+| 08 | [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) | Caddy **patterns** + git templates (not live reload) |
+| 09 | [server-side-work.md](server-side-work.md) · [server-ops-only.md](server-ops-only.md) | App sync / server overview |
+| 10 | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Full go-live verify |
 
 Also: [`caddy/`](../caddy/README.md) (Caddy archive) · [CLAUDE-CONNECTGROUP-HANDOFF.md](CLAUDE-CONNECTGROUP-HANDOFF.md) (GitHub context)
 
@@ -37,6 +39,7 @@ Per-site docs live under each `Astro-production/<domain>/docs/` (including `CONN
 
 | Doc | Use |
 |-----|-----|
-| **[OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md)** | Dynamic GTM/GA4 via `/runtime-gtm.js` + `.env` → FLOW override. Run at end of go-live. Do **not** paste static tags into pages/posts. |
+| **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** | **Live Caddy + root systemd** — run at end of go-live. Includes Aaron one-liner for the nine-site batch. |
+| **[OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md)** | Dynamic GTM/GA4 via `/runtime-gtm.js` + `.env` → FLOW override. Do **not** paste static tags into pages/posts. |
 
-Keep GTM/GA4 ownership here — do not fold this into `00-NEW-SITE-MASTER.md` developer phases.
+Keep Caddy/root and GTM/GA4 ownership here — do not fold live `/etc/caddy` reloads into developer Phase 06.
