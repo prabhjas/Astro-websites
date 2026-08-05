@@ -1,0 +1,529 @@
+{
+  "slug": "villa-painting",
+  "generatedAt": "2026-08-05T06:52:48.793Z",
+  "origin": "https://redo.ae",
+  "count": 130,
+  "note": "CSS/JS under public/ scanned for nested font URLs; Elementor escaped URLs rewritten",
+  "assets": [
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/After2.webp",
+      "local": "/wp-content/uploads/2025/07/After2.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2023/12/logo-final.png",
+      "local": "/wp-content/uploads/2023/12/logo-final.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/css/dnd-upload-cf7.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/css/dnd-upload-cf7.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+      "local": "/wp-content/cache/min/1/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css",
+      "local": "/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css",
+      "local": "/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css",
+      "local": "/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css",
+      "local": "/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/frontend.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/frontend.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-6.css",
+      "local": "/wp-content/uploads/elementor/css/post-6.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-heading.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/css/widget-testimonial-carousel.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/widget-testimonial-carousel.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/css/widget-carousel-module-base.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/widget-carousel-module-base.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-image-box.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image-box.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-counter.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-counter.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7041.css",
+      "local": "/wp-content/uploads/elementor/css/post-7041.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2023/12/SF-Pro-Display-Regular.eot",
+      "local": "/wp-content/uploads/2023/12/SF-Pro-Display-Regular.eot"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2023/12/sf-pro-text-regular.woff",
+      "local": "/wp-content/uploads/2023/12/sf-pro-text-regular.woff"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2023/12/SF-Pro-Display-Regular.ttf",
+      "local": "/wp-content/uploads/2023/12/SF-Pro-Display-Regular.ttf"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/themes/hello-elementor/style.css",
+      "local": "/wp-content/themes/hello-elementor/style.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor-child-theme/style.css",
+      "local": "/wp-content/cache/min/1/wp-content/themes/hello-elementor-child-theme/style.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/css/twentytwenty.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/css/twentytwenty.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/uploads/happyaddons/css/ha-7041.css",
+      "local": "/wp-content/cache/min/1/wp-content/uploads/happyaddons/css/ha-7041.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-451.css",
+      "local": "/wp-content/uploads/elementor/css/post-451.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-557.css",
+      "local": "/wp-content/uploads/elementor/css/post-557.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css",
+      "local": "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/jquery/jquery.min.js",
+      "local": "/wp-includes/js/jquery/jquery.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/jquery/jquery-migrate.min.js",
+      "local": "/wp-includes/js/jquery/jquery-migrate.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js",
+      "local": "/wp-content/cache/min/1/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/dom-purify/purify.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/vendor/dom-purify/purify.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css",
+      "local": "/wp-content/cache/min/1/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js",
+      "local": "/wp-content/cache/min/1/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png",
+      "local": "/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Landing-Logo-Redo-White.svg",
+      "local": "/wp-content/uploads/2025/10/Landing-Logo-Redo-White.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/logo-final.svg",
+      "local": "/wp-content/uploads/2025/07/logo-final.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Layer_1-5.svg",
+      "local": "/wp-content/uploads/2025/07/Layer_1-5.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Warranty.svg",
+      "local": "/wp-content/uploads/2025/07/Warranty.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/atalia_minotti_brand.svg",
+      "local": "/wp-content/uploads/2025/07/atalia_minotti_brand.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/KNAUFLogo2024sRGB.svg",
+      "local": "/wp-content/uploads/2025/07/KNAUFLogo2024sRGB.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/grohe-seeklogo-1.svg",
+      "local": "/wp-content/uploads/2025/07/grohe-seeklogo-1.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/RAK-Logo.svg",
+      "local": "/wp-content/uploads/2025/07/RAK-Logo.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/6509ad4790eb3c36576186e1_occhio-logo.svg",
+      "local": "/wp-content/uploads/2025/07/6509ad4790eb3c36576186e1_occhio-logo.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/mapei-seeklogo.svg",
+      "local": "/wp-content/uploads/2025/07/mapei-seeklogo.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/all-logo.png",
+      "local": "/wp-content/uploads/2025/07/all-logo.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Frame-tab.png",
+      "local": "/wp-content/uploads/2025/07/Frame-tab.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Experienced-Painters-image-solution-service-page.webp",
+      "local": "/wp-content/uploads/2025/10/Experienced-Painters-image-solution-service-page.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Fast-Reliable-image-solution-service-page.webp",
+      "local": "/wp-content/uploads/2025/10/Fast-Reliable-image-solution-service-page.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/High-Quality-Materials-image-solution-service-page.webp",
+      "local": "/wp-content/uploads/2025/10/High-Quality-Materials-image-solution-service-page.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Eco-Friendly-Solutions-image-solution-service-page.webp",
+      "local": "/wp-content/uploads/2025/10/Eco-Friendly-Solutions-image-solution-service-page.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-1.webp",
+      "local": "/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-1.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-2.webp",
+      "local": "/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-2.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-3.webp",
+      "local": "/wp-content/uploads/2025/10/Our-latest-project-villa-painting-services-3.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Plan-Survey-villa-painting-services-image.webp",
+      "local": "/wp-content/uploads/2025/10/Plan-Survey-villa-painting-services-image.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Design-Approve-villa-painting-services-image.webp",
+      "local": "/wp-content/uploads/2025/10/Design-Approve-villa-painting-services-image.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Build-Handover-villa-painting-services-image.webp",
+      "local": "/wp-content/uploads/2025/10/Build-Handover-villa-painting-services-image.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Before-villa-painting-services.webp",
+      "local": "/wp-content/uploads/2025/10/Before-villa-painting-services.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/After-villa-painting-services.webp",
+      "local": "/wp-content/uploads/2025/10/After-villa-painting-services.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Team-scaled.webp",
+      "local": "/wp-content/uploads/2025/07/Team-scaled.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/10/Testimonial-Villa-painting-service-image.webp",
+      "local": "/wp-content/uploads/2025/10/Testimonial-Villa-painting-service-image.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Review.png",
+      "local": "/wp-content/uploads/2025/07/Review.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Facebook.svg",
+      "local": "/wp-content/uploads/2025/07/Facebook.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/Instagram.svg",
+      "local": "/wp-content/uploads/2025/07/Instagram.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/logo-final-1.svg",
+      "local": "/wp-content/uploads/2025/07/logo-final-1.svg"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2024/03/whatsapp-button.png",
+      "local": "/wp-content/uploads/2024/03/whatsapp-button.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/css/frontend.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/css/frontend.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-includes/css/dashicons.min.css",
+      "local": "/wp-content/cache/min/1/wp-includes/css/dashicons.min.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7073.css",
+      "local": "/wp-content/uploads/elementor/css/post-7073.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7077.css",
+      "local": "/wp-content/uploads/elementor/css/post-7077.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7078.css",
+      "local": "/wp-content/uploads/elementor/css/post-7078.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7079.css",
+      "local": "/wp-content/uploads/elementor/css/post-7079.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7090.css",
+      "local": "/wp-content/uploads/elementor/css/post-7090.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7089.css",
+      "local": "/wp-content/uploads/elementor/css/post-7089.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/elementor/css/post-7091.css",
+      "local": "/wp-content/uploads/elementor/css/post-7091.css"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/dist/hooks.min.js",
+      "local": "/wp-includes/js/dist/hooks.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/dist/i18n.min.js",
+      "local": "/wp-includes/js/dist/i18n.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/js/codedropz-uploader-min.js",
+      "local": "/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/js/codedropz-uploader-min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/js/wpa.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/js/wpa.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/js/frontend.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/js/frontend.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js",
+      "local": "/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js",
+      "local": "/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/js/frontend-modules.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/jquery/ui/core.min.js",
+      "local": "/wp-includes/js/jquery/ui/core.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/",
+      "local": "/wp-content/plugins/elementor/assets/"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads",
+      "local": "/wp-content/uploads"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/After2-1024x853.webp",
+      "local": "/wp-content/uploads/2025/07/After2-1024x853.webp"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min.js",
+      "local": "/wp-content/plugins/elementor/assets/lib/jquery-numerator/jquery-numerator.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/happy-elementor-addons/assets/js/extension-reading-progress-bar.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/js/extension-reading-progress-bar.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/js/jquery.event.move.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/js/jquery.event.move.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/js/jquery.twentytwenty.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/vendor/twentytwenty/js/jquery.twentytwenty.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-includes/js/imagesloaded.min.js",
+      "local": "/wp-includes/js/imagesloaded.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/pdfjs/lib",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/vendor/pdfjs/lib"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/happy-elementor-addons/assets/js/happy-addons.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/js/happy-addons.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/",
+      "local": "/wp-content/plugins/elementor-pro/assets/"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json",
+      "local": "/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js",
+      "local": "/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js",
+      "local": "/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/plugins/wp-rocket/assets/img/youtube.png",
+      "local": "/wp-content/plugins/wp-rocket/assets/img/youtube.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/ei_arrow-up-1.png",
+      "local": "/wp-content/uploads/2025/07/ei_arrow-up-1.png"
+    },
+    {
+      "remote": "https://redo.ae/wp-content/uploads/2025/07/ei_arrow-up.png",
+      "local": "/wp-content/uploads/2025/07/ei_arrow-up.png"
+    }
+  ]
+}
