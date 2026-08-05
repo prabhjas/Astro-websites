@@ -39,8 +39,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -49,8 +49,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -74,8 +74,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp",
+              "@id": "/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp",
+              "url": "/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp",
               "width": "972",
               "height": "972",
               "caption": "Facility Management",
@@ -95,7 +95,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp"
+                "@id": "/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp"
               },
               "inLanguage": "en-US"
             },
@@ -171,7 +171,7 @@
                 "@id": "https://connectfm.ae/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp"
+                "@id": "/wp-content/uploads/2025/09/Trusted-by-Businesses-and-Homes-Across-the-UAE.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -257,8 +257,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -267,8 +267,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -287,8 +287,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/About-Us-Banner-2.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/About-Us-Banner-2.webp",
+              "@id": "/wp-content/uploads/2025/10/About-Us-Banner-2.webp",
+              "url": "/wp-content/uploads/2025/10/About-Us-Banner-2.webp",
               "width": "860",
               "height": "944",
               "caption": "Facility management",
@@ -327,7 +327,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/About-Us-Banner-2.webp"
+                "@id": "/wp-content/uploads/2025/10/About-Us-Banner-2.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -367,7 +367,7 @@
                 "@id": "https://connectfm.ae/about-us/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/About-Us-Banner-2.webp"
+                "@id": "/wp-content/uploads/2025/10/About-Us-Banner-2.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -434,8 +434,8 @@
       "canonical": "",
       "ogImage": "/wp-content/uploads/2026/03/Booking.webp",
       "robots": {
-        "index": "index",
-        "follow": "follow"
+        "index": "noindex",
+        "follow": "nofollow"
       },
       "schema": null,
       "schemas": [
@@ -452,8 +452,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -462,8 +462,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -482,8 +482,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png",
+              "@id": "/wp-content/uploads/2025/10/Badge-1.png",
+              "url": "/wp-content/uploads/2025/10/Badge-1.png",
               "width": "200",
               "height": "200",
               "inLanguage": "en-US"
@@ -521,7 +521,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png"
+                "@id": "/wp-content/uploads/2025/10/Badge-1.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -561,7 +561,7 @@
                 "@id": "https://connectfm.ae/ac-duct-cleaning-lp/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png"
+                "@id": "/wp-content/uploads/2025/10/Badge-1.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -648,8 +648,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -658,8 +658,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -678,8 +678,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/check-circle-1-1.svg",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/check-circle-1-1.svg",
+              "@id": "/wp-content/uploads/2025/10/check-circle-1-1.svg",
+              "url": "/wp-content/uploads/2025/10/check-circle-1-1.svg",
               "width": "200",
               "height": "200",
               "inLanguage": "en-US"
@@ -717,7 +717,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/check-circle-1-1.svg"
+                "@id": "/wp-content/uploads/2025/10/check-circle-1-1.svg"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -756,7 +756,7 @@
                 "@id": "https://connectfm.ae/blog/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/check-circle-1-1.svg"
+                "@id": "/wp-content/uploads/2025/10/check-circle-1-1.svg"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -846,8 +846,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -856,8 +856,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -876,8 +876,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png",
+              "@id": "/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png",
+              "url": "/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png",
               "width": "764",
               "height": "500",
               "caption": "Cleaning &amp; Housekeeping Services",
@@ -916,7 +916,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png"
+                "@id": "/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -1018,7 +1018,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png"
+                "@id": "/wp-content/uploads/2025/10/Why-Professional-Cleaning-Housekeeping-Matters.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -1104,8 +1104,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1114,8 +1114,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1134,8 +1134,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp",
+              "@id": "/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp",
+              "url": "/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp",
               "width": "972",
               "height": "800",
               "caption": "deep cleaning",
@@ -1182,7 +1182,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp"
+                "@id": "/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -1285,7 +1285,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/deep-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp"
+                "@id": "/wp-content/uploads/2025/10/5-Signs-you-may-need-Deep-Cleaning.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -1371,8 +1371,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1381,8 +1381,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1401,8 +1401,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp",
+              "url": "/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp",
               "width": "764",
               "height": "360",
               "caption": "Facade Cleaning",
@@ -1449,7 +1449,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -1552,7 +1552,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/facade-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Facade-Rope-Access-Cleaning-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -1638,8 +1638,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1648,8 +1648,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1668,8 +1668,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp",
               "width": "972",
               "height": "880",
               "caption": "Grease Trap Cleaning",
@@ -1716,7 +1716,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -1819,7 +1819,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/grease-trap-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Grease-Trap-Cleaning-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -1905,8 +1905,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1915,8 +1915,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -1935,8 +1935,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp",
+              "url": "/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp",
               "width": "764",
               "height": "629",
               "caption": "Office Cleaning",
@@ -1983,7 +1983,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -2086,7 +2086,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/office-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Office-Cleaning-that-fits-your-business-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -2172,8 +2172,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2182,8 +2182,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2202,8 +2202,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png",
+              "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png",
+              "url": "/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png",
               "width": "764",
               "height": "736",
               "caption": "Residential cleaning services",
@@ -2250,7 +2250,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -2353,7 +2353,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/residential-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-as-Your-Cleaning-Partner.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -2439,8 +2439,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2449,8 +2449,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2469,8 +2469,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp",
               "width": "972",
               "height": "880",
               "caption": "Water Tank cleaning",
@@ -2517,7 +2517,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -2620,7 +2620,7 @@
                 "@id": "https://connectfm.ae/cleaning-housekeeping/water-tank-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Water-Tank-Services-are-essential.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -2706,8 +2706,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2716,8 +2716,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2736,8 +2736,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Our-story-2.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Our-story-2.webp",
+              "@id": "/wp-content/uploads/2025/10/Our-story-2.webp",
+              "url": "/wp-content/uploads/2025/10/Our-story-2.webp",
               "width": "692",
               "height": "692",
               "caption": "Connect FM",
@@ -2776,7 +2776,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Our-story-2.webp"
+                "@id": "/wp-content/uploads/2025/10/Our-story-2.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -2816,7 +2816,7 @@
                 "@id": "https://connectfm.ae/contact/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Our-story-2.webp"
+                "@id": "/wp-content/uploads/2025/10/Our-story-2.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -2902,8 +2902,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2912,8 +2912,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -2932,8 +2932,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp",
               "width": "764",
               "height": "500",
               "caption": "Fleet Management",
@@ -2972,7 +2972,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -3067,7 +3067,7 @@
                 "@id": "https://connectfm.ae/fleet-management/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Fleet-Management-matters_-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -3153,8 +3153,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3163,8 +3163,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3183,8 +3183,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp",
               "width": "640",
               "height": "617",
               "caption": "AMC contracts",
@@ -3223,7 +3223,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -3263,7 +3263,7 @@
                 "@id": "https://connectfm.ae/get-amc/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-Connect-FM_-4.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -3347,8 +3347,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3357,8 +3357,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3377,8 +3377,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp",
+              "url": "/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp",
               "width": "972",
               "height": "880",
               "caption": "HVAC Services",
@@ -3417,7 +3417,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -3520,7 +3520,7 @@
                 "@id": "https://connectfm.ae/hvac/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Trusted-HVAC-Services-Across-the-UAE-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -3606,8 +3606,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3616,8 +3616,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3636,8 +3636,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png",
+              "url": "/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png",
               "width": "486",
               "height": "420",
               "caption": "AC and Duct Cleaning",
@@ -3684,7 +3684,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -3787,7 +3787,7 @@
                 "@id": "https://connectfm.ae/hvac/ac-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-our-AC-Cleaning-company_.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -3873,8 +3873,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3883,8 +3883,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -3903,8 +3903,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/09/General-Property-Maintenance.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/09/General-Property-Maintenance.webp",
+              "@id": "/wp-content/uploads/2025/09/General-Property-Maintenance.webp",
+              "url": "/wp-content/uploads/2025/09/General-Property-Maintenance.webp",
               "width": "1176",
               "height": "640",
               "caption": "AC Installation",
@@ -3951,7 +3951,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/General-Property-Maintenance.webp"
+                "@id": "/wp-content/uploads/2025/09/General-Property-Maintenance.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -4054,7 +4054,7 @@
                 "@id": "https://connectfm.ae/hvac/ac-installation/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/General-Property-Maintenance.webp"
+                "@id": "/wp-content/uploads/2025/09/General-Property-Maintenance.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -4143,8 +4143,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4153,8 +4153,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4173,8 +4173,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp",
+              "@id": "/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp",
+              "url": "/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp",
               "width": "764",
               "height": "360",
               "caption": "AC maintenance",
@@ -4221,7 +4221,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp"
+                "@id": "/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -4324,7 +4324,7 @@
                 "@id": "https://connectfm.ae/hvac/ac-maintenance/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp"
+                "@id": "/wp-content/uploads/2025/10/HVAC-Maintenance-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -4410,8 +4410,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4420,8 +4420,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4440,8 +4440,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp",
               "width": "972",
               "height": "840",
               "caption": "AC repair",
@@ -4488,7 +4488,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -4591,7 +4591,7 @@
                 "@id": "https://connectfm.ae/hvac/ac-repair/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-AC-Repair-in-the-UAE_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -4677,8 +4677,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4687,8 +4687,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4707,8 +4707,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp",
+              "@id": "/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp",
+              "url": "/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp",
               "width": "2560",
               "height": "1707",
               "caption": "Pest Control",
@@ -4747,7 +4747,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp"
+                "@id": "/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -4850,7 +4850,7 @@
                 "@id": "https://connectfm.ae/pest-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp"
+                "@id": "/wp-content/uploads/2025/10/Seasonal-Pest-Control-scaled.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -4936,8 +4936,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4946,8 +4946,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -4966,8 +4966,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png",
+              "@id": "/wp-content/uploads/2025/10/Badge-1.png",
+              "url": "/wp-content/uploads/2025/10/Badge-1.png",
               "width": "200",
               "height": "200",
               "inLanguage": "en-US"
@@ -5013,7 +5013,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png"
+                "@id": "/wp-content/uploads/2025/10/Badge-1.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -5116,7 +5116,7 @@
                 "@id": "https://connectfm.ae/pest-control/ant-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Badge-1.png"
+                "@id": "/wp-content/uploads/2025/10/Badge-1.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -5202,8 +5202,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5212,8 +5212,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5232,8 +5232,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp",
               "width": "764",
               "height": "692",
               "caption": "bed bug control",
@@ -5280,7 +5280,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -5383,7 +5383,7 @@
                 "@id": "https://connectfm.ae/pest-control/bed-bug-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Bed-Bug-Control-is-essential_-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -5469,8 +5469,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5479,8 +5479,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5499,8 +5499,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp",
               "width": "972",
               "height": "880",
               "caption": "Cockroach Control",
@@ -5547,7 +5547,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -5650,7 +5650,7 @@
                 "@id": "https://connectfm.ae/pest-control/cockroach-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Cockroach-Control-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -5736,8 +5736,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5746,8 +5746,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -5766,8 +5766,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp",
               "width": "972",
               "height": "880",
               "caption": "Fumigation",
@@ -5814,7 +5814,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -5917,7 +5917,7 @@
                 "@id": "https://connectfm.ae/pest-control/fumigation/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Fumigation-is-essential_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -6003,8 +6003,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6013,8 +6013,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6033,8 +6033,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp",
               "width": "972",
               "height": "880",
               "caption": "Rodent &amp; Vermin Control",
@@ -6081,7 +6081,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -6184,7 +6184,7 @@
                 "@id": "https://connectfm.ae/pest-control/rodent-vermin-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Rodent-Control-matters_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -6270,8 +6270,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6280,8 +6280,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6300,8 +6300,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp",
               "width": "972",
               "height": "800",
               "caption": "Termite Control",
@@ -6348,7 +6348,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -6451,7 +6451,7 @@
                 "@id": "https://connectfm.ae/pest-control/termite-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Termite-Control_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -6537,8 +6537,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6547,8 +6547,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6567,8 +6567,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png",
+              "@id": "/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png",
+              "url": "/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png",
               "width": "972",
               "height": "880",
               "caption": "plumber",
@@ -6607,7 +6607,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png"
+                "@id": "/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -6710,7 +6710,7 @@
                 "@id": "https://connectfm.ae/plumbing/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png"
+                "@id": "/wp-content/uploads/2025/10/Trusted-Plumbing-Services-across-the-UAE.png"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -6796,8 +6796,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6806,8 +6806,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -6826,8 +6826,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp",
+              "url": "/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp",
               "width": "764",
               "height": "764",
               "caption": "Drain cleaning",
@@ -6874,7 +6874,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -6977,7 +6977,7 @@
                 "@id": "https://connectfm.ae/plumbing/drain-cleaning/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-regular-AC-Maintenance-matters-in-the-UAE_-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -7063,8 +7063,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7073,8 +7073,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7093,8 +7093,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp",
               "width": "764",
               "height": "629",
               "caption": "Water Leak Detection",
@@ -7141,7 +7141,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -7244,7 +7244,7 @@
                 "@id": "https://connectfm.ae/plumbing/leak-detection/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Water-Tank-Cleaning_-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -7330,8 +7330,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7340,8 +7340,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7360,8 +7360,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Water-heater-replacement-.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Water-heater-replacement-.webp",
+              "@id": "/wp-content/uploads/2025/10/Water-heater-replacement-.webp",
+              "url": "/wp-content/uploads/2025/10/Water-heater-replacement-.webp",
               "width": "768",
               "height": "480",
               "caption": "Water heater repair and installation",
@@ -7408,7 +7408,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Water-heater-replacement-.webp"
+                "@id": "/wp-content/uploads/2025/10/Water-heater-replacement-.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -7511,7 +7511,7 @@
                 "@id": "https://connectfm.ae/plumbing/water-heater-installation-repair/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Water-heater-replacement-.webp"
+                "@id": "/wp-content/uploads/2025/10/Water-heater-replacement-.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -7597,8 +7597,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7607,8 +7607,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7627,8 +7627,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp",
               "width": "972",
               "height": "936",
               "caption": "Property Maintenance",
@@ -7667,7 +7667,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -7770,7 +7770,7 @@
                 "@id": "https://connectfm.ae/property-maintenance/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Us-for-Property-Maintenance-in-the-UAE_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -7856,8 +7856,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7866,8 +7866,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -7886,8 +7886,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp",
               "width": "972",
               "height": "936",
               "caption": "Carpentry Services",
@@ -7934,7 +7934,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -8037,7 +8037,7 @@
                 "@id": "https://connectfm.ae/property-maintenance/carpentry-services/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-our-Carpentry-Services_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -8123,8 +8123,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8133,8 +8133,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8153,8 +8153,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp",
               "width": "764",
               "height": "736",
               "caption": "Handyman Services",
@@ -8201,7 +8201,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -8304,7 +8304,7 @@
                 "@id": "https://connectfm.ae/property-maintenance/handyman-services/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Choose-Our-Handyman-Services-1.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -8390,8 +8390,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8400,8 +8400,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8420,8 +8420,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Hero-9-scaled.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Hero-9-scaled.webp",
+              "@id": "/wp-content/uploads/2025/10/Hero-9-scaled.webp",
+              "url": "/wp-content/uploads/2025/10/Hero-9-scaled.webp",
               "width": "2560",
               "height": "1237",
               "caption": "Landscaping Services",
@@ -8468,7 +8468,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Hero-9-scaled.webp"
+                "@id": "/wp-content/uploads/2025/10/Hero-9-scaled.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -8571,7 +8571,7 @@
                 "@id": "https://connectfm.ae/property-maintenance/landscaping-services/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Hero-9-scaled.webp"
+                "@id": "/wp-content/uploads/2025/10/Hero-9-scaled.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -8657,8 +8657,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8667,8 +8667,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8687,8 +8687,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg",
+              "@id": "/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg",
+              "url": "/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg",
               "width": "2560",
               "height": "1350",
               "caption": "Pool Maintenance",
@@ -8735,7 +8735,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg"
+                "@id": "/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -8830,7 +8830,7 @@
                 "@id": "https://connectfm.ae/property-maintenance/pool-maintenance/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg"
+                "@id": "/wp-content/uploads/2025/10/Swiming-Pool-Maintenance-Checklist-scaled.jpg"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -8916,8 +8916,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8926,8 +8926,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -8946,8 +8946,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Security-Systems.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/09/Security-Systems.webp",
+              "@id": "/wp-content/uploads/2025/09/Security-Systems.webp",
+              "url": "/wp-content/uploads/2025/09/Security-Systems.webp",
               "width": "564",
               "height": "640",
               "caption": "Security Systems",
@@ -8986,7 +8986,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Security-Systems.webp"
+                "@id": "/wp-content/uploads/2025/09/Security-Systems.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -9081,7 +9081,7 @@
                 "@id": "https://connectfm.ae/security/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Security-Systems.webp"
+                "@id": "/wp-content/uploads/2025/09/Security-Systems.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -9167,8 +9167,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9177,8 +9177,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9197,8 +9197,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp",
               "width": "972",
               "height": "880",
               "caption": "Access Control systems",
@@ -9245,7 +9245,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -9332,7 +9332,7 @@
                 "@id": "https://connectfm.ae/security/access-control/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Access-Control-matters-for-businesses_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -9418,8 +9418,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9428,8 +9428,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9448,8 +9448,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp",
+              "@id": "/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp",
+              "url": "/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp",
               "width": "972",
               "height": "880",
               "caption": "CCTV Installation UAE",
@@ -9496,7 +9496,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp"
+                "@id": "/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -9591,7 +9591,7 @@
                 "@id": "https://connectfm.ae/security/cctv-installation/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp"
+                "@id": "/wp-content/uploads/2025/10/Residential-commercial-CCTV-solutions.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -9677,8 +9677,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9687,8 +9687,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9707,8 +9707,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp",
+              "url": "/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp",
               "width": "764",
               "height": "500",
               "caption": "Electrical Services",
@@ -9755,7 +9755,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -9842,7 +9842,7 @@
                 "@id": "https://connectfm.ae/security/electrical-services/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-professional-Electrical-Services-matter_-Mobile.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -9928,8 +9928,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9938,8 +9938,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -9958,8 +9958,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp",
+              "@id": "/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp",
+              "url": "/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp",
               "width": "972",
               "height": "880",
               "caption": "Fire safety systems",
@@ -10006,7 +10006,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp"
+                "@id": "/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -10101,7 +10101,7 @@
                 "@id": "https://connectfm.ae/security/fire-safety-systems/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp"
+                "@id": "/wp-content/uploads/2025/10/Industry-specific-Fire-Safety-Systems.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -10187,8 +10187,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10197,8 +10197,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10217,8 +10217,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp",
               "width": "972",
               "height": "880",
               "caption": "lifeguard",
@@ -10265,7 +10265,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -10352,7 +10352,7 @@
                 "@id": "https://connectfm.ae/security/lifeguard/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-Professional-Lifeguards-matter_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -10438,8 +10438,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10448,8 +10448,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10468,8 +10468,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp",
               "width": "972",
               "height": "800",
               "caption": "security guard services",
@@ -10516,7 +10516,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -10603,7 +10603,7 @@
                 "@id": "https://connectfm.ae/security/security-guard/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-choose-us-for-Security-Systems_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -10689,8 +10689,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10699,8 +10699,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10719,8 +10719,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Smart-Home-Automation.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/09/Smart-Home-Automation.webp",
+              "@id": "/wp-content/uploads/2025/09/Smart-Home-Automation.webp",
+              "url": "/wp-content/uploads/2025/09/Smart-Home-Automation.webp",
               "width": "768",
               "height": "560",
               "caption": "Smart Home Automation",
@@ -10767,7 +10767,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Smart-Home-Automation.webp"
+                "@id": "/wp-content/uploads/2025/09/Smart-Home-Automation.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -10854,7 +10854,7 @@
                 "@id": "https://connectfm.ae/security/smart-homes/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/09/Smart-Home-Automation.webp"
+                "@id": "/wp-content/uploads/2025/09/Smart-Home-Automation.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {
@@ -10940,8 +10940,8 @@
               "logo": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10950,8 +10950,8 @@
               "image": {
                 "@type": "ImageObject",
                 "@id": "https://connectfm.ae/#logo",
-                "url": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
-                "contentUrl": "https://connectfm.ae/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "url": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
+                "contentUrl": "/wp-content/uploads/2025/10/Logo-Connect-FM-Footer.svg",
                 "caption": "Connect FM",
                 "inLanguage": "en-US",
                 "width": "387",
@@ -10970,8 +10970,8 @@
             },
             {
               "@type": "ImageObject",
-              "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp",
-              "url": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp",
+              "@id": "/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp",
+              "url": "/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp",
               "width": "972",
               "height": "880",
               "caption": "Waste Management",
@@ -11010,7 +11010,7 @@
                 "@id": "https://connectfm.ae/#website"
               },
               "primaryImageOfPage": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp"
               },
               "inLanguage": "en-US",
               "breadcrumb": {
@@ -11105,7 +11105,7 @@
                 "@id": "https://connectfm.ae/waste-management/#webpage"
               },
               "image": {
-                "@id": "https://connectfm.ae/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp"
+                "@id": "/wp-content/uploads/2025/10/Why-professional-Waste-Management-matters_.webp"
               },
               "inLanguage": "en-US",
               "mainEntityOfPage": {

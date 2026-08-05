@@ -2254,8 +2254,8 @@
       "canonical": "",
       "ogImage": "/wp-content/uploads/2025/08/Fernando-Section.webp",
       "robots": {
-        "index": "index",
-        "follow": "follow"
+        "index": "noindex",
+        "follow": "nofollow"
       },
       "schema": null,
       "schemas": [

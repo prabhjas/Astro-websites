@@ -7,7 +7,10 @@ export type SeoInput = {
   ogImage?: string;
   ogType?: "website" | "article";
   schemas?: unknown[];
+  /** Full robots directive, e.g. "noindex, nofollow" */
+  robots?: string;
   noindex?: boolean;
+  nofollow?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
   authorName?: string;
@@ -20,7 +23,11 @@ export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
   const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
   const ogType = input.ogType || "website";
-  const robots = input.noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+  const robots =
+    (input.robots && String(input.robots).trim()) ||
+    (input.noindex || input.nofollow
+      ? `${input.noindex ? "noindex" : "index"}, ${input.nofollow ? "nofollow" : "follow"}`
+      : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large");
 
   const schemas = [
     ...(input.schemas || fallback?.schemas || []),
