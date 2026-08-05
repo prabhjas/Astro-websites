@@ -1,0 +1,36 @@
+{
+  "siteTitle": "Redo",
+  "summary": "Redo.ae is a trusted renovation company in Dubai offering expert renovation services, modern designs, and quality craftsmanship for homes and offices.",
+  "details": "Based in Dubai, Redo transforms residential and commercial spaces with professional renovation, fit-out, and design services as part of Connect Group.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover Dubai renovation tips, interior design, and home improvement guides.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Redo.ae homepage — renovation company in Dubai."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Redo renovation company."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Redo for Dubai renovation services."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "Dubai renovation and design insights."
+    }
+  }
+}
