@@ -127,31 +127,37 @@
 }
 
 /*
- * Deeper than the #10918e brand teal used elsewhere on the band: white 14px
- * bold text over #10918e is only 3.84:1, under the 4.5:1 WCAG AA minimum.
- * #0c7472 is the same hue and reads as the same button at 5.59:1.
+ * These buttons are <a>, so the Elementor kit's global link colour applies to
+ * them: `.elementor-kit-11 a { color: #10918e }` is specificity (0,1,1) and
+ * beat a plain `.kz-licence__btn--primary` (0,1,0), painting the label the same
+ * green as the button. Every rule below is scoped under `.kz-licence` to reach
+ * (0,2,0) so the intended colour wins without !important.
+ *
+ * Background is a shade deeper than the #10918e brand teal: white 14px bold on
+ * #10918e is only 3.84:1, under the 4.5:1 WCAG AA minimum. #0c7472 is the same
+ * hue and reads as the same button at 5.59:1.
  */
-.kz-licence__btn--primary {
+.kz-licence .kz-licence__btn--primary {
   background: #0c7472;
   color: #fff;
   border: 1px solid #0c7472;
 }
 
-.kz-licence__btn--primary:hover,
-.kz-licence__btn--primary:focus-visible {
+.kz-licence .kz-licence__btn--primary:hover,
+.kz-licence .kz-licence__btn--primary:focus-visible {
   background: #0f202b;
   border-color: #0f202b;
   color: #fff;
 }
 
-.kz-licence__btn--ghost {
+.kz-licence .kz-licence__btn--ghost {
   background: transparent;
   color: #10918e;
   border: 1px solid #10918e;
 }
 
-.kz-licence__btn--ghost:hover,
-.kz-licence__btn--ghost:focus-visible {
+.kz-licence .kz-licence__btn--ghost:hover,
+.kz-licence .kz-licence__btn--ghost:focus-visible {
   background: #e7f4f3;
   border-color: #0f202b;
   color: #0f202b;
