@@ -13,6 +13,10 @@ import {
   smartSliderCssForHtml,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import {
+  isNoIndexNoFollowPath,
+  NOINDEX_NOFOLLOW_ROBOTS,
+} from "../lib/seo/sitemap-config";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -29,7 +33,14 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string;
+let html = (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string;
+/** Astro sanitizes `<button>` in set:html; Impreza load-more needs a clickable control. */
+if (page && path === "/insights/") {
+  html = html.replace(
+    /<button class="w-btn us-btn-style_1">\s*<span class="w-btn-label">Load More<\/span>\s*<\/button>/gi,
+    '<a href="#" class="w-btn us-btn-style_1" role="button"><span class="w-btn-label">Load More</span></a>',
+  );
+}
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -48,12 +59,15 @@ const postCrumbs = post
     ]
   : [];
 
+const lpNoIndex = isNoIndexNoFollowPath(path);
+
 const seo = page
   ? {
       title: page.seo.title,
       description: page.seo.description,
       canonical: path,
       ogImage: page.seo.ogImage,
+      ...(lpNoIndex ? { robots: NOINDEX_NOFOLLOW_ROBOTS } : {}),
       schemas: [
         ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -83,16 +97,30 @@ const seo = page
       ],
     };
 
+const isElementorPage = /data-elementor-type=["']wp-page["']/.test(html);
+/** Live WP uses Elementor Canvas for some LPs (own header/footer, no theme chrome). */
+const isElementorCanvas =
+  path === "/lp-page-cr/" ||
+  String((entry as { template?: string }).template || "").includes("elementor_canvas");
+const entryElementorCss = (entry as { elementorCss?: string }).elementorCss;
+
 const extraCss = [
   ...smartSliderCssForHtml(html),
   ...((entry.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
+  ...(entryElementorCss ? [entryElementorCss] : []),
 ];
 
 const hasMainShell = /id=["']page-content["']/.test(html);
 const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
+/** Elementor pages must not be wrapped in Impreza .l-section (breaks full-bleed layouts). */
+const renderRawHtml = isImprezaShell || isElementorPage;
 
 const bodyClass = page
-  ? `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
+  ? isElementorCanvas
+    ? `wp-singular page-template page-template-elementor_canvas page page-id-${page.id} elementor-default elementor-template-canvas elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child`
+    : isElementorPage
+      ? `page wp-singular page-template-default page-id-${page.id} elementor-default elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`
+      : `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
   : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
 ---
 
@@ -103,9 +131,11 @@ const bodyClass = page
   extraCss={extraCss}
   seo={seo}
   menuActivePath={post ? "/blog/" : undefined}
+  loadElementor={isElementorPage}
+  hideSiteChrome={isElementorCanvas}
 >
   {
-    isImprezaShell ? (
+    renderRawHtml ? (
       <Fragment set:html={html} />
     ) : page ? (
       <main id="page-content" class="l-main">

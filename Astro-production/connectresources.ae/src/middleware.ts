@@ -48,6 +48,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Public API routes must not be affected by redirect rules.
+    if (pathname.startsWith('/api/') && !pathname.startsWith('/api/internal/')) {
+      return next();
+    }
+
     if (pathname.startsWith('/api/internal/') || pathname === '/api/health' || pathname === '/api/health/') {
       return next();
     }
