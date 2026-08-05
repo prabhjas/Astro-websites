@@ -193,37 +193,71 @@ div.wpcf7-response-output.sp-status-visible,
   border-radius: 12px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
 }
+/* Close = plain X (no Elementor green/primary chip) — all popup shells */
 #chr-popup-modal .dialog-close-button,
-#chr-popup-modal .dialog-lightbox-close-button {
+#chr-popup-modal .dialog-lightbox-close-button,
+.elementor-popup-modal .dialog-close-button,
+.elementor-popup-modal .dialog-lightbox-close-button,
+[id^="elementor-popup-modal-"] .dialog-close-button,
+[id^="elementor-popup-modal-"] .dialog-lightbox-close-button {
   position: absolute !important;
-  top: 16px !important;
-  right: 16px !important;
-  inset-inline-end: 16px !important;
+  top: 12px !important;
+  right: 12px !important;
+  inset-inline-end: 12px !important;
   inset-inline-start: auto !important;
   z-index: 100000 !important;
   margin: 0 !important;
+  padding: 0 !important;
   border: 0 !important;
-  background: #7bf880 !important;
-  color: #101419 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #1a1a1a !important;
+  font-size: 0 !important;
   cursor: pointer !important;
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 6px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 0 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   opacity: 1 !important;
   pointer-events: all !important;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.12);
+  box-shadow: none !important;
+  outline: none !important;
 }
-#chr-popup-modal .dialog-close-button svg {
+#chr-popup-modal .dialog-close-button:hover,
+#chr-popup-modal .dialog-lightbox-close-button:hover,
+.elementor-popup-modal .dialog-close-button:hover,
+.elementor-popup-modal .dialog-lightbox-close-button:hover,
+[id^="elementor-popup-modal-"] .dialog-close-button:hover,
+[id^="elementor-popup-modal-"] .dialog-lightbox-close-button:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #000 !important;
+  opacity: 0.7 !important;
+}
+#chr-popup-modal .dialog-close-button svg,
+#chr-popup-modal .dialog-lightbox-close-button svg,
+.elementor-popup-modal .dialog-close-button svg,
+.elementor-popup-modal .dialog-lightbox-close-button svg,
+[id^="elementor-popup-modal-"] .dialog-close-button svg,
+[id^="elementor-popup-modal-"] .dialog-lightbox-close-button svg {
   display: block !important;
-  width: 14px !important;
-  height: 14px !important;
-  fill: #101419 !important;
-  pointer-events: none;
+  width: 20px !important;
+  height: 20px !important;
+  fill: #1a1a1a !important;
+  color: #1a1a1a !important;
+  stroke: none !important;
+  pointer-events: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
-#chr-popup-modal .dialog-close-button .eicon-close {
+#chr-popup-modal .dialog-close-button .eicon-close,
+#chr-popup-modal .dialog-lightbox-close-button .eicon-close,
+.elementor-popup-modal .dialog-close-button .eicon-close,
+.elementor-popup-modal .dialog-lightbox-close-button .eicon-close,
+[id^="elementor-popup-modal-"] .dialog-close-button .eicon-close,
+[id^="elementor-popup-modal-"] .dialog-lightbox-close-button .eicon-close {
   display: none !important;
 }
 #chr-popup-modal [data-elementor-type="popup"] {
