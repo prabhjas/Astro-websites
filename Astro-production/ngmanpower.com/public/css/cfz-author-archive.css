@@ -1,0 +1,238 @@
+/* NG Manpower author archive post grid (from live shortcode) */
+.filter-wrap{
+    display:flex;
+    justify-content:space-between;
+	  align-items: center;
+}
+
+.filter-box {
+    width: 22%;
+}
+
+
+.filter-box div:nth-child(1){
+    margin-right:20px;
+    width:50%;
+}
+
+.filter-box div:nth-child(2){
+    width:50%;
+}
+
+.filter-box span {
+    color: #0B1347;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;  
+}
+
+.filter-post{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+    margin-top:30px;
+}
+
+.post-wrap img{
+    width:100%;
+    margin-bottom:10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.post-wrap span{
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height:25.6px; 
+    letter-spacing: 0.32px;
+    font-family: "SF Pro Display", SF Pro Display;
+}
+
+.post-wrap h3 {
+    color: #000;
+    font-size: 22px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px !important;
+    letter-spacing: 0.48px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: "Poppins", Sans-serif;
+}
+
+.post-wrap p {
+    font-family: "Poppins", Sans-serif;
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 0.36px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.bottom-ct {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottom-ct span{
+    font-family: "Poppins", Sans-serif;
+}
+
+.cat-name{
+    border-radius: 5px;
+    background: #EDECFF;
+    padding:10px 15px;
+    font-size: 12px;
+    margin-right:10px;
+    color:#23369B !important;
+}
+
+.post-wrap{
+   background:#fff; 
+   box-shadow: 0px 4px 15px -5px rgba(0,0,0,0.1);
+   border-radius: 10px;
+}
+
+.post-ct{
+    padding:20px 15px;
+} 
+.fa-calendar:before {
+    content: "\f133";
+    font-family: fontawesome;
+    margin-right: 6px;
+    color: #333;
+}
+
+.bottom-ct a {
+    color: #a2111ed6;
+}
+
+.filter-wrap h2{
+    color: #000;
+    font-family: SF Pro Display;
+    font-size: 26px;
+    font-style: normal;
+}
+
+span.cat-name {
+    display: inline-table;
+    margin-bottom: 10px;
+}
+
+
+.load-btn {
+    text-align: center;
+    margin-top: 70px;
+}
+
+#loadMore:hover {
+    background: #0d3f86;
+    border: 2px solid  #0d3f86;
+    color: #fff;
+}
+#loadMore {
+    color: #0B1347;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.32px;
+    border: 2px solid #0B1347;
+    padding: 10px 20px;
+}
+
+.custom-pagination {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.custom-pagination a.page-numbers {
+    color: #03030396;
+    font-size: 21px;
+    padding: 0px 25px;
+    font-weight: 600;
+}
+
+.custom-pagination span.page-numbers.current {
+    color: #000;
+    font-size: 21px;
+    padding: 12px 20px;
+    font-weight: 600;
+    background:#fff;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    margin: 0px 10px;
+}
+
+.custom-pagination a.prev.page-numbers,
+.custom-pagination a.next.page-numbers{
+    font-size:28px !important;
+}
+
+
+.main-profile {
+  display: none;
+}
+#loadMore {
+  transition: .3s;
+}
+
+.noContent {
+  color: #000 !important;
+  background-color: transparent !important;
+  pointer-events: none;
+}
+
+.btn-load {
+    text-align: center;
+    margin: 50px 0px;
+}
+
+@media only screen and (max-width: 767px) {
+    .filter-post{
+        grid-template-columns: repeat(1,1fr);
+    }
+    
+    .filter-wrap h2 {
+      font-size: 20px;
+    }
+    
+    .filter-box {
+      width: 50%;
+    }
+}
+
+
+@media screen and (min-device-width:768px), screen and (max-width:991px) {
+    .post-wrap span {
+        color: #333;
+        font-size: 13px;
+    }
+
+    .post-wrap h3 {
+        font-size: 21px;
+        line-height: 25.6px;
+    }
+
+    .post-wrap span {
+        font-size: 12px;
+    }
+
+    .bottom-ct a {
+        font-size: 14px;
+    }
+}
