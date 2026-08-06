@@ -18,39 +18,9 @@
   padding: 0.75rem 1rem;
 }
 
-/* Sticky floating contacts */
+/* Sticky floating contacts (disabled — FABs removed sitewide) */
 .sp-float-contacts {
-  position: fixed;
-  right: 16px;
-  bottom: 24px;
-  z-index: 9998;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.sp-float-contacts a {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease;
-}
-
-.sp-float-contacts a:hover {
-  transform: translateY(-2px);
-}
-
-.sp-float-contacts .phone {
-  background: #df790d;
-  color: #fff;
-}
-
-.sp-float-contacts .whatsapp {
-  background: #25d366;
-  color: #fff;
+  display: none !important;
 }
 
 /* Blog archive cards (non-Elementor routes only) */

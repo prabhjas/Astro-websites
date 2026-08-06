@@ -34,8 +34,11 @@ img.lazyloading {
  */
 .wpb_text_column.has_text_color p,
 .wpb_text_column[class*="us_custom_"] p,
-.w-iconbox.has_text_color .w-iconbox-text p,
-.w-text.has_text_color {
+.w-iconbox.has_text_color .w-iconbox-text p {
+  color: inherit !important;
+}
+/* Keep Impreza .w-text us_custom_* colors from page-design CSS */
+.w-text.has_text_color:not([class*="us_custom_"]) {
   color: inherit !important;
 }
 

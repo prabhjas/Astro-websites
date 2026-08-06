@@ -89,6 +89,86 @@ p.width_r {
 .single-post .header-title-breadcrumb-overlay h1.blog_bread {
     visibility: hidden !important;
 }
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* In-post CF7 sidebar form: sticky while scrolling article
+   - body overflow-x:hidden breaks sticky (forces overflow-y auto)
+   - align-items:start collapses sticky parent height — keep stretch
+   - stick the white form card inside the stretched right column */
+html:has(body.single-post),
+body.single-post {
+  overflow-x: clip !important;
+}
+
+@media (min-width: 901px) {
+  body.single-post .g-cols.via_grid.cols_2-1 {
+    align-items: stretch !important;
+  }
+
+  body.single-post .vc_column_container.type_sticky {
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  /* Cancel Impreza sticking the whole column + broken inline top:-450px */
+  body.single-post .vc_column_container.type_sticky > .vc_column-inner {
+    position: relative !important;
+    top: auto !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Stick only the white contact form */
+  body.single-post .vc_column_container.type_sticky .wpcf7.us_custom_73228f27,
+  body.single-post .vc_column_container.type_sticky .wpcf7 {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 110px !important;
+    z-index: 5;
+    align-self: stretch;
+  }
+}
+
+/* Footer social icons (inline SVG — no icon-font dependency) */
+.l-footer .footer-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+.l-footer .footer-social-icons a {
+  color: #ffffff !important;
+  display: inline-flex;
+  line-height: 0;
+}
+.l-footer .footer-social-icons a:hover {
+  opacity: 0.85;
+}
+.l-footer .footer-social-icons svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+/* JS fixed sticky form */
+body.single-post .wpcf7.is-sp-sticky-fixed {
+  box-shadow: 0 8px 28px rgba(0, 14, 41, 0.12);
+  border-radius: 15px;
+  background: #ffffff;
+}
 .mt-car-search .search-field.form-control {
     
     width: 100px !important;

@@ -1,6 +1,6 @@
 /**
- * Impreza w-grid Load More for /insights/.
- * Keeps existing cards; appends posts not already on the page.
+ * Impreza w-grid Load More for /insights/ Latest Articles.
+ * Appends unused posts into the grid that owns the Load More button.
  */
 (function () {
   function ready(fn) {
@@ -9,7 +9,13 @@
   }
 
   ready(function () {
+    var loadMore =
+      document.querySelector("[data-sp-insights-load-more]") ||
+      document.querySelector(".g-loadmore");
+    if (!loadMore) return;
+
     var gridRoot =
+      loadMore.closest(".w-grid") ||
       document.querySelector("[data-sp-insights-grid]") ||
       document.querySelector(".w-grid.type_grid");
     if (!gridRoot) return;
@@ -17,11 +23,7 @@
     var list =
       gridRoot.querySelector("[data-sp-insights-list]") ||
       gridRoot.querySelector(".w-grid-list");
-    var loadMore =
-      document.querySelector("[data-sp-insights-load-more]") ||
-      gridRoot.querySelector(".g-loadmore") ||
-      document.querySelector(".g-loadmore");
-    if (!list || !loadMore) return;
+    if (!list) return;
 
     var btn = loadMore.querySelector("button, a.w-btn, a");
     if (!btn) return;
@@ -44,8 +46,10 @@
     }
 
     function shownIds() {
+      // Exclude every card already on the insights page (featured + latest)
+      // so we never append duplicates of the top row.
       return Array.prototype.map
-        .call(list.querySelectorAll(".w-grid-item[data-id]"), function (el) {
+        .call(document.querySelectorAll(".w-grid-item[data-id]"), function (el) {
           return el.getAttribute("data-id");
         })
         .filter(Boolean)
@@ -87,6 +91,6 @@
         });
     }
 
-    btn.addEventListener("click", onClick);
+    btn.addEventListener("click", onClick, true);
   });
 })();
