@@ -26,7 +26,7 @@ Do **not** reload Caddy without `sudo -u caddy caddy validate --config /etc/cadd
 
 ---
 
-## Live Caddy inventory (nine cutover sites)
+## Live Caddy inventory (nine cutover sites + launch six pending)
 
 Only these domains belong in the **live** production Caddyfile until the next cutover batch:
 
@@ -42,7 +42,29 @@ Only these domains belong in the **live** production Caddyfile until the next cu
 | 5092 | c-uae.com | cuae | `https://c-uae.com` |
 | 5093 | kinzahr.com | kinzahr | `https://kinzahr.com` |
 
-Scaffolded but **out of live Caddy until ready:** connecthr, connectresources.sa, iberiaeor, connectfz, royalvisa, etc. (see [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)).
+### Launch six (Aug 2026) — staged for root
+
+| Port | Domain | Unit |
+|------|--------|------|
+| 5084 | connecthr.ae | connecthr |
+| 5087 | connectfm.ae | connectfm |
+| 5088 | connectresources.sa | connectresources-sa |
+| 5089 | iberiaeor.com | iberiaeor |
+| 5096 | connectfz.com | connectfz |
+| 5097 | royalvisa.ae | royalvisa |
+
+Developer staging (already on host):
+
+- App trees: `/home/webdev/astro-cutover-env/launch-six/<domain>/app/`
+- Caddyfile (includes six): `/home/webdev/astro-cutover-env/launch-six/Caddyfile.production`
+- Bootstrap: `/home/webdev/astro-cutover-env/ROOT-BOOTSTRAP-launch-six.sh`
+- Notes: `/home/webdev/astro-cutover-env/launch-six/LAUNCH-SIX-README.md`
+
+```bash
+sudo bash /home/webdev/astro-cutover-env/ROOT-BOOTSTRAP-launch-six.sh
+```
+
+Scaffolded but **out of live Caddy until ready:** peomiddleast, kpmpro, redo, etc. (see [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)).
 
 ---
 
@@ -100,6 +122,27 @@ Then run [10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md) for ea
 4. As root: useradd → install unit → extend `site-ctl` ALLOWED → copy Caddyfile → validate → reload.
 5. Run go-live verify checklist on the public hostname.
 6. GTM/GA4: [OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md).
+7. **Lead backup:** with the auto-discover restic script installed, a new site under `/opt/Astro-production/<domain>/` is included on the next nightly run — no per-site edit. If the host still has the old four-site script, refresh once (below).
+
+---
+
+## Urgent — refresh restic backup (all fleet leads)
+
+**Finding (Aug 2026):** `/usr/local/sbin/restic-astro-fleet-backup` still hardcodes:
+
+```bash
+SITES=(evolutionmiddleast.com cbss.ae spheavyrental.ae iberiaworkforce.com)
+```
+
+Every site cut over since then stores real enquiries under `.data/leads/` (and Evolution/CBSS under `/var/...`) with **no backup**, while the timer reports success.
+
+**Fix (root, once):** after `deploy-host/` is synced to the host:
+
+```bash
+sudo bash /opt/Astro-production/deploy-host/ROOT-REFRESH-RESTIC-BACKUP.sh
+```
+
+Dry-run must list connectgroup, kinzahr, c-uae, connectstaff, eormiddleast, connecthr, connectresources.sa, and any other live domain — not only the original four. Detail: [deploy-host/README.md](../Astro-production/deploy-host/README.md).
 
 ---
 

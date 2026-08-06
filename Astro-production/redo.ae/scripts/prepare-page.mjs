@@ -237,6 +237,12 @@ function cleanHtml(html) {
     '/wp-content/plugins/scrollsequence-pro/public/js/',
   );
 
+  // Point CF7 mirrors at the Astro contact API (fleet standard; trailingSlash: always).
+  out = out.replace(
+    /\baction=(['"])[^'"]*wpcf7[^'"]*\1/gi,
+    `action=$1/api/contact/$1`,
+  );
+
   // Promote WP Rocket lazy images to real src (static mirror should not wait on lazyload.js)
   out = promoteLazyImages(out);
 

@@ -1,0 +1,86 @@
+---
+/**
+ * Insights index (canonical blog listing) — live slug is /insights/.
+ * Mirror: src/legacy/blog.cleaned.html (same Elementor Insights page as /blog/).
+ * Category grid: /js/royalvisa-blog-listing.js → POST /api/blog/listing
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
+import { applySharedChrome } from '../lib/shared-chrome.js';
+
+export const prerender = false;
+
+function decorateInsightsPage(html: string): string {
+  let out = html;
+
+  out = out.replace(
+    /<script[^>]*id="custom-blog-listing-script-js"[^>]*><\/script>/i,
+    '<!-- WP custom-blog-listing removed -->',
+  );
+  out = out.replace(
+    /<script[^>]*src="[^"]*astra-child-theme\/custom-scripts\.js[^"]*"[^>]*><\/script>/i,
+    '<!-- WP astra-child custom-scripts removed -->',
+  );
+
+  out = out.replace(
+    /var ajax_object = \{"ajax_url":"\/wp-admin\/admin-ajax\.php"\};/g,
+    'var ajax_object = {"ajax_url":"/api/blog/listing"};',
+  );
+
+  if (!/src=["']\/js\/royalvisa-blog-listing\.js["']/.test(out)) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/royalvisa-blog-listing.js" defer></script>\n</body>`,
+    );
+  }
+
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`,
+    );
+  }
+
+  if (!out.includes('cf-email-decode.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/cf-email-decode.js" defer></script>\n</body>`,
+    );
+  }
+
+  if (!out.includes('data-rv-blog-css')) {
+    const css = `<style data-rv-blog-css="1">
+#blog-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;}
+@media (max-width:767px){#blog-list{grid-template-columns:1fr;}}
+#blog-list .post img{height:267px;width:100%;object-fit:cover;display:block;}
+#blog-list .postcategory{font-size:14px;color:#667085;font-weight:500;}
+#blog-list .postdate{font-size:14px;color:#667085;}
+#blog-list .link a{color:#EB1C24;font-size:18px;}
+#blog-list .postlistingwrap h2{margin:0;}
+div#categories button.active,div#categories button:hover{background:#f2ae38;color:#fff;border-color:#f2ae38;}
+</style>`;
+    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${css}\n</head>`) : css + out;
+  }
+
+  return out;
+}
+
+// Prefer insights mirror; fall back to blog.cleaned.html (same page content historically).
+const insightsPath = join(process.cwd(), 'src/legacy/insights.cleaned.html');
+const blogPath = join(process.cwd(), 'src/legacy/blog.cleaned.html');
+const cleanedPath = existsSync(insightsPath) ? insightsPath : blogPath;
+if (!existsSync(cleanedPath)) {
+  return new Response('Insights page not prepared', { status: 404 });
+}
+
+let html = readFileSync(cleanedPath, 'utf8');
+html = decorateInsightsPage(injectRuntimeGtmLoader(applySharedChrome(html, 'insights')));
+
+return new Response(html, {
+  headers: {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Cache-Control': 'public, max-age=0',
+  },
+});
+---

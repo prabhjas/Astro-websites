@@ -45,10 +45,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
-    if (pathname.startsWith('/api/internal/') || pathname === '/api/health') {
+    if (pathname.startsWith('/api/') || pathname === '/api/health') {
       return next();
     }
 
+    // Canonical redirects before trailing-slash so bare aliases (e.g. /contact) resolve in one hop.
     try {
       const env = getServerEnv();
       const runtime = await readRuntimeRedirects(env.internalAdminDir);
@@ -62,6 +63,17 @@ export const onRequest = defineMiddleware(async (context, next) => {
       }
     } catch {
       // Missing env / redirect store should never break public pages
+    }
+
+    // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
+    // After /api/ and redirects so health stays 200 and aliases are not double-hopped.
+    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+      const target = `${pathname}/${context.url.search}`;
+      const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
+      return new Response(null, {
+        status,
+        headers: { Location: target },
+      });
     }
 
     // Before hitting static 404 for missing WP thumbnails, try full-size upload.

@@ -51,8 +51,8 @@ html = html.replace(
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
-  "/wp-content/uploads/elementor/css/post-21423.css",
-  "/wp-content/uploads/elementor/css/post-21574.css",
+  // Live WP insights also loads template CSS post-213 (not ghost post-21423/21574).
+  "/wp-content/uploads/elementor/css/post-213.css",
   "/css/insights-topic-cards.css",
 ];
 ---

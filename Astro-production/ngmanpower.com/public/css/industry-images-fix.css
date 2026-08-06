@@ -1,0 +1,99 @@
+/**
+ * Soft image sizing fixes site-wide (About Us, industries, etc.).
+ * Impreza height:inherit + flex stretch was collapsing / squashing photos.
+ */
+.n2-section-smartslider[data-ssid="3"] {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Keep image widgets from stretch-matching tall siblings */
+body.l-body .l-main .wpb_column .w-image,
+body.l-body .l-main .wpb_column .wpb_single_image {
+  align-self: flex-start;
+}
+
+body.l-body .l-main .w-image,
+body.l-body .l-main .w-image-h,
+body.l-body .l-main .wpb_single_image {
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* Videos need full column width (absolute thumb has no intrinsic size) */
+body.l-body .l-main .ult-video,
+body.l-body .l-main .ultv-video {
+  width: 100% !important;
+  max-width: 100% !important;
+  align-self: stretch !important;
+}
+
+body.l-body .l-main .w-image img,
+body.l-body .l-main .wpb_single_image img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  object-fit: unset !important;
+  display: block;
+}
+
+/* ISO badge logos — natural size, not full column width */
+body.l-body .l-main .us_custom_55283421,
+body.l-body .l-main .us_custom_55283421 .w-image-h {
+  width: 100%;
+}
+body.l-body .l-main .us_custom_55283421 img {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Approval logo cards (~150px column) */
+body.l-body .l-main .us_custom_514e3533 {
+  width: 150px !important;
+  height: auto !important;
+}
+body.l-body .l-main .us_custom_514e3533 img {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* About Us rounded team / mission / vision photos */
+body.l-body .l-main .us_custom_04570ec2,
+body.l-body .l-main .us_custom_04570ec2 .w-image-h {
+  overflow: hidden;
+  border-radius: 15px;
+}
+body.l-body .l-main .us_custom_04570ec2 img {
+  display: block;
+  border-radius: 15px;
+}
+
+/* Ultimate video thumb — keep absolute fill inside 16:9 frame */
+body.l-body .l-main .ultv-video__outer-wrap {
+  width: 100% !important;
+  position: relative !important;
+  height: 0 !important;
+  padding-bottom: 56.25% !important;
+  overflow: hidden !important;
+}
+body.l-body .l-main .ultv-video__thumb {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
+}
+body.l-body .l-main .ultv-video__play-icon {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 5 !important;
+}
