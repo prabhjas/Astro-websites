@@ -28,6 +28,11 @@ export const licenceRows: Array<{ label: string; value: string }> = [
  */
 let pdfPresent: boolean | null = null;
 export function hasLicencePdf(): boolean {
+  // No pdfPath configured means the scanned licence is deliberately not
+  // published (it expires yearly and would silently go stale). Guard first:
+  // path.join(cwd, "public", "") resolves to public/ itself, which exists, and
+  // would otherwise render a "view the license" button pointing at nothing.
+  if (!licence.pdfPath) return false;
   if (pdfPresent === null) {
     try {
       pdfPresent = existsSync(

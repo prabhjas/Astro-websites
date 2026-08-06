@@ -5,11 +5,13 @@
  * the last line of the footer rather than a bolted-on section.
  * The machine-readable half lives in organizationSchema() (JSON-LD) and llms.txt.
  */
-import { licence, licenceRows, hasLicencePdf } from "../lib/licence";
+import { licence, licenceRows, hasLicencePdf, isLicenceComplete } from "../lib/licence";
 
 const pdfReady = hasLicencePdf();
+const show = isLicenceComplete();
 ---
 
+{show && (
 <section class="sp-licence" aria-labelledby="sp-licence-title">
   <div class="sp-licence__inner">
     <div class="sp-licence__details">
@@ -84,6 +86,7 @@ const pdfReady = hasLicencePdf();
     </div>
   </div>
 </section>
+)}
 
 <style>
   .sp-licence {
