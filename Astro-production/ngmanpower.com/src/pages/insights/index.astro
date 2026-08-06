@@ -9,7 +9,7 @@ export const prerender = false;
 
 /**
  * Live archive is Impreza `w-grid` + `.g-loadmore` (not Elementor ECS).
- * Keep existing cards; wire Load More to append the next unused posts.
+ * Featured top grid stays fixed; Load More belongs to Latest Articles (us_grid_2).
  */
 const page = getPageByPath("/insights/");
 if (!page) return notFoundResponse();
@@ -17,17 +17,26 @@ if (!page) return notFoundResponse();
 const totalPosts = getPosts().length;
 let html = page.bodyHtml || page.content;
 
-const initialCount = (html.match(/class="w-grid-item\b/g) || []).length;
+// Latest Articles = the w-grid immediately before `.g-loadmore` (not the featured top grid).
+const loadMoreIndex = html.search(/<div class="g-loadmore\s*"/i);
+const beforeLoadMore = loadMoreIndex >= 0 ? html.slice(0, loadMoreIndex) : html;
+const gridIds = [...beforeLoadMore.matchAll(/id="(us_grid_\d+)"/g)].map((m) => m[1]);
+const latestGridId = gridIds[gridIds.length - 1] || "us_grid_2";
+
+const latestStart = html.indexOf(`id="${latestGridId}"`);
+const latestChunk =
+  latestStart >= 0 ? html.slice(latestStart, loadMoreIndex > latestStart ? loadMoreIndex : undefined) : html;
+const initialCount = (latestChunk.match(/class="w-grid-item\b/g) || []).length;
 const hasMore = totalPosts > initialCount;
 
 html = html.replace(
-  /(<div class="w-grid-list")/i,
-  `$1 data-sp-insights-list="1"`,
+  new RegExp(`(<div class="w-grid[^"]*"[^>]*id="${latestGridId}")`, "i"),
+  `$1 data-sp-insights-grid="1"`,
 );
 
 html = html.replace(
-  /(<div class="w-grid[^"]*"[^>]*id="us_grid_1")/i,
-  `$1 data-sp-insights-grid="1"`,
+  new RegExp(`(id="${latestGridId}"[\\s\\S]*?<div class="w-grid-list")`, "i"),
+  `$1 data-sp-insights-list="1"`,
 );
 
 if (hasMore) {
