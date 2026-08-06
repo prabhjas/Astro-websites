@@ -3,7 +3,6 @@ import SEOHead from "../components/SEOHead.astro";
 import ElementorHeader from "../components/ElementorHeader.astro";
 import ElementorFooter from "../components/ElementorFooter.astro";
 import ElementorScripts from "../components/ElementorScripts.astro";
-import FloatContacts from "../components/FloatContacts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
@@ -61,6 +60,7 @@ const stylesheets = [
     "/css/smartslider-industry-fix.css",
     "/css/industry-images-fix.css",
     "/css/industry-layout-fix.css",
+    "/css/about-us-layout-fix.css",
     "/css/migration-overrides.css",
     "/css/ngmanpower-mobile-nav.css",
   ]),
@@ -126,7 +126,6 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
       </main>
     </div>
     <ElementorFooter />
-    <FloatContacts />
     <ElementorScripts />
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>
