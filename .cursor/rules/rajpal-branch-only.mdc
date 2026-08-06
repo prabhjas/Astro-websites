@@ -1,0 +1,12 @@
+---
+description: Always use rajpal-branch as the working git branch for this repo
+alwaysApply: true
+---
+
+# Git branch: rajpal-branch only
+
+- **Working branch:** `rajpal-branch` — do all commits, pushes, and feature work here.
+- **Do not** switch to, commit on, or push `mushtaq-branch`, `dev`, `main`, or other branches unless the user explicitly asks.
+- Before starting work: confirm `git branch --show-current` is `rajpal-branch`; if not, `git checkout rajpal-branch`.
+- After commits: push with `git push origin rajpal-branch` only.
+- Remote tracking: `origin/rajpal-branch`.
