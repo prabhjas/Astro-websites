@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1472" height="528" viewBox="0 0 1472 528" fill="none" preserveAspectRatio="none">
+  <!-- Middle body -->
+  <rect x="0" y="104" width="1472" height="320" fill="#00202B"/>
+  <!-- Top strip: Figma -scale-y + instance flip-x ? dark steps up on the RIGHT -->
+  <g transform="translate(1472 104) scale(-1 -1)">
+    <path d="M1472 10C1472 15.5228 1467.52 20 1462 20H496C482.745 20 472 30.7452 472 44V80C472 93.2548 461.255 104 448 104H24C10.7452 104 0 93.2548 0 80V24C0 10.7452 10.7452 0 24 0H1462C1467.52 0 1472 4.47715 1472 10Z" fill="#00202B"/>
+  </g>
+  <!-- Bottom strip: Figma -scale-y only ? dark hangs down on the LEFT -->
+  <g transform="translate(0 528) scale(1 -1)">
+    <path d="M1472 10C1472 15.5228 1467.52 20 1462 20H496C482.745 20 472 30.7452 472 44V80C472 93.2548 461.255 104 448 104H24C10.7452 104 0 93.2548 0 80V24C0 10.7452 10.7452 0 24 0H1462C1467.52 0 1472 4.47715 1472 10Z" fill="#00202B"/>
+  </g>
+</svg>
