@@ -21,6 +21,8 @@
 
     document.querySelectorAll(".elementor-main-swiper, .swiper, .elementor-loop-container").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
+      // WP Carousel Free owns these; do not double-init
+      if (el.classList.contains("wpcp-carousel-section") || el.closest(".wpcp-carousel-section")) return;
       if (el.swiper || el.classList.contains("swiper-initialized")) return;
       if (!el.querySelector(".swiper-slide")) return;
 

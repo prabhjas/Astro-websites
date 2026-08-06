@@ -109,7 +109,10 @@ async function fetchPage(url) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 20000);
   try {
-    const res = await fetch(url, {
+    // Bypass WP Rocket lazy placeholders so img src is real on import
+    const u = new URL(url);
+    if (!u.searchParams.has("nowprocket")) u.searchParams.set("nowprocket", "1");
+    const res = await fetch(u.toString(), {
       headers: { "User-Agent": UA, Accept: "text/html" },
       signal: controller.signal,
       redirect: "follow",

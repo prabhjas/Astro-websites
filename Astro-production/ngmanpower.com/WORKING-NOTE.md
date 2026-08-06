@@ -1,4 +1,4 @@
-﻿# ngmanpower.com — Phase 01–10 local PASS (2026-08-05)
+# ngmanpower.com — Phase 01–10 local PASS (2026-08-05)
 
 | Field | Value |
 |-------|--------|
@@ -33,6 +33,12 @@ Loopback: http://127.0.0.1:5102/
 - Unique `INTERNAL_JOB_SECRET` for prod (`openssl rand -hex 32`)
 
 ## Known gaps (non-blocking for Phase 10 smoke)
-- Full post sitemap parity deferred (live sitemaps return HTML)
 - Peer leftover author stubs from connectfz still prerender (empty lists)
-- Visual polish vs live may need more Ultimate VC / Smart Slider assets
+- Inner pages may still need per-page `us_custom_*` design CSS from live (home kit extracted)
+- Visual polish vs live may need more Ultimate VC / Smart Slider runtime edge cases
+
+## Visual fix (2026-08-06)
+- Re-fetched bodies with `?nowprocket=1` (real img srcs)
+- Impreza inline CSS: theme-options / header / design / icons / customizer + Smart Slider
+- Layout chrome: `l-canvas` + `l-main`; fonts + Poppins
+- Scripts: Smart Slider + Ultimate VC JS wired

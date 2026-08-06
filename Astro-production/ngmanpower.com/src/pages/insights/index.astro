@@ -1,48 +1,46 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
 import { getPageByPath, getPosts } from "../../lib/content";
+import { INSIGHTS_GRID_PER_PAGE } from "../../lib/insights-archive";
 import { breadcrumbSchema } from "../../lib/seo";
 import { notFoundResponse } from "../../lib/not-found";
 
 export const prerender = false;
 
 /**
- * Live archive is /insights/ (Elementor). Keep markup; wire Load More to our API.
+ * Live archive is Impreza `w-grid` + `.g-loadmore` (not Elementor ECS).
+ * Keep existing cards; wire Load More to append the next unused posts.
  */
 const page = getPageByPath("/insights/");
 if (!page) return notFoundResponse();
 
 const totalPosts = getPosts().length;
-const INITIAL_GRID = 12;
-const hasMore = totalPosts > INITIAL_GRID;
-
 let html = page.bodyHtml || page.content;
+
+const initialCount = (html.match(/class="w-grid-item\b/g) || []).length;
+const hasMore = totalPosts > initialCount;
+
+html = html.replace(
+  /(<div class="w-grid-list")/i,
+  `$1 data-sp-insights-list="1"`,
+);
+
+html = html.replace(
+  /(<div class="w-grid[^"]*"[^>]*id="us_grid_1")/i,
+  `$1 data-sp-insights-grid="1"`,
+);
 
 if (hasMore) {
   html = html.replace(
-    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
-  );
-  html = html.replace(
-    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
-    `$1/insights/page/2/$2`,
+    /(<div class="g-loadmore\s*")/i,
+    `$1 data-sp-insights-load-more="1" data-offset="${initialCount}" data-per-page="${INSIGHTS_GRID_PER_PAGE}"`,
   );
 } else {
-  html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
+  html = html.replace(
+    /<div class="g-loadmore[\s\S]*?<\/div>\s*(?=<div class="w-grid-json)/i,
+    "",
+  );
 }
-
-let ecsSeen = 0;
-html = html.replace(
-  /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi,
-  (full, attrs) => {
-    ecsSeen += 1;
-    if (ecsSeen === 2 && !/data-sp-blog-grid/.test(attrs)) {
-      return `<div${attrs} data-sp-blog-grid="1">`;
-    }
-    return full;
-  },
-);
 
 const extraCss = [
   ...(page.pageCss || []),
@@ -55,14 +53,14 @@ const extraCss = [
 
 <BaseLayout
   currentPath="/insights/"
-  bodyClass={`page page-id-${page.id} elementor-page-${page.id}`}
+  bodyClass={`page page-id-${page.id}`}
   extraCss={extraCss}
   fallback={page.seo}
   seo={{
     title: page.seo.title || "Insights | NG Manpower",
     description:
       page.seo.description ||
-      "EOR, PEO, payroll and HR insights across the Middle East.",
+      "Manpower outsourcing insights and UAE workforce guides from NG Manpower.",
     canonical: "/insights/",
     ogImage: page.seo.ogImage,
     schemas: [
@@ -74,5 +72,5 @@ const extraCss = [
     ],
   }}
 >
-  <div class="sp-page-content" set:html={html} />
+  <Fragment set:html={html} />
 </BaseLayout>

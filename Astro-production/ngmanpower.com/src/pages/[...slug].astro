@@ -74,15 +74,18 @@ const seo = page
       schemas: [
         ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
-        articleSchema({
-          title: stripHtml(post!.title),
-          description: post!.seo.description || stripHtml(post!.excerpt),
-          url: path,
-          image: post!.featuredImage || post!.seo.ogImage,
-          datePublished: post!.date,
-          dateModified: post!.modified,
-          authorName: post!.authorName,
-        }),
+        articleSchema(
+          {
+            title: stripHtml(post!.title),
+            description: post!.seo.description || stripHtml(post!.excerpt),
+            url: path,
+            image: post!.featuredImage || post!.seo.ogImage,
+            datePublished: post!.date,
+            dateModified: post!.modified,
+            authorName: post!.authorName,
+          },
+          Astro.url.origin,
+        ),
       ],
     };
 
@@ -92,33 +95,10 @@ const isListingArchive =
     path.startsWith("/locations/") ||
     page.wpType === "mt_listing_archive");
 
-/** Single-post Elementor Pro widgets + FA brands (live loads these on template 33241). */
-const SINGLE_POST_WIDGET_CSS = [
-  "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css",
-  "/wp-content/plugins/elementor-pro/assets/css/widget-author-box.min.css",
-  "/wp-content/plugins/elementor-pro/assets/css/widget-share-buttons.min.css",
-  "/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css",
-];
-
+/** Page/post CSS from content data only (Impreza — no Elementor kit CSS). */
 const extraCss = page
-  ? [
-      ...(page.pageCss || []),
-      page.elementorCss ||
-        (page.wpType === "mt_listing_archive"
-          ? undefined
-          : `/wp-content/uploads/elementor/css/post-${page.id}.css`),
-    ].filter(Boolean) as string[]
-  : [
-      ...(post!.pageCss || []),
-      ...SINGLE_POST_WIDGET_CSS,
-      "/wp-content/uploads/elementor/css/post-33241.css",
-      post!.elementorCss,
-    ].filter(Boolean) as string[];
-
-const postElementorId =
-  post?.bodyHtml?.match(/data-elementor-id="(\d+)"/)?.[1] ||
-  post?.elementorCss?.match(/post-(\d+)\.css/)?.[1] ||
-  "33241";
+  ? ([...(page.pageCss || [])].filter(Boolean) as string[])
+  : ([...(post!.pageCss || [])].filter(Boolean) as string[]);
 
 const postUsesElementor =
   !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
@@ -126,10 +106,8 @@ const postUsesElementor =
 const pageBodyClass = page
   ? isListingArchive
     ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
-    : `page page-id-${page.id} elementor-page elementor-page-${page.id} elementor-template-full-width`
-  : postUsesElementor
-    ? `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-${postElementorId} hide_post_featured_image is_header_semitransparent elementor-template-full-width`
-    : `single single-post postid-${post!.id} post post-id-${post!.id} hide_post_featured_image is_header_semitransparent elementor-template-full-width elementor-page elementor-page-33241`;
+    : `wp-singular page-template-default page page-id-${page.id}`
+  : `wp-singular single single-post postid-${post!.id} post-${post!.id} post type-post status-publish`;
 ---
 
 <BaseLayout
@@ -142,9 +120,9 @@ const pageBodyClass = page
 >
   {
     page ? (
-      <div class:list={["sp-page-content", isListingArchive && "cfz-listing-archive-wrap"]} set:html={html} />
+      <Fragment set:html={html} />
     ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
+      <Fragment set:html={post!.bodyHtml} />
     ) : (
       <ConnectFzSinglePost post={post!} html={html} />
     )
