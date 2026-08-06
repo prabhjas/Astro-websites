@@ -1,0 +1,16 @@
+# Canonical redirects for NG Manpower (Impreza)
+# Runtime SSR also merges .data/internal-admin/redirects.json (JSON wins on duplicate `from`).
+
+redirects:
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php/
+    to: /
+    status: 301
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301

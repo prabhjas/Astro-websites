@@ -9,9 +9,10 @@ interface Props {
 }
 
 const { seo = {}, fallback, extraCss = [] } = Astro.props;
-const meta = resolveSeo(seo, fallback);
+const mediaOrigin = Astro.url.origin;
+const meta = resolveSeo(seo, fallback, { mediaOrigin });
 
-const schemas = [organizationSchema(), ...meta.schemas];
+const schemas = [organizationSchema(mediaOrigin), ...meta.schemas];
 ---
 
 <meta charset="UTF-8" />

@@ -178,7 +178,7 @@ function paginatePosts(posts: BlogPost[], page: number, perPage = ARCHIVE_POSTS_
 }
 
 function getArchiveBasePath(data: ArchivePageData): string {
-  if (data.type === 'blog') return '/blog/';
+  if (data.type === 'blog') return '/insights/';
   if (data.type === 'category') return `/category/${data.slug}/`;
   return `/tag/${data.slug}/`;
 }
@@ -284,7 +284,7 @@ export function getBlogPageData(page = 1): ArchivePageData {
   const allPosts = getAllBlogPosts();
   const paged = paginatePosts(allPosts, page);
   const canonical =
-    page === 1 ? `${ORIGIN}/blog/` : `${ORIGIN}/blog/page/${page}/`;
+    page === 1 ? `${ORIGIN}/insights/` : `${ORIGIN}/insights/page/${page}/`;
 
   return {
     type: 'blog',

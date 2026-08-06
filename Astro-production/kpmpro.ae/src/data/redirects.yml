@@ -87,3 +87,23 @@ redirects:
   - from: /visit-visa/
     to: /uae-visit-visa/
     status: 301
+
+  # In-content legacy links (404 scan 2026-08-06) → real pages/posts
+  - from: /memorandum-of-association/
+    to: /memorandum-of-association-amendment/
+    status: 301
+  - from: /visit-visa-uae/
+    to: /uae-visit-visa/
+    status: 301
+  - from: /visa-services/employment-visa/
+    to: /work-residency-visa/
+    status: 301
+  - from: /pro-services-in-dubai/
+    to: /what-do-pro-services-in-dubai-mean/
+    status: 301
+  - from: /outsourcing-pro-services/
+    to: /
+    status: 301
+  - from: /pro-outsourcing-success/
+    to: /
+    status: 301
