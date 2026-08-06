@@ -52,8 +52,8 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5102** | ngmanpower.com | `ngmanpower.com` | placeholder |
 | **5103** | emiratiguard.com | `emiratiguard.com` | placeholder |
 | **5104** | movey.ae | `movey.ae` | placeholder |
-| **5105** | emiratisationgate.org | `emiratisationgate.org` | placeholder |
-| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | placeholder |
+| **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded; Phase 01–10 local PASS on :5105 |
+| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
 | **5109** | freelancerdxb.com | `freelancerdxb.com` | placeholder |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **18 scaffolded** · **26 placeholders** · next free **5124**
+**Totals:** 44 sites · **19 scaffolded** · **25 placeholders** · next free **5124**
 
 ---
 

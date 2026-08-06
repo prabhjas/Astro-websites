@@ -14,6 +14,8 @@
 # Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
 # Connect Group 5085, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
 # Pittant 5111 (git template; owner cutover pending).
+# Emiratisation Gate 5105 (git template; owner cutover pending).
+# Emiratisation Gateway 5106 (git template; owner cutover pending).
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -41,7 +43,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.pittant.com {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.pittant.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -71,6 +73,12 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@pittant host www.pittant.com
 	redir @pittant https://pittant.com{uri} permanent
+
+	@emiratisationgate host www.emiratisationgate.org
+	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
+
+	@emiratisationgateway host www.emiratisationgateway.com
+	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -347,6 +355,62 @@ pittant.com, www.pittant.com {
 	}
 	log {
 		output file /var/log/caddy/pittant.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratisationgate.org -> emiratisationgate.service (port 5105) — git template only; owner cutover required
+emiratisationgate.org, www.emiratisationgate.org {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationgate.org
+	redir @noncanonical https://emiratisationgate.org{uri} permanent
+
+	reverse_proxy 127.0.0.1:5105
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/emiratisationgate.org-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratisationgateway.com -> emiratisationgateway.service (port 5106) — git template only; owner cutover required
+emiratisationgateway.com, www.emiratisationgateway.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationgateway.com
+	redir @noncanonical https://emiratisationgateway.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5106
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/emiratisationgateway.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
