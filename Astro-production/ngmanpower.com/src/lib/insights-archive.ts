@@ -1,7 +1,10 @@
 import { formatDate, getCategories, stripHtml, type PostEntry } from "./content";
 
-/** Matches Elementor posts.classic widget on /insights/ (6 per page). */
+/** Matches Elementor posts.classic widget on /insights/paged routes. */
 export const INSIGHTS_PER_PAGE = 6;
+
+/** Impreza `w-grid` Load More batch size on /insights/. */
+export const INSIGHTS_GRID_PER_PAGE = 12;
 
 function escapeAttr(value: string): string {
   return value
@@ -68,6 +71,29 @@ export function renderInsightsClassicPostHtml(post: PostEntry): string {
 
 export function renderInsightsClassicPostsHtml(posts: PostEntry[]): string {
   return posts.map(renderInsightsClassicPostHtml).join("\n");
+}
+
+/** One Impreza `layout_1900` grid card used by /insights/ Load More. */
+export function renderInsightsImprezaGridItemHtml(post: PostEntry): string {
+  const title = stripHtml(post.title);
+  const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+  const cats = categoryClasses(post);
+  const src = (post.featuredImage || "")
+    .replace(/^https?:\/\/ngmanpower\.com/, "")
+    .trim();
+  const thumbClass = src ? "has-post-thumbnail" : "";
+  const img = src
+    ? `<a href="${escapeAttr(href)}" aria-label="${escapeAttr(title)}"><img decoding="async" width="1280" height="720" src="${escapeAttr(src)}" class="attachment-full size-full wp-post-image" alt="${escapeAttr(title)}" loading="lazy"></a>`
+    : `<a href="${escapeAttr(href)}" aria-label="${escapeAttr(title)}"></a>`;
+
+  return `<article class="w-grid-item post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${cats}" data-id="${post.id}">
+		<div class="w-grid-item-h">
+						<div class="w-vwrapper usg_vwrapper_1 align_none valign_top" style="--vwrapper-gap:0.4rem"><div class="w-post-elm post_image usg_post_image_1 stretched">${img}</div><p class="w-post-elm post_title usg_post_title_1 entry-title color_link_inherit"><a href="${escapeAttr(href)}">${escapeAttr(title)}</a></p></div>		</div>
+	</article>`;
+}
+
+export function renderInsightsImprezaGridHtml(posts: PostEntry[]): string {
+  return posts.map(renderInsightsImprezaGridItemHtml).join("\n");
 }
 
 export function renderInsightsPaginationHtml(page: number, totalPages: number): string {

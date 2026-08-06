@@ -1,6 +1,7 @@
 ---
 import { resolveSeo, organizationSchema, type SeoInput } from "../lib/seo";
 import { site, type SeoData } from "../lib/content";
+import googleFonts from "../data/google-fonts.json";
 
 interface Props {
   seo?: SeoInput;
@@ -9,9 +10,14 @@ interface Props {
 }
 
 const { seo = {}, fallback, extraCss = [] } = Astro.props;
-const meta = resolveSeo(seo, fallback);
+const mediaOrigin = Astro.url.origin;
+const meta = resolveSeo(seo, fallback, { mediaOrigin });
 
-const schemas = [organizationSchema(), ...meta.schemas];
+const schemas = [organizationSchema(mediaOrigin), ...meta.schemas];
+
+const poppinsHrefs = ((googleFonts as { hrefs?: string[] }).hrefs || []).map((h) =>
+  h.replace(/&#038;/g, "&").replace(/&amp;/g, "&"),
+);
 ---
 
 <meta charset="UTF-8" />
@@ -43,11 +49,13 @@ const schemas = [organizationSchema(), ...meta.schemas];
 <link rel="icon" href={site.favicon192} sizes="192x192" />
 <link rel="apple-touch-icon" href={site.appleTouchIcon} />
 
-<link
-  rel="preload"
-  href="/wp-content/uploads/elementor/google-fonts/css/nunito.css"
-  as="style"
-/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{
+  poppinsHrefs.map((href) => (
+    <link rel="stylesheet" href={href} />
+  ))
+}
 
 {
   extraCss.map((href) => (

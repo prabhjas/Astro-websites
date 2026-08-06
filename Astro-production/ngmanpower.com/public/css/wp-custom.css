@@ -352,7 +352,7 @@ h1.elementor-heading-title.elementor-size-default {
 }	
 	
 	footer .footer-top {
-    background: url('https://ngmanpower.com/wp-content/uploads/2023/03/Footer-Bkg-Mobile.png');
+    background: url('/wp-content/uploads/2023/03/Footer-Bkg-Mobile.png');
 	background-repeat: no-repeat;
     background-attachment: default;
     background-position: top right;
@@ -536,7 +536,7 @@ box-shadow: 4px 4px 8px -2px rgba(0,0,0,0.8);
 		display:none;
 	}
 footer .footer-top {
-    background: url('https://ngmanpower.com/wp-content/uploads/2023/03/Footer-Bkg-Desktop.png');
+    background: url('/wp-content/uploads/2023/03/Footer-Bkg-Desktop.png');
 	background-repeat: no-repeat;
     background-attachment: default;
     background-position: bottom right;

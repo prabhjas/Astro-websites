@@ -9,11 +9,8 @@ const page = getPageByPath("/");
 if (!page) throw new Error("Home page missing from content data");
 
 const html = page.bodyHtml || page.content;
-const extraCss = [
-  ...(page.pageCss || []),
-  page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
-];
-const bodyClass = `home page page-id-${page.id} elementor-page elementor-page-${page.id}`;
+const extraCss = [...(page.pageCss || [])];
+const bodyClass = `home wp-singular page-template-default page page-id-${page.id}`;
 ---
 
 <BaseLayout
@@ -32,5 +29,5 @@ const bodyClass = `home page page-id-${page.id} elementor-page elementor-page-${
     ],
   }}
 >
-  <div class="sp-page-content" set:html={html} />
+  <Fragment set:html={html} />
 </BaseLayout>

@@ -7,6 +7,7 @@ import FloatContacts from "../components/FloatContacts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
+import imprezaInlineCss from "../data/impreza-inline-css.json";
 import { resolveInternalAdminDir } from "../env/server";
 import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 import "../styles/global.css";
@@ -31,8 +32,8 @@ const {
 } = Astro.props;
 
 /**
- * NG Manpower uses Impreza theme. Load live stylesheet order from
- * live-css-order.json, then ensure CF7 phone CSS remains available.
+ * NG Manpower uses Impreza theme. Load live stylesheet order, then Impreza
+ * inline CSS extracted from live (theme-options / header / design / icons).
  */
 const globalCss = [
   "/wp-content/plugins/contact-form-7/includes/css/styles.css",
@@ -48,10 +49,18 @@ const baseCss = [
 const stylesheets = [
   ...new Set([
     ...baseCss,
+    ...(imprezaInlineCss as string[]),
     ...extraCss,
     "/css/wp-custom.css",
     "/css/wp-global-styles.css",
     "/css/wp-carousel-free-inline.css",
+    "/css/wp-carousel-439-inline.css",
+    "/css/live-additional-home.css",
+    "/css/smartslider-home-fix.css",
+    "/css/smartslider-n2-ss-3-inline.css",
+    "/css/smartslider-industry-fix.css",
+    "/css/industry-images-fix.css",
+    "/css/industry-layout-fix.css",
     "/css/migration-overrides.css",
     "/css/ngmanpower-mobile-nav.css",
   ]),
@@ -97,23 +106,25 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
   <body
     class:list={[
       "wp-custom-logo",
-      "l-body",
       "wp-theme-Impreza",
       "wp-child-theme-Impreza-child",
+      "l-body",
+      "wpb-js-composer",
       "header_hor",
       "header_top_show",
+      "headerinpos_top",
       "btn_hov_slide",
       bodyClass,
     ]}
   >
     {gtmBody ? <Fragment set:html={gtmBody} /> : null}
-    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
-    <main id="content" class="site-main">
-      <div class="page-content">
+    <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
+    <div class="l-canvas type_wide">
+      <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+      <main id="page-content" class="l-main">
         <slot />
-      </div>
-    </main>
+      </main>
+    </div>
     <ElementorFooter />
     <FloatContacts />
     <ElementorScripts />

@@ -1,6 +1,6 @@
 ---
 /**
- * jQuery + Impreza + VC scripts for NG Manpower.
+ * jQuery + Impreza + Smart Slider + VC scripts for NG Manpower.
  */
 ---
 
@@ -11,6 +11,53 @@
 <script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
 <script is:inline src="/scripts/swiper.min.js"></script>
 <script is:inline src="/scripts/sp-carousels.js"></script>
+<!-- WP Carousel Free (client logo strip) — needs plugin Swiper + public init -->
+<script
+  is:inline
+  src="/wp-content/plugins/wp-carousel-free/public/js/swiper-bundle.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/wp-carousel-free/public/js/preloader.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/wp-carousel-free/public/js/wp-carousel-free-public.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js"
+></script>
+<script is:inline src="/scripts/smartslider-n2-ss-2-init.js"></script>
+<script is:inline src="/scripts/smartslider-n2-ss-3-init.js"></script>
+<script
+  is:inline
+  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate-params.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/jquery-appear.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/countUp.min.js"
+></script>
+<script
+  is:inline
+  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/custom.min.js"
+></script>
 <script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
 <script is:inline src="/scripts/phone-flags.js"></script>
 <script>
@@ -38,118 +85,7 @@
 </script>
 <script is:inline src="/scripts/cf7-bridge.js"></script>
 <script is:inline src="/scripts/jquery.simplePagination.min.js"></script>
+<script is:inline src="/scripts/blog-load-more.js"></script>
+<script is:inline src="/scripts/insights-load-more.js"></script>
 <script is:inline src="/scripts/insights-topic-filter.js"></script>
 <script is:inline src="/scripts/accordion.js"></script>
-<script is:inline>
-  // Prevent Elementor lazy-bg CSS from wiping section backgrounds without its runtime
-  document.querySelectorAll(".e-con, .elementor-section").forEach((el) => {
-    el.classList.add("e-lazyloaded", "e-no-lazyload");
-  });
-
-  // Inject motion-effects layer hosts so Elementor CSS backgrounds can paint
-  document
-    .querySelectorAll(".elementor-motion-effects-element-type-background")
-    .forEach((el) => {
-      if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
-      const wrap = document.createElement("div");
-      wrap.className = "elementor-motion-effects-container";
-      const layer = document.createElement("div");
-      layer.className = "elementor-motion-effects-layer";
-      wrap.appendChild(layer);
-      el.insertBefore(wrap, el.firstChild);
-    });
-
-  document.querySelectorAll(".elementor-element-populated").forEach((el) => {
-    const parent = el.parentElement;
-    if (!parent || !parent.classList.contains("elementor-column")) return;
-    if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
-    if (!/background/i.test(parent.getAttribute("data-settings") || "")) return;
-    const wrap = document.createElement("div");
-    wrap.className = "elementor-motion-effects-container";
-    const layer = document.createElement("div");
-    layer.className = "elementor-motion-effects-layer";
-    wrap.appendChild(layer);
-    el.insertBefore(wrap, el.firstChild);
-  });
-</script>
-<script is:inline>
-  // Elementor counters: animate to data-to-value (needs jquery-numerator + fallback)
-  (function () {
-    function fillCounters() {
-      document.querySelectorAll(".elementor-counter-number").forEach(function (el) {
-        var to = el.getAttribute("data-to-value");
-        if (to == null || to === "") return;
-        if (String(el.textContent).trim() === String(to).trim()) return;
-        // If Elementor already animated, leave it; otherwise set final value.
-        if (el.getAttribute("data-cfz-counted") === "1") return;
-        var current = String(el.textContent).trim();
-        if (current !== "0" && current !== "") return;
-        el.textContent = to;
-        el.setAttribute("data-cfz-counted", "1");
-      });
-    }
-
-    function animateWithNumerator() {
-      if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.numerator) {
-        fillCounters();
-        return;
-      }
-      var $ = window.jQuery;
-      $(".elementor-counter-number").each(function () {
-        var $el = $(this);
-        if ($el.data("cfz-counted")) return;
-        var to = parseFloat($el.attr("data-to-value"));
-        if (isNaN(to)) return;
-        var duration = parseInt($el.attr("data-duration"), 10) || 2000;
-        var delimiter = $el.attr("data-delimiter") || "";
-        $el.data("cfz-counted", true);
-        $el.numerator({
-          toValue: to,
-          duration: duration,
-          delimiter: delimiter,
-        });
-      });
-    }
-
-    function whenVisible(el, cb) {
-      if (!("IntersectionObserver" in window)) {
-        cb();
-        return;
-      }
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            io.unobserve(entry.target);
-            cb();
-          });
-        },
-        { threshold: 0.2 },
-      );
-      io.observe(el);
-    }
-
-    function boot() {
-      var nodes = document.querySelectorAll(".elementor-counter");
-      if (!nodes.length) return;
-      var started = false;
-      function start() {
-        if (started) return;
-        started = true;
-        animateWithNumerator();
-        // Safety: if animation never updates DOM, snap to final values.
-        setTimeout(fillCounters, 2200);
-      }
-      whenVisible(nodes[0], start);
-      // Also start after load in case section is already in view.
-      setTimeout(start, 800);
-    }
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", boot);
-    } else {
-      boot();
-    }
-    window.addEventListener("load", boot);
-  })();
-</script>

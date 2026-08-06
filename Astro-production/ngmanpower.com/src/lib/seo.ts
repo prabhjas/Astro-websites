@@ -13,18 +13,30 @@ export type SeoInput = {
   authorName?: string;
 };
 
-export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
-  const title = input.title || fallback?.title || `${site.name} | EOR, PEO, Payroll and HR Solutions`;
+export type SeoOriginOpts = {
+  mediaOrigin?: string;
+};
+
+export function resolveSeo(
+  input: SeoInput = {},
+  fallback?: SeoData,
+  opts: SeoOriginOpts = {},
+) {
+  const mediaOrigin = opts.mediaOrigin;
+  const title = input.title || fallback?.title || `${site.name} | Manpower Supply UAE`;
   const description =
     input.description || fallback?.description || site.description;
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
-  const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
+  const ogImage = absoluteUrl(
+    input.ogImage || fallback?.ogImage || site.ogImage || site.logo || "/",
+    mediaOrigin,
+  );
   const ogType = input.ogType || "website";
-  const robots = input.noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+  const robots = input.noindex
+    ? "noindex, follow"
+    : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
 
-  const schemas = [
-    ...(input.schemas || fallback?.schemas || []),
-  ].filter(Boolean);
+  const schemas = [...(input.schemas || fallback?.schemas || [])].filter(Boolean);
 
   return {
     title,
@@ -41,15 +53,15 @@ export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
   };
 }
 
-export function organizationSchema() {
+export function organizationSchema(mediaOrigin?: string) {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${site.url.replace(/\/$/, "")}/#organization`,
     name: site.name,
     url: site.url,
-    logo: absoluteUrl(site.logo),
-    image: absoluteUrl(site.ogImage || site.logo),
+    logo: absoluteUrl(site.logo, mediaOrigin),
+    image: absoluteUrl(site.ogImage || site.logo, mediaOrigin),
     email: site.email,
     ...(site.phone ? { telephone: site.phone } : {}),
     address: {
@@ -78,22 +90,25 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
   };
 }
 
-export function articleSchema(input: {
-  title: string;
-  description: string;
-  url: string;
-  image?: string;
-  datePublished: string;
-  dateModified?: string;
-  authorName?: string;
-}) {
+export function articleSchema(
+  input: {
+    title: string;
+    description: string;
+    url: string;
+    image?: string;
+    datePublished: string;
+    dateModified?: string;
+    authorName?: string;
+  },
+  mediaOrigin?: string,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: input.title,
     description: input.description,
     url: absoluteUrl(input.url),
-    image: absoluteUrl(input.image || site.ogImage),
+    image: absoluteUrl(input.image || site.ogImage || site.logo, mediaOrigin),
     datePublished: input.datePublished,
     dateModified: input.dateModified || input.datePublished,
     author: {
@@ -105,7 +120,7 @@ export function articleSchema(input: {
       name: site.name,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl(site.logo),
+        url: absoluteUrl(site.logo, mediaOrigin),
       },
     },
     mainEntityOfPage: absoluteUrl(input.url),
