@@ -25,5 +25,20 @@ ProtectSystem=strict
 ProtectHome=true
 ReadWritePaths=/opt/Astro-production/eormiddleast.com/.data
 
+# --- sandbox parity with the established fleet units (CONNECT-ASTRO-FLEET-STANDARD 6.2) ---
+TasksMax=256
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+UMask=0027
+
 [Install]
 WantedBy=multi-user.target

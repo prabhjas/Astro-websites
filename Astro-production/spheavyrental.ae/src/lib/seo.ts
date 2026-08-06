@@ -89,6 +89,9 @@ export function organizationSchema() {
       "@type": "Country",
       name: "United Arab Emirates",
     },
+    // Licensed activities, verbatim from the DET record — tells search engines
+    // what this company is actually permitted to do.
+    ...(licence.activities.length ? { knowsAbout: licence.activities } : {}),
     sameAs: [],
   };
 }
