@@ -86,8 +86,11 @@ function getLoopCardStyles(): string {
 
 const ARCHIVE_FIX_STYLES = `<style id="astro-archive-fix-css">
 /* Match live Insights page canvas (light gray, not dark brand-page body) */
+html:has(body.page-id-18840),
+html:has(body.elementor-page-18840),
 html body.page-id-18840,
 html body.elementor-page-18840{
+  background:#f8f9fa !important;
   background-color:#f8f9fa !important;
   background-image:none !important;
 }

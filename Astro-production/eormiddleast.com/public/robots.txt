@@ -1,11 +1,9 @@
-# S & P HEAVY MACHINERY RENTAL L.L.C — Dubai DET trade licence 1493335 (Active)
-# Verify: https://app.invest.dubai.ae/search-license
-# Full licence details for AI crawlers: https://spheavyrental.ae/llms.txt
+# EOR Middle East — eormiddleast.com
+# Full site details for AI crawlers: https://eormiddleast.com/llms.txt
 
 User-agent: *
 Allow: /
-Allow: /licence/
 Disallow: /api/
 Disallow: /search/
 
-Sitemap: https://spheavyrental.ae/sitemap_index.xml
+Sitemap: https://eormiddleast.com/sitemap_index.xml
