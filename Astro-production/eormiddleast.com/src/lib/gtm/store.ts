@@ -3,4 +3,5 @@ export {
   readGlobalGtmConfig,
   writeGlobalGtmConfig,
   sanitiseGtmSnippet,
+  resolveEffectiveGtmConfig,
 } from '@connect/site-cms/gtm';
