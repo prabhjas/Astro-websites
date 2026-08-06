@@ -122,6 +122,27 @@ Then run [10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md) for ea
 4. As root: useradd → install unit → extend `site-ctl` ALLOWED → copy Caddyfile → validate → reload.
 5. Run go-live verify checklist on the public hostname.
 6. GTM/GA4: [OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md).
+7. **Lead backup:** with the auto-discover restic script installed, a new site under `/opt/Astro-production/<domain>/` is included on the next nightly run — no per-site edit. If the host still has the old four-site script, refresh once (below).
+
+---
+
+## Urgent — refresh restic backup (all fleet leads)
+
+**Finding (Aug 2026):** `/usr/local/sbin/restic-astro-fleet-backup` still hardcodes:
+
+```bash
+SITES=(evolutionmiddleast.com cbss.ae spheavyrental.ae iberiaworkforce.com)
+```
+
+Every site cut over since then stores real enquiries under `.data/leads/` (and Evolution/CBSS under `/var/...`) with **no backup**, while the timer reports success.
+
+**Fix (root, once):** after `deploy-host/` is synced to the host:
+
+```bash
+sudo bash /opt/Astro-production/deploy-host/ROOT-REFRESH-RESTIC-BACKUP.sh
+```
+
+Dry-run must list connectgroup, kinzahr, c-uae, connectstaff, eormiddleast, connecthr, connectresources.sa, and any other live domain — not only the original four. Detail: [deploy-host/README.md](../Astro-production/deploy-host/README.md).
 
 ---
 
