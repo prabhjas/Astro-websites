@@ -20,6 +20,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   '/wp-includes/',
   '/tag/',
   '/blog/page/',
+  '/insights/page/',
   '/category/',
   '/*feed*/',
   '/*rss*/',

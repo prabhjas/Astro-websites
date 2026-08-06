@@ -225,7 +225,7 @@ function extractPost(slug, html) {
     },
     breadcrumb: [
       { name: 'Home', url: '/' },
-      { name: 'Blog', url: '/blog/' },
+      { name: 'Blog', url: '/insights/' },
       { name: title },
     ],
     categories: uniqueCategories,

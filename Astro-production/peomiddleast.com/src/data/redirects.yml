@@ -2,6 +2,13 @@
 # Probed live 2026-08-05. Merge Rank Math exports under imports/redirects/ later.
 
 redirects:
+  # Blog hub is Insights (fleet peer pattern; breadcrumbs + old /blog/ URLs)
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /blog
+    to: /insights/
+    status: 301
   - from: /about/
     to: /
     status: 301
