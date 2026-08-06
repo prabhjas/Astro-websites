@@ -50,13 +50,68 @@
     "status": 301
   },
   {
-    "from": "/insights/",
-    "to": "/blog/",
+    "from": "/blog/",
+    "to": "/insights/",
     "status": 301
   },
   {
-    "from": "/insights",
-    "to": "/blog/",
+    "from": "/blog",
+    "to": "/insights/",
+    "status": 301
+  },
+  {
+    "from": "/apartment-renovation-dubai/",
+    "to": "/apartment-renovation-ideas/",
+    "status": 301
+  },
+  {
+    "from": "/redo-interior-renovation/",
+    "to": "/interior/",
+    "status": 301
+  },
+  {
+    "from": "/interior/",
+    "to": "/interior-renovation-2/",
+    "status": 301
+  },
+  {
+    "from": "/interior-renovation-2/",
+    "to": "/interior-renovation/",
+    "status": 301
+  },
+  {
+    "from": "/flooring-renewal-services-in-dubai-2/",
+    "to": "/flooring-renewal-services-in-dubai/",
+    "status": 301
+  },
+  {
+    "from": "/kitchen/",
+    "to": "/services/kitchen-renovation/",
+    "status": 301
+  },
+  {
+    "from": "/services/kitchen-renovation/",
+    "to": "/kitchen-renovation-2/",
+    "status": 301
+  },
+  {
+    "from": "/kitchen-renovation-2/",
+    "to": "/kitchen-renovation/",
+    "status": 301
+  },
+  {
+    "from": "/flooring/",
+    "to": "/flooring-renewal-services-in-dubai-2/",
+    "status": 301
+  },
+  {
+    "from": "/home-renovation-dubai/",
+    "to": "/home-renovation-services-dubai/",
+    "status": 301
+  },
+  {
+    "from": "/https-redo-ae-apartment-redesigning-trends-in-dubai/",
+    "to": "/apartment-redesigning-trends-in-dubai/",
     "status": 301
   }
 ]

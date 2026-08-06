@@ -5,6 +5,7 @@
  * Usage:
  *   node scripts/import-from-sitemap.mjs
  *   node scripts/import-from-sitemap.mjs --download --prepare
+ *   node scripts/import-from-sitemap.mjs --force --download --prepare
  *   node scripts/import-from-sitemap.mjs --only pages
  *   node scripts/import-from-sitemap.mjs --only posts --slugs about-us,contact
  */
@@ -21,6 +22,7 @@ const SITEMAP_INDEX = `${ORIGIN}/sitemap_index.xml`;
 const args = process.argv.slice(2);
 const shouldPrepare = args.includes('--prepare');
 const shouldDownload = args.includes('--download') || shouldPrepare;
+const forceRefetch = args.includes('--force');
 const onlyArg = args.find((a) => a.startsWith('--only='))?.slice('--only='.length)
   || (args.includes('--only') ? args[args.indexOf('--only') + 1] : null);
 const slugsArg = args.find((a) => a.startsWith('--slugs='))?.slice('--slugs='.length)
@@ -160,7 +162,7 @@ async function main() {
   const results = await mapPool(unique, CONCURRENCY, async (entry) => {
     const exportPath = join(ROOT, 'source/wordpress-exports', entry.slug, 'index-https.html');
     try {
-      if (existsSync(exportPath)) {
+      if (!forceRefetch && existsSync(exportPath)) {
         const existing = await readFile(exportPath, 'utf8');
         if (existing.length > 5000) {
           console.log(`SKIP fetch (exists): ${entry.slug}`);

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import {
+  getTagBySlug,
+  getPostsByTag,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../lib/content";
+import { renderBlogCardsHtml } from "../../../lib/blog-card-html";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const tag = getTagBySlug(slug);
+if (!tag) {
+  return notFoundResponse();
+}
+const sorted = getPostsByTag(tag.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const cardsHtml = items.length ? renderBlogCardsHtml(items) : "";
+---
+
+<BaseLayout
+  currentPath={tag.path}
+  bodyClass={`archive tag tag-${tag.slug}`}
+  seo={{
+    title: `Tag: ${stripHtml(tag.name)} | NG Manpower`,
+    description: tag.description || `Posts tagged ${tag.name}.`,
+    canonical: tag.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+        { name: tag.name, url: tag.path },
+      ]),
+    ],
+  }}
+  extraCss={["/wp-content/uploads/elementor/css/post-540.css"]}
+  menuActivePath="/insights/"
+>
+  <section class="cfz-archive-hero">
+    <div class="cfz-archive-hero__inner">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Insights", href: "/insights/" },
+          { name: stripHtml(tag.name) },
+        ]}
+      />
+      <h1 set:html={tag.name} />
+    </div>
+  </section>
+  <section class="cfz-archive-grid">
+    {
+      items.length ? (
+        <div
+          class="elementor-grid elementor-posts-container elementor-grid-3"
+          set:html={cardsHtml}
+        />
+      ) : (
+        <p>No posts with this tag yet.</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
+  </section>
+</BaseLayout>

@@ -140,11 +140,32 @@ export function normalizePath(pathname: string): string {
   return p;
 }
 
-export function absoluteUrl(pathname: string): string {
-  if (pathname.startsWith("http")) return pathname;
-  const base = site.url.replace(/\/$/, "");
-  const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
-  return `${base}${path}`;
+const LIVE_HOST_RE = /^https?:\/\/(?:www\.)?c-uae\.com/i;
+const MEDIA_PATH_RE = /\/wp-content\//i;
+const MEDIA_EXT_RE = /\.(png|jpe?g|webp|gif|svg|avif|ico|bmp)(\?|$)/i;
+
+function resolveUrlBase(path: string, mediaOrigin?: string): string {
+  const isMedia = MEDIA_PATH_RE.test(path) || MEDIA_EXT_RE.test(path);
+  if (isMedia) {
+    const local =
+      (mediaOrigin || process.env.FLEET_LOCAL_URL || "").replace(/\/$/, "");
+    if (local) return local;
+  }
+  return site.url.replace(/\/$/, "");
+}
+
+/**
+ * Absolute URL for canonicals/schema.
+ * Media paths prefer `mediaOrigin` (request origin) or FLEET_LOCAL_URL so local
+ * SSR does not emit live-host image URLs.
+ */
+export function absoluteUrl(pathname: string, mediaOrigin?: string): string {
+  let path = (pathname || "").trim();
+  if (!path) path = "/";
+  if (LIVE_HOST_RE.test(path)) path = path.replace(LIVE_HOST_RE, "") || "/";
+  if (/^https?:\/\//i.test(path)) return path; // external non-live
+  if (!path.startsWith("/")) path = `/${path}`;
+  return `${resolveUrlBase(path, mediaOrigin)}${path}`;
 }
 
 export function stripHtml(html: string): string {

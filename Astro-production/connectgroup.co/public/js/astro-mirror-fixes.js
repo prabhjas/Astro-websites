@@ -1180,7 +1180,10 @@
     }
     style.textContent = [
       /* Prevent horizontal scroll from stretched sections on mobile */
-      'html,body{overflow-x:hidden;max-width:100vw;background:#111!important;background-color:#111!important;}',
+      'html,body{overflow-x:hidden;max-width:100vw;}',
+      /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas) */
+      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
+      'body.astro-blog-post,body.single-post,body.page-id-18840,body.elementor-page-18840,body.blog,body.archive,html:has(body.astro-blog-post),html:has(body.single-post),html:has(body.page-id-18840),html:has(body.elementor-page-18840){background:#f8f9fa!important;background-color:#f8f9fa!important;background-image:none!important;}',
       /* Contact Us only: restore full-bleed page background (not a second site header) */
       'body.page-id-27093{background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;}',
       'body.page-id-27093 .elementor-27130.elementor-location-header,body.page-id-27093 .elementor-27130 .header-new{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
@@ -1972,13 +1975,44 @@
     obs.observe(document.documentElement, { childList: true, subtree: true });
   }
 
+  function isLightCanvasPage() {
+    var b = document.body;
+    if (!b) return false;
+    if (
+      b.classList.contains('astro-blog-post') ||
+      b.classList.contains('single-post') ||
+      b.classList.contains('page-id-18840') ||
+      b.classList.contains('elementor-page-18840') ||
+      b.classList.contains('blog') ||
+      b.classList.contains('archive')
+    ) {
+      return true;
+    }
+    var path = (location.pathname || '').replace(/\/+$/, '') || '/';
+    return (
+      path === '/insights' ||
+      path.indexOf('/insights/') === 0 ||
+      path.indexOf('/category/') === 0 ||
+      path.indexOf('/tag/') === 0 ||
+      path.indexOf('/author/') === 0
+    );
+  }
+
   function ensureHeaderChrome() {
     // Dark page chrome — kills white/gray flash above absolute transparent header.
     // Contact Us (page-id-27093) keeps Contact-Us-Bg image on body — only solid-fill html.
-    document.documentElement.style.setProperty('background', '#111111', 'important');
-    document.documentElement.style.setProperty('background-color', '#111111', 'important');
-    var isContactUs = document.body.classList.contains('page-id-27093');
-    if (isContactUs) {
+    // Blog / Insights / archives need the light theme canvas (bg-gray-2 / #f8f9fa), not #111.
+    var isContactUs = document.body && document.body.classList.contains('page-id-27093');
+    var lightCanvas = !isContactUs && isLightCanvasPage();
+    if (lightCanvas) {
+      document.documentElement.style.setProperty('background', '#f8f9fa', 'important');
+      document.documentElement.style.setProperty('background-color', '#f8f9fa', 'important');
+      document.body.style.removeProperty('background');
+      document.body.style.setProperty('background-color', '#f8f9fa', 'important');
+      document.body.style.setProperty('background-image', 'none', 'important');
+    } else if (isContactUs) {
+      document.documentElement.style.setProperty('background', '#111111', 'important');
+      document.documentElement.style.setProperty('background-color', '#111111', 'important');
       document.body.style.setProperty(
         'background-image',
         'url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")',
@@ -1991,6 +2025,8 @@
       // Clear shorthand that would wipe the image if set earlier
       document.body.style.removeProperty('background');
     } else {
+      document.documentElement.style.setProperty('background', '#111111', 'important');
+      document.documentElement.style.setProperty('background-color', '#111111', 'important');
       document.body.style.setProperty('background', '#111111', 'important');
       document.body.style.setProperty('background-color', '#111111', 'important');
     }

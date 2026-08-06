@@ -1,0 +1,617 @@
+
+
+				.navbar-default {
+				    background-color: #151515 !important;
+				}
+				.is_header_semitransparent .navbar-default {
+				    background: rgba(21, 21, 21, 0.2) none repeat scroll 0 0;
+				}
+				.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
+				    background: rgba(21, 21, 21, 0.9) none repeat scroll 0 0;
+				}.single article .article-content p,
+	               p,
+	               .post-excerpt{
+	                    font-size: ;
+	                    line-height: ;
+	                    font-family: ;
+	                    color: ;
+	               }
+	               body{
+	                    font-family: ;
+	               }
+	               h1,
+	               h1 span {
+	                    font-family: "";
+	                    font-size: ;
+	               }
+	               h2 {
+	                    font-family: "";
+	                    font-size: ;
+	               }
+	               h3 {
+	                    font-family: "";
+	                    font-size: ;
+	               }
+	               h4 {
+	                    font-family: "";
+	                    font-size: ;
+	               } 
+	               h5 {
+	                    font-family: "";
+	                    font-size: ;
+	               } 
+	               h6 {
+	                    font-family: "";
+	                    font-size: ;
+	               } 
+	               input,
+	               textarea {
+	                    font-family: ;
+	               }  
+	               input[type="submit"] {
+	                    font-family: ;
+	               }
+	    			@media only screen and (max-width: 767px) {
+	    				body h1,
+	    				body h1 span{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h2{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h3{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h4{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h5{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h6{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    			}
+	    			@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	    				body h1,
+	    				body h1 span{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h2{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h3{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h4{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h5{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    				body h6{
+	    					font-size:  !important;
+	    					line-height:  !important;
+	    				}
+	    			}.breadcrumb a::after {
+		        	  content: "";
+		    	}
+		    	body{
+			        background: ;
+		    	}
+	    		.logo img,
+				.navbar-header .logo img {
+					max-width: px;
+				}
+			    ::selection{
+			        color: ;
+			        background: #151515;
+			    }
+			    ::-moz-selection { /* Code for Firefox */
+			        color: ;
+			        background: #151515;
+			    }
+			    a{
+			        color: #151515;
+			    }
+			    a:focus,
+			    a:hover{
+			        color: #4f4f4f;
+			    }
+			    /*------------------------------------------------------------------
+			        COLOR
+			    ------------------------------------------------------------------*/
+			    a, 
+			    a:hover, 
+			    a:focus,
+			    .mt_car--tax-type,
+			    span.amount,
+			    .widget_popular_recent_tabs .nav-tabs li.active a,
+			    .widget_product_categories .cat-item:hover,
+			    .widget_product_categories .cat-item a:hover,
+			    .widget_archive li:hover,
+			    .widget_archive li:hover a,
+			    .widget_archive li a:hover,
+			    .widget_categories .cat-item:hover,
+			    .widget_categories .cat-item:hover a,
+			    .widget_categories li a:hover,
+			    .pricing-table.recomended .button.solid-button, 
+			    .pricing-table .table-content:hover .button.solid-button,
+			    .pricing-table.Recommended .button.solid-button, 
+			    .pricing-table.recommended .button.solid-button, 
+			    #sync2 .owl-item.synced .post_slider_title,
+			    #sync2 .owl-item:hover .post_slider_title,
+			    #sync2 .owl-item:active .post_slider_title,
+			    .pricing-table.recomended .button.solid-button, 
+			    .pricing-table .table-content:hover .button.solid-button,
+			    .testimonial-author,
+			    .testimonials-container blockquote::before,
+			    .testimonials-container blockquote::after,
+			    .post-author > a,
+			    h2 span,
+			    label.error,
+			    .author-name,
+			    .prev-next-post a:hover,
+			    .prev-text,
+			    .wpb_button.btn-filled:hover,
+			    .next-text,
+			    .social ul li a:hover i,
+			    .wpcf7-form span.wpcf7-not-valid-tip,
+			    .text-dark .statistics .stats-head *,
+			    .wpb_button.btn-filled,
+			    footer ul.menu li.menu-item a:hover,
+			    .widget_meta li:hover,
+			    .widget_meta li:hover a,
+			    .widget_meta a:hover,
+			    .widget_pages li:hover,
+			    .widget_pages li:hover a,
+			    .widget_pages li.page_item_has_children li:hover,
+				.widget_pages li.page_item_has_children li:hover a
+			    .blogloop-v1 .post-name a:hover,
+			    .blogloop-v2 .post-name a:hover,
+			    .blogloop-v3 .post-name a:hover,
+			    .blogloop-v4 .post-name a:hover,
+			    .blogloop-v5 .post-name a:hover,
+			    .simple_sermon_content_top h4,
+			    .page_404_v1 h1,
+			    .mt_cars--single-main-pic .post-name > a,
+			    .widget_recent_comments li:hover a,
+			    .sidebar-content .widget-title a:hover,
+			    .widget_rss li a:hover,
+			    .list-view .post-details .post-name a:hover,
+			    .blogloop-v5 .post-details .post-sticky-label i,
+			    header.header2 .header-info-group .header_text_title strong,
+			    .widget_recent_entries_with_thumbnail li:hover a,
+			    .widget_recent_entries li:hover,
+			    .widget_recent_entries li:hover a,
+			    .widget_recent_entries li a:hover,
+			    .blogloop-v1 .post-details .post-sticky-label i,
+			    .blogloop-v2 .post-details .post-sticky-label i,
+			    .blogloop-v3 .post-details .post-sticky-label i,
+			    .blogloop-v4 .post-details .post-sticky-label i,
+			    .blogloop-v5 .post-details .post-sticky-label i,
+			    .mt_listing--price-day.mt_listing--price .mt_listing_price,
+	            .mt_listing--price-day.mt_listing--price .mt_listing_currency,
+	            .mt_listing--price-day.mt_listing--price .mt_listing_per,
+			    .error-404.not-found h1,
+			    .header-info-group i,
+	            .woocommerce form .form-row .required,
+	            .woocommerce .woocommerce-info::before,
+	            .woocommerce .woocommerce-message::before,
+	            .woocommerce div.product p.price, 
+	            .woocommerce div.product span.price,
+	            .woocommerce div.product .woocommerce-tabs ul.tabs li.active,  
+			    .error-404.not-found h1,
+			    .header-info-group i,
+			    body .lms-course-infos i,
+			    .action-expand::after,
+			    .single-icondrops-content .skill,
+			    .oklahoma-single-list-item i.cc,
+			    .single .single-icondrops-related-listings i.cc,
+			    .list-view .post-details .post-excerpt .more-link:hover,
+			    .header4 header .right-side-social-actions .social-links a:hover i,
+			    #navbar .menu-item.selected > a,
+			    .sidebar-content .widget_nav_menu li a:hover,
+			    .sidebar-content .widget_nav_menu li:hover,
+			    .single-icondrops-content h5 strong,
+			    .modeltheme-countdown .days-digit, 
+			    .modeltheme-countdown .hours-digit, 
+			    .modeltheme-countdown .minutes-digit, 
+			    .modeltheme-countdown .seconds-digit,
+			    .widget_oklahoma_recent_entries_with_thumbnail li:hover a,
+			    .sidebar-content .widget_nav_menu li:hover a,
+			    .blog-posts-shortcode-v2 .post-details .post-category,
+			    .mtlistings-ico-style-v2.iconfilter-shortcode .blog_custom_listings .post-name-listings a:hover,
+			    .mtlistings-events-style-v2 .events-title-subtitle h4 a:hover,
+			    .mtlistings-events-style-v2 .mt-single-event .mt-event-cat a:hover  {
+			        color: #151515;
+			    }
+			    .um-login .um-button.um-alt,
+			    .woocommerce a.remove {
+			    	color: #151515!important;
+			    }
+			    /* NAVIGATION */
+			    .navstyle-v8.header3 #navbar .menu > .menu-item.current-menu-item > a, 
+			    .navstyle-v8.header3 #navbar .menu > .menu-item:hover > a,
+			    .navstyle-v1.header3 #navbar .menu > .menu-item:hover > a,
+			    #navbar ul.sub-menu li a:hover,
+			    .navstyle-v4 #navbar .menu > .menu-item.current-menu-item > a,
+			    .navstyle-v4 #navbar .menu > .menu-item:hover > a,
+			    .navstyle-v3 #navbar .menu > .menu-item.current-menu-item > a, 
+			    .navstyle-v3 #navbar .menu > .menu-item:hover > a,
+			    .navstyle-v3 #navbar .menu > .menu-item > a::before, 
+				.navstyle-v3 #navbar .menu > .menu-item > a::after,
+				.navstyle-v2 #navbar .menu > .menu-item.current-menu-item > a,
+				.navstyle-v2 #navbar .menu > .menu-item:hover > a,
+			    #navbar .menu-item.selected > a{
+			        color: #151515;
+				}
+				.navstyle-v2.header3 #navbar .menu > .menu-item > a::before,
+				.navstyle-v2.header3 #navbar .menu > .menu-item > a::after,
+				.navstyle-v8 #navbar .menu > .menu-item > a::before,
+				.navstyle-v7 #navbar .menu > .menu-item .sub-menu > .menu-item > a:hover,
+				.navstyle-v7 #navbar .menu > .menu-item.current_page_item > a,
+				.navstyle-v7 #navbar .menu > .menu-item.current-menu-item > a,
+				.navstyle-v7 #navbar .menu > .menu-item:hover > a,
+				.navstyle-v6 #navbar .menu > .menu-item.current_page_item > a,
+				.navstyle-v6 #navbar .menu > .menu-item.current-menu-item > a,
+				.navstyle-v6 #navbar .menu > .menu-item:hover > a,
+				.navstyle-v5 #navbar .menu > .menu-item.current_page_item > a, 
+				.navstyle-v5 #navbar .menu > .menu-item.current-menu-item > a,
+				.navstyle-v5 #navbar .menu > .menu-item:hover > a,
+				.navstyle-v2 #navbar .menu > .menu-item > a::before, 
+				.navstyle-v2 #navbar .menu > .menu-item > a::after{
+					background: #151515;
+				}
+				/* Color Dark / Hovers */
+			    .oklahoma-single-list-item i.cc:hover,
+			    .single .single-icondrops-related-listings i.cc:hover,
+				.related-posts .post-name:hover a{
+					color: #4f4f4f !important;
+				}
+			    /*------------------------------------------------------------------
+			        BACKGROUND + BACKGROUND-COLOR
+			    ------------------------------------------------------------------*/
+			    .tagcloud > a:hover,
+			    .modeltheme-icon-search,
+			    .wpb_button::after,
+			    .rotate45,
+			    .latest-posts .post-date-day,
+			    .latest-posts h3, 
+			    .latest-tweets h3, 
+			    .latest-videos h3,
+			    .button.solid-button, 
+			    button.vc_btn,
+			    .pricing-table.recomended .table-content, 
+			    .pricing-table .table-content:hover,
+			    .pricing-table.Recommended .table-content, 
+			    .pricing-table.recommended .table-content, 
+			    .pricing-table.recomended .table-content, 
+			    .pricing-table .table-content:hover,
+			    .block-triangle,
+			    .owl-theme .owl-controls .owl-page span,
+			    body .vc_btn.vc_btn-blue, 
+			    body a.vc_btn.vc_btn-blue, 
+			    body button.vc_btn.vc_btn-blue,
+			    .pagination .page-numbers.current,
+			    .pagination .page-numbers:hover,
+			    #subscribe > button[type='submit'],
+			    .social-sharer > li:hover,
+			    .prev-next-post a:hover .rotate45,
+			    .masonry_banner.default-skin,
+			    .form-submit input,
+			    .member-header::after,
+			    .member-footer .social::before, 
+			    .member-footer .social::after,
+			    .subscribe > button[type='submit'],
+			    .no-results input[type='submit'],
+			    h3#reply-title::after,
+			    .newspaper-info,
+			    header.header1 .header-nav-actions .shop_cart,
+			    .categories_shortcode .owl-controls .owl-buttons i:hover,
+			    .widget-title:after,
+			    h2.heading-bottom:after,
+			    .single .content-car-heading:after,
+			    .wpb_content_element .wpb_accordion_wrapper .wpb_accordion_header.ui-state-active,
+			    #primary .main-content ul li:not(.rotate45)::before,
+			    .wpcf7-form .wpcf7-submit,
+				.modeltheme_button .btn_custom_my_account,
+			    ul.ecs-event-list li span,
+			    #contact_form2 .solid-button.button,
+			    .navbar-default .navbar-toggle .icon-bar,
+			    .modeltheme-search .search-submit,
+			    .pricing-table.recommended .table-content .title-pricing,
+			    .pricing-table .table-content:hover .title-pricing,
+			    .pricing-table.recommended .button.solid-button,
+			    .blogloop-v5 .absolute-date-badge span,
+			    .post-category-date a[rel="tag"],
+			    .oklahoma_preloader_holder,
+			    .mt_car--single-gallery.mt_car--featured-single-gallery:hover,
+			    footer .mc4wp-form-fields input[type="submit"],
+			    .modeltheme-pagination.pagination .page-numbers.current,
+			    .pricing-table .table-content:hover .button.solid-button,
+			    footer .footer-top .menu .menu-item a::before,
+			    .mt-car-search .submit .form-control,
+			    .blogloop-v4.list-view .post-date,
+			    header .top-header,
+			    .navbar-toggle .icon-bar,
+			     .woocommerce #respond input#submit, 
+	            .woocommerce a.button, 
+	            .woocommerce .woocommerce-cart-form .button,
+	            .woocommerce input.button,
+	            table.compare-list .add-to-cart td a,
+	            .woocommerce #respond input#submit.alt, 
+	            .woocommerce a.button.alt, 
+	            .woocommerce button.button.alt, 
+	            .woocommerce .woocommerce-form button, 
+	            .woocommerce input.button.alt,
+	            .woocommerce a.remove:hover,
+	            .woocommerce .widget_price_filter .ui-slider .ui-slider-range,
+	            .woocommerce nav.woocommerce-pagination ul li a:focus, 
+	            .woocommerce nav.woocommerce-pagination ul li a:hover, 
+	            .woocommerce nav.woocommerce-pagination ul li span.current,
+	            .woocommerce.single-product .wishlist-container .yith-wcwl-wishlistaddedbrowse,
+	            .woocommerce #respond input#submit.alt.disabled, 
+	            .woocommerce #respond input#submit.alt.disabled:hover, 
+	            .woocommerce #respond input#submit.alt:disabled, 
+	            .woocommerce #respond input#submit.alt:disabled:hover, 
+	            .woocommerce #respond input#submit.alt[disabled]:disabled, 
+	            .woocommerce #respond input#submit.alt[disabled]:disabled:hover, 
+	            .woocommerce a.button.alt.disabled, 
+	            .woocommerce a.button.alt.disabled:hover, 
+	            .woocommerce a.button.alt:disabled, 
+	            .woocommerce a.button.alt:disabled:hover, 
+	            .woocommerce a.button.alt[disabled]:disabled, 
+	            .woocommerce a.button.alt[disabled]:disabled:hover, 
+	            .woocommerce button.button.alt.disabled, 
+	            .woocommerce button.button.alt.disabled:hover, 
+	            .woocommerce button.button.alt:disabled, 
+	            .woocommerce button.button.alt:disabled:hover, 
+	            .woocommerce button.button.alt[disabled]:disabled, 
+	            .woocommerce button.button.alt[disabled]:disabled:hover, 
+	            .woocommerce input.button.alt.disabled, 
+	            .woocommerce input.button.alt.disabled:hover, 
+	            .woocommerce input.button.alt:disabled, 
+	            .woocommerce input.button.alt:disabled:hover, 
+	            .woocommerce input.button.alt[disabled]:disabled, 
+	            .woocommerce input.button.alt[disabled]:disabled:hover,
+	            .hover-components .component a:hover,
+	            table.compare-list .add-to-cart td a,
+			    .panel-single-icondrops,
+			    .single-mt_listing .single-icondrops,
+			    #listings_metaboxs input[type="submit"],
+	            .mt_listing--single-price-inner,
+	            input.wpcf7-form-control.wpcf7-submit,
+	            .mt-single-event-head,
+	            .mt_listing .single-icondrops-content .progress,
+			    .post-password-form input[type="submit"],
+			    .widget.widget_product_search button,
+			    .search-form input[type="submit"],
+			    .slider_navigation .btn,
+			    .pagination .page-numbers,
+			    .single-mt_listing .mt_listing_website_button:hover,
+				.single-mt_listing .mt_listing_website_button:hover, 
+				.single-mt_listing .mt_listing_whitepaper_button:hover,
+				.single-mt_listing .mt_listing_purchase_button:hover,
+				.single-mt_listing .mt_listing_video_button:hover,
+			    #listings_metaboxs .cmb-type-title,
+			    body .btn-sticky-left,
+			    .wpb_accordion .wpb_accordion_wrapper .wpb_accordion_header a,
+			    .post-password-form input[type='submit'] {
+			        background: #151515;
+			    }
+				.um-login input[type=submit].um-button,
+			    body .courses-list .featured_image_courses .course_badge i,
+			    body .courses-list .shortcode_course_content,
+	            body .woocommerce ul.products li.product .onsale {
+	                    background-color: #151515 !important;
+	            }
+			    .modeltheme-search.modeltheme-search-open .modeltheme-icon-search, 
+			    .no-js .modeltheme-search .modeltheme-icon-search,
+			    .modeltheme-icon-search:hover,
+			    .latest-posts .post-date-month,
+			    .button.solid-button:hover,
+			    body .vc_btn.vc_btn-blue:hover, 
+			    body a.vc_btn.vc_btn-blue:hover, 
+			    .post-category-date a[rel="tag"]:hover,
+			    .single-post-tags > a:hover,
+			    body button.vc_btn.vc_btn-blue:hover,
+			    .blogloop-v5 .absolute-date-badge span:hover,
+			    .mt-car-search .submit .form-control:hover,
+			    #contact_form2 .solid-button.button:hover,
+			    .subscribe > button[type='submit']:hover,
+			    footer .mc4wp-form-fields input[type="submit"]:hover,
+			    .no-results.not-found .search-submit:hover,
+			    .no-results input[type='submit']:hover,
+			    ul.ecs-event-list li span:hover,
+			    .pricing-table.recommended .table-content .price_circle,
+			    .pricing-table .table-content:hover .price_circle,
+			    #modal-search-form .modal-content input.search-input,
+			    .wpcf7-form .wpcf7-submit:hover,
+			    .form-submit input:hover,
+			    .mt_listing_end_date_pick,
+			    .mt_listing_start_date_pick,
+			    .blogloop-v4.list-view .post-date a:hover,
+			    .pricing-table.recommended .button.solid-button:hover,
+			    .search-form input[type="submit"]:hover,
+			    .modeltheme-pagination.pagination .page-numbers.current:hover,
+			    .error-return-home.text-center > a:hover,
+			    .pricing-table .table-content:hover .button.solid-button:hover,
+			    .post-password-form input[type="submit"]:hover,
+			    .navbar-toggle .navbar-toggle:hover .icon-bar,
+	            .woocommerce #respond input#submit:hover, 
+			    .widget.widget_product_search button:hover,
+			    .slider_navigation .btn:hover,
+	            .woocommerce input.button:hover,
+	            table.compare-list .add-to-cart td a:hover,
+	            .woocommerce #respond input#submit.alt:hover, 
+	            .woocommerce input.button.alt:hover,
+			    .post-password-form input[type='submit']:hover{
+			        background: #4f4f4f;
+			    }
+				.um-login input[type=submit].um-button:hover,
+			    .tagcloud > a:hover{
+			        background: #4f4f4f !important;
+			    }
+	            .hover-components .component a,
+	            .woocommerce ul.cart_list li a::before, 
+	            .woocommerce ul.product_list_widget li a::before,
+			    .flickr_badge_image a::after,
+			    .thumbnail-overlay,
+			    .portfolio-hover,
+			    .mt_listing--single-gallery .ico-screenshot:hover .flex-zone,
+			    .pastor-image-content .details-holder,
+			    .item-description .holder-top,
+			    blockquote::before {
+			        background: rgba(37,37,37, .7);
+			    }
+			    /*------------------------------------------------------------------
+			        BORDER-COLOR
+			    ------------------------------------------------------------------*/
+			    .comment-form input, 
+			    .comment-form textarea,
+			    .author-bio,
+			    blockquote,
+			    .widget_popular_recent_tabs .nav-tabs > li.active,
+			    body .left-border, 
+			    body .right-border,
+			    body .member-header,
+			    body .member-footer .social,
+			    body .button[type='submit'],
+			    .navbar ul li ul.sub-menu,
+			    .wpb_content_element .wpb_tabs_nav li.ui-tabs-active,
+			    #contact-us .form-control:focus,
+			    .sale_banner_holder:hover,
+			    .testimonial-img,
+			    .wpcf7-form input:focus, 
+	            .woocommerce .woocommerce-info, 
+	            .woocommerce .woocommerce-message,
+	            .header_mini_cart .woocommerce .widget_shopping_cart .total, 
+	            .header_mini_cart .woocommerce.widget_shopping_cart .total,
+	            .header_mini_cart,
+	            .header_mini_cart.visible_cart,
+			    .wpcf7-form textarea:focus,
+			    .navbar-default .navbar-toggle:hover, 
+			    .header_search_form,
+			    body .course-review-head, body .course-content > h3:first-child, body .course-curriculum-title,
+			    .list-view .post-details .post-excerpt .more-link:hover{
+			        border-color: #151515;
+			    }
+			    header .navbar-toggle,
+			    .navbar-default .navbar-toggle{
+			        border: 3px solid #151515;
+			    }
+			    
+				body #navbar ul.sub-menu li a:hover,
+				#dropdown-user-profile ul li a:hover {
+				    color: !important; 
+				}
+				li.shop_cart_li.menu-item span.cart-contents-count {
+					background: !important; 
+				}
+				li.shop_cart_li.menu-item a.shop_cart:hover span.cart-contents-count {
+					background: !important; 
+				}
+				#dropdown-user-profile.open a.profile i {
+					color: !important; 
+				}
+				.listings_category_image_shortcode_holder .category_icon_holder {
+					background: !important; 
+				}
+				.listings_category_image_shortcode_holder .listings_category_footer .category_icon_holder:hover {
+					background: !important; 
+				}
+				.blog-posts-shortcode .time-n-date,
+				.blog-posts-shortcode .text-element.content-element p a::before {
+					background: !important; 
+				}
+				.blog-posts-shortcode .text-element.content-element p a:hover,
+				.blog-posts-shortcode.blog-posts .list-view .post-details .post-name a:hover {
+					color: !important; 
+				}
+				body .newsletter button {
+					background: !important; 
+				}
+				body .newsletter button:hover:before {
+					background: !important; 
+				}
+				button#frontend-button {
+					background: !important; 
+				}
+				button#frontend-button:hover:before {
+					background: !important; 
+				}
+				form#add-new-listing button.button-listing {
+					background: !important; 
+				}
+				form#add-new-listing button.button-listing:hover:before {
+					background: !important;
+				}
+				.single-mt_listing .mt_listing_header_section .category_icon_holder {
+					background: !important;
+				}
+				.mt_listing_content_parent .amenities-section span.amenities-item i,
+				.mt_listing_content_parent .amenities-section a:hover span.amenities-item,
+				.listing_tags_section a:hover,
+				.mt_listing_content_sidebar_part_contact_info_details_info p i,
+				.sidebar-content .tagcloud > a:hover {
+					color: !important;
+				}
+				.listing_tags_section a:hover,
+				.sidebar-content .tagcloud > a:hover {
+					border-color: !important;
+				}
+				#commentform .form-submit button {
+					background: !important;
+				}
+				#commentform .form-submit button:hover:before {
+					background: !important;
+				}
+				.mt-listing-search-taxonomy button.form-control.btn {
+					background: !important;
+				}
+				.mt-listing-search-taxonomy button.form-control.btn:hover:before {
+					background: !important;
+				}
+				.okhaloma-contact button.wpcf7-form-control.wpcf7-submit {
+					background: !important;
+				}
+				.okhaloma-contact button.wpcf7-form-control.wpcf7-submit:hover:before {
+					background: !important;
+				}
+				body.error404 a.vc_button_404 {
+					background: !important;
+				}
+				body.error404 a.vc_button_404:hover:before {
+					background: !important;
+				}
+				.sidebar-content .widget_search .search-submit,
+				.list-view .post-details .post-excerpt .more-link {
+					background: !important;
+				}
+				.sidebar-content .widget_search .search-submit:hover:before,
+				.list-view .post-details .post-excerpt .more-link:hover:before {
+					background: !important;
+				}
+				.listings_category_icon_shortcode:hover .heading a {
+					color: !important;
+				}
+				.mtsearchform-style-v2.mt-car-search .submit .form-control {
+					background: !important;
+				}
+				.mtsearchform-style-v2.mt-car-search .submit .form-control:hover:before {
+					background: !important;
+				}
+				
+/*# sourceURL=oklahoma-mt-style-inline-css */

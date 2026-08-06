@@ -1,0 +1,333 @@
+/**
+ * Industry pages — match live NG screenshots.
+ * Keep header compact, force person heroes, restore Impreza overlay margins.
+ * Do not invent new negative margins that fight page-design CSS.
+ */
+
+/* ---- Header: tall logo was creating a huge white band ---- */
+.l-header .ush_image_1 img,
+.l-header .w-image img,
+.l-header .logo img {
+  max-height: 56px !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 180px !important;
+}
+.l-header .l-subheader.at_middle {
+  height: 80px !important;
+  line-height: 80px !important;
+  max-height: 80px !important;
+}
+.l-header .l-subheader.at_middle .l-subheader-h {
+  height: 80px !important;
+}
+
+/* ---- Heroes: bg clear at top; text column has breathing room ---- */
+.us_custom_a9998d62,
+.us_custom_0b7e9c85,
+.us_custom_f31eb567,
+.us_custom_51e9ed09,
+.us_custom_86891d6a,
+.us_custom_9c282257,
+.us_custom_3ece420d,
+.us_custom_597c6a75,
+.us_custom_d05eb83a {
+  position: relative;
+  z-index: 1;
+  margin-top: 0 !important;
+  /* Space above eyebrow / title column (inside hero, not white gap) */
+  padding-top: 4rem !important;
+  overflow: visible !important;
+}
+
+/* All industry heroes — cover, anchored to top so hard hat isn’t cropped */
+.us_custom_a9998d62 {
+  background: url(/wp-content/uploads/2023/06/Frame-383.jpg) no-repeat center top / cover !important;
+  padding-bottom: 25rem !important;
+}
+.us_custom_0b7e9c85 {
+  background: url(/wp-content/uploads/2023/07/1-4.png) no-repeat center top / cover !important;
+  padding-bottom: 20rem !important;
+}
+.us_custom_f31eb567 {
+  background: url(/wp-content/uploads/2023/06/Frame-384.jpg) no-repeat center top / cover !important;
+  padding-bottom: 23rem !important;
+}
+.us_custom_51e9ed09 {
+  background: url(/wp-content/uploads/2023/07/1.png) no-repeat center top / cover !important;
+  padding-bottom: 23rem !important;
+}
+.us_custom_86891d6a {
+  background: url(/wp-content/uploads/2023/06/Frame-385.jpg) no-repeat center top / cover !important;
+  padding-bottom: 22rem !important;
+}
+.us_custom_9c282257 {
+  background: url(/wp-content/uploads/2023/06/Frame-389.jpg) no-repeat center top / cover !important;
+  padding-bottom: 24rem !important;
+}
+.us_custom_3ece420d {
+  background: url(/wp-content/uploads/2023/07/1-1.png) no-repeat center top / cover !important;
+  padding-bottom: 23rem !important;
+}
+.us_custom_597c6a75 {
+  background: url(/wp-content/uploads/2023/06/Frame-387.jpg) no-repeat center top / cover !important;
+  padding-bottom: 23rem !important;
+}
+.us_custom_d05eb83a {
+  background: url(/wp-content/uploads/2023/06/Frame-390.jpg) no-repeat center top / cover !important;
+  padding-bottom: 24rem !important;
+}
+
+.us_custom_a9998d62 > .l-section-h,
+.us_custom_0b7e9c85 > .l-section-h,
+.us_custom_f31eb567 > .l-section-h,
+.us_custom_51e9ed09 > .l-section-h,
+.us_custom_86891d6a > .l-section-h,
+.us_custom_9c282257 > .l-section-h,
+.us_custom_3ece420d > .l-section-h,
+.us_custom_597c6a75 > .l-section-h,
+.us_custom_d05eb83a > .l-section-h {
+  position: relative;
+  z-index: 3;
+}
+
+/* Pin text column to top so padding-top reads as space above copy */
+@media (min-width: 901px) {
+  .us_custom_a9998d62 > .l-section-h > .g-cols.cols_2,
+  .us_custom_0b7e9c85 > .l-section-h > .g-cols.cols_2,
+  .us_custom_f31eb567 > .l-section-h > .g-cols.cols_2,
+  .us_custom_51e9ed09 > .l-section-h > .g-cols.cols_2,
+  .us_custom_86891d6a > .l-section-h > .g-cols.cols_2,
+  .us_custom_9c282257 > .l-section-h > .g-cols.cols_2,
+  .us_custom_3ece420d > .l-section-h > .g-cols.cols_2,
+  .us_custom_597c6a75 > .l-section-h > .g-cols.cols_2,
+  .us_custom_d05eb83a > .l-section-h > .g-cols.cols_2 {
+    align-items: start !important;
+  }
+}
+
+/* Hero copy stack rhythm (eyebrow → title → body → CTA → badges) */
+.us_custom_a9998d62 .us_custom_e48d5a7c,
+.us_custom_0b7e9c85 .us_custom_e48d5a7c,
+.us_custom_f31eb567 .us_custom_e48d5a7c,
+.us_custom_51e9ed09 .us_custom_e48d5a7c,
+.us_custom_86891d6a .us_custom_e48d5a7c,
+.us_custom_9c282257 .us_custom_e48d5a7c,
+.us_custom_3ece420d .us_custom_e48d5a7c,
+.us_custom_597c6a75 .us_custom_e48d5a7c,
+.us_custom_d05eb83a .us_custom_e48d5a7c {
+  margin-bottom: 1rem !important;
+}
+.us_custom_a9998d62 .us_custom_d5cfc7a5,
+.us_custom_0b7e9c85 .us_custom_d5cfc7a5,
+.us_custom_f31eb567 .us_custom_d5cfc7a5,
+.us_custom_51e9ed09 .us_custom_d5cfc7a5,
+.us_custom_86891d6a .us_custom_d5cfc7a5,
+.us_custom_9c282257 .us_custom_d5cfc7a5,
+.us_custom_3ece420d .us_custom_d5cfc7a5,
+.us_custom_597c6a75 .us_custom_d5cfc7a5,
+.us_custom_d05eb83a .us_custom_d5cfc7a5 {
+  margin-top: 1rem !important;
+  margin-bottom: 1.5rem !important;
+}
+.us_custom_a9998d62 .w-btn-wrapper,
+.us_custom_0b7e9c85 .w-btn-wrapper,
+.us_custom_f31eb567 .w-btn-wrapper,
+.us_custom_51e9ed09 .w-btn-wrapper,
+.us_custom_86891d6a .w-btn-wrapper,
+.us_custom_9c282257 .w-btn-wrapper,
+.us_custom_3ece420d .w-btn-wrapper,
+.us_custom_597c6a75 .w-btn-wrapper,
+.us_custom_d05eb83a .w-btn-wrapper {
+  margin-top: 0.25rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* ---- “Questions? Contact us!” — live: pull into hero, sit on the right ---- */
+.us_custom_7bf0190b,
+.us_custom_4ec5bc38,
+.us_custom_b5595ca8 {
+  margin-top: -16rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  position: relative;
+  z-index: 5;
+}
+.us_custom_7bf0190b {
+  margin-left: 16rem !important;
+}
+
+/* Mobile-only hero portrait sections — never show on desktop */
+@media (min-width: 601px) {
+  .l-section.hide_on_default.hide_on_laptops.hide_on_tablets {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
+}
+
+/*
+ * Social proof + feature grid — ample white space under hero (screenshot).
+ * Live manufacturing uses padding-top/bottom 4rem; do not pull up.
+ */
+.us_custom_2cb867d0 {
+  position: relative;
+  z-index: 2;
+  margin-top: 0 !important;
+  padding-top: 4rem !important;
+  padding-bottom: 4rem !important;
+  background: #ffffff !important;
+}
+.us_custom_2cb867d0 .w-image {
+  display: flex;
+  justify-content: center;
+}
+.us_custom_2cb867d0 .w-image img[src*="Helping-Our-Clients"] {
+  width: min(280px, 70vw) !important;
+  max-width: 280px !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  display: block;
+}
+.us_custom_2cb867d0 .w-image img[src*="Frame-338"] {
+  width: min(200px, 55vw) !important;
+  max-width: 200px !important;
+  height: auto !important;
+  margin: 0.75rem auto 1rem !important;
+  display: block;
+}
+.us_custom_2cb867d0 .us_custom_54c1cebf,
+.us_custom_2cb867d0 .us_custom_54c1cebf h2,
+.us_custom_2cb867d0 .us_custom_cbab495f,
+.us_custom_2cb867d0 .us_custom_cbab495f p {
+  text-align: center !important;
+}
+
+/* Feature cards — light blue tiles, 3×2 (cols_3 in markup) */
+.us_custom_9a181baa {
+  border-radius: 15px !important;
+  background: #dfeeff !important;
+}
+
+/*
+ * Clients globally — restore live overlay stack:
+ * dark section → circle pulls -24rem → badges pull -19.5rem under copy.
+ */
+.us_custom_6a99ad11 {
+  padding-top: 8rem !important;
+  padding-bottom: 4rem !important;
+  overflow: visible !important;
+}
+.us_custom_6a99ad11 .us_custom_42622947 {
+  margin-top: 1rem !important;
+  margin-bottom: 1.5rem !important;
+  position: relative;
+  z-index: 1;
+}
+.us_custom_6a99ad11 .us_custom_d3f933e5,
+.us_custom_6a99ad11 .us_custom_d3f933e5 * {
+  position: relative;
+  z-index: 2;
+}
+
+.us_custom_8b78c63d {
+  margin-top: -24rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 7rem !important;
+  pointer-events: none;
+}
+/*
+ * Circle photo must match live ~613px height so badge -19.5rem lands under
+ * the paragraph. Impreza height:inherit + lazy 300w srcset had collapsed it.
+ */
+.us_custom_8b78c63d .w-image,
+.us_custom_8b78c63d .w-image-h {
+  width: 100% !important;
+  max-width: 613px !important;
+  height: auto !important;
+  max-height: none !important;
+}
+.us_custom_8b78c63d .w-image img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 613px !important;
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: 1 / 1 !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+.us_custom_0493f734 {
+  margin-top: -19.5rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 6rem !important;
+  position: relative;
+  z-index: 3;
+}
+.us_custom_0493f734 .w-image img {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain;
+}
+
+/* Revolutionize CTA — sits cleanly after badge overlay */
+.us_custom_8549a734 {
+  padding-top: 0 !important;
+  padding-bottom: 3rem !important;
+  text-align: center;
+}
+
+/* Right-hands collage */
+.us_custom_4e307cde .w-image img[src*="Frame-364"],
+.l-main img[src*="Frame-364"] {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(0, 14, 41, 0.12);
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Phone / tablet */
+@media (max-width: 900px) {
+  .us_custom_a9998d62,
+  .us_custom_0b7e9c85,
+  .us_custom_f31eb567,
+  .us_custom_51e9ed09,
+  .us_custom_86891d6a,
+  .us_custom_9c282257,
+  .us_custom_3ece420d,
+  .us_custom_597c6a75,
+  .us_custom_d05eb83a {
+    background-image: none !important;
+    background-color: #dfeeff !important;
+    padding-bottom: 2rem !important;
+  }
+  .us_custom_7bf0190b,
+  .us_custom_4ec5bc38,
+  .us_custom_b5595ca8 {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+  }
+  .us_custom_8b78c63d {
+    margin-top: 0 !important;
+    padding-bottom: 2rem !important;
+  }
+  .us_custom_8b78c63d .w-image,
+  .us_custom_8b78c63d .w-image-h,
+  .us_custom_8b78c63d .w-image img {
+    max-width: 100% !important;
+  }
+  .us_custom_0493f734 {
+    margin-top: 1rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .us_custom_2cb867d0 {
+    padding-top: 2rem !important;
+  }
+}

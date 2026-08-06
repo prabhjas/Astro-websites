@@ -10,7 +10,7 @@ const paths = [
   '/family-visa/',
   '/property-visa/',
   '/residence-visa/',
-  '/blog/',
+  '/insights/',
   '/advantages-of-the-uae-golden-visa/',
   '/robots.txt',
   '/sitemap_index.xml',

@@ -1,12 +1,8 @@
 {
-  "generatedAt": "2026-08-05T06:54:30.188Z",
+  "generatedAt": "2026-08-05T11:22:35.826Z",
   "origin": "https://redo.ae",
   "sitemapIndex": "https://redo.ae/sitemap_index.xml",
   "pages": [
-    {
-      "slug": "homepage",
-      "url": "https://redo.ae/"
-    },
     {
       "slug": "about-us",
       "url": "https://redo.ae/about-us/"
@@ -400,6 +396,26 @@
     {
       "slug": "wooden-flooring-dubai",
       "url": "https://redo.ae/wooden-flooring-dubai/"
+    }
+  ],
+  "manualPages": [
+    {
+      "slug": "redo-house-renovation",
+      "url": "https://redo.ae/redo-house-renovation/",
+      "robots": "nofollow, noindex",
+      "importedAt": "2026-08-05T11:22:35.826Z"
+    },
+    {
+      "slug": "redo-landscaping",
+      "url": "https://redo.ae/redo-landscaping/",
+      "robots": "nofollow, noindex",
+      "importedAt": "2026-08-05T11:22:35.826Z"
+    },
+    {
+      "slug": "redo-office-renovation",
+      "url": "https://redo.ae/redo-office-renovation/",
+      "robots": "nofollow, noindex",
+      "importedAt": "2026-08-05T11:22:35.826Z"
     }
   ]
 }
