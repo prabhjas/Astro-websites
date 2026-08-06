@@ -1,0 +1,26 @@
+---
+/**
+ * Paginated category archive pages — /category/:slug/page/:page/
+ */
+import { getCategoryPageData, serveArchivePage } from '../../../../lib/archives.ts';
+import { notFoundResponse } from '../../../../lib/not-found.js';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const page = Number(Astro.params.page || '1');
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect(`/category/${slug}/`);
+}
+
+const data = getCategoryPageData(slug, page);
+if (!data) {
+  return notFoundResponse();
+}
+
+if (page > data.totalPages) {
+  return notFoundResponse();
+}
+
+return serveArchivePage(data);
+---

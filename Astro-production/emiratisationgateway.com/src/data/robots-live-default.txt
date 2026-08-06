@@ -1,0 +1,22 @@
+# Emiratisation Gateway - robots.txt defaults matching live
+# FLOW can override via managed text file.
+
+User-agent: *
+Disallow: /*.html
+Disallow: /tag/
+Disallow: /category/
+Disallow: /feed/
+Disallow: /wp-admin/
+Disallow: /author/
+Disallow: /sample-page/
+Disallow: /cdn-cgi/
+User-agent: GPTBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://emiratisationgateway.com/sitemap_index.xml
