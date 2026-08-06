@@ -1,0 +1,439 @@
+.elementor-8437 .elementor-element.elementor-element-78704044{padding:100px 0px 100px 0px;}.elementor-widget-heading .elementor-heading-title{font-family:var( --e-global-typography-primary-font-family ), Sans-serif;font-weight:var( --e-global-typography-primary-font-weight );color:var( --e-global-color-primary );}.elementor-widget-image .widget-image-caption{color:var( --e-global-color-text );font-family:var( --e-global-typography-text-font-family ), Sans-serif;font-weight:var( --e-global-typography-text-font-weight );}@media(max-width:767px){.elementor-8437 .elementor-element.elementor-element-4cab79a{width:100%;}}@media(min-width:768px){.elementor-8437 .elementor-element.elementor-element-27414681{width:74.879%;}.elementor-8437 .elementor-element.elementor-element-4cab79a{width:25.07%;}}/* Start custom CSS for section, class: .elementor-element-78704044 */.container-cf7-steps {
+    font-family: 'Poppins', sans-serif;
+}
+
+.mycontactform ul.cf7-display-steps-container {
+    counter-reset: section;
+}
+
+.mycontactform {
+    margin-bottom: -24px;
+}
+
+.mycontactform ul.cf7-display-steps-container li {
+    position: relative;
+    padding-left: 54px !important;
+}
+
+
+
+.mycontactform ul.cf7-display-steps-container li:Before {
+counter-increment: section;
+    content: counter(section);
+    position: absolute;
+    left: 20px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 100%;
+    /* background: #000; */
+    top: 3px;
+    padding-top: 1.5px;
+    /* border: burlywood; */
+    color: #95AAC0;
+    border: 1px solid #95AAC0;
+    font-weight: 600;
+}
+
+.mycontactform .cf7-display-steps-container .enabled p {
+    color: #23B78B;
+    font-feature-settings: 'salt' on, 'liga' off;
+    font-family: Poppins;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 25px; /* 133.333% */
+}
+
+body ul.cf7-display-steps-container li.enabled {
+    background: #0000 !important;
+}
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li.enabled {
+    background: #0000 !important;
+}
+
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li p{
+	color: #95AAC0;
+    font-feature-settings: 'salt' on, 'liga' off;
+    font-family: Poppins;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px; /* 133.333% */
+}
+
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li.enabled p {
+    color: #23B78B;
+
+}
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li {
+    padding-top: 0px !important;
+    background: #0000 !important;
+}
+
+body .mycontactform div#cf7-form-step-id-8452 a.multistep-cf7-next {
+    border-radius: 4px;
+    background: #163E87 !important;
+    color: #fff !important;
+    color: #F8F9FA;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+
+
+.mycontactform #cf7-form-step-id-8452 a.multistep-cf7-prev {
+    border-radius: 4px;
+    border: 2px solid #163E87;
+    background: #0000 !important;
+    font-weight: 600;
+    line-height: 120%;
+    text-transform: uppercase;
+    color: #163E87 !important;
+}
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li.active p {
+    color: #163E87;
+}
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li.active:before {
+    color: #fff;
+    border-color: #163E87;
+    background: #163E87;
+}
+
+.mycontactform .container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li.enabled:before {
+    border-color: #23B78B;
+    background: #23B78B;
+    border-color: #23B78B;
+    color: #fff;
+}
+
+
+.mycontactform .container-multistep-header {
+    padding: 10px;
+}
+
+.mycontactform .grid_column {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 30px;
+    /* align-items: center; */
+}
+
+.mycontactform .container-cf7-steps-3 .container-multistep-header {
+    flex-shrink: 2;
+    margin-top: 30px;
+    margin-top: 0px;
+}
+
+.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 26%, #ffffff 26%);
+}
+
+
+.mycontactform .main_heading {
+color: #163E87;
+    font-family: Poppins;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    margin-bottom: 36px;
+}
+
+.mycontactform .container-cf7-steps-3 .container-body-tab {
+margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 30px;
+}
+
+.mainlabel, .customlabel {
+    color: #000;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+#cf7-form-step-id-17741 .multistep-nav-right p a.multistep-cf7-next {
+    border-radius: 4px;
+    background: #163E87 !important;
+    color: #fff !important;
+    color: #F8F9FA;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 25.2px */
+}
+
+.mycontactform  select.wpcf7-form-control {
+    border: 1px solid #f5f5f5;
+    border-radius: 5px;
+    border: 1px solid #95AAC0;
+    background: #FFF;
+    padding: 15px 20px;
+	    font-size: 14px;
+}
+
+.mycontactform select.wpcf7-form-control:focus {
+    outline: 0;
+    box-shadow: 0;
+}
+
+.mycontactform  input[type="radio"] {
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-left: 0px;
+    height: 20px;
+    width: 20px;
+    border-radius: 3px;
+    border: 2px solid #163E87;
+	
+    cursor: pointer;
+}
+
+.mycontactform  span.wpcf7-list-item {margin-left: 0px !important;}
+
+.mycontactform input[type="radio"]:before {
+    position: absolute;
+}
+
+.mycontactform input[type="radio"]:checked:before {
+    position: absolute;
+    content: "\2713";
+    background: #23b78b;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    top: 0px;
+    line-height: 1.1;
+}
+
+.mycontactform span.wpcf7-list-item-label {
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    position: relative;
+    top: -5px;
+}
+
+body .mycontactform div#cf7-form-step-id-8452.container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li {
+    padding-top: 0px !important;
+    background: #0000 !important;
+}
+
+
+.mycontactform label {
+    margin-right: 15px;
+    /* line-height: 0; */
+}
+
+.mycontactform #cf7-form-step-id-17741 a.multistep-cf7-prev {
+    border-radius: 4px;
+    border: 2px solid #163E87;
+    background: #0000 !important;
+    font-weight: 600;
+    line-height: 120%; /* 25.2px */
+    text-transform: uppercase;
+    color: #163E87 !important;
+}
+
+.mycontactform a.multistep-cf7-first {
+    display: none;
+}
+
+
+
+.mycontactform input[type=text], .mycontactform input[type=email], .mycontactform input[type=tel] {
+    padding: 15px 20px;
+    border-radius: 5px;
+	  border: 1px solid #95AAC0;
+    background: #FFF;
+    margin-bottom: 25px;
+}
+
+.mycontactform input[type=text]:focus {
+    outline: 0;
+}
+
+.cf7-tab.cf7-tab-7.cf7-new-tab input {
+    margin-bottom: 25px;
+}
+
+.cf7-tab.cf7-tab-7.cf7-new-tab textarea {
+    resize: none;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid #95AAC0;
+    background: #FFF;
+    margin-bottom: 25px;
+}
+
+.mycontactform input[type="submit"] {
+    border-color: #23B78B;
+    border-radius: 4px;
+    background: #23B78B;
+    padding: 12px 24px;
+    color: #F8F9FA;
+    font-family: Poppins;
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 25.2px */    width: 100%;
+}
+
+
+@media only screen and (min-width:1366px){
+	.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 28%, #ffffff 28%);
+}
+}
+
+@media only screen and (min-width:1566px){
+	.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 31%, #ffffff 31%);
+}
+}
+
+
+@media only screen and (max-width:1199px){
+	.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 23%, #ffffff 23%);
+}
+	
+	div#cf7-form-step-id-8452.container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li p {
+    font-size: 13px;
+}
+	
+}
+
+@media only screen and (max-width:800px){
+	.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 15%, #ffffff 15%);
+}
+	
+	.mycontactform .main_heading {
+    color: #163E87;
+    font-family: Poppins;
+    font-size: 22px;
+	}
+
+	.mainlabel, .customlabel {
+    color: #000;
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+	.container-cf7-steps-3 .container-multistep-header {
+    flex-shrink: 4;
+    margin-top: 30px;
+    margin-top: 0px;
+}
+	
+	.mycontactform .container-cf7-steps-3 .container-body-tab {
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 30px;
+    margin-left: 0px;
+}
+
+	div#cf7-form-step-id-8452.container-cf7-steps .container-multistep-header ul.cf7-display-steps-container.cf7-display-steps-container-3 li p .cf-content-s {
+    font-size: 0px;
+}
+
+}
+
+@media only screen and (max-width:500px){
+	.mycontactform ul.cf7-display-steps-container li:Before {
+    counter-increment: section;
+    content: counter(section);
+    position: absolute;
+    left: 6px;
+		}
+	
+	.mycontactform span.wpcf7-list-item {
+    display: block;
+}
+
+.mycontactform input[type=text], .mycontactform input[type=email], .mycontactform input[type=tel] {
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: 1px solid #95AAC0;
+    background: #FFF;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+	
+	.mycontactform input[type="submit"] {
+    border-color: #23B78B;
+    border-radius: 4px;
+    background: #23B78B;
+    padding: 9px 19px;
+		font-size: 15px;
+	}	
+
+	div#cf7-form-step-id-8452.container-cf7-steps.multistep-nav-right p a.multistep-cf7-next {
+    border-radius: 4px;
+    background: #163E87 !important;
+    color: #fff !important;
+    color: #F8F9FA;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+	.mycontactform #cf7-form-step-id-17741 a.multistep-cf7-prev {
+
+    font-size: 10px;
+}
+	
+	.multistep-nav-right span.wpcf7-spinner {
+    position: absolute;
+}
+
+	.mycontactform {
+    background: linear-gradient(90deg, #EBF2FA 20%, #ffffff 20%);
+}
+	
+	.mycontactform select.wpcf7-form-control {
+    border: 1px solid #f5f5f5;
+    border-radius: 5px;
+    border: 1px solid #95AAC0;
+    background: #FFF;
+    padding: 12px 20px;
+    font-size: 11px;
+}
+	
+	.cf7-tab.cf7-tab-7.cf7-new-tab textarea:focus {
+    outline: 0;
+}
+
+.container-cf7-steps-3 .container-multistep-header {
+    flex-shrink: 3 !important;
+    margin-top: 30px;
+}
+
+.mainlabel p {
+    line-height: 17px;
+    margin-bottom: 16px;
+}
+	
+}/* End custom CSS */
