@@ -301,14 +301,16 @@ function buildBreadcrumbHtml(post: BlogPost): string {
     ? post.breadcrumb
     : [
         { name: 'Home', url: '/' },
-        { name: 'Insights', url: '/blog/' },
+        { name: 'Insights', url: '/insights/' },
         { name: post.title },
       ];
 
   const items = crumbs
     .map((crumb, i) => {
       const isLast = i === crumbs.length - 1;
-      const href = crumb.url ? crumb.url.replace(ORIGIN, '').replace(/\/insights\/?/i, '/blog/') : '';
+      const href = crumb.url
+        ? crumb.url.replace(ORIGIN, '').replace(/\/blog\/?/i, '/insights/')
+        : '';
       if (isLast || !href) {
         return `<span class="astro-blog-breadcrumb__item astro-blog-breadcrumb__item--current">${escapeHtml(crumb.name)}</span>`;
       }
@@ -663,7 +665,7 @@ ${
 }
 
 /**
- * Insights /blog/ Load More cards — Elementor loop template 124 (vertical grid).
+ * Insights /insights/ Load More cards — Elementor loop template 124 (vertical grid).
  * Matches the static ECS grid in blog.cleaned.html (widget f2c45fb).
  * Do NOT use template 1176 here — that is a horizontal 50/50 skin.
  */
