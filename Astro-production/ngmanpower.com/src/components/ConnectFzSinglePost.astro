@@ -1,0 +1,377 @@
+---
+/**
+ * NG Manpower single-post layout mirroring Elementor template 33241
+ * (dark blue title hero + 70/30 content + Contact Us Now sidebar).
+ */
+import BlogSidebarForm from "./BlogSidebarForm.astro";
+import {
+  formatDate,
+  getAuthorBySlug,
+  getCategories,
+  stripHtml,
+  type PostEntry,
+} from "../lib/content";
+
+interface Props {
+  post: PostEntry;
+  html: string;
+}
+
+const { post, html } = Astro.props;
+const catNames = getCategories().filter((c) => post.categories.includes(c.id));
+const author = post.authorSlug ? getAuthorBySlug(post.authorSlug) : undefined;
+const title = stripHtml(post.title);
+const updated = formatDate(post.modified || post.date);
+
+/** Prefer mystery-man Gravatar (live `?s=300&d=mm&r=g`); avoid bare hashes that return custom icons. */
+function resolveAuthorAvatar(raw: string | undefined): string {
+  const fallback =
+    "/wp-content/uploads/2024/02/1948c721253c374176e07cb97d9a202f660ff32f7b275c0691fcbda9cf221629-96x96.jpeg";
+  let src = (raw || "").replace(/^https?:\/\/ngmanpower\.com/, "").trim() || fallback;
+  src = src.replace(/-96x96\./, "-300x300.");
+  if (/gravatar\.com\/avatar\//i.test(src)) {
+    const base = src.replace(/\?.*$/, "");
+    return `${base}?s=300&d=mm&r=g`;
+  }
+  return src.replace(/\?.*$/, "") || fallback;
+}
+
+const avatarSrc = resolveAuthorAvatar(author?.avatar);
+/** Live template hides email-looking display names; show only a real name when present. */
+const authorDisplayName = (() => {
+  const name = (post.authorName || author?.name || "").trim();
+  if (!name || /@/.test(name)) return "";
+  return name;
+})();
+const authorBio = (author?.description || "").replace(/\r\n/g, "\n").trim();
+const showAuthorBox = Boolean(post.authorSlug || author || authorBio || authorDisplayName);
+const shareUrl = encodeURIComponent(`https://ngmanpower.com${post.path}`);
+const shareTitle = encodeURIComponent(title);
+const catLabel = catNames.map((c) => c.name).join(", ") || "Blog";
+---
+
+<div
+  data-elementor-type="single-post"
+  data-elementor-id="33241"
+  class={`elementor elementor-33241 elementor-location-single post-${post.id} post type-post status-publish format-standard has-post-thumbnail hentry`}
+  data-elementor-post-type="elementor_library"
+>
+  <section
+    class="elementor-section elementor-top-section elementor-element elementor-element-995b476 elementor-section-boxed elementor-section-height-default"
+    data-id="995b476"
+    data-element_type="section"
+    data-settings='{"background_background":"classic"}'
+  >
+    <div class="elementor-container elementor-column-gap-default">
+      <div
+        class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6c2d953"
+        data-id="6c2d953"
+        data-element_type="column"
+      >
+        <div class="elementor-widget-wrap elementor-element-populated">
+          <div
+            class="elementor-element elementor-element-7ac0eb2 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading"
+            data-id="7ac0eb2"
+            data-element_type="widget"
+            data-widget_type="theme-post-title.default"
+          >
+            <div class="elementor-widget-container">
+              <h1 class="elementor-heading-title elementor-size-default">{title}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="elementor-section elementor-top-section elementor-element elementor-element-a78ec33 custom-blog elementor-section-boxed elementor-section-height-default"
+    data-id="a78ec33"
+    data-element_type="section"
+  >
+    <div class="elementor-container elementor-column-gap-default">
+      <div
+        class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-9e3fa93"
+        data-id="9e3fa93"
+        data-element_type="column"
+      >
+        <div class="elementor-widget-wrap elementor-element-populated">
+          {
+            post.featuredImage && (
+              <section
+                class="elementor-section elementor-inner-section elementor-element elementor-element-eeeb677 elementor-section-boxed"
+                data-id="eeeb677"
+                data-element_type="section"
+              >
+                <div class="elementor-container elementor-column-gap-default">
+                  <div
+                    class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-b63d88b"
+                    data-id="b63d88b"
+                    data-element_type="column"
+                  >
+                    <div class="elementor-widget-wrap elementor-element-populated">
+                      <div
+                        class="elementor-element elementor-element-a0474e4 elementor-widget__width-initial elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image"
+                        data-id="a0474e4"
+                        data-element_type="widget"
+                        data-widget_type="theme-post-featured-image.default"
+                      >
+                        <div class="elementor-widget-container">
+                          <img
+                            loading="eager"
+                            width="1200"
+                            height="675"
+                            src={post.featuredImage}
+                            class="attachment-full size-full"
+                            alt={title}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="elementor-element elementor-element-ebb134c elementor-widget elementor-widget-post-info"
+                        data-id="ebb134c"
+                        data-element_type="widget"
+                        data-widget_type="post-info.default"
+                      >
+                        <div class="elementor-widget-container">
+                          <ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+                            <li class="elementor-icon-list-item elementor-inline-item">
+                              <span class="elementor-icon-list-icon">
+                                <i aria-hidden="true" class="fas fa-calendar" />
+                              </span>
+                              <span class="elementor-icon-list-text elementor-post-info__item">
+                                Last updated on: {updated}
+                              </span>
+                            </li>
+                            <li class="elementor-icon-list-item elementor-inline-item" itemprop="about">
+                              <span class="elementor-icon-list-icon">
+                                <i aria-hidden="true" class="fas fa-tags" />
+                              </span>
+                              <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+                                <span class="elementor-post-info__terms-list">
+                                  {catNames.map((c) => (
+                                    <a class="elementor-post-info__terms-list-item" href={c.path}>
+                                      {c.name}
+                                    </a>
+                                  ))}
+                                  {!catNames.length && (
+                                    <span class="elementor-post-info__terms-list-item">{catLabel}</span>
+                                  )}
+                                </span>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )
+          }
+
+          <section
+            class="elementor-section elementor-inner-section elementor-element elementor-element-a543e5d elementor-section-boxed"
+            data-id="a543e5d"
+            data-element_type="section"
+          >
+            <div class="elementor-container elementor-column-gap-default">
+              <div
+                class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-3be88b8"
+                data-id="3be88b8"
+                data-element_type="column"
+              >
+                <div class="elementor-widget-wrap elementor-element-populated">
+                  <div
+                    class="elementor-element elementor-element-9a52b64 elementor-widget elementor-widget-theme-post-content"
+                    data-id="9a52b64"
+                    data-element_type="widget"
+                    data-widget_type="theme-post-content.default"
+                  >
+                    <div class="elementor-widget-container" set:html={html} />
+                  </div>
+
+                  {
+                    showAuthorBox && (
+                      <div
+                        class="elementor-element elementor-element-40292ad elementor-author-box--avatar-yes elementor-author-box--biography-yes elementor-author-box--link-no elementor-widget elementor-widget-author-box"
+                        data-id="40292ad"
+                        data-element_type="widget"
+                        data-widget_type="author-box.default"
+                      >
+                        <div class="elementor-widget-container">
+                          <div class="elementor-author-box">
+                            <a
+                              href={author?.path || `/author/${post.authorSlug}/`}
+                              class="elementor-author-box__avatar"
+                            >
+                              <img
+                                src={avatarSrc}
+                                alt={authorDisplayName ? `Picture of ${authorDisplayName}` : "Author"}
+                                loading="lazy"
+                                width="300"
+                                height="300"
+                              />
+                            </a>
+                            <div class="elementor-author-box__text">
+                              {
+                                authorDisplayName ? (
+                                  <div class="elementor-author-box__name">
+                                    <a href={author?.path || `/author/${post.authorSlug}/`}>
+                                      {authorDisplayName}
+                                    </a>
+                                  </div>
+                                ) : null
+                              }
+                              <div
+                                class="elementor-author-box__bio"
+                                set:html={authorBio ? authorBio.replace(/\n/g, "<br />") : ""}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="elementor-section elementor-inner-section elementor-element elementor-element-eb9b89f elementor-section-boxed"
+            data-id="eb9b89f"
+            data-element_type="section"
+          >
+            <div class="elementor-container elementor-column-gap-default">
+              <div
+                class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-4d94f40"
+                data-id="4d94f40"
+                data-element_type="column"
+              >
+                <div class="elementor-widget-wrap"></div>
+              </div>
+              <div
+                class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-e051f34"
+                data-id="e051f34"
+                data-element_type="column"
+              >
+                <div class="elementor-widget-wrap elementor-element-populated">
+                  <div
+                    class="elementor-element elementor-element-adada69 elementor-share-buttons--view-icon elementor-share-buttons--shape-circle elementor-share-buttons--skin-gradient elementor-grid-0 elementor-share-buttons--color-official elementor-widget elementor-widget-share-buttons"
+                    data-id="adada69"
+                    data-element_type="widget"
+                    data-widget_type="share-buttons.default"
+                  >
+                    <div class="elementor-widget-container">
+                      <div class="elementor-grid" role="list">
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_facebook"
+                            href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on facebook"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-facebook" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_twitter"
+                            href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on twitter"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-twitter" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_linkedin"
+                            href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on linkedin"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-linkedin" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_reddit"
+                            href={`https://reddit.com/submit?url=${shareUrl}&title=${shareTitle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on reddit"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-reddit" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_pinterest"
+                            href={`https://www.pinterest.com/pin/create/button/?url=${shareUrl}&description=${shareTitle}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on pinterest"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-pinterest" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                        <div class="elementor-grid-item" role="listitem">
+                          <a
+                            class="elementor-share-btn elementor-share-btn_whatsapp"
+                            href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Share on whatsapp"
+                          >
+                            <span class="elementor-share-btn__icon">
+                              <i class="fab fa-whatsapp" aria-hidden="true" />
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div
+        class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-70e4f8d"
+        data-id="70e4f8d"
+        data-element_type="column"
+      >
+        <div class="elementor-widget-wrap elementor-element-populated">
+          <div
+            class="elementor-element elementor-element-9628d60 prt elementor-widget elementor-widget-heading"
+            data-id="9628d60"
+            data-element_type="widget"
+            data-widget_type="heading.default"
+          >
+            <div class="elementor-widget-container">
+              <h3 class="elementor-heading-title elementor-size-default">Contact Us Now</h3>
+              <BlogSidebarForm postId={post.id} formId={`ngmanpower-blog-sidebar-${post.id}`} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

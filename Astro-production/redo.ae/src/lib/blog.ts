@@ -301,14 +301,16 @@ function buildBreadcrumbHtml(post: BlogPost): string {
     ? post.breadcrumb
     : [
         { name: 'Home', url: '/' },
-        { name: 'Insights', url: '/blog/' },
+        { name: 'Insights', url: '/insights/' },
         { name: post.title },
       ];
 
   const items = crumbs
     .map((crumb, i) => {
       const isLast = i === crumbs.length - 1;
-      const href = crumb.url ? crumb.url.replace(ORIGIN, '').replace(/\/insights\/?/i, '/blog/') : '';
+      const href = crumb.url
+        ? crumb.url.replace(ORIGIN, '').replace(/\/blog\/?/i, '/insights/')
+        : '';
       if (isLast || !href) {
         return `<span class="astro-blog-breadcrumb__item astro-blog-breadcrumb__item--current">${escapeHtml(crumb.name)}</span>`;
       }

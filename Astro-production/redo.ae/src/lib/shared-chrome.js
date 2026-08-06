@@ -286,24 +286,42 @@ function markCurrentMenuItem(headerHtml, slug) {
 export function applySharedChrome(html, slug) {
   if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
 
-  // Redo uses Astra theme chrome (#masthead / #colophon), not Elementor
-  // Theme Builder regions. Each cleaned page already includes its own header/
-  // footer — only swap when an Elementor header region exists AND we have a
-  // shared fragment on disk.
+  // Prefer each page's exported Theme Builder chrome (matches live HTML).
+  // Shared header/footer fragments are only a backfill for broken exports —
+  // swapping a healthy header with an older shared copy diverges from live
+  // (mega-menu items, CF email hashes, etc.).
+  const isCanvas =
+    /page-template-elementor_canvas/i.test(html) ||
+    /elementor-template-canvas/i.test(html);
   const hasElementorHeader = /data-elementor-type="header"/i.test(html);
-  const hasSharedHeader = existsSync(HEADER_PATH);
+  const hasElementorFooter = /data-elementor-type="footer"/i.test(html);
+  const hasColophon = /id="colophon"/i.test(html);
 
-  let out = ensureHeaderCss(html);
+  let out = html;
 
-  if (hasElementorHeader && hasSharedHeader) {
-    const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
-    out = replaceThemeBuilderRegion(out, 'data-elementor-type="header"', headerHtml);
-  } else if (hasElementorHeader && !hasSharedHeader) {
-    console.warn(`[shared-chrome] Elementor header present but ${HEADER_PATH} missing — leaving page chrome`);
+  if (hasElementorHeader) {
+    out = ensureHeaderCss(out);
+    // Keep the page's own header; only normalize current-menu classes.
+    out = replaceThemeBuilderRegion(
+      out,
+      'data-elementor-type="header"',
+      markCurrentMenuItem(
+        extractBalancedElement(out, 'data-elementor-type="header"') ||
+          getSharedHeaderHtml(),
+        slug,
+      ),
+    );
   }
 
-  // Only inject shared footer when the page has none (broken export).
-  if (!/data-elementor-type="footer"/i.test(out) && !/id="colophon"/i.test(out) && existsSync(FOOTER_PATH)) {
+  // Backfill footer only when header exists but footer is missing (broken export).
+  // Canvas / chrome-less LP pages intentionally have neither — leave as-is.
+  if (
+    !isCanvas &&
+    hasElementorHeader &&
+    !hasElementorFooter &&
+    !hasColophon &&
+    existsSync(FOOTER_PATH)
+  ) {
     let footerHtml = getSharedFooterHtml();
     if (slug === 'contact' || slug === 'contact-us') {
       footerHtml = stripFooterContactForm(footerHtml);

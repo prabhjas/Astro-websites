@@ -1,0 +1,103 @@
+---
+/**
+ * Live WordPress pagination uses /insights/2/, /insights/3/, …
+ * Reuse Elementor page 21314 shell (same as /insights/) and swap posts + pagination.
+ * @see https://ngmanpower.com/insights/2/
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  getPageByPath,
+  getPosts,
+  paginate,
+} from "../../lib/content";
+import {
+  INSIGHTS_PER_PAGE,
+  renderInsightsClassicPostsHtml,
+  renderInsightsPaginationHtml,
+} from "../../lib/insights-archive";
+import { breadcrumbSchema } from "../../lib/seo";
+import { notFoundResponse } from "../../lib/not-found";
+
+export const prerender = false;
+
+const raw = String(Astro.params.page || "");
+if (!/^\d+$/.test(raw)) {
+  return notFoundResponse();
+}
+
+const pageNum = Number(raw);
+if (pageNum < 2) {
+  return Astro.redirect("/insights/", 301);
+}
+
+const insightsPage = getPageByPath("/insights/");
+if (!insightsPage) return notFoundResponse();
+
+const sorted = [...getPosts()].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+const { items, page, totalPages } = paginate(sorted, pageNum, INSIGHTS_PER_PAGE);
+
+if (pageNum > totalPages) {
+  return notFoundResponse();
+}
+
+function pageHref(n: number) {
+  return n <= 1 ? "/insights/" : `/insights/${n}/`;
+}
+
+/** Clone live Elementor markup; replace classic posts grid + pagination for this page. */
+function buildPagedHtml(sourceHtml: string): string {
+  const postsHtml = renderInsightsClassicPostsHtml(items);
+  const paginationHtml = renderInsightsPaginationHtml(page, totalPages);
+
+  let html = sourceHtml;
+
+  // Replace articles inside the posts container (keep container + role=list wrapper attrs).
+  html = html.replace(
+    /(<div[^>]*class="[^"]*elementor-posts-container[^"]*"[^>]*>)([\s\S]*?)(<\/div>\s*<nav class="elementor-pagination")/i,
+    `$1\n${postsHtml}\n\t\t$3`,
+  );
+
+  html = html.replace(
+    /<nav class="elementor-pagination"[^>]*>[\s\S]*?<\/nav>/i,
+    paginationHtml,
+  );
+
+  return html;
+}
+
+const html = buildPagedHtml(insightsPage.bodyHtml || insightsPage.content);
+
+const extraCss = [
+  ...(insightsPage.pageCss || []),
+  insightsPage.elementorCss || `/wp-content/uploads/elementor/css/post-${insightsPage.id}.css`,
+  "/wp-content/uploads/elementor/css/post-21423.css",
+  "/wp-content/uploads/elementor/css/post-21574.css",
+  "/css/insights-topic-cards.css",
+];
+---
+
+<BaseLayout
+  currentPath={pageHref(page)}
+  bodyClass={`page page-id-${insightsPage.id} paged-${page} page-paged-${page} elementor-page elementor-page-${insightsPage.id} elementor-template-full-width`}
+  menuActivePath="/insights/"
+  extraCss={extraCss}
+  fallback={insightsPage.seo}
+  seo={{
+    title: insightsPage.seo.title || "Insight: Your Go-To Source for UAE Business Information.",
+    description:
+      insightsPage.seo.description ||
+      "UAE business setup insights, licensing guides, and free zone news from NG Manpower.",
+    canonical: pageHref(page),
+    ogImage: insightsPage.seo.ogImage,
+    schemas: [
+      ...(insightsPage.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+        { name: `Page ${page}`, url: pageHref(page) },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>

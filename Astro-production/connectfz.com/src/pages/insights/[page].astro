@@ -70,8 +70,8 @@ const html = buildPagedHtml(insightsPage.bodyHtml || insightsPage.content);
 const extraCss = [
   ...(insightsPage.pageCss || []),
   insightsPage.elementorCss || `/wp-content/uploads/elementor/css/post-${insightsPage.id}.css`,
-  "/wp-content/uploads/elementor/css/post-21423.css",
-  "/wp-content/uploads/elementor/css/post-21574.css",
+  // Live WP insights also loads loop/template CSS post-20028 (not ghost post-21423/21574).
+  "/wp-content/uploads/elementor/css/post-20028.css",
   "/css/insights-topic-cards.css",
 ];
 ---
