@@ -283,6 +283,25 @@
   text-align: center;
 }
 
+/* Revolutionize flower logo — keep small and centered */
+.us_custom_8549a734 .us_custom_f2eec366,
+.us_custom_8549a734 .us_custom_f2eec366 .w-image-h {
+  width: 30% !important;
+  max-width: 30% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+.us_custom_8549a734 .us_custom_f2eec366 img,
+.us_custom_8549a734 .us_custom_f2eec366 .w-image-h img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /* Right-hands collage */
 .us_custom_4e307cde .w-image img[src*="Frame-364"],
 .l-main img[src*="Frame-364"] {
