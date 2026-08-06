@@ -345,6 +345,7 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] Loopback smoke: `curl http://127.0.0.1:<PORT>/api/health/` → 200
 - [ ] Interim `nohup` OK only until owner installs systemd
 - [ ] Run **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** on loopback
+- [ ] **Lead backup (owner):** after the site is live and collecting enquiries, confirm nightly restic **auto-discovers** this domain — see [deploy-host/README.md](../Astro-production/deploy-host/README.md). A green backup job is **not** enough if the script still hardcodes an old site list.
 
 **Stop here for Caddy / `useradd` / `site-ctl` ALLOWED / `systemctl enable`.** Hand off to owner:
 
@@ -401,6 +402,11 @@ Site is ready for **owner Caddy / public DNS** when:
 | Fleet runtime GTM loader | **cbss.ae**, **iberiaworkforce.com** | **Deferred** | Live with hard-coded / no `/runtime-gtm.js`. Backfill from Phase 05 § Dynamic GTM when touching those sites. |
 | Real DET `licence.json` fill | **eor, connectfm, connectfz, iberiaeor, connectresources.ae** | **Blanked on purpose** (Aug 2026) | S&P Heavy contamination removed; strip hidden via `isLicenceComplete`. Fill from each company’s DET record before publishing a licence band. See Phase 05 § DET trade licence. |
 | Owner root bootstrap (systemd + live Caddy) | **eor, staff, cuae, kinza** | **Pending owner** | App + interim loopback done. Run [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
+| Restic lead backup covers **all** live sites | Host `/usr/local/sbin/restic-astro-fleet-backup` | **Pending owner refresh (Aug 2026)** | Live script still hardcodes the original four sites; newer sites’ `.data/leads` were unprotected while the job reported success. Fixed script is in git — run [ROOT-REFRESH-RESTIC-BACKUP.sh](../Astro-production/deploy-host/ROOT-REFRESH-RESTIC-BACKUP.sh). |
+
+### Lesson — backups that report success can still miss leads
+
+Nightly restic was green, but `SITES=(evolution… cbss… spheavyrental… iberiaworkforce…)` never grew with the fleet. Customer enquiries on connectgroup / kinza / c-uae / staff / eor / etc. sat only on disk. **Rule:** backup discovery must be automatic under `/opt/Astro-production`; never extend a hardcoded list per cutover. Dry-run after every script refresh and spot-check that the new domain’s `.data` (or `LEAD_STORE_DIR`) appears.
 
 When picking llms up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / generator + a brand-specific `src/data/llms-defaults.json`, rebuild, smoke `curl -sI /llms.txt`.
 
