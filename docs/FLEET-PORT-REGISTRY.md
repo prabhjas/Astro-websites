@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **17 scaffolded** · **27 placeholders** · next free **5124**
+**Totals:** 44 sites · **20 scaffolded** · **24 placeholders** · next free **5124**
 
 ---
 

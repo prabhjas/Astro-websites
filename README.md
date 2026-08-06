@@ -82,7 +82,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 ## Production / fleet sites
 
 **Canonical port + status list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
-**44 domains** · ports **5080–5123** · next free **5124** · **10 scaffolded** / **34 placeholders**
+**44 domains** · ports **5080–5123** · next free **5124** · **20 scaffolded** / **24 placeholders**
 
 | Domain | Port | Unit | Status | CMS shape |
 |--------|------|------|--------|-----------|
@@ -93,9 +93,19 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 | connecthr.ae | **5084** | `connecthr` | scaffolded | Full |
 | connectgroup.co | **5085** | `connectgroup` | scaffolded | Full |
 | connectresources.ae | **5086** | `connectresources` | scaffolded | Full |
+| connectfm.ae | **5087** | `connectfm` | scaffolded | Full |
+| connectresources.sa | **5088** | `connectresources-sa` | scaffolded | Full |
+| iberiaeor.com | **5089** | `iberiaeor` | scaffolded | Full |
 | eormiddleast.com | **5090** | `eormiddleast` | scaffolded | Full |
 | connectstaff.ae | **5091** | `connectstaff` | scaffolded | Full |
 | c-uae.com | **5092** | `cuae` | scaffolded | Full |
+| kinzahr.com | **5093** | `kinzahr` | scaffolded | Full |
+| redo.ae | **5095** | `redo` | scaffolded | Full |
+| connectfz.com | **5096** | `connectfz` | scaffolded | Full |
+| royalvisa.ae | **5097** | `royalvisa` | scaffolded | Full |
+| kpmpro.ae | **5098** | `kpmpro` | scaffolded | Full |
+| ngmanpower.com | **5102** | `ngmanpower` | scaffolded | Full |
+| peomiddleast.com | **5118** | `peomiddleeast` | scaffolded | Full |
 
 All other reserved domains (placeholders) are listed in the port registry.
 
