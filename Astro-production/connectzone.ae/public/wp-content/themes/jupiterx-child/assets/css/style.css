@@ -1,0 +1,43 @@
+/* Custom CSS */
+
+/* Example: Override main section background color. */
+/* body .jupiterx-main {
+    background-color: gray;
+} */
+
+.inputTest {
+    background-color: red;
+}
+
+.pum.pum-theme-lightbox {
+    background-color: rgba( 0, 0, 0, 0.60 );
+}
+
+.pum.pum-theme-lightbox  .pum-container.popmake {
+    padding: 18px;
+    border-radius: 3px;
+    border: 8px solid #000000;
+    box-shadow: 0px 0px 30px 0px rgba( 2, 2, 2, 1.00 );
+    background-color: rgba( 255, 255, 255, 1.00 );
+}
+
+.pum.pum-theme-lightbox  button.pum-close.popmake-close {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: auto;
+    right: -13px;
+    bottom: auto;
+    top: -13px;
+    padding: 0px;
+    color: #ffffff;
+    font-family: Arial;
+    font-weight: 100;
+    font-size: 24px;
+    line-height: 24px;
+    border: 2px solid #ffffff;
+    border-radius: 26px;
+    box-shadow: 0px 0px 15px 1px rgba( 2, 2, 2, 0.75 );
+    text-shadow: 0px 0px 0px rgba( 0, 0, 0, 0.23 );
+    background: #000 !important;
+}
