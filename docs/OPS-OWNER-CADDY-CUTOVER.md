@@ -26,7 +26,7 @@ Do **not** reload Caddy without `sudo -u caddy caddy validate --config /etc/cadd
 
 ---
 
-## Live Caddy inventory (nine cutover sites)
+## Live Caddy inventory (nine cutover sites + launch six pending)
 
 Only these domains belong in the **live** production Caddyfile until the next cutover batch:
 
@@ -42,7 +42,29 @@ Only these domains belong in the **live** production Caddyfile until the next cu
 | 5092 | c-uae.com | cuae | `https://c-uae.com` |
 | 5093 | kinzahr.com | kinzahr | `https://kinzahr.com` |
 
-Scaffolded but **out of live Caddy until ready:** connecthr, connectresources.sa, iberiaeor, connectfz, royalvisa, etc. (see [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)).
+### Launch six (Aug 2026) — staged for root
+
+| Port | Domain | Unit |
+|------|--------|------|
+| 5084 | connecthr.ae | connecthr |
+| 5087 | connectfm.ae | connectfm |
+| 5088 | connectresources.sa | connectresources-sa |
+| 5089 | iberiaeor.com | iberiaeor |
+| 5096 | connectfz.com | connectfz |
+| 5097 | royalvisa.ae | royalvisa |
+
+Developer staging (already on host):
+
+- App trees: `/home/webdev/astro-cutover-env/launch-six/<domain>/app/`
+- Caddyfile (includes six): `/home/webdev/astro-cutover-env/launch-six/Caddyfile.production`
+- Bootstrap: `/home/webdev/astro-cutover-env/ROOT-BOOTSTRAP-launch-six.sh`
+- Notes: `/home/webdev/astro-cutover-env/launch-six/LAUNCH-SIX-README.md`
+
+```bash
+sudo bash /home/webdev/astro-cutover-env/ROOT-BOOTSTRAP-launch-six.sh
+```
+
+Scaffolded but **out of live Caddy until ready:** peomiddleast, kpmpro, redo, etc. (see [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)).
 
 ---
 
