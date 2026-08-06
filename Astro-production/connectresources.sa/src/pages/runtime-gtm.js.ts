@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getServerEnv } from '../env/server';
-import { readGlobalGtmConfig } from '../lib/gtm/store';
+import { resolveEffectiveGtmConfig } from '../lib/gtm/store';
 
 export const prerender = false;
 
@@ -9,43 +9,94 @@ function escapeJs(value: string): string {
 }
 
 export const GET: APIRoute = async () => {
-  const env = getServerEnv();
-  const config = await readGlobalGtmConfig(env.internalAdminDir);
-  const headScript = config?.headScript || '';
-  const bodyHtml = config?.bodyHtml || '';
-  const footerScript = config?.footerScript || '';
+  let headScript = '';
+  let bodyHtml = '';
+  let footerScript = '';
+  try {
+    const env = getServerEnv();
+    const config = await resolveEffectiveGtmConfig(env.internalAdminDir);
+    headScript = config.headScript;
+    bodyHtml = config.bodyHtml;
+    footerScript = config.footerScript;
+  } catch {
+    /* public loader must stay resilient */
+  }
 
+  // Scripts inserted via innerHTML never run. Clone markup, then re-create
+  // <script> nodes so GTM executes. Strip WP Rocket lazy types if present.
   const source = `(() => {
   if (window.__runtimeGtmLoaded) return;
   window.__runtimeGtmLoaded = true;
   window.dataLayer = window.dataLayer || [];
+
   const headScript = ${escapeJs(headScript)};
   const bodyHtml = ${escapeJs(bodyHtml)};
   const footerScript = ${escapeJs(footerScript)};
-  if (headScript) {
-    const tpl = document.createElement('template');
-    tpl.innerHTML = headScript.trim();
-    document.head.appendChild(tpl.content.cloneNode(true));
+
+  function isRocketType(type) {
+    return type && /rocketlazyloadscript|text\\/rocket/i.test(String(type));
   }
-  if (bodyHtml) {
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = bodyHtml.trim();
-    while (wrapper.firstChild) {
-      document.body.insertBefore(wrapper.firstChild, document.body.firstChild);
+
+  function recreateScript(old) {
+    const s = document.createElement('script');
+    for (const attr of Array.from(old.attributes || [])) {
+      if (attr.name === 'type' && isRocketType(attr.value)) continue;
+      try { s.setAttribute(attr.name, attr.value); } catch (_) {}
     }
+    if (!s.getAttribute('type') || isRocketType(s.getAttribute('type'))) {
+      s.type = 'text/javascript';
+    }
+    if (old.src) {
+      s.src = old.src;
+      s.async = old.async;
+      s.defer = old.defer;
+    } else {
+      s.text = old.textContent || '';
+    }
+    return s;
   }
-  if (footerScript) {
+
+  function injectMarkup(html, target, atStart) {
+    if (!html || !target) return;
     const tpl = document.createElement('template');
-    tpl.innerHTML = footerScript.trim();
-    document.body.appendChild(tpl.content.cloneNode(true));
+    tpl.innerHTML = String(html).trim();
+    const frag = tpl.content;
+    const scripts = Array.from(frag.querySelectorAll('script'));
+    scripts.forEach((el) => el.parentNode && el.parentNode.removeChild(el));
+
+    if (atStart) {
+      while (frag.firstChild) target.insertBefore(frag.firstChild, target.firstChild);
+    } else {
+      target.appendChild(frag);
+    }
+
+    scripts.forEach((old) => {
+      const s = recreateScript(old);
+      if (atStart && target === document.body) {
+        target.insertBefore(s, target.firstChild);
+      } else if (target === document.head) {
+        target.appendChild(s);
+      } else {
+        target.appendChild(s);
+      }
+    });
   }
+
+  function boot() {
+    if (headScript) injectMarkup(headScript, document.head, false);
+    if (bodyHtml) injectMarkup(bodyHtml, document.body, true);
+    if (footerScript) injectMarkup(footerScript, document.body, false);
+  }
+
+  if (document.body) boot();
+  else document.addEventListener('DOMContentLoaded', boot);
 })();`;
 
   return new Response(source, {
     status: 200,
     headers: {
       'Content-Type': 'application/javascript; charset=utf-8',
-      'Cache-Control': 'no-store',
+      'Cache-Control': 'no-store, max-age=0',
     },
   });
 };

@@ -1,4 +1,5 @@
 import { absoluteUrl, site, type SeoData } from "./content";
+import { licence, licenceSchemaFragment } from "./licence";
 
 export type SeoInput = {
   title?: string;
@@ -81,6 +82,7 @@ export function organizationSchema(mediaOrigin?: string) {
     "@type": ["Organization", "LocalBusiness"],
     "@id": `${site.url.replace(/\/$/, "")}/#organization`,
     name: site.name,
+    ...licenceSchemaFragment(absoluteUrl(licence.pdfPath)),
     url: site.url,
     logo: absoluteUrl(site.logo, mediaOrigin),
     image: absoluteUrl(site.ogImage || site.logo, mediaOrigin),

@@ -50,11 +50,6 @@
     "status": 301
   },
   {
-    "from": "/eor-services/",
-    "to": "/eor-service/",
-    "status": 301
-  },
-  {
     "from": "/employer-of-record/",
     "to": "/eor-service/",
     "status": 301
@@ -75,7 +70,7 @@
     "status": 301
   },
   {
-    "from": "/services/",
+    "from": "/service/",
     "to": "/eor-service/",
     "status": 301
   }
