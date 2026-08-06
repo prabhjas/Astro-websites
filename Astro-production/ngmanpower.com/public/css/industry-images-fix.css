@@ -1,0 +1,14 @@
+/**
+ * Soft image sizing fixes for industry pages.
+ */
+.n2-section-smartslider[data-ssid="3"] {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+body.l-body .l-main .w-image img,
+body.l-body .l-main .wpb_single_image img {
+  max-width: 100%;
+  height: auto !important;
+  max-height: none;
+}
