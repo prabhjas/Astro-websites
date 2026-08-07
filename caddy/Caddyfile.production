@@ -12,10 +12,9 @@
 #   systemctl reload caddy
 #
 # Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect Group 5085, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
-# Pittant 5111 (git template; owner cutover pending).
-# Emiratisation Gate 5105 (git template; owner cutover pending).
-# Emiratisation Gateway 5106 (git template; owner cutover pending).
+# Connect HR 5084, Connect Group 5085, Connect FM 5087, Connect Resources SA 5088,
+# Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
+# Connect FZ 5096, Royal Visa 5097. (kpmpro 5098 git-only until cutover)
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -43,7 +42,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connectgroup.co, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.pittant.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.peomiddleast.com, http://www.kpmpro.ae, http://payrollmiddleast.org, http://www.freelancerdxb.com {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -83,14 +82,22 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@kinzahr host www.kinzahr.com
 	redir @kinzahr https://kinzahr.com{uri} permanent
 
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
+	@connectfz host www.connectfz.com
+	redir @connectfz https://connectfz.com{uri} permanent
 
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
+	@royalvisa host www.royalvisa.ae
+	redir @royalvisa https://royalvisa.ae{uri} permanent
 
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
+	@peomiddleast host www.peomiddleast.com
+	redir @peomiddleast https://peomiddleast.com{uri} permanent
+
+	@kpmpro host www.kpmpro.ae
+	redir @kpmpro https://kpmpro.ae{uri} permanent
+
+	@payrollmiddleast host payrollmiddleast.org
+	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
+	@freelancerdxb host www.freelancerdxb.com
+	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -432,15 +439,15 @@ kinzahr.com, www.kinzahr.com {
 	}
 }
 
-# pittant.com -> pittant.service (port 5111) — git template only; owner cutover required
-pittant.com, www.pittant.com {
+# connecthr.ae -> connecthr.service
+connecthr.ae, www.connecthr.ae {
 	tls internal
 	encode zstd gzip
 
-	@noncanonical host www.pittant.com
-	redir @noncanonical https://pittant.com{uri} permanent
+	@noncanonical host www.connecthr.ae
+	redir @noncanonical https://connecthr.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5111
+	reverse_proxy 127.0.0.1:5084
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
 	header @static Cache-Control "public, max-age=31536000, immutable"
@@ -452,7 +459,7 @@ pittant.com, www.pittant.com {
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {
-		output file /var/log/caddy/pittant.com-access.log {
+		output file /var/log/caddy/connecthr.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -460,15 +467,15 @@ pittant.com, www.pittant.com {
 	}
 }
 
-# emiratisationgate.org -> emiratisationgate.service (port 5105) — git template only; owner cutover required
-emiratisationgate.org, www.emiratisationgate.org {
+# connectfm.ae -> connectfm.service
+connectfm.ae, www.connectfm.ae {
 	tls internal
 	encode zstd gzip
 
-	@noncanonical host www.emiratisationgate.org
-	redir @noncanonical https://emiratisationgate.org{uri} permanent
+	@noncanonical host www.connectfm.ae
+	redir @noncanonical https://connectfm.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5105
+	reverse_proxy 127.0.0.1:5087
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
 	header @static Cache-Control "public, max-age=31536000, immutable"
@@ -480,7 +487,7 @@ emiratisationgate.org, www.emiratisationgate.org {
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {
-		output file /var/log/caddy/emiratisationgate.org-access.log {
+		output file /var/log/caddy/connectfm.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -488,15 +495,15 @@ emiratisationgate.org, www.emiratisationgate.org {
 	}
 }
 
-# emiratisationgateway.com -> emiratisationgateway.service (port 5106) — git template only; owner cutover required
-emiratisationgateway.com, www.emiratisationgateway.com {
+# connectresources.sa -> connectresources-sa.service
+connectresources.sa, www.connectresources.sa {
 	tls internal
 	encode zstd gzip
 
-	@noncanonical host www.emiratisationgateway.com
-	redir @noncanonical https://emiratisationgateway.com{uri} permanent
+	@noncanonical host www.connectresources.sa
+	redir @noncanonical https://connectresources.sa{uri} permanent
 
-	reverse_proxy 127.0.0.1:5106
+	reverse_proxy 127.0.0.1:5088
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
 	header @static Cache-Control "public, max-age=31536000, immutable"
@@ -508,7 +515,119 @@ emiratisationgateway.com, www.emiratisationgateway.com {
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {
-		output file /var/log/caddy/emiratisationgateway.com-access.log {
+		output file /var/log/caddy/connectresources.sa-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# iberiaeor.com -> iberiaeor.service
+iberiaeor.com, www.iberiaeor.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.iberiaeor.com
+	redir @noncanonical https://iberiaeor.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5089
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/iberiaeor.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectfz.com -> connectfz.service
+connectfz.com, www.connectfz.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectfz.com
+	redir @noncanonical https://connectfz.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5096
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectfz.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# royalvisa.ae -> royalvisa.service
+royalvisa.ae, www.royalvisa.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.royalvisa.ae
+	redir @noncanonical https://royalvisa.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5097
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/royalvisa.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# kpmpro.ae -> kpmpro.service (PORT 5098) — git template only until owner cutover
+kpmpro.ae, www.kpmpro.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.kpmpro.ae
+	redir @noncanonical https://kpmpro.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5098
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/kpmpro.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

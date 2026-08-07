@@ -41,8 +41,8 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
-| **5094** | connectfreelance.ae | `connectfreelance.ae` | scaffolded (local WP mirror in progress) |
-| **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01-10 local PASS; Caddy template in site deploy/) |
+| **5094** | connectfreelance.ae | `connectfreelance.ae` | scaffolded |
+| **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
 | **5098** | kpmpro.ae | `kpmpro.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
@@ -52,13 +52,13 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
 | **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded (local Phase; Caddy template) |
 | **5104** | movey.ae | `movey.ae` | placeholder |
-| **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded; Phase 01–10 local PASS on :5105 |
+| **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
-| **5109** | freelancerdxb.com | `freelancerdxb.com` | placeholder |
-| **5110** | payrollmiddleeast.org | `payrollmiddleeast.org` | placeholder |
-| **5111** | pittant.com | `pittant.com` | scaffolded (Phases 01–10 local PASS; Caddy template in git) |
+| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5111** | pittant.com | `pittant.com` | scaffolded |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
 | **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
 | **5114** | companyformationsaudi.com | `companyformationsaudi.com` | placeholder |
@@ -72,7 +72,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 
-**Totals:** 44 sites · **19 scaffolded** · **25 placeholders** · next free **5124**
+**Totals:** 44 sites · **30 scaffolded** · **14 placeholders** · next free **5124**
 
 ---
 
@@ -96,11 +96,16 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5091 | connectstaff.ae | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5092 | c-uae.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5093 | kinzahr.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
-
-| 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01-10 local PASS on :5095
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
+| 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01–10 local PASS on :5095 |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
-| 5111 | pittant.com | Full CMS WP HTML-mirror; Phases 01–10 local PASS on :5111; Caddy template in git |
+| 5098 | kpmpro.ae | Scaffolded |
+| 5100 | thefreelancergate.com | Full CMS hybrid (Impreza page mirrors + WP REST blog); Caddy in git |
+| 5102 | ngmanpower.com |
+| 5103 | emiratiguard.com | Full CMS WP mirror; Caddy template in git | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
+| 5109 | freelancerdxb.com | Full CMS WP mirror (royalvisa peer); local Phase 01–10; in git `Caddyfile.production` (owner cutover pending) |
+| 5110 | payrollmiddleast.org | Full CMS peer (peomiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
+| 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 
