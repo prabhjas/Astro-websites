@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SinglePost from "../components/SinglePost.astro";
+import {
+  getPageByPath,
+  getPublishedPostByPath,
+  stripHtml,
+  decodeHtmlEntities,
+  normalizePath,
+} from "../lib/content";
+import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { notFoundResponse } from "../lib/not-found";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slugPath = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/${slugPath}`);
+
+const page = getPageByPath(path);
+const post = page ? null : getPublishedPostByPath(path);
+
+if (!page && !post) {
+  return notFoundResponse();
+}
+
+const entry = page || post!;
+const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+
+const pageCrumbs = page
+  ? (() => {
+      const crumbs = [
+        { name: "Home", href: "/" },
+        { name: decodeHtmlEntities(stripHtml(page.title)), href: undefined as string | undefined },
+      ];
+      if (path.startsWith("/heavy-machinery-rental/") && path !== "/heavy-machinery-rental/") {
+        crumbs.splice(1, 0, {
+          name: "Heavy Machinery Rental",
+          href: "/heavy-machinery-rental/",
+        });
+      }
+      return crumbs;
+    })()
+  : [];
+
+const postTitle = post ? decodeHtmlEntities(stripHtml(post.title)) : "";
+const postCrumbs = post
+  ? [
+      { name: "Home", href: "/" },
+      { name: "Insights", href: "/insights/" },
+      { name: postTitle },
+    ]
+  : [];
+
+const seo = page
+  ? {
+      title: page.seo.title,
+      description: page.seo.description,
+      canonical: path,
+      ogImage: page.seo.ogImage,
+      schemas: [
+        ...(page.seo.schemas || []),
+        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+      ],
+    }
+  : {
+      title: post!.seo.title || postTitle,
+      description: post!.seo.description || stripHtml(post!.excerpt),
+      canonical: path,
+      ogImage: post!.seo.ogImage || post!.featuredImage,
+      ogType: "article" as const,
+      publishedTime: post!.date,
+      modifiedTime: post!.modified,
+      authorName: post!.authorName,
+      schemas: [
+        ...(post!.seo.schemas || []),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        articleSchema({
+          title: postTitle,
+          description: post!.seo.description || stripHtml(post!.excerpt),
+          url: path,
+          image: post!.featuredImage || post!.seo.ogImage,
+          datePublished: post!.date,
+          dateModified: post!.modified,
+          authorName: post!.authorName,
+        }),
+      ],
+    };
+
+const pageDesignCss = post
+  ? `/css/page-design/${post.slug}.css`
+  : page
+    ? `/css/page-design/${page.slug}.css`
+    : "";
+const pageDesignExists =
+  pageDesignCss &&
+  existsSync(join(process.cwd(), "public", pageDesignCss.replace(/^\//, "")));
+
+const extraCss = page
+  ? [
+      ...(page.pageCss || []),
+      page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+      ...(pageDesignExists ? [pageDesignCss] : []),
+    ]
+  : [
+      ...(post!.pageCss || []),
+      "/css/ez-toc.css",
+      "/css/page-design/insights.css",
+      ...(pageDesignExists ? [pageDesignCss] : []),
+    ];
+
+const postUsesElementor =
+  !!post?.bodyHtml && /elementor-652|data-elementor-id="652"/.test(post.bodyHtml);
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={
+    page
+      ? `page page-id-${page.id} elementor-page elementor-page-${page.id}`
+      : `single single-post postid-${post!.id} post post-id-${post!.id}`
+  }
+  fallback={entry.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={post ? "/insights/" : undefined}
+>
+  {
+    page ? (
+      <div class="sp-page-content" set:html={html} />
+    ) : postUsesElementor ? (
+      <div class="sp-page-content" set:html={post!.bodyHtml} />
+    ) : (
+      <SinglePost post={post!} />
+    )
+  }
+</BaseLayout>

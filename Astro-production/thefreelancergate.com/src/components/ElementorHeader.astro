@@ -1,0 +1,96 @@
+---
+import headerHtml from "../data/header.html?raw";
+
+interface Props {
+  currentPath?: string;
+  /** Force a nav href active (e.g. "/insights/" for single posts) */
+  menuActivePath?: string;
+}
+
+const { currentPath = "/", menuActivePath } = Astro.props;
+
+function normalize(path: string) {
+  if (!path || path === "/") return "/";
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+const path = normalize(menuActivePath || currentPath);
+
+function pickActiveHref(current: string, hrefs: string[]) {
+  const matches = hrefs
+    .map(normalize)
+    .filter((h) => {
+      if (h === "/") return current === "/";
+      return current === h || current.startsWith(h);
+    })
+    .sort((a, b) => b.length - a.length);
+  return matches[0] || "";
+}
+
+/** Mark Impreza / Elementor nav current item from pathname. */
+function withActiveState(html: string, current: string) {
+  let out = html
+    .replace(/\s*elementor-item-active/g, "")
+    .replace(/\s*current-menu-item/g, "")
+    .replace(/\s*current_page_item/g, "")
+    .replace(/\s*current-menu-ancestor/g, "")
+    .replace(/\s*current-menu-parent/g, "")
+    .replace(/\s*aria-current="page"/g, "");
+
+  const allHrefs = [...out.matchAll(/\bhref="(\/[^"#]*)"/g)].map((m) => m[1]);
+  const activeDeep = pickActiveHref(current, allHrefs);
+  if (!activeDeep) return out;
+
+  const markDeep = normalize(activeDeep);
+
+  // Impreza menu items
+  out = out.replace(
+    /<li\b([^>]*class=")([^"]*\bw-nav-item\b[^"]*)("[\s\S]*?<a\b[^>]*href=")([^"]+)("[^>]*>)/gi,
+    (full, pre, cls, mid, href, end) => {
+      const h = normalize(href);
+      if (h !== markDeep && !(markDeep !== "/" && h !== "/" && markDeep.startsWith(h))) {
+        return full;
+      }
+      let c = cls;
+      if (!/\bcurrent-menu-item\b/.test(c)) c += " current-menu-item";
+      if (!/\bcurrent_page_item\b/.test(c)) c += " current_page_item";
+      return `<li${pre}${c}${mid}${href}${end}`;
+    },
+  );
+
+  // Elementor menu items (if any)
+  out = out.replace(/<a\s+([^>]*?)>/gi, (full, attrs: string) => {
+    const hrefMatch = attrs.match(/\bhref="([^"]+)"/i);
+    if (!hrefMatch) return full;
+    const h = normalize(hrefMatch[1]);
+    if (h !== markDeep) return full;
+    if (!/\belementor-item\b/.test(attrs)) return full;
+    let next = attrs;
+    if (/\bclass="/i.test(next)) {
+      next = next.replace(/\bclass="([^"]*)"/i, (_m, cls: string) => {
+        const cleaned = cls
+          .replace(/\belementor-item-active\b/g, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        return `class="${cleaned} elementor-item-active"`;
+      });
+    }
+    if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    return `<a ${next}>`;
+  });
+
+  return out;
+}
+
+const html = withActiveState(headerHtml, path);
+const alreadyHeader = /^\s*<header\b/i.test(html);
+---
+
+{
+  alreadyHeader ? (
+    <Fragment set:html={html} />
+  ) : (
+    <header class="sp-elementor-header" data-sp-elementor-header set:html={html} />
+  )
+}
+<script is:inline src="/scripts/eor-mobile-nav.js"></script>
