@@ -1,5 +1,5 @@
 ---
-import { sanitizeCmsHtml } from "@connect/site-cms";
+import { sanitizeMirrorHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
 import {
@@ -25,7 +25,8 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = sanitizeCmsHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content) || "");
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content) || "");
 
 const pageCrumbs = page
   ? (() => {
