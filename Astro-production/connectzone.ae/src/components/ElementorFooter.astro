@@ -1,7 +1,0 @@
----
-import footerHtml from "../data/footer.html?raw";
-
-const html = footerHtml.replace(/<script>[\s\S]*?safe-email[\s\S]*?<\/script>/i, "");
----
-
-<div class="cz-site-footer" data-cz-site-footer set:html={html} />
