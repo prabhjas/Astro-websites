@@ -17,8 +17,11 @@
     "extract": "node scripts/extract-wp.mjs",
     "refresh:bodies": "node scripts/refresh-bodies.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
-    "audit:assets": "node scripts/audit-and-fetch-assets.mjs",
-    "audit:assets:fix": "node scripts/audit-and-fetch-assets.mjs --fix --rewrite",
+    "audit:assets": "node scripts/audit-and-fetch-assets.mjs --active",
+    "audit:assets:all": "node scripts/audit-and-fetch-assets.mjs",
+    "audit:assets:fix": "node scripts/audit-and-fetch-assets.mjs --active --fix --rewrite --check-dist",
+    "audit:assets:predeploy": "node scripts/audit-and-fetch-assets.mjs --active --check-dist && node scripts/verify-pages-assets.mjs",
+    "verify:pages": "node scripts/verify-pages-assets.mjs",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
