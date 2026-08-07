@@ -43,9 +43,9 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  const html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)));
-
-  html = sanitizeMirrorHtml(html);
+  const html = sanitizeMirrorHtml(
+    absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug))),
+  );
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

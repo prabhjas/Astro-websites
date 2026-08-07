@@ -2,7 +2,7 @@
 
 Source: `Astro_Security_Audit_Report_2026-08-06.pdf`  
 Scope: Connect Group Astro fleet (live Caddy sites + shared packages).  
-Status: **local code changes in progress — do not treat as deployed until git push + server cutover**.
+Status: **app code on `work/astro-sites` (`b4ddbb45`+)** — live cutover still needs Aaron (Caddy reload, unique `.env.prod` secrets, CA rotate / history purge). See [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md).
 
 This doc tracks what we implemented in the repo versus what still needs owner/ops action.
 
