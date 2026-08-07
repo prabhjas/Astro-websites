@@ -1,0 +1,35 @@
+{
+  "siteTitle": "Freelancer DXB",
+  "summary": "Freelancer DXB helps freelancers and independent professionals set up and work legally in Dubai and the UAE — freelance permits, journey guidance, and Connect Group support.",
+  "details": "Freelancer DXB is part of Connect Group. Primary pages cover freelance services, the freelance journey, and company information.",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Other Pages"
+  ],
+  "postsCount": 5,
+  "blogNote": "Blog content is managed via FLOW CMS when published.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Freelancer DXB homepage — freelance setup and support in Dubai."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Freelancer DXB and Connect Group."
+    },
+    "/freelance/": {
+      "group": "Services",
+      "title": "Freelance",
+      "description": "Freelance services and permits in Dubai / UAE."
+    },
+    "/freelance-journey/": {
+      "group": "Services",
+      "title": "Freelance Journey",
+      "description": "Step-by-step freelance journey with Freelancer DXB."
+    }
+  }
+}
