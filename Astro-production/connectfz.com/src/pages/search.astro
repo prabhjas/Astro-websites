@@ -57,6 +57,16 @@ const index = {
   const summary = document.getElementById("sp-search-summary");
   const results = document.getElementById("sp-search-results");
 
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+
   function render(q) {
     const needle = (q || "").trim().toLowerCase();
     if (!needle) {
@@ -75,18 +85,18 @@ const index = {
     if (pageHits.length) {
       html += `<h2 style="font-family:var(--sp-font-display);letter-spacing:.04em">Pages</h2><ul>`;
       for (const p of pageHits) {
-        html += `<li style="margin:.5rem 0"><a href="${p.path}" style="color:var(--sp-yellow)">${p.title}</a></li>`;
+        html += `<li style="margin:.5rem 0"><a href="${escapeHtml(p.path)}" style="color:var(--sp-yellow)">${escapeHtml(p.title)}</a></li>`;
       }
       html += `</ul>`;
     }
     if (postHits.length) {
       html += `<h2 style="font-family:var(--sp-font-display);letter-spacing:.04em;margin-top:1.5rem">Posts</h2><div class="sp-blog-grid" style="margin-top:1rem">`;
       for (const p of postHits) {
-        html += `<article class="sp-post-card"><a class="sp-post-card__media" href="${p.path}">${
+        html += `<article class="sp-post-card"><a class="sp-post-card__media" href="${escapeHtml(p.path)}">${
           p.image
-            ? `<img src="${p.image}" alt="${p.title}" loading="lazy" width="640" height="400" />`
+            ? `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" width="640" height="400" />`
             : `<div style="width:100%;height:100%;background:#1f1f1f"></div>`
-        }</a><div class="sp-post-card__body"><h3 class="sp-post-card__title"><a href="${p.path}">${p.title}</a></h3><p class="sp-post-card__excerpt">${p.excerpt}…</p></div></article>`;
+        }</a><div class="sp-post-card__body"><h3 class="sp-post-card__title"><a href="${escapeHtml(p.path)}">${escapeHtml(p.title)}</a></h3><p class="sp-post-card__excerpt">${escapeHtml(p.excerpt)}…</p></div></article>`;
       }
       html += `</div>`;
     }

@@ -301,16 +301,20 @@ node scripts/fleet-local.mjs smoke <site-id>
 ## Phase 07 — Security & harden gates
 
 **When:** Before “ready for deploy templates / server”.  
-**Detail:** FLOW onboarding §5 Harden gates + §8 What not to do
+**Detail:** FLOW onboarding §5 Harden gates + §8 What not to do  
+**Fleet audit tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)
 
-- [ ] Unique `INTERNAL_JOB_SECRET` per domain (`openssl rand -hex 32`)
+- [ ] Unique `INTERNAL_JOB_SECRET` per domain (`openssl rand -hex 32`) — never share across sites
+- [ ] Machine auth uses Bearer / `x-internal-job-secret` only (`?secret=` rejected)
 - [ ] No CMS cookie login / old dashboard routes
 - [ ] Internal APIs reject missing/wrong bearer
 - [ ] Contact API rejects garbage / oversized payloads (peer behaviour)
+- [ ] CMS / post HTML sanitized (`sanitizeCmsHtml`); no SVG executable uploads
+- [ ] No PHP execution on origin (enhanced conversions = Node if needed)
+- [ ] `security.checkOrigin: true` + `allowedDomains` for intended hosts only
 - [ ] No secrets in client bundles / `PUBLIC_*` misuse
 - [ ] WP malware scan from Phase 01 still clean after late asset copies
 - [ ] Attribution gate (G13): Ads params land on lead store
-- [ ] `allowedDomains` includes only intended hosts
 
 **Next → Phase 08**
 

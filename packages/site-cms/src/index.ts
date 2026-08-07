@@ -50,3 +50,5 @@ export type {
   DeliveryStatus,
   SubmissionStatus,
 } from './leads/types.js';
+
+export { sanitizeCmsHtml, sanitizeMirrorHtml, sanitizeGtmHtml } from './security/sanitize-html.js';

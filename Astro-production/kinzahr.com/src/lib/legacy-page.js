@@ -1,3 +1,4 @@
+import { sanitizeMirrorHtml } from '@connect/site-cms';
 /**
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
@@ -84,6 +85,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
