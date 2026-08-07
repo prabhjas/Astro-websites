@@ -272,28 +272,28 @@ span.gd-color {
 
 /* --- Assign icons for each service checkbox --- */
 .multi-service-options .wpcf7-list-item:nth-child(1) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/HVAC.svg');
+  background-image: url('/wp-content/uploads/2025/10/HVAC.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(2) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Plumbing.svg');
+  background-image: url('/wp-content/uploads/2025/10/Plumbing.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(3) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Electrical-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Electrical-Services.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(4) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
+  background-image: url('/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(5) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Pest-Control-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Pest-Control-Services.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(6) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Security-Systems.svg');
+  background-image: url('/wp-content/uploads/2025/10/Security-Systems.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(7) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Landscaping-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Landscaping-Services.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(8) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Waste-Management.svg');
+  background-image: url('/wp-content/uploads/2025/10/Waste-Management.svg');
 }
 .multi-service-options .wpcf7-list-item:nth-child(9) label::before {
   background-image: none;
@@ -414,28 +414,28 @@ margin: 0px;
 
 /* Individual icons */
 .service-options .wpcf7-list-item:nth-child(1) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/HVAC.svg');
+  background-image: url('/wp-content/uploads/2025/10/HVAC.svg');
 }
 .service-options .wpcf7-list-item:nth-child(2) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Plumbing.svg');
+  background-image: url('/wp-content/uploads/2025/10/Plumbing.svg');
 }
 .service-options .wpcf7-list-item:nth-child(3) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Electrical-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Electrical-Services.svg');
 }
 .service-options .wpcf7-list-item:nth-child(4) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
+  background-image: url('/wp-content/uploads/2025/10/Cleaning-Housekeeping.svg');
 }
 .service-options .wpcf7-list-item:nth-child(5) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Pest-Control-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Pest-Control-Services.svg');
 }
 .service-options .wpcf7-list-item:nth-child(6) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Security-Systems.svg');
+  background-image: url('/wp-content/uploads/2025/10/Security-Systems.svg');
 }
 .service-options .wpcf7-list-item:nth-child(7) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Landscaping-Services.svg');
+  background-image: url('/wp-content/uploads/2025/10/Landscaping-Services.svg');
 }
 .service-options .wpcf7-list-item:nth-child(8) label::before {
-  background-image: url('https://connectfm.ae/wp-content/uploads/2025/10/Waste-Management.svg');
+  background-image: url('/wp-content/uploads/2025/10/Waste-Management.svg');
 }
 .service-options .wpcf7-list-item:nth-child(9) label::before {
     background-image: none;

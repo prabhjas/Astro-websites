@@ -1,0 +1,46 @@
+{
+  "siteTitle": "Pittant",
+  "summary": "Pittant is cloud-based HR & Payroll software for Saudi Arabia, combining HR, finance, planning, and analytics for organizations of all sizes.",
+  "details": "Based in Riyadh, Saudi Arabia, Pittant helps companies manage payroll, leave, documents, insurance, visas, and the full employee lifecycle with one platform.",
+  "groupOrder": [
+    "Features",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover HR software, payroll compliance, and workforce management in Saudi Arabia.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "pittant.com homepage — HR & Payroll software in Saudi Arabia."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Pittant HR & Payroll software."
+    },
+    "/features/": {
+      "group": "Features",
+      "title": "Features",
+      "description": "HR, payroll, insurance, visa, and document features."
+    },
+    "/pricing/": {
+      "group": "Company Pages",
+      "title": "Pricing",
+      "description": "Pittant pricing plans."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Pittant for a free demo."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "HR and payroll insights for Saudi Arabia."
+    }
+  }
+}

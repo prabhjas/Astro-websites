@@ -1,0 +1,22 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/about/  /about-us/  301
+/aboutus/  /about-us/  301
+/contact/  /contact-us/  301
+/contactus/  /contact-us/  301
+/get-in-touch/  /contact-us/  301
+/home/  /  301
+/home-new/  /  301
+/index.php  /  301
+/feed/  /  301
+/sample-page/  /  301
+/insights/  /blog/  301
+/calculate-payroll/  /how-to-calculate-payroll-of-employeescalculate-payroll/  301
+/functional-evaluation-in-saudi-arabia/  /performance-assessment-saudi-arabia/  301
+/how-to-calculate-payroll-of-employeescalculate-payroll/  /how-to-calculate-payroll-of-employees/  301
+/hr-reports/  /types-of-hr-reports/  301
+/performance-management-system/  /implementing-performance-management-system/  301
+/tips-for-drafting-a-strong-ksa-employment-contract/  /employment-contract-saudi-arabia/  301
+/top-5-benefits-of-using-payroll-software/  /benefits-of-using-payroll-software/  301
+/what-is-hr-software-and-why-your-business-must-use-it/  /what-is-hr-software/  301

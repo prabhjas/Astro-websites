@@ -40,6 +40,7 @@ export default defineConfig({
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   security: {
+    checkOrigin: true,
     allowedDomains: [
       { hostname: 'connectgroup.co', protocol: 'https' },
       { hostname: 'www.connectgroup.co', protocol: 'https' },

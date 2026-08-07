@@ -33,18 +33,23 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return new Response('Not found', { status: 404 });
     }
 
-    // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
-    if (
-      pathname !== '/' &&
-      !pathname.endsWith('/') &&
-      !pathname.includes('.') &&
-      (pathname.startsWith('/api/') || pathname.startsWith('/internal/'))
-    ) {
+    // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
+    // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
+    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
       const target = `${pathname}/${context.url.search}`;
-      return context.redirect(target, 308);
+      const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
+      return new Response(null, {
+        status,
+        headers: { Location: target },
+      });
     }
 
     if (!['GET', 'HEAD'].includes(method)) {
+      return next();
+    }
+
+    // Public API routes must not be affected by redirect rules.
+    if (pathname.startsWith('/api/') && !pathname.startsWith('/api/internal/')) {
       return next();
     }
 

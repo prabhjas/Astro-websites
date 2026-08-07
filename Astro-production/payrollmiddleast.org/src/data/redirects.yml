@@ -1,0 +1,37 @@
+# Canonical interim redirects for payrollmiddleast.org
+# Live pages include /about-us/, /contact-us/, /insights/ — do not redirect those away.
+
+redirects:
+  # Blog hub is Insights
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /blog
+    to: /insights/
+    status: 301
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  # Common contact aliases
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contact
+    to: /contact-us/
+    status: 301
+  # Author slug aliases (legacy / peo mirror → live payroll URLs)
+  - from: /author/liam/
+    to: /author/liam-doherty/
+    status: 301
+  - from: /author/liam
+    to: /author/liam-doherty/
+    status: 301
+  - from: /author/christopher-sweeney/
+    to: /author/christopher/
+    status: 301
+  - from: /author/christopher-sweeney
+    to: /author/christopher/
+    status: 301

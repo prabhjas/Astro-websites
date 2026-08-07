@@ -1,0 +1,310 @@
+{
+  "generatedAt": "2026-08-06T10:38:13.514Z",
+  "liveOrigin": "https://peomiddleast.com",
+  "note": "Production still responds as WordPress (wp-json Link headers). Astro cutover not live yet.",
+  "critical": [
+    {
+      "path": "/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/insights/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/blog/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/contact/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/contact-us/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/about/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/about-us/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/peo-pedia/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/request-a-quote/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/schedule-a-call/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/price-plan/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/author/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/our-history/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/locations/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/locations/bahrain/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/golden-visa-uae/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/1099-employee-meaning-rights-and-contract/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/feed/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "application/rss+xml; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/category/staffing/",
+      "live": {
+        "status": 301,
+        "loc": "https://peomiddleast.com",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/category/hr/",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/html; charset=UTF-8",
+        "isWpHint": true
+      }
+    },
+    {
+      "path": "/robots.txt",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/plain; charset=utf-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/sitemap_index.xml",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/xml; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/page-sitemap.xml",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/xml; charset=UTF-8",
+        "isWpHint": false
+      }
+    },
+    {
+      "path": "/post-sitemap.xml",
+      "live": {
+        "status": 200,
+        "loc": "",
+        "ct": "text/xml; charset=UTF-8",
+        "isWpHint": false
+      }
+    }
+  ],
+  "inventorySummary": {
+    "total": 286,
+    "live200": 273,
+    "liveRedirect": 13,
+    "liveBroken": 0,
+    "brokenSample": []
+  },
+  "localVsLiveInventoryDiffs": [
+    {
+      "path": "/egypt-hire-contractor-old/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/egypt-hire-contractor/"
+    },
+    {
+      "path": "/employer-of-record/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/uae-employer-of-record"
+    },
+    {
+      "path": "/hire-contractor/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/united-arab-emirates-hire-contractor"
+    },
+    {
+      "path": "/hire-remote-worker/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/united-arab-emirates-hire-remote-worker"
+    },
+    {
+      "path": "/immigration-services/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/united-arab-emirates-immigration"
+    },
+    {
+      "path": "/kuwait-hr-management-old/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/kuwait-hr-management/"
+    },
+    {
+      "path": "/payroll-outsourcing/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/united-arab-emirates-payroll-outsourcing"
+    },
+    {
+      "path": "/professional-employment-organization/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/united-arab-emirates-professional-employment-organization"
+    },
+    {
+      "path": "/benefits-of-expanding-your-business-with-a-professional-employer-organization/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/peo-pros-and-cons/"
+    },
+    {
+      "path": "/exploring-peo-benefits/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/peo-pros-and-cons/"
+    },
+    {
+      "path": "/peo-advantages-and-disadvantages/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/peo-pros-and-cons/"
+    },
+    {
+      "path": "/power-of-peo-services/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/peo-pros-and-cons/"
+    },
+    {
+      "path": "/what-does-peo-stand-for/",
+      "local": 200,
+      "live": 301,
+      "loc": "https://peomiddleast.com/peo-company/"
+    }
+  ]
+}

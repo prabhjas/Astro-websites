@@ -1,0 +1,16 @@
+# career-opportunities export notes
+
+| Field | Value |
+|-------|-------|
+| Kind | page |
+| Live URL | https://emiratisationgateway.com/career-opportunities/ |
+| File | `index-https.html` |
+| Source | Live fetch via import-from-sitemap.mjs |
+| Added | 2026-08-06 |
+| Astro route | /career-opportunities/ |
+
+## Prepare
+
+```bash
+npm run prepare:page -- career-opportunities --download
+```

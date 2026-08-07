@@ -1,0 +1,1308 @@
+/**
+ * Smart Homes (/security/smart-homes/) — Figma node 43:682
+ * Hero + Why + Services + Features + dark CTA
+ */
+
+/* ========== Hero ========== */
+.elementor-1056 .elementor-element.elementor-element-7fd1049.hero_sec,
+.elementor-1056 .elementor-element-7fd1049.hero_sec {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --justify-content: flex-end !important;
+  --align-items: flex-start !important;
+  --gap: 24px;
+  --min-height: 696px;
+  min-height: 696px;
+  --padding-top: 209px !important;
+  --padding-bottom: 80px !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.elementor-1056 .elementor-element-7fd1049.hero_sec:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-7fd1049.hero_sec > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url("/wp-content/uploads/2026/08/smart-homes/hero-smart-home.png") !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.elementor-1056 .elementor-element-7fd1049.hero_sec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 121, 163, 0.1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.elementor-1056 .elementor-element-7fd1049.hero_sec > .e-con-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left: 120px;
+  padding-right: 120px;
+  box-sizing: border-box;
+}
+
+.elementor-1056 .elementor-element-4a698b4 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --justify-content: flex-end !important;
+  --align-items: flex-start !important;
+  --gap: 24px !important;
+  --width: 100% !important;
+  max-width: 879px;
+}
+
+/* Hide Elementor breadcrumb — Figma hero has none */
+.elementor-1056 .elementor-element-40d6168 {
+  display: none !important;
+}
+
+/* Trust badge */
+.elementor-1056 .elementor-element-5616656 {
+  width: auto !important;
+  max-width: 100%;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-badge {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 12px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-badge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-badge-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-badge-rating img {
+  display: block;
+  width: 120px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-badge-rating span {
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-avatars {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-avatars img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+  margin-right: -9.6px;
+  display: block;
+}
+
+.elementor-1056 .elementor-element-5616656 .cfm-hero-avatars img:last-child {
+  margin-right: 0;
+}
+
+.elementor-1056 .elementor-element-d9ce90c {
+  width: 100%;
+}
+
+.elementor-1056 .elementor-element-d9ce90c h1 {
+  margin: 0;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 64px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -1.28px;
+  color: #ffffff !important;
+}
+
+.elementor-1056 .elementor-element-4c13f5f p {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #e9eaea !important;
+}
+
+.elementor-1056 .elementor-element-127e0fc .elementor-button {
+  background-color: #fbd337 !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  color: #003f55 !important;
+  fill: #003f55;
+}
+
+/* ========== Why Smart Home (Figma 689:11296) ==========
+   Frame: px 120 / py 80, gap 80, image 486×440, text flex-1
+   Do NOT pad .e-con-inner — Elementor already caps it via --content-width.
+*/
+.elementor-1056 .elementor-element.elementor-element-ba9b273,
+.elementor-1056 .elementor-element-ba9b273 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --flex-wrap: nowrap !important;
+  --align-items: stretch !important;
+  --justify-content: center !important;
+  --gap: 0px !important;
+  --row-gap: 0px !important;
+  --column-gap: 0px !important;
+  --padding-top: 80px !important;
+  --padding-bottom: 80px !important;
+  --padding-left: 120px !important;
+  --padding-right: 120px !important;
+  --content-width: 1200px !important;
+  --container-max-width: 1200px !important;
+  --width: 100% !important;
+  background-color: #fefeff !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element-ba9b273:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-ba9b273 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #fefeff !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element.elementor-element-ba9b273 > .e-con-inner,
+.elementor-1056 .elementor-element-ba9b273 > .e-con-inner {
+  --content-width: 1200px;
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-inline: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 80px !important;
+  box-sizing: border-box;
+}
+
+/* Image column — fixed Figma width */
+.elementor-1056 .elementor-element.elementor-element-87a8a70,
+.elementor-1056 .elementor-element-87a8a70 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --width: 486px !important;
+  --flex-grow: 0 !important;
+  --flex-shrink: 0 !important;
+  --flex-basis: 486px !important;
+  width: 486px !important;
+  max-width: 486px !important;
+  flex: 0 0 486px !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Text column — remaining width */
+.elementor-1056 .elementor-element.elementor-element-4b47212,
+.elementor-1056 .elementor-element-4b47212 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --align-items: flex-start !important;
+  --justify-content: center !important;
+  --gap: 0px !important;
+  --row-gap: 0px !important;
+  --column-gap: 0px !important;
+  --width: auto !important;
+  --flex-grow: 1 !important;
+  --flex-shrink: 1 !important;
+  --flex-basis: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  /* Beat post-1056 40%/60% widths */
+  .elementor-1056 .elementor-element.elementor-element-87a8a70,
+  .elementor-1056 .elementor-element-87a8a70 {
+    --width: 486px !important;
+    width: 486px !important;
+    max-width: 486px !important;
+    flex: 0 0 486px !important;
+  }
+  .elementor-1056 .elementor-element.elementor-element-4b47212,
+  .elementor-1056 .elementor-element-4b47212 {
+    --width: auto !important;
+    width: auto !important;
+    flex: 1 1 0 !important;
+  }
+}
+
+/* Premasked Figma export — exact frame size */
+.elementor-1056 .elementor-element-5e814ac {
+  width: 486px !important;
+  max-width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-5e814ac img {
+  display: block !important;
+  width: 486px !important;
+  max-width: 100% !important;
+  height: 440px !important;
+  object-fit: cover !important;
+  object-position: center center;
+  border-radius: 0 !important;
+}
+
+/* Heading: 48/1.1 SemiBold, 24px below → content stack */
+.elementor-1056 .elementor-element-d362358 {
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 0 24px 0 !important;
+}
+
+.elementor-1056 .elementor-element-d362358 h2,
+.elementor-1056 .elementor-element-4b47212 h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.96px;
+  color: #232932 !important;
+}
+
+.elementor-1056 .elementor-element-d362358 h2 span {
+  background-image: linear-gradient(170.5deg, #04b5f2 0%, #f8c705 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Body + intro: 8px stack */
+.elementor-1056 .elementor-element-2a32f72,
+.elementor-1056 .elementor-element-4b8646f {
+  width: 100%;
+  padding: 0 !important;
+  margin: 0 0 8px 0 !important;
+}
+
+.elementor-1056 .elementor-element-2a32f72 p,
+.elementor-1056 .elementor-element-4b8646f p,
+.elementor-1056 .elementor-element-4b47212 .elementor-widget-text-editor p {
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #4f545b !important;
+  margin: 0 !important;
+}
+
+/* Checklist: 4px between rows, 4px icon↔text */
+.elementor-1056 .elementor-element-03e4893,
+.elementor-1056 .elementor-element-87e1bea,
+.elementor-1056 .elementor-element-05ecd70,
+.elementor-1056 .elementor-element-8e32501 {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 4px 0 !important;
+  width: 100% !important;
+}
+
+.elementor-1056 .elementor-element-8e32501 {
+  margin-bottom: 0 !important;
+}
+
+.elementor-1056 .elementor-element-03e4893 .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-87e1bea .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-05ecd70 .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-8e32501 .elementor-image-box-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  text-align: start !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+.elementor-1056 .elementor-element-03e4893 .elementor-image-box-img,
+.elementor-1056 .elementor-element-87e1bea .elementor-image-box-img,
+.elementor-1056 .elementor-element-05ecd70 .elementor-image-box-img,
+.elementor-1056 .elementor-element-8e32501 .elementor-image-box-img {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 20px !important;
+  float: none !important;
+}
+
+.elementor-1056 .elementor-element-03e4893 .elementor-image-box-img img,
+.elementor-1056 .elementor-element-87e1bea .elementor-image-box-img img,
+.elementor-1056 .elementor-element-05ecd70 .elementor-image-box-img img,
+.elementor-1056 .elementor-element-8e32501 .elementor-image-box-img img {
+  width: 20px !important;
+  height: 20px !important;
+  display: block !important;
+}
+
+.elementor-1056 .elementor-element-03e4893 .elementor-image-box-content,
+.elementor-1056 .elementor-element-87e1bea .elementor-image-box-content,
+.elementor-1056 .elementor-element-05ecd70 .elementor-image-box-content,
+.elementor-1056 .elementor-element-8e32501 .elementor-image-box-content {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-03e4893 .elementor-image-box-title,
+.elementor-1056 .elementor-element-87e1bea .elementor-image-box-title,
+.elementor-1056 .elementor-element-05ecd70 .elementor-image-box-title,
+.elementor-1056 .elementor-element-8e32501 .elementor-image-box-title {
+  margin: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #2c2b2c !important;
+}
+
+/* ========== Services (Figma screenshot) ========== */
+.elementor-1056 .elementor-element.elementor-element-9228b07,
+.elementor-1056 .elementor-element-9228b07 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --align-items: stretch !important;
+  --gap: 24px !important;
+  --row-gap: 24px !important;
+  --column-gap: 24px !important;
+  --padding-top: 80px !important;
+  --padding-bottom: 24px !important;
+  --padding-left: 120px !important;
+  --padding-right: 120px !important;
+  --content-width: 1200px !important;
+  --container-max-width: 1200px !important;
+  --width: 100% !important;
+  position: relative;
+  overflow: visible !important;
+  background-color: #e5f5fb !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element.elementor-element-9228b07:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-9228b07:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element.elementor-element-9228b07 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-9228b07 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #e5f5fb !important;
+  background-image: none !important;
+}
+
+/* Remove decorative strip overlays */
+.elementor-1056 .elementor-element-9228b07::before,
+.elementor-1056 .elementor-element-9228b07::after {
+  content: none !important;
+  display: none !important;
+}
+
+.elementor-1056 .elementor-element.elementor-element-9228b07 > .e-con-inner,
+.elementor-1056 .elementor-element-9228b07 > .e-con-inner {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-inline: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 3;
+}
+
+.elementor-1056 .elementor-element-a80d706,
+.elementor-1056 .elementor-element-a9f1159 {
+  --display: flex !important;
+  --flex-direction: row !important;
+  --flex-wrap: wrap !important;
+  --flex-wrap-mobile: wrap;
+  --justify-content: flex-start !important;
+  --align-items: stretch !important;
+  --gap: 24px !important;
+  --row-gap: 24px !important;
+  --column-gap: 24px !important;
+  --width: 100% !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+  width: 100% !important;
+}
+
+.elementor-1056 .elementor-element-a80d706 {
+  --align-items: flex-end !important;
+  align-items: flex-end !important;
+}
+
+.elementor-1056 .elementor-element-a9f1159 {
+  --border-radius: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.elementor-1056 .elementor-element-a9f1159:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-a9f1159 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element-28b6522 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --justify-content: flex-end !important;
+  --align-items: flex-start !important;
+  --gap: 8px !important;
+  --width: 100% !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-wrapper {
+  text-align: start;
+}
+
+.elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-title,
+.elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-title a,
+.elementor-1056 .elementor-element-6a0e64f:has(:hover) .elementor-icon-box-title {
+  color: #00202b !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.64px;
+  margin: 0 !important;
+}
+
+.elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-description {
+  color: #4f545b !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+.elementor-1056 .elementor-element-83a7415 {
+  padding: 0 !important;
+  margin-top: 0 !important;
+  align-self: flex-start !important;
+}
+
+.elementor-1056 .elementor-element-83a7415 .elementor-button {
+  background-color: rgba(0, 126, 170, 0.08) !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  color: #007eaa !important;
+  fill: #007eaa;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: #007eaa !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+}
+
+.elementor-1056 .elementor-element-843c593,
+.elementor-1056 .elementor-element-2dc0f4e,
+.elementor-1056 .elementor-element-150b31a,
+.elementor-1056 .elementor-element-8e0cbca,
+.elementor-1056 .elementor-element-c119902 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --justify-content: flex-start !important;
+  --align-items: stretch !important;
+  --gap: 16px !important;
+  --width: 100% !important;
+  --padding-top: 20px !important;
+  --padding-bottom: 20px !important;
+  --padding-left: 20px !important;
+  --padding-right: 20px !important;
+  --border-radius: 12px !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  background-color: #feffff !important;
+  box-shadow: none !important;
+  min-height: 0;
+}
+
+.elementor-1056 .elementor-element-843c593:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-2dc0f4e:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-150b31a:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-8e0cbca:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-c119902:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-843c593 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-2dc0f4e > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-150b31a > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-8e0cbca > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-c119902 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #feffff !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec,
+.elementor-1056 .elementor-element-6d15dfa,
+.elementor-1056 .elementor-element-bd86ded,
+.elementor-1056 .elementor-element-a0da4e3,
+.elementor-1056 .elementor-element-eb49023 {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-wrapper,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-wrapper,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-wrapper,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-wrapper,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: start !important;
+  gap: 16px;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-icon,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-icon,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-icon,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-icon,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-icon {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon {
+  display: inline-flex;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon svg,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon svg,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon svg,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon svg,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon svg {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-content,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-content,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-content,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-content,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-title,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-title,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-title,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-title,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-title,
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-title a,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-title a,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-title a,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-title a,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-title a {
+  color: #232932 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.4px;
+  margin: 0 !important;
+}
+
+.elementor-1056 .elementor-element-2bef8ec .elementor-icon-box-description,
+.elementor-1056 .elementor-element-6d15dfa .elementor-icon-box-description,
+.elementor-1056 .elementor-element-bd86ded .elementor-icon-box-description,
+.elementor-1056 .elementor-element-a0da4e3 .elementor-icon-box-description,
+.elementor-1056 .elementor-element-eb49023 .elementor-icon-box-description {
+  color: #4f545b !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 1025px) {
+  .elementor-1056 .elementor-element-28b6522 {
+    --width: 486px !important;
+    width: 486px !important;
+    max-width: 486px !important;
+    flex: 0 0 486px !important;
+  }
+
+  .elementor-1056 .elementor-element-843c593,
+  .elementor-1056 .elementor-element-2dc0f4e {
+    --width: calc((100% - 486px - 48px) / 2) !important;
+    width: calc((100% - 486px - 48px) / 2) !important;
+    max-width: calc((100% - 486px - 48px) / 2) !important;
+    flex: 1 1 0 !important;
+  }
+
+  .elementor-1056 .elementor-element-150b31a,
+  .elementor-1056 .elementor-element-8e0cbca,
+  .elementor-1056 .elementor-element-c119902 {
+    --width: calc((100% - 48px) / 3) !important;
+    width: calc((100% - 48px) / 3) !important;
+    max-width: calc((100% - 48px) / 3) !important;
+    flex: 1 1 0 !important;
+  }
+}
+
+/* ========== Residential / Commercial ========== */
+.elementor-1056 .elementor-element.elementor-element-852c3af,
+.elementor-1056 .elementor-element-852c3af {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --align-items: stretch !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 80px !important;
+  --padding-left: 120px !important;
+  --padding-right: 120px !important;
+  --content-width: 1200px !important;
+  --container-max-width: 1200px !important;
+  --width: 100% !important;
+  overflow: visible !important;
+  margin-top: 0 !important;
+  background-color: #e5f5fb !important;
+  background-image: none !important;
+  position: relative;
+}
+
+.elementor-1056 .elementor-element.elementor-element-852c3af:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-852c3af:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element.elementor-element-852c3af > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-852c3af > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #e5f5fb !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element.elementor-element-852c3af > .e-con-inner,
+.elementor-1056 .elementor-element-852c3af > .e-con-inner {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-inline: 0 !important;
+  box-sizing: border-box;
+}
+
+.elementor-1056 .elementor-element-5152edf {
+  --display: flex !important;
+  --flex-direction: row !important;
+  --flex-wrap: wrap !important;
+  --flex-wrap-mobile: wrap;
+  --justify-content: flex-start !important;
+  --align-items: stretch !important;
+  --gap: 24px !important;
+  --row-gap: 24px !important;
+  --column-gap: 24px !important;
+  --width: 100% !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.elementor-1056 .elementor-element-5152edf:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-5152edf > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element-fe23380,
+.elementor-1056 .elementor-element-f56e493 {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --justify-content: flex-start !important;
+  --align-items: stretch !important;
+  --gap: 16px !important;
+  --width: 100% !important;
+  --padding-top: 20px !important;
+  --padding-bottom: 20px !important;
+  --padding-left: 20px !important;
+  --padding-right: 20px !important;
+  --border-radius: 12px !important;
+  border-radius: 12px !important;
+  border: none !important;
+  overflow: hidden;
+  background-color: #feffff !important;
+  box-shadow: none !important;
+}
+
+.elementor-1056 .elementor-element-fe23380:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-f56e493:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-fe23380 > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor-1056 .elementor-element-f56e493 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #feffff !important;
+}
+
+@media (min-width: 768px) {
+  .elementor-1056 .elementor-element-fe23380,
+  .elementor-1056 .elementor-element-f56e493 {
+    --width: calc((100% - 24px) / 2) !important;
+    width: calc((100% - 24px) / 2) !important;
+    max-width: calc((100% - 24px) / 2) !important;
+    flex: 1 1 0 !important;
+  }
+}
+
+.elementor-1056 .elementor-element-9a9434a,
+.elementor-1056 .elementor-element-11d7b1d {
+  text-align: start !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 32px !important;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.64px;
+  color: #232932 !important;
+  padding: 0;
+  margin: 0;
+}
+
+.elementor-1056 .elementor-element-9a9434a h2,
+.elementor-1056 .elementor-element-11d7b1d h2 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.elementor-1056 .elementor-element-8f9ee48,
+.elementor-1056 .elementor-element-fa93ca3 {
+  text-align: start !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #4f545b !important;
+  margin: 0;
+}
+
+.elementor-1056 .elementor-element-8f9ee48 p,
+.elementor-1056 .elementor-element-fa93ca3 p {
+  color: inherit;
+  margin: 0;
+}
+
+.elementor-1056 .elementor-element-fe23380 > .elementor-widget-image-box,
+.elementor-1056 .elementor-element-f56e493 > .elementor-widget-image-box,
+.elementor-1056 .elementor-element-726c47c,
+.elementor-1056 .elementor-element-281a1cb,
+.elementor-1056 .elementor-element-26c961c,
+.elementor-1056 .elementor-element-232ccca,
+.elementor-1056 .elementor-element-40ac2d5,
+.elementor-1056 .elementor-element-00cf857,
+.elementor-1056 .elementor-element-7b7ba07,
+.elementor-1056 .elementor-element-45304a7 {
+  --align-self: stretch !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 4px 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.elementor-1056 .elementor-element-232ccca,
+.elementor-1056 .elementor-element-45304a7 {
+  margin-bottom: 0 !important;
+}
+
+.elementor-1056 .elementor-element-726c47c .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-281a1cb .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-26c961c .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-232ccca .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-40ac2d5 .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-00cf857 .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-7b7ba07 .elementor-image-box-wrapper,
+.elementor-1056 .elementor-element-45304a7 .elementor-image-box-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 4px !important;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+.elementor-1056 .elementor-element-726c47c .elementor-image-box-img,
+.elementor-1056 .elementor-element-281a1cb .elementor-image-box-img,
+.elementor-1056 .elementor-element-26c961c .elementor-image-box-img,
+.elementor-1056 .elementor-element-232ccca .elementor-image-box-img,
+.elementor-1056 .elementor-element-40ac2d5 .elementor-image-box-img,
+.elementor-1056 .elementor-element-00cf857 .elementor-image-box-img,
+.elementor-1056 .elementor-element-7b7ba07 .elementor-image-box-img,
+.elementor-1056 .elementor-element-45304a7 .elementor-image-box-img {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 20px !important;
+  float: none !important;
+}
+
+.elementor-1056 .elementor-element-726c47c .elementor-image-box-img img,
+.elementor-1056 .elementor-element-281a1cb .elementor-image-box-img img,
+.elementor-1056 .elementor-element-26c961c .elementor-image-box-img img,
+.elementor-1056 .elementor-element-232ccca .elementor-image-box-img img,
+.elementor-1056 .elementor-element-40ac2d5 .elementor-image-box-img img,
+.elementor-1056 .elementor-element-00cf857 .elementor-image-box-img img,
+.elementor-1056 .elementor-element-7b7ba07 .elementor-image-box-img img,
+.elementor-1056 .elementor-element-45304a7 .elementor-image-box-img img {
+  width: 20px !important;
+  height: 20px !important;
+  display: block !important;
+  margin: 0 !important;
+}
+
+.elementor-1056 .elementor-element-726c47c .elementor-image-box-content,
+.elementor-1056 .elementor-element-281a1cb .elementor-image-box-content,
+.elementor-1056 .elementor-element-26c961c .elementor-image-box-content,
+.elementor-1056 .elementor-element-232ccca .elementor-image-box-content,
+.elementor-1056 .elementor-element-40ac2d5 .elementor-image-box-content,
+.elementor-1056 .elementor-element-00cf857 .elementor-image-box-content,
+.elementor-1056 .elementor-element-7b7ba07 .elementor-image-box-content,
+.elementor-1056 .elementor-element-45304a7 .elementor-image-box-content {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.elementor-1056 .elementor-element-726c47c .elementor-image-box-title,
+.elementor-1056 .elementor-element-281a1cb .elementor-image-box-title,
+.elementor-1056 .elementor-element-26c961c .elementor-image-box-title,
+.elementor-1056 .elementor-element-232ccca .elementor-image-box-title,
+.elementor-1056 .elementor-element-40ac2d5 .elementor-image-box-title,
+.elementor-1056 .elementor-element-00cf857 .elementor-image-box-title,
+.elementor-1056 .elementor-element-7b7ba07 .elementor-image-box-title,
+.elementor-1056 .elementor-element-45304a7 .elementor-image-box-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #232932 !important;
+  text-align: left !important;
+}
+
+.elementor-1056 .icon_text.elementor-widget-image-box .elementor-image-box-wrapper {
+  display: flex !important;
+  width: 100% !important;
+}
+
+.elementor-1056 .icon_text.elementor-widget-image-box .elementor-image-box-img {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.elementor-1056 .icon_text h3.elementor-image-box-title {
+  margin: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* ========== Dark CTA ========== */
+.elementor-1056 .elementor-element.elementor-element-9ef6991.cta_sec,
+.elementor-1056 .elementor-element-9ef6991.cta_sec {
+  --display: flex !important;
+  --flex-direction: column !important;
+  --padding-top: 80px !important;
+  --padding-bottom: 80px !important;
+  --padding-left: 120px !important;
+  --padding-right: 120px !important;
+  --content-width: 1200px !important;
+  --container-max-width: 1200px !important;
+  --width: 100% !important;
+  position: relative !important;
+  overflow: visible !important;
+  background-color: #00202b !important;
+  background-image: none !important;
+}
+
+.elementor-1056 .elementor-element-9ef6991.cta_sec:not(.elementor-motion-effects-element-type-background),
+.elementor-1056 .elementor-element-9ef6991.cta_sec > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #00202b !important;
+  background-image: none !important;
+}
+
+/* Remove broken strip / band overlays */
+.elementor-1056 .elementor-element-9ef6991.cta_sec::before,
+.elementor-1056 .elementor-element-9ef6991.cta_sec::after {
+  content: none !important;
+  display: none !important;
+}
+
+.elementor-1056 .elementor-element-9ef6991 > .e-con-inner {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-inline: 0 !important;
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 24px !important;
+  align-items: flex-start !important;
+  position: relative;
+  z-index: 1;
+}
+
+.elementor-1056 .elementor-element-68e6f31 {
+  --width: 100% !important;
+  --display: flex !important;
+  --flex-direction: column !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+}
+
+.elementor-1056 .elementor-element-b63bb8e {
+  --width: 100% !important;
+  --display: flex !important;
+  --flex-direction: column !important;
+  --gap: 24px !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-left: 0 !important;
+  --padding-right: 0 !important;
+}
+
+@media (min-width: 1025px) {
+  .elementor-1056 .elementor-element-68e6f31 {
+    --width: 456px !important;
+    width: 456px !important;
+    max-width: 456px !important;
+    flex: 0 0 456px !important;
+  }
+  .elementor-1056 .elementor-element-b63bb8e {
+    --width: 720px !important;
+    width: 720px !important;
+    max-width: 720px !important;
+    flex: 0 0 720px !important;
+  }
+}
+
+.elementor-1056 .elementor-element-2ea7ef5 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-2ea7ef5 h2 {
+  margin: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 48px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.96px;
+  color: #feffff !important;
+}
+
+.elementor-1056 .elementor-element-e8c04a6 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.elementor-1056 .elementor-element-e8c04a6 p {
+  margin: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #ffffff !important;
+}
+
+.elementor-1056 .elementor-element-1e30c53 {
+  margin: 0 !important;
+  padding: 0 !important;
+  align-self: flex-start !important;
+}
+
+.elementor-1056 .elementor-element-1e30c53 .elementor-button {
+  background-color: transparent !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: #fbd337 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  color: #fbd337 !important;
+  fill: #fbd337 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.elementor-1056 .elementor-element-1e30c53 .elementor-button-content-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.elementor-1056 .elementor-element-1e30c53 .elementor-button svg,
+.elementor-1056 .elementor-element-1e30c53 .elementor-button-icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: #fbd337 !important;
+}
+
+/* Keep following section under bottom tab */
+.elementor-1056 .elementor-element-3e576a1 {
+  position: relative;
+  z-index: 0;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 1024px) {
+  .elementor-1056 .elementor-element.elementor-element-ba9b273,
+  .elementor-1056 .elementor-element-ba9b273,
+  .elementor-1056 .elementor-element.elementor-element-9228b07,
+  .elementor-1056 .elementor-element-9228b07,
+  .elementor-1056 .elementor-element.elementor-element-852c3af,
+  .elementor-1056 .elementor-element-852c3af,
+  .elementor-1056 .elementor-element.elementor-element-9ef6991.cta_sec,
+  .elementor-1056 .elementor-element-9ef6991.cta_sec {
+    --padding-left: 40px !important;
+    --padding-right: 40px !important;
+  }
+
+  .elementor-1056 .elementor-element-ba9b273 > .e-con-inner {
+    flex-wrap: wrap !important;
+    gap: 40px !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-87a8a70,
+  .elementor-1056 .elementor-element-87a8a70,
+  .elementor-1056 .elementor-element-5e814ac,
+  .elementor-1056 .elementor-element-5e814ac img {
+    width: 100% !important;
+    max-width: 486px !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-87a8a70,
+  .elementor-1056 .elementor-element-87a8a70 {
+    flex: 0 0 auto !important;
+    --width: 100% !important;
+    --flex-basis: auto !important;
+  }
+
+  .elementor-1056 .elementor-element-5e814ac img {
+    height: auto !important;
+    aspect-ratio: 486 / 440;
+  }
+
+  .elementor-1056 .elementor-element-7fd1049.hero_sec > .e-con-inner {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .elementor-1056 .elementor-element-d9ce90c h1 {
+    font-size: 40px !important;
+  }
+
+  .elementor-1056 .elementor-element-d362358 h2,
+  .elementor-1056 .elementor-element-4b47212 h2,
+  .elementor-1056 .elementor-element-2ea7ef5 h2 {
+    font-size: 36px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-1056 .elementor-element.elementor-element-7fd1049.hero_sec,
+  .elementor-1056 .elementor-element-7fd1049.hero_sec {
+    --padding-top: 120px !important;
+    --padding-bottom: 48px !important;
+    min-height: 520px;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-ba9b273,
+  .elementor-1056 .elementor-element-ba9b273,
+  .elementor-1056 .elementor-element.elementor-element-9228b07,
+  .elementor-1056 .elementor-element-9228b07,
+  .elementor-1056 .elementor-element.elementor-element-852c3af,
+  .elementor-1056 .elementor-element-852c3af,
+  .elementor-1056 .elementor-element.elementor-element-9ef6991.cta_sec,
+  .elementor-1056 .elementor-element-9ef6991.cta_sec {
+    --padding-left: 20px !important;
+    --padding-right: 20px !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-ba9b273,
+  .elementor-1056 .elementor-element-ba9b273 {
+    --padding-top: 48px !important;
+    --padding-bottom: 48px !important;
+  }
+
+  /* Show Why image on mobile (Figma stacks it) */
+  .elementor-1056 .elementor-element-87a8a70.elementor-hidden-mobile {
+    display: flex !important;
+  }
+
+  .elementor-1056 .elementor-element-ba9b273 > .e-con-inner {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: 32px !important;
+    align-items: stretch !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-87a8a70,
+  .elementor-1056 .elementor-element-87a8a70,
+  .elementor-1056 .elementor-element.elementor-element-4b47212,
+  .elementor-1056 .elementor-element-4b47212 {
+    --width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .elementor-1056 .elementor-element-5e814ac,
+  .elementor-1056 .elementor-element-5e814ac img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .elementor-1056 .elementor-element-7fd1049.hero_sec > .e-con-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .elementor-1056 .elementor-element-d9ce90c h1 {
+    font-size: 32px !important;
+  }
+
+  .elementor-1056 .elementor-element-d362358 h2,
+  .elementor-1056 .elementor-element-4b47212 h2 {
+    font-size: 32px !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-9228b07,
+  .elementor-1056 .elementor-element-9228b07 {
+    --padding-top: 48px !important;
+    --padding-bottom: 16px !important;
+  }
+
+  .elementor-1056 .elementor-element.elementor-element-852c3af,
+  .elementor-1056 .elementor-element-852c3af {
+    --padding-bottom: 48px !important;
+  }
+
+  .elementor-1056 .elementor-element-28b6522,
+  .elementor-1056 .elementor-element-843c593,
+  .elementor-1056 .elementor-element-2dc0f4e,
+  .elementor-1056 .elementor-element-150b31a,
+  .elementor-1056 .elementor-element-8e0cbca,
+  .elementor-1056 .elementor-element-c119902,
+  .elementor-1056 .elementor-element-fe23380,
+  .elementor-1056 .elementor-element-f56e493 {
+    --width: 100% !important;
+    width: 100% !important;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-title,
+  .elementor-1056 .elementor-element-6a0e64f .elementor-icon-box-title a,
+  .elementor-1056 .elementor-element-9a9434a,
+  .elementor-1056 .elementor-element-11d7b1d {
+    font-size: 26px !important;
+  }
+
+  .elementor-1056 .elementor-element-5616656 .cfm-hero-badge {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

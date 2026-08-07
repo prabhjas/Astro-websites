@@ -13,6 +13,18 @@ textarea.wpcf7-form-control.wpcf7-textarea {
     font-family:fontawesome;
 }
 
+/* FA5 brands/solid must win over the legacy fontawesome override above */
+.custom-blog i.fab,
+.custom-blog .fab {
+    font-family: "Font Awesome 5 Brands" !important;
+    font-weight: 400;
+}
+.custom-blog i.fas,
+.custom-blog .fas {
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900;
+}
+
 
 .custom-blog .author_bio_section {
     display:none;

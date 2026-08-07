@@ -8,7 +8,8 @@ html,
 body {
   margin: 0 !important;
   padding: 0;
-  overflow-x: hidden;
+  /* clip (not hidden) so position:sticky on post sidebars still works */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -242,6 +243,38 @@ div.wpcf7-response-output.sp-status-visible,
   font-family: Manrope, sans-serif !important;
 }
 
+/*
+  Single-post "Let's Chat" sidebar — stick inside its column only.
+  Parent flex column (4fab8f1) stretches with the article, so sticky
+  stops at that column bottom and never overlaps footer/other sections.
+*/
+@media (min-width: 1025px) {
+  .elementor-1544 .elementor-element-c82b872,
+  .elementor-1544 .elementor-element-4fab8f1 {
+    overflow: visible !important;
+  }
+
+  .elementor-1544 .elementor-element-7124db3,
+  .elementor-1544 .elementor-element-7124db3.wpr-sticky-section-yes {
+    position: sticky !important;
+    top: 20px !important;
+    align-self: flex-start !important;
+    z-index: 10;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1024px) {
+  .elementor-1544 .elementor-element-7124db3,
+  .elementor-1544 .elementor-element-7124db3.wpr-sticky-section-yes {
+    position: static !important;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
 /* CF7 main-form submit — live child theme #3D1457 (never SP yellow) */
 .main-form input.wpcf7-submit,
 .main-form [type="submit"],
@@ -403,6 +436,22 @@ div.wpcf7-response-output.sp-status-visible,
   justify-content: center !important;
   align-items: center !important;
   gap: 4px;
+}
+
+/*
+  Homepage reviews (.testi / loop-carousel): Elementor leaves .elementor-grid
+  as display:grid which blocks Swiper transforms. Force a real slider shell.
+*/
+.testi .elementor-loop-container.swiper,
+.elementor-element-3cde31b .elementor-loop-container.swiper,
+.elementor-widget-loop-carousel .elementor-loop-container.swiper {
+  display: block !important;
+  overflow: hidden !important;
+}
+.testi .elementor-loop-container.swiper .swiper-wrapper,
+.elementor-element-3cde31b .elementor-loop-container.swiper .swiper-wrapper,
+.elementor-widget-loop-carousel .elementor-loop-container.swiper .swiper-wrapper {
+  display: flex !important;
 }
 
 /*

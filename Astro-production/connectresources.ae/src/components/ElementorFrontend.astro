@@ -1,0 +1,79 @@
+---
+/**
+ * Elementor frontend runtime (carousels, accordion, sticky, gallery).
+ * Loaded only on Elementor wp-page bodies.
+ */
+---
+
+<script is:inline>
+  window.elementorFrontendConfig = window.elementorFrontendConfig || {
+    environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+    i18n: {
+      shareOnFacebook: "Share on Facebook",
+      shareOnTwitter: "Share on Twitter",
+      pinIt: "Pin it",
+      download: "Download",
+      downloadImage: "Download image",
+      fullscreen: "Fullscreen",
+      zoom: "Zoom",
+      share: "Share",
+      playVideo: "Play Video",
+      previous: "Previous",
+      next: "Next",
+      close: "Close",
+    },
+    is_rtl: false,
+    breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+    responsive: {
+      breakpoints: {
+        mobile: { label: "Mobile Portrait", value: 767, default_value: 767, direction: "max", unit: "px" },
+        mobile_extra: { label: "Mobile Landscape", value: 880, default_value: 880, direction: "max", unit: "px" },
+        tablet: { label: "Tablet Portrait", value: 1024, default_value: 1024, direction: "max", unit: "px" },
+        tablet_extra: { label: "Tablet Landscape", value: 1200, default_value: 1200, direction: "max", unit: "px" },
+        laptop: { label: "Laptop", value: 1366, default_value: 1366, direction: "max", unit: "px" },
+        widescreen: { label: "Widescreen", value: 2400, default_value: 2400, direction: "min", unit: "px" },
+      },
+    },
+    version: "4.1.4",
+    is_static: false,
+    experimentalFeatures: {},
+    urls: {
+      assets: "/wp-content/plugins/elementor/assets/",
+      ajaxurl: "/wp-admin/admin-ajax.php",
+      uploadUrl: "/wp-content/uploads",
+    },
+    swiperClass: "swiper",
+    settings: { page: [], editorPreferences: [] },
+    kit: {
+      active_breakpoints: ["viewport_mobile", "viewport_tablet"],
+      global_image_lightbox: "yes",
+    },
+    post: { id: 0, title: "", excerpt: "", featuredImage: false },
+  };
+
+  window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
+    ajaxurl: "/wp-admin/admin-ajax.php",
+    nonce: "astro",
+    urls: {
+      assets: "/wp-content/plugins/elementor-pro/assets/",
+      rest: "/wp-json/",
+    },
+    settings: { lazy_load_background_images: true },
+    popup: { hasPopUps: false },
+    shareButtonsNetworks: {},
+    facebook_sdk: { lang: "en_US", app_id: "" },
+    lottie: { defaultAnimationUrl: "" },
+  };
+</script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/lib/e-gallery/js/e-gallery.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
+{/* Fallback when Elementor handlers lag: paint gallery thumbnails + open first accordion */}
+<script is:inline src="/scripts/elementor-fallbacks.js"></script>

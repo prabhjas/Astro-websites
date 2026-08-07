@@ -1,22 +1,24 @@
 ---
 /**
  * Live WordPress pagination uses /insights/2/, /insights/3/, …
- * (not /insights/page/2/).
+ * Reuse Elementor page 21314 shell (same as /insights/) and swap posts + pagination.
+ * @see https://connectfz.com/insights/2/
  */
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
-  formatDate,
+  getPageByPath,
   getPosts,
   paginate,
-  stripHtml,
 } from "../../lib/content";
+import {
+  INSIGHTS_PER_PAGE,
+  renderInsightsClassicPostsHtml,
+  renderInsightsPaginationHtml,
+} from "../../lib/insights-archive";
 import { breadcrumbSchema } from "../../lib/seo";
 import { notFoundResponse } from "../../lib/not-found";
 
 export const prerender = false;
-
-/** Matches Elementor posts widget on /insights/ (2-column classic grid). */
-const INSIGHTS_PER_PAGE = 6;
 
 const raw = String(Astro.params.page || "");
 if (!/^\d+$/.test(raw)) {
@@ -28,12 +30,11 @@ if (pageNum < 2) {
   return Astro.redirect("/insights/", 301);
 }
 
+const insightsPage = getPageByPath("/insights/");
+if (!insightsPage) return notFoundResponse();
+
 const sorted = [...getPosts()].sort((a, b) => +new Date(b.date) - +new Date(a.date));
-const { items, page, totalPages, hasPrev, hasNext } = paginate(
-  sorted,
-  pageNum,
-  INSIGHTS_PER_PAGE,
-);
+const { items, page, totalPages } = paginate(sorted, pageNum, INSIGHTS_PER_PAGE);
 
 if (pageNum > totalPages) {
   return notFoundResponse();
@@ -42,23 +43,54 @@ if (pageNum > totalPages) {
 function pageHref(n: number) {
   return n <= 1 ? "/insights/" : `/insights/${n}/`;
 }
+
+/** Clone live Elementor markup; replace classic posts grid + pagination for this page. */
+function buildPagedHtml(sourceHtml: string): string {
+  const postsHtml = renderInsightsClassicPostsHtml(items);
+  const paginationHtml = renderInsightsPaginationHtml(page, totalPages);
+
+  let html = sourceHtml;
+
+  // Replace articles inside the posts container (keep container + role=list wrapper attrs).
+  html = html.replace(
+    /(<div[^>]*class="[^"]*elementor-posts-container[^"]*"[^>]*>)([\s\S]*?)(<\/div>\s*<nav class="elementor-pagination")/i,
+    `$1\n${postsHtml}\n\t\t$3`,
+  );
+
+  html = html.replace(
+    /<nav class="elementor-pagination"[^>]*>[\s\S]*?<\/nav>/i,
+    paginationHtml,
+  );
+
+  return html;
+}
+
+const html = buildPagedHtml(insightsPage.bodyHtml || insightsPage.content);
+
+const extraCss = [
+  ...(insightsPage.pageCss || []),
+  insightsPage.elementorCss || `/wp-content/uploads/elementor/css/post-${insightsPage.id}.css`,
+  // Live WP insights also loads loop/template CSS post-20028 (not ghost post-21423/21574).
+  "/wp-content/uploads/elementor/css/post-20028.css",
+  "/css/insights-topic-cards.css",
+];
 ---
 
 <BaseLayout
-  currentPath="/insights/"
-  bodyClass="page page-id-21314 elementor-page-21314 archive blog"
+  currentPath={pageHref(page)}
+  bodyClass={`page page-id-${insightsPage.id} paged-${page} page-paged-${page} elementor-page elementor-page-${insightsPage.id} elementor-template-full-width`}
   menuActivePath="/insights/"
-  extraCss={[
-    "/wp-content/uploads/elementor/css/post-21314.css",
-    "/wp-content/uploads/elementor/css/post-21423.css",
-    "/wp-content/uploads/elementor/css/post-21574.css",
-    "/css/insights-topic-cards.css",
-  ]}
+  extraCss={extraCss}
+  fallback={insightsPage.seo}
   seo={{
-    title: `Insights — Page ${page} | Connect FZ`,
-    description: "UAE business setup insights, licensing guides, and free zone news from Connect FZ.",
+    title: insightsPage.seo.title || "Insight: Your Go-To Source for UAE Business Information.",
+    description:
+      insightsPage.seo.description ||
+      "UAE business setup insights, licensing guides, and free zone news from Connect FZ.",
     canonical: pageHref(page),
+    ogImage: insightsPage.seo.ogImage,
     schemas: [
+      ...(insightsPage.seo.schemas || []),
       breadcrumbSchema([
         { name: "Home", url: "/" },
         { name: "Insights", url: "/insights/" },
@@ -67,64 +99,5 @@ function pageHref(n: number) {
     ],
   }}
 >
-  <section class="cfz-archive-hero">
-    <div class="cfz-archive-hero__inner">
-      <h1>Insights</h1>
-      <p>Page {page} of {totalPages}</p>
-    </div>
-  </section>
-
-  <section class="cfz-insights-page">
-    <div class="elementor-element elementor-posts-container elementor-posts elementor-posts--skin-classic elementor-grid elementor-grid-2">
-      {
-        items.map((post) => (
-          <article class="elementor-post elementor-grid-item">
-            {post.featuredImage && (
-              <a class="elementor-post__thumbnail__link" href={post.path}>
-                <div class="elementor-post__thumbnail">
-                  <img
-                    src={post.featuredImage}
-                    alt={stripHtml(post.title)}
-                    loading="lazy"
-                    width="800"
-                    height="450"
-                  />
-                </div>
-              </a>
-            )}
-            <div class="elementor-post__text">
-              <div class="elementor-post-date">{formatDate(post.date)}</div>
-              <h3 class="elementor-post__title">
-                <a href={post.path} set:html={post.title} />
-              </h3>
-              <a class="elementor-post__read-more" href={post.path}>
-                Read More »
-              </a>
-            </div>
-          </article>
-        ))
-      }
-    </div>
-
-    <nav class="elementor-pagination" aria-label="Pagination">
-      {
-        hasPrev ? (
-          <a class="page-numbers prev" href={pageHref(page - 1)}>
-            « Previous
-          </a>
-        ) : (
-          <span class="page-numbers prev">« Previous</span>
-        )
-      }
-      {
-        hasNext ? (
-          <a class="page-numbers next" href={pageHref(page + 1)}>
-            Next »
-          </a>
-        ) : (
-          <span class="page-numbers next">Next »</span>
-        )
-      }
-    </nav>
-  </section>
+  <div class="sp-page-content" set:html={html} />
 </BaseLayout>

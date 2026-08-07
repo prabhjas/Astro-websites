@@ -1,0 +1,49 @@
+---
+/**
+ * Dual route (catch-all for nested pages like /industries/...):
+ * 1. Prepared Elementor HTML mirrors in src/legacy (pages + posts) — preferred
+ * 2. Dashboard-managed blog JSON when no mirror exists
+ *
+ * SSR so dashboard post edits are visible without a full rebuild.
+ */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { isPageSlug, isPostSlug } from '../lib/inventory.js';
+import { getBlogPost, serveBlogPost } from '../lib/blog.ts';
+import { serveLegacyPage } from '../lib/legacy-page.js';
+import { notFoundResponse } from '../lib/not-found.js';
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam) ? slugParam.join('/') : String(slugParam || '');
+if (!slug) {
+  return notFoundResponse();
+}
+
+// Prefer prepared Elementor mirrors for pixel fidelity (posts + pages).
+const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
+const hasLegacyMirror = existsSync(cleanedPath);
+
+// /blog/ and /insights/ are handled by dedicated pages (insights canonical; blog redirects).
+if (slug === 'blog' || slug === 'insights') {
+  return Astro.redirect('/insights/', 301);
+}
+
+if (isPageSlug(slug) || hasLegacyMirror) {
+  return serveLegacyPage(slug);
+}
+
+// Dashboard-managed posts without a legacy mirror
+const post = getBlogPost(slug);
+if (post) {
+  return serveBlogPost(post);
+}
+
+// Known sitemap posts with no JSON and no mirror stay 404.
+if (isPostSlug(slug)) {
+  return notFoundResponse();
+}
+
+return notFoundResponse();
+---

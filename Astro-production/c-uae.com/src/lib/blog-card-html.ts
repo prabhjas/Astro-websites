@@ -1,11 +1,7 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import { formatDate, getCategories, stripHtml, type PostEntry } from "./content";
 
 /** Matches live Elementor loop template 1514 (insights grid). */
 export const BLOG_LOAD_MORE_PER_PAGE = 12;
-
-const LIVE_ORIGIN = "https://c-uae.com";
 
 function escapeAttr(value: string): string {
   return value
@@ -51,13 +47,10 @@ function categoryMeta(post: PostEntry): { name: string; slug: string; path: stri
 function resolveImageSrc(path: string): string {
   const src = path.trim();
   if (!src) return "";
-  if (/^https?:\/\//i.test(src)) return src;
-  const rel = src.replace(/^\//, "");
-  // Prefer local file; fall back to live origin when media was skipped in extract
-  if (existsSync(join(process.cwd(), "public", rel))) {
-    return src.startsWith("/") ? src : `/${src}`;
-  }
-  return `${LIVE_ORIGIN}${src.startsWith("/") ? src : `/${src}`}`;
+  // Live absolute → root-relative (served from local public/)
+  const stripped = src.replace(/^https?:\/\/(?:www\.)?c-uae\.com/i, "");
+  if (/^https?:\/\//i.test(stripped)) return stripped; // external CDN/etc.
+  return stripped.startsWith("/") ? stripped : `/${stripped}`;
 }
 
 function cardImage(post: PostEntry, href: string, title: string): string {

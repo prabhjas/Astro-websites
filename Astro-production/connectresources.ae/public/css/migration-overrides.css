@@ -178,9 +178,15 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   z-index: 2;
 }
 
-/* Hero / content images: avoid Impreza height:inherit shrinking heroes */
+/*
+ * Hero / content images: avoid Impreza height:inherit shrinking large heroes.
+ * First-section photos (country EOR pages, etc.) fill their column.
+ * Badge/logo overrides below keep MOHRE / approval / stars compact.
+ */
 .l-main .l-section:first-of-type .w-image,
 .l-main .l-section:first-of-type .w-image-h,
+.l-main .us_custom_8570792b .w-image,
+.l-main .us_custom_8570792b .w-image-h,
 .l-main .us_custom_f91fe372 .w-image,
 .l-main .us_custom_f91fe372 .w-image-h,
 .l-main .img_peo.w-image,
@@ -188,14 +194,72 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   height: auto !important;
   max-height: none !important;
 }
+
 .l-main .l-section:first-of-type .w-image img,
+.l-main .us_custom_8570792b .w-image img,
 .l-main .us_custom_f91fe372 .w-image img,
-.l-main .img_peo img {
+.l-main .img_peo img,
+.l-main .head_ban_pr .w-image img {
   max-height: none !important;
   width: 100% !important;
   height: auto !important;
   max-width: 100% !important;
   object-fit: contain;
+}
+
+/*
+ * Approval / review / authority badges — keep compact (not column-wide).
+ * Specificity must beat the first-section width:100% rule above.
+ */
+.l-main .l-section:first-of-type .w-image img[src*="Ministry-of-Human-Resources"],
+.l-main .l-section:first-of-type .w-image img[src*="Federal-Authority-for-Identity"],
+.l-main .l-section:first-of-type .w-image img[src*="Government-of-Dubai-logo"],
+.l-main .l-section:first-of-type .w-image img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"],
+.l-main .l-section:first-of-type .w-image img[src*="Frame-1707483967"],
+.l-main .l-section:first-of-type .w-image img[src*="/Rating.png"],
+.l-main .l-section:first-of-type .w-image img[src*="five-stars"],
+.l-main .l-section:first-of-type .w-image img[src*="/Approved.webp"],
+.l-main .l-section:first-of-type .w-image img[src*="/Approved.png"],
+.l-main .l-section:first-of-type .w-image img[src*="mohre-logo"],
+.l-main img[src*="Ministry-of-Human-Resources"],
+.l-main img[src*="Federal-Authority-for-Identity"],
+.l-main img[src*="Government-of-Dubai-logo"],
+.l-main img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"],
+.l-main img[src*="Frame-1707483967"],
+.l-main img[src*="/Rating.png"],
+.l-main img[src*="five-stars"],
+.l-main img[src*="/Approved.webp"],
+.l-main img[src*="/Approved.png"],
+.elementor img[src*="/Approved.webp"],
+.elementor img[src*="/Approved.png"] {
+  width: auto !important;
+  max-width: 220px !important;
+  height: auto !important;
+}
+
+.l-main .l-section:first-of-type .w-image img[src*="Frame-1707483967"],
+.l-main .l-section:first-of-type .w-image img[src*="/Rating.png"],
+.l-main .l-section:first-of-type .w-image img[src*="five-stars"],
+.l-main img[src*="Frame-1707483967"],
+.l-main img[src*="/Rating.png"],
+.l-main img[src*="five-stars"] {
+  max-width: 180px !important;
+}
+
+.l-main .l-section:first-of-type .w-image:has(img[src*="Ministry-of-Human-Resources"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Federal-Authority-for-Identity"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Government-of-Dubai-logo"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Frame-1707483967"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="mohre-logo"]) {
+  max-width: 220px;
+}
+
+.l-main .l-section:first-of-type .w-image:has(img[src*="Ministry-of-Human-Resources"]) img,
+.l-main .l-section:first-of-type .w-image:has(img[src*="Federal-Authority-for-Identity"]) img,
+.l-main .l-section:first-of-type .w-image:has(img[src*="Government-of-Dubai-logo"]) img {
+  max-width: 120px !important;
+  max-height: 90px !important;
 }
 
 /*
@@ -343,6 +407,84 @@ div#transaction_hide,
   border-radius: 5px !important;
   text-transform: inherit !important;
   letter-spacing: 0em !important;
+}
+
+/*
+ * Link colors — live parity
+ * - Utility bar (top): white text on navy (incl. current-menu-* on tel link)
+ * - Main content tel/mailto (contact blocks, etc.): #0B1347
+ */
+#page-header .l-subheader.at_top .w-nav-anchor,
+#page-header .l-subheader.at_top .w-nav-anchor .w-nav-title,
+#page-header .l-subheader.at_top .w-nav-list.level_1 a,
+.l-subheader.at_top .w-nav-anchor,
+.l-subheader.at_top .w-nav-anchor .w-nav-title,
+.l-subheader.at_top .w-nav-list.level_1 a,
+.l-subheader.at_top .w-html a,
+.l-subheader.at_top .w-text a,
+.l-subheader.at_top .w-nav-item.current-menu-item > .w-nav-anchor,
+.l-subheader.at_top .w-nav-item.current-menu-ancestor > .w-nav-anchor,
+.l-subheader.at_top #menu-item-19850 > .w-nav-anchor {
+  color: #ffffff !important;
+}
+
+#page-header .l-subheader.at_top .w-nav-anchor .w-nav-title i,
+.l-subheader.at_top .w-nav-anchor .w-nav-title i,
+.l-subheader.at_top .w-nav-anchor .far,
+.l-subheader.at_top .w-nav-anchor .fas {
+  color: #ffffff !important;
+}
+
+.no-touch #page-header .l-subheader.at_top .w-nav-anchor:hover,
+.no-touch #page-header .l-subheader.at_top .w-nav-anchor:hover .w-nav-title,
+.no-touch .l-subheader.at_top .w-nav-anchor:hover,
+.no-touch .l-subheader.at_top .w-nav-anchor:hover .w-nav-title {
+  color: #ffffff !important;
+}
+
+main#page-content .w-iconbox-text a[href^="tel:"],
+main#page-content .w-iconbox-text a[href^="mailto:"],
+.l-main .w-iconbox-text a[href^="tel:"],
+.l-main .w-iconbox-text a[href^="mailto:"],
+.w-iconbox.color_primary .w-iconbox-text a[href^="tel:"],
+.w-iconbox.color_primary .w-iconbox-text a[href^="mailto:"],
+main#page-content a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor),
+main#page-content a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor),
+.l-main a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor),
+.l-main a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor) {
+  color: #0b1347 !important;
+  text-decoration: none;
+}
+
+.no-touch main#page-content .w-iconbox-text a[href^="tel:"]:hover,
+.no-touch main#page-content .w-iconbox-text a[href^="mailto:"]:hover,
+.no-touch .l-main .w-iconbox-text a[href^="tel:"]:hover,
+.no-touch .l-main .w-iconbox-text a[href^="mailto:"]:hover,
+.no-touch main#page-content a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch main#page-content a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch .l-main a[href^="tel:"]:not(.w-btn):not(.w-nav-anchor):hover,
+.no-touch .l-main a[href^="mailto:"]:not(.w-btn):not(.w-nav-anchor):hover {
+  color: #0b1347 !important;
+  text-decoration: underline;
+}
+
+/* MOHRE approval badge — compact like live (not full 320px asset width) */
+.newhomepagebanner img[src*="mohre-logo"],
+.l-main img[src*="mohre-logo"],
+img[src*="mohre-logo-en"] {
+  max-width: 200px !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.newhomepagebanner .w-image:has(img[src*="mohre-logo"]),
+.l-main .w-image:has(img[src*="mohre-logo"]) {
+  max-width: 200px;
+}
+
+.newhomepagebanner .w-image:has(img[src*="mohre-logo"]) .w-image-h,
+.l-main .w-image:has(img[src*="mohre-logo"]) .w-image-h {
+  max-width: 200px;
 }
 
 /*
@@ -571,4 +713,253 @@ div#transaction_hide,
   .l-footer .footer_middle.hide_on_default .g-cols.via_flex > .wpb_column.vc_col-sm-1\/5:not(.i_rrrr):not(.i_r) {
     width: 100% !important;
   }
+}
+
+/* Elementor pages render as raw [data-elementor-type] sibling of header (no .l-main). */
+body.elementor-page {
+  scroll-padding-top: var(--header-height);
+}
+
+/*
+ * Corporate PRO (and other Elementor pages): logo gallery uses data-thumbnail
+ * backgrounds painted by Elementor Pro gallery JS. Ensure a CSS fallback so the
+ * strip never collapses to 0 height if handlers are slow.
+ */
+.elementor-widget-gallery .e-gallery-image[data-thumbnail] {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-height: 40px;
+  width: 100%;
+}
+
+.elementor-widget-gallery .elementor-gallery__container {
+  min-height: 40px;
+}
+
+.page-id-82148 .elementor-element-4996002 .elementor-gallery__container {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+  gap: 30px !important;
+  align-items: center !important;
+  position: relative !important;
+  height: auto !important;
+  min-height: 40px !important;
+}
+
+.page-id-82148 .elementor-element-4996002 .e-gallery-item,
+.page-id-82148 .elementor-element-4996002 .elementor-gallery-item {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transform: none !important;
+}
+
+.page-id-82148 .elementor-element-4996002 .e-gallery-image {
+  width: 100% !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
+
+@media (max-width: 767px) {
+  .page-id-82148 .elementor-element-4996002 .elementor-gallery__container {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+  }
+}
+
+/* Keep first accordion panel readable even before Elementor handlers boot */
+.elementor-accordion .elementor-tab-content.elementor-active,
+.elementor-accordion .elementor-tab-title.elementor-active + .elementor-tab-content {
+  display: block;
+}
+
+/*
+ * Accordion icons: red ↑/↓ only. Drop Font Awesome / filled-triangle dual
+ * rendering (FA ::before + textContent) which showed as "other" junk.
+ */
+.elementor-accordion .elementor-accordion-icon i.fas,
+.elementor-accordion .elementor-accordion-icon i.fa {
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  font-size: 14px !important;
+  color: #f23342 !important;
+  speak: never;
+}
+
+.elementor-accordion .elementor-accordion-icon i.fas::before,
+.elementor-accordion .elementor-accordion-icon i.fa::before {
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  display: inline-block !important;
+  color: #f23342 !important;
+}
+
+.elementor-accordion .elementor-accordion-icon i.fa-arrow-down::before {
+  content: "\2193" !important; /* ↓ */
+}
+
+.elementor-accordion .elementor-accordion-icon i.fa-arrow-up::before {
+  content: "\2191" !important; /* ↑ */
+}
+
+.page-id-82148 .elementor-element-8cab87a .elementor-accordion-icon i,
+.page-id-82148 .elementor-element-8cab87a .elementor-accordion-icon i::before {
+  color: #f23342 !important;
+}
+
+/*
+ * Elementor Canvas LPs (e.g. /lp-page-cr/): mint page bg, no Impreza chrome,
+ * and full-bleed hero videos from the HTML widget.
+ */
+body.elementor-template-canvas,
+body.elementor-page-66853 {
+  background-color: #e8fcfc !important;
+}
+
+body.elementor-template-canvas .l-canvas,
+body.elementor-template-canvas .l-canvas--elementor-canvas {
+  background: transparent !important;
+  min-height: 100vh;
+}
+
+.elementor-66853 .elementor-element-45edafda video,
+.elementor-66853 .elementor-widget-html video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Keep canvas sticky pill header above page content */
+.elementor-66853 .elementor-element-6ddd1099.elementor-sticky--active,
+.elementor-66853 .elementor-sticky__spacer + .elementor-element-6ddd1099 {
+  z-index: 100;
+}
+
+/*
+ * Lead forms (hero / sidebar) — keep SUBMIT clear of the card edge.
+ * Live us_custom often sets padding-bottom:0 on desktop; restore inset sitewide.
+ */
+.form_lp1,
+.g-cols.form_lp1,
+.us_custom_fcea59d9.form_lp1 {
+  padding: 1.4rem 1.2rem 1.4rem 1.2rem !important;
+  box-sizing: border-box !important;
+}
+
+.staff_form {
+  padding: 1.4rem 1.2rem !important;
+  box-sizing: border-box !important;
+}
+
+.form_journey .vc_column-inner.us_custom_6b3cfe98,
+.vc_column-inner.us_custom_6b3cfe98 {
+  padding: 2rem 1.4rem 1.4rem 1.4rem !important;
+  box-sizing: border-box !important;
+}
+
+.ult-content-box:has(form.wpcf7-form),
+.ult-content-box:has(.wpcf7),
+.box_padding .ult-content-box,
+.box_pad .ult-content-box {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.corporate-form,
+.elementor-widget-container:has(.corporate-form),
+.elementor-widget-container:has(form.wpcf7-form .wpcf7-submit) {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+#lp-form,
+body.elementor-page-66853 #lp-form,
+.form_lp,
+.residency_form {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+#lp-form {
+  padding: 20px !important;
+}
+
+.form_lp p:last-of-type,
+.form_lp1 p:last-of-type,
+.staff_form p:last-of-type,
+.residency_form p:last-of-type,
+.corporate-form p:last-of-type,
+#lp-form p:last-of-type,
+.wpcf7 form > p:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.form_lp input[type="submit"],
+.form_lp1 input[type="submit"],
+.staff_form input[type="submit"],
+.residency_form input[type="submit"],
+.corporate-form input[type="submit"],
+#lp-form input[type="submit"],
+.ult-content-box input[type="submit"].wpcf7-submit {
+  margin-bottom: 0.25rem !important;
+}
+
+/* LP bottom form — beat Impreza / shared blog form rules on canvas page */
+body.elementor-page-66853 #lp-form {
+  border-radius: 20px;
+  background: #fff;
+  padding: 20px !important;
+  font-family: "Special Gothic", Sans-serif;
+}
+
+body.elementor-page-66853 #lp-form input,
+body.elementor-page-66853 #lp-form select,
+body.elementor-page-66853 #lp-form textarea {
+  font-size: 16px !important;
+}
+
+body.elementor-page-66853 #lp-form textarea {
+  height: 72px !important;
+  min-height: 72px;
+}
+
+body.elementor-page-66853 #lp-form .wpcf7-form-control-wrap {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+/* One dropdown arrow: Impreza theme adds a border-triangle on :after; we use SVG on the select */
+body.elementor-page-66853 #lp-form .wpcf7-form-control-wrap[data-name^="select"]:after {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+}
+
+body.elementor-page-66853 #lp-form select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23021212' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 2px center !important;
+  background-size: 12px 8px !important;
+  padding-right: 28px !important;
 }

@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Connect Group shared Astro site CMS — leads, GTM, uploads, SEO, redirects, posts handlers",
+  "description": "Connect Group shared Astro site CMS \u2014 leads, GTM, uploads, SEO, redirects, posts handlers",
   "exports": {
     ".": "./src/index.ts",
     "./astro/leads/index": "./src/astro/leads/index.ts",
@@ -49,6 +49,10 @@
     "node": ">=22.12.0"
   },
   "dependencies": {
+    "sanitize-html": "catalog:",
     "yaml": "catalog:"
+  },
+  "devDependencies": {
+    "@types/sanitize-html": "catalog:"
   }
 }

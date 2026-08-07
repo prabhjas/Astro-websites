@@ -6,7 +6,12 @@
 |----------|-----|-----|
 | **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** — develop → test → forms → security → git deploy templates → verify → **owner Caddy last** |
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **All 44 domains + ports + scaffolded vs placeholder** (share with developers) |
-| **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects — before/after cutover |
+| **WEBSITE_ID** | **[WEBSITE-ID-REGISTRY.md](WEBSITE-ID-REGISTRY.md)** | FLOW website picker IDs for `.env` / `.env.prod` (`WEBSITE_ID=`) |
+| **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
+| **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |
+| **Aaron full** | **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | **One doc for Aaron:** done vs don’t (CSP enforce / prerender / SRI / mirror sanitize), ops steps, verify |
+| **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short copy-paste runbook (CA, firewall, Caddy reload, secrets) |
+| **SEO / AI crawl** | **[SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md](SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md)** | **One SEO handoff:** PDF → 15 sites done (app) · Aaron CF leftover · gate for next 6 sites |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
@@ -40,6 +45,8 @@ Per-site docs live under each `Astro-production/<domain>/docs/` (including `CONN
 | Doc | Use |
 |-----|-----|
 | **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** | **Live Caddy + root systemd** — run at end of go-live. Includes Aaron one-liner for the nine-site batch. |
+| **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | Full Aug 2026 security handoff (done / don’t break Elementor / ops). |
+| **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short P0 ops checklist + copy-paste commands. |
 | **[OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md)** | Dynamic GTM/GA4 via `/runtime-gtm.js` + `.env` → FLOW override. Do **not** paste static tags into pages/posts. |
 
 Keep Caddy/root and GTM/GA4 ownership here — do not fold live `/etc/caddy` reloads into developer Phase 06.

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Connect Resources — Astro migration of connectresources.ae",
+  "description": "Connect Resources \u2014 Astro migration of connectresources.ae",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
@@ -17,6 +17,12 @@
     "extract": "node scripts/extract-wp.mjs",
     "refresh:bodies": "node scripts/refresh-bodies.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
+    "assets:offline": "node scripts/wp-offline-migrate.mjs",
+    "assets:parity": "node scripts/parity-fix.mjs",
+    "migrate:wp-assets": "node scripts/wp-self-contained-migration.mjs",
+    "migrate:wp-assets:dry": "node scripts/wp-self-contained-migration.mjs --dry-run",
+    "migrate:wp-assets:rewrite": "node scripts/wp-self-contained-migration.mjs --rewrite-only",
+    "migrate:fix-asset-refs": "node scripts/fix-broken-asset-refs.mjs",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
@@ -26,7 +32,7 @@
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "cheerio": "catalog:",
-    "nodemailer": "9.0.3",
+    "nodemailer": "catalog:",
     "sharp": "0.35.3",
     "tailwindcss": "catalog:",
     "yaml": "catalog:",
@@ -35,8 +41,8 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "24.13.3",
-    "@types/nodemailer": "8.0.1",
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.0.1",
     "playwright": "1.49.0",

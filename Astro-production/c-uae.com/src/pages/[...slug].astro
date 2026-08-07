@@ -1,4 +1,5 @@
 ---
+import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PostCard from "../components/PostCard.astro";
@@ -30,10 +31,10 @@ if (!page && !post) {
 
 const entry = page || post!;
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
-const html = injectCanonicalCf7Forms(rawHtml, {
+const html = sanitizeMirrorHtml(injectCanonicalCf7Forms(rawHtml, {
   path,
   variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
-});
+}));
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -62,6 +63,11 @@ const postCrumbs = post
     ]
   : [];
 
+/** Page-specific robots overrides (meta only; keep sitemap in sync via seo.robots). */
+const PAGE_ROBOTS: Record<string, { noindex?: boolean; nofollow?: boolean }> = {
+  "/business-setup-dubai/": { noindex: true, nofollow: true },
+};
+
 const seo = page
   ? {
       title: page.seo.title,
@@ -72,6 +78,7 @@ const seo = page
         ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
       ],
+      ...(PAGE_ROBOTS[path] || {}),
     }
   : {
       title: post!.seo.title || stripHtml(post!.title),
@@ -85,15 +92,18 @@ const seo = page
       schemas: [
         ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
-        articleSchema({
-          title: stripHtml(post!.title),
-          description: post!.seo.description || stripHtml(post!.excerpt),
-          url: path,
-          image: post!.featuredImage || post!.seo.ogImage,
-          datePublished: post!.date,
-          dateModified: post!.modified,
-          authorName: post!.authorName,
-        }),
+        articleSchema(
+          {
+            title: stripHtml(post!.title),
+            description: post!.seo.description || stripHtml(post!.excerpt),
+            url: path,
+            image: post!.featuredImage || post!.seo.ogImage,
+            datePublished: post!.date,
+            dateModified: post!.modified,
+            authorName: post!.authorName,
+          },
+          Astro.url.origin,
+        ),
       ],
     };
 

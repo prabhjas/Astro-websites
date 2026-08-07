@@ -1,0 +1,109 @@
+# Canonical interim redirects for kpmpro.ae
+# Cleaned 2026-08-05 — removed Royal Visa peer leftovers that 404'd on this brand.
+# Targets must exist in Rank Math page/post sitemap (or map to homepage).
+# FLOW owns day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  # Common aliases → real pages
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+
+  # Blog / insights aliases
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301
+  - from: /blogs/
+    to: /blog/
+    status: 301
+
+  # Authors directory alias
+  - from: /authors/
+    to: /author/
+    status: 301
+
+  # Orphan / WP defaults → homepage
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+
+  # Old page slugs (inventory *-old) → current pages
+  - from: /company-liquidation-in-dubai-old/
+    to: /company-liquidation/
+    status: 301
+  - from: /dependent-work-permit-residency-visa-cancellation-old/
+    to: /dependent-work-residency-visa-cancellation/
+    status: 301
+  - from: /memorandum-of-association-old/
+    to: /memorandum-of-association-amendment/
+    status: 301
+  - from: /rta-approval-old/
+    to: /rta-approval-and-permit/
+    status: 301
+  - from: /uae-attestation-services-old/
+    to: /uae-attestation/
+    status: 301
+
+  # Sensible service aliases
+  - from: /ded/
+    to: /ded-services/
+    status: 301
+  - from: /liquidation/
+    to: /company-liquidation/
+    status: 301
+  - from: /golden-visa/
+    to: /uae-golden-visa/
+    status: 301
+  - from: /visa-cancellation/
+    to: /uae-visa-cancellation/
+    status: 301
+  - from: /visit-visa/
+    to: /uae-visit-visa/
+    status: 301
+
+  # In-content legacy links (404 scan 2026-08-06) → real pages/posts
+  - from: /memorandum-of-association/
+    to: /memorandum-of-association-amendment/
+    status: 301
+  - from: /visit-visa-uae/
+    to: /uae-visit-visa/
+    status: 301
+  - from: /visa-services/employment-visa/
+    to: /work-residency-visa/
+    status: 301
+  - from: /pro-services-in-dubai/
+    to: /what-do-pro-services-in-dubai-mean/
+    status: 301
+  - from: /outsourcing-pro-services/
+    to: /
+    status: 301
+  - from: /pro-outsourcing-success/
+    to: /
+    status: 301

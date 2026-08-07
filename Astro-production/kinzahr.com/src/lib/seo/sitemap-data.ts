@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { getAllBlogPosts } from '../blog.ts';
 import { listAllPreparedPaths, loadInventory } from '../inventory.js';
 import {
+  EXCLUDED_PAGE_SLUGS,
   SITEMAP_ENTRY_LIMIT,
   type SitemapEntry,
 } from './sitemap-config.ts';
@@ -77,6 +78,7 @@ function collectFromInventory(
   for (const slug of pageSlugs) {
     if (slug !== '' && slug !== 'blog' && !prepared.has(slug)) continue;
     if (slug === '' && !prepared.has('')) continue;
+    if (slug && EXCLUDED_PAGE_SLUGS.has(slug)) continue;
     pages.push({
       url: absoluteUrl(siteOrigin, pathForSlug(slug)),
       lastmod: lastmodForSlug(slug === 'blog' ? 'blog' : slug),

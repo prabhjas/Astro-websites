@@ -1,0 +1,37 @@
+[
+  {
+    "from": "/blog/",
+    "to": "/insights/",
+    "status": 301
+  },
+  {
+    "from": "/blog",
+    "to": "/insights/",
+    "status": 301
+  },
+  {
+    "from": "/about/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/about-us/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/contact-us/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  }
+]

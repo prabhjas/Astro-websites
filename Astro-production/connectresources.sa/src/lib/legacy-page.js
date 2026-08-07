@@ -1,3 +1,4 @@
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 /**
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
@@ -7,6 +8,10 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
+
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://connectresources.sa')
+  .trim()
+  .replace(/\/$/, '');
 
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
@@ -18,8 +23,12 @@ export function serveLegacyPage(slug) {
     return notFoundResponse();
   }
 
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
+  let html = absolutizeMirrorSeoHtml(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), {
+    siteOrigin: SITE_ORIGIN,
+    path,
+  });
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -37,6 +46,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
