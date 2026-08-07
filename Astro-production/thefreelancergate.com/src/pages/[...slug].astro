@@ -23,6 +23,7 @@ import { enhancePostAuthorHtml } from "../lib/post-author";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 import { pathToLegacySlug, serveLegacyPage } from "../lib/legacy-page";
+import { sanitizeMirrorHtml } from "@connect/site-cms";
 
 export const prerender = false;
 
@@ -45,14 +46,17 @@ if (!page && !post) {
 
 const entry = page || post!;
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
-const html = enhancePostAuthorHtml(
-  fixCfEmails(
-    injectCanonicalCf7Forms(rawHtml, {
-      path,
-      variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
-    }),
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml(
+  enhancePostAuthorHtml(
+    fixCfEmails(
+      injectCanonicalCf7Forms(rawHtml, {
+        path,
+        variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
+      }),
+    ),
+    { authorName: post?.authorName },
   ),
-  { authorName: post?.authorName },
 );
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
