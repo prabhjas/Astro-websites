@@ -1,0 +1,212 @@
+[
+  {
+    "entity": "lead",
+    "name": "Source",
+    "key": "source",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Source reference ID",
+    "key": "source_reference_id",
+    "type": "int",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Source origin",
+    "key": "origin",
+    "type": "enum",
+    "opts": [
+      "ManuallyCreated:Manually created",
+      "Import:Import",
+      "API:API",
+      "Automation:Automation",
+      "Marketplace:Marketplace",
+      "Prospector:Prospector"
+    ]
+  },
+  {
+    "entity": "lead",
+    "name": "Source origin ID",
+    "key": "origin_id",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Source channel",
+    "key": "channel",
+    "type": "enum",
+    "opts": [
+      "4939:Prospector",
+      "4940:Lead Suggestions",
+      "4941:Web forms",
+      "4942:Chatbot",
+      "4943:Live chat",
+      "4944:Web visitors"
+    ]
+  },
+  {
+    "entity": "lead",
+    "name": "Source channel ID",
+    "key": "channel_id",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Message",
+    "key": "3a108ee6cdcaad880546876dd524bfa9aa686da7",
+    "type": "text",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Source",
+    "key": "296a2c3746355d2b33b7ff392bd038199eaf9665",
+    "type": "enum",
+    "opts": [
+      "370:Automation",
+      "168:Calendly",
+      "166:Email",
+      "203:Existing Client",
+      "171:External",
+      "258:From Partners"
+    ]
+  },
+  {
+    "entity": "lead",
+    "name": "Website",
+    "key": "af2182f3f2ee03a51c7dcfd898951a268787343c",
+    "type": "enum",
+    "opts": [
+      "175:C-UAE",
+      "331:Calendly",
+      "228:Company Formation Saudi",
+      "227:Connect Business Center",
+      "161:Connect Freelance",
+      "226:Connect FZ"
+    ]
+  },
+  {
+    "entity": "lead",
+    "name": "Nationality",
+    "key": "ef20fc32751f00f294ca3c35003b908ba0ad42a4",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "lead",
+    "name": "Company Name",
+    "key": "b311a9a442b96abcecc6fbd254b977287a54feac",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "person",
+    "name": "Email messages count",
+    "key": "email_messages_count",
+    "type": "int",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Email messages count",
+    "key": "email_messages_count",
+    "type": "int",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Source origin",
+    "key": "origin",
+    "type": "enum",
+    "opts": [
+      "ManuallyCreated:Manually created",
+      "Import:Import",
+      "API:API",
+      "Automation:Automation",
+      "Marketplace:Marketplace",
+      "Prospector:Prospector"
+    ]
+  },
+  {
+    "entity": "deal",
+    "name": "Source origin ID",
+    "key": "origin_id",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Source channel",
+    "key": "channel",
+    "type": "enum",
+    "opts": [
+      "4939:Prospector",
+      "4940:Lead Suggestions",
+      "4941:Web forms",
+      "4942:Chatbot",
+      "4943:Live chat",
+      "4944:Web visitors"
+    ]
+  },
+  {
+    "entity": "deal",
+    "name": "Source channel ID",
+    "key": "channel_id",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Message",
+    "key": "3a108ee6cdcaad880546876dd524bfa9aa686da7",
+    "type": "text",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Source",
+    "key": "296a2c3746355d2b33b7ff392bd038199eaf9665",
+    "type": "enum",
+    "opts": [
+      "370:Automation",
+      "168:Calendly",
+      "166:Email",
+      "203:Existing Client",
+      "171:External",
+      "258:From Partners"
+    ]
+  },
+  {
+    "entity": "deal",
+    "name": "Website",
+    "key": "af2182f3f2ee03a51c7dcfd898951a268787343c",
+    "type": "enum",
+    "opts": [
+      "175:C-UAE",
+      "331:Calendly",
+      "228:Company Formation Saudi",
+      "227:Connect Business Center",
+      "161:Connect Freelance",
+      "226:Connect FZ"
+    ]
+  },
+  {
+    "entity": "deal",
+    "name": "Nationality",
+    "key": "ef20fc32751f00f294ca3c35003b908ba0ad42a4",
+    "type": "varchar",
+    "opts": []
+  },
+  {
+    "entity": "deal",
+    "name": "Company Name",
+    "key": "b311a9a442b96abcecc6fbd254b977287a54feac",
+    "type": "varchar",
+    "opts": []
+  }
+]

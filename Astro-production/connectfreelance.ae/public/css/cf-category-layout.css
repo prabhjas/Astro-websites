@@ -1,0 +1,90 @@
+/**
+ * Connect Freelance — category archive layout (Elementor template 632).
+ * Live: 2-col grid, 900px container, #F7F7F7 section, gaps 35×30.
+ */
+
+/* Force 2 columns — Elementor archive_custom often sets --columns via JS */
+.elementor-632 .elementor-element-4d56765 {
+  --grid-row-gap: 35px;
+  --grid-column-gap: 30px;
+  --columns: 2;
+}
+
+.elementor-632 .elementor-element-4d56765 .ecs-posts.elementor-grid,
+.elementor-632 .elementor-element-4d56765 .elementor-posts-container {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--grid-row-gap) var(--grid-column-gap);
+  align-items: start;
+}
+
+@media (max-width: 767px) {
+  .elementor-632 .elementor-element-4d56765 {
+    --columns: 1;
+  }
+  .elementor-632 .elementor-element-4d56765 .ecs-posts.elementor-grid,
+  .elementor-632 .elementor-element-4d56765 .elementor-posts-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card wrap: keep Elementor row+wrap so date | Read More share a footer row */
+.elementor-632
+  .ecs-posts
+  .elementor-545
+  .elementor-element-11e3e38.elementor-column
+  > .elementor-widget-wrap {
+  width: 100%;
+}
+
+.elementor-632 .ecs-posts .elementor-element-d937dc0 {
+  width: 100%;
+}
+.elementor-632 .ecs-posts .elementor-element-d937dc0 img {
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+.elementor-632 .ecs-posts .elementor-element-fbe94b3 {
+  width: 100%;
+}
+
+/*
+ * Live category cards show “March 4, 2025 –” (date + separator).
+ * Keep author <li> for the :after separator; collapse author text.
+ */
+.elementor-632
+  .ecs-posts
+  .elementor-element-46364c0
+  .elementor-icon-list-item[itemprop='author']
+  .elementor-icon-list-text,
+.elementor-632
+  .ecs-posts
+  .elementor-element-46364c0
+  .elementor-icon-list-item[itemprop='author']
+  .elementor-icon-list-text
+  a {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  letter-spacing: 0 !important;
+}
+
+.elementor-632 .elementor-pagination,
+.astro-category-pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+.elementor-632 .elementor-pagination .page-numbers {
+  font-family: Lexend, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 30px;
+  text-decoration: none;
+  margin: 0 4px;
+  color: #1a1b1a;
+}
+.elementor-632 .elementor-pagination .page-numbers.current {
+  font-weight: 700;
+}
