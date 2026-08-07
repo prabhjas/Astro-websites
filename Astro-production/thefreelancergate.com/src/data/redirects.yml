@@ -1,0 +1,63 @@
+# Permanent redirects — SEO / migration
+# Synced from public/_redirects (same-host targets prefer relative paths).
+redirects:
+  - from: /all-about-freelance-visa-sharjah/
+    to: /freelance-visa-sharjah/
+    status: 301
+  - from: /all-about-freelance-visa-in-ras-al-khaimah/
+    to: /rakez-freelance-visa/
+    status: 301
+  - from: /all-about-freelance-visa-abu-dhabi/
+    to: /freelance-visa-abu-dhabi/
+    status: 301
+  - from: /guide-about-freelance-visa-in-ajman/
+    to: /freelance-visa-in-ajman/
+    status: 301
+  - from: /best-paid-freelance-jobs-in-uae/
+    to: /top-7-best-paid-freelance-jobs-in-the-uae/
+    status: 301
+  - from: /table_tags/freelance-visa-consultancy-firms-uae/
+    to: /
+    status: 301
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /table_tags/dubai-visa-for-freelancers/
+    to: /
+    status: 301
+  - from: /company-page/
+    to: /
+    status: 301
+  - from: /author/prabhjas/
+    to: /
+    status: 301
+  - from: /tag/freelance-visa-in-dubai/
+    to: /
+    status: 301
+  - from: /lorem-ipsum-dolor-sit-amet-consectetur-adipiscing-elit/
+    to: /
+    status: 301
+  - from: /find-freelance-visa-companies/
+    to: /
+    status: 301
+  - from: /ru/
+    to: /
+    status: 301
+  - from: /new-year-in-dubai/feed/
+    to: /
+    status: 301
+  - from: /freelance-license-in-dubai-guide/
+    to: /living-on-a-budget-in-dubai/
+    status: 301
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /about
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contact
+    to: /contact-us/
+    status: 301

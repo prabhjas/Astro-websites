@@ -1,0 +1,21 @@
+---
+import footerHtmlRaw from "../data/footer.html?raw";
+import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
+import { fixCfEmails } from "../lib/cf-email";
+
+const footerHtml = fixCfEmails(
+  injectCanonicalCf7Forms(footerHtmlRaw, {
+    path: "/",
+    variant: "footer",
+  }),
+);
+const alreadyFooter = /^\s*<footer\b/i.test(footerHtml);
+---
+
+{
+  alreadyFooter ? (
+    <Fragment set:html={footerHtml} />
+  ) : (
+    <footer class="sp-elementor-footer" set:html={footerHtml} />
+  )
+}

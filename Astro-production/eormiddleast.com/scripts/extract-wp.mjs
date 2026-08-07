@@ -277,11 +277,11 @@ function mapPage(p, wpType = "page") {
       : "",
     elementorCss: `/wp-content/uploads/elementor/css/post-${p.id}.css`,
     seo: {
-      ...s,
-      canonical: rewriteUrl(s.canonical),
-      ogImage: rewriteUrl(s.ogImage),
+        ...s,
+        canonical: rewriteUrl(s.canonical),
+        ogImage: rewriteUrl(s.ogImage),
     },
-  };
+      };
 }
 
 function mapPost(p) {
@@ -308,9 +308,9 @@ function mapPost(p) {
     status: "published",
     elementorCss: `/wp-content/uploads/elementor/css/post-${p.id}.css`,
     seo: {
-      ...s,
-      canonical: rewriteUrl(s.canonical),
-      ogImage: rewriteUrl(s.ogImage),
+        ...s,
+        canonical: rewriteUrl(s.canonical),
+        ogImage: rewriteUrl(s.ogImage),
     },
   };
 }
@@ -557,34 +557,34 @@ async function main() {
           if (!entry.content && bodies[pth]) entry.content = bodies[pth];
         }
         const titleMeta = html.match(/<title>([^<]*)<\/title>/i)?.[1] || "";
-        const desc =
-          html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] ||
-          html.match(/<meta\s+content=["']([^"']*)["']\s+name=["']description["']/i)?.[1] ||
-          "";
-        const canonical =
-          html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1] || "";
-        const ogImage =
-          html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/i)?.[1] || "";
+      const desc =
+        html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] ||
+        html.match(/<meta\s+content=["']([^"']*)["']\s+name=["']description["']/i)?.[1] ||
+        "";
+      const canonical =
+        html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']*)["']/i)?.[1] || "";
+      const ogImage =
+        html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']*)["']/i)?.[1] || "";
         const schemas = [
           ...html.matchAll(
             /<script type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
           ),
         ]
           .map((m) => {
-            try {
-              return JSON.parse(m[1]);
-            } catch {
-              return null;
-            }
+          try {
+            return JSON.parse(m[1]);
+          } catch {
+            return null;
+          }
           })
           .filter(Boolean);
-        seoMap[pth] = {
+      seoMap[pth] = {
           title: titleMeta.replace(/&amp;/g, "&").replace(/&#8211;/g, "–"),
-          description: desc,
-          canonical: rewriteUrl(canonical),
-          ogImage: rewriteUrl(ogImage),
-          schemas,
-        };
+        description: desc,
+        canonical: rewriteUrl(canonical),
+        ogImage: rewriteUrl(ogImage),
+        schemas,
+      };
         if (entry) entry.seo = { ...entry.seo, ...seoMap[pth] };
       } catch (e) {
         console.warn("body fail", pth, e.message);

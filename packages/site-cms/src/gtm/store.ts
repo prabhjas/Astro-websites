@@ -55,6 +55,8 @@ export async function writeGlobalGtmConfig(
 function normaliseGtmId(raw: string): string {
   const id = String(raw || '').trim().toUpperCase();
   if (!id) return '';
+  // Reject docs placeholders leaked from inline .env comments (GTM-AAAA / GTM-BBBB).
+  if (/^GTM-(AAAA|BBBB|XXXX|XXXXXXX)$/.test(id)) return '';
   if (/^GTM-[A-Z0-9]+$/.test(id)) return id;
   return '';
 }

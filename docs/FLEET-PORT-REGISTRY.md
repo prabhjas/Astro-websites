@@ -41,7 +41,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
-| **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
+| **5094** | connectfreelance.ae | `connectfreelance.ae` | scaffolded |
 | **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
@@ -50,15 +50,15 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
 | **5101** | connectzone.ae | `connectzone.ae` | placeholder |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
-| **5103** | emiratiguard.com | `emiratiguard.com` | placeholder |
+| **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded (local Phase; Caddy template) |
 | **5104** | movey.ae | `movey.ae` | placeholder |
-| **5105** | emiratisationgate.org | `emiratisationgate.org` | placeholder |
-| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | placeholder |
+| **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
+| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
-| **5109** | freelancerdxb.com | `freelancerdxb.com` | placeholder |
-| **5110** | payrollmiddleeast.org | `payrollmiddleeast.org` | placeholder |
-| **5111** | pittant.com | `pittant.com` | placeholder |
+| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5111** | pittant.com | `pittant.com` | scaffolded |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
 | **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
 | **5114** | companyformationsaudi.com | `companyformationsaudi.com` | placeholder |

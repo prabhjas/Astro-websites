@@ -1,0 +1,413 @@
+{
+  "slug": "homepage",
+  "generatedAt": "2026-08-06T10:06:38.941Z",
+  "origin": "https://emiratisationgateway.com",
+  "count": 101,
+  "note": "CSS/JS under public/ scanned for nested font URLs; Elementor escaped URLs rewritten",
+  "assets": [
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/FEATURE-IMAGE-Emiratization-Gateway.jpg",
+      "local": "/wp-content/uploads/2023/09/FEATURE-IMAGE-Emiratization-Gateway.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/10/logo-Emiratization-Gateway_normal.png",
+      "local": "/wp-content/uploads/2023/10/logo-Emiratization-Gateway_normal.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra/assets/css/minified/main.min.css",
+      "local": "/wp-content/themes/astra/assets/css/minified/main.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/cf7-redirects/library/css/style.css",
+      "local": "/wp-content/plugins/cf7-redirects/library/css/style.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/css/dnd-upload-cf7.css",
+      "local": "/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/css/dnd-upload-cf7.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/contact-form-7/includes/css/styles.css",
+      "local": "/wp-content/plugins/contact-form-7/includes/css/styles.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra/assets/css/minified/compatibility/contact-form-7-main.min.css",
+      "local": "/wp-content/themes/astra/assets/css/minified/compatibility/contact-form-7-main.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/frontend.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/frontend.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/css/post-5.css",
+      "local": "/wp-content/uploads/elementor/css/post-5.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-heading.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/conditionals/shapes.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/conditionals/shapes.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-accordion.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/css/post-264.css",
+      "local": "/wp-content/uploads/elementor/css/post-264.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra/style.css",
+      "local": "/wp-content/themes/astra/style.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra-child-theme/style.css",
+      "local": "/wp-content/themes/astra-child-theme/style.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+      "local": "/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/css/post-276.css",
+      "local": "/wp-content/uploads/elementor/css/post-276.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+      "local": "/wp-content/uploads/elementor/google-fonts/css/roboto.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+      "local": "/wp-content/uploads/elementor/google-fonts/css/robotoslab.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra/assets/js/minified/flexibility.min.js",
+      "local": "/wp-content/themes/astra/assets/js/minified/flexibility.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/jquery/jquery.min.js",
+      "local": "/wp-includes/js/jquery/jquery.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/jquery/jquery-migrate.min.js",
+      "local": "/wp-includes/js/jquery/jquery-migrate.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/cf7-redirects/library/js/script.js",
+      "local": "/wp-content/plugins/cf7-redirects/library/js/script.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/cf7-redirects/library/js/cf7rgk_script_ajax.js",
+      "local": "/wp-content/plugins/cf7-redirects/library/js/cf7rgk_script_ajax.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js",
+      "local": "/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/assets/js/ecs.js",
+      "local": "/wp-content/plugins/ele-custom-skin/assets/js/ecs.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-32x32.png",
+      "local": "/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-32x32.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-192x192.png",
+      "local": "/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-192x192.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-180x180.png",
+      "local": "/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-180x180.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-270x270.png",
+      "local": "/wp-content/uploads/2023/07/cropped-Favicon-Emiratization-Gateway-512px-270x270.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/10/logo-Emiratization-Gateway_normal-227x50.png",
+      "local": "/wp-content/uploads/2023/10/logo-Emiratization-Gateway_normal-227x50.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2026/02/empresario-mano-arabe-utilizando-telefono-movil-transformed-1-2-722x102-1.webp",
+      "local": "/wp-content/uploads/2026/02/empresario-mano-arabe-utilizando-telefono-movil-transformed-1-2-722x102-1.webp"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Abu-Dhabi-water-Economy-Authority.png",
+      "local": "/wp-content/uploads/2023/09/Abu-Dhabi-water-Economy-Authority.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/bosch.png",
+      "local": "/wp-content/uploads/2023/09/bosch.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/dubai-world-trade-centre.png",
+      "local": "/wp-content/uploads/2023/09/dubai-world-trade-centre.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/dubai.png",
+      "local": "/wp-content/uploads/2023/09/dubai.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/icici.png",
+      "local": "/wp-content/uploads/2023/09/icici.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/imile.png",
+      "local": "/wp-content/uploads/2023/09/imile.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/pyypl.png",
+      "local": "/wp-content/uploads/2023/09/pyypl.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/randstad.png",
+      "local": "/wp-content/uploads/2023/09/randstad.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/seidor.png",
+      "local": "/wp-content/uploads/2023/09/seidor.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Digital-Marketing-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Digital-Marketing-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/IT-Infrastructure-Cyber-Security-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/IT-Infrastructure-Cyber-Security-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Business-Intelligence-Big-Data-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Business-Intelligence-Big-Data-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Software-Engineering-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Software-Engineering-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/ERP-CRM-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/ERP-CRM-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Compliances-Financial-Crimes-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Compliances-Financial-Crimes-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Government-Support-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Government-Support-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Cultural-Understanding-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Cultural-Understanding-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Compliance-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Compliance-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Diverse-Perspectives-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Diverse-Perspectives-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Government-Relations-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Government-Relations-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/Long-Term-Partnerships-in-UAE.jpg",
+      "local": "/wp-content/uploads/2023/09/Long-Term-Partnerships-in-UAE.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2026/02/Emiratisation.webp",
+      "local": "/wp-content/uploads/2026/02/Emiratisation.webp"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2024/12/whatsapp-button.png",
+      "local": "/wp-content/uploads/2024/12/whatsapp-button.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/empresario-mano-arabe-utilizando-telefono-movil-transformed-1-722x1024.png",
+      "local": "/wp-content/uploads/2023/09/empresario-mano-arabe-utilizando-telefono-movil-transformed-1-722x1024.png"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/elementor/css/post-519.css",
+      "local": "/wp-content/uploads/elementor/css/post-519.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/themes/astra/assets/js/minified/frontend.min.js",
+      "local": "/wp-content/themes/astra/assets/js/minified/frontend.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/dist/hooks.min.js",
+      "local": "/wp-includes/js/dist/hooks.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/dist/i18n.min.js",
+      "local": "/wp-includes/js/dist/i18n.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/contact-form-7/includes/swv/js/index.js",
+      "local": "/wp-content/plugins/contact-form-7/includes/swv/js/index.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/contact-form-7/includes/js/index.js",
+      "local": "/wp-content/plugins/contact-form-7/includes/js/index.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/js/codedropz-uploader-min.js",
+      "local": "/wp-content/plugins/drag-and-drop-multiple-file-upload-contact-form-7/assets/js/codedropz-uploader-min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/make-section-column-clickable-elementor/assets/js/ra-clickable.js",
+      "local": "/wp-content/plugins/make-section-column-clickable-elementor/assets/js/ra-clickable.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js",
+      "local": "/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/jquery/ui/core.min.js",
+      "local": "/wp-includes/js/jquery/ui/core.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/",
+      "local": "/wp-content/plugins/elementor/assets/"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads",
+      "local": "/wp-content/uploads"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/uploads/2023/09/FEATURE-IMAGE-Emiratization-Gateway-1024x536.jpg",
+      "local": "/wp-content/uploads/2023/09/FEATURE-IMAGE-Emiratization-Gateway-1024x536.jpg"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js",
+      "local": "/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/assets/",
+      "local": "/wp-content/plugins/elementor-pro/assets/"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json",
+      "local": "/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/wp-emoji-release.min.js",
+      "local": "/wp-includes/js/wp-emoji-release.min.js"
+    },
+    {
+      "remote": "https://emiratisationgateway.com/wp-includes/js/wp-emoji-loader.min.js",
+      "local": "/wp-includes/js/wp-emoji-loader.min.js"
+    }
+  ]
+}

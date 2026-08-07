@@ -1,0 +1,27 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/about/  /about-us/  301
+/aboutus/  /about-us/  301
+/contact/  /contact-us/  301
+/contactus/  /contact-us/  301
+/get-in-touch/  /contact-us/  301
+/home/  /  301
+/home-new/  /  301
+/index.php  /  301
+/feed/  /  301
+/sample-page/  /  301
+/insights/  /blog/  301
+/services/  /emiratisation-services/  301
+/emiratisation/  /emiratisation-services/  301
+/recruitment/  /emiratisation-recruitment/  301
+/outsourcing/  /staff-outsourcing/  301
+/nafis/  /nafis-benefits/  301
+/careers/  /career-opportunities/  301
+/jobs/  /uae-national-jobs/  301
+/article-29-uae-labour-law-rights-responsibilities/  /article-29-uae-labour-law/  301
+/emiratisation-plan/  /emiratization-plan-comprehensive-guide/  301
+/emiratisation-recruitment-agency-in-uae/  /emiratisation-success-recruitment-agencies-dubai/  301
+/labour-law-voilation/  /emirati-labor-law/  301
+/manufacturing-in-uae/  /uae-manufacturing/  301
+/recruitment-agency-in-uae/  /emiratisation-success-recruitment-agencies-dubai/  301

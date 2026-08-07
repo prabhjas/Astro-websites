@@ -1,0 +1,38 @@
+{
+  "siteTitle": "Emirati Guard",
+  "summary": "Emirati Guard provides premium Emirati national security personnel for private, corporate, event, cash, and building security across the UAE.",
+  "details": "Services include executive protection, VIP and luxury retail security, close protection, hotel and corporate security, event security, and high-rise building security staffed by Emirati nationals.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Security",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Articles cover security services, Emirati guard staffing, and safety in the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Emirati Guard — top Emirati security services provider in the UAE."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Emirati Guard — Emirati national security specialists in the UAE."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Emirati Guard for security service enquiries and consultations."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Latest insights on security services and Emirati guard staffing in the UAE."
+    }
+  }
+}
