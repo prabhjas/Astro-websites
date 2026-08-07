@@ -280,6 +280,12 @@ body.elementor-page-4614 nav.rank-math-breadcrumb .last,
   color: #ffffff !important;
 }
 
+/* EOR Services ads landing — space below fixed header after breadcrumb/mini-header removal */
+.elementor-4614 .elementor-element.elementor-element-d9aabbe,
+.elementor-4838 .elementor-element.elementor-element-d9aabbe {
+  padding-top: 5rem !important;
+}
+
 /* Contact Us: no breadcrumb */
 body.elementor-page-241 nav.rank-math-breadcrumb,
 .elementor-241 nav.rank-math-breadcrumb,
