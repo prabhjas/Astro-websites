@@ -148,11 +148,11 @@
       "status": "scaffolded"
     },
     {
-      "id": "kpmpro",
-      "domain": "kpmpro.ae",
-      "dir": "kpmpro.ae",
+      "id": "connectresourcesint",
+      "domain": "connectresourcesint.com",
+      "dir": "connectresourcesint.com",
       "port": 5098,
-      "unit": "kpmpro",
+      "unit": "connectresourcesint",
       "status": "scaffolded"
     },
     {
@@ -355,6 +355,14 @@
       "port": 5123,
       "unit": "connectresources-info",
       "status": "placeholder"
+    },
+    {
+      "id": "kpmpro",
+      "domain": "kpmpro.ae",
+      "dir": "kpmpro.ae",
+      "port": 5124,
+      "unit": "kpmpro",
+      "status": "scaffolded"
     }
   ]
 }

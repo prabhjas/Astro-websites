@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { sanitizeGtmHtml } from '../security/sanitize-html.js';
 
 export type GlobalGtmConfig = {
   headScript: string;
@@ -13,15 +14,16 @@ function configPath(rootDir: string): string {
   return join(rootDir, 'gtm.json');
 }
 
-/** Strip WP Rocket / lazy-load wrappers so snippets run on Astro. */
+/** Strip WP Rocket / lazy-load wrappers + unsafe handlers (audit P0-5). */
 export function sanitiseGtmSnippet(html: string): string {
   if (!html) return '';
-  return html
-    .replace(/\stype\s*=\s*["']rocketlazyloadscript["']/gi, '')
-    .replace(/\stype\s*=\s*["']text\/rocketlazyloadscript["']/gi, '')
-    .replace(/\sdata-rocket-[a-z0-9_-]+\s*=\s*["'][^"']*["']/gi, '')
-    .replace(/\sdata-wpr-[a-z0-9_-]+\s*=\s*["'][^"']*["']/gi, '')
-    .trim();
+  return sanitizeGtmHtml(
+    html
+      .replace(/\stype\s*=\s*["']rocketlazyloadscript["']/gi, '')
+      .replace(/\stype\s*=\s*["']text\/rocketlazyloadscript["']/gi, '')
+      .replace(/\sdata-rocket-[a-z0-9_-]+\s*=\s*["'][^"']*["']/gi, '')
+      .replace(/\sdata-wpr-[a-z0-9_-]+\s*=\s*["'][^"']*["']/gi, ''),
+  );
 }
 
 export async function readGlobalGtmConfig(rootDir: string): Promise<GlobalGtmConfig | null> {

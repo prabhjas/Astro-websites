@@ -1,3 +1,4 @@
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 /**
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
@@ -12,30 +13,6 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
-/** Resolve migrated relative SEO URLs to the canonical production origin. */
-function absolutizeSeoUrls(html, slug = 'homepage') {
-  const fallbackPath = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
-  const absolute = (value) => {
-    try {
-      return new URL(value || fallbackPath, `${SITE_ORIGIN}/`).href;
-    } catch {
-      return `${SITE_ORIGIN}${fallbackPath}`;
-    }
-  };
-
-  let out = html
-    .replace(/(<link\s+rel="canonical"\s+href=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
-      `${before}${absolute(value)}${after}`,
-    )
-    .replace(/(<meta\s+property="og:url"\s+content=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
-      `${before}${absolute(value)}${after}`,
-    );
-  if (!/rel=["']canonical["']/i.test(out)) {
-    out = out.replace(/<\/head>/i, `<link rel="canonical" href="${absolute(fallbackPath)}" />\n</head>`);
-  }
-  return out;
-}
-
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
@@ -46,8 +23,12 @@ export function serveLegacyPage(slug) {
     return notFoundResponse();
   }
 
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
+  let html = absolutizeMirrorSeoHtml(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), {
+    siteOrigin: SITE_ORIGIN,
+    path,
+  });
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -57,6 +38,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

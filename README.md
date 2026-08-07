@@ -38,8 +38,10 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
 ├── docs/                                ← Cursor guides + playbooks
-│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle)
+│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle; includes security + SEO gates)
 │   ├── FLEET-PORT-REGISTRY.md           ← all domains + ports + status
+│   ├── SECURITY-AUDIT-REMEDIATION-2026-08-06.md / SECURITY-AARON-FULL-HANDOFF-2026-08-07.md
+│   ├── SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md
 │   ├── CONNECT-FLOW-SITE-ONBOARDING.md
 │   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
@@ -47,7 +49,7 @@ Astro-websites/                          ← git monorepo (this repo)
 ├── Astro-production/                    ← one folder per domain
 │   ├── evolutionmiddleast.com/          ← scaffolded (full CMS)
 │   ├── cbss.ae/                         ← scaffolded (leads)
-│   ├── …                                ← see FLEET-PORT-REGISTRY (44 domains)
+│   ├── …                                ← see FLEET-PORT-REGISTRY (45 domains)
 │   └── deploy-host/                     ← restic backup units
 ├── packages/
 │   └── site-cms/                        ← @connect/site-cms (shared CMS APIs)
@@ -82,7 +84,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 ## Production / fleet sites
 
 **Canonical port + status list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
-**44 domains** · ports **5080–5123** · next free **5124** · **10 scaffolded** / **34 placeholders**
+**45 domains** · ports **5080–5124** · next free **5125** · **21 scaffolded** / **24 placeholders**
 
 | Domain | Port | Unit | Status | CMS shape |
 |--------|------|------|--------|-----------|
@@ -93,9 +95,20 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 | connecthr.ae | **5084** | `connecthr` | scaffolded | Full |
 | connectgroup.co | **5085** | `connectgroup` | scaffolded | Full |
 | connectresources.ae | **5086** | `connectresources` | scaffolded | Full |
+| connectfm.ae | **5087** | `connectfm` | scaffolded | Full |
+| connectresources.sa | **5088** | `connectresources-sa` | scaffolded | Full |
+| iberiaeor.com | **5089** | `iberiaeor` | scaffolded | Full |
 | eormiddleast.com | **5090** | `eormiddleast` | scaffolded | Full |
 | connectstaff.ae | **5091** | `connectstaff` | scaffolded | Full |
 | c-uae.com | **5092** | `cuae` | scaffolded | Full |
+| kinzahr.com | **5093** | `kinzahr` | scaffolded | Full |
+| redo.ae | **5095** | `redo` | scaffolded | Full |
+| connectfz.com | **5096** | `connectfz` | scaffolded | Full |
+| royalvisa.ae | **5097** | `royalvisa` | scaffolded | Full |
+| connectresourcesint.com | **5098** | `connectresourcesint` | scaffolded | Full |
+| ngmanpower.com | **5102** | `ngmanpower` | scaffolded | Full |
+| peomiddleast.com | **5118** | `peomiddleeast` | scaffolded | Full |
+| kpmpro.ae | **5124** | `kpmpro` | scaffolded | Full |
 
 All other reserved domains (placeholders) are listed in the port registry.
 
