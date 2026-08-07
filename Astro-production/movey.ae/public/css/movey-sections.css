@@ -1,0 +1,54 @@
+/* Service-page FAQ + CTA rows — match Movey design mockups */
+.elementor-widget-accordion.bd_r .elementor-accordion,
+.elementor-widget-accordion.bd_r2 .elementor-accordion {
+  border: 0 !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-item,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e8e8e8 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-title,
+.elementor-widget-accordion.bd_r2 .elementor-tab-title {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 0.1rem !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  color: #111 !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-icon-closed,
+.elementor-widget-accordion.bd_r .elementor-accordion-icon-opened,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon-closed,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon-opened {
+  display: none !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-icon::before,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon::before {
+  content: '+';
+  color: #ff0173;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-title.elementor-active .elementor-accordion-icon::before,
+.elementor-widget-accordion.bd_r2 .elementor-tab-title.elementor-active .elementor-accordion-icon::before {
+  content: '−';
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-content,
+.elementor-widget-accordion.bd_r2 .elementor-tab-content {
+  border: 0 !important;
+  padding: 0 0.1rem 1rem !important;
+}

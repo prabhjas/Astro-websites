@@ -51,7 +51,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5101** | connectzone.ae | `connectzone.ae` | migrating |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
 | **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded (local Phase; Caddy template) |
-| **5104** | movey.ae | `movey.ae` | placeholder |
+| **5104** | movey.ae | `movey.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
 | **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
@@ -73,7 +73,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 | **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 45 sites · **31 scaffolded** · **14 placeholders** · next free **5125**
+**Totals:** 45 sites · **32 scaffolded** · **13 placeholders** · next free **5125**
 
 ---
 
@@ -104,6 +104,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5102 | ngmanpower.com | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
 | 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 | 5124 | kpmpro.ae | Scaffolded (port moved from 5098 after connectresourcesint went live on 5098) |
+| 5104 | movey.ae | Full CMS WP mirror (connecthr/kpmpro engine); Phases 01–10 local PASS on :5104; Caddy in git |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 

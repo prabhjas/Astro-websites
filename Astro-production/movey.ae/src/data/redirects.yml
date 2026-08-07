@@ -1,0 +1,67 @@
+# Canonical interim redirects for movey.ae
+# FLOW owns day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /insights
+    to: /blog/
+    status: 301
+  - from: /blogs/
+    to: /blog/
+    status: 301
+
+  - from: /authors/
+    to: /author/
+    status: 301
+
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+
+  # /booking/ is the multi-step quote wizard (Astro page) — do not redirect
+  - from: /moving-services-in-dubai/
+    to: /house-movers-in-dubai/
+    status: 301
+  - from: /moving/
+    to: /moving-companies/
+    status: 301
+
+  - from: /faq/
+    to: /movey-faqs/
+    status: 301
+  - from: /faqs/
+    to: /movey-faqs/
+    status: 301
+  - from: /moving-faq/
+    to: /movey-faqs/
+    status: 301
+  - from: /moving-faqs/
+    to: /movey-faqs/
+    status: 301
