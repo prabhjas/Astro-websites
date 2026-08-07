@@ -714,7 +714,7 @@ p.error-message {
     content:"";
     left:10;
     top:0;
-    background-image:url(https://connectzone.ae/wp-content/uploads/2024/01/Headline.png);
+    background-image:url(/wp-content/uploads/2024/01/Headline.png);
     background-repeat:no-repeat;
     background-size:auto;
     width:41px;
@@ -1885,4 +1885,34 @@ section#single_page_detail_content {
 .elementor-element-7ee6221 .elementor-heading-title,
 .elementor-element-42dfe9d .elementor-heading-title {
   color: #06031b !important;
+}
+
+/* Contact Us CF7 submit: Elementor hover used primary (#06031B) and could look blank on dark/white clash */
+.elementor-widget-contact-form-7 .wpcf7 input.wpcf7-submit,
+.page-id-19 .wpcf7 input.wpcf7-submit,
+.wpcf7 input.wpcf7-submit[value="Contact Us"] {
+  background-color: #2667ff !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  min-height: 48px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.elementor-widget-contact-form-7 .wpcf7 input.wpcf7-submit:hover,
+.elementor-widget-contact-form-7 .wpcf7 input.wpcf7-submit:focus,
+.elementor-widget-contact-form-7 .wpcf7 input.wpcf7-submit:active,
+.page-id-19 .wpcf7 input.wpcf7-submit:hover,
+.page-id-19 .wpcf7 input.wpcf7-submit:focus,
+.page-id-19 .wpcf7 input.wpcf7-submit:active,
+.wpcf7 input.wpcf7-submit[value="Contact Us"]:hover,
+.wpcf7 input.wpcf7-submit[value="Contact Us"]:focus,
+.wpcf7 input.wpcf7-submit[value="Contact Us"]:active {
+  background-color: #fea82f !important;
+  color: #06031b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }

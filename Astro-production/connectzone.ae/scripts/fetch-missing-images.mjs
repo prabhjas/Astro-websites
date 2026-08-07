@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = process.env.ASSET_ORIGIN || "https://connectzone.ae";
 const pages = JSON.parse(fs.readFileSync("src/data/pages.json", "utf8"));
 const urls = new Set();
 

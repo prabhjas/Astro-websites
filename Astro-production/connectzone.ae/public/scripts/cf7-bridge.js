@@ -131,9 +131,8 @@
       form.innerText ||
       ""
     ).toLowerCase();
-    if (/catalog|pricing|quote/.test(heading)) return "MBS Consultancy Catalog Form";
-    if (/rental|rent/.test(heading)) return "MBS Consultancy Rental Form";
-    return "MBS Consultancy Contact Form";
+    if (/catalog|pricing|quote|request a quote/.test(heading)) return "Connect Zone Quote Form";
+    return "Connect Zone Contact Form";
   }
 
   function sanitizeNameInput(el) {

@@ -180,7 +180,7 @@ div#categories {
     content: "";
     height: 20px;
     width: 20px;
-    background: url('https://connectzone.ae/wp-content/uploads/2023/07/dateicon.svg');
+    background: url('/wp-content/uploads/2023/07/dateicon.svg');
     left: 0;
     top: 0px;
     background-repeat: no-repeat;
@@ -203,7 +203,7 @@ div#categories {
     content: "";
     height: 20px;
     width: 20px;
-    background: url('https://connectzone.ae/wp-content/uploads/2023/07/dateicon.svg');
+    background: url('/wp-content/uploads/2023/07/dateicon.svg');
     left: 0;
     top: 0px;
     background-repeat: no-repeat;
@@ -220,7 +220,7 @@ div#categories {
     content: "";
     height: 20px;
     width: 20px;
-    background: url('https://connectzone.ae/wp-content/uploads/2023/07/caticon.svg');
+    background: url('/wp-content/uploads/2023/07/caticon.svg');
     left: 0;
 }
 
