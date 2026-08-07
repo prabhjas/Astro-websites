@@ -46,7 +46,7 @@ This doc tracks what we implemented in the repo versus what still needs owner/op
 - [x] Contact body size enforced while reading (`readRequestBodyLimited`) on all 15 live site `/api/contact` routes.
 - [ ] Edge distributed rate limits / Cloudflare — ops (see [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md)).
 - [x] Playwright → `1.62.1`; `@astrojs/check` → `0.9.10`; CI workflow `.github/workflows/security-audit.yml` (`pnpm audit`).
-- [x] Elementor / WP mirror HTML: light `sanitizeMirrorHtml` on slug pages + `legacy-page.js` — **only** `javascript:` URLs, `<base>`, meta refresh. Do **not** strip inline scripts / `on*` (broke Kinza mega-menu + Connect Group ScrollSequence; restored 2026-08-07). CMS posts still use strict `sanitizeCmsHtml`.
+- [x] Elementor / WP mirror HTML: `sanitizeMirrorHtml` is **hygiene only** (`javascript:` / `<base>` / meta refresh). Aggressive inline-script/`on*` stripping **reverted** (broke mega-menus, ScrollSequence, sliders). CMS posts still use strict `sanitizeCmsHtml`. Full Aaron brief: [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](./SECURITY-AARON-FULL-HANDOFF-2026-08-07.md).
 - [ ] Full WordPress JS cleanup + SRI on every legacy asset — **multi-week**; SRI cannot pin GTM. Prefer CSP reports + removing unused plugins per site.
 - [ ] Broad prerender migration — most public mirrors intentionally use `prerender = false` so cleaned HTML updates without rebuild. Moving to prerender requires a build-on-content-change workflow; tracked separately, not flipped in this batch.
 
