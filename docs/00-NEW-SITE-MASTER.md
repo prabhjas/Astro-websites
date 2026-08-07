@@ -269,6 +269,18 @@ Elementor kits often ship high-specificity globals such as `.elementor-kit-N a {
 
 **Reference:** `kinzahr.com/public/css/kinza-licence.css` (comment block above `.kz-licence__btn--primary`).
 
+### Elementor / WP mirror HTML — do not over-sanitize
+
+Full-page mirrors (`legacy-page.js` / `[...slug].astro`) are **trusted exports**, not CMS fields.
+
+| Do | Don’t |
+|----|--------|
+| `sanitizeCmsHtml` on FLOW/CMS **post bodies** | Strip inline `<script>` / `on*` from mirrors |
+| `sanitizeMirrorHtml` = hygiene only (`javascript:`, `<base>`, meta refresh) | Treat mirrors like untrusted CMS HTML |
+| Keep `elementorFrontendConfig`, Swiper init, ScrollSequence `ssqInput`, mega-menu jQuery | Enable CSP **enforce** or full SRI on go-live |
+
+Lesson (2026-08-07): aggressive mirror sanitization broke Kinza mega-menu, Connect Group ScrollSequence, and slider arrows. Tracked in [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md).
+
 **Next → Phase 06**
 
 ---
@@ -310,6 +322,8 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] Internal APIs reject missing/wrong bearer
 - [ ] Contact API rejects garbage / oversized payloads (peer behaviour)
 - [ ] CMS / post HTML sanitized (`sanitizeCmsHtml`); no SVG executable uploads
+- [ ] **Mirror pages:** use `sanitizeMirrorHtml` hygiene only (`javascript:` / `<base>` / meta refresh). **Never** strip inline `<script>` or `on*` on Elementor/WP mirrors — breaks mega-menus, sliders, ScrollSequence (see [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md) §2)
+- [ ] Do **not** enable CSP **enforce**, fleet-wide prerender, or full WP SRI on go-live — keep CSP Report-Only; those break GTM/Elementor
 - [ ] No PHP execution on origin (enhanced conversions = Node if needed)
 - [ ] `security.checkOrigin: true` + `allowedDomains` for intended hosts only
 - [ ] No secrets in client bundles / `PUBLIC_*` misuse

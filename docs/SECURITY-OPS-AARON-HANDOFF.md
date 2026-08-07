@@ -2,7 +2,7 @@
 
 Source: `Astro_Security_Audit_Report_2026-08-06.pdf`  
 Companion: [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](./SECURITY-AUDIT-REMEDIATION-2026-08-06.md)  
-App code: pushed on `work/astro-sites` (`b4ddbb45` — harden 15 live Astro sites).
+App code: pushed on `work/astro-sites`. **Full Aaron brief (done / don’t / verify):** [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](./SECURITY-AARON-FULL-HANDOFF-2026-08-07.md).
 
 These items need **server root / Cloudflare / git history rewrite**. Engineering prepared staging files + scripts; the table below is what “done” means and who can do it.
 

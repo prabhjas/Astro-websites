@@ -9,7 +9,8 @@
 | **WEBSITE_ID** | **[WEBSITE-ID-REGISTRY.md](WEBSITE-ID-REGISTRY.md)** | FLOW website picker IDs for `.env` / `.env.prod` (`WEBSITE_ID=`) |
 | **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
 | **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |
-| **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | What Aaron/root must do (CA, firewall, Caddy reload, secrets) vs what engineering can do |
+| **Aaron full** | **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | **One doc for Aaron:** done vs don’t (CSP enforce / prerender / SRI / mirror sanitize), ops steps, verify |
+| **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short copy-paste runbook (CA, firewall, Caddy reload, secrets) |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*
@@ -43,6 +44,8 @@ Per-site docs live under each `Astro-production/<domain>/docs/` (including `CONN
 | Doc | Use |
 |-----|-----|
 | **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** | **Live Caddy + root systemd** — run at end of go-live. Includes Aaron one-liner for the nine-site batch. |
+| **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | Full Aug 2026 security handoff (done / don’t break Elementor / ops). |
+| **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short P0 ops checklist + copy-paste commands. |
 | **[OPS-OWNER-DYNAMIC-GTM-GA4.md](OPS-OWNER-DYNAMIC-GTM-GA4.md)** | Dynamic GTM/GA4 via `/runtime-gtm.js` + `.env` → FLOW override. Do **not** paste static tags into pages/posts. |
 
 Keep Caddy/root and GTM/GA4 ownership here — do not fold live `/etc/caddy` reloads into developer Phase 06.

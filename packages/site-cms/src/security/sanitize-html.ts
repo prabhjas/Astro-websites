@@ -100,24 +100,22 @@ export function sanitizeCmsHtml(dirty: string): string {
 }
 
 /**
- * Light sanitizer for Elementor / WP mirror HTML (audit P0-5 / P1).
+ * Mirror HTML hygiene for Elementor / WP page exports (audit P0-5 / P1).
  *
- * Mirrors are trusted site exports — Elementor mega-menus, ScrollSequence,
- * `elementorFrontendConfig`, and similar widgets ship as **inline** <script>
- * (and sometimes on* handlers). Stripping those breaks the live UI.
+ * **Do not** strip inline `<script>`, `on*` handlers, or `<style>` here.
+ * Elementor mega-menus, Swiper/slider arrows, ScrollSequence (`ssqInput`),
+ * `elementorFrontendConfig`, and many widgets depend on those. Aggressive
+ * sanitization broke Kinza / Connect Group / sliders (2026-08-07) — reverted.
  *
- * Only neutralize document-level hijacks here. CMS/user HTML still goes through
- * the stricter {@link sanitizeCmsHtml}.
+ * Trusted mirrors ≠ CMS HTML. User/CMS bodies must use {@link sanitizeCmsHtml}.
+ * This helper only blocks document hijacks (`<base>`, meta refresh, `javascript:` URLs).
  */
 export function sanitizeMirrorHtml(dirty: string): string {
   let html = String(dirty || '');
   if (!html.trim()) return '';
 
-  // Neutralize javascript: URLs (not needed by Elementor widgets)
   html = html.replace(/(href|src|xlink:href)\s*=\s*(['"])\s*javascript:[^'"]*\2/gi, '$1=$2#$2');
-  // Remove <base> hijacks
   html = html.replace(/<base\b[^>]*>/gi, '');
-  // Remove meta refresh redirects
   html = html.replace(/<meta\b[^>]*http-equiv\s*=\s*['"]?refresh['"]?[^>]*>/gi, '');
 
   return html;
