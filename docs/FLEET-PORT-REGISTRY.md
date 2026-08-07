@@ -50,7 +50,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
 | **5101** | connectzone.ae | `connectzone.ae` | placeholder |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
-| **5103** | emiratiguard.com | `emiratiguard.com` | placeholder |
+| **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded (local Phase; Caddy template) |
 | **5104** | movey.ae | `movey.ae` | placeholder |
 | **5105** | emiratisationgate.org | `emiratisationgate.org` | placeholder |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | placeholder |
