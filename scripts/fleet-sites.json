@@ -153,7 +153,7 @@
       "dir": "kpmpro.ae",
       "port": 5098,
       "unit": "kpmpro",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "mbs-consultancy",
@@ -161,7 +161,7 @@
       "dir": "mbs-consultancy.com",
       "port": 5099,
       "unit": "mbs-consultancy",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "thefreelancergate",
@@ -169,7 +169,7 @@
       "dir": "thefreelancergate.com",
       "port": 5100,
       "unit": "thefreelancergate",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "connectzone",
@@ -177,7 +177,7 @@
       "dir": "connectzone.ae",
       "port": 5101,
       "unit": "connectzone",
-      "status": "placeholder"
+      "status": "migrating"
     },
     {
       "id": "ngmanpower",
@@ -185,7 +185,7 @@
       "dir": "ngmanpower.com",
       "port": 5102,
       "unit": "ngmanpower",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "emiratiguard",
@@ -193,7 +193,7 @@
       "dir": "emiratiguard.com",
       "port": 5103,
       "unit": "emiratiguard",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "movey",
@@ -241,15 +241,16 @@
       "dir": "freelancerdxb.com",
       "port": 5109,
       "unit": "freelancerdxb",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
-      "id": "payrollmiddleeast",
-      "domain": "payrollmiddleeast.org",
-      "dir": "payrollmiddleeast.org",
+      "id": "payrollmiddleast",
+      "domain": "payrollmiddleast.org",
+      "dir": "payrollmiddleast.org",
       "port": 5110,
-      "unit": "payrollmiddleeast",
-      "status": "placeholder"
+      "unit": "payrollmiddleast",
+      "canonicalHost": "www.payrollmiddleast.org",
+      "status": "scaffolded"
     },
     {
       "id": "pittant",
@@ -313,7 +314,7 @@
       "dir": "peomiddleast.com",
       "port": 5118,
       "unit": "peomiddleeast",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "interlibya",
