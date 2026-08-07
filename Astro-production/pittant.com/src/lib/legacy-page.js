@@ -2,18 +2,12 @@
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
  */
-import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
-
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 import { resolveSiteOrigin } from './seo/site-url.ts';
-
-const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://pittant.com')
-  .trim()
-  .replace(/\/$/, '');
 
 /**
  * prepare-page rewrites absolute origins to root-relative paths for assets.
@@ -70,7 +64,7 @@ export function serveLegacyPage(slug) {
 
   const raw = readFileSync(cleanedPath, 'utf-8');
   let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
-
+  html = absolutizeSeoUrls(html, slug);
 
   // Impreza blog pagination active/current styling (us-nav-style_6).
   if ((slug === 'blog' || slug.startsWith('blog/')) && !html.includes('data-pittant-blog-pagination-css')) {
@@ -113,11 +107,6 @@ export function serveLegacyPage(slug) {
       '/js/astro-mirror-fixes.js?v=20260805-qa9',
     );
   }
-
-  
-  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
-  html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
-  html = sanitizeMirrorHtml(html);
 
   return new Response(html, {
     headers: {
