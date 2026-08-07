@@ -8,6 +8,8 @@
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **All 44 domains + ports + scaffolded vs placeholder** (share with developers) |
 | **WEBSITE_ID** | **[WEBSITE-ID-REGISTRY.md](WEBSITE-ID-REGISTRY.md)** | FLOW website picker IDs for `.env` / `.env.prod` (`WEBSITE_ID=`) |
 | **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
+| **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |
+| **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | What Aaron/root must do (CA, firewall, Caddy reload, secrets) vs what engineering can do |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*

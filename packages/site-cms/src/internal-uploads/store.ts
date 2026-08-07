@@ -19,6 +19,47 @@ function sanitiseFilename(name: string): string {
   return basename(name).replace(/[^\w.-]+/g, '_') || 'upload.bin';
 }
 
+/** Reject SVG/polyglot and server-side executables (security audit P0-3 / P0-5). */
+const BLOCKED_EXTENSIONS = new Set([
+  '.svg',
+  '.svgz',
+  '.php',
+  '.phtml',
+  '.phar',
+  '.cgi',
+  '.pl',
+  '.py',
+  '.rb',
+  '.sh',
+  '.bash',
+  '.exe',
+  '.dll',
+  '.so',
+  '.jsp',
+  '.asp',
+  '.aspx',
+  '.htm',
+  '.html',
+  '.xhtml',
+  '.js',
+  '.mjs',
+  '.cjs',
+]);
+
+const BLOCKED_MIME_PREFIXES = ['image/svg', 'text/html', 'application/javascript', 'text/javascript'];
+
+export function assertUploadAllowed(file: File): void {
+  const originalName = sanitiseFilename(file.name || 'upload.bin');
+  const ext = extname(originalName).toLowerCase();
+  if (BLOCKED_EXTENSIONS.has(ext)) {
+    throw new Error(`Upload type not allowed: ${ext || '(none)'}`);
+  }
+  const mime = (file.type || '').trim().toLowerCase();
+  if (BLOCKED_MIME_PREFIXES.some((prefix) => mime.startsWith(prefix))) {
+    throw new Error(`Upload MIME type not allowed: ${mime || '(none)'}`);
+  }
+}
+
 export class InternalUploadStore {
   private readonly rootDir: string;
 
@@ -71,6 +112,7 @@ export class InternalUploadStore {
   }
 
   async save(file: File, uploadedBy: string): Promise<InternalUploadRecord> {
+    assertUploadAllowed(file);
     const originalName = sanitiseFilename(file.name || 'upload.bin');
     const id = crypto.randomUUID();
     const storedName = `${id}${extname(originalName) || '.bin'}`;

@@ -3,6 +3,7 @@ import { writeFileSync } from 'node:fs';
 import { getLeadEnv } from '../../context.js';
 import { requireInternalJobAuth, internalJson } from '../../auth/internal-job.js';
 import { getPostsAdapter, getTaxonomyAdapter } from '../../adapters.js';
+import { sanitizeCmsHtml } from '../../security/sanitize-html.js';
 
 export const prerender = false;
 
@@ -18,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
   const originalSlug = String(formData.get('originalSlug') || '').trim();
   const title = String(formData.get('title') || '').trim();
   const slug = String(formData.get('slug') || '').trim();
-  const contentHtml = String(formData.get('contentHtml') || '').trim();
+  const contentHtml = sanitizeCmsHtml(String(formData.get('contentHtml') || '').trim());
   const categoryName = String(formData.get('categoryName') || '').trim();
   const categorySlug = String(formData.get('categorySlug') || '').trim();
   const tagsCsv = String(formData.get('tagsCsv') || '').trim();

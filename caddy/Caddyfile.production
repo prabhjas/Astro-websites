@@ -110,14 +110,18 @@ evolutionmiddleast.com, www.evolutionmiddleast.com {
 
 	reverse_proxy 127.0.0.1:5080
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/evolutionmiddleast.com-access.log {
@@ -138,14 +142,18 @@ cbss.ae, www.cbss.ae {
 
 	reverse_proxy 127.0.0.1:5081
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/cbss.ae-access.log {
@@ -166,14 +174,18 @@ spheavyrental.ae, www.spheavyrental.ae {
 
 	reverse_proxy 127.0.0.1:5082
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/spheavyrental.ae-access.log {
@@ -194,14 +206,18 @@ iberiaworkforce.com, www.iberiaworkforce.com {
 
 	reverse_proxy 127.0.0.1:5083
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/iberiaworkforce.com-access.log {
@@ -222,14 +238,18 @@ connectgroup.co, www.connectgroup.co {
 
 	reverse_proxy 127.0.0.1:5085
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectgroup.co-access.log {
@@ -250,14 +270,18 @@ eormiddleast.com, www.eormiddleast.com {
 
 	reverse_proxy 127.0.0.1:5090
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/eormiddleast.com-access.log {
@@ -278,14 +302,18 @@ peomiddleast.com, www.peomiddleast.com {
 
 	reverse_proxy 127.0.0.1:5118
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/peomiddleast.com-access.log {
@@ -306,14 +334,18 @@ connectstaff.ae, www.connectstaff.ae {
 
 	reverse_proxy 127.0.0.1:5091
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectstaff.ae-access.log {
@@ -334,14 +366,18 @@ c-uae.com, www.c-uae.com {
 
 	reverse_proxy 127.0.0.1:5092
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/c-uae.com-access.log {
@@ -362,14 +398,18 @@ kinzahr.com, www.kinzahr.com {
 
 	reverse_proxy 127.0.0.1:5093
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/kinzahr.com-access.log {
@@ -390,14 +430,18 @@ connecthr.ae, www.connecthr.ae {
 
 	reverse_proxy 127.0.0.1:5084
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connecthr.ae-access.log {
@@ -418,14 +462,18 @@ connectfm.ae, www.connectfm.ae {
 
 	reverse_proxy 127.0.0.1:5087
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectfm.ae-access.log {
@@ -446,14 +494,18 @@ connectresources.sa, www.connectresources.sa {
 
 	reverse_proxy 127.0.0.1:5088
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectresources.sa-access.log {
@@ -474,14 +526,18 @@ iberiaeor.com, www.iberiaeor.com {
 
 	reverse_proxy 127.0.0.1:5089
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/iberiaeor.com-access.log {
@@ -502,14 +558,18 @@ connectfz.com, www.connectfz.com {
 
 	reverse_proxy 127.0.0.1:5096
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectfz.com-access.log {
@@ -530,14 +590,18 @@ royalvisa.ae, www.royalvisa.ae {
 
 	reverse_proxy 127.0.0.1:5097
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/royalvisa.ae-access.log {
@@ -558,14 +622,18 @@ connectresourcesint.com, www.connectresourcesint.com {
 
 	reverse_proxy 127.0.0.1:5098
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/connectresourcesint.com-access.log {
@@ -587,14 +655,18 @@ kpmpro.ae, www.kpmpro.ae {
 
 	reverse_proxy 127.0.0.1:5124
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/kpmpro.ae-access.log {
