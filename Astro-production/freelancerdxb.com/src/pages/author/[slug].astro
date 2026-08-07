@@ -1,0 +1,12 @@
+---
+import { getAuthorPageData, serveAuthorArchive } from '../../lib/authors.ts';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const data = getAuthorPageData(slug, 1);
+if (!data) {
+  return new Response('Not found', { status: 404 });
+}
+return serveAuthorArchive(data);
+---
