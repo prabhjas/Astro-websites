@@ -4,7 +4,7 @@ KPM Pro (https://kpmpro.ae/) — WordPress/Elementor → Astro SSR mirror.
 
 | | |
 |--|--|
-| Port | **5098** |
+| Port | **5124** |
 | Fleet id | `kpmpro` |
 | Package | `kpmpro-ae-astro` |
 | CMS | `@connect/site-cms` `FEATURES_FULL_CMS` |
@@ -15,7 +15,7 @@ KPM Pro (https://kpmpro.ae/) — WordPress/Elementor → Astro SSR mirror.
 ```bash
 # from monorepo root
 node scripts/fleet-local.mjs up kpmpro
-# → http://127.0.0.1:5098/
+# → http://127.0.0.1:5124/
 ```
 
 ## Content import

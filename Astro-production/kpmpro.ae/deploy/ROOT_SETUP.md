@@ -1,7 +1,7 @@
 # Root / ops setup — kpmpro.ae
 
 App tree: `/opt/Astro-production/kpmpro.ae`  
-Unit name: `kpmpro` · PORT **5098** · Unix user: **`site-kpmpro`**  
+Unit name: `kpmpro` · PORT **5124** · Unix user: **`site-kpmpro`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
 Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (`tls internal`, canonical www redirect, HSTS).
@@ -59,7 +59,7 @@ Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
 cd /opt/Astro-production   # fleet pnpm workspace root
 pnpm --filter kpmpro-ae-astro run build
 sudo site-ctl restart kpmpro
-curl -sS http://127.0.0.1:5098/api/health/
+curl -sS http://127.0.0.1:5124/api/health/
 ```
 
 Preserve on sync: `.env.prod`, `.data/`. Builds read non-secret `.env` only — webdev never needs Pipedrive from prod.

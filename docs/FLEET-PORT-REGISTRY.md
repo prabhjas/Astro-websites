@@ -5,12 +5,12 @@ Canonical list of domains, loopback ports, folders, and completion status.
 
 | | |
 |--|--|
-| **Updated** | 2026-08-04 |
+| **Updated** | 2026-08-07 |
 | **Machine registry** | `scripts/fleet-sites.json` (same ports / ids) |
 | **Site folders** | `Astro-production/<domain>/` |
 | **How to build a site** | [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) |
 | **Caddy / server** | [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) |
-| **Next free port** | **5124** |
+| **Next free port** | **5125** |
 
 ### Status meanings
 
@@ -45,7 +45,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
-| **5098** | kpmpro.ae | `kpmpro.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
+| **5098** | connectresourcesint.com | `connectresourcesint.com` | scaffolded · **live** on Astro host (`connectresourcesint.service`) |
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | placeholder |
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
 | **5101** | connectzone.ae | `connectzone.ae` | placeholder |
@@ -71,8 +71,9 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5121** | izi.ae | `izi.ae` | placeholder |
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
+| **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 44 sites · **20 scaffolded** · **24 placeholders** · next free **5124**
+**Totals:** 45 sites · **21 scaffolded** · **24 placeholders** · next free **5125**
 
 ---
 
@@ -99,9 +100,10 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
 | 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01–10 local PASS on :5095 |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
-| 5098 | kpmpro.ae | Scaffolded |
+| 5098 | connectresourcesint.com | Live on Astro host (`connectresourcesint.service` · PORT 5098); app tree on server — sync into git when ready |
 | 5102 | ngmanpower.com | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
 | 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
+| 5124 | kpmpro.ae | Scaffolded (port moved from 5098 after connectresourcesint went live on 5098) |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 
@@ -109,7 +111,7 @@ These already have an Astro app tree. Align new sites to the same standards (see
 
 ## Rules for developers
 
-1. **Never invent a port** — take **5124+** from this file, then update `scripts/fleet-sites.json` and this doc in the same PR.
+1. **Never invent a port** — take **5125+** from this file, then update `scripts/fleet-sites.json` and this doc in the same PR.
 2. **Never reuse** a port from the table above.
 3. New work starts in the reserved `Astro-production/<domain>/` folder (replace `.gitkeep` when scaffolding).
 4. Follow **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** end-to-end (scan → convert → CMS → forms → local smoke → Caddy templates → server).
