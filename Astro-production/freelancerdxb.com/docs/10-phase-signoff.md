@@ -45,6 +45,7 @@
 | 404 brand = Freelancer DXB logo only | PASS |
 | PHP in public | 0 |
 | No SMTP / FORM_NOTIFICATION required | PASS |
+| Pre-push QA (redirects, no WP leaks, local assets, forms) | PASS — see `docs/10-pre-push-qa.md` |
 
 ## Owner next
 
