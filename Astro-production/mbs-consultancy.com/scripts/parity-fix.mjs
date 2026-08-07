@@ -16,10 +16,29 @@ const UA =
 
 process.chdir(ROOT);
 
-const ABS = /https?:\/\/(?:www\.)?mbs-consultancy\.ae/gi;
+const ABS = /https?:\/\/(?:www\.)?mbs-consultancy\.(?:com|ae)/gi;
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
+}
+
+function isSoft404Buf(buf, dest = "") {
+  if (!buf || buf.length < 20) return true;
+  const ext = path.extname(dest).toLowerCase();
+  if ([".svg", ".css", ".js", ".html", ".json", ".map", ".txt", ".xml"].includes(ext)) return false;
+  const ctHead = buf.subarray(0, 200).toString("utf8");
+  return buf[0] === 0x3c && /<!DOCTYPE|<html\b|Page Not Found/i.test(ctHead);
+}
+
+function isSoft404File(dest) {
+  try {
+    if (!fs.existsSync(dest)) return true;
+    if (fs.statSync(dest).size < 40) return true;
+    const buf = fs.readFileSync(dest).subarray(0, 200);
+    return isSoft404Buf(buf, dest);
+  } catch {
+    return true;
+  }
 }
 
 async function download(relOrUrl, { force = false } = {}) {
@@ -41,7 +60,8 @@ async function download(relOrUrl, { force = false } = {}) {
   // Normalize double slashes in path (marquee plugin)
   rel = rel.replace(/\/{2,}/g, "/");
   const dest = path.join("public", rel.replace(/^\//, ""));
-  if (!force && fs.existsSync(dest) && fs.statSync(dest).size > 50) {
+  // Never treat HTML soft-404 stubs as cached; never overwrite a real local file with HTML
+  if (!force && fs.existsSync(dest) && fs.statSync(dest).size > 50 && !isSoft404File(dest)) {
     return { ok: true, cached: true, dest };
   }
   ensureDir(path.dirname(dest));
@@ -51,8 +71,12 @@ async function download(relOrUrl, { force = false } = {}) {
       redirect: "follow",
     });
     if (!res.ok) return { ok: false, status: res.status, rel };
+    const ct = res.headers.get("content-type") || "";
     const buf = Buffer.from(await res.arrayBuffer());
     if (buf.length < 20) return { ok: false, status: "tiny", rel };
+    if (ct.includes("text/html") || isSoft404Buf(buf, dest)) {
+      return { ok: false, status: "soft404-html", rel };
+    }
     fs.writeFileSync(dest, buf);
     return { ok: true, dest, bytes: buf.length };
   } catch (e) {
@@ -63,8 +87,8 @@ async function download(relOrUrl, { force = false } = {}) {
 function rewriteAbsolute(text) {
   return text
     .replace(ABS, "")
-    .replace(/url\(\s*\/\/mbs-consultancy\.ae/gi, "url(/")
-    .replace(/\/\/mbs-consultancy\.ae\//gi, "/");
+    .replace(/url\(\s*\/\/mbs-consultancy\.(?:com|ae)/gi, "url(/")
+    .replace(/\/\/mbs-consultancy\.(?:com|ae)\//gi, "/");
 }
 
 function collectRefs(text, into) {
@@ -180,7 +204,7 @@ async function main() {
   for (const file of walkCssFiles()) {
     let text = fs.readFileSync(file, "utf8");
     collectRefs(text, refs);
-    if (!ABS.test(text) && !/\/\/mbs-consultancy\.ae/i.test(text)) continue;
+    if (!ABS.test(text) && !/\/\/mbs-consultancy\.(?:com|ae)/i.test(text)) continue;
     const next = rewriteAbsolute(text);
     if (next !== text) {
       fs.writeFileSync(file, next);
@@ -241,7 +265,7 @@ async function main() {
   const missing = [];
   const list = [...refs].filter((u) => {
     if (!u || u.startsWith("data:") || u.startsWith("#") || u.startsWith("mailto:")) return false;
-    if (u.startsWith("http") && !/mbs-consultancy\.ae/i.test(u)) return false;
+    if (u.startsWith("http") && !/mbs-consultancy\.(?:com|ae)/i.test(u)) return false;
     const rel = u.startsWith("http") ? new URL(u).pathname : u;
     return (
       rel.startsWith("/wp-content") ||
@@ -258,7 +282,7 @@ async function main() {
       const u = queue.shift();
       const rel = u.startsWith("http") ? new URL(u).pathname : u.replace(/\/{2,}/g, "/");
       const dest = path.join("public", rel.replace(/^\//, ""));
-      if (fs.existsSync(dest) && fs.statSync(dest).size > 50) {
+      if (fs.existsSync(dest) && fs.statSync(dest).size > 50 && !isSoft404File(dest)) {
         cached++;
         continue;
       }
@@ -292,7 +316,7 @@ async function main() {
     let html = fs.readFileSync(liveHome, "utf8");
     html = rewriteAbsolute(html);
     const boots = extractInlineBoots(html).map((b) =>
-      b.replace(/https:\/\/mbs-consultancy\.ae/g, ""),
+      b.replace(/https:\/\/mbs-consultancy\.(?:com|ae)/g, ""),
     );
     ensureDir("public/scripts");
     const out = `/* Auto-generated Impreza / Smart Slider boot from live homepage */\n${boots.join(

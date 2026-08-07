@@ -17,6 +17,8 @@
     "extract": "node scripts/extract-wp.mjs",
     "refresh:bodies": "node scripts/refresh-bodies.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
+    "audit:assets": "node scripts/audit-and-fetch-assets.mjs",
+    "audit:assets:fix": "node scripts/audit-and-fetch-assets.mjs --fix --rewrite",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
