@@ -1,0 +1,56 @@
+---
+/**
+ * /blog/ — prefer full HTML mirror (src/legacy/blog.cleaned.html).
+ */
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPageByPath, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+import { injectCanonicalCf7Forms } from "../../lib/cf7-main-form";
+import { serveLegacyPage } from "../../lib/legacy-page";
+
+export const prerender = false;
+
+const mirror = join(process.cwd(), "src/legacy/blog.cleaned.html");
+if (existsSync(mirror)) {
+  return serveLegacyPage("blog");
+}
+
+const path = "/blog/";
+const page = getPageByPath(path);
+if (!page) {
+  return new Response("Not found", { status: 404 });
+}
+
+const rawHtml = page.bodyHtml || page.content || "";
+const html = injectCanonicalCf7Forms(rawHtml, { path, variant: "contact" });
+const robots =
+  typeof page.seo.robots === "string" && page.seo.robots.trim()
+    ? page.seo.robots.trim()
+    : undefined;
+---
+
+<BaseLayout
+  currentPath={path}
+  menuActivePath={path}
+  bodyClass={`page page-id-${page.id} wp-singular`}
+  fallback={page.seo}
+  extraCss={[...(page.pageCss || []), page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`].filter(Boolean)}
+  seo={{
+    title: page.seo.title || stripHtml(page.title),
+    description: page.seo.description,
+    canonical: path,
+    ogImage: page.seo.ogImage,
+    robots,
+    schemas: [
+      ...(page.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: path },
+      ]),
+    ],
+  }}
+>
+  <div class="sp-page-content" set:html={html} />
+</BaseLayout>
