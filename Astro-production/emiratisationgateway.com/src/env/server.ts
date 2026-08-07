@@ -131,10 +131,13 @@ function parseDashboardUsers(value: string | undefined) {
 
 let cached: ServerEnv | null = null;
 let dotEnvLoaded = false;
+/** Values from the site `.env` file — runtime source of truth over Vite bake-ins. */
+const fileEnv = new Map<string, string>();
 
 function loadDotEnvFile(): void {
   if (dotEnvLoaded || typeof process === 'undefined') return;
   dotEnvLoaded = true;
+  fileEnv.clear();
 
   const envPath = join(process.cwd(), '.env');
   if (!existsSync(envPath)) return;
@@ -153,20 +156,27 @@ function loadDotEnvFile(): void {
     ) {
       value = value.slice(1, -1);
     }
-    if (key && (process.env[key] === undefined || String(process.env[key]).trim() === '')) {
-      process.env[key] = value;
-    }
+    if (!key) continue;
+    // Always apply site `.env` so owner/token changes take effect without relying on
+    // empty process.env. Vite bakes PIPEDRIVE_* at build time into import.meta.env;
+    // without this override, stale owner IDs keep winning after .env edits.
+    fileEnv.set(key, value);
+    process.env[key] = value;
   }
 }
 
 function readEnv(name: string): string | undefined {
+  const fromFile = fileEnv.get(name);
+  const fileTrimmed = typeof fromFile === 'string' ? fromFile.trim() : '';
+  if (fileTrimmed) return fileTrimmed;
+
   const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined;
   const metaEnv =
     typeof import.meta !== 'undefined' && import.meta.env
       ? (import.meta.env as Record<string, string | undefined>)
       : undefined;
   const fromMeta = metaEnv?.[name];
-  // Prefer non-empty process env (runtime .env) over empty Vite bake-ins
+  // Prefer non-empty process env (runtime) over Vite bake-ins
   const processTrimmed = typeof fromProcess === 'string' ? fromProcess.trim() : '';
   if (processTrimmed) return processTrimmed;
   const metaTrimmed = typeof fromMeta === 'string' ? fromMeta.trim() : '';
@@ -273,4 +283,5 @@ export function getServerEnv(): ServerEnv {
 export function resetServerEnvCache(): void {
   cached = null;
   dotEnvLoaded = false;
+  fileEnv.clear();
 }
