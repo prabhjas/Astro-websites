@@ -11,6 +11,7 @@
 | **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |
 | **Aaron full** | **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | **One doc for Aaron:** done vs don’t (CSP enforce / prerender / SRI / mirror sanitize), ops steps, verify |
 | **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short copy-paste runbook (CA, firewall, Caddy reload, secrets) |
+| **SEO / AI crawl** | **[SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md](SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md)** | PDF audit → **15 live sites**: OG, schema IDs, llms, CBSS AI-bot CF verify |
 | 2 | Root [README.md](../README.md) | Architecture, install, CMS overview |
 
 Paste into Cursor: *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.*

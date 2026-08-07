@@ -129,13 +129,20 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 ## Phase 05 — Redirects & SEO (interim)
 
 **When:** Old URLs and SEO files must work before FLOW UI owns them.  
-**Detail:** [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md) · peer go-live handoff for sitemap/robots paths
+**Detail:** [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md) · peer go-live handoff for sitemap/robots paths  
+**Fleet SEO/AI crawler tracker:** [SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md](SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md) (PDF audit expanded to all 15 live sites)
 
 - [ ] Redirect CSV/JSON imported under `imports/redirects/` (or peer path)
 - [ ] Sample old URLs 301 to new targets locally
 - [ ] `/robots.txt`, sitemap(s), `/llms.txt` (+ `/llm.txt` alias) return 200 from Node
 - [ ] `PUBLIC_SITE_URL` in local `.env` = **`https://<canonical-host>`** (never `127.0.0.1` — Astro inlines `PUBLIC_*` at build time)
 - [ ] Absolute `<link rel="canonical">` on pages (not relative; matches live host)
+- [ ] Homepage: absolute `og:url` + **`og:image`** (+ Twitter card/image)
+- [ ] Mirror pages: `absolutizeMirrorSeoHtml` (`@connect/site-cms`) so Rank Math `@id` / `url` / images are absolute HTTPS
+- [ ] Do not invent sitemap `lastmod`; only emit when a real modified date exists
+- [ ] Multilingual: reciprocal page-level hreflang (Iberia Workforce is the reference)
+- [ ] Unknown routes → real **404** (never soft-404 homepage)
+- [ ] CF bot policy: if AI search visibility matters, verify SearchBot access (CBSS P0) — not UA string alone
 - [ ] **Trailing slash:** bare paths redirect to `…/` (see below)
 
 ### Trailing slash (fleet standard)
