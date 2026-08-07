@@ -14,7 +14,8 @@
 # Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
 # Connect HR 5084, Connect Group 5085, Connect FM 5087, Connect Resources SA 5088,
 # Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
-# Connect FZ 5096, Royal Visa 5097. (kpmpro 5098 git-only until cutover)
+# Connect FZ 5096, Royal Visa 5097, Connect Resources Int 5098 (live).
+# kpmpro moved to 5124 (git template until cutover).
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -42,7 +43,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.peomiddleast.com, http://www.kpmpro.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.peomiddleast.com, http://www.kpmpro.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -87,6 +88,9 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@royalvisa host www.royalvisa.ae
 	redir @royalvisa https://royalvisa.ae{uri} permanent
+
+	@connectresourcesint host connectresourcesint.com
+	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
 
 	@peomiddleast host www.peomiddleast.com
 	redir @peomiddleast https://peomiddleast.com{uri} permanent
@@ -544,7 +548,36 @@ royalvisa.ae, www.royalvisa.ae {
 	}
 }
 
-# kpmpro.ae -> kpmpro.service (PORT 5098) — git template only until owner cutover
+# connectresourcesint.com -> connectresourcesint.service (PORT 5098) — live on Astro host
+connectresourcesint.com, www.connectresourcesint.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host connectresourcesint.com
+	redir @noncanonical https://www.connectresourcesint.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5098
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectresourcesint.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# kpmpro.ae -> kpmpro.service (PORT 5124) — git template only until owner cutover
+# (5098 reassigned to live connectresourcesint.com)
 kpmpro.ae, www.kpmpro.ae {
 	tls internal
 	encode zstd gzip
@@ -552,7 +585,7 @@ kpmpro.ae, www.kpmpro.ae {
 	@noncanonical host www.kpmpro.ae
 	redir @noncanonical https://kpmpro.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5098
+	reverse_proxy 127.0.0.1:5124
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
 	header @static Cache-Control "public, max-age=31536000, immutable"
