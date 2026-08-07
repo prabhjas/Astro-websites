@@ -1,0 +1,240 @@
+/* Single-post Impreza chrome fixes — match live thefreelancergate.com */
+
+html,
+body.single-post {
+  font-family: "Kumbh Sans", sans-serif !important;
+}
+
+/* Logo size like live header */
+#page-header .w-image img,
+.l-header .w-image img {
+  max-height: 50px !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Sticky sidebar column */
+@media (min-width: 901px) {
+  .wpb_column.right-box-sticky,
+  .wpb_column.right-box-sticky > .vc_column-inner {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 70px !important;
+    align-self: flex-start !important;
+    z-index: 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .wpb_column.right-box-sticky,
+  .wpb_column.right-box-sticky > .vc_column-inner {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+/* Promotional blue card copy is white on live */
+.right-box-sticky .ult-content-box,
+.right-box-sticky .ult-content-box p,
+.right-box-sticky .ult-content-box .wpb_text_column,
+.right-box-sticky .us_custom_78ca98a2,
+.right-box-sticky .us_custom_c6fff370 {
+  color: #ffffff !important;
+}
+
+/* Yellow CTA in promo box */
+.right-box-sticky .ult-content-box .w-btn,
+.right-box-sticky .ult-content-box a.w-btn {
+  background: #ffb800 !important;
+  color: #17171a !important;
+  border: 0 !important;
+  border-radius: 5px !important;
+}
+
+/*
+ * Ultimative VC spacers set height via JS from data-height.
+ * Without that script the gap between the blue CTA and Get Started form collapses.
+ */
+.right-box-sticky .ult-spacer[data-height="25"] {
+  height: 25px !important;
+  min-height: 25px !important;
+}
+
+.right-box-sticky .ult-content-box {
+  margin-bottom: 0;
+}
+
+/* Sidebar form shell */
+.right-box-sticky .wpcf7.us_custom_b0a66268,
+.right-box-sticky .label_raj.wpcf7 {
+  border: 1px solid #dae7ff !important;
+  border-radius: 15px !important;
+  padding: 1em !important;
+  background: #fff !important;
+  display: block !important;
+}
+
+/* Inputs match live height/padding */
+body.single-post .label_raj input[type="text"],
+body.single-post .label_raj input[type="email"],
+body.single-post .label_raj input[type="tel"],
+body.single-post .label_raj input[type="number"],
+body.single-post .label_raj textarea,
+body.single-post .label_raj .intl-tel-input,
+body.single-post .label_raj .intl-tel-input input {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border: 1px solid #c0d1f0 !important;
+  border-radius: 5px !important;
+  background: transparent !important;
+  font-family: "Kumbh Sans", sans-serif !important;
+  font-size: 16px !important;
+  color: #333 !important;
+}
+
+body.single-post .label_raj input[type="text"],
+body.single-post .label_raj input[type="email"],
+body.single-post .label_raj input[type="tel"],
+body.single-post .label_raj input[type="number"],
+body.single-post .label_raj .intl-tel-input input {
+  min-height: 52px !important;
+  height: 52px !important;
+  padding: 0 14px !important;
+  line-height: 52px !important;
+}
+
+body.single-post .label_raj textarea {
+  min-height: 110px !important;
+  padding: 12px 14px !important;
+  line-height: 1.4 !important;
+}
+
+body.single-post .label_raj .intl-tel-input {
+  border: 0 !important;
+}
+
+body.single-post .label_raj .crea-flex-col > div {
+  margin-bottom: 0.65rem;
+}
+
+/* Submit button — solid blue like live */
+body.single-post .label_raj button.rajform,
+body.single-post .label_raj button.crea-vc-themebutton,
+body.single-post .label_raj .wpcf7-submit {
+  display: block !important;
+  width: 100% !important;
+  min-height: 47px !important;
+  padding: 12px 24px !important;
+  border-radius: 5px !important;
+  border: 1px solid #0057ff !important;
+  background: #0057ff !important;
+  color: #ffffff !important;
+  font-family: "Kumbh Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+body.single-post .label_raj button.rajform .crea-vc-btn-text {
+  color: #ffffff !important;
+}
+
+/* Content width under fixed header */
+body.single-post .sp-impreza-content > .l-canvas,
+body.single-post .l-canvas.type_wide {
+  padding-top: 0;
+}
+
+/*
+ * Impreza offsets the first section via:
+ *   .l-header.pos_fixed ~ .l-main > .l-section:first-of-type > .l-section-h
+ * Our BaseLayout wraps main in .sp-impreza-content, so that sibling selector never matches
+ * and content sits under the fixed header (looks cramped at the top).
+ */
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content .l-main > .l-section:first-of-type > .l-section-h,
+body.l-body .l-header.pos_fixed ~ .sp-impreza-content .l-main > .l-section:first-of-type > .l-section-h {
+  padding-top: var(--header-height, 80px);
+}
+
+/* Sticky columns should clear the fixed header too */
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content .l-main .type_sticky > .wpb_wrapper,
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content .l-main .type_sticky > .vc_column-inner,
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content .wpb_column.right-box-sticky > .vc_column-inner {
+  top: calc(var(--header-sticky-height, 60px) + 0.75rem) !important;
+}
+
+/* Desktop sidebar gutter — Impreza via_grid default is 3rem on live */
+@media (min-width: 901px) {
+  body.l-body .l-main > .l-section > .l-section-h > .g-cols.via_grid.cols_2-1,
+  body.single-post .l-main > .l-section > .l-section-h > .g-cols.via_grid.cols_2-1 {
+    grid-gap: 3rem;
+  }
+}
+
+body.single-post .l-header.pos_fixed ~ .sp-impreza-content .l-main,
+body.single-post .sp-impreza-content .l-main {
+  /* Impreza header offset restored above via section-h padding */
+}
+
+/* Post meta icons (calendar / author) — Font Awesome via post-design-options */
+body.single-post .w-post-elm.post_date i.fas,
+body.single-post .w-post-elm.post_author i.fas,
+body.l-body .w-post-elm.post_date i.fas,
+body.l-body .w-post-elm.post_date .fas {
+  display: inline-block;
+  margin-right: 0.4em;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Nav dropdown caret uses fontawesome (\f107) — ensure visible next to Services */
+.ush_menu_1.type_desktop .menu-item-has-children.level_1 > a > .w-nav-arrow {
+  display: inline-block;
+  margin-left: 0.35em;
+  font-family: fontawesome, "Defaults", sans-serif;
+  font-weight: 400;
+  line-height: inherit;
+}
+
+/* Footer column link color/spacing when design CSS loads */
+.l-footer .us_custom_e75cab70 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.l-footer .us_custom_e75cab70 a:hover {
+  color: #0ee4aa;
+}
+
+.l-footer .w-iconbox {
+  margin-bottom: 0.5rem;
+}
+
+/* CTA row: ensure background image area has min height like live */
+.l-main .us_custom_39722acd {
+  min-height: 220px;
+}
+
+/* Author avatar: keep circular crop; hide alt-text splat if image 404s */
+body.l-body .post-author-ava,
+body.single-post .post-author-ava {
+  width: 35px;
+  height: 35px;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0;
+  line-height: 0;
+  font-size: 0 !important;
+}
+
+body.l-body .post-author-ava img.avatar,
+body.single-post .post-author-ava img.avatar {
+  display: block;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+}
