@@ -1,4 +1,5 @@
 ---
+import { sanitizeCmsHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
 import {
@@ -24,7 +25,7 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const html = sanitizeCmsHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content) || "");
 
 const pageCrumbs = page
   ? (() => {
@@ -122,7 +123,7 @@ const pageBodyClass = page
     page ? (
       <Fragment set:html={html} />
     ) : postUsesElementor ? (
-      <Fragment set:html={post!.bodyHtml} />
+      <Fragment set:html={html} />
     ) : (
       <ConnectFzSinglePost post={post!} html={html} />
     )

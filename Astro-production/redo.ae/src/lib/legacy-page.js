@@ -2,11 +2,17 @@
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
  */
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
+
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
+
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://redo.ae')
+  .trim()
+  .replace(/\/$/, '');
 
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
@@ -47,6 +53,11 @@ export function serveLegacyPage(slug) {
       '/js/astro-mirror-fixes.js?v=20260805-popup-phone-v4',
     );
   }
+
+  
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
+  html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
+  html = sanitizeMirrorHtml(html);
 
   return new Response(html, {
     headers: {
