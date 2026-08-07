@@ -1,0 +1,66 @@
+---
+/**
+ * NG Manpower single-post layout — article content only.
+ * Title hero, featured image, author box, share buttons, and
+ * Contact Us Now sidebar are intentionally omitted.
+ */
+import { stripHtml, type PostEntry } from "../lib/content";
+
+interface Props {
+  post: PostEntry;
+  html: string;
+}
+
+const { post, html } = Astro.props;
+const title = stripHtml(post.title);
+---
+
+<div
+  data-elementor-type="single-post"
+  data-elementor-id="33241"
+  class={`elementor elementor-33241 elementor-location-single post-${post.id} post type-post status-publish format-standard hentry`}
+  data-elementor-post-type="elementor_library"
+>
+  <h1 class="screen-reader-text">{title}</h1>
+
+  <section
+    class="elementor-section elementor-top-section elementor-element elementor-element-a78ec33 custom-blog elementor-section-boxed elementor-section-height-default"
+    data-id="a78ec33"
+    data-element_type="section"
+  >
+    <div class="elementor-container elementor-column-gap-default">
+      <div
+        class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-9e3fa93"
+        data-id="9e3fa93"
+        data-element_type="column"
+      >
+        <div class="elementor-widget-wrap elementor-element-populated">
+          <section
+            class="elementor-section elementor-inner-section elementor-element elementor-element-a543e5d elementor-section-boxed"
+            data-id="a543e5d"
+            data-element_type="section"
+          >
+            <div class="elementor-container elementor-column-gap-default">
+              <div
+                class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-3be88b8"
+                data-id="3be88b8"
+                data-element_type="column"
+              >
+                <div class="elementor-widget-wrap elementor-element-populated">
+                  <div
+                    class="elementor-element elementor-element-9a52b64 elementor-widget elementor-widget-theme-post-content"
+                    data-id="9a52b64"
+                    data-element_type="widget"
+                    data-widget_type="theme-post-content.default"
+                  >
+                    <div class="elementor-widget-container" set:html={html} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

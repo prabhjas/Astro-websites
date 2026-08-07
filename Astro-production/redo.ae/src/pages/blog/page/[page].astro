@@ -1,0 +1,10 @@
+---
+/** Legacy /blog/page/N/ → /insights/page/N/ */
+export const prerender = false;
+
+const page = Astro.params.page;
+if (!page || page === '1') {
+  return Astro.redirect('/insights/', 301);
+}
+return Astro.redirect(`/insights/page/${page}/`, 301);
+---

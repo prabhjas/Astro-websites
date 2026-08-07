@@ -1,0 +1,26 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/about/  /about-us/  301
+/aboutus/  /about-us/  301
+/contact/  /contact-us/  301
+/contactus/  /contact-us/  301
+/get-in-touch/  /contact-us/  301
+/home/  /  301
+/home-new/  /  301
+/index.php  /  301
+/feed/  /  301
+/sample-page/  /  301
+/blog/  /insights/  301
+/blog  /insights/  301
+/apartment-renovation-dubai/  /apartment-renovation-ideas/  301
+/redo-interior-renovation/  /interior/  301
+/interior/  /interior-renovation-2/  301
+/interior-renovation-2/  /interior-renovation/  301
+/flooring-renewal-services-in-dubai-2/  /flooring-renewal-services-in-dubai/  301
+/kitchen/  /services/kitchen-renovation/  301
+/services/kitchen-renovation/  /kitchen-renovation-2/  301
+/kitchen-renovation-2/  /kitchen-renovation/  301
+/flooring/  /flooring-renewal-services-in-dubai-2/  301
+/home-renovation-dubai/  /home-renovation-services-dubai/  301
+/https-redo-ae-apartment-redesigning-trends-in-dubai/  /apartment-redesigning-trends-in-dubai/  301

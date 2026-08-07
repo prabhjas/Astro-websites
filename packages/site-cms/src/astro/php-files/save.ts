@@ -1,27 +1,22 @@
 import type { APIRoute } from 'astro';
-import { getLeadEnv } from '../../context.js';
 import { requireInternalJobAuth, internalJson } from '../../auth/internal-job.js';
-import { PhpFileStore } from '../../php-files/store.js';
 
 export const prerender = false;
 
+/**
+ * PHP save/edit is disabled (security audit P0-3).
+ * Offline conversions should use a Node route, not server-side PHP execution.
+ */
 export const POST: APIRoute = async ({ request }) => {
   const denied = requireInternalJobAuth(request);
   if (denied) return denied;
 
-  const formData = await request.formData();
-  const fileName = String(formData.get('fileName') || '');
-  const content = String(formData.get('content') || '');
-  if (!fileName) {
-    return internalJson({ success: false, message: 'Missing fileName' }, 400);
-  }
-
-  const updatedBy = String(formData.get('updatedBy') || 'internal-job');
-  const env = getLeadEnv();
-  const store = new PhpFileStore(
-    env.internalAdminDir,
-    env.internalEnhancedLiveDir || '.data/enhanced-live',
+  return internalJson(
+    {
+      success: false,
+      message:
+        'PHP file save is disabled. Use a Node-based enhanced conversion route instead of executable PHP on the origin.',
+    },
+    410,
   );
-  await store.saveEditedLiveFile(fileName, content, updatedBy);
-  return internalJson({ success: true, fileName });
 };

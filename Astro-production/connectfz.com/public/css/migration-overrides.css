@@ -249,6 +249,36 @@ body.single-post .sp-breadcrumbs span {
   text-align: center;
 }
 
+/* Single-post template 33241: keep content + sticky sidebar as a 70/30 grid */
+@media (min-width: 768px) {
+  .elementor-33241 > .elementor-element-a78ec33 > .elementor-container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .elementor-33241 .elementor-element-9e3fa93 {
+    width: 70% !important;
+  }
+
+  .elementor-33241 .elementor-element-70e4f8d {
+    width: 30% !important;
+  }
+
+  .elementor-33241 .elementor-element-4d94f40 {
+    width: 70% !important;
+  }
+
+  .elementor-33241 .elementor-element-e051f34 {
+    width: 30% !important;
+  }
+
+  .elementor-33241 .prt {
+    position: sticky;
+    top: 20px;
+  }
+}
+
 .cfz-related-posts .elementor-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -601,4 +631,33 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
   .cfz-insights-page .elementor-posts-container {
     grid-template-columns: 1fr;
   }
+}
+
+/* Authors index (/author/) — keep 4-up image-box grid */
+@media (min-width: 768px) {
+  .elementor-33101 .elementor-col-25 {
+    width: 25% !important;
+  }
+}
+
+.elementor-33101 .elementor-image-box-img img {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+.elementor-33101 .elementor-image-box-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Author archive cards */
+.elementor-33086 .filter-post .main-post a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.elementor-33086 .elementor-element-344f358 {
+  text-align: center;
 }

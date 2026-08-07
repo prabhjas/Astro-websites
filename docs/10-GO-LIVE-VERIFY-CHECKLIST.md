@@ -135,6 +135,7 @@ curl -sSI "http://127.0.0.1:<PORT>/<old-path>" | head -15
 
 - [ ] Sample old URL **301/308** to new target
 - [ ] Runtime + YAML redirect stores load without crashing pages
+- [ ] Redirect `to:` values prefer **relative** paths (`/insights/`) — absolute `https://<domain>/…` sends localhost traffic to production
 
 ---
 
@@ -146,6 +147,7 @@ curl -sSI "http://127.0.0.1:<PORT>/<old-path>" | head -15
 - [ ] Portable `node_modules` (not laptop symlinks-only) on server
 - [ ] `.env` = PUBLIC only; `.env.prod` = secrets mode **600/640**
 - [ ] Process listens `127.0.0.1:<PORT>` only
+- [ ] After rebuild or partial rsync of `dist/`, **restart** the Node process (stale SSR chunks → homepage 200 but inner pages hang / `ERR_MODULE_NOT_FOUND`)
 
 ### After owner root ([OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md))
 
@@ -162,6 +164,58 @@ curl -sSI "http://127.0.0.1:<PORT>/<old-path>" | head -15
 - [ ] No `_quarantine-html-masquerade/`, root `_crawl/`, or `*_identity-bak` in git
 - [ ] No secrets in tracked files
 - [ ] `.gitignore` covers `_crawl/` and quarantine paths
+- [ ] No SMTP / `FORM_NOTIFICATION_*` / `FORM_FROM_*` required for lead forms (file store + Pipedrive only)
+
+---
+
+## 9. 404 branding (site logo only)
+
+Forked templates often leave the peer’s 404 (e.g. S&P) behind. Verify **this** site’s name + logo.
+
+```bash
+curl -sS "http://127.0.0.1:<PORT>/___404-brand-check___/" | grep -oE '<title>[^<]+|alt="[^"]+"' | head -10
+# Logo file must exist under public/
+# ls public/<path-from-404.astro-img-src>
+```
+
+- [ ] `404.astro` title / description / `alt` use **this** brand (not a peer)
+- [ ] Logo `src` exists in `public/` and returns **200**
+- [ ] Secondary links match this site (`/insights/` vs `/blog/`, `/contact-us/` vs `/contact/`)
+- [ ] Unknown URL returns HTTP **404** (not 503 / `prepare:page`)
+
+---
+
+## 10. Content + media parity
+
+### Posts / pages vs live sitemap
+
+```bash
+# Count live post URLs vs local posts.json (adjust sitemap URL if needed)
+curl -sS "https://<canonical>/post-sitemap.xml" | grep -c '<loc>'
+# Compare: node/python check that every live <loc> path exists in src/data/posts.json (or pages.json)
+```
+
+- [ ] Live post (and page) sitemap paths exist in Astro content JSON
+- [ ] Redirects that target a slug also have that slug in content (no redirect → Astro 404)
+
+### Featured + size-variant images
+
+Insights cards often reference WordPress sizes (`-300x…`, `-768x…`, `-1024x…`), not only the full `featuredImage`.
+
+```bash
+# After downloading uploads into public/, sync into dist/client (or rebuild) so Node can serve them
+# Spot-check card images from /insights/ (or /blog/) HTML src + srcset → expect 200
+curl -sS "http://127.0.0.1:<PORT>/insights/" | grep -oE '/wp-content/uploads/[^" ]+' | sort -u | head
+```
+
+- [ ] `featuredImage` / `seo.ogImage` files present under `public/wp-content/uploads/`
+- [ ] Size variants used in listing HTML also present (or cards rewritten to full-size)
+- [ ] Served from running app (**200**), including via `dist/client` if that is what Node serves
+- [ ] Helper: peer `scripts/sync-missing-post-images.mjs` (download from live origin)
+
+### Elementor TOC (if posts use it)
+
+- [ ] TOC populates (not stuck on spinner). If Elementor Pro webpack chunks are incomplete, ship a small fallback (e.g. EOR `public/scripts/eor-elementor-toc.js`) or restore the missing Pro JS chunks
 
 ---
 
@@ -176,6 +230,9 @@ curl -sSI "http://127.0.0.1:<PORT>/<old-path>" | head -15
 | 5 Internal APIs | ☐ | ☐ | ☐ |
 | 6 Redirects | ☐ | ☐ | ☐ |
 | 7 Process / Caddy | ☐ | ☐ | ☐ |
+| 8 Cleanup / no SMTP | ☐ | ☐ | ☐ |
+| 9 404 branding | ☐ | ☐ | ☐ |
+| 10 Content + media | ☐ | ☐ | ☐ |
 
 **Domain:** _____________ **Date:** _____________ **By:** _____________
 

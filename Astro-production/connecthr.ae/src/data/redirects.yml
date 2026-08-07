@@ -8,6 +8,10 @@ redirects:
   - from: /index.php/
     to: /
     status: 301
+  # Live WP alias → canonical contact page
+  - from: /contact-us/
+    to: /contact/
+    status: 301
   # Rank Math — verified against live connecthr.ae (2026-08-04)
   - from: /tips-to-find-the-best-hrms-software-in-uae/
     to: /best-hrms-software-in-dubai-2026-compare-uae-compliance-features-pricing/
@@ -17,4 +21,128 @@ redirects:
     status: 301
   - from: /what-is-human-resource-management-system/
     to: /what-is-human-resource-management-system-hrms/
+    status: 301
+  # Broken nav + legacy blog links (2026-08-06) — visa slug → live page; others → home
+  - from: /visa-management/
+    to: /visa-management-process/
+    status: 301
+  - from: /ar/visa-management/
+    to: /
+    status: 301
+  - from: /hr-management/
+    to: /
+    status: 301
+  - from: /employee-benefits/
+    to: /
+    status: 301
+  - from: /gratuity-calculation/
+    to: /
+    status: 301
+  - from: /hr-challenges-during-the-covid-19-outbreak/
+    to: /
+    status: 301
+  - from: /blog/
+    to: /
+    status: 301
+  - from: /insurance-companies/
+    to: /
+    status: 301
+  - from: /industries/
+    to: /
+    status: 301
+  - from: /salary-slip/
+    to: /
+    status: 301
+  - from: /individual-health-insurance-uae/
+    to: /
+    status: 301
+  - from: /how-agile-hr-solutions-can-contribute-to-developing-an-effective-workplace/
+    to: /
+    status: 301
+  - from: /legal/
+    to: /
+    status: 301
+  - from: /termination-letter/
+    to: /
+    status: 301
+  - from: /support-hub/
+    to: /
+    status: 301
+  - from: /public-holidays-in-uae/
+    to: /
+    status: 301
+  - from: /partners-program/
+    to: /
+    status: 301
+  - from: /leave-encashment/
+    to: /
+    status: 301
+  - from: /how-is-the-hr-role-changing-as-a-result-of-flexible-working-patterns/
+    to: /
+    status: 301
+  - from: /abu-dhabi-national-insurance/
+    to: /
+    status: 301
+  - from: /allianz-insurance/
+    to: /
+    status: 301
+  - from: /axa-insurance/
+    to: /
+    status: 301
+  - from: /cigna-insurance/
+    to: /
+    status: 301
+  - from: /corporate-health-insurance-uae/
+    to: /
+    status: 301
+  - from: /corporate-insurance/
+    to: /
+    status: 301
+  - from: /dubai-national-insurance-reinsurance-company/
+    to: /
+    status: 301
+  - from: /employee-insurance/
+    to: /
+    status: 301
+  - from: /how-can-hr-software-support-positive-employee-attitude/
+    to: /
+    status: 301
+  - from: /hr-payroll-software-in-uae/
+    to: /
+    status: 301
+  - from: /individual-insurance/
+    to: /
+    status: 301
+  - from: /individual-life-insurance/
+    to: /
+    status: 301
+  - from: /law/
+    to: /
+    status: 301
+  - from: /morgan-price-health-insurance/
+    to: /
+    status: 301
+  - from: /offer-letter/
+    to: /
+    status: 301
+  - from: /oman-insurance/
+    to: /
+    status: 301
+  - from: /payroll-software-in-dubai/
+    to: /
+    status: 301
+  - from: /personal-accident-insurance/
+    to: /
+    status: 301
+  - from: /software-review/
+    to: /
+    status: 301
+  - from: /takaful-emarat-insurance/
+    to: /
+    status: 301
+  - from: /visa-cost-on-employees/
+    to: /
+    status: 301
+  - from: /visa-quota/
+    to: /
     status: 301

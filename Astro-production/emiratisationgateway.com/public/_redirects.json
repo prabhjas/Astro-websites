@@ -1,0 +1,122 @@
+[
+  {
+    "from": "/about/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/aboutus/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/contact/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/contactus/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/get-in-touch/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/home-new/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/feed/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/sample-page/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/insights/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/services/",
+    "to": "/emiratisation-services/",
+    "status": 301
+  },
+  {
+    "from": "/emiratisation/",
+    "to": "/emiratisation-services/",
+    "status": 301
+  },
+  {
+    "from": "/recruitment/",
+    "to": "/emiratisation-recruitment/",
+    "status": 301
+  },
+  {
+    "from": "/outsourcing/",
+    "to": "/staff-outsourcing/",
+    "status": 301
+  },
+  {
+    "from": "/nafis/",
+    "to": "/nafis-benefits/",
+    "status": 301
+  },
+  {
+    "from": "/careers/",
+    "to": "/career-opportunities/",
+    "status": 301
+  },
+  {
+    "from": "/jobs/",
+    "to": "/uae-national-jobs/",
+    "status": 301
+  },
+  {
+    "from": "/article-29-uae-labour-law-rights-responsibilities/",
+    "to": "/article-29-uae-labour-law/",
+    "status": 301
+  },
+  {
+    "from": "/emiratisation-plan/",
+    "to": "/emiratization-plan-comprehensive-guide/",
+    "status": 301
+  },
+  {
+    "from": "/emiratisation-recruitment-agency-in-uae/",
+    "to": "/emiratisation-success-recruitment-agencies-dubai/",
+    "status": 301
+  },
+  {
+    "from": "/labour-law-voilation/",
+    "to": "/emirati-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/manufacturing-in-uae/",
+    "to": "/uae-manufacturing/",
+    "status": 301
+  },
+  {
+    "from": "/recruitment-agency-in-uae/",
+    "to": "/emiratisation-success-recruitment-agencies-dubai/",
+    "status": 301
+  }
+]

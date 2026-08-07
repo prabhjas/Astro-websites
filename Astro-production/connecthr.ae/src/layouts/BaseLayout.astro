@@ -24,6 +24,8 @@ interface Props {
   bodyClass?: string;
   /** WPML language — drives <html lang/dir> and EN vs AR header/footer */
   lang?: "en" | "ar";
+  /** Page owns <main> (Hello Elementor author archive layout). */
+  rawMain?: boolean;
 }
 
 const {
@@ -34,6 +36,7 @@ const {
   menuActivePath,
   bodyClass = "",
   lang = currentPath.startsWith("/ar/") || currentPath === "/ar" ? "ar" : "en",
+  rawMain = false,
 } = Astro.props;
 
 const isRtl = lang === "ar";
@@ -114,11 +117,17 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
     <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} lang={lang} />
-    <main id="content" class="site-main">
-      <div class="page-content">
+    {
+      rawMain ? (
         <slot />
-      </div>
-    </main>
+      ) : (
+        <main id="content" class="site-main">
+          <div class="page-content">
+            <slot />
+          </div>
+        </main>
+      )
+    }
     <ElementorFooter lang={lang} />
     <LicenceStrip />
     <ElementorPopups />

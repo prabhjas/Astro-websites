@@ -1,0 +1,47 @@
+/**
+ * Fleet mirror CSS fixes for payrollmiddleast.org (Elementor + Astra).
+ * Loaded on every prepared page via legacy-page / shared-chrome.
+ */
+
+/* Country grid (/country/): Elementor image-box sets .elementor-image-box-img
+   to width:100%, which left-aligns the flag <img> inside the card. */
+.elementor-widget-image-box.elementor-position-top .elementor-image-box-wrapper {
+  text-align: center;
+}
+
+.elementor-widget-image-box.elementor-position-top .elementor-image-box-img {
+  width: auto !important;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block;
+}
+
+.elementor-widget-image-box.elementor-position-top .elementor-image-box-img a,
+.elementor-widget-image-box.elementor-position-top .elementor-image-box-img img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Astra footer export includes margin-bottom:38% on the below-footer row,
+   which leaves a large white gap under the copyright bar (esp. mobile). */
+.site-below-footer-wrap[data-section="section-below-footer-builder"],
+.site-below-footer-wrap[data-section=section-below-footer-builder] {
+  margin-bottom: 0 !important;
+}
+
+/* Image carousel: keep logos sized/spaced like live when Swiper lazy is stubbed. */
+.elementor-widget-image-carousel .swiper-slide-inner img.swiper-slide-image {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}
+
+.elementor-widget-image-carousel .swiper-lazy-preloader {
+  display: none;
+}

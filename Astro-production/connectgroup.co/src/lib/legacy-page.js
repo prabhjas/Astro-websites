@@ -1,3 +1,4 @@
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 /**
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage (Home).
@@ -13,24 +14,8 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
-/** Resolve migrated relative SEO URLs to the canonical production origin. */
-function absolutizeSeoUrls(html) {
-  const absolute = (value) => {
-    try {
-      return new URL(value, `${SITE_ORIGIN}/`).href;
-    } catch {
-      return value;
-    }
-  };
-
-  return html
-    .replace(/(<link\s+rel="canonical"\s+href=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
-      `${before}${absolute(value)}${after}`,
-    )
-    .replace(/(<meta\s+property="og:url"\s+content=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
-      `${before}${absolute(value)}${after}`,
-    );
-}
+/** Rank Math ImageObject used on homepage — audit gap: missing og:image meta. */
+const DEFAULT_OG_IMAGE = '/wp-content/uploads/2025/09/Frame.png';
 
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
@@ -61,9 +46,15 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  const path = !slug || slug === 'homepage' || slug === 'Home' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = readFileSync(cleanedPath, 'utf-8');
-  const html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)));
-
+  const html = sanitizeMirrorHtml(
+    absolutizeMirrorSeoHtml(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), {
+      siteOrigin: SITE_ORIGIN,
+      path,
+      defaultOgImage: slug === 'homepage' || slug === 'Home' ? DEFAULT_OG_IMAGE : undefined,
+    }),
+  );
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

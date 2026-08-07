@@ -5,12 +5,12 @@ Canonical list of domains, loopback ports, folders, and completion status.
 
 | | |
 |--|--|
-| **Updated** | 2026-08-04 |
+| **Updated** | 2026-08-07 |
 | **Machine registry** | `scripts/fleet-sites.json` (same ports / ids) |
 | **Site folders** | `Astro-production/<domain>/` |
 | **How to build a site** | [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) |
 | **Caddy / server** | [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) |
-| **Next free port** | **5124** |
+| **Next free port** | **5125** |
 
 ### Status meanings
 
@@ -41,38 +41,39 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5091** | connectstaff.ae | `connectstaff.ae` | scaffolded |
 | **5092** | c-uae.com | `c-uae.com` | scaffolded |
 | **5093** | kinzahr.com | `kinzahr.com` | scaffolded |
-| **5094** | connectfreelance.ae | `connectfreelance.ae` | placeholder |
-| **5095** | redo.ae | `redo.ae` | placeholder |
+| **5094** | connectfreelance.ae | `connectfreelance.ae` | scaffolded |
+| **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
-| **5098** | kpmpro.ae | `kpmpro.ae` | placeholder |
-| **5099** | mbs-consultancy.com | `mbs-consultancy.com` | placeholder |
-| **5100** | thefreelancergate.com | `thefreelancergate.com` | placeholder |
-| **5101** | connectzone.ae | `connectzone.ae` | placeholder |
-| **5102** | ngmanpower.com | `ngmanpower.com` | placeholder |
-| **5103** | emiratiguard.com | `emiratiguard.com` | placeholder |
+| **5098** | connectresourcesint.com | `connectresourcesint.com` | placeholder|
+| **5099** | mbs-consultancy.com | `mbs-consultancy.com` | scaffolded |
+| **5100** | thefreelancergate.com | `thefreelancergate.com` | scaffolded |
+| **5101** | connectzone.ae | `connectzone.ae` | scaffolded |
+| **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
+| **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded |
 | **5104** | movey.ae | `movey.ae` | placeholder |
-| **5105** | emiratisationgate.org | `emiratisationgate.org` | placeholder |
-| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | placeholder |
+| **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
+| **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
-| **5109** | freelancerdxb.com | `freelancerdxb.com` | placeholder |
-| **5110** | payrollmiddleeast.org | `payrollmiddleeast.org` | placeholder |
-| **5111** | pittant.com | `pittant.com` | placeholder |
+| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded |
+| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded |
+| **5111** | pittant.com | `pittant.com` | scaffolded |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
 | **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
 | **5114** | companyformationsaudi.com | `companyformationsaudi.com` | placeholder |
 | **5115** | saudicompanyformation.com | `saudicompanyformation.com` | placeholder |
 | **5116** | connectbusinesscenter.com | `connectbusinesscenter.com` | placeholder |
 | **5117** | theuaegate.com | `theuaegate.com` | placeholder |
-| **5118** | peomiddleast.com | `peomiddleast.com` | placeholder |
+| **5118** | peomiddleast.com | `peomiddleast.com` | scaffolded |
 | **5119** | interlibya.com | `interlibya.com` | placeholder |
 | **5120** | alburaq.ae | `alburaq.ae` | placeholder |
 | **5121** | izi.ae | `izi.ae` | placeholder |
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
+| **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 44 sites · **15 scaffolded** · **29 placeholders** · next free **5124**
+**Totals:** 45 sites · **30 scaffolded** · **15 placeholders** · next free **5125**
 
 ---
 
@@ -97,15 +98,20 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5092 | c-uae.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5093 | kinzahr.com | Scaffolded · in `Caddyfile.production` (server cutover pending) |
 | 5096 | connectfz.com | Scaffolded · deploy templates ready (not in live Caddy yet) |
+| 5095 | redo.ae | Full CMS WP HTML-mirror (royalvisa peer); Phases 01–10 local PASS on :5095 |
 | 5097 | royalvisa.ae | Full CMS WP mirror; local Phase 01–08/10 green (not in live Caddy yet) |
+| 5098 | connectresourcesint.com | Live on Astro host (`connectresourcesint.service` · PORT 5098); app tree on server — sync into git when ready |
+| 5102 | ngmanpower.com | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
+| 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
+| 5124 | kpmpro.ae | Scaffolded (port moved from 5098 after connectresourcesint went live on 5098) |
 
-“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists **only** the nine cutover targets: Tier‑1 (Evolution, CBSS, SP Heavy, Iberia Workforce, Connect Group) + EOR, Connect Staff, C‑UAE, KinzaHR. Other scaffolded domains keep ports reserved but stay out of the live Caddyfile until their Node unit is ready.
+“Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 
 ---
 
 ## Rules for developers
 
-1. **Never invent a port** — take **5124+** from this file, then update `scripts/fleet-sites.json` and this doc in the same PR.
+1. **Never invent a port** — take **5125+** from this file, then update `scripts/fleet-sites.json` and this doc in the same PR.
 2. **Never reuse** a port from the table above.
 3. New work starts in the reserved `Astro-production/<domain>/` folder (replace `.gitkeep` when scaffolding).
 4. Follow **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** end-to-end (scan → convert → CMS → forms → local smoke → Caddy templates → server).

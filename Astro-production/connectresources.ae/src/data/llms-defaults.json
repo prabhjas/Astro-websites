@@ -1,5 +1,115 @@
 {
-  "title": "Connect Resources",
-  "summary": "Leading EOR, PEO & staffing company in Dubai, UAE.",
-  "sections": []
+  "siteTitle": "Connect Resources",
+  "summary": "Connect Resources is a leading Employer of Record (EOR), PEO, payroll and staff outsourcing company in Dubai, UAE — an official alliance partner of Randstad in the UAE.",
+  "details": "Connect Resources helps companies hire, pay and manage staff across the UAE and wider Middle East without setting up a local entity. Services cover Employer of Record, Professional Employer Organization (PEO), payroll outsourcing, staff and contract staffing, recruitment, visa and immigration support, Emiratisation and HR consultancy.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "EOR & PEO",
+    "Payroll & Outsourcing",
+    "Recruitment & Staffing",
+    "Visa & Immigration",
+    "Company Pages",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Articles cover UAE labour law, Employer of Record and PEO models, payroll, visas, Emiratisation and workforce management across the Middle East.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Connect Resources homepage — EOR, PEO, payroll and staffing in Dubai, UAE."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect Resources — an official alliance partner of Randstad in the UAE."
+    },
+    "/contact/": {
+      "group": "Company Pages",
+      "title": "Contact",
+      "description": "Contact Connect Resources for EOR, payroll and staffing enquiries."
+    },
+    "/career/": {
+      "group": "Company Pages",
+      "title": "Careers",
+      "description": "Job opportunities and careers at Connect Resources."
+    },
+    "/employer-of-record/": {
+      "group": "EOR & PEO",
+      "title": "Employer of Record",
+      "description": "Hire employees in the UAE and Middle East without your own legal entity."
+    },
+    "/employer-of-record/united-arab-emirates/": {
+      "group": "EOR & PEO",
+      "title": "Employer of Record UAE",
+      "description": "EOR services for hiring and paying employees in the United Arab Emirates."
+    },
+    "/employer-of-record/saudi-arabia/": {
+      "group": "EOR & PEO",
+      "title": "Employer of Record Saudi Arabia",
+      "description": "EOR services for hiring and paying employees in Saudi Arabia."
+    },
+    "/professional-employer-organization-dubai/": {
+      "group": "EOR & PEO",
+      "title": "PEO Dubai",
+      "description": "Professional Employer Organization services that save time and visa quota."
+    },
+    "/eor-transfer/": {
+      "group": "EOR & PEO",
+      "title": "EOR Transfer",
+      "description": "Transfer your employees from an existing EOR provider to Connect Resources."
+    },
+    "/payroll/": {
+      "group": "Payroll & Outsourcing",
+      "title": "Payroll Outsourcing",
+      "description": "Outsourced UAE payroll processing, WPS and compliance support."
+    },
+    "/staff-outsourcing/": {
+      "group": "Payroll & Outsourcing",
+      "title": "Staff Outsourcing",
+      "description": "Outsource your staff while Connect Resources handles employment and payroll."
+    },
+    "/hr-outsourcing/": {
+      "group": "Payroll & Outsourcing",
+      "title": "HR Outsourcing",
+      "description": "Outsourced HR administration and employee lifecycle management."
+    },
+    "/hr-consultancy/": {
+      "group": "Payroll & Outsourcing",
+      "title": "HR Consultancy",
+      "description": "HR consultancy and advisory services for UAE employers."
+    },
+    "/contingent-staffing-in-dubai/": {
+      "group": "Recruitment & Staffing",
+      "title": "Contingent Staffing",
+      "description": "Flexible contingent and temporary staffing in Dubai."
+    },
+    "/emiratisation/": {
+      "group": "Recruitment & Staffing",
+      "title": "Emiratisation",
+      "description": "Emiratisation support, Nafis compliance and UAE national recruitment."
+    },
+    "/global-mobility-dubai/": {
+      "group": "Visa & Immigration",
+      "title": "Employee Mobility",
+      "description": "Global mobility, visa and work permit support for relocating employees."
+    },
+    "/golden-visa-uae/": {
+      "group": "Visa & Immigration",
+      "title": "Golden Visa UAE",
+      "description": "UAE Golden Visa eligibility and application support."
+    },
+    "/employment-visa-outsourcing/": {
+      "group": "Visa & Immigration",
+      "title": "Employment Visa Outsourcing",
+      "description": "Outsourced UAE employment visa processing and PRO services."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Connect Resources insights on UAE employment, payroll and HR."
+    }
+  }
 }

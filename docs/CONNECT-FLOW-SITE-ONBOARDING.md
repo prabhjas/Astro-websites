@@ -288,7 +288,7 @@ Auth header:
 Authorization: Bearer <INTERNAL_JOB_SECRET>
 ```
 
-Also accepted (cron helpers): `x-internal-job-secret` or `?secret=`.
+Also accepted: `x-internal-job-secret`. Query `?secret=` is rejected (use Bearer / header only).
 
 ### Always (leads-only or full)
 

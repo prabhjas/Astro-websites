@@ -13,6 +13,7 @@ export default defineConfig({
     format: 'directory',
   },
   security: {
+    checkOrigin: true,
     allowedDomains: [
       { hostname: 'www.cbss.ae', protocol: 'https' },
       { hostname: 'cbss.ae', protocol: 'https' },
