@@ -1,26 +1,22 @@
 import type { APIRoute } from 'astro';
-import { getLeadEnv } from '../../context.js';
 import { requireInternalJobAuth, internalJson } from '../../auth/internal-job.js';
-import { PhpFileStore } from '../../php-files/store.js';
 
 export const prerender = false;
 
+/**
+ * PHP upload/deploy is disabled (security audit P0-3).
+ * Offline conversions should use a Node route, not server-side PHP execution.
+ */
 export const POST: APIRoute = async ({ request }) => {
   const denied = requireInternalJobAuth(request);
   if (denied) return denied;
 
-  const formData = await request.formData();
-  const file = formData.get('file');
-  if (!(file instanceof File) || !file.name.endsWith('.php')) {
-    return internalJson({ success: false, message: 'Missing or invalid .php file' }, 400);
-  }
-
-  const updatedBy = String(formData.get('updatedBy') || 'internal-job');
-  const env = getLeadEnv();
-  const store = new PhpFileStore(
-    env.internalAdminDir,
-    env.internalEnhancedLiveDir || '.data/enhanced-live',
+  return internalJson(
+    {
+      success: false,
+      message:
+        'PHP file upload/deploy is disabled. Use a Node-based enhanced conversion route instead of executable PHP on the origin.',
+    },
+    410,
   );
-  await store.deploy(file, updatedBy);
-  return internalJson({ success: true, fileName: file.name });
 };

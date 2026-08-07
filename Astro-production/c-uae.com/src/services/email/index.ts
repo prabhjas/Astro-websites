@@ -6,6 +6,15 @@ import { logInfo, logWarn } from '../logger';
 
 export type EmailResult = { sent: boolean; skipped: boolean; error?: string };
 
+function escapeHtml(value: string): string {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function buildEmailBody(env: ServerEnv, form: NormalisedContactForm): { subject: string; text: string; html: string } {
   const lines: Array<[string, string]> = [
     ['Form', form.formName || env.formName],
@@ -42,7 +51,7 @@ function buildEmailBody(env: ServerEnv, form: NormalisedContactForm): { subject:
 
   const visible = lines.filter(([, value]) => isMeaningfulValue(value));
   const text = visible.map(([label, value]) => `${label}: ${value}`).join('\n');
-  const html = `<pre style="font-family: sans-serif; white-space: pre-wrap;">${text}</pre>`;
+  const html = `<pre style="font-family: sans-serif; white-space: pre-wrap;">${escapeHtml(text)}</pre>`;
   const subject = `New enquiry: ${form.fullName} — ${env.websiteName}`;
 
   return { subject, text, html };

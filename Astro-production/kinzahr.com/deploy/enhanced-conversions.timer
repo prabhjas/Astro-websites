@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Kinza enhanced Google Ads uploads twice daily
+
+[Timer]
+OnCalendar=*-*-* 00,12:15:00
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

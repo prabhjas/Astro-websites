@@ -2,7 +2,7 @@
 
 WordPress → Astro Phase 1 static mirror of https://kpmpro.ae/
 
-Peer scaffold: `royalvisa.ae` / `kinzahr.com` (`FEATURES_FULL_CMS`). Port **5098**.
+Peer scaffold: `royalvisa.ae` / `kinzahr.com` (`FEATURES_FULL_CMS`). Port **5124**.
 
 ## Common commands
 

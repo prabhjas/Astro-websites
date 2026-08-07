@@ -1,7 +1,7 @@
 /**
  * Shared auth for machine callers (central CMS / cron).
- * Prefer Authorization: Bearer <INTERNAL_JOB_SECRET>
- * Also accepts x-internal-job-secret and ?secret= (legacy cron).
+ * Accepts Authorization: Bearer <INTERNAL_JOB_SECRET> or x-internal-job-secret.
+ * Query-string ?secret= is rejected (leaks via logs, Referer, and browser history).
  */
 import { getLeadEnv } from '../context.js';
 import { applyInternalNoIndexHeaders } from '../security/internal-response.js';
@@ -10,8 +10,7 @@ export function isInternalJobAuthorized(request: Request, secret: string): boole
   if (!secret) return false;
   const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim();
   const header = request.headers.get('x-internal-job-secret')?.trim();
-  const query = new URL(request.url).searchParams.get('secret')?.trim();
-  return bearer === secret || header === secret || query === secret;
+  return bearer === secret || header === secret;
 }
 
 export function internalJsonHeaders(): Headers {

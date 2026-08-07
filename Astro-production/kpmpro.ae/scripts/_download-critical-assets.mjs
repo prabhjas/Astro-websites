@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const LIVE = 'https://kpmpro.ae';
-const LOCAL = process.env.LOCAL_ORIGIN || 'http://127.0.0.1:5098';
+const LOCAL = process.env.LOCAL_ORIGIN || 'http://127.0.0.1:5124';
 
 const need = [
   '/wp-content/plugins/header-footer-elementor/inc/widgets-css/frontend.css',
