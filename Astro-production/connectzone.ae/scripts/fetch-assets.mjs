@@ -5,7 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = process.env.ASSET_ORIGIN || "https://connectzone.ae";
 const PUBLIC = "public";
 const DATA = "src/data";
 const CRAWL = "_crawl";
@@ -33,9 +33,12 @@ function localFromUrl(url) {
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://spheavyrental.ae", "")
-    .replaceAll("http://spheavyrental.ae", "")
-    .replaceAll("//spheavyrental.ae", "");
+    .replaceAll("https://connectzone.ae", "")
+    .replaceAll("http://connectzone.ae", "")
+    .replaceAll("https://www.connectzone.ae", "")
+    .replaceAll("http://www.connectzone.ae", "")
+    .replaceAll("//connectzone.ae", "")
+    .replaceAll("//www.connectzone.ae", "");
 }
 
 /** Extract outer HTML of first element matching attribute/class substring */
@@ -189,7 +192,7 @@ async function main() {
         if (u.startsWith("//")) u = "https:" + u;
         else if (u.startsWith("/")) u = ORIGIN + u;
         else if (!u.startsWith("http")) continue;
-        if (!u.includes("spheavyrental.ae")) continue;
+        if (!u.includes("connectzone.ae")) continue;
         const clean = u.split("?")[0];
         await download(clean, localFromUrl(clean));
       }

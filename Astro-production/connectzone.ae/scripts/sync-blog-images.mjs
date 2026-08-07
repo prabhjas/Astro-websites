@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const postsPath = path.join(root, "src/data/posts.json");
 const publicDir = path.join(root, "public");
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = process.env.ASSET_ORIGIN || "https://connectzone.ae";
 
 const SKIP_RE =
   /logo|favicon|picsart-backgroundchanger|output-onlinepngtools|gravatar|emoji|svg/i;
@@ -24,15 +24,33 @@ function toLocalPath(urlOrPath) {
 
 async function download(relPath) {
   const local = path.join(publicDir, relPath.replace(/^\//, ""));
-  if (fs.existsSync(local) && fs.statSync(local).size > 0) return { ok: true, skipped: true };
+  if (fs.existsSync(local) && fs.statSync(local).size > 0) {
+    const head = Buffer.alloc(Math.min(64, fs.statSync(local).size));
+    const fd = fs.openSync(local, "r");
+    fs.readSync(fd, head, 0, head.length, 0);
+    fs.closeSync(fd);
+    const text = head.toString("utf8");
+    if (!(head[0] === 0x3c && /<!DOCTYPE|<html\b/i.test(text))) {
+      return { ok: true, skipped: true };
+    }
+    fs.unlinkSync(local); // remove WP soft-404 HTML saved as media
+  }
   fs.mkdirSync(path.dirname(local), { recursive: true });
   const url = `${ORIGIN}${relPath.startsWith("/") ? relPath : `/${relPath}`}`;
   const res = await fetch(url, {
-    headers: { "User-Agent": "SPHeavy-Astro-image-sync/1.0" },
-    redirect: "follow",
+    headers: { "User-Agent": "ConnectZone-Astro-image-sync/1.0" },
+    redirect: "manual",
   });
+  if (res.status >= 300 && res.status < 400) {
+    return { ok: false, status: res.status, url, reason: "redirect-soft404" };
+  }
   if (!res.ok) return { ok: false, status: res.status, url };
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  if (ct.includes("text/html")) return { ok: false, status: "html", url };
   const buf = Buffer.from(await res.arrayBuffer());
+  if (buf[0] === 0x3c && /<!DOCTYPE|<html\b/i.test(buf.subarray(0, 64).toString("utf8"))) {
+    return { ok: false, status: "html-body", url };
+  }
   fs.writeFileSync(local, buf);
   return { ok: true, bytes: buf.length, url };
 }
