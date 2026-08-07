@@ -22,17 +22,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
-    // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
-    // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
-    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+    // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
+    if (
+      pathname !== '/' &&
+      !pathname.endsWith('/') &&
+      !pathname.includes('.') &&
+      (pathname.startsWith('/api/') || pathname.startsWith('/internal/'))
+    ) {
       const target = `${pathname}/${context.url.search}`;
-      const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
-      return new Response(null, {
-        status,
-        headers: { Location: target },
-      });
+      return context.redirect(target, 308);
     }
-
 
     // Per-site dashboard UI removed — content/leads managed via central CMS → /api/internal/*
     if (

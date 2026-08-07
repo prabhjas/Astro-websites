@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Connect FM \u2014 Astro site for connectfm.ae",
+  "description": "Connect FM — Astro site for connectfm.ae",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
@@ -28,7 +28,7 @@
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "cheerio": "catalog:",
-    "nodemailer": "catalog:",
+    "nodemailer": "9.0.4",
     "sharp": "0.35.3",
     "tailwindcss": "catalog:",
     "yaml": "catalog:",
@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "catalog:",
-    "@types/nodemailer": "catalog:",
+    "@types/node": "24.13.3",
+    "@types/nodemailer": "8.0.1",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.0.1",
     "playwright": "1.49.0",

@@ -2,8 +2,6 @@
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
  */
-import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
-
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
@@ -82,11 +80,6 @@ export function serveLegacyPage(slug) {
       '<script src="/scripts/blog-load-more.js" defer></script>\n</body>',
     );
   }
-
-  
-  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
-  html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
-  html = sanitizeMirrorHtml(html);
 
   return new Response(html, {
     headers: {

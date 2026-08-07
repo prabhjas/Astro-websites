@@ -38,10 +38,8 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── fleet-local.mjs                  ← local prod-like runner + smoke
 │   └── pull-iberia-env.sh
 ├── docs/                                ← Cursor guides + playbooks
-│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle; includes security + SEO gates)
+│   ├── 00-NEW-SITE-MASTER.md            ← START HERE (numbered lifecycle)
 │   ├── FLEET-PORT-REGISTRY.md           ← all domains + ports + status
-│   ├── SECURITY-AUDIT-REMEDIATION-2026-08-06.md / SECURITY-AARON-FULL-HANDOFF-2026-08-07.md
-│   ├── SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md
 │   ├── CONNECT-FLOW-SITE-ONBOARDING.md
 │   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
