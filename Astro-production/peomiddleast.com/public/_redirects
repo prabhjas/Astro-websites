@@ -1,0 +1,10 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/blog/  /insights/  301
+/blog  /insights/  301
+/about/  /  301
+/about-us/  /  301
+/contact-us/  /  301
+/home/  /  301
+/index.php  /  301

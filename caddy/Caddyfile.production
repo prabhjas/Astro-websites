@@ -56,8 +56,20 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@iberiaworkforce host www.iberiaworkforce.com
 	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
 
+	@connecthr host www.connecthr.ae
+	redir @connecthr https://connecthr.ae{uri} permanent
+
 	@connectgroup host www.connectgroup.co
 	redir @connectgroup https://connectgroup.co{uri} permanent
+
+	@connectfm host www.connectfm.ae
+	redir @connectfm https://connectfm.ae{uri} permanent
+
+	@connectresources_sa host www.connectresources.sa
+	redir @connectresources_sa https://connectresources.sa{uri} permanent
+
+	@iberiaeor host www.iberiaeor.com
+	redir @iberiaeor https://iberiaeor.com{uri} permanent
 
 	@eormiddleast host www.eormiddleast.com
 	redir @eormiddleast https://eormiddleast.com{uri} permanent
@@ -243,6 +255,92 @@ eormiddleast.com, www.eormiddleast.com {
 	}
 	log {
 		output file /var/log/caddy/eormiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# peomiddleast.com -> peomiddleeast.service (PORT 5118) — git template only until owner cutover
+peomiddleast.com, www.peomiddleast.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.peomiddleast.com
+	redir @noncanonical https://peomiddleast.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5118
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/peomiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# payrollmiddleast.org -> payrollmiddleast.service (PORT 5110) — git template only until owner cutover
+# Live WP canonical is www
+payrollmiddleast.org, www.payrollmiddleast.org {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host payrollmiddleast.org
+	redir @noncanonical https://www.payrollmiddleast.org{uri} permanent
+
+	reverse_proxy 127.0.0.1:5110
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/payrollmiddleast.org-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# freelancerdxb.com -> freelancerdxb.service (PORT 5109) — git template only until owner cutover
+freelancerdxb.com, www.freelancerdxb.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.freelancerdxb.com
+	redir @noncanonical https://freelancerdxb.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5109
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/freelancerdxb.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

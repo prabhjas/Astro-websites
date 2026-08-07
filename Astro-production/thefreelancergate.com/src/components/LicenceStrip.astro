@@ -1,0 +1,287 @@
+---
+/**
+ * Licence & verification band — sits directly under the Elementor footer.
+ * White background with the The Freelancer Gate orange accent (#f56b01) on navy (#1f1a4b),
+ * so it reads as a clean closing band rather than a bolted-on section.
+ *
+ * Facts come from src/data/licence.json via ../lib/licence. The band renders
+ * nothing until that licence is complete, so an unfinished record can never
+ * publish a half-empty compliance panel.
+ */
+import { licence, licenceRows, hasLicencePdf, isLicenceComplete } from "../lib/licence";
+
+const show = isLicenceComplete();
+const pdfReady = hasLicencePdf();
+---
+
+{
+  show && (
+    <section class="cu-licence" aria-labelledby="cu-licence-title">
+      <div class="cu-licence__inner">
+        <div class="cu-licence__details">
+          <h2 class="cu-licence__title" id="cu-licence-title">
+            License Details
+          </h2>
+          <p class="cu-licence__lead">
+            {licence.businessName} is fully licensed in Dubai, UAE by the {licence.issuingAuthority}.
+          </p>
+
+          <dl class="cu-licence__grid">
+            {licenceRows.map((row) => (
+              <div class="cu-licence__row">
+                <dt>{row.label}</dt>
+                <dd>
+                  {row.label === "License Status" ? (
+                    <span class="cu-licence__badge">{row.value}</span>
+                  ) : (
+                    row.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="cu-licence__actions">
+            <a
+              class="cu-licence__btn cu-licence__btn--primary"
+              href={licence.verifyUrl}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              Verify our license
+              <span aria-hidden="true">↗</span>
+            </a>
+            {pdfReady && (
+              <a
+                class="cu-licence__btn cu-licence__btn--ghost"
+                href={licence.pdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click here to view the license
+                <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </div>
+        </div>
+
+        <div class="cu-licence__verify">
+          <a
+            class="cu-licence__qr"
+            href={licence.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label={`Verify licence ${licence.number} on the official Dubai licence portal`}
+          >
+            <img
+              src={licence.qrPath}
+              width="150"
+              height="150"
+              loading="lazy"
+              decoding="async"
+              alt={`QR code linking to the official Dubai portal for verifying licence ${licence.number}`}
+            />
+          </a>
+          <p class="cu-licence__qr-caption">
+            Scan to verify on the<br />official Dubai licence portal
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .cu-licence {
+    background: #fff;
+    border-top: 1px solid #e6e6ef;
+    color: #1f1a4b;
+    padding: 40px 16px 44px;
+  }
+
+  .cu-licence__inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 32px 48px;
+  }
+
+  .cu-licence__details {
+    flex: 1 1 460px;
+    min-width: 0;
+  }
+
+  .cu-licence__title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #1f1a4b;
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+
+  .cu-licence__title::after {
+    content: "";
+    display: block;
+    width: 46px;
+    height: 3px;
+    margin-top: 8px;
+    background: #f56b01;
+    border-radius: 2px;
+  }
+
+  .cu-licence__lead {
+    margin: 14px 0 20px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #5c5a79;
+    max-width: 56ch;
+  }
+
+  .cu-licence__grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 32px;
+  }
+
+  .cu-licence__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e6e6ef;
+  }
+
+  .cu-licence__row dt {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5c5a79;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .cu-licence__row dd {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f1a4b;
+    text-align: right;
+  }
+
+  .cu-licence__badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: #fdf0e6;
+    border: 1px solid #f56b01;
+    color: #c25401;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .cu-licence__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .cu-licence__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease;
+  }
+
+  .cu-licence__btn--primary {
+    background: #f56b01;
+    color: #fff;
+    border: 1px solid #f56b01;
+  }
+
+  .cu-licence__btn--primary:hover,
+  .cu-licence__btn--primary:focus-visible {
+    background: #1f1a4b;
+    border-color: #1f1a4b;
+    color: #fff;
+  }
+
+  .cu-licence__btn--ghost {
+    background: transparent;
+    color: #c25401;
+    border: 1px solid #f56b01;
+  }
+
+  .cu-licence__btn--ghost:hover,
+  .cu-licence__btn--ghost:focus-visible {
+    background: #fdf0e6;
+    border-color: #1f1a4b;
+    color: #1f1a4b;
+  }
+
+  .cu-licence__verify {
+    flex: 0 0 auto;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .cu-licence__qr {
+    display: inline-block;
+    padding: 12px;
+    background: #fff;
+    border-radius: 10px;
+    line-height: 0;
+    border: 3px solid #f56b01;
+  }
+
+  .cu-licence__qr img {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
+
+  .cu-licence__qr-caption {
+    margin: 12px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #5c5a79;
+  }
+
+  @media (max-width: 767px) {
+    .cu-licence {
+      padding: 30px 14px 36px;
+    }
+
+    .cu-licence__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cu-licence__inner {
+      gap: 26px;
+    }
+
+    .cu-licence__btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+</style>

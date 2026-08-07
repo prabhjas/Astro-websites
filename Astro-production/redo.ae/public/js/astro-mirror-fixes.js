@@ -250,10 +250,41 @@
     dedupeSubmenuIcons();
   }
 
+  /** Burger toggle for Elementor nav-menu--toggle (tablet/mobile). */
+  function ensureMenuToggle() {
+    document.querySelectorAll('.elementor-widget-nav-menu .elementor-menu-toggle').forEach(function (toggle) {
+      if (toggle.dataset.astroMenuToggle === '1') return;
+      toggle.dataset.astroMenuToggle = '1';
+      var dropdown = toggle.nextElementSibling;
+      if (!dropdown || !dropdown.classList.contains('elementor-nav-menu--dropdown')) {
+        dropdown = toggle.parentElement
+          ? toggle.parentElement.querySelector('.elementor-nav-menu--dropdown.elementor-nav-menu__container')
+          : null;
+      }
+      function setOpen(open) {
+        toggle.classList.toggle('elementor-active', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (dropdown) dropdown.setAttribute('aria-hidden', open ? 'false' : 'true');
+      }
+      toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        setOpen(!toggle.classList.contains('elementor-active'));
+      });
+      toggle.addEventListener('keydown', function (event) {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        setOpen(!toggle.classList.contains('elementor-active'));
+      });
+    });
+  }
+
   function ensureNavMenus() {
     var $ = window.jQuery;
 
-    // Hover/focus open for desktop dropdowns (works with or without SmartMenus)
+    ensureMenuToggle();
+
+    // Hover/focus open for desktop dropdowns (works with or without SmartMenus).
+    // Also click-toggle Services submenu inside the burger panel (mobile/tablet).
     document
       .querySelectorAll(
         '.elementor-nav-menu--main .menu-item-has-children, .elementor-nav-menu--dropdown .menu-item-has-children',
@@ -265,12 +296,35 @@
         if (!link) return;
         link.addEventListener('focus', function () {
           li.classList.add('highlighted');
+          link.classList.add('highlighted');
         });
         li.addEventListener('mouseenter', function () {
           li.classList.add('highlighted');
+          link.classList.add('highlighted');
         });
         li.addEventListener('mouseleave', function () {
           li.classList.remove('highlighted');
+          link.classList.remove('highlighted');
+        });
+        link.addEventListener('click', function (event) {
+          var submenu = li.querySelector(':scope > .sub-menu');
+          if (!submenu) return;
+          // Inside burger dropdown, prevent navigating away — expand accordion instead.
+          var inBurger = !!li.closest('.elementor-nav-menu--dropdown.elementor-nav-menu__container');
+          var isDesktop = window.matchMedia('(min-width: 1025px)').matches;
+          if (inBurger || !isDesktop) {
+            event.preventDefault();
+            var open = !li.classList.contains('highlighted');
+            li.parentElement.querySelectorAll(':scope > .menu-item-has-children.highlighted').forEach(function (other) {
+              if (other !== li) {
+                other.classList.remove('highlighted');
+                var oa = other.querySelector(':scope > a');
+                if (oa) oa.classList.remove('highlighted');
+              }
+            });
+            li.classList.toggle('highlighted', open);
+            link.classList.toggle('highlighted', open);
+          }
         });
       });
 
@@ -285,6 +339,7 @@
     setTimeout(function () {
       initSmartMenusFallback();
       dedupeSubmenuIcons();
+      ensureMenuToggle();
     }, 700);
     setTimeout(dedupeSubmenuIcons, 1500);
     setTimeout(dedupeSubmenuIcons, 3000);
@@ -907,7 +962,7 @@
     });
   }
 
-  /** Elementor Pro loop-carousel (Insights / blog cards) */
+  /** Elementor Pro loop-carousel (Projects / Insights cards) */
   function ensureLoopCarousel() {
     if (typeof Swiper === 'undefined') {
       scheduleCarouselRetry();
@@ -940,17 +995,53 @@
           ? parseInt(settings.image_spacing_custom.size, 10) || 30
           : 30;
       var slideCount = wrap.querySelectorAll('.swiper-slide').length;
-      var loop = settings.infinite === 'yes' && slideCount > desktop;
+
+      // Inject Elementor-style arrows when markup omits them (common in static HTML dumps).
+      if (settings.arrows === 'yes') {
+        var host = widget.querySelector('.elementor-widget-container') || widget;
+        if (!widget.querySelector('.elementor-swiper-button-prev, .swiper-button-prev')) {
+          var prev = document.createElement('div');
+          prev.className = 'elementor-swiper-button elementor-swiper-button-prev';
+          prev.setAttribute('role', 'button');
+          prev.setAttribute('aria-label', 'Previous slide');
+          prev.innerHTML =
+            '<i aria-hidden="true" class="eicon-chevron-left"></i>';
+          host.appendChild(prev);
+        }
+        if (!widget.querySelector('.elementor-swiper-button-next, .swiper-button-next')) {
+          var next = document.createElement('div');
+          next.className = 'elementor-swiper-button elementor-swiper-button-next';
+          next.setAttribute('role', 'button');
+          next.setAttribute('aria-label', 'Next slide');
+          next.innerHTML =
+            '<i aria-hidden="true" class="eicon-chevron-right"></i>';
+          host.appendChild(next);
+        }
+      }
+
       var paginationEl = widget.querySelector('.swiper-pagination');
       var nextEl = widget.querySelector('.elementor-swiper-button-next, .swiper-button-next');
       var prevEl = widget.querySelector('.elementor-swiper-button-prev, .swiper-button-prev');
+
+      // When slide count equals/falls under slidesPerView, peek one partial card so it still slides like live.
+      var desktopView = desktop;
+      var tabletView = tablet;
+      if (settings.infinite === 'yes' && slideCount > 1 && slideCount <= desktop) {
+        desktopView = Math.max(1, Math.min(desktop, slideCount - 0.25));
+      }
+      if (settings.infinite === 'yes' && slideCount > 1 && slideCount <= tablet) {
+        tabletView = Math.max(1, Math.min(tablet, slideCount - 0.15));
+      }
+
+      var canLoop = settings.infinite === 'yes' && slideCount > Math.ceil(desktopView);
       var swiperOptions = {
         slidesPerView: mobile,
         slidesPerGroup: parseInt(settings.slides_to_scroll || '1', 10) || 1,
         spaceBetween: gap,
-        loop: loop,
+        loop: canLoop,
+        // Swiper 8: no reliable rewind — when we can't loop, peek so arrows/autoplay still move.
         speed: parseInt(settings.speed || '500', 10) || 500,
-        watchOverflow: true,
+        watchOverflow: false,
         observer: true,
         observeParents: true,
         allowTouchMove: true,
@@ -960,8 +1051,8 @@
             ? { nextEl: nextEl || undefined, prevEl: prevEl || undefined }
             : undefined,
         breakpoints: {
-          768: { slidesPerView: tablet, spaceBetween: gap },
-          1025: { slidesPerView: desktop, spaceBetween: gap },
+          768: { slidesPerView: tabletView, spaceBetween: gap },
+          1025: { slidesPerView: desktopView, spaceBetween: gap },
         },
       };
 
@@ -1002,62 +1093,115 @@
    * Elementor video widgets dump an empty .elementor-video shell — Elementor JS
    * normally injects the iframe. If that handler never attaches, embed the
    * YouTube player ourselves from data-settings.
+   * When an image overlay + play button exists (live redo homepage), hydrate the
+   * thumbnail and only inject the iframe on click.
    */
   function ensureElementorVideos() {
     document.querySelectorAll('.elementor-widget-video').forEach(function (widget) {
-      if (widget.dataset.astroVideo === '1') return;
       var wrap = widget.querySelector('.elementor-wrapper');
       var host = widget.querySelector('.elementor-video');
       if (!wrap || !host) return;
+
+      var settings = parseWidgetSettings(widget);
+      // Prefer Elementor page CSS (--video-aspect-ratio). Never force 16:9
+      // inline — that overrides vertical Shorts (0.5625) used in the
+      // "Our latest project" grids on villa/house/office LPs.
+      var isShorts = /youtube\.com\/shorts\//i.test(String(settings.youtube_url || ''));
+      if (isShorts) {
+        wrap.style.setProperty('--video-aspect-ratio', '0.5625');
+      } else {
+        var inlineAspect = String(wrap.style.getPropertyValue('--video-aspect-ratio') || '').trim();
+        var computedAspect = '';
+        try {
+          // Temporarily clear our inline so stylesheet value is visible.
+          if (inlineAspect) wrap.style.removeProperty('--video-aspect-ratio');
+          computedAspect = String(
+            window.getComputedStyle(wrap).getPropertyValue('--video-aspect-ratio') || '',
+          ).trim();
+        } catch (_) {}
+        if (computedAspect) {
+          // Stylesheet wins — leave unset so CSS applies.
+        } else {
+          wrap.style.setProperty('--video-aspect-ratio', '1.77777');
+        }
+      }
+
+      if (widget.dataset.astroVideo === '1') return;
       if (host.querySelector('iframe, video, .rll-youtube-player')) {
         widget.dataset.astroVideo = '1';
         return;
       }
 
-      var settings = parseWidgetSettings(widget);
       var videoType = settings.video_type || 'youtube';
       if (videoType !== 'youtube') return;
 
       var id = youtubeIdFromUrl(settings.youtube_url || settings.youtube_id || '');
       if (!id) return;
 
-      var params = ['feature=oembed', 'rel=0'];
-      if (settings.controls === 'yes' || settings.controls === true || settings.controls === undefined) {
-        params.push('controls=1');
-      } else {
-        params.push('controls=0');
-      }
-      if (settings.autoplay === 'yes') params.push('autoplay=1');
-      if (settings.mute === 'yes') params.push('mute=1');
-      if (settings.loop === 'yes') {
-        params.push('loop=1');
-        params.push('playlist=' + id);
+      var overlay = widget.querySelector('.elementor-custom-embed-image-overlay');
+      var overlayUrl =
+        (settings.image_overlay && settings.image_overlay.url) ||
+        (overlay && (overlay.getAttribute('data-bg') || overlay.getAttribute('data-lazy-bg'))) ||
+        '';
+      if (overlay && overlayUrl) {
+        overlay.style.backgroundImage = 'url("' + String(overlayUrl).replace(/"/g, '\\"') + '")';
+        overlay.style.backgroundSize = 'cover';
+        overlay.style.backgroundPosition = 'center center';
+        overlay.classList.remove('rocket-lazyload');
+        overlay.removeAttribute('data-bg');
       }
 
-      var iframe = document.createElement('iframe');
-      iframe.className = 'elementor-video-iframe';
-      iframe.setAttribute('frameborder', '0');
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute(
-        'allow',
-        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
-      );
-      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-      iframe.setAttribute('title', 'YouTube video player');
-      iframe.setAttribute('loading', 'lazy');
-      iframe.src = 'https://www.youtube.com/embed/' + id + '?' + params.join('&');
+      function injectIframe(autoplay) {
+        if (host.querySelector('iframe')) return;
+        var params = ['feature=oembed', 'rel=0', 'playsinline=1'];
+        if (settings.controls === 'yes' || settings.controls === true || settings.controls === undefined) {
+          params.push('controls=1');
+        } else {
+          params.push('controls=0');
+        }
+        if (autoplay || settings.autoplay === 'yes') params.push('autoplay=1');
+        if (settings.mute === 'yes' || settings.autoplay === 'yes') params.push('mute=1');
+        var start = parseInt(settings.start || '0', 10);
+        if (start > 0) params.push('start=' + start);
+        if (settings.loop === 'yes') {
+          params.push('loop=1');
+          params.push('playlist=' + id);
+        }
 
-      // Prefer replacing empty host so Elementor aspect-ratio CSS still applies
-      host.innerHTML = '';
-      if (host.tagName === 'DIV') {
+        var iframe = document.createElement('iframe');
+        iframe.className = 'elementor-video-iframe';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute(
+          'allow',
+          'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+        );
+        iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        iframe.setAttribute('title', 'YouTube video player');
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?' + params.join('&');
+
+        host.innerHTML = '';
         host.appendChild(iframe);
-      } else {
-        host.replaceWith(iframe);
+        if (overlay) overlay.style.display = 'none';
       }
 
-      if (!wrap.style.getPropertyValue('--video-aspect-ratio')) {
-        wrap.style.setProperty('--video-aspect-ratio', '1.77777');
+      if (overlay && (settings.show_image_overlay === 'yes' || settings.show_image_overlay === true)) {
+        var playBtn = overlay.querySelector('.elementor-custom-embed-play') || overlay;
+        playBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          injectIframe(true);
+        });
+        playBtn.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          injectIframe(true);
+        });
+        widget.dataset.astroVideo = '1';
+        return;
       }
+
+      injectIframe(false);
       widget.dataset.astroVideo = '1';
     });
   }
@@ -1120,6 +1264,21 @@
       img.removeAttribute('data-lazy-src');
       img.removeAttribute('data-lazy-srcset');
       img.removeAttribute('data-lazy-sizes');
+    });
+
+    // WP Rocket background lazyload (video overlays, sections): data-bg → background-image
+    document.querySelectorAll('[data-bg].rocket-lazyload, [data-bg]:not([style*="background"])').forEach(function (el) {
+      var bg = el.getAttribute('data-bg');
+      if (!bg) return;
+      var style = el.getAttribute('style') || '';
+      if (/background(-image)?\s*:/i.test(style) && !/background-image\s*:\s*none/i.test(style)) {
+        return;
+      }
+      el.style.backgroundImage = 'url("' + bg.replace(/"/g, '\\"') + '")';
+      el.style.backgroundSize = el.style.backgroundSize || 'cover';
+      el.style.backgroundPosition = el.style.backgroundPosition || 'center center';
+      el.classList.remove('rocket-lazyload');
+      el.removeAttribute('data-bg');
     });
   }
 
@@ -1568,8 +1727,8 @@
       style.textContent =
         '.iti-flag,.country-select .flag,.intl-tel-input .iti-flag{background-image:url("' +
         FLAG_PNG +
-        '")!important;background-repeat:no-repeat!important;}' +
-        '.intl-tel-input .iti-flag{height:15px;box-shadow:0 0 1px 0 #888;}' +
+        '")!important;background-repeat:no-repeat!important;width:20px!important;height:15px!important;display:inline-block!important;background-size:auto!important;flex-shrink:0!important;}' +
+        '.intl-tel-input .iti-flag{box-shadow:0 0 1px 0 #888;}' +
         /* Beat .contact-home .wpcf7 input{padding:15px 20px!important} which collapses dial-code gap */
         '.contact-home .wpcf7 .intl-tel-input.separate-dial-code input.wpcf7-phonetext,' +
         '.contact-home .wpcf7 .intl-tel-input.allow-dropdown input.wpcf7-phonetext,' +
@@ -1975,6 +2134,43 @@
       /* Elementor YouTube video fallback */
       '.elementor-widget-video .elementor-wrapper{position:relative;width:100%;aspect-ratio:var(--video-aspect-ratio,1.77777);}',
       '.elementor-widget-video .elementor-video,.elementor-widget-video .elementor-video-iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000;}',
+      '.elementor-widget-video .elementor-custom-embed-image-overlay{position:absolute;inset:0;cursor:pointer;background-size:cover;background-position:center;z-index:2;display:flex;align-items:center;justify-content:center;}',
+      '.elementor-widget-video .elementor-custom-embed-play{cursor:pointer;}',
+      /* Services / nav submenu: Elementor hides ul by default; show on hover or .highlighted */
+      '.elementor-nav-menu--main .menu-item-has-children:hover > .sub-menu,',
+      '.elementor-nav-menu--main .menu-item-has-children.highlighted > .sub-menu,',
+      '.elementor-nav-menu--main .menu-item-has-children:focus-within > .sub-menu,',
+      '.elementor-nav-menu--dropdown .menu-item-has-children.highlighted > .sub-menu{display:block!important;}',
+      '.elementor-nav-menu--layout-vertical .menu-item-has-children > .sub-menu{position:static!important;width:100%!important;box-shadow:none;}',
+      '@media (min-width:1025px){.elementor-nav-menu--layout-horizontal .menu-item-has-children > .sub-menu,',
+      '.elementor-nav-menu--main:not(.elementor-nav-menu--layout-vertical) .menu-item-has-children > .sub-menu{position:absolute;left:0;top:100%;z-index:9999;min-width:14em;}}',
+      /* Loop carousel arrows injected when missing from static HTML */
+      '.elementor-widget-loop-carousel{position:relative;}',
+      /* Do NOT force 40px arrows — homepage .pro-carausel uses --arrow-size:112px
+         parked above the strip (next to the Projects heading). Generic 40px
+         overrides made “Projects →” look tiny. */
+      '.pro-carausel .elementor-swiper-button{width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;font-size:var(--arrow-size,112px)!important;line-height:1!important;color:var(--arrow-normal-color,#F54C4C)!important;display:inline-flex!important;align-items:center;justify-content:center;z-index:6;cursor:pointer;}',
+      '.pro-carausel .elementor-swiper-button-next{top:var(--arrow-next-top-position,-96px)!important;right:var(--arrow-next-right-position,55px)!important;left:auto!important;transform:none!important;}',
+      '.pro-carausel .elementor-swiper-button-prev{display:none!important;}',
+      '.pro-carausel .elementor-swiper-button .e-font-icon-svg,.pro-carausel .elementor-swiper-button svg{width:1em!important;height:1em!important;fill:currentColor;}',
+      '@media (max-width:767px){.pro-carausel .elementor-swiper-button{font-size:var(--arrow-size,40px)!important;}}',
+      /* Homepage Projects heading (Syncopate) — keep readable if font loads late */
+      '.elementor-2795 .elementor-element-552b2aa .elementor-heading-title{font-family:"Syncopate",sans-serif;font-size:48px;font-weight:400;line-height:57px;color:#1F2125;}',
+      '@media (max-width:1024px){.elementor-2795 .elementor-element-552b2aa .elementor-heading-title{font-size:32px;line-height:48px;}}',
+      '@media (max-width:767px){.elementor-2795 .elementor-element-552b2aa .elementor-heading-title{font-size:28px;line-height:40px;}}',
+      /* Sticky REQUEST INQUIRY — live uses rotate(90deg)+right:-42px, but our
+         html/body overflow-x:clip chops that off. Use writing-mode so the full
+         label stays inside the viewport, flush to the right edge. */
+      '.cww-ssf-outer-wrapp,#cww-sff-disp-wrap-outer{overflow:visible!important;max-width:none!important;}',
+      '.cww-ssf-outer-wrapp.btn-position-right .toggle-wrapp{position:fixed!important;top:50%!important;right:0!important;left:auto!important;bottom:auto!important;transform:translateY(-50%)!important;transform-origin:center center!important;z-index:99999!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:visible!important;width:auto!important;height:auto!important;max-width:none!important;margin:0!important;}',
+      '.cww-ssf-outer-wrapp.btn-position-right a.cww-ssf-toggle,.cww-ssf-outer-wrapp.btn-position-right a.cww-ssf-toggle:visited{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);background-color:#1f2125!important;border:1px solid #1f2125!important;color:#fff!important;text-decoration:none!important;font-size:14px!important;font-weight:500!important;letter-spacing:.04em!important;line-height:1.2!important;padding:22px 10px!important;display:inline-block!important;white-space:nowrap!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;border-radius:0!important;}',
+      '.cww-ssf-outer-wrapp.btn-position-right a.cww-ssf-toggle:hover{background-color:#e51515!important;border-color:#e51515!important;color:#fff!important;}',
+      '#cww-sff-disp-wrap-outer,[data-wpr-lazyrender]#cww-sff-disp-wrap-outer{content-visibility:visible!important;visibility:visible!important;}',
+      /* Fallback arrow chrome for other loop carousels (not .pro-carausel) */
+      '.elementor-widget-loop-carousel:not(.pro-carausel) .elementor-swiper-button{position:absolute;top:50%;transform:translateY(-50%);z-index:5;cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;}',
+      '.elementor-widget-loop-carousel:not(.pro-carausel) .elementor-swiper-button-prev{left:10px;}',
+      '.elementor-widget-loop-carousel:not(.pro-carausel) .elementor-swiper-button-next{right:10px;}',
+      '.elementor-widget-loop-carousel:not(.pro-carausel) .elementor-swiper-button i{font-size:22px;color:inherit;}',
       /* Menu toggle: CSS hamburger/X (avoids wrong eicons glyph \\e813 = Elementor logo) */
       '.elementor-menu-toggle{display:inline-flex;align-items:center;justify-content:center;}',
       '.elementor-menu-toggle__icon--open.eicon-menu-bar,.elementor-menu-toggle__icon--close.eicon-close{font-size:0!important;line-height:0!important;speak:none;font-style:normal;position:relative;display:inline-block;color:inherit;}',
@@ -2018,6 +2214,37 @@
       '.elementor-element-f006bfc .contactform input:not([type=submit]):not([type=checkbox]):not([type=hidden]),.elementor-element-f006bfc .contactform textarea,.elementor-element-f006bfc .contactform .wpcf7-form-control-wrap,.elementor-element-f006bfc .contactform .iti{width:100%!important;max-width:100%!important;box-sizing:border-box!important;}',
       '.elementor-element-f006bfc .contactform input[type=submit]{width:100%!important;}',
       '.elementor-element-f006bfc .elementor-heading-title{color:#fff;}',
+      /* WhatsApp FAB — inline style only sets width:70px (no height) → oval stretch */
+      'a.whatsapp-button{display:block!important;width:60px!important;height:60px!important;padding:0!important;line-height:0!important;overflow:hidden!important;border-radius:50%!important;box-sizing:border-box!important;}',
+      'a.whatsapp-button img{width:60px!important;height:60px!important;max-width:60px!important;max-height:60px!important;aspect-ratio:1/1!important;object-fit:contain!important;display:block!important;margin:0!important;}',
+      /* Sticky REQUEST INQUIRY popup form layout + phone alignment */
+      '.cww-ssf-outer-wrapp.modal .cww-sff-wrapp{background:#1f2125!important;color:#fff!important;max-width:min(520px,92vw)!important;width:100%!important;padding:28px 24px 24px!important;box-sizing:border-box!important;font-size:0!important;}',
+      '.cww-ssf-outer-wrapp.modal .cww-sff-wrapp > *{font-size:16px;}',
+      '.cww-ssf-outer-wrapp.modal .cww-sff-wrapp > a[href*="sticky-floating-forms"]{display:none!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp label{color:#fff!important;font-size:14px!important;font-weight:500!important;display:block!important;margin:0 0 6px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .main-form > div{margin-bottom:14px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .main-form .two-col{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;align-items:start!important;margin-bottom:14px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .main-form .two-col > div{min-width:0!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .main-form p{margin:0!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=text],.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=email],.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=tel],.cww-ssf-outer-wrapp .cww-sff-wrapp textarea{width:100%!important;max-width:100%!important;box-sizing:border-box!important;border-radius:4px!important;border:1px solid #ccc!important;background:#fff!important;color:#11204d!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=text],.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=email],.cww-ssf-outer-wrapp .cww-sff-wrapp input[type=tel]{height:48px!important;line-height:48px!important;padding:0 14px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp textarea{min-height:110px!important;padding:12px 14px!important;resize:vertical;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input{width:100%!important;display:block!important;position:relative!important;z-index:5;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .flag-container,.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .selected-flag{height:48px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .selected-flag{display:flex!important;align-items:center!important;padding:0 8px 0 12px!important;background:transparent!important;min-width:92px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .iti-flag{width:20px!important;height:15px!important;flex-shrink:0!important;position:static!important;margin:0 6px 0 0!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .selected-dial-code{padding-left:0!important;margin:0 4px 0 0!important;line-height:1!important;color:#11204d!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input .iti-arrow{position:static!important;margin:0!important;flex-shrink:0!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .intl-tel-input input.wpcf7-phonetext{height:48px!important;line-height:48px!important;padding-left:104px!important;padding-right:14px!important;}',
+      /* Country dropdown: readable dark text; wide enough for name + dial code */
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list,.cww-ssf-outer-wrapp .intl-tel-input ul.country-list{color:#11204d!important;background:#fff!important;border:1px solid #ccc!important;z-index:100001!important;left:0!important;right:auto!important;width:min(360px,92vw)!important;min-width:280px!important;max-width:min(360px,92vw)!important;box-sizing:border-box!important;white-space:nowrap!important;overflow-x:hidden!important;overflow-y:auto!important;}',
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list .country,.cww-ssf-outer-wrapp .intl-tel-input .country-list .divider{color:#11204d!important;background:#fff!important;white-space:nowrap!important;display:flex!important;align-items:center!important;gap:6px!important;padding:8px 12px!important;line-height:1.3!important;}',
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list .country .country-name{color:#11204d!important;flex:1 1 auto!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}',
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list .country .dial-code{color:#555!important;flex:0 0 auto!important;margin-left:auto!important;padding-left:8px!important;white-space:nowrap!important;}',
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list .country.highlight,.cww-ssf-outer-wrapp .intl-tel-input .country-list .country:hover{background:#e8e8e8!important;color:#11204d!important;}',
+      '.cww-ssf-outer-wrapp .intl-tel-input .country-list .country .iti-flag{margin-right:8px!important;flex-shrink:0!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp input.wpcf7-submit{width:100%!important;height:48px!important;margin-top:4px!important;background:#e51515!important;border:none!important;color:#fff!important;font-weight:700!important;cursor:pointer!important;border-radius:4px!important;}',
+      '.cww-ssf-outer-wrapp .cww-sff-wrapp .wpcf7-response-output{font-size:14px!important;}',
     ].join('');
   }
 
@@ -2113,6 +2340,108 @@
     });
   }
   window.__astroEnsureNestedTabs = ensureNestedTabs;
+
+  /**
+   * Elementor Pro Mega Menu (n-menu) — Services dropdown on redo homepage.
+   * Webpack mega-menu chunk is often missing locally; open_on:hover adds .e-active.
+   */
+  function ensureMegaMenu() {
+    document.querySelectorAll('.elementor-widget-n-menu').forEach(function (widget) {
+      if (widget.dataset.astroMegaMenu === '1') return;
+      widget.dataset.astroMegaMenu = '1';
+
+      var settings = parseWidgetSettings(widget);
+      var openOn = settings.open_on || 'hover';
+      var menu = widget.querySelector('.e-n-menu');
+      if (!menu) return;
+
+      function stretch() {
+        if (!widget.classList.contains('e-full_width') && settings.content_width !== 'full_width') {
+          return;
+        }
+        var rect = menu.getBoundingClientRect();
+        var left = -rect.left;
+        widget.style.setProperty('--stretch-width', window.innerWidth + 'px');
+        widget.style.setProperty('--stretch-left', left + 'px');
+        widget.style.setProperty('--stretch-right', 'auto');
+        menu.style.setProperty('--stretch-width', window.innerWidth + 'px');
+        menu.style.setProperty('--stretch-left', left + 'px');
+        menu.style.setProperty('--stretch-right', 'auto');
+      }
+      stretch();
+      window.addEventListener('resize', stretch);
+
+      function closeItem(item) {
+        item.classList.remove('e-active');
+        var btn = item.querySelector('.e-n-menu-dropdown-icon');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+        var content = item.querySelector('.e-n-menu-content');
+        if (content) content.classList.remove('e-active');
+        item.querySelectorAll('.e-n-menu-content > .e-con').forEach(function (con) {
+          con.classList.remove('e-active');
+        });
+      }
+
+      function openItem(item) {
+        widget.querySelectorAll('.e-n-menu-item.e-active').forEach(function (other) {
+          if (other !== item) closeItem(other);
+        });
+        stretch();
+        item.classList.add('e-active');
+        var btn = item.querySelector('.e-n-menu-dropdown-icon');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+        var content = item.querySelector('.e-n-menu-content');
+        if (content) content.classList.add('e-active');
+        item.querySelectorAll('.e-n-menu-content > .e-con').forEach(function (con) {
+          con.classList.add('e-active');
+        });
+      }
+
+      widget.querySelectorAll('.e-n-menu-item').forEach(function (item) {
+        if (!item.querySelector('.e-n-menu-content > .e-con')) return;
+
+        if (openOn === 'hover') {
+          item.addEventListener('mouseenter', function () {
+            openItem(item);
+          });
+          item.addEventListener('mouseleave', function () {
+            closeItem(item);
+          });
+        }
+
+        var btn = item.querySelector('.e-n-menu-dropdown-icon');
+        var title = item.querySelector('.e-n-menu-title');
+        function toggle(event) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          if (item.classList.contains('e-active')) closeItem(item);
+          else openItem(item);
+        }
+        if (btn) btn.addEventListener('click', toggle);
+        // Title click (no link on SERVICES) also toggles for touch / keyboard
+        if (title && !title.querySelector('a.e-link')) {
+          title.style.cursor = 'pointer';
+          title.addEventListener('click', toggle);
+        }
+      });
+
+      var toggleBtn = widget.querySelector('.e-n-menu-toggle');
+      var wrapper = widget.querySelector('.e-n-menu-wrapper');
+      if (toggleBtn && wrapper) {
+        toggleBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+          var open = toggleBtn.getAttribute('aria-expanded') === 'true';
+          toggleBtn.setAttribute('aria-expanded', open ? 'false' : 'true');
+          toggleBtn.classList.toggle('e-active', !open);
+          menu.setAttribute('data-layout', 'dropdown');
+          wrapper.classList.toggle('e-active', !open);
+          if (!open) stretch();
+        });
+      }
+    });
+  }
 
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
@@ -2428,13 +2757,14 @@
       var firstNameEl = form.querySelector('[name="f-name"]') || form.querySelector('[name="first_name"]');
       var lastNameEl = form.querySelector('[name="l-name"]') || form.querySelector('[name="last_name"]');
       var nameEl =
+        form.querySelector('[name="Name"]') ||
         form.querySelector('[name="full-name"]') ||
         form.querySelector('[name="your-name"]') ||
         form.querySelector('[name="name"]') ||
         firstNameEl;
       var firstName = getFieldValue(form, ['f-name', 'first_name', 'firstName']);
       var lastName = getFieldValue(form, ['l-name', 'last_name', 'lastName']);
-      var fullName = getFieldValue(form, ['full-name', 'your-name', 'name', 'full_name']);
+      var fullName = getFieldValue(form, ['Name', 'full-name', 'your-name', 'name', 'full_name']);
       var nameValue = fullName || [firstName, lastName].filter(Boolean).join(' ').trim();
       if (!nameValue) {
         markFieldError(nameEl);
@@ -2451,8 +2781,11 @@
         detailMessages.push('Full name must contain only letters and spaces.');
       }
 
-      var emailEl = form.querySelector('[name="your-email"]') || form.querySelector('[name="email"]');
-      var email = getFieldValue(form, ['your-email', 'email']);
+      var emailEl =
+        form.querySelector('[name="Email"]') ||
+        form.querySelector('[name="your-email"]') ||
+        form.querySelector('[name="email"]');
+      var email = getFieldValue(form, ['Email', 'your-email', 'email']);
       if (!email) {
         markFieldError(emailEl);
         errors.push('email');
@@ -2488,21 +2821,19 @@
         }
       }
 
-      var messageEl = form.querySelector('[name="your-message"]') || form.querySelector('[name="message"]');
+      var messageEl =
+        form.querySelector('[name="your-message"]') ||
+        form.querySelector('[name="message"]') ||
+        form.querySelector('[name="textarea-292"]') ||
+        form.querySelector('textarea.wpcf7-textarea');
       if (messageEl) {
         var message = String(messageEl.value || '').trim();
-        if (!message) {
-          markFieldError(messageEl);
-          errors.push('message');
-          detailMessages.push('Message is required.');
-        } else if (fieldContainsLink(message) || fieldContainsHtml(message)) {
+        // Message is optional on Redo forms (label: "Message (Optional)").
+        if (message && (fieldContainsLink(message) || fieldContainsHtml(message))) {
           spamHit = true;
           markFieldError(messageEl);
           errors.push('message');
         }
-      } else {
-        errors.push('message');
-        detailMessages.push('Message is required.');
       }
 
       var companyEl =
@@ -2620,7 +2951,7 @@
     function enforceNameLettersOnly(form) {
       form
         .querySelectorAll(
-          'input[name="full-name"], input[name="your-name"], input[name="name"], input[name="full_name"], input[name="f-name"], input[name="l-name"], input[name="first_name"], input[name="last_name"]',
+          'input[name="Name"], input[name="full-name"], input[name="your-name"], input[name="name"], input[name="full_name"], input[name="f-name"], input[name="l-name"], input[name="first_name"], input[name="last_name"]',
         )
         .forEach(function (nameInput) {
           if (nameInput.dataset.astroLettersOnly) return;
@@ -2668,12 +2999,87 @@
       form.classList.toggle('submitting', submitting);
     }
 
+    function collectWizardSummary(form) {
+      if (!form.querySelector('.form-main .cf7-step')) return '';
+      var parts = [];
+      form.querySelectorAll('.cf7-step').forEach(function (step) {
+        if (step.classList.contains('step-6') || step.classList.contains('step-7')) return;
+        var labelEl = step.querySelector('p > label, label');
+        var question = labelEl ? String(labelEl.textContent || '').replace(/\s+/g, ' ').trim() : '';
+        var checked = step.querySelector('input[type="radio"]:checked');
+        var answer = '';
+        if (checked) {
+          var itemLabel = checked.closest('label');
+          answer = itemLabel
+            ? String(itemLabel.textContent || '').replace(/\s+/g, ' ').trim()
+            : String(checked.value || '').trim();
+        }
+        var other = step.querySelector('[name="other-option"]');
+        if (other && String(other.value || '').trim()) {
+          answer = (answer ? answer + ' — ' : '') + String(other.value).trim();
+        }
+        if (question && answer) parts.push(question + '\n' + answer);
+      });
+      return parts.join('\n\n');
+    }
+
+    function formHasUploadFiles(form) {
+      var inputs = form.querySelectorAll('input[type="file"]');
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].files && inputs[i].files.length) return true;
+      }
+      return false;
+    }
+
+    function showWizardThankYou(form) {
+      var step7 = form.querySelector('.cf7-step.step-7');
+      if (!step7) return;
+      form.querySelectorAll('.cf7-step').forEach(function (step) {
+        step.style.display = 'none';
+      });
+      step7.style.display = '';
+      var stepNumber = form.querySelector('#step-number');
+      if (stepNumber) stepNumber.textContent = '6';
+      var stepCount = form.querySelector('.step-count');
+      if (stepCount) stepCount.style.display = 'none';
+    }
+
+    function readFileAsBase64(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var result = String(reader.result || '');
+          var comma = result.indexOf(',');
+          resolve(comma >= 0 ? result.slice(comma + 1) : result);
+        };
+        reader.onerror = function () {
+          reject(reader.error || new Error('Failed to read file'));
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function collectUploadFiles(form) {
+      var files = [];
+      form.querySelectorAll('input[type="file"]').forEach(function (input) {
+        if (!input.files || !input.files.length) return;
+        for (var i = 0; i < input.files.length; i++) files.push(input.files[i]);
+      });
+      return files;
+    }
+
     function submitLegacyContactForm(form) {
       if (form.__astroSubmitting) return;
       enforcePhoneDigitsOnly(form);
       enforceNameLettersOnly(form);
       captureTrackingFields(form);
       syncPhoneNumbers(form);
+
+      var wizardSummary = collectWizardSummary(form);
+      if (wizardSummary) {
+        ensureHiddenField(form, 'message', wizardSummary);
+        ensureHiddenField(form, 'form_name', 'Redo Multistep Quote Form');
+      }
 
       if (!validateLegacyContactForm(form)) return;
 
@@ -2682,11 +3088,30 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact', {
-        method: 'POST',
-        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildContactFormPayload(form)),
-      })
+      var uploadFiles = collectUploadFiles(form);
+      var payloadPromise =
+        uploadFiles.length === 0
+          ? Promise.resolve(buildContactFormPayload(form))
+          : Promise.all(uploadFiles.map(readFileAsBase64)).then(function (encoded) {
+              var payload = buildContactFormPayload(form);
+              payload.attachments_b64 = uploadFiles.map(function (file, index) {
+                return {
+                  name: file.name,
+                  type: file.type || 'application/octet-stream',
+                  data: encoded[index],
+                };
+              });
+              return payload;
+            });
+
+      payloadPromise
+        .then(function (payload) {
+          return fetch('/api/contact/', {
+            method: 'POST',
+            headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+        })
         .then(function (response) {
           return response.json().then(function (data) {
             return { ok: response.ok, data: data };
@@ -2696,27 +3121,35 @@
           if (result.ok && result.data && result.data.success) {
             var successMsg =
               (result.data && result.data.message) || 'Thank you. Your enquiry has been received.';
-            // Avoid form.reset() — CF7 clears .wpcf7-response-output on reset.
-            clearLegacyFormFields(form);
-            clearFieldErrors(form);
+            var isWizard = Boolean(form.querySelector('.form-main .cf7-step'));
+            if (isWizard) {
+              clearFieldErrors(form);
+              showWizardThankYou(form);
+              showCf7Message(form, '', false);
+            } else {
+              clearLegacyFormFields(form);
+              clearFieldErrors(form);
+              showCf7Message(form, successMsg, false);
+            }
             form.dataset.submissionId =
               typeof crypto !== 'undefined' && crypto.randomUUID
                 ? crypto.randomUUID()
                 : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
             captureTrackingFields(form);
-            showCf7Message(form, successMsg, false);
             if (typeof window.ensurePhoneCountryFields === 'function') {
               window.__astroPhoneCountryApplied = false;
             }
-            setTimeout(function () {
-              safe(ensurePhoneCountryFields);
-              enforcePhoneDigitsOnly(form);
-              enforceNameLettersOnly(form);
-              showCf7Message(form, successMsg, false);
-            }, 100);
-            setTimeout(function () {
-              showCf7Message(form, successMsg, false);
-            }, 300);
+            if (!isWizard) {
+              setTimeout(function () {
+                safe(ensurePhoneCountryFields);
+                enforcePhoneDigitsOnly(form);
+                enforceNameLettersOnly(form);
+                showCf7Message(form, successMsg, false);
+              }, 100);
+              setTimeout(function () {
+                showCf7Message(form, successMsg, false);
+              }, 300);
+            }
             return;
           }
           showCf7Message(
@@ -2753,14 +3186,22 @@
     );
 
     document.querySelectorAll('form.wpcf7-form').forEach(function (form) {
+      // Fleet-standard contact form attributes (Astro trailingSlash: always).
+      form.setAttribute('action', '/api/contact/');
+      form.setAttribute('method', 'post');
+      form.setAttribute('novalidate', 'novalidate');
+      if (!form.getAttribute('enctype')) {
+        form.setAttribute('enctype', 'application/x-www-form-urlencoded');
+      }
       ensureLegacyTrackingFields(form);
       captureTrackingFields(form);
       enforcePhoneDigitsOnly(form);
       enforceNameLettersOnly(form);
-      // Ensure message is marked required in the DOM (some CF7 dumps omit the class).
-      form.querySelectorAll('[name="your-message"], [name="message"]').forEach(function (el) {
-        el.setAttribute('aria-required', 'true');
-        el.classList.add('wpcf7-validates-as-required');
+      // Message is optional — strip any leftover required markers from CF7 dumps.
+      form.querySelectorAll('[name="your-message"], [name="message"], [name="textarea-292"], textarea.wpcf7-textarea').forEach(function (el) {
+        el.removeAttribute('aria-required');
+        el.removeAttribute('required');
+        el.classList.remove('wpcf7-validates-as-required');
       });
       form.querySelectorAll('[name="company-name"], [name="company"], [name="company_name"], [name="your-company"]').forEach(function (el) {
         el.setAttribute('aria-required', 'true');
@@ -2995,6 +3436,76 @@
     setTimeout(onScroll, 500);
   }
 
+  /**
+   * Sticky Floating Forms Lite — open/close REQUEST INQUIRY even if plugin JS 404s.
+   * Requires jQuery when the plugin script loads; otherwise use vanilla fallback.
+   */
+  function ensureStickyInquiry() {
+    var wrap = document.getElementById('cww-sff-disp-wrap-outer');
+    if (!wrap || wrap.dataset.astroStickyInquiry === '1') return;
+    wrap.dataset.astroStickyInquiry = '1';
+    wrap.removeAttribute('data-wpr-lazyrender');
+
+    var toggle = wrap.querySelector('.cww-ssf-toggle');
+    var panel = wrap.querySelector('.cww-sff-wrapp');
+    var closeBtn = wrap.querySelector('.cww-sff-wrapp > i.dashicons, .cww-sff-wrapp .dashicons-no-alt');
+    var overlay = document.querySelector('.cww-sf-form-overlay');
+
+    function isModal() {
+      return wrap.classList.contains('modal');
+    }
+
+    function setOpen(open) {
+      if (isModal()) {
+        if (panel) panel.classList.toggle('active', open);
+      } else {
+        var inner = wrap.querySelector('.cww-sff-inner');
+        if (inner) inner.classList.toggle('active', open);
+      }
+      document.body.classList.toggle('cww-sff-overlay', open);
+      if (overlay) overlay.classList.toggle('active', open);
+    }
+
+    function onToggle(event) {
+      if (event) event.preventDefault();
+      var open = isModal()
+        ? !(panel && panel.classList.contains('active'))
+        : !(wrap.querySelector('.cww-sff-inner') || {}).classList?.contains?.('active');
+      // Prefer plugin if already wired via jQuery
+      if (window.jQuery && window.sff_data) return;
+      if (isModal()) {
+        setOpen(!(panel && panel.classList.contains('active')));
+      } else {
+        var inner = wrap.querySelector('.cww-sff-inner');
+        setOpen(!(inner && inner.classList.contains('active')));
+      }
+    }
+
+    if (toggle) {
+      toggle.addEventListener('click', function (event) {
+        // If plugin handler is present it will also fire; still OK as toggle.
+        if (window.jQuery && typeof window.jQuery.fn !== 'undefined') {
+          // Let delegated plugin handler run; only force-open CSS visibility.
+          return;
+        }
+        onToggle(event);
+      });
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (event) {
+        if (window.jQuery && typeof window.jQuery.fn !== 'undefined') return;
+        event.preventDefault();
+        setOpen(false);
+      });
+    }
+    if (overlay) {
+      overlay.addEventListener('click', function () {
+        if (window.jQuery && typeof window.jQuery.fn !== 'undefined') return;
+        setOpen(false);
+      });
+    }
+  }
+
   function boot() {
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
@@ -3020,7 +3531,9 @@
     safe(ensureShareButtons);
     safe(ensurePixfortAnimations);
     safe(ensureClassicTabs);
+    safe(ensureStickyInquiry);
     safe(ensureNestedTabs);
+    safe(ensureMegaMenu);
     safe(ensureTaxonomyFilter);
     safe(ensureStretchedSections);
     safe(ensureScrollsequence);
@@ -3066,6 +3579,7 @@
       safe(ensurePixfortAnimations);
       safe(ensureClassicTabs);
       safe(ensureNestedTabs);
+      safe(ensureMegaMenu);
       safe(ensureTaxonomyFilter);
       safe(ensureStretchedSections);
       safe(ensureScrollsequence);
@@ -3098,6 +3612,7 @@
       safe(ensureScrollsequence);
       safe(ensurePhoneCountryFields);
       safe(ensureNavMenus);
+      safe(ensureMegaMenu);
       safe(ensureKinzaFormSkin);
       safe(ensureStickySidebarClamp);
       safe(bindStickySidebarClampObservers);

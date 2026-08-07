@@ -1,0 +1,219 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAuthors, getPostsByAuthor, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+const authors = getAuthors()
+  .map((author) => {
+    const posts = getPostsByAuthor(author.id);
+    return {
+      ...author,
+      name: stripHtml(author.name) || "Connect HR",
+      path: author.path.endsWith("/") ? author.path : `${author.path}/`,
+      postCount: posts.length,
+    };
+  })
+  .filter((a) => a.postCount > 0)
+  .sort((a, b) => b.postCount - a.postCount || a.name.localeCompare(b.name));
+
+// Prefer one card per display name when aliases share posts (connecthr / adm_connecthr)
+const seenNames = new Set<string>();
+const listing = authors.filter((a) => {
+  const key = a.name.toLowerCase();
+  if (seenNames.has(key)) return false;
+  seenNames.add(key);
+  return true;
+});
+---
+
+<BaseLayout
+  currentPath="/author/"
+  menuActivePath="/blogs/"
+  bodyClass="archive author author-directory"
+  seo={{
+    title: "Authors | Connect HR",
+    description: "Browse articles by Connect HR authors and contributors.",
+    canonical: "/author/",
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blogs", url: "/blogs/" },
+        { name: "Authors", url: "/author/" },
+      ]),
+    ],
+  }}
+>
+  <section class="chr-author-dir">
+    <div class="chr-author-dir__inner">
+      <p class="chr-author-dir__eyebrow">Blog</p>
+      <h1 class="chr-author-dir__title">Authors</h1>
+      <p class="chr-author-dir__lead">
+        Meet the writers behind Connect HR insights on HR software, payroll, and workforce compliance in the UAE.
+      </p>
+
+      {
+        listing.length === 0 ? (
+          <p class="chr-author-dir__empty">No authors with published articles yet.</p>
+        ) : (
+          <ul class="chr-author-dir__list">
+            {listing.map((author) => (
+              <li>
+                <a class="chr-author-dir__card" href={author.path}>
+                  <span class="chr-author-dir__avatar" aria-hidden="true">
+                    {author.avatar ? (
+                      <img src={author.avatar} alt="" width="64" height="64" loading="lazy" />
+                    ) : (
+                      <span>{author.name.slice(0, 1).toUpperCase()}</span>
+                    )}
+                  </span>
+                  <span class="chr-author-dir__meta">
+                    <span class="chr-author-dir__name">{author.name}</span>
+                    <span class="chr-author-dir__count">
+                      {author.postCount} {author.postCount === 1 ? "article" : "articles"}
+                    </span>
+                    {author.description ? (
+                      <span class="chr-author-dir__desc">{stripHtml(author.description)}</span>
+                    ) : null}
+                  </span>
+                  <span class="chr-author-dir__cta">View articles →</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <p class="chr-author-dir__footer">
+        <a href="/blogs/">← Back to blogs</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .chr-author-dir {
+    --chr-ink: #101419;
+    --chr-teal: #009a79;
+    --chr-mist: #f5f7f7;
+    --chr-line: #e7e6e7;
+    padding: 3rem 0 4.5rem;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0, 154, 121, 0.1), transparent),
+      linear-gradient(180deg, #fff 0%, var(--chr-mist) 100%);
+  }
+  .chr-author-dir__inner {
+    width: min(44rem, calc(100% - 2.5rem));
+    margin: 0 auto;
+  }
+  .chr-author-dir__eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--chr-teal);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .chr-author-dir__title {
+    margin: 0 0 0.75rem;
+    color: var(--chr-ink);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .chr-author-dir__lead {
+    margin: 0 0 2rem;
+    color: #5b5b5b;
+    line-height: 1.55;
+    max-width: 36rem;
+  }
+  .chr-author-dir__empty {
+    color: #5b5b5b;
+  }
+  .chr-author-dir__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .chr-author-dir__card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.15rem 1.25rem;
+    background: #fff;
+    border: 1px solid var(--chr-line);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .chr-author-dir__card:hover {
+    border-color: rgba(0, 154, 121, 0.45);
+    box-shadow: 0 8px 24px rgba(16, 20, 25, 0.06);
+  }
+  .chr-author-dir__avatar {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    background: #ebfef7;
+    color: var(--chr-teal);
+    font-size: 1.25rem;
+    font-weight: 700;
+    overflow: hidden;
+  }
+  .chr-author-dir__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .chr-author-dir__meta {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+  .chr-author-dir__name {
+    color: var(--chr-ink);
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .chr-author-dir__count {
+    color: #5b5b5b;
+    font-size: 0.9rem;
+  }
+  .chr-author-dir__desc {
+    color: #6b6b6b;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .chr-author-dir__cta {
+    color: var(--chr-teal);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .chr-author-dir__footer {
+    margin: 2rem 0 0;
+  }
+  .chr-author-dir__footer a {
+    color: var(--chr-teal);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .chr-author-dir__footer a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 560px) {
+    .chr-author-dir__card {
+      grid-template-columns: auto 1fr;
+    }
+    .chr-author-dir__cta {
+      grid-column: 2;
+    }
+  }
+</style>

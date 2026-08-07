@@ -178,9 +178,15 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   z-index: 2;
 }
 
-/* Hero / content images: avoid Impreza height:inherit shrinking heroes */
+/*
+ * Hero / content images: avoid Impreza height:inherit shrinking large heroes.
+ * First-section photos (country EOR pages, etc.) fill their column.
+ * Badge/logo overrides below keep MOHRE / approval / stars compact.
+ */
 .l-main .l-section:first-of-type .w-image,
 .l-main .l-section:first-of-type .w-image-h,
+.l-main .us_custom_8570792b .w-image,
+.l-main .us_custom_8570792b .w-image-h,
 .l-main .us_custom_f91fe372 .w-image,
 .l-main .us_custom_f91fe372 .w-image-h,
 .l-main .img_peo.w-image,
@@ -188,14 +194,72 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   height: auto !important;
   max-height: none !important;
 }
+
 .l-main .l-section:first-of-type .w-image img,
+.l-main .us_custom_8570792b .w-image img,
 .l-main .us_custom_f91fe372 .w-image img,
-.l-main .img_peo img {
+.l-main .img_peo img,
+.l-main .head_ban_pr .w-image img {
   max-height: none !important;
   width: 100% !important;
   height: auto !important;
   max-width: 100% !important;
   object-fit: contain;
+}
+
+/*
+ * Approval / review / authority badges — keep compact (not column-wide).
+ * Specificity must beat the first-section width:100% rule above.
+ */
+.l-main .l-section:first-of-type .w-image img[src*="Ministry-of-Human-Resources"],
+.l-main .l-section:first-of-type .w-image img[src*="Federal-Authority-for-Identity"],
+.l-main .l-section:first-of-type .w-image img[src*="Government-of-Dubai-logo"],
+.l-main .l-section:first-of-type .w-image img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"],
+.l-main .l-section:first-of-type .w-image img[src*="Frame-1707483967"],
+.l-main .l-section:first-of-type .w-image img[src*="/Rating.png"],
+.l-main .l-section:first-of-type .w-image img[src*="five-stars"],
+.l-main .l-section:first-of-type .w-image img[src*="/Approved.webp"],
+.l-main .l-section:first-of-type .w-image img[src*="/Approved.png"],
+.l-main .l-section:first-of-type .w-image img[src*="mohre-logo"],
+.l-main img[src*="Ministry-of-Human-Resources"],
+.l-main img[src*="Federal-Authority-for-Identity"],
+.l-main img[src*="Government-of-Dubai-logo"],
+.l-main img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"],
+.l-main img[src*="Frame-1707483967"],
+.l-main img[src*="/Rating.png"],
+.l-main img[src*="five-stars"],
+.l-main img[src*="/Approved.webp"],
+.l-main img[src*="/Approved.png"],
+.elementor img[src*="/Approved.webp"],
+.elementor img[src*="/Approved.png"] {
+  width: auto !important;
+  max-width: 220px !important;
+  height: auto !important;
+}
+
+.l-main .l-section:first-of-type .w-image img[src*="Frame-1707483967"],
+.l-main .l-section:first-of-type .w-image img[src*="/Rating.png"],
+.l-main .l-section:first-of-type .w-image img[src*="five-stars"],
+.l-main img[src*="Frame-1707483967"],
+.l-main img[src*="/Rating.png"],
+.l-main img[src*="five-stars"] {
+  max-width: 180px !important;
+}
+
+.l-main .l-section:first-of-type .w-image:has(img[src*="Ministry-of-Human-Resources"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Federal-Authority-for-Identity"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Government-of-Dubai-logo"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="de13ab4d3ea167994be32e0079e46d5eedc3dc48"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="Frame-1707483967"]),
+.l-main .l-section:first-of-type .w-image:has(img[src*="mohre-logo"]) {
+  max-width: 220px;
+}
+
+.l-main .l-section:first-of-type .w-image:has(img[src*="Ministry-of-Human-Resources"]) img,
+.l-main .l-section:first-of-type .w-image:has(img[src*="Federal-Authority-for-Identity"]) img,
+.l-main .l-section:first-of-type .w-image:has(img[src*="Government-of-Dubai-logo"]) img {
+  max-width: 120px !important;
+  max-height: 90px !important;
 }
 
 /*
@@ -789,11 +853,80 @@ body.elementor-template-canvas .l-canvas--elementor-canvas {
   z-index: 100;
 }
 
+/*
+ * Lead forms (hero / sidebar) — keep SUBMIT clear of the card edge.
+ * Live us_custom often sets padding-bottom:0 on desktop; restore inset sitewide.
+ */
+.form_lp1,
+.g-cols.form_lp1,
+.us_custom_fcea59d9.form_lp1 {
+  padding: 1.4rem 1.2rem 1.4rem 1.2rem !important;
+  box-sizing: border-box !important;
+}
+
+.staff_form {
+  padding: 1.4rem 1.2rem !important;
+  box-sizing: border-box !important;
+}
+
+.form_journey .vc_column-inner.us_custom_6b3cfe98,
+.vc_column-inner.us_custom_6b3cfe98 {
+  padding: 2rem 1.4rem 1.4rem 1.4rem !important;
+  box-sizing: border-box !important;
+}
+
+.ult-content-box:has(form.wpcf7-form),
+.ult-content-box:has(.wpcf7),
+.box_padding .ult-content-box,
+.box_pad .ult-content-box {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.corporate-form,
+.elementor-widget-container:has(.corporate-form),
+.elementor-widget-container:has(form.wpcf7-form .wpcf7-submit) {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+#lp-form,
+body.elementor-page-66853 #lp-form,
+.form_lp,
+.residency_form {
+  padding-bottom: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+#lp-form {
+  padding: 20px !important;
+}
+
+.form_lp p:last-of-type,
+.form_lp1 p:last-of-type,
+.staff_form p:last-of-type,
+.residency_form p:last-of-type,
+.corporate-form p:last-of-type,
+#lp-form p:last-of-type,
+.wpcf7 form > p:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.form_lp input[type="submit"],
+.form_lp1 input[type="submit"],
+.staff_form input[type="submit"],
+.residency_form input[type="submit"],
+.corporate-form input[type="submit"],
+#lp-form input[type="submit"],
+.ult-content-box input[type="submit"].wpcf7-submit {
+  margin-bottom: 0.25rem !important;
+}
+
 /* LP bottom form — beat Impreza / shared blog form rules on canvas page */
 body.elementor-page-66853 #lp-form {
   border-radius: 20px;
   background: #fff;
-  padding: 20px 20px 0;
+  padding: 20px !important;
   font-family: "Special Gothic", Sans-serif;
 }
 

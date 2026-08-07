@@ -8,11 +8,18 @@ import { logFormFailure } from '../../services/logger';
 import { getClientIp, isRateLimited } from '../../utils/form/rate-limit';
 import { maskSensitiveValue } from '../../utils/form/mask';
 import { parseContactFormBody } from '../../utils/form/parse-contact-body';
+import {
+  collectFilesFromFormData,
+  persistBase64Attachments,
+  persistContactAttachments,
+  type IncomingBase64Attachment,
+} from '../../utils/form/persist-attachments';
 import { validateContactForm, type ContactFormInput } from '../../utils/form/validate';
 
 export const prerender = false;
 
-const MAX_BODY_BYTES = 32_768;
+const MAX_JSON_BODY_BYTES = 40 * 1024 * 1024; // includes base64 wizard uploads
+const MAX_MULTIPART_BODY_BYTES = 40 * 1024 * 1024;
 
 function jsonResponse(body: Record<string, unknown>, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -36,8 +43,11 @@ export const POST: APIRoute = async ({ request }) => {
   const timestamp = new Date().toISOString();
   let env;
 
+  const contentType = request.headers.get('content-type') || '';
+  const isMultipart = contentType.includes('multipart/form-data');
+  const maxBody = isMultipart ? MAX_MULTIPART_BODY_BYTES : MAX_JSON_BODY_BYTES;
   const contentLength = Number(request.headers.get('content-length') || 0);
-  if (contentLength > MAX_BODY_BYTES) {
+  if (contentLength > maxBody) {
     logFormFailure({
       requestId,
       timestamp,
@@ -82,8 +92,8 @@ export const POST: APIRoute = async ({ request }) => {
 
   let input: ContactFormInput;
   try {
-    const contentType = request.headers.get('content-type') || '';
-    if (contentType.includes('application/json')) {
+    const contentTypeHeader = request.headers.get('content-type') || '';
+    if (contentTypeHeader.includes('application/json')) {
       const json = (await request.json()) as Record<string, unknown>;
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
@@ -95,11 +105,23 @@ export const POST: APIRoute = async ({ request }) => {
         }
       }
       input = parseContactFormBody(raw, arrays);
+      if (!input.submissionId) input.submissionId = crypto.randomUUID();
+      const b64 = Array.isArray((json as { attachments_b64?: unknown }).attachments_b64)
+        ? ((json as { attachments_b64: IncomingBase64Attachment[] }).attachments_b64 || [])
+        : [];
+      if (b64.length) {
+        const saved = await persistBase64Attachments(env.leadStoreDir, input.submissionId, b64);
+        if (saved.error) {
+          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
+        }
+        input.attachments = saved.attachments;
+      }
     } else {
       const formData = await request.formData();
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
       formData.forEach((value, key) => {
+        if (value instanceof File) return;
         if (key.endsWith('[]')) {
           const arrayKey = key.slice(0, -2);
           if (!arrays[arrayKey]) arrays[arrayKey] = [];
@@ -109,6 +131,16 @@ export const POST: APIRoute = async ({ request }) => {
         raw[key] = value;
       });
       input = parseContactFormBody(raw, arrays);
+
+      if (!input.submissionId) input.submissionId = crypto.randomUUID();
+      const files = collectFilesFromFormData(formData);
+      if (files.length) {
+        const saved = await persistContactAttachments(env.leadStoreDir, input.submissionId, files);
+        if (saved.error) {
+          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
+        }
+        input.attachments = saved.attachments;
+      }
     }
   } catch {
     logFormFailure({

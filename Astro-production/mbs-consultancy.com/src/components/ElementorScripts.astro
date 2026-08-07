@@ -1,0 +1,67 @@
+---
+/**
+ * MBS — correct boot order for Smart Slider 3 + Elementor + Master Accordion FAQ.
+ *
+ * Smart Slider:
+ *   1) stub _N2 queue
+ *   2) n2.min + frontend + widgets + ss-simple
+ *   3) slider init inline (n2-ss-2)
+ *
+ * Elementor / FAQ:
+ *   1) elementorFrontendConfig + ElementorProFrontendConfig + ma_el_fs
+ *   2) Elementor webpack/frontend (+ pro)
+ *   3) ma-accordion (hooks elementor/frontend/init)
+ */
+---
+
+<script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
+<script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
+
+{/* Insights listing expects WP ajax_object */}
+<script is:inline>
+  window.ajax_object = window.ajax_object || { ajax_url: "/api/blog/insights/" };
+</script>
+
+{/* ——— Smart Slider ——— */}
+<script is:inline src="/scripts/mbs-n2-stub.js"></script>
+<script is:inline src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js"></script>
+<script is:inline src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js"></script>
+<script is:inline src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js"></script>
+<script is:inline src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js"></script>
+<script is:inline src="/scripts/mbs-n2-slider-2.js"></script>
+
+{/* ——— Impreza ——— */}
+<script is:inline src="/wp-content/themes/Impreza/js/us.core.min.js"></script>
+<script is:inline src="/wp-content/themes/Impreza-child/custom-scripts.js"></script>
+
+{/* ——— Elementor config BEFORE frontend ——— */}
+<script is:inline src="/scripts/mbs-elementor-config.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
+
+{/* Master Accordion FAQ — registers on elementor/frontend/init */}
+<script is:inline src="/scripts/mbs-ma-fs.js"></script>
+<script is:inline src="/wp-content/plugins/master-addons/assets/js/addons/ma-accordion.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widget-scripts.js"></script>
+
+{/* Easy TOC (blog singles) */}
+<script is:inline src="/scripts/mbs-eztoc-config.js"></script>
+<script is:inline src="/wp-content/plugins/easy-table-of-contents/vendor/js-cookie/js.cookie.min.js"></script>
+<script is:inline src="/wp-content/plugins/easy-table-of-contents/vendor/sticky-kit/jquery.sticky-kit.min.js"></script>
+<script is:inline src="/wp-content/plugins/easy-table-of-contents/assets/js/smooth_scroll.min.js"></script>
+<script is:inline src="/wp-content/plugins/easy-table-of-contents/assets/js/front.min.js"></script>
+
+<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
+<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"></script>
+<script is:inline src="/wp-content/plugins/contact-form-7/includes/js/index.js"></script>
+<script is:inline src="/scripts/phone-flags.js"></script>
+
+<script is:inline src="/scripts/cf7-bridge.js"></script>
+<script is:inline src="/scripts/mbs-interactions.js"></script>

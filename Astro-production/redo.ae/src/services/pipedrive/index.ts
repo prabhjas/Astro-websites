@@ -180,6 +180,62 @@ async function createLead(
   return { ok: true, id: result.data.id, status: result.status };
 }
 
+async function uploadFileToPipedrive(
+  env: ServerEnv,
+  filePath: string,
+  originalName: string,
+  mimeType: string,
+  personId: number,
+  leadId: string,
+): Promise<{ ok: boolean; status: number; error?: string }> {
+  const { readFile } = await import('node:fs/promises');
+  const bytes = await readFile(filePath);
+  const blob = new Blob([new Uint8Array(bytes)], { type: mimeType || 'application/octet-stream' });
+  const body = new FormData();
+  body.append('file', blob, originalName);
+  body.append('person_id', String(personId));
+  body.append('lead_id', leadId);
+
+  const url = new URL(`${apiBase(env.pipedriveCompanyDomain)}/files`);
+  url.searchParams.set('api_token', env.pipedriveApiToken);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), env.pipedriveRequestTimeoutMs);
+
+  let response: Response;
+  try {
+    response = await fetch(url.toString(), {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    clearTimeout(timeout);
+    return {
+      ok: false,
+      status: 0,
+      error: error instanceof Error ? error.message : 'Pipedrive file upload network error',
+    };
+  }
+  clearTimeout(timeout);
+
+  let parsed: PipedriveApiResponse<{ id: number }> | null = null;
+  try {
+    parsed = (await response.json()) as PipedriveApiResponse<{ id: number }>;
+  } catch {
+    return { ok: false, status: response.status, error: 'Invalid Pipedrive file upload response' };
+  }
+
+  if (!response.ok || !parsed?.success) {
+    return {
+      ok: false,
+      status: response.status,
+      error: parsed?.error || parsed?.error_info || `Pipedrive file upload failed (${response.status})`,
+    };
+  }
+  return { ok: true, status: response.status };
+}
+
 export async function createPipedriveLead(env: ServerEnv, form: NormalisedContactForm): Promise<PipedriveResult> {
   const personResult = await createPerson(env, form);
   if (!personResult.ok || !personResult.id) {
@@ -209,6 +265,30 @@ export async function createPipedriveLead(env: ServerEnv, form: NormalisedContac
       retryable: classified.retryable,
       errorCode: classified.errorCode,
     };
+  }
+
+  // Attach wizard uploads to the person + lead (best-effort; lead still succeeds if upload fails).
+  const attachments = form.attachments || [];
+  for (const file of attachments) {
+    try {
+      const uploaded = await uploadFileToPipedrive(
+        env,
+        file.storedPath,
+        file.originalName,
+        file.mimeType,
+        personResult.id,
+        leadResult.id,
+      );
+      if (!uploaded.ok) {
+        console.warn('[pipedrive] file upload failed', file.originalName, uploaded.error);
+      }
+    } catch (error) {
+      console.warn(
+        '[pipedrive] file upload error',
+        file.originalName,
+        error instanceof Error ? error.message : error,
+      );
+    }
   }
 
   return { success: true, personId: personResult.id, leadId: leadResult.id, retryable: false };

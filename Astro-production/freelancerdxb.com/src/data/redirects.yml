@@ -1,0 +1,40 @@
+# Canonical interim redirects for freelancerdxb.com
+# Keep relative targets. FLOW owns day-to-day edits via /api/internal/redirects/*.
+# Drop future WP Redirection / Yoast exports under imports/redirects/.
+
+redirects:
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /freelance-services/
+    to: /freelance/
+    status: 301
+  - from: /journey/
+    to: /freelance-journey/
+    status: 301
+  # Contact lives as in-page #contactform on main pages (no /contact/ page on live WP).
+  - from: /contact/
+    to: /#contactform
+    status: 301
+  - from: /contact-us/
+    to: /#contactform
+    status: 301
+  # Default WP sample post — not migrated.
+  - from: /hello-world/
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /comments/feed/
+    to: /
+    status: 301
