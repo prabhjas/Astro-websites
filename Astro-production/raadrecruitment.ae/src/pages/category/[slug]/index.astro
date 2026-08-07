@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import {
+  getCategoryBySlug,
+  getPostsByCategory,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../lib/content";
+import { renderBlogCardsHtml } from "../../../lib/blog-card-html";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const category = getCategoryBySlug(slug);
+if (!category) {
+  return notFoundResponse();
+}
+const sorted = getPostsByCategory(category.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const cardsHtml = items.length ? renderBlogCardsHtml(items) : "";
+---
+
+<BaseLayout
+  currentPath={category.path}
+  bodyClass={`archive category category-${category.slug} category-id-${category.id}`}
+  seo={{
+    title: `${stripHtml(category.name)} Archives | RAAD Recruitment`,
+    description: category.description || `Articles in ${category.name} from RAAD Recruitment.`,
+    canonical: category.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+        { name: category.name, url: category.path },
+      ]),
+    ],
+  }}
+  extraCss={["/wp-content/uploads/elementor/css/post-540.css"]}
+  menuActivePath="/insights/"
+>
+  <section class="cfz-archive-hero">
+    <div class="cfz-archive-hero__inner">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Insights", href: "/insights/" },
+          { name: stripHtml(category.name) },
+        ]}
+      />
+      <h1 set:html={category.name} />
+      {category.description && <p set:html={category.description} />}
+    </div>
+  </section>
+  <section class="cfz-archive-grid">
+    {
+      items.length ? (
+        <div
+          class="elementor-grid elementor-posts-container elementor-grid-3"
+          set:html={cardsHtml}
+        />
+      ) : (
+        <p>No posts in this category yet.</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={category.path} />
+  </section>
+</BaseLayout>
