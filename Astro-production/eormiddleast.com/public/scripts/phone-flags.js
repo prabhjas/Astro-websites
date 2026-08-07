@@ -89,19 +89,6 @@
     } catch {
       /* fall through */
     }
-    for (const url of ["https://ipwho.is/", "https://get.geojs.io/v1/ip/country.json"]) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) continue;
-        const data = await res.json();
-        const code = String(data.country_code || data.country || "")
-          .trim()
-          .toLowerCase();
-        if (/^[a-z]{2}$/.test(code) && code !== "xx") return code;
-      } catch {
-        /* try next */
-      }
-    }
     return fallback;
   }
 

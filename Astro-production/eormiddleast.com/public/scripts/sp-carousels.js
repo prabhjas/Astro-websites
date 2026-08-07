@@ -52,7 +52,6 @@
           : Number(spaceRaw) || 30;
 
       try {
-        // eslint-disable-next-line no-new
         new SwiperCtor(el, {
           slidesPerView: mobile,
           loop: settings.loop !== "no" && settings.infinite !== "no",
