@@ -1,0 +1,57 @@
+{
+  "siteTitle": "Payroll Middle East",
+  "summary": "Payroll Middle East helps companies run compliant payroll across the Middle East — outsourcing, WPS, labour-law guidance, and country coverage from the UAE to Saudi Arabia, Qatar, Kuwait, Oman, Egypt, Turkey, and more.",
+  "details": "Based in the region and part of Connect Group, Payroll Middle East publishes provider rankings, country payroll guides, and practical insights on gratuity, end-of-service, and wage protection.",
+  "groupOrder": [
+    "Company Pages",
+    "Countries",
+    "Providers",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Insights cover payroll outsourcing, WPS, labour law, gratuity, and country-specific payroll guides.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Payroll Middle East homepage — independent payroll organization for the Middle East."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Payroll Middle East."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact",
+      "description": "Contact Payroll Middle East."
+    },
+    "/insights/": {
+      "group": "Blog",
+      "title": "Insights",
+      "description": "Payroll and labour-law insights for the Middle East."
+    },
+    "/top-payroll-service-providers/": {
+      "group": "Providers",
+      "title": "Top Payroll Service Providers",
+      "description": "Directory of top payroll service providers."
+    },
+    "/ranking-payroll-service-companies/": {
+      "group": "Providers",
+      "title": "Payroll Company Rankings",
+      "description": "Rankings of payroll service companies."
+    },
+    "/company/": {
+      "group": "Providers",
+      "title": "Companies",
+      "description": "Payroll company profiles."
+    },
+    "/country/": {
+      "group": "Countries",
+      "title": "Countries",
+      "description": "Country payroll guides across the Middle East."
+    }
+  }
+}
