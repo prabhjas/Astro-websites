@@ -1,0 +1,8 @@
+---
+/**
+ * Live / peer pattern (eormiddleast): /blog/ → /insights/
+ * Insights mirror lives at src/legacy/insights.cleaned.html via [...slug].
+ */
+export const prerender = false;
+return Astro.redirect('/insights/', 301);
+---

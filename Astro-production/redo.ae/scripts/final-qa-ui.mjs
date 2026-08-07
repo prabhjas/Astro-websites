@@ -41,7 +41,7 @@ out.homePhone = await page.evaluate(() => {
 if (out.homePhone.overlap !== false) out.fails.push('phone_overlap');
 
 // --- Blog ---
-await page.goto(`${BASE}/blog/`, { waitUntil: 'load', timeout: 60000 });
+await page.goto(`${BASE}/insights/`, { waitUntil: 'load', timeout: 60000 });
 await settle();
 await page.waitForSelector('#blog-list .post', { timeout: 20000 }).catch(() => null);
 out.blog = await page.evaluate(() => ({

@@ -28,5 +28,20 @@ ProtectHome=true
 ReadWritePaths=/opt/Astro-production/kinzahr.com/.data /var/kinzahr/enhanced-live
 # Add other LEAD_STORE_DIR / INTERNAL_* paths under /var/... here if used.
 
+# --- sandbox parity with the established fleet units (CONNECT-ASTRO-FLEET-STANDARD 6.2) ---
+TasksMax=256
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+UMask=0027
+
 [Install]
 WantedBy=multi-user.target

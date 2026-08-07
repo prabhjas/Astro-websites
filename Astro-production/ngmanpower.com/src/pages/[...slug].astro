@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
+import {
+  getPageByPath,
+  getPublishedPostByPath,
+  stripHtml,
+  normalizePath,
+} from "../lib/content";
+import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { notFoundResponse } from "../lib/not-found";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slugPath = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/${slugPath}`);
+
+const page = getPageByPath(path);
+const post = page ? null : getPublishedPostByPath(path);
+
+if (!page && !post) {
+  return notFoundResponse();
+}
+
+const entry = page || post!;
+const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+
+const pageCrumbs = page
+  ? (() => {
+      const crumbs = [
+        { name: "Home", href: "/" },
+        { name: stripHtml(page.title), href: undefined as string | undefined },
+      ];
+      const parts = path.replace(/^\/|\/$/g, "").split("/").filter(Boolean);
+      if (parts.length >= 2) {
+        crumbs.splice(1, 0, {
+          name: parts[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+          href: `/${parts[0]}/`,
+        });
+      }
+      return crumbs;
+    })()
+  : [];
+
+const postCrumbs = post
+  ? [
+      { name: "Home", href: "/" },
+      { name: "Insights", href: "/insights/" },
+      { name: stripHtml(post.title) },
+    ]
+  : [];
+
+const seo = page
+  ? {
+      title: page.seo.title,
+      description: page.seo.description,
+      canonical: path,
+      ogImage: page.seo.ogImage,
+      schemas: [
+        ...(page.seo.schemas || []),
+        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+      ],
+    }
+  : {
+      title: post!.seo.title || stripHtml(post!.title),
+      description: post!.seo.description || stripHtml(post!.excerpt),
+      canonical: path,
+      ogImage: post!.seo.ogImage || post!.featuredImage,
+      ogType: "article" as const,
+      publishedTime: post!.date,
+      modifiedTime: post!.modified,
+      authorName: post!.authorName,
+      schemas: [
+        ...(post!.seo.schemas || []),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        articleSchema(
+          {
+            title: stripHtml(post!.title),
+            description: post!.seo.description || stripHtml(post!.excerpt),
+            url: path,
+            image: post!.featuredImage || post!.seo.ogImage,
+            datePublished: post!.date,
+            dateModified: post!.modified,
+            authorName: post!.authorName,
+          },
+          Astro.url.origin,
+        ),
+      ],
+    };
+
+const isListingArchive =
+  !!page &&
+  (path.startsWith("/categories/") ||
+    path.startsWith("/locations/") ||
+    page.wpType === "mt_listing_archive");
+
+/** Page/post CSS from content data only (Impreza — no Elementor kit CSS). */
+const extraCss = page
+  ? ([...(page.pageCss || [])].filter(Boolean) as string[])
+  : ([...(post!.pageCss || [])].filter(Boolean) as string[]);
+
+const postUsesElementor =
+  !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
+
+const pageBodyClass = page
+  ? isListingArchive
+    ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
+    : `wp-singular page-template-default page page-id-${page.id}`
+  : `wp-singular single single-post postid-${post!.id} post-${post!.id} post type-post status-publish`;
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={pageBodyClass}
+  fallback={entry.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={post ? "/insights/" : undefined}
+>
+  {
+    page ? (
+      <Fragment set:html={html} />
+    ) : postUsesElementor ? (
+      <Fragment set:html={post!.bodyHtml} />
+    ) : (
+      <ConnectFzSinglePost post={post!} html={html} />
+    )
+  }
+</BaseLayout>

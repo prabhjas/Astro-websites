@@ -1,0 +1,80 @@
+{
+  "name": "Emirati Guard",
+  "shortName": "Emirati Guard",
+  "url": "https://emiratiguard.com",
+  "description": "Emirati Guard, Top Emirati Security Service provider in UAE provides security services for Cash, Private, High Rise Building, Events,Security",
+  "email": "info@emiratiguard.com",
+  "phone": "",
+  "phoneTel": "",
+  "whatsapp": "",
+  "whatsappUrl": "",
+  "logo": "/wp-content/uploads/2023/01/logo-horizontal-emiratiguard-white.png",
+  "logoSvg": "",
+  "ogImage": "",
+  "favicon": "/wp-content/uploads/2022/07/cropped-favicon-32x32.png",
+  "appleTouchIcon": "/wp-content/uploads/2022/07/cropped-favicon-32x32.png",
+  "colors": {
+    "primary": "#0B1F3A",
+    "secondary": "#1B4F72",
+    "text": "#333333",
+    "accent": "#C9A227",
+    "white": "#FFFFFF"
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact-us/"
+    }
+  ],
+  "footerServices": [],
+  "footerQuickLinks": [
+    {
+      "label": "About Us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Our Services",
+      "href": "/security-services/"
+    },
+    {
+      "label": "Contact Us",
+      "href": "/contact-us/"
+    }
+  ],
+  "cssFiles": [
+    "/wp-includes/css/dist/block-library/style.min.css",
+    "/wp-content/plugins/advanced-post-block/build/view.css",
+    "/wp-content/plugins/wp-blog-post-layouts/includes/assets/css/build.css",
+    "/wp-includes/css/dashicons.min.css",
+    "/wp-includes/css/admin-bar.min.css",
+    "/wp-content/plugins/blog-designer//admin/css/fontawesome-all.min.css",
+    "/wp-content/plugins/blog-designer/public/css/designer_css.css",
+    "/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+    "/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/plugins/wp-blog-post-layouts/includes/assets/fontawesome/css/all.min.css",
+    "/wp-content/themes/twentytwenty/style.css",
+    "/wp-content/themes/twentytwenty/print.css",
+    "/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+    "/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+    "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css",
+    "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css",
+    "/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+    "/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+    "/wp-content/plugins/visualcomposer/public/dist/front.bundle.css",
+    "/wp-content/plugins/visualcomposer/public/sources/assetsLibrary/backgroundSimple/dist/backgroundSimple.bundle.css",
+    "/wp-content/plugins/visualcomposer/public/sources/assetsLibrary/imageFilter/dist/imageFilter.bundle.css",
+    "/wp-content/plugins/visualcomposer/public/sources/assetsLibrary/parallaxBackground/dist/parallaxBackground.bundle.css"
+  ],
+  "headerHtml": "",
+  "footerHtml": ""
+}
