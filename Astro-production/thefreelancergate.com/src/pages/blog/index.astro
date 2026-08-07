@@ -1,0 +1,54 @@
+---
+/**
+ * /blog/ — Impreza posts archive. Prefer HTML mirror; else JSON listing.
+ */
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPageByPath, getPosts } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+import { serveLegacyPage } from "../../lib/legacy-page";
+
+export const prerender = false;
+
+const mirror = join(process.cwd(), "src/legacy/blog.cleaned.html");
+if (existsSync(mirror)) {
+  return serveLegacyPage("blog");
+}
+
+const path = "/blog/";
+const page = getPageByPath(path);
+const posts = getPosts();
+const title = page?.seo?.title || "Blog | The Freelancer Gate";
+const description =
+  page?.seo?.description ||
+  "Freelance visa guides and articles from The Freelancer Gate.";
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass="archive blog"
+  fallback={page?.seo}
+  seo={{
+    title,
+    description,
+    canonical: path,
+    ogImage: page?.seo?.ogImage,
+    schemas: [
+      ...(page?.seo?.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: path },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-blog" style="max-width:72rem;margin:2rem auto;padding:0 1.25rem;">
+    <h1 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Blog</h1>
+    <p style="margin-bottom:2rem;opacity:0.8;">{description}</p>
+    <div style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));">
+      {posts.slice(0, 24).map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
