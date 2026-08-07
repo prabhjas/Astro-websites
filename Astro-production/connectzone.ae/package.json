@@ -17,6 +17,8 @@
     "extract": "node scripts/extract-wp.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
     "blog:images": "node scripts/sync-blog-images.mjs",
+    "assets:audit": "node scripts/audit-and-fetch-assets.mjs",
+    "assets:fix": "node scripts/audit-and-fetch-assets.mjs --fix --rewrite",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",

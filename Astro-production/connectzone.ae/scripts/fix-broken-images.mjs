@@ -5,12 +5,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-const LIVE = "https://spheavyrental.ae";
-const LOCAL = "http://127.0.0.1:4321";
+const LIVE = process.env.ASSET_ORIGIN || "https://connectzone.ae";
+const LOCAL = process.env.LOCAL_ORIGIN || "http://127.0.0.1:5101";
 const paths = [
-  "/about-us/",
-  "/heavy-machinery-rental/",
-  "/power-generator-rental/",
+  "/",
+  "/contact-us/",
+  "/insights/",
+  "/emirates-id-status-check-dubai/",
+  "/best-pro-services-in-ajman/",
 ];
 
 const browser = await chromium.launch({ headless: true });
