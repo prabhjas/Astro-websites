@@ -52,3 +52,7 @@ export type {
 } from './leads/types.js';
 
 export { sanitizeCmsHtml, sanitizeMirrorHtml, sanitizeGtmHtml } from './security/sanitize-html.js';
+export {
+  absolutizeMirrorSeoHtml,
+  type AbsolutizeMirrorSeoOptions,
+} from './seo/absolutize-mirror-seo.js';
