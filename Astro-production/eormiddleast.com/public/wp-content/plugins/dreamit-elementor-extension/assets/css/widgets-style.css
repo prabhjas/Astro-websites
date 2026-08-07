@@ -200,7 +200,7 @@ Slick Slider
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(http://webitkurigram.com/wp/datatech/wp-content/uploads/2020/06/cyber-security-slider.png);
+    background-image: none;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -271,7 +271,7 @@ Slick Slider
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(http://webitkurigram.com/wp/datatech/wp-content/uploads/2020/06/cyber-security-slider.png);
+    background-image: none;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1697,7 +1697,7 @@ outline: 0 !important;
     top: -11px;
     right: 0px;
     bottom: 0px;
-    background: url(http://wp.dreamitsolution.net/datatech/wp-content/uploads/2021/01/service-icon-shape.png);
+    background: none;
     -webkit-animation-name: rotateme;
     animation-name: rotateme;
     -webkit-animation-duration: 20s;
@@ -2107,7 +2107,7 @@ margin:10px 15px 30px;
     content: "";
     height: 100%;
     width: 120%;
-    background: url(http://localhost/datatech/wp-content/uploads/2021/08/service-sp.png);
+    background: none;
     top: 0;
     border: 0;
     z-index: -1;
@@ -2399,7 +2399,7 @@ font-size: 23px;
     width: 235px;
     bottom: 0;
     right: 0;
-    background: url(http://localhost/datatech/wp-content/uploads/2021/08/shape.png);
+    background: none;
     z-index: -1;
     background-repeat: no-repeat;
     background-size: cover;
@@ -4984,7 +4984,7 @@ Testimonial
     bottom: 0;
     height: 175px;
     width: 175px;
-    background: url(http://localhost/datatech/wp-content/uploads/2021/08/shape56.png);
+    background: none;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -5091,7 +5091,7 @@ Testimonial
     content: "";
     height: 275px;
     width: 100%;
-    background: url(http://localhost/datatech/wp-content/uploads/2021/08/testimonial-shape.png);
+    background: none;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -5781,7 +5781,7 @@ Counter
     -webkit-transition: all 0.6s ease;
     -o-transition: all 0.6s ease;
     transition: all 0.6s ease;
-    background-image: url(http://wp.dreamitsolution.net/datatech/wp-content/uploads/2021/01/cn-shape.png);
+    background-image: none;
     transform: rotate(-70deg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -5841,7 +5841,7 @@ Icon Box
     width: 350px;
     right: 110px;
     top: 100px;
-    background: url(http://localhost/datatech/wp-content/uploads/2021/08/shape001.png);
+    background: none;
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -8885,8 +8885,6 @@ Roadmap
     padding-right: 50px;
     padding-left: 0;
 }
-
-
 
 
 

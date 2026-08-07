@@ -104,7 +104,6 @@
     const $ = window.jQuery;
 
     const $buttons = $(".filter-button");
-    const $items = $(".post-grid.filter, .post-grid.filter ");
     // Prefer cards that have both post-grid and filter classes
     const $cards = $(".loop-wrap .post-grid").length
       ? $(".loop-wrap .post-grid")

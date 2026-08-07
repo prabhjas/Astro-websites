@@ -92,17 +92,24 @@ const baseCss = [
   ),
 ];
 
+const LEGACY_WIDGETS_CSS = "/wp-content/plugins/dreamit-elementor-extension/assets/css/widgets-style.css";
+const FIXED_WIDGETS_CSS = `${LEGACY_WIDGETS_CSS}?v=20260807-1`;
+
 const stylesheets = [
-  ...new Set([
-    ...baseCss,
-    ...extraCss,
-    "/css/wp-custom.css",
-    "/css/elementor-bg-fallback.css",
-    "/css/simplePagination.min.css",
-    "/css/migration-overrides.css",
-    "/css/eor-mobile-nav.css",
-  ]),
-].filter((href) => !SP_KIT_BLOCKLIST.has(href) && !href.includes("/elementor/css/post-19.css"));
+  ...new Set(
+    [
+      ...baseCss,
+      ...extraCss,
+      "/css/wp-custom.css",
+      "/css/elementor-bg-fallback.css",
+      "/css/simplePagination.min.css",
+      "/css/migration-overrides.css",
+      "/css/eor-mobile-nav.css",
+    ]
+      .filter((href) => !SP_KIT_BLOCKLIST.has(href) && !href.includes("/elementor/css/post-19.css"))
+      .map((href) => href.split("?")[0] === LEGACY_WIDGETS_CSS ? FIXED_WIDGETS_CSS : href),
+  ),
+];
 
 /** Dashboard Global GTM — SSR into HTML so it appears in View Source */
 let gtmHead = "";
