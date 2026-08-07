@@ -10,7 +10,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **Site folders** | `Astro-production/<domain>/` |
 | **How to build a site** | [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) |
 | **Caddy / server** | [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) |
-| **Next free port** | **5124** |
+| **Next free port** | **5124** (unchanged — 5110 reserved slot used for payrollmiddleast.org) |
 
 ### Status meanings
 
@@ -56,8 +56,8 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | placeholder |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
-| **5109** | freelancerdxb.com | `freelancerdxb.com` | placeholder |
-| **5110** | payrollmiddleeast.org | `payrollmiddleeast.org` | placeholder |
+| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded (Phases 01–10 local; Caddy in git) |
 | **5111** | pittant.com | `pittant.com` | placeholder |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
 | **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
@@ -102,6 +102,8 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5098 | kpmpro.ae | Scaffolded |
 | 5100 | thefreelancergate.com | Full CMS hybrid (Impreza page mirrors + WP REST blog); peer emiratiguard; port 5100; Caddy in git |
 | 5102 | ngmanpower.com | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
+| 5109 | freelancerdxb.com | Full CMS WP mirror (royalvisa peer); local Phase 01–10; in git `Caddyfile.production` (owner cutover pending) |
+| 5110 | payrollmiddleast.org | Full CMS peer (peomiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 | 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.

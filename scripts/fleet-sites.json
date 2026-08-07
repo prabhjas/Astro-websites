@@ -161,7 +161,7 @@
       "dir": "mbs-consultancy.com",
       "port": 5099,
       "unit": "mbs-consultancy",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "thefreelancergate",
@@ -177,7 +177,7 @@
       "dir": "connectzone.ae",
       "port": 5101,
       "unit": "connectzone",
-      "status": "placeholder"
+      "status": "migrating"
     },
     {
       "id": "ngmanpower",
@@ -241,15 +241,16 @@
       "dir": "freelancerdxb.com",
       "port": 5109,
       "unit": "freelancerdxb",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
-      "id": "payrollmiddleeast",
-      "domain": "payrollmiddleeast.org",
-      "dir": "payrollmiddleeast.org",
+      "id": "payrollmiddleast",
+      "domain": "payrollmiddleast.org",
+      "dir": "payrollmiddleast.org",
       "port": 5110,
-      "unit": "payrollmiddleeast",
-      "status": "placeholder"
+      "unit": "payrollmiddleast",
+      "canonicalHost": "www.payrollmiddleast.org",
+      "status": "scaffolded"
     },
     {
       "id": "pittant",
