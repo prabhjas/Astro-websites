@@ -1,0 +1,47 @@
+{
+  "siteTitle": "MBS Consultancy",
+  "summary": "MBS Consultancy provides HR, immigration, visa, legal, IT, investment, and strategy consultancy services in the UAE.",
+  "details": "Services cover HR consultancy, immigration and visa, relocation, public relations, regulatory and risk, organization design, performance optimization, and related advisory for businesses in Dubai and the UAE.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 10,
+  "blogNote": "Insights cover HR, immigration, compliance, and consultancy topics for UAE businesses.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "MBS Consultancy — HR, visa, and business advisory in the UAE."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About MBS Consultancy and its advisory practice."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact MBS Consultancy for advisory enquiries."
+    },
+    "/hr-consultancy/": {
+      "group": "Services",
+      "title": "HR Consultancy",
+      "description": "HR consultancy services from MBS Consultancy."
+    },
+    "/immigration-and-visa/": {
+      "group": "Services",
+      "title": "Immigration and Visa",
+      "description": "Immigration and visa consultancy in the UAE."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Articles and insights from MBS Consultancy."
+    }
+  }
+}

@@ -10,7 +10,7 @@ export const GET: APIRoute = async () => {
   return new Response(
     JSON.stringify({
       ok: true,
-      service: 'spheavy-astro',
+      service: 'connectzone-astro',
       ts: new Date().toISOString(),
     }),
     {
