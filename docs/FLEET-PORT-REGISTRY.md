@@ -45,19 +45,19 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
-| **5098** | connectresourcesint.com | `connectresourcesint.com` | scaffolded · **live** on Astro host (`connectresourcesint.service`) |
+| **5098** | connectresourcesint.com | `connectresourcesint.com` | placeholder|
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | scaffolded |
-| **5100** | thefreelancergate.com | `thefreelancergate.com` | scaffolded (hybrid Impreza mirrors + WP blog; Caddy template in git) |
-| **5101** | connectzone.ae | `connectzone.ae` | migrating |
+| **5100** | thefreelancergate.com | `thefreelancergate.com` | scaffolded |
+| **5101** | connectzone.ae | `connectzone.ae` | scaffolded |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
-| **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded (local Phase; Caddy template) |
+| **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded |
 | **5104** | movey.ae | `movey.ae` | placeholder |
 | **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
 | **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
-| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded (Phases 01–10 local; Caddy in git) |
-| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded |
+| **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded |
 | **5111** | pittant.com | `pittant.com` | scaffolded |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
 | **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
@@ -73,7 +73,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 | **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 45 sites · **31 scaffolded** · **14 placeholders** · next free **5125**
+**Totals:** 45 sites · **30 scaffolded** · **15 placeholders** · next free **5125**
 
 ---
 

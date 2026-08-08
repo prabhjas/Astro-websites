@@ -211,7 +211,7 @@ export function getServerEnv(): ServerEnv {
     internalUploadDir: env.INTERNAL_UPLOAD_DIR?.trim() || '.data/internal-uploads',
     internalUploadMaxFileBytes: optionalInt(env.INTERNAL_UPLOAD_MAX_FILE_BYTES) ?? 10 * 1024 * 1024,
     dashboardUsers: parseDashboardUsers(env.DASHBOARD_USERS_JSON),
-    pipedriveApiToken: required('PIPEDRIVE_API_TOKEN', env.PIPEDRIVE_API_TOKEN),
+    pipedriveApiToken: env.PIPEDRIVE_API_TOKEN?.trim() || '',
     pipedriveCompanyDomain: required(
       'PIPEDRIVE_COMPANY_DOMAIN',
       env.PIPEDRIVE_COMPANY_DOMAIN ?? env.PIPEDRIVE_API_URL,
