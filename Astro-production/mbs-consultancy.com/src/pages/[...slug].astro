@@ -1,4 +1,5 @@
 ---
+import { sanitizeMirrorHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   getCategories,
@@ -27,8 +28,11 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = stripMissingImageBoxImages(
-  (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string,
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml(
+  stripMissingImageBoxImages(
+    (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string,
+  ),
 );
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 

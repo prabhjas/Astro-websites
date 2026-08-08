@@ -1,0 +1,20 @@
+/**
+ * Ensure industry-pages Smart Slider #n2-ss-3 shows content before/while JS inits,
+ * and keep carousel images sized similarly to live.
+ */
+#n2-ss-3 {
+  min-height: 220px;
+}
+#n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active {
+  transform: none !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 22 !important;
+}
+#n2-ss-3 .n2-ss-item-image-content img,
+#n2-ss-3 .n2-ss-item-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

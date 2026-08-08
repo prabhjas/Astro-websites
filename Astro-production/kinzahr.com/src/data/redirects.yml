@@ -35,3 +35,16 @@ redirects:
   - from: /your-practical-guide-to-corporate-tax-in-the-uae/
     to: /corporate-tax-uae/
     status: 301
+  # Broken/legacy path shapes from external audits & old WP links
+  - from: /services/pro-services-uae/
+    to: /services/pro-services/uae/
+    status: 301
+  - from: /services/pro-services-usa/
+    to: /services/pro-services/usa/
+    status: 301
+  - from: /recruitment-consultancy/
+    to: /services/executive-search-firm/
+    status: 301
+  - from: /services/recruitment-consultancy/
+    to: /services/executive-search-firm/
+    status: 301

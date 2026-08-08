@@ -3,6 +3,7 @@
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from "@connect/site-cms";
 import { injectRuntimeGtmLoader } from "./gtm/inject";
 import { notFoundResponse } from "./not-found";
 
@@ -91,6 +92,10 @@ export function serveLegacyPage(slug: string): Response {
   html = ensureScript(html, "/js/astro-mirror-fixes.js");
 
   // Keep live robots meta as-is (do not inject or rewrite).
+
+  const path = !slug || slug === "homepage" ? "/" : `/${String(slug).replace(/^\/|\/$/g, "")}/`;
+  html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
+  html = sanitizeMirrorHtml(html);
 
   return new Response(html, {
     headers: {
