@@ -39,7 +39,7 @@
 | 4816 | `redo.ae` |
 | 4989 | `pittant.com` |
 | 5060 | `evolutionmiddleast.com` |
-| 5061 | `payrollmiddleeast.org` |
+| 5061 | `payrollmiddleast.org` |
 | 5062 | `emiratisationgateway.com` |
 | 5063 | `emiratisationnafis.org` |
 | 5064 | `izi.ae` |
