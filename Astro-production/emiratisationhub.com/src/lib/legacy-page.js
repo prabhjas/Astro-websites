@@ -13,13 +13,57 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
+function promoteLazyImages(html) {
+  return html.replace(/<img\b([^>]*)\/?>/gi, (full, attrs) => {
+    const lazySrc =
+      attrs.match(/\bdata-lazy-src=(['"])(.*?)\1/i) ||
+      attrs.match(/(?:^|\s)data-src=(['"])(.*?)\1/i);
+    if (!lazySrc) return full;
+    let next = String(attrs).replace(/\/\s*$/, '').trimEnd();
+    // Avoid matching the "src=" inside "data-src=" / "data-lazy-src="
+    if (/(?:^|\s)src=(['"])/.test(next)) {
+      next = next.replace(/(?:^|\s)src=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}src=${q}${lazySrc[2]}${q}`);
+    } else {
+      next += ` src="${lazySrc[2]}"`;
+    }
+    const lazySrcset =
+      next.match(/\bdata-lazy-srcset=(['"])(.*?)\1/i) ||
+      next.match(/(?:^|\s)data-srcset=(['"])(.*?)\1/i);
+    if (lazySrcset) {
+      if (/(?:^|\s)srcset=(['"])/.test(next)) {
+        next = next.replace(/(?:^|\s)srcset=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}srcset=${q}${lazySrcset[2]}${q}`);
+      } else {
+        next += ` srcset="${lazySrcset[2]}"`;
+      }
+    }
+    next = next
+      .replace(/\sdata-lazy-src=(['"]).*?\1/gi, '')
+      .replace(/\sdata-src=(['"]).*?\1/gi, '')
+      .replace(/\sdata-lazy-srcset=(['"]).*?\1/gi, '')
+      .replace(/\sdata-srcset=(['"]).*?\1/gi, '')
+      .replace(/\sdata-lazy-sizes=(['"]).*?\1/gi, '')
+      .replace(/\bswiper-lazy\b/g, '');
+    return `<img ${next.trim()} />`;
+  }).replace(/<div class="swiper-lazy-preloader"><\/div>/gi, '');
+}
+
 function normalizeLegacyDocumentUrls(html) {
   let out = html
-    .replace(/https:\/\/emiratisationhub\.com\//g, '/')
-    .replace(/http:\/\/emiratisationhub\.com\//g, '/')
-    .replace(/https:\/\/www\.emiratisationhub\.com\//g, '/')
+    .replace(/https:\/\/(?:www\.)?emiratisationhub\.com\//g, '/')
+    .replace(/http:\/\/(?:www\.)?emiratisationhub\.com\//g, '/')
     .replace(/(href|src|data-lazy-src)=(["'])\/\//g, '$1=$2/')
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
+
+  // Promote WP Rocket lazy images AND Elementor/Swiper lazy (data-src) so carousels paint.
+  out = promoteLazyImages(out);
+
+  // Ensure Elementor eicons (menu dropdown carets, FAQ icons)
+  if (!/elementor-icons\.min\.css/i.test(out)) {
+    out = out.replace(
+      /<\/head>/i,
+      '<link rel="stylesheet" href="/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css" />\n</head>',
+    );
+  }
 
   // WP Rocket defers CSS behind user-interaction events (data-rocket-async="style").
   // On the Astro mirror the interaction triggers never fire in automation / first-paint,
@@ -76,8 +120,20 @@ export function serveLegacyPage(slug) {
     return notFoundResponse();
   }
 
-  const raw = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, 'utf-8'));
-  let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
+  // Normalize after chrome merge so header/footer srcsets are localized too.
+  const raw = readFileSync(cleanedPath, 'utf-8');
+  let html = absolutizeSeoUrls(
+    injectRuntimeGtmLoader(normalizeLegacyDocumentUrls(applySharedChrome(raw, slug))),
+    slug,
+  );
+
+  // Homepage skips shared chrome — still need form/menu caret CSS.
+  if (!html.includes('form-fix.css') && !html.includes('data-eme-form-fix')) {
+    const formCss = '<link rel="stylesheet" href="/css/form-fix.css" data-eme-form-fix="1" />';
+    html = /<\/head>/i.test(html)
+      ? html.replace(/<\/head>/i, `${formCss}\n</head>`)
+      : formCss + html;
+  }
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
