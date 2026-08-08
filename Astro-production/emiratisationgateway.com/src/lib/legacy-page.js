@@ -2,6 +2,7 @@
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html
  * Applies shared Header/Footer chrome for all slugs except homepage.
  */
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
@@ -165,6 +166,16 @@ export function serveLegacyPage(slug) {
       '/js/astro-mirror-fixes.js?v=20260806-qa1',
     );
   }
+
+  let siteOrigin;
+  try {
+    siteOrigin = resolveSiteOrigin();
+  } catch {
+    siteOrigin = 'https://emiratisationgateway.com';
+  }
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
+  html = absolutizeMirrorSeoHtml(html, { siteOrigin, path });
+  html = sanitizeMirrorHtml(html);
 
   return new Response(html, {
     headers: {

@@ -153,7 +153,7 @@
       "dir": "connectresourcesint.com",
       "port": 5098,
       "unit": "connectresourcesint",
-      "status": "scaffolded"
+      "status": "placeholder"
     },
     {
       "id": "mbs-consultancy",
@@ -177,7 +177,7 @@
       "dir": "connectzone.ae",
       "port": 5101,
       "unit": "connectzone",
-      "status": "migrating"
+      "status": "scaffolded"
     },
     {
       "id": "ngmanpower",
@@ -225,7 +225,7 @@
       "dir": "emiratisationhub.com",
       "port": 5107,
       "unit": "emiratisationhub",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "emiratisationnafis",
@@ -249,7 +249,6 @@
       "dir": "payrollmiddleast.org",
       "port": 5110,
       "unit": "payrollmiddleast",
-      "canonicalHost": "www.payrollmiddleast.org",
       "status": "scaffolded"
     },
     {
@@ -274,7 +273,7 @@
       "dir": "raadrecruitment.ae",
       "port": 5113,
       "unit": "raadrecruitment",
-      "status": "placeholder"
+      "status": "scaffolded"
     },
     {
       "id": "companyformationsaudi",

@@ -21,6 +21,7 @@ import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 import { pathToLegacySlug, serveLegacyPage } from "../lib/legacy-page";
+import { sanitizeMirrorHtml } from "@connect/site-cms";
 
 export const prerender = false;
 
@@ -43,10 +44,13 @@ if (!page && !post) {
 
 const entry = page || post!;
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
-const html = injectCanonicalCf7Forms(rawHtml, {
-  path,
-  variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
-});
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml(
+  injectCanonicalCf7Forms(rawHtml, {
+    path,
+    variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
+  }),
+);
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
