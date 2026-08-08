@@ -20,6 +20,42 @@
   color: #0b7242 !important;
 }
 
+/* Homepage / shared CF7 (often no .contactform wrapper) */
+.wpcf7-form,
+.wpcf7-form > p,
+#contact-formnew .wpcf7,
+#contact-formnew .wpcf7-form,
+#contact-formnew .wpcf7-form > p {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.wpcf7-form input[type='text'],
+.wpcf7-form input[type='email'],
+.wpcf7-form input[type='tel'],
+.wpcf7-form input.wpcf7-form-control:not([type='submit']):not([type='checkbox']):not([type='hidden']),
+.wpcf7-form textarea,
+#contact-formnew input[type='text'],
+#contact-formnew input[type='email'],
+#contact-formnew input[type='tel'],
+#contact-formnew textarea,
+#contact-formnew .wpcf7-form-control-wrap,
+#contact-formnew .iti,
+#contact-formnew .intl-tel-input {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+#contact-formnew .iti,
+#contact-formnew .intl-tel-input {
+  display: block !important;
+}
+#contact-formnew input[type='submit'],
+#contact-formnew .wpcf7-submit {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 /* Standard contactform (contact page + sidebar) */
 .contactform {
   display: block;
@@ -113,24 +149,120 @@
   color: #888 !important;
 }
 
-/* Sticky sidebar form under sticky header */
-.elementor-location-header .elementor-sticky--active,
-.elementor-element-6f7aa16.elementor-sticky--active {
+/* Emiratisation Hub — submit CTA (live orange pill) */
+.contactform input[type='submit'],
+.contactform .wpcf7-submit,
+.wpcf7 input[type='submit'] {
+  background: #ffb534 !important;
+  border: 1px solid #ffb534 !important;
+  color: #121212 !important;
+  border-radius: 100px !important;
+  font-weight: 600;
+}
+.contactform input[type='submit']:hover,
+.contactform .wpcf7-submit:hover,
+.wpcf7 input[type='submit']:hover {
+  background: #121212 !important;
+  border-color: #121212 !important;
+  color: #fff !important;
+}
+
+/* Sticky sidebar form on single posts (Elementor sticky parent 3595752) */
+.elementor-location-header .elementor-sticky--active {
   z-index: 1000 !important;
 }
-.elementor-element-f006bfc.elementor-sticky--active {
-  z-index: 10 !important;
+
+/* CSS sticky — Elementor sticky JS often never boots on the Astro mirror */
+@media (min-width: 768px) {
+  .elementor-element-3595752 {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 100px !important;
+    z-index: 20 !important;
+    align-self: flex-start;
+  }
 }
-.elementor-element-f006bfc .contactform label {
+
+.elementor-element-3595752.elementor-sticky--active,
+.elementor-element-3595752.elementor-sticky {
+  z-index: 20 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.elementor-element-3595752,
+.elementor-element-3595752 .elementor-widget-wrap,
+.elementor-element-3595752 .elementor-widget-container,
+.elementor-element-3595752 .wpcf7,
+.elementor-element-3595752 .wpcf7-form,
+.elementor-element-3595752 .contactform {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.elementor-element-3595752 .contactform label,
+.elementor-element-3595752 .wpcf7-form > p {
   display: block;
   width: 100%;
   margin: 0 0 12px;
 }
-.elementor-element-f006bfc .contactform input:not([type='submit']):not([type='checkbox']):not([type='hidden']),
-.elementor-element-f006bfc .contactform textarea,
-.elementor-element-f006bfc .contactform .wpcf7-form-control-wrap,
-.elementor-element-f006bfc .contactform .iti {
+.elementor-element-3595752 input:not([type='submit']):not([type='checkbox']):not([type='hidden']),
+.elementor-element-3595752 textarea,
+.elementor-element-3595752 .wpcf7-form-control-wrap,
+.elementor-element-3595752 .iti,
+.elementor-element-3595752 .intl-tel-input {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
+}
+.elementor-element-3595752 .iti {
+  display: block !important;
+}
+.elementor-element-3595752 .iti__flag-container {
+  z-index: 2;
+}
+.elementor-element-3595752 .iti__tel-input,
+.elementor-element-3595752 input.wpcf7-tel,
+.elementor-element-3595752 input[type='tel'] {
+  width: 100% !important;
+  padding-left: 52px !important;
+  box-sizing: border-box !important;
+}
+
+/* Homepage / shared forms — keep phone ITI inside card */
+.wpcf7 .iti,
+.contactform .iti,
+.wpcf7-form-control-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.wpcf7 .iti__tel-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Services dropdown caret when SmartMenus/Elementor chunk is late */
+.elementor-nav-menu .menu-item-has-children > a.elementor-item:not(.elementor-item-active):after,
+.elementor-nav-menu .menu-item-has-children > a.elementor-item:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+}
+.elementor-nav-menu .sub-menu .menu-item-has-children > a:after {
+  display: none;
+}
+/* Prefer real Elementor/SmartMenus indicators when present */
+.elementor-nav-menu .sub-arrow,
+.elementor-nav-menu .menu-item-has-children > a .sub-arrow {
+  display: inline-block !important;
+}
+.elementor-nav-menu .menu-item-has-children > a.elementor-item:has(.sub-arrow):after,
+.elementor-nav-menu .menu-item-has-children > a.elementor-item:has(.elementor-item-has-icon):after {
+  content: none;
 }
