@@ -1,0 +1,311 @@
+.intl-tel-input.allow-dropdown .flag-container:hover .selected-flag {
+        background: none !important ;
+    }
+
+
+/* M code */
+p a ,li a {
+	color:#004AB5 !important;
+
+}
+
+.footer-icon .wpb_wrapper{
+    display:inline-flex;
+    gap:10px;
+}
+
+#custom-marque .wpcp-slide-image {
+    width:180px;
+}
+
+/* End */
+
+
+.l-subheader.at_middle.width_full {
+    box-shadow: none!important;
+}
+
+
+.label_r {
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #000E29;
+  
+}
+input.wpcf7-form-control.wpcf7-text.wpcf7-validates-as-required.inside_label {
+    border-bottom: 1px solid #C7CED7;
+    background: #FFF;
+    margin-bottom: 10px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+      box-shadow: none !important;
+          margin-top: -6px;
+    margin-bottom: 12px !important;
+}
+
+textarea.wpcf7-form-control.wpcf7-textarea.inside_label {
+    border-bottom: 1px solid #C7CED7;
+    background: #FFF;
+    margin-bottom: 10px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+      box-shadow: none !important;
+          margin-top: -3px;
+    margin-bottom: 12px !important;
+        height: 4rem;
+}
+
+button.button_r {
+    color: #00133E;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #00CFFF;
+    display: flex;
+    padding: 12px 24px;
+    width: 100%;
+    justify-content: center;
+}
+
+
+/* author template */
+
+.author-sec1 {
+    height:280px;
+}
+
+.author-sec2 {
+    text-align: center;
+}
+
+.auth-name {
+    display:flex;
+    justify-content:center; 
+    align-items:baseline;
+}
+
+.auth-name img{
+    width:25px;
+    height:25px;
+}
+
+.auth-name h2 {
+    margin-right: 10px;
+    margin-bottom: 0px;
+    color: #004AB5;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 41px;
+}
+
+.auth-desig span {
+    color: #ADB5BD;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.auth-bio p {
+    color: #1E1E1E;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+	  margin-top:15px;
+}
+
+
+
+.author-sec2 {
+    margin-top: -150px !important;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.filter-wrap{
+    display:flex;
+    justify-content:space-between;
+	  align-items: center;
+}
+
+
+.filter-box span {
+    color: #0B1347;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;  
+}
+
+.filter-post {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px !important;
+    margin-top: 70px;
+    padding: 0px 80px !important;
+	  
+}
+
+.post-wrap img{
+    width:100%;
+    margin-bottom:10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.post-wrap span{
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height:25.6px; 
+    letter-spacing: 0.32px;
+    font-family: "SF Pro Display", SF Pro Display;
+}
+
+.post-wrap h3 {
+    color: #000;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px !important;
+    letter-spacing: 0.48px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-wrap p {
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.36px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-wrap{
+   background:#fff; 
+   box-shadow: 0px 4px 15px -5px rgba(0,0,0,0.1);
+   border-radius: 10px;
+}
+
+.post-ct {
+    padding: 30px 15px;
+    padding-top: 10px;
+}
+
+.filter-wrap h2{
+    color: #000;
+    font-family: SF Pro Display;
+    font-size: 26px;
+    font-style: normal;
+}
+
+.author-sec1 {
+    background-image:url(/wp-content/uploads/2024/05/Banner.jpg);
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+
+.auth-img img {
+    width: 250px;
+}
+
+.main-profile {
+  display: none;
+}
+
+#loadMore {
+    text-align: center;
+    margin-top: 60px;
+	 transition: .3s;
+}
+
+#loadMore a{
+    border:2px solid #004ab5;
+    padding:10px 20px;
+    color:#004ab5;
+}
+
+.btn-c {
+    margin-bottom:20px;
+}
+
+/* media query*/
+@media only screen and (max-width: 767px) {
+    .filter-post{
+        grid-template-columns: repeat(1,1fr);
+    }
+    
+    .filter-wrap h2 {
+      font-size: 20px;
+    }
+    
+    .filter-box {
+      width: 50%;
+    }
+	
+	  .filter-post {
+        gap: 40px !important;
+        margin-top: 50px !important;
+        padding: 0px 20px !important;
+  }
+
+.post-wrap h3 {
+    font-size: 20px !important;
+    line-height: 28px !important;
+}	
+	
+}
+
+
+@media screen and (min-device-width: 768px) and (max-device-width: 991px)  {
+    .post-wrap span {
+        color: #333;
+        font-size: 13px;
+    }
+
+    .post-wrap h3 {
+        font-size: 21px;
+        line-height: 25.6px;
+    }
+
+    .post-wrap span {
+        font-size: 12px;
+    }
+	
+	.filter-post {
+    gap: 10px !important;
+    margin-top: 50px !important;
+    padding: 0px 20px !important;
+  }
+
+	.post-wrap h3 {
+    font-size: 18px !important;
+    line-height: 24px !important;
+  }
+	
+}

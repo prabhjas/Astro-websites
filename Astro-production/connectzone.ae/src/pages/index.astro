@@ -1,4 +1,5 @@
 ---
+import { sanitizeMirrorHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageByPath } from "../lib/content";
 import { breadcrumbSchema } from "../lib/seo";
@@ -8,7 +9,8 @@ export const prerender = false;
 const page = getPageByPath("/");
 if (!page) throw new Error("Home page missing from content data");
 
-const html = page.bodyHtml || page.content;
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml(page.bodyHtml || page.content);
 const extraCss = [
   ...(page.pageCss || []).filter(
     (href) =>
