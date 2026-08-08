@@ -43,7 +43,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.peomiddleast.com, http://www.kpmpro.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -97,6 +97,9 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@kpmpro host www.kpmpro.ae
 	redir @kpmpro https://kpmpro.ae{uri} permanent
+
+	@companyformationsaudi host www.companyformationsaudi.com
+	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -670,6 +673,36 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 	log {
 		output file /var/log/caddy/kpmpro.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# companyformationsaudi.com -> companyformationsaudi.service (PORT 5114) — git template only until owner cutover
+companyformationsaudi.com, www.companyformationsaudi.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.companyformationsaudi.com
+	redir @noncanonical https://companyformationsaudi.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5114
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/companyformationsaudi.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
