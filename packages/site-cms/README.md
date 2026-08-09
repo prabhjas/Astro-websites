@@ -60,3 +60,56 @@ export { GET } from '@connect/site-cms/astro/posts/index';
 4. Copy thin mounts from Evolution/SP (full) or Iberia (leads-only)
 5. Implement posts adapter only if the site needs blog CMS
 6. Prove with `fleet-local` smoke + Bearer GET posts / redirects / gtm / leads
+
+## Sensitive GTM write authentication
+
+`POST /api/internal/gtm/save` is intentionally stricter than legacy internal APIs.
+It requires a site-scoped `site-v1` HMAC signature created from a strong,
+per-site `INTERNAL_JOB_SECRET` (at least 32 UTF-8 bytes and not a documented
+placeholder). The signature covers the configured site ID, `gtm:write` scope,
+HTTP method, exact path/query, exact trimmed Content-Type, timestamp, nonce, and
+SHA-256 of the exact body.
+It expires after five minutes and a nonce cannot be reused within one process.
+
+Rejected placeholder forms are deterministic: values beginning with
+`change…` / `replace…`; `your…` / `my…` secret, token, or key labels; bare
+secret/password/token/key defaults; test/dev/example/sample/dummy/placeholder/
+todo variants; and a single character repeated for the whole value. Leading or
+trailing whitespace and values over 512 bytes are also rejected. The code does
+not contain the current fleet secret or a fingerprint deny-list.
+
+Create the final `Request` first, then add the generated headers:
+
+```ts
+import { createSiteScopedInternalJobAuthHeaders } from '@connect/site-cms';
+
+const form = new FormData();
+form.set('gtmIds', 'GTM-ABCDEFG');
+form.set('ga4Ids', 'G-ABCDEFGHIJ');
+form.set('updatedBy', 'central-cms');
+
+const request = new Request('https://example.com/api/internal/gtm/save', {
+  method: 'POST',
+  body: form,
+});
+const authHeaders = await createSiteScopedInternalJobAuthHeaders(request, {
+  secret: process.env.INTERNAL_JOB_SECRET!,
+  siteId: 'example', // must match configureSiteCms({ siteId }) on the server
+  scope: 'gtm:write',
+});
+authHeaders.forEach((value, name) => request.headers.set(name, value));
+const response = await fetch(request);
+```
+
+GTM writes accept only structured `gtmIds` / `ga4Ids` (comma-separated or
+repeated form fields). Singular aliases `gtmId`, `ga4Id`, `containerId`, and
+`measurementId` are also accepted. Non-empty legacy `headScript`, `bodyHtml`,
+or `footerScript` fields return `422`; JavaScript is never persisted directly.
+
+Existing files remain visible through authenticated `GET /api/internal/gtm`
+for migration. Runtime injection executes version-2 structured configs and
+exact canonical legacy snippets only; other legacy markup is ignored and the
+runtime falls back to deploy-time environment configuration. Nonce replay
+tracking is process-local, so deployments with multiple instances should use
+sticky routing or a shared replay store if the five-minute cross-instance
+replay window is material.

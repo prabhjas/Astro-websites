@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { isValidPublicId } from '@connect/site-cms/leads/public-id';
 import { deriveAttributionFromRequest, mergeAttributionIntoContactForm, normaliseAttribution } from '../../lib/attribution/server';
 import { FileLeadStore } from '../../lib/leads/file-store';
 import { deliverStoredLead } from '../../lib/leads/service';
@@ -91,6 +92,8 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   let input: ContactFormInput;
+  let pendingBase64Attachments: IncomingBase64Attachment[] = [];
+  let pendingFileAttachments: File[] = [];
   try {
     const contentTypeHeader = request.headers.get('content-type') || '';
     if (contentTypeHeader.includes('application/json')) {
@@ -106,16 +109,9 @@ export const POST: APIRoute = async ({ request }) => {
       }
       input = parseContactFormBody(raw, arrays);
       if (!input.submissionId) input.submissionId = crypto.randomUUID();
-      const b64 = Array.isArray((json as { attachments_b64?: unknown }).attachments_b64)
+      pendingBase64Attachments = Array.isArray((json as { attachments_b64?: unknown }).attachments_b64)
         ? ((json as { attachments_b64: IncomingBase64Attachment[] }).attachments_b64 || [])
         : [];
-      if (b64.length) {
-        const saved = await persistBase64Attachments(env.leadStoreDir, input.submissionId, b64);
-        if (saved.error) {
-          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
-        }
-        input.attachments = saved.attachments;
-      }
     } else {
       const formData = await request.formData();
       const raw: Record<string, FormDataEntryValue> = {};
@@ -133,14 +129,7 @@ export const POST: APIRoute = async ({ request }) => {
       input = parseContactFormBody(raw, arrays);
 
       if (!input.submissionId) input.submissionId = crypto.randomUUID();
-      const files = collectFilesFromFormData(formData);
-      if (files.length) {
-        const saved = await persistContactAttachments(env.leadStoreDir, input.submissionId, files);
-        if (saved.error) {
-          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
-        }
-        input.attachments = saved.attachments;
-      }
+      pendingFileAttachments = collectFilesFromFormData(formData);
     }
   } catch {
     logFormFailure({
@@ -188,6 +177,20 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const form = validation.data;
+  if (!isValidPublicId(form.submissionId)) {
+    logFormFailure({
+      requestId,
+      timestamp,
+      websiteId: env.websiteId,
+      formName: form.formName || env.formName,
+      errorMessage: 'Invalid submission ID',
+      errorCode: 'validation_error',
+    });
+    return jsonResponse(
+      { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+      422,
+    );
+  }
 
   const requestAttribution = deriveAttributionFromRequest(request);
   const attributionPayload = normaliseAttribution({ ...requestAttribution, ...input });
@@ -207,6 +210,16 @@ export const POST: APIRoute = async ({ request }) => {
       submissionId: existing.publicId,
       message: 'Thank you. Your enquiry has been received.',
     });
+  }
+
+  if (pendingBase64Attachments.length || pendingFileAttachments.length) {
+    const saved = pendingBase64Attachments.length
+      ? await persistBase64Attachments(env.leadStoreDir, form.submissionId, pendingBase64Attachments)
+      : await persistContactAttachments(env.leadStoreDir, form.submissionId, pendingFileAttachments);
+    if (saved.error) {
+      return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
+    }
+    form.attachments = saved.attachments;
   }
 
   const record: LeadSubmissionRecord = {
