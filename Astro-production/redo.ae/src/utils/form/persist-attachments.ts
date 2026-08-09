@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { assertValidPublicId, resolveContainedPath } from '@connect/site-cms/leads/public-id';
 
@@ -46,14 +46,50 @@ function attachmentDirectory(leadStoreDir: string, submissionId: string): string
   return resolveContainedPath(attachmentsRoot, submissionId);
 }
 
-function decodeBase64Strict(data: string): Buffer | null {
-  const compact = data.replace(/\s+/g, '');
-  if (!compact || compact.length % 4 !== 0) return null;
-  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(compact)) return null;
+function decodedBase64Size(data: string): number | null {
+  if (!data || data.length % 4 !== 0) return null;
+  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(data)) return null;
 
-  const buffer = Buffer.from(compact, 'base64');
-  const canonical = buffer.toString('base64').replace(/=+$/, '');
-  return canonical === compact.replace(/=+$/, '') ? buffer : null;
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  const paddingBytes = data.endsWith('==') ? 2 : data.endsWith('=') ? 1 : 0;
+  if (paddingBytes === 2 && (alphabet.indexOf(data[data.length - 3]) & 0x0f) !== 0) return null;
+  if (paddingBytes === 1 && (alphabet.indexOf(data[data.length - 2]) & 0x03) !== 0) return null;
+  return Math.floor((data.length * 3) / 4) - paddingBytes;
+}
+
+async function persistPreparedAttachments(
+  leadStoreDir: string,
+  attachmentId: string,
+  prepared: Array<{ originalName: string; mimeType: string; size: number; read: () => Promise<Buffer> }>,
+): Promise<StoredContactAttachment[]> {
+  const finalDir = attachmentDirectory(leadStoreDir, attachmentId);
+  const attachmentsRoot = resolveContainedPath(leadStoreDir, 'attachments');
+  await mkdir(attachmentsRoot, { recursive: true, mode: 0o750 });
+  const stagingDir = resolveContainedPath(attachmentsRoot, `.pending-${attachmentId}-${randomUUID()}`);
+  await mkdir(stagingDir, { mode: 0o750 });
+
+  const attachments: StoredContactAttachment[] = [];
+  try {
+    for (const item of prepared) {
+      const storedName = `${randomUUID()}-${safeFileName(item.originalName)}`;
+      const stagingPath = resolveContainedPath(stagingDir, storedName);
+      const storedPath = resolveContainedPath(finalDir, storedName);
+      const buffer = await item.read();
+      if (buffer.length !== item.size) throw new Error('Attachment size changed during processing');
+      await writeFile(stagingPath, buffer, { mode: 0o640, flag: 'wx' });
+      attachments.push({
+        storedPath,
+        originalName: item.originalName,
+        mimeType: item.mimeType,
+        size: item.size,
+      });
+    }
+    await rename(stagingDir, finalDir);
+    return attachments;
+  } catch (error) {
+    await rm(stagingDir, { recursive: true, force: true }).catch(() => undefined);
+    throw error;
+  }
 }
 
 /**
@@ -78,27 +114,13 @@ export async function persistContactAttachments(
     if (err) return { attachments: [], error: err };
   }
 
-  // Complete validation and reads before making any filesystem changes.
-  const prepared = await Promise.all(
-    candidates.map(async (file) => ({ file, buffer: Buffer.from(await file.arrayBuffer()) })),
-  );
-  const dir = attachmentDirectory(leadStoreDir, attachmentId);
-  await mkdir(dir, { recursive: true, mode: 0o750 });
-
-  const attachments: StoredContactAttachment[] = [];
-  for (const { file, buffer } of prepared) {
-    const storedName = `${randomUUID()}-${safeFileName(file.name)}`;
-    const storedPath = resolveContainedPath(dir, storedName);
-    await writeFile(storedPath, buffer, { mode: 0o640, flag: 'wx' });
-    attachments.push({
-      storedPath,
-      originalName: file.name.slice(0, 255),
-      mimeType: file.type || 'application/octet-stream',
-      size: file.size,
-    });
-  }
-
-  return { attachments };
+  const prepared = candidates.map((file) => ({
+    originalName: file.name.slice(0, 255),
+    mimeType: file.type || 'application/octet-stream',
+    size: file.size,
+    read: async () => Buffer.from(await file.arrayBuffer()),
+  }));
+  return { attachments: await persistPreparedAttachments(leadStoreDir, attachmentId, prepared) };
 }
 
 /** Persist files sent as base64 in the JSON contact payload (avoids Astro form CSRF). */
@@ -115,7 +137,7 @@ export async function persistBase64Attachments(
   const attachmentId = submissionId || randomUUID();
   assertValidPublicId(attachmentId);
 
-  const prepared: Array<{ originalName: string; mimeType: string; buffer: Buffer }> = [];
+  const prepared: Array<{ originalName: string; mimeType: string; size: number; read: () => Promise<Buffer> }> = [];
   for (const item of items) {
     if (!item || typeof item !== 'object') {
       return { attachments: [], error: 'Invalid file upload data.' };
@@ -124,42 +146,22 @@ export async function persistBase64Attachments(
     const data = String(item.data || '');
     if (!data) continue;
 
-    // Reject oversized input before allocating the decoded buffer.
-    const compactData = data.replace(/\s+/g, '');
-    const paddingBytes = compactData.endsWith('==') ? 2 : compactData.endsWith('=') ? 1 : 0;
-    const estimatedBytes = Math.max(0, Math.floor((compactData.length * 3) / 4) - paddingBytes);
-    const metaError = validateMeta(originalName, estimatedBytes);
+    // Validate syntax, canonical padding bits, and decoded size without first
+    // allocating a second full-size buffer.
+    const decodedSize = decodedBase64Size(data);
+    if (decodedSize === null) return { attachments: [], error: 'Invalid file upload data.' };
+    const metaError = validateMeta(originalName, decodedSize);
     if (metaError) return { attachments: [], error: metaError };
-
-    const buffer = decodeBase64Strict(data);
-    if (!buffer) return { attachments: [], error: 'Invalid file upload data.' };
-    const err = validateMeta(originalName, buffer.length);
-    if (err) return { attachments: [], error: err };
     prepared.push({
       originalName,
       mimeType: String(item.type || 'application/octet-stream').slice(0, 120),
-      buffer,
+      size: decodedSize,
+      read: async () => Buffer.from(data, 'base64'),
     });
   }
 
-  // Every item and the public ID is valid before creating the directory.
-  const dir = attachmentDirectory(leadStoreDir, attachmentId);
-  await mkdir(dir, { recursive: true, mode: 0o750 });
-
-  const attachments: StoredContactAttachment[] = [];
-  for (const { originalName, mimeType, buffer } of prepared) {
-    const storedName = `${randomUUID()}-${safeFileName(originalName)}`;
-    const storedPath = resolveContainedPath(dir, storedName);
-    await writeFile(storedPath, buffer, { mode: 0o640, flag: 'wx' });
-    attachments.push({
-      storedPath,
-      originalName,
-      mimeType,
-      size: buffer.length,
-    });
-  }
-
-  return { attachments };
+  // Every item and the public ID is valid before creating the staging tree.
+  return { attachments: await persistPreparedAttachments(leadStoreDir, attachmentId, prepared) };
 }
 
 export function collectFilesFromFormData(formData: FormData): File[] {

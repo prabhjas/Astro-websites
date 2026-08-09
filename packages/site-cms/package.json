@@ -9,6 +9,8 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./http/rate-limit": "./src/http/rate-limit.ts",
+    "./http/request-body": "./src/http/request-body.ts",
     "./leads/public-id": "./src/leads/public-id.ts",
     "./astro/leads/index": "./src/astro/leads/index.ts",
     "./astro/leads/publicId": "./src/astro/leads/publicId.ts",

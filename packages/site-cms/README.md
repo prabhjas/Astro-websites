@@ -113,3 +113,19 @@ runtime falls back to deploy-time environment configuration. Nonce replay
 tracking is process-local, so deployments with multiple instances should use
 sticky routing or a shared replay store if the five-minute cross-instance
 replay window is material.
+
+## Contact-request resource controls
+
+Contact routes must enforce a streaming byte limit before parsing. Small routes
+use `readRequestBodyLimited()` and then `replayRequestWithBody()`; large parser
+routes use `requestWithLimitedBody()` so they do not retain an extra full-size
+copy. Both paths enforce the limit while chunks arrive, cancel an oversized
+stream, and do not rely on `Content-Length`. Body ceilings must also fit the
+service's memory cgroup; per-file limits alone are not a safe total-body limit.
+
+Fleet contact rate limiting is centralized in `@connect/site-cms/http/rate-limit`.
+It retains at most 10,000 expiring per-process keys and preserves the existing
+five-requests-per-minute behavior. Client IP headers are not independently
+trustworthy until H-04 restricts the origin to Cloudflare and Caddy is configured
+with reviewed trusted-proxy rules; the bounded store is not a substitute for an
+edge or distributed rate limiter.

@@ -4,7 +4,10 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { describe, it } from 'node:test';
 
-import { persistBase64Attachments } from '../src/utils/form/persist-attachments.ts';
+import {
+  persistBase64Attachments,
+  persistContactAttachments,
+} from '../src/utils/form/persist-attachments.ts';
 
 const PDF_BYTES = Buffer.from('%PDF-1.4\nsecurity regression fixture\n', 'utf8');
 const VALID_ITEM = {
@@ -41,6 +44,33 @@ describe('Redo attachment containment', () => {
 
     assert.equal(result.error, 'Invalid file upload data.');
     await assert.rejects(access(join(rootDir, 'attachments')));
+  });
+
+  it('rejects noncanonical base64 padding bits before creating a directory', async () => {
+    const rootDir = await mkdtemp(join(tmpdir(), 'redo-attachment-padding-'));
+    const result = await persistBase64Attachments(rootDir, 'public-1', [
+      { ...VALID_ITEM, data: 'AB==' },
+    ]);
+
+    assert.equal(result.error, 'Invalid file upload data.');
+    await assert.rejects(access(join(rootDir, 'attachments')));
+  });
+
+  it('removes staged files if a later immutable File read fails', async () => {
+    class BrokenFile extends File {
+      async arrayBuffer() {
+        throw new Error('fixture read failure');
+      }
+    }
+
+    const rootDir = await mkdtemp(join(tmpdir(), 'redo-attachment-staging-'));
+    const first = new File([PDF_BYTES], 'first.pdf', { type: 'application/pdf' });
+    const broken = new BrokenFile([PDF_BYTES], 'second.pdf', { type: 'application/pdf' });
+    await assert.rejects(
+      persistContactAttachments(rootDir, 'public-1', [first, broken]),
+      /fixture read failure/,
+    );
+    assert.deepEqual(await readdir(join(rootDir, 'attachments')), []);
   });
 
   it('rejects malformed attachment entries before creating a directory', async () => {
