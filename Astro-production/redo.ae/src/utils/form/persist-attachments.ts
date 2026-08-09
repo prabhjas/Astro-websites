@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { assertValidPublicId, resolveContainedPath } from '@connect/site-cms/leads/public-id';
 
 export type StoredContactAttachment = {
   storedPath: string;
@@ -40,6 +40,22 @@ function validateMeta(originalName: string, size: number): string | undefined {
   return undefined;
 }
 
+function attachmentDirectory(leadStoreDir: string, submissionId: string): string {
+  assertValidPublicId(submissionId);
+  const attachmentsRoot = resolveContainedPath(leadStoreDir, 'attachments');
+  return resolveContainedPath(attachmentsRoot, submissionId);
+}
+
+function decodeBase64Strict(data: string): Buffer | null {
+  const compact = data.replace(/\s+/g, '');
+  if (!compact || compact.length % 4 !== 0) return null;
+  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(compact)) return null;
+
+  const buffer = Buffer.from(compact, 'base64');
+  const canonical = buffer.toString('base64').replace(/=+$/, '');
+  return canonical === compact.replace(/=+$/, '') ? buffer : null;
+}
+
 /**
  * Persist CF7 / multistep file inputs under the lead store for Pipedrive upload.
  */
@@ -53,18 +69,27 @@ export async function persistContactAttachments(
     return { attachments: [], error: `Please attach at most ${MAX_FILES} files.` };
   }
 
-  const dir = join(leadStoreDir, 'attachments', submissionId || randomUUID());
-  await mkdir(dir, { recursive: true });
+  const attachmentId = submissionId || randomUUID();
+  assertValidPublicId(attachmentId);
 
-  const attachments: StoredContactAttachment[] = [];
-  for (const file of files) {
-    if (!(file instanceof File) || !file.size) continue;
+  const candidates = files.filter((file) => file instanceof File && file.size > 0);
+  for (const file of candidates) {
     const err = validateMeta(file.name, file.size);
     if (err) return { attachments: [], error: err };
+  }
+
+  // Complete validation and reads before making any filesystem changes.
+  const prepared = await Promise.all(
+    candidates.map(async (file) => ({ file, buffer: Buffer.from(await file.arrayBuffer()) })),
+  );
+  const dir = attachmentDirectory(leadStoreDir, attachmentId);
+  await mkdir(dir, { recursive: true, mode: 0o750 });
+
+  const attachments: StoredContactAttachment[] = [];
+  for (const { file, buffer } of prepared) {
     const storedName = `${randomUUID()}-${safeFileName(file.name)}`;
-    const storedPath = join(dir, storedName);
-    const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(storedPath, buffer);
+    const storedPath = resolveContainedPath(dir, storedName);
+    await writeFile(storedPath, buffer, { mode: 0o640, flag: 'wx' });
     attachments.push({
       storedPath,
       originalName: file.name.slice(0, 255),
@@ -87,29 +112,49 @@ export async function persistBase64Attachments(
     return { attachments: [], error: `Please attach at most ${MAX_FILES} files.` };
   }
 
-  const dir = join(leadStoreDir, 'attachments', submissionId || randomUUID());
-  await mkdir(dir, { recursive: true });
+  const attachmentId = submissionId || randomUUID();
+  assertValidPublicId(attachmentId);
 
-  const attachments: StoredContactAttachment[] = [];
+  const prepared: Array<{ originalName: string; mimeType: string; buffer: Buffer }> = [];
   for (const item of items) {
+    if (!item || typeof item !== 'object') {
+      return { attachments: [], error: 'Invalid file upload data.' };
+    }
     const originalName = String(item.name || 'upload.bin').slice(0, 255);
     const data = String(item.data || '');
     if (!data) continue;
-    let buffer: Buffer;
-    try {
-      buffer = Buffer.from(data, 'base64');
-    } catch {
-      return { attachments: [], error: 'Invalid file upload data.' };
-    }
+
+    // Reject oversized input before allocating the decoded buffer.
+    const compactData = data.replace(/\s+/g, '');
+    const paddingBytes = compactData.endsWith('==') ? 2 : compactData.endsWith('=') ? 1 : 0;
+    const estimatedBytes = Math.max(0, Math.floor((compactData.length * 3) / 4) - paddingBytes);
+    const metaError = validateMeta(originalName, estimatedBytes);
+    if (metaError) return { attachments: [], error: metaError };
+
+    const buffer = decodeBase64Strict(data);
+    if (!buffer) return { attachments: [], error: 'Invalid file upload data.' };
     const err = validateMeta(originalName, buffer.length);
     if (err) return { attachments: [], error: err };
+    prepared.push({
+      originalName,
+      mimeType: String(item.type || 'application/octet-stream').slice(0, 120),
+      buffer,
+    });
+  }
+
+  // Every item and the public ID is valid before creating the directory.
+  const dir = attachmentDirectory(leadStoreDir, attachmentId);
+  await mkdir(dir, { recursive: true, mode: 0o750 });
+
+  const attachments: StoredContactAttachment[] = [];
+  for (const { originalName, mimeType, buffer } of prepared) {
     const storedName = `${randomUUID()}-${safeFileName(originalName)}`;
-    const storedPath = join(dir, storedName);
-    await writeFile(storedPath, buffer);
+    const storedPath = resolveContainedPath(dir, storedName);
+    await writeFile(storedPath, buffer, { mode: 0o640, flag: 'wx' });
     attachments.push({
       storedPath,
       originalName,
-      mimeType: String(item.type || 'application/octet-stream').slice(0, 120),
+      mimeType,
       size: buffer.length,
     });
   }

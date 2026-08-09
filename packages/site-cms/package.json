@@ -4,8 +4,12 @@
   "private": true,
   "type": "module",
   "description": "Connect Group shared Astro site CMS \u2014 leads, GTM, uploads, SEO, redirects, posts handlers",
+  "scripts": {
+    "test": "node --import tsx --test test/*.test.mjs tests/*.test.ts"
+  },
   "exports": {
     ".": "./src/index.ts",
+    "./leads/public-id": "./src/leads/public-id.ts",
     "./astro/leads/index": "./src/astro/leads/index.ts",
     "./astro/leads/publicId": "./src/astro/leads/publicId.ts",
     "./astro/export-leads": "./src/astro/export-leads.ts",
@@ -53,6 +57,7 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
-    "@types/sanitize-html": "catalog:"
+    "@types/sanitize-html": "catalog:",
+    "tsx": "catalog:"
   }
 }

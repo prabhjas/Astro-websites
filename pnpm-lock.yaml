@@ -1430,6 +1430,9 @@ importers:
       '@types/sanitize-html':
         specifier: 'catalog:'
         version: 2.16.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
 
 packages:
 
