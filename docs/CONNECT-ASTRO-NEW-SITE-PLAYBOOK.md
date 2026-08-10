@@ -33,7 +33,7 @@ All four production sites live under `Astro-production/<domain>/` in this monore
 - Per-site `deploy/*.service`, `*.caddy`, `ROOT_SETUP.md`
 - Docs 16–18 for server / local / root-only work
 
-**Still host/root (not finished on the box — see doc 18):** Tier 1 `User=site-*` + MemoryMax, Caddy `sites.d` split, off-box backups, Iberia port 5075→5083, SP Heavy unit install.
+**Still host/root (not finished on the box — see doc 18):** Tier 1 `User=site-*` + MemoryMax, guarded canonical Caddy integration, off-box backups, Iberia port 5075→5083, SP Heavy unit install.
 
 **Principle:** Fix shared fate and version drift at **4** sites, not at **40**. Do not invent a second dashboard or a second auth scheme.
 
@@ -64,7 +64,7 @@ Budget **~110–120 MB RSS** per SSR process. Only run Node when you need forms/
 | Env | Secrets in `.env` / `.env.prod`; **no** `HOST`/`PORT`; **LF** only | CRLF; bind address in env file |
 | Lead notify | File store + **Pipedrive** | Configuring `FORM_NOTIFICATION_*` / `SMTP_*` |
 | Isolation (ops) | `User=site-<name>` + `MemoryMax=256M` | All units as `root`, no caps |
-| Caddy | One file per site under `sites.d/` | One giant Caddyfile long-term |
+| Caddy | One guarded canonical production file | Split-file or staged installs |
 | Backups | Off-box restic/borg + restore drill | Disk scrub only |
 
 ---
@@ -182,7 +182,7 @@ Fill `deploy/<unit>.service` (`User=site-…`, `PORT=…`, MemoryMax/CPUQuota/Pr
 
 ### F. Server (root) — doc 18
 
-Create unix user → `.env.prod` owned by site user → install unit → Caddy `sites.d` → `caddy validate` → reload → smoke public hostname. Preserve `.data/` and secrets on sync.
+Create unix user → `.env.prod` owned by site user → install unit → merge the complete block into the guarded canonical Caddyfile → validate → graceful reload → smoke public hostname. Preserve `.data/` and secrets on sync.
 
 ---
 

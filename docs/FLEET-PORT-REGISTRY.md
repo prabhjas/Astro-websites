@@ -5,7 +5,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 
 | | |
 |--|--|
-| **Updated** | 2026-08-10 |
+| **Updated** | 2026-08-07 |
 | **Machine registry** | `scripts/fleet-sites.json` (same ports / ids) |
 | **Site folders** | `Astro-production/<domain>/` |
 | **How to build a site** | [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) |
@@ -46,34 +46,34 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
 | **5098** | connectresourcesint.com | `connectresourcesint.com` | placeholder|
-| **5099** | mbs-consultancy.com | `mbs-consultancy.com` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5099** | mbs-consultancy.com | `mbs-consultancy.com` | scaffolded |
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | scaffolded |
-| **5101** | connectzone.ae | `connectzone.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5101** | connectzone.ae | `connectzone.ae` | scaffolded |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
 | **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded |
-| **5104** | movey.ae | `movey.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5104** | movey.ae | `movey.ae` | placeholder |
 | **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
-| **5107** | emiratisationhub.com | `emiratisationhub.com` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
 | **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
 | **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded |
 | **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded |
 | **5111** | pittant.com | `pittant.com` | scaffolded |
 | **5112** | lladesigners.com | `lladesigners.com` | placeholder |
-| **5113** | raadrecruitment.ae | `raadrecruitment.ae` | scaffolded |
-| **5114** | companyformationsaudi.com | `companyformationsaudi.com` | scaffolded (Phases 01–10 local; Caddy template in git) |
+| **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
+| **5114** | companyformationsaudi.com | `companyformationsaudi.com` | placeholder |
 | **5115** | saudicompanyformation.com | `saudicompanyformation.com` | placeholder |
-| **5116** | connectbusinesscenter.com | `connectbusinesscenter.com` | scaffolded (Phases 01–10 local; Caddy template in git) |
+| **5116** | connectbusinesscenter.com | `connectbusinesscenter.com` | placeholder |
 | **5117** | theuaegate.com | `theuaegate.com` | placeholder |
 | **5118** | peomiddleast.com | `peomiddleast.com` | scaffolded |
 | **5119** | interlibya.com | `interlibya.com` | placeholder |
-| **5120** | alburaq.ae | `alburaq.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
+| **5120** | alburaq.ae | `alburaq.ae` | placeholder |
 | **5121** | izi.ae | `izi.ae` | placeholder |
 | **5122** | snapsale.ae | `snapsale.ae` | placeholder |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 | **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 45 sites · **36 scaffolded** · **9 placeholders** · next free **5125**
+**Totals:** 45 sites · **30 scaffolded** · **15 placeholders** · next free **5125**
 
 ---
 
@@ -104,14 +104,6 @@ These already have an Astro app tree. Align new sites to the same standards (see
 | 5102 | ngmanpower.com | Full CMS (connectfz engine + Impreza live HTML); local Phase 01–10; not in live Caddy yet |
 | 5118 | peomiddleast.com | Full CMS peer (eormiddleast shape); local Phase 01–08/10; in git `Caddyfile.production` (owner cutover pending) |
 | 5124 | kpmpro.ae | Scaffolded (port moved from 5098 after connectresourcesint went live on 5098) |
-| 5114 | companyformationsaudi.com | Full CMS WP HTML-mirror (royalvisa shape; connectgroup CMS mounts); Phases 01–10 local; Caddy in git |
-| 5104 | movey.ae | Full CMS WP mirror (connecthr/kpmpro engine); Phases 01–10 local PASS on :5104; Caddy in git |
-| 5116 | connectbusinesscenter.com | Full CMS WP HTML-mirror (peer companyformationsaudi); Phases 01–10 local |
-| 5099 | mbs-consultancy.com | Full CMS (connectresources peer); Phases 01–10 local; Caddy in git |
-| 5101 | connectzone.ae | Full CMS; Phases 01–10 local; Caddy in git |
-| 5107 | emiratisationhub.com | Full CMS; Phases 01–10 local; Caddy in git |
-| 5120 | alburaq.ae | Full CMS WP HTML-mirror; Phases 01–10 local; Caddy in git |
-| 5113 | raadrecruitment.ae | Full CMS (Impreza); scaffolded; Caddy template in site deploy/ |
 
 “Scaffolded” ≠ production cutover complete. `caddy/Caddyfile.production` lists cutover targets in git; live `/etc/caddy` is owner-only until Node unit is ready.
 

@@ -47,15 +47,16 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental connectfz"
 ## 5. Caddy
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
+mkdir -p /var/log/caddy
 # Prefer merging into the fleet single-file Caddyfile (git: caddy/Caddyfile.production)
 # which includes connectfz.com @ 5096 + one-hop www→apex HTTP redirect.
 # Or copy the site-local template:
-cp /opt/Astro-production/connectfz.com/deploy/connectfz.com.caddy /etc/caddy/sites.d/
+# Merge this deploy block into caddy/Caddyfile.production and the reviewed
+# single /etc/caddy/Caddyfile; do not install files under sites.d.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use production peer pattern (bare hosts + `tls internal` + `@noncanonical` + HSTS) — see `docs/CONNECT-CADDY-DEPLOYMENT.md`. Cloudflare SSL = **Full** (not Flexible).
+Use production peer pattern (bare hosts + named CA `astro_origin_2026` with its paired manual cert/key loaders + `@noncanonical` + HSTS) — see `docs/CONNECT-CADDY-DEPLOYMENT.md`. Cloudflare SSL = **Full** (not Flexible).
 
 ## 6. Deploy loop
 

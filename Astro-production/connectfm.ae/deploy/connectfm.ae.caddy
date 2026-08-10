@@ -2,7 +2,14 @@
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 connectfm.ae, www.connectfm.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfm.ae/connectfm.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfm.ae/connectfm.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfm.ae/www.connectfm.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfm.ae/www.connectfm.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connectfm.ae

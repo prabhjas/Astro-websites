@@ -91,7 +91,7 @@ Preserve on sync: `*/.env.prod`, `*/.data/`, build `.env` (`PUBLIC_SITE_URL`).
 | spheavyrental.ae | 5082 | `spheavyrental` | `site-spheavyrental` |
 | iberiaworkforce.com | 5083 | `iberiaworkforce` | `site-iberiaworkforce` |
 
-Caddy: `/etc/caddy/sites.d/*.caddy` with `http://` + `https://` + `tls internal` (not bare hostnames).  
+Caddy: one reviewed `/etc/caddy/Caddyfile`, mirrored by `caddy/Caddyfile.production`, with bare-host blocks, named CA `astro_origin_2026`, and paired manual loaders.
 Backups: restic under `/var/backups/astro-fleet` · templates in `Astro-production/deploy-host/`.
 
 ---
@@ -142,7 +142,7 @@ Ports: http://127.0.0.1:5080 … :5083
 
 - All four sites **live** on the Astro host.
 - Fleet CMS / pnpm workspace / restic templates are in git.
-- Deploy templates should use Caddy `tls internal` + required `EnvironmentFile=` (branch `work/astro-sites` may still have unmerged template fixes vs `main` — check before PR).
+- Deploy templates should use Caddy named CA `astro_origin_2026` with paired manual cert/key loaders + required `EnvironmentFile=` (branch `work/astro-sites` may still have unmerged template fixes vs `main` — check before PR).
 - SP Heavy Pipedrive: server `.env.prod` had bad/placeholder token; temporary webdev override `.env.webdev` + ACL was used. Prefer Aaron fixing `.env.prod` properly.
 - `Astro-staging/` was removed from `main` — production only under `Astro-production/`.
 

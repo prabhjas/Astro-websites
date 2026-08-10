@@ -1,15 +1,33 @@
-# /etc/caddy/sites.d/connectresources.ae.caddy
-# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
-# Origin SSL mode must be Full (not Full strict) — origin uses tls internal.
+# connectresources.ae -> 127.0.0.1:5086 (systemd: connectresources.service)
+# Merge this complete block into caddy/Caddyfile.production; do not install a
+# divergent standalone origin-TLS policy.
+# Origin SSL mode must be Full; Full (strict) is intentionally deferred.
 # Cloudflare DNS must point apex (+ www) at this host before traffic reaches Astro.
 # Validate before reload: caddy validate --config /etc/caddy/Caddyfile
 
-http://connectresources.ae, http://www.connectresources.ae, https://connectresources.ae, https://www.connectresources.ae {
-	tls internal
-	encode gzip zstd
+connectresources.ae, www.connectresources.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.ae/connectresources.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.ae/connectresources.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.ae/www.connectresources.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.ae/www.connectresources.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.connectresources.ae
+	redir @noncanonical https://connectresources.ae{uri} permanent
+
 	reverse_proxy 127.0.0.1:5086
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
 	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {

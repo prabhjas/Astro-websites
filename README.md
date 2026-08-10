@@ -6,6 +6,7 @@ Monorepo for Connect Group production Astro sites: one workspace, shared version
 |--|--|
 | **GitHub** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Branch (fleet work)** | `work/astro-sites` |
+| **Branch (34-site cut-off)** | `work/live-fleet-34` |
 | **Node** | `>=22.12.0` |
 | **Package manager** | **pnpm** `>=9.15.0` (see `packageManager` in root `package.json`) |
 
@@ -47,9 +48,9 @@ Astro-websites/                          ← git monorepo (this repo)
 │   └── …
 ├── caddy/                               ← production Caddyfile mirror + ops archive
 ├── Astro-production/                    ← one folder per domain
-│   ├── evolutionmiddleast.com/          ← scaffolded (full CMS)
-│   ├── cbss.ae/                         ← scaffolded (leads)
-│   ├── …                                ← see FLEET-PORT-REGISTRY (45 domains)
+│   ├── evolutionmiddleast.com/          ← live cutover (full CMS)
+│   ├── cbss.ae/                         ← live cutover (leads)
+│   ├── …                                ← 34 live / go-live sites (see table below)
 │   └── deploy-host/                     ← restic backup units
 ├── packages/
 │   └── site-cms/                        ← @connect/site-cms (shared CMS APIs)
@@ -81,44 +82,59 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 
 ---
 
-## Production / fleet sites
+## Production / fleet sites (34 live cutover)
 
-**Canonical port + status list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
-**45 domains** · ports **5080–5124** · next free **5125** · **36 scaffolded** / **9 placeholders**
+**Cut-off branch:** [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (same tree on personal) · working branch: `work/astro-sites`  
+**Canonical port list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
+**34 domains** going live · ports **5080–5124** · **28 already live** + **6 next cutover**
 
-| Domain | Port | Unit | Status | CMS shape |
-|--------|------|------|--------|-----------|
-| evolutionmiddleast.com | **5080** | `evolutionmiddleast` | scaffolded | Full |
-| cbss.ae | **5081** | `cbss` | scaffolded | Leads only |
-| spheavyrental.ae | **5082** | `spheavyrental` | scaffolded | Full |
-| iberiaworkforce.com | **5083** | `iberiaworkforce` | scaffolded | Leads only |
-| connecthr.ae | **5084** | `connecthr` | scaffolded | Full |
-| connectgroup.co | **5085** | `connectgroup` | scaffolded | Full |
-| connectresources.ae | **5086** | `connectresources` | scaffolded | Full |
-| connectfm.ae | **5087** | `connectfm` | scaffolded | Full |
-| connectresources.sa | **5088** | `connectresources-sa` | scaffolded | Full |
-| iberiaeor.com | **5089** | `iberiaeor` | scaffolded | Full |
-| eormiddleast.com | **5090** | `eormiddleast` | scaffolded | Full |
-| connectstaff.ae | **5091** | `connectstaff` | scaffolded | Full |
-| c-uae.com | **5092** | `cuae` | scaffolded | Full |
-| kinzahr.com | **5093** | `kinzahr` | scaffolded | Full |
-| redo.ae | **5095** | `redo` | scaffolded | Full |
-| connectfz.com | **5096** | `connectfz` | scaffolded | Full |
-| royalvisa.ae | **5097** | `royalvisa` | scaffolded | Full |
-| connectresourcesint.com | **5098** | `connectresourcesint` | scaffolded | Full |
-| mbs-consultancy.com | **5099** | `mbs-consultancy` | scaffolded | Full |
-| connectzone.ae | **5101** | `connectzone` | scaffolded | Full |
-| ngmanpower.com | **5102** | `ngmanpower` | scaffolded | Full |
-| movey.ae | **5104** | `movey` | scaffolded | Full |
-| emiratisationhub.com | **5107** | `emiratisationhub` | scaffolded | Full |
-| raadrecruitment.ae | **5113** | `raadrecruitment` | scaffolded | Full |
-| companyformationsaudi.com | **5114** | `companyformationsaudi` | scaffolded | Full |
-| connectbusinesscenter.com | **5116** | `connectbusinesscenter` | scaffolded | Full |
-| peomiddleast.com | **5118** | `peomiddleeast` | scaffolded | Full |
-| alburaq.ae | **5120** | `alburaq` | scaffolded | Full |
-| kpmpro.ae | **5124** | `kpmpro` | scaffolded | Full |
+### Already live (28)
 
-All other reserved domains (placeholders) are listed in the port registry.
+| Domain | Port | Unit | CMS shape |
+|--------|------|------|-----------|
+| evolutionmiddleast.com | **5080** | `evolutionmiddleast` | Full |
+| cbss.ae | **5081** | `cbss` | Leads only |
+| spheavyrental.ae | **5082** | `spheavyrental` | Full |
+| iberiaworkforce.com | **5083** | `iberiaworkforce` | Leads only |
+| connecthr.ae | **5084** | `connecthr` | Full |
+| connectgroup.co | **5085** | `connectgroup` | Full |
+| connectresources.ae | **5086** | `connectresources` | Full |
+| connectfm.ae | **5087** | `connectfm` | Full |
+| connectresources.sa | **5088** | `connectresources-sa` | Full |
+| iberiaeor.com | **5089** | `iberiaeor` | Full |
+| eormiddleast.com | **5090** | `eormiddleast` | Full |
+| connectstaff.ae | **5091** | `connectstaff` | Full |
+| c-uae.com | **5092** | `cuae` | Full |
+| kinzahr.com | **5093** | `kinzahr` | Full |
+| connectfreelance.ae | **5094** | `connectfreelance` | Full |
+| redo.ae | **5095** | `redo` | Full |
+| connectfz.com | **5096** | `connectfz` | Full |
+| royalvisa.ae | **5097** | `royalvisa` | Full |
+| thefreelancergate.com | **5100** | `thefreelancergate` | Full |
+| ngmanpower.com | **5102** | `ngmanpower` | Full |
+| emiratiguard.com | **5103** | `emiratiguard` | Full |
+| emiratisationgate.org | **5105** | `emiratisationgate` | Full |
+| emiratisationgateway.com | **5106** | `emiratisationgateway` | Full |
+| freelancerdxb.com | **5109** | `freelancerdxb` | Full |
+| payrollmiddleast.org | **5110** | `payrollmiddleast` | Full |
+| pittant.com | **5111** | `pittant` | Full |
+| peomiddleast.com | **5118** | `peomiddleeast` | Full |
+| kpmpro.ae | **5124** | `kpmpro` | Full |
+
+### Next 6 (cutover / go-live)
+
+| Domain | Port | Unit | CMS shape |
+|--------|------|------|-----------|
+| mbs-consultancy.com | **5099** | `mbs-consultancy` | Full |
+| connectzone.ae | **5101** | `connectzone` | Full |
+| movey.ae | **5104** | `movey` | Full |
+| emiratisationhub.com | **5107** | `emiratisationhub` | Full |
+| companyformationsaudi.com | **5114** | `companyformationsaudi` | Full |
+| alburaq.ae | **5120** | `alburaq` | Full |
+
+**Also on live Caddy (Aaron):** `connectresourcesint.com` (**5098**) — kept in the production Caddy/PKI set; not counted in the 34-site cut-off branch.
+
+Other reserved domains / placeholders remain in the port registry and on `work/astro-sites`; they are **not** part of this 34-site live set.
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 

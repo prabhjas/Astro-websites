@@ -61,7 +61,7 @@ Budget ~110–120 MB RSS per SSR process. Only run Node when you need APIs.
 | Central FLOW + bearer `INTERNAL_JOB_SECRET` | Per-site HTML dashboards under `/internal/operations` |
 | **One secret per domain** | Reuse one `INTERNAL_JOB_SECRET` across sites |
 | Pipedrive + file lead store (`.data/leads`) | Rely on SMTP for lead notify |
-| Caddy: `http://` + `https://` + `tls internal` | Bare `example.com { … }` behind Cloudflare Flexible |
+| Caddy: named `astro_origin_2026` policy + apex/www manual loaders | Flexible mode or the retired default local CA |
 | systemd: `EnvironmentFile=/path/.env.prod` **without** `-` | `EnvironmentFile=-…` (boots with empty secrets) |
 | `HOST`/`PORT` only in the unit / fleet runner | `HOST`/`PORT` inside `.env` / `.env.prod` |
 | LF line endings in env files | CRLF (breaks systemd `EnvironmentFile`) |
@@ -184,15 +184,24 @@ Under `Astro-production/<domain>/deploy/`:
 2. **`<domain>.caddy`** — must look like live fleet:
 
 ```caddy
-http://example.com, http://www.example.com, https://example.com, https://www.example.com {
-	tls internal
+example.com, www.example.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/example.com/example.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/example.com/example.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.example.com/www.example.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.example.com/www.example.com.key
 	encode gzip zstd
 	reverse_proxy 127.0.0.1:5084
 	# …
 }
 ```
 
-Cloudflare origin SSL: **Full** (not Full strict) while origin uses `tls internal`.
+Cloudflare origin SSL: **Full**. Full (strict) remains intentionally deferred
+while the origin uses this private named CA. Prewarm both leaves before adding
+their manual loaders; use the checked-in peer snippet rather than typing paths.
 
 3. **`ROOT_SETUP.md`** — short host notes (user, env modes, smoke curls).
 
@@ -211,7 +220,7 @@ See [CURSOR-RUN-FLEET.md](CURSOR-RUN-FLEET.md).
 ### H. Server handoff (ops / root)
 
 Developers sync **code** under `/opt/Astro-production/` (preserve `.env.prod`, `.data/`, build `.env`).  
-Root installs user, unit, Caddy `sites.d` file, restic already covers the fleet via `Astro-production/deploy-host/`.
+Root installs the user and unit, integrates the complete block into the guarded canonical Caddyfile, and verifies Restic fleet coverage via `Astro-production/deploy-host/`.
 
 ```bash
 cd /opt/Astro-production
@@ -263,7 +272,7 @@ Keep brand and content **in the site**. Keep handlers **in `@connect/site-cms`**
 - [ ] Catalog deps + `@connect/site-cms` bind + thin `/api/internal` mounts
 - [ ] `.env.example` committed; local `.env` works with `fleet-local`
 - [ ] Contact JSON → lead file → Pipedrive (or documented skip)
-- [ ] `deploy/*.service` + `*.caddy` (`tls internal`, required `.env.prod`)
+- [ ] `deploy/*.service` + `*.caddy` (named CA, two correct manual loaders, required `.env.prod`)
 - [ ] `fleet-local` smoke green on loopback
 - [ ] Server: unit + Caddy + health 200; secrets not overwritten on sync
 

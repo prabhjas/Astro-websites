@@ -4,7 +4,7 @@ App tree: `/opt/Astro-production/emiratisationgate.org`
 Unit name: `emiratisationgate` · PORT **5105** · Unix user: **`site-emiratisationgate`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (`tls internal`, canonical www redirect, HSTS).
+Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (named CA `astro_origin_2026` with its paired manual cert/key loaders, canonical www redirect, HSTS).
 
 ## 1. Site unix user
 
@@ -46,12 +46,13 @@ Expect `User=site-emiratisationgate`, `MemoryMax=268435456`, `EnvironmentFiles=�
 ## 4. Caddy
 
 ```bash
-cp deploy/emiratisationgate.org.caddy /etc/caddy/sites.d/
-# Main Caddyfile: import /etc/caddy/sites.d/*.caddy
+# Merge this deploy block into caddy/Caddyfile.production and the reviewed
+# single /etc/caddy/Caddyfile; do not install files under sites.d.
+# Production uses one reviewed /etc/caddy/Caddyfile; do not add a sites.d import.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+Cloudflare SSL: **Full** (not Full strict) when origin uses named CA `astro_origin_2026` with its paired manual cert/key loaders.
 
 ## 5. Deploy / build (webdev)
 

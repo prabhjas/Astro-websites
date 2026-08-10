@@ -24,7 +24,7 @@ bash /opt/Astro-production/connectgroup.co/deploy/bootstrap-root.sh
 
 That script: creates `site-connectgroup`, installs `.env` / `.env.prod`, unit, Caddy site, allowlists `connectgroup` in `site-ctl`, enables the service, loopback smoke.
 
-Afterward: Cloudflare origin → `178.105.150.67`, SSL mode **Full** (not Full strict) while origin uses `tls internal`. Register domain + `INTERNAL_JOB_SECRET` in FLOW.
+Afterward: Cloudflare origin → `178.105.150.67`, SSL mode **Full** (not Full strict) while origin uses named CA `astro_origin_2026` with its paired manual cert/key loaders. Register domain + `INTERNAL_JOB_SECRET` in FLOW.
 
 ## Local
 

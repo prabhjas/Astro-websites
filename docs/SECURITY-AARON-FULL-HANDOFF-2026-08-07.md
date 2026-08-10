@@ -1,77 +1,42 @@
-# Security work — full handoff for Aaron (updated 2026-08-10)
+# Security work — full handoff for Aaron (2026-08-07)
 
 **Audience:** Aaron / root / Cloudflare admin  
-**Branch:** `work/astro-sites` (contains Connect Group `main` #21 + personal/main)  
-**Live app release on host:** immutable `92d5bb1a2` (= Connect Group `main` security remediation merge #21)  
-**Ops pack (owner-run):** [`ops/security-remediation-20260809/`](../ops/security-remediation-20260809/README.md)  
-**Short ops checklist:** [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md)  
-**Engineering tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](./SECURITY-AUDIT-REMEDIATION-2026-08-06.md)  
-**c-uae GSC spam audit:** [SEO-CUAE-COVERAGE-SPAM-AUDIT-2026-08-10.md](./SEO-CUAE-COVERAGE-SPAM-AUDIT-2026-08-10.md)
+**Branch:** `work/astro-sites` (latest: sanitizer fix `eaf55538`+)  
+**Audit source:** `Astro_Security_Audit_Report_2026-08-06.pdf`  
+**Short ops checklist (copy-paste):** [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md)  
+**Engineering tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](./SECURITY-AUDIT-REMEDIATION-2026-08-06.md)
 
 This is the **one full document** for what engineering shipped, what you must run on the host, and what you **must not** turn on yet because it breaks Elementor / GTM / WP mirrors on the live fleet.
 
----
-
-## 0. Status snapshot (2026-08-10)
-
-| Layer | Status |
-|-------|--------|
-| **28 live units** | Active on host; all serve from immutable security release `92d5bb1a2` |
-| **App security C-02 / H-01 / M-03 / M-04** | Wired on all **28** (`@connect/site-cms` rate-limit, streaming body limits, lead public-id, hardened GTM save). Local audit: **28/28 pass**. Live Node already runs this SHA. |
-| **Host ops 01–09** | Owner/root only (perms, secret rotation, UFW, restic, access). Script **10** verifies builds — never deploys. |
-| **Local `fleet-local` smoke** | **Contact/form smoke skipped** for `tier: live` sites (avoids Pipedrive spam). Opt in after form changes: `FLEET_SMOKE_CONTACT=1`. |
-| **Next batch (not live)** | Movey (placeholder), Emiratisationhub, Connectzone, Raadrecruitment, Companyformationsaudi, Alburaq, MBS — see §1b |
+> **C-01 supersession — 2026-08-10:** Never run the old `_incoming/` Caddy
+> installer named `install-caddyfile-security-20260807.sh` and never install its
+> `Caddyfile.production.20260807-security`. Both predate the named-CA replacement.
+> Use only `caddy/Caddyfile.production`, the guarded CI workflow, and
+> [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md).
 
 ---
 
-## 1. Scope — 28 live Astro sites (Aaron inventory)
+## 1. Scope — 15 live Astro sites
 
-Source of truth: `ops/security-remediation-20260809/10-rollout-app-security-fixes.sh` `FLEET_MANIFEST`.
+| Domain | site-ctl unit | Typical PORT |
+|--------|---------------|--------------|
+| evolutionmiddleast.com | evolutionmiddleast | 5080 |
+| cbss.ae | cbss | 5081 |
+| spheavyrental.ae | spheavyrental | 5082 |
+| iberiaworkforce.com | iberiaworkforce | 5083 |
+| connecthr.ae | connecthr | 5084 |
+| connectgroup.co | connectgroup | 5085 |
+| connectfm.ae | connectfm | 5087 |
+| connectresources.sa | connectresources-sa | 5088 |
+| iberiaeor.com | iberiaeor | 5089 |
+| eormiddleast.com | eormiddleast | 5090 |
+| connectstaff.ae | connectstaff | 5091 |
+| c-uae.com | cuae | 5092 |
+| kinzahr.com | kinzahr | 5093 |
+| connectfz.com | connectfz | 5096 |
+| royalvisa.ae | royalvisa | 5097 |
 
-| Domain | site-ctl unit | PORT | GTM writer |
-|--------|---------------|------|------------|
-| c-uae.com | cuae | 5092 | yes |
-| cbss.ae | cbss | 5081 | no |
-| connectfm.ae | connectfm | 5087 | yes |
-| connectfreelance.ae | connectfreelance | 5094 | yes |
-| connectfz.com | connectfz | 5096 | yes |
-| connectgroup.co | connectgroup | 5085 | yes |
-| connecthr.ae | connecthr | 5084 | yes |
-| connectresources.ae | connectresources | 5086 | yes |
-| connectresources.sa | connectresources-sa | 5088 | yes |
-| connectstaff.ae | connectstaff | 5091 | yes |
-| emiratiguard.com | emiratiguard | 5103 | yes |
-| emiratisationgate.org | emiratisationgate | 5105 | yes |
-| emiratisationgateway.com | emiratisationgateway | 5106 | yes |
-| eormiddleast.com | eormiddleast | 5090 | yes |
-| evolutionmiddleast.com | evolutionmiddleast | 5080 | yes |
-| freelancerdxb.com | freelancerdxb | 5109 | yes |
-| iberiaeor.com | iberiaeor | 5089 | yes |
-| iberiaworkforce.com | iberiaworkforce | 5083 | no |
-| kinzahr.com | kinzahr | 5093 | yes |
-| kpmpro.ae | kpmpro | 5124 | yes |
-| ngmanpower.com | ngmanpower | 5102 | yes |
-| payrollmiddleast.org | payrollmiddleast | 5110 | yes |
-| peomiddleast.com | peomiddleeast | 5118 | yes |
-| pittant.com | pittant | 5111 | yes |
-| redo.ae | redo | 5095 | yes |
-| royalvisa.ae | royalvisa | 5097 | yes |
-| spheavyrental.ae | spheavyrental | 5082 | yes |
-| thefreelancergate.com | thefreelancergate | 5100 | yes |
-
-`connectresourcesint.com` — **explicit exclusion** (active unit, no `@connect/site-cms` / contact route).
-
-### 1b. Next batch (local prep — not in live 28 cutover)
-
-| Domain | unit / id | PORT | Notes |
-|--------|-----------|------|-------|
-| movey.ae | movey | 5104 | Placeholder only (`.gitkeep`) — needs Phase 01–02 clone |
-| emiratisationhub.com | emiratisationhub | 5107 | Scaffolded; body-limit + local assets in progress |
-| connectzone.ae | connectzone | 5101 | Scaffolded; `cms.ts` siteId must be `connectzone` |
-| raadrecruitment.ae | raadrecruitment | 5113 | Scaffolded; purge peer hotlinks |
-| companyformationsaudi.com | companyformationsaudi | 5114 | Scaffolded; localize abs URLs |
-| alburaq.ae | alburaq | 5120 | Scaffolded; localize abs URLs |
-| mbs-consultancy.com | mbs-consultancy | 5099 | Scaffolded; strongest local-asset shape |
+`connectresourcesint.com` — **ignore** for site-ctl / app security this round.
 
 ---
 
@@ -118,13 +83,14 @@ Staged on host under `/opt/Astro-production/_incoming/` (mode `600` for secrets)
 | Step | Action | Files / commands |
 |------|--------|------------------|
 | **A. Deploy app** | Pull `work/astro-sites`, rebuild 15 domains, `site-ctl restart` each unit | See short handoff §0 |
-| **B. Caddy reload** | Install staged Caddyfile → `/etc/caddy/Caddyfile`, validate, reload | `install-caddyfile-security-20260807.sh` |
+| **B. Caddy configuration** | Old staging is retired; future changes use only the reviewed canonical mirror and guarded workflow | `caddy/Caddyfile.production` + owner cutover doc |
 | **C. Unique secrets** | Per-site `INTERNAL_JOB_SECRET` (+ Kinza `ENHANCED_RUN_SECRET`) in `.env.prod`, restart units, then **shred** secrets file | `apply-unique-secrets-as-root.sh` + `unique-secrets.env` |
 | **D. CF-only origin** | Firewall / Tunnel so public cannot hit `178.105.150.67` bypassing Cloudflare; SSL Full (strict) when ready | CF + host firewall |
 | **E. CA rotate** | New Caddy local CA / origin certs (old keys treated compromised) | Root on Astro |
 | **F. History purge** | `git filter-repo` remove leaked `.key` blobs; coordinated force-push; everyone re-clones | `purge-leaked-caddy-keys-from-history.sh` (scheduled window) |
 
-Suggested order: **A → B → C → D**, then schedule **E + F**.
+Suggested order for any remaining non-Caddy items: **A → C → D**, then complete
+the separately reviewed history work. Do not run the retired step B artifacts.
 
 Copy-paste runbook: [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md).
 
@@ -174,8 +140,8 @@ curl -sSI https://connectgroup.co/ | grep -i content-security-policy
 | Path | Purpose |
 |------|---------|
 | `caddy/Caddyfile.production` | Git source of truth for headers / CSP-RO |
-| `/opt/Astro-production/_incoming/Caddyfile.production.20260807-security` | Staged for reload |
-| `scripts/ops/install-caddyfile-security-20260807.sh` | Root Caddy install |
+| Retired 20260807 `_incoming/` Caddyfile | **Never install; superseded by the guarded canonical mirror** |
+| `scripts/ops/install-caddyfile-security-20260807.sh` | Fail-closed tombstone; never use for deployment |
 | `scripts/ops/purge-leaked-caddy-keys-from-history.sh` | History rewrite (window only) |
 | `packages/site-cms/src/security/sanitize-html.ts` | `sanitizeCmsHtml` vs `sanitizeMirrorHtml` |
 | `Astro-production/kinzahr.com/src/lib/enhanced/` | Node enhanced conversions |
@@ -184,4 +150,7 @@ curl -sSI https://connectgroup.co/ | grep -i content-security-policy
 
 ## 7. One-line summary for Aaron
 
-**Deploy the app security batch + reload Caddy (Report-Only) + rotate per-site secrets + harden origin/CF; rotate CA and purge git history on a scheduled window. Do not enforce CSP, mass-prerender, full SRI, or aggressive mirror script stripping — those break Elementor/GTM.**
+**Use only the guarded canonical Caddy workflow; never run the retired 20260807
+staging package. Handle any separately approved app, secret, or origin work under
+its current runbook. Do not enforce CSP, mass-prerender, full SRI, or aggressive
+mirror script stripping — those break Elementor/GTM.**
