@@ -1,0 +1,425 @@
+{
+  "slug": "moving-items",
+  "generatedAt": "2026-08-07T09:00:23.491Z",
+  "origin": "https://movey.ae",
+  "count": 104,
+  "note": "CSS/JS under public/ scanned for nested font URLs; Elementor escaped URLs rewritten",
+  "assets": [
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2024/12/Essential-Moving-Items-to-Pack-for-your-Move.png",
+      "local": "/wp-content/uploads/2024/12/Essential-Moving-Items-to-Pack-for-your-Move.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2024/05/Author-96x96.png",
+      "local": "/wp-content/uploads/2024/05/Author-96x96.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-includes/css/dashicons.min.css",
+      "local": "/wp-content/cache/min/1/wp-includes/css/dashicons.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/css/jquery.datetimepicker.min.css",
+      "local": "/wp-content/plugins/date-time-picker-for-contact-form-7/assets/css/jquery.datetimepicker.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/cf7mls.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/cf7mls.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/progress_bar.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/progress_bar.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/animate/animate.min.css",
+      "local": "/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/animate/animate.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/frontend.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/frontend.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-image.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/css/modules/motion-fx.min.css",
+      "local": "/wp-content/plugins/elementor-pro/assets/css/modules/motion-fx.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+      "local": "/wp-content/plugins/elementor/assets/css/widget-heading.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/elementor/css/post-11.css",
+      "local": "/wp-content/uploads/elementor/css/post-11.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/elementor/css/post-367.css",
+      "local": "/wp-content/uploads/elementor/css/post-367.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/elementor/css/post-370.css",
+      "local": "/wp-content/uploads/elementor/css/post-370.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/css/style.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/css/style.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/themes/Impreza/css/style.min.css",
+      "local": "/wp-content/themes/Impreza/css/style.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css",
+      "local": "/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css",
+      "local": "/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/widget-styles.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/widget-styles.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/widgets/init/assets/css/widget-styles-pro.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/widgets/init/assets/css/widget-styles-pro.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/responsive.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/responsive.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css",
+      "local": "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-includes/js/jquery/jquery.min.js",
+      "local": "/wp-includes/js/jquery/jquery.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js",
+      "local": "/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/jarallax.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/jarallax.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/dom-purify/purify.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/vendor/dom-purify/purify.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/Logo-color.png",
+      "local": "/wp-content/uploads/2023/08/Logo-color.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementskit/modules/parallax/",
+      "local": "/wp-content/plugins/elementskit/modules/parallax/"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-32x32.png",
+      "local": "/wp-content/uploads/2023/08/cropped-Logo-color-32x32.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-192x192.png",
+      "local": "/wp-content/uploads/2023/08/cropped-Logo-color-192x192.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-180x180.png",
+      "local": "/wp-content/uploads/2023/08/cropped-Logo-color-180x180.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-270x270.png",
+      "local": "/wp-content/uploads/2023/08/cropped-Logo-color-270x270.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2023/08/Logo-white.png",
+      "local": "/wp-content/uploads/2023/08/Logo-white.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/modules/elementskit-icon-pack/assets/css/ekiticons.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/modules/elementskit-icon-pack/assets/css/ekiticons.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/css/elementskit-reset-button.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/css/elementskit-reset-button.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/css/particles.css",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/css/particles.css"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widget-scripts.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widget-scripts.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-includes/js/dist/hooks.min.js",
+      "local": "/wp-includes/js/dist/hooks.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-includes/js/dist/i18n.min.js",
+      "local": "/wp-includes/js/dist/i18n.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js",
+      "local": "/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/jquery.datetimepicker.full.min.js",
+      "local": "/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/jquery.datetimepicker.full.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/datetimepicker.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/datetimepicker.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/js/cf7mls.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/js/cf7mls.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/themes/Impreza/js/us.core.min.js",
+      "local": "/wp-content/themes/Impreza/js/us.core.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js",
+      "local": "/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/js/frontend-modules.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-includes/js/jquery/ui/core.min.js",
+      "local": "/wp-includes/js/jquery/ui/core.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/img/image-masking/svg-shapes/",
+      "local": "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/img/image-masking/svg-shapes/"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/",
+      "local": "/wp-content/plugins/elementor/assets/"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads",
+      "local": "/wp-content/uploads"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/uploads/2024/12/Essential-Moving-Items-to-Pack-for-your-Move-1024x576.png",
+      "local": "/wp-content/uploads/2024/12/Essential-Moving-Items-to-Pack-for-your-Move-1024x576.png"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/pdfjs/lib",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/vendor/pdfjs/lib"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/js/happy-addons.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/js/happy-addons.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons-pro/assets/js/happy-addons-pro.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons-pro/assets/js/happy-addons-pro.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/anime.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/anime.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-frontend-scripts.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-frontend-scripts.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/js/extension-reading-progress-bar.min.js",
+      "local": "/wp-content/plugins/happy-elementor-addons/assets/js/extension-reading-progress-bar.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/js/view/general.min.js",
+      "local": "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/js/view/general.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-includes/js/comment-reply.min.js",
+      "local": "/wp-includes/js/comment-reply.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/",
+      "local": "/wp-content/plugins/elementor-pro/assets/"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json",
+      "local": "/wp-content/plugins/elementor-pro/modules/lottie/assets/animations/default.json"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/js/frontend.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js",
+      "local": "/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/sticky-content/assets/js/elementskit-sticky-content.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/sticky-content/assets/js/elementskit-sticky-content.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/js/elementskit-reset-button.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/js/elementskit-reset-button.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/elementskit/modules/particles/assets/js/particles.min.js",
+      "local": "/wp-content/plugins/elementskit/modules/particles/assets/js/particles.min.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/js/ekit-particles.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/js/ekit-particles.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-admin-scripts.js",
+      "local": "/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-admin-scripts.js"
+    },
+    {
+      "remote": "https://movey.ae/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js",
+      "local": "/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js"
+    }
+  ]
+}

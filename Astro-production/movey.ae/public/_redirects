@@ -1,0 +1,22 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/about/  /about-us/  301
+/aboutus/  /about-us/  301
+/contact/  /contact-us/  301
+/contactus/  /contact-us/  301
+/get-in-touch/  /contact-us/  301
+/insights/  /blog/  301
+/insights  /blog/  301
+/blogs/  /blog/  301
+/authors/  /author/  301
+/home/  /  301
+/home-new/  /  301
+/index.php  /  301
+/feed/  /  301
+/moving-services-in-dubai/  /house-movers-in-dubai/  301
+/moving/  /moving-companies/  301
+/faq/  /movey-faqs/  301
+/faqs/  /movey-faqs/  301
+/moving-faq/  /movey-faqs/  301
+/moving-faqs/  /movey-faqs/  301
