@@ -1,0 +1,46 @@
+{
+  "siteTitle": "Movey — Movers and Packers Dubai",
+  "summary": "Movey provides licensed movers and packers in Dubai and across the UAE — residential, office, and stress-free relocations.",
+  "details": "Movey is part of Connect Group and serves customers across Dubai and the UAE with professional moving teams, secure handling, and online booking.",
+  "groupOrder": ["Services", "Company Pages", "Blog", "Other Pages"],
+  "postsCount": 20,
+  "blogNote": "Articles cover house shifting, office relocation, packing tips, and movers guides across Dubai and the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Best movers and packers in Dubai, UAE — Movey."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Movey — licensed movers and packers in Dubai, UAE."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Get a quote from Movey movers in Dubai."
+    },
+    "/movey-faqs/": {
+      "group": "Company Pages",
+      "title": "Moving FAQs",
+      "description": "Frequently asked questions about Movey moving services in Dubai and the UAE."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "Moving tips and guides from Movey UAE."
+    },
+    "/house-movers-in-dubai/": {
+      "group": "Services",
+      "title": "House Movers in Dubai",
+      "description": "Professional house movers in Dubai."
+    },
+    "/office-movers/": {
+      "group": "Services",
+      "title": "Office Movers",
+      "description": "Office relocation and commercial movers in the UAE."
+    }
+  }
+}

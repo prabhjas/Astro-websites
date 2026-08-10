@@ -1,0 +1,59 @@
+---
+import type { Author } from '../../lib/authors.ts';
+import {
+  getDisplayAuthor,
+  getAuthorSocialLinks,
+  socialIconClass,
+} from '../../lib/author-display.ts';
+
+interface Props {
+  author: Author;
+  postCount: number;
+}
+
+const { author, postCount } = Astro.props;
+const display = getDisplayAuthor(author);
+const social = getAuthorSocialLinks(author);
+const articlesLabel =
+  postCount === 1 ? '1 published article' : `${postCount} published articles`;
+const bioText = display.shortBio;
+---
+
+<header class="kpmpro-author-profile">
+  <div class="kpmpro-author-profile__avatar">
+    {
+      display.avatarSrc ? (
+        <img
+          src={display.avatarSrc}
+          alt={display.avatarAlt}
+          width="260"
+          height="260"
+          loading="eager"
+          decoding="async"
+        />
+      ) : (
+        <span class="kpmpro-author-profile__initials" aria-hidden="true">
+          {display.name.slice(0, 1)}
+        </span>
+      )
+    }
+  </div>
+  <div class="kpmpro-author-profile__content">
+    <h1 class="kpmpro-author-profile__name">{display.name}</h1>
+    {display.title && <p class="kpmpro-author-profile__role">{display.title}</p>}
+    {bioText && <p class="kpmpro-author-profile__bio">{bioText}</p>}
+    {
+      social.length > 0 && (
+        <div class="kpmpro-author-profile__social">
+          {social.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener noreferrer">
+              <i class={socialIconClass(s.type)} aria-hidden="true" />
+              <span>{s.label}</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+    <p class="kpmpro-author-profile__stat">{articlesLabel}</p>
+  </div>
+</header>
