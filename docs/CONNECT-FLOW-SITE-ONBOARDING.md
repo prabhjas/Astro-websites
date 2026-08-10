@@ -244,7 +244,7 @@ Contact client **must** send `Content-Type: application/json` (not multipart For
 Under `Astro-production/<domain>/deploy/`:
 
 1. **`<unit>.service`** — `User=site-<name>`, `EnvironmentFile=…/.env.prod` (no `-`), `HOST=127.0.0.1` + `PORT=<n>` on `ExecStart`, `MemoryMax=256M`, `ProtectSystem=strict`, `ReadWritePaths=…/.data`
-2. **`<domain>.caddy`** — `http://` + `https://` + `tls internal` → `reverse_proxy 127.0.0.1:<PORT>`
+2. **`<domain>.caddy`** — bare-host block + named CA `astro_origin_2026` + paired manual loaders → `reverse_proxy 127.0.0.1:<PORT>`
 3. **`ROOT_SETUP.md`** — short host notes
 
 ### Step K — Prove locally
@@ -273,7 +273,7 @@ curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/leads?limit=1" |
 ### Step L — Server handoff (ops)
 
 1. Sync **code** to `/opt/Astro-production/<domain>/` — never overwrite live `.env.prod` / `.data/` with empty laptop files.
-2. Root: create `site-<name>`, install unit + Caddy `sites.d`, `caddy validate`, reload.
+2. Root: create `site-<name>`, install the unit, merge the complete site block into the guarded canonical Caddyfile, validate, then gracefully reload.
 3. `pnpm --filter <pkg> run build` → `sudo site-ctl restart <unit>`.
 4. Public smoke on hostname + register domain + secret in FLOW.
 
@@ -520,7 +520,7 @@ Do not invent ports — take the next free from the registry.
 
 ### Deploy / FLOW
 
-- [ ] `deploy/*.service` + `*.caddy` (`tls internal`) + `ROOT_SETUP.md`
+- [ ] `deploy/*.service` + `*.caddy` (named CA `astro_origin_2026` with paired manual cert/key loaders) + `ROOT_SETUP.md`
 - [ ] Host unit + Caddy + health 200
 - [ ] Domain + `INTERNAL_JOB_SECRET` registered in FLOW
 - [ ] FLOW can list posts / redirects / leads for this site

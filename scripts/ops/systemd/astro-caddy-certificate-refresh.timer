@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily randomized Caddy certificate-loader refresh
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=6h
+AccuracySec=15m
+Persistent=true
+Unit=astro-caddy-certificate-refresh.service
+
+[Install]
+WantedBy=timers.target

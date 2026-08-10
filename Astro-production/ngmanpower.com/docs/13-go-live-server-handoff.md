@@ -23,7 +23,7 @@ Local laptop testing uses fleet-local only (no Caddy): `http://127.0.0.1:5102/`
 | `/api/contact/`, `/api/geo/`, `/api/health/` | Forms / geo / liveness |
 | `/api/internal/*` | FLOW bearer APIs |
 
-SSL mode: **Full** (not Flexible; not Full strict with `tls internal` alone).
+SSL mode: **Full** (not Flexible; not Full strict with named CA `astro_origin_2026` with paired manual cert/key loaders alone).
 
 ---
 

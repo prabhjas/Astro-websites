@@ -32,6 +32,14 @@ pnpm-debug.log*
 !.env.example
 !.env.*.example
 
+# Private key and Caddy runtime storage — never version credentials or a live
+# certificate-authority namespace. Public certificate examples should use a
+# `.crt.example`/`.pem.example` suffix; real private keys belong outside Git.
+**/*.key
+**/var-lib-caddy/.local/share/caddy/
+**/.local/share/caddy/pki/authorities/
+**/.local/share/caddy/certificates/
+
 # OS files
 .DS_Store
 

@@ -347,7 +347,7 @@ node scripts/fleet-local.mjs smoke <site-id>
 **Detail:** [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) · copy `deploy/` from peer
 
 - [ ] `deploy/<unit>.service` — `PORT`, `EnvironmentFile=…/.env.prod`, correct user
-- [ ] `deploy/<domain>.caddy` — production pattern (bare hosts, `tls internal`, HSTS, `@noncanonical`, static cache)
+- [ ] `deploy/<domain>.caddy` — production pattern (bare hosts, named CA `astro_origin_2026` with paired manual cert/key loaders, HSTS, `@noncanonical`, static cache)
 - [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production`
 - [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`

@@ -4,7 +4,7 @@ App tree: `/opt/Astro-production/freelancerdxb.com`
 Unit name: `freelancerdxb` · PORT **5109** · Unix user: **`site-freelancerdxb`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (`tls internal`, canonical www redirect, HSTS).
+Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (named CA `astro_origin_2026` with its paired manual cert/key loaders, canonical www redirect, HSTS).
 
 ## 1. Site unix user
 
@@ -48,12 +48,12 @@ Expect `User=site-freelancerdxb`, `MemoryMax=268435456`, `EnvironmentFiles=…/.
 Owner-only: [docs/OPS-OWNER-CADDY-CUTOVER.md](../../../docs/OPS-OWNER-CADDY-CUTOVER.md).
 
 ```bash
-# Merge deploy/freelancerdxb.com.caddy into /etc/caddy/Caddyfile (or sites.d)
+# Merge only into the reviewed canonical Caddyfile; there is no split-file alternative.
 # Also add http://www.freelancerdxb.com to the shared one-hop HTTP alt-host block
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+Cloudflare SSL: **Full** (not Full strict) when origin uses named CA `astro_origin_2026` with its paired manual cert/key loaders.
 
 ## 5. Deploy / build (webdev)
 

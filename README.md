@@ -263,12 +263,12 @@ pnpm --filter iberiaworkforce-astro run start   # needs HOST/PORT in env or use 
 Each production site has `deploy/`:
 
 - `*.service` — systemd unit (`User=site-*`, `MemoryMax`, **required** `EnvironmentFile=…/.env.prod` with **no** leading `-`)
-- `*.caddy` — `http://` + `https://` + `tls internal` (not bare hostnames — Cloudflare Flexible redirect loop)
+- `*.caddy` — bare-host site block with named CA `astro_origin_2026` and paired apex/`www` manual loaders; merge into the single canonical Caddyfile
 - `ROOT_SETUP.md` — host notes
 
 **Authoritative host checklist:** [docs/server-ops-only.md](docs/server-ops-only.md)
 
-Tier 1 is live (all four units + Caddy `sites.d`). Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` on this branch match the live footguns (tls internal; required `.env.prod`).
+Tier 1 is live with the guarded canonical Caddyfile. Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` on this branch use named origin CAs with paired manual loaders and required `.env.prod`.
 
 Preserve on deploy: `.env.prod`, `.data/`, and the non-secret `.env` (`PUBLIC_SITE_URL`). Do not overwrite with empty laptop files.
 
