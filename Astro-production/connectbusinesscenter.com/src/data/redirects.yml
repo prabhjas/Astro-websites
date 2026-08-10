@@ -1,9 +1,0 @@
-# Canonical interim redirects for connectbusinesscenter.com
-# Drop Rank Math / Redirection rule exports under imports/redirects/
-# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
-# FLOW owns day-to-day edits via /api/internal/redirects/*.
-
-redirects:
-  - from: /home/
-    to: /
-    status: 301
