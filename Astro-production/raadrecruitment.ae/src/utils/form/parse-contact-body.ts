@@ -40,6 +40,18 @@ export function parseContactFormBody(
   };
 
   const experience = arrays.experience?.filter(Boolean).join(', ');
+  // CF7 select-multiselect plugin field (RAAD: "Select Your Service")
+  const selectedServices = Object.entries(arrays)
+    .filter(([key]) => /^selct_multiselct/i.test(key) || /^select[_-]?multiselect/i.test(key))
+    .flatMap(([, values]) => values)
+    .map((v) => String(v || '').trim())
+    .filter(Boolean)
+    .join(', ');
+  const serviceSingle =
+    get('selct_multiselct-995') ??
+    get('service') ??
+    get('your-service') ??
+    findFieldValue(raw, 'selct_multiselct');
 
   return {
     name:
@@ -77,7 +89,12 @@ export function parseContactFormBody(
     msclkid: get('msclkid'),
     nationality: get('nationality'),
     countryCode: get('countryCode') ?? get('country_code') ?? get('phone-country-code') ?? findCountryCode(raw),
-    professionSector: get('professionSector') ?? get('profession_sector') ?? experience,
+    professionSector:
+      get('professionSector') ??
+      get('profession_sector') ??
+      (selectedServices || undefined) ??
+      (serviceSingle || undefined) ??
+      experience,
     locPhysicalMs: get('locPhysicalMs') ?? get('loc_physical_ms') ?? get('locphysicalms'),
     locInterestMs: get('locInterestMs') ?? get('loc_interest_ms') ?? get('locinterestms'),
     adposition: get('adposition') ?? get('ad_position'),

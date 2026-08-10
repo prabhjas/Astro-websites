@@ -1,0 +1,143 @@
+[
+  {
+    "label": "live-emiratisation",
+    "path": "/emiratisation/",
+    "origin": "https://raadrecruitment.ae",
+    "info": {
+      "hasHeading": true,
+      "headingText": "Our Success Story",
+      "sectionH": 45.5,
+      "sectionDisplay": "block",
+      "slider": {
+        "id": "n2-ss-2",
+        "cls": "n2-ss-slider n2-ow n2-has-hover n2-ss-desktopPortrait n2-ss-loaded",
+        "h": 442.40625,
+        "loaded": true
+      },
+      "ssLoaded": true,
+      "n2Keys": [
+        "n2-ss-2",
+        "n2-ss-4"
+      ],
+      "prabhjas": null,
+      "stickySettings": null
+    },
+    "errors": [
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined"
+    ]
+  },
+  {
+    "label": "local-emiratisation",
+    "path": "/emiratisation/",
+    "origin": "http://127.0.0.1:5113",
+    "info": {
+      "hasHeading": true,
+      "headingText": "Our Success Story",
+      "sectionH": 45.5,
+      "sectionDisplay": "block",
+      "slider": {
+        "id": "n2-ss-2",
+        "cls": "n2-ss-slider n2-ow n2-has-hover n2-ss-desktopPortrait n2-ss-loaded",
+        "h": 424.625,
+        "loaded": true
+      },
+      "ssLoaded": true,
+      "n2Keys": [
+        "n2-ss-2",
+        "n2-ss-3"
+      ],
+      "prabhjas": null,
+      "stickySettings": null
+    },
+    "errors": [
+      "ReferenceError: astra is not defined",
+      "ReferenceError: elementorFrontendConfig is not defined",
+      "ReferenceError: ElementorProFrontendConfig is not defined",
+      "ReferenceError: AstraToggleSetup is not defined",
+      "ReferenceError: wpa_field_info is not defined",
+      "ReferenceError: astraNavMenuToggle is not defined",
+      "TypeError: $ is not a function"
+    ]
+  },
+  {
+    "label": "live-blog",
+    "path": "/blog/",
+    "origin": "https://raadrecruitment.ae",
+    "info": {
+      "hasHeading": false,
+      "sectionH": 0,
+      "sectionDisplay": null,
+      "slider": null,
+      "ssLoaded": false,
+      "n2Keys": [],
+      "prabhjas": {
+        "cls": "elementor-section elementor-inner-section elementor-element elementor-element-b3ad17e prabhjas elementor-section-boxed elementor-section-height-default elementor-section-height-default elementor-sticky",
+        "pos": "sticky",
+        "top": "90px",
+        "h": 536.921875
+      },
+      "stickySettings": {
+        "cls": "elementor-section elementor-inner-section elementor-element elementor-element-b3ad17e prabhjas elementor-section-boxed e",
+        "settings": "{\"sticky\":\"top\",\"sticky_parent\":\"yes\",\"sticky_on\":[\"desktop\"],\"sticky_offset\":0,\"sticky_effects_offset\":0,\"sticky_anchor_link_offset\":0}",
+        "pos": "sticky"
+      }
+    },
+    "errors": []
+  },
+  {
+    "label": "local-blog",
+    "path": "/blog/",
+    "origin": "http://127.0.0.1:5113",
+    "info": {
+      "hasHeading": false,
+      "sectionH": 0,
+      "sectionDisplay": null,
+      "slider": null,
+      "ssLoaded": false,
+      "n2Keys": [
+        "n2-ss-2",
+        "n2-ss-3"
+      ],
+      "prabhjas": {
+        "cls": "elementor-section elementor-inner-section elementor-element elementor-element-b3ad17e prabhjas elementor-section-boxed elementor-section-height-default elementor-section-height-default",
+        "pos": "sticky",
+        "top": "0px",
+        "h": 536.921875
+      },
+      "stickySettings": {
+        "cls": "elementor-section elementor-inner-section elementor-element elementor-element-b3ad17e prabhjas elementor-section-boxed e",
+        "settings": "{\"sticky\":\"top\",\"sticky_parent\":\"yes\",\"sticky_on\":[\"desktop\"],\"sticky_offset\":0,\"sticky_effects_offset\":0,\"sticky_anchor_link_offset\":0}",
+        "pos": "sticky"
+      }
+    },
+    "errors": [
+      "ReferenceError: astra is not defined",
+      "ReferenceError: elementorFrontendConfig is not defined",
+      "ReferenceError: ElementorProFrontendConfig is not defined",
+      "ReferenceError: AstraToggleSetup is not defined",
+      "ReferenceError: wpa_field_info is not defined",
+      "ReferenceError: astraNavMenuToggle is not defined",
+      "TypeError: $ is not a function"
+    ]
+  },
+  {
+    "stickyScroll": {
+      "before": {
+        "top": 474,
+        "y": 0,
+        "pos": "sticky"
+      },
+      "after": {
+        "top": -533,
+        "y": 1007,
+        "pos": "sticky"
+      }
+    }
+  }
+]

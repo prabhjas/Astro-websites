@@ -1,0 +1,861 @@
+{
+  "liveCount": 45,
+  "localCount": 55,
+  "liveBody": "home wp-singular page-template-default page page-id-1298 wp-custom-logo wp-embed-responsive wp-theme-astra wp-child-theme-astra-child-theme ast-desktop ast-plain-container ast-no-sidebar astra-4.13.1 group-blog ast-single-post ast-inherit-s",
+  "localBody": "wp-custom-logo wp-embed-responsive wp-theme-astra wp-child-theme-astra-child-theme ast-desktop ast-plain-container ast-no-sidebar astra-4.13.1 group-blog ast-inherit-site-logo-transparent ast-theme-transparent-header ast-hfb-header elemento",
+  "liveInline": 10,
+  "localInline": 1,
+  "missingOnLocal": [
+    "https://fonts.googleapis.com/css",
+    "/wp-content/cache/min/1/wp-includes/css/dashicons.css",
+    "/wp-content/cache/min/1/wp-includes/css/admin-bar.css",
+    "/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+    "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css",
+    "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+    "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/frontend.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css",
+    "/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css",
+    "https://fonts.googleapis.com/css",
+    "/wp-content/cache/min/1/wp-content/plugins/select-multiselect-field-contact-form-7/assets/css/select2.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/inter.css"
+  ],
+  "extraOnLocal": [
+    "/css/fonts-poppins.css",
+    "/wp-includes/css/dashicons.css",
+    "/wp-includes/css/admin-bar.css",
+    "/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+    "/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+    "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css",
+    "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css",
+    "/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+    "/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+    "/wp-content/plugins/elementor/assets/css/frontend.css",
+    "/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css",
+    "/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+    "/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+    "/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+    "/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css",
+    "/wp-content/plugins/select-multiselect-field-contact-form-7/assets/css/select2.css",
+    "/wp-content/uploads/elementor/google-fonts/css/inter.css",
+    "/css/live-inline/wp-img-auto-sizes-contain-inline-css.css",
+    "/css/live-inline/astra-theme-css-inline-css.css",
+    "/css/live-inline/wp-emoji-styles-inline-css.css",
+    "/css/live-inline/global-styles-inline-css.css",
+    "/css/live-inline/live-inline-6.css",
+    "/css/live-inline/live-inline-7.css",
+    "/css/live-inline/live-inline-8.css",
+    "/css/live-inline/wp-custom-css.css",
+    "/css/live-inline/core-block-supports-inline-css.css",
+    "/css/raadrecruitment-astra-fixes.css",
+    "/css/raadrecruitment-mobile-nav.css"
+  ],
+  "elementorLive": [
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/frontend.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css",
+    "/wp-content/uploads/elementor/css/post-30.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css",
+    "/wp-content/uploads/elementor/css/post-1298.css",
+    "/wp-content/uploads/elementor/css/post-940.css",
+    "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css",
+    "/wp-content/uploads/elementor/css/post-861.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css",
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/inter.css"
+  ],
+  "elementorLocal": [
+    "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css",
+    "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css",
+    "/wp-content/plugins/elementor/assets/css/frontend.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css",
+    "/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css",
+    "/wp-content/uploads/elementor/css/post-30.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css",
+    "/wp-content/uploads/elementor/css/post-1298.css",
+    "/wp-content/uploads/elementor/css/post-940.css",
+    "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css",
+    "/wp-content/uploads/elementor/css/post-861.css",
+    "/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+    "/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+    "/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+    "/wp-content/uploads/elementor/google-fonts/css/inter.css"
+  ],
+  "pageCssFromData": [
+    "/wp-content/themes/astra/assets/css/minified/main.min.css",
+    "/wp-includes/css/dashicons.css",
+    "/wp-includes/css/admin-bar.css",
+    "/wp-content/plugins/contact-form-7/includes/css/styles.css",
+    "/wp-content/themes/astra/assets/css/minified/compatibility/contact-form-7-main.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+    "/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css",
+    "/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css",
+    "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css",
+    "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css",
+    "/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css",
+    "/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css",
+    "/wp-content/plugins/elementor/assets/css/frontend.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css",
+    "/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css",
+    "/wp-content/uploads/elementor/css/post-30.css",
+    "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css",
+    "/wp-content/uploads/elementor/css/post-1298.css",
+    "/wp-content/uploads/elementor/css/post-940.css",
+    "/wp-content/themes/astra/style.css",
+    "/wp-content/themes/astra-child-theme/style.css",
+    "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css",
+    "/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css",
+    "/wp-content/uploads/elementor/css/post-861.css",
+    "/wp-content/uploads/elementor/google-fonts/css/roboto.css",
+    "/wp-content/uploads/elementor/google-fonts/css/robotoslab.css",
+    "/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css",
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css",
+    "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider.min.css",
+    "/wp-content/plugins/select-multiselect-field-contact-form-7/assets/css/select2.css",
+    "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css",
+    "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css",
+    "/wp-content/uploads/elementor/google-fonts/css/inter.css",
+    "/wp-content/uploads/elementor/css/post-1890.css",
+    "/wp-content/plugins/elementor-pro/assets/css/modules/sticky.css",
+    "/wp-content/uploads/elementor/css/post-558.css",
+    "/wp-content/plugins/elementor/assets/css/widget-google_maps.min.css",
+    "/wp-content/uploads/elementor/css/post-410.css",
+    "/wp-content/plugins/elementor/assets/css/widget-tabs.min.css",
+    "/wp-content/uploads/elementor/css/post-1331.css",
+    "/wp-content/uploads/elementor/css/post-2316.css",
+    "/wp-content/uploads/elementor/css/post-1338.css",
+    "/wp-content/uploads/elementor/css/post-1734.css"
+  ],
+  "probes": {
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 16241,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 5492,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/css/frontend.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 55294,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-image.min.css": {
+      "disk": 214,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 214,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 214,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-heading.min.css": {
+      "disk": 560,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 560,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 560,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css": {
+      "disk": 995,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 995,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 995,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 22352,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/uploads/elementor/css/post-30.css": {
+      "disk": 1227,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1227,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1227,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-image-carousel.min.css": {
+      "disk": 342,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 342,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 342,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css": {
+      "disk": 4726,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 4726,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 4726,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css": {
+      "disk": 1793,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1793,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1793,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css": {
+      "disk": 16952,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 16951,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 16952,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-accordion.min.css": {
+      "disk": 1744,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1744,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1744,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/css/post-1298.css": {
+      "disk": 69792,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 69870,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 69792,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/css/post-940.css": {
+      "disk": 2502,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 2528,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 2502,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css": {
+      "disk": 7746,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 7746,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 7746,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/css/post-861.css": {
+      "disk": 3884,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 3884,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 3884,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 95400,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/robotoslab.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 21807,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 32211,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 58099,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1094,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1086,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css": {
+      "disk": 560,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 559,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 560,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css": {
+      "disk": 10255,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 10255,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 10255,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/inter.css": {
+      "disk": null,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 43551,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 404,
+        "ct": "text/html",
+        "bytes": 3049,
+        "looksHtml": true,
+        "looksCss": false
+      }
+    },
+    "/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.css": {
+      "disk": 19301,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 19301,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 19301,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.css": {
+      "disk": 5896,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 5896,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 5896,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/css/frontend.css": {
+      "disk": 64419,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 64419,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 64419,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.css": {
+      "disk": 26654,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 26654,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 26654,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/google-fonts/css/roboto.css": {
+      "disk": 103518,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 107730,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 103518,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/google-fonts/css/robotoslab.css": {
+      "disk": 23436,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 25074,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 23436,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css": {
+      "disk": 34911,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 35847,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 34911,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.css": {
+      "disk": 72184,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 72184,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 72184,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.css": {
+      "disk": 734,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 734,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 734,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.css": {
+      "disk": 727,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 727,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 727,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/uploads/elementor/google-fonts/css/inter.css": {
+      "disk": 46809,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 50085,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 46809,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/wp-content/themes/astra/assets/css/minified/main.min.css": {
+      "disk": 44801,
+      "live": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 44801,
+        "looksHtml": false,
+        "looksCss": true
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 44801,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/css/raadrecruitment-astra-fixes.css": {
+      "disk": 1017,
+      "live": {
+        "status": 200,
+        "ct": "text/html; charset=UTF-8",
+        "bytes": 339073,
+        "looksHtml": true,
+        "looksCss": false
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 1017,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    },
+    "/css/fonts-poppins.css": {
+      "disk": 7866,
+      "live": {
+        "status": 200,
+        "ct": "text/html; charset=UTF-8",
+        "bytes": 339073,
+        "looksHtml": true,
+        "looksCss": false
+      },
+      "local": {
+        "status": 200,
+        "ct": "text/css; charset=utf-8",
+        "bytes": 7866,
+        "looksHtml": false,
+        "looksCss": true
+      }
+    }
+  }
+}

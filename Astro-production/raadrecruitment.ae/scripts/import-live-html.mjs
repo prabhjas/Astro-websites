@@ -134,37 +134,88 @@ function extractMeta($) {
 }
 
 function extractContent($) {
+  // Live theme is Astra + Elementor. Prefer the Elementor root wrapper so
+  // `.elementor-{id}` CSS (post-{id}.css) matches. Never return only innerHTML
+  // of `.elementor` — that strips the required root class.
+  const rootSelectors = [
+    'main [data-elementor-type="wp-page"].elementor',
+    'main [data-elementor-type="wp-post"].elementor',
+    '[data-elementor-type="wp-page"].elementor',
+    '[data-elementor-type="wp-post"].elementor',
+    "main .elementor.elementor-location-single",
+    "#content .elementor[data-elementor-id]",
+    "main .elementor[data-elementor-id]",
+  ];
+  for (const sel of rootSelectors) {
+    const el = $(sel).first();
+    if (!el.length) continue;
+    const outer = $.html(el).trim();
+    if (outer.length > 400) return outer;
+  }
+
+  // Fallback: largest matching tree (still prefer outer HTML of .elementor)
   const selectors = [
-    "#page-content",
-    ".l-main",
-    ".l-canvas .l-main",
-    '[data-elementor-type="wp-page"]',
-    '[data-elementor-type="wp-post"]',
+    "main .elementor",
+    ".elementor[data-elementor-id]",
+    "main",
+    "#content .elementor",
+    "#content",
+    ".entry-content",
     "article.post",
     "article",
-    ".w-blog",
     ".elementor",
-    "main",
-    ".l-canvas",
+    "#page-content",
+    ".l-main",
   ];
+  let best = "";
   for (const sel of selectors) {
-    const el = $(sel);
-    if (el.length && el.html().trim().length > 100) return el.html().trim();
+    const el = $(sel).first();
+    if (!el.length) continue;
+    const useOuter = /elementor/i.test(sel);
+    const html = (useOuter ? $.html(el) : el.html() || "").trim();
+    if (html.length <= 100) continue;
+    if (
+      (sel === "main" ||
+        sel === "main .elementor" ||
+        sel.includes("elementor-type") ||
+        sel === "#content" ||
+        useOuter) &&
+      html.length > 4000
+    ) {
+      return html;
+    }
+    if (html.length > best.length) best = html;
   }
-  return $("body").html() || "";
+  return best || $("body").html() || "";
 }
 
 function extractHeader($) {
-  for (const sel of ["header.l-header", "header#l-header", ".l-header", "header"]) {
-    const el = $(sel);
+  for (const sel of [
+    "#masthead",
+    "header.site-header",
+    ".site-header",
+    "header.l-header",
+    "header#l-header",
+    ".l-header",
+    "header",
+  ]) {
+    const el = $(sel).first();
     if (el.length) return $.html(el).trim();
   }
   return "";
 }
 
 function extractFooter($) {
-  for (const sel of ["footer.l-footer", "footer#l-footer", ".l-footer", "footer"]) {
-    const el = $(sel);
+  for (const sel of [
+    "#colophon",
+    "footer.site-footer",
+    ".site-footer",
+    "footer.l-footer",
+    "footer#l-footer",
+    ".l-footer",
+    "footer",
+  ]) {
+    const el = $(sel).first();
     if (el.length) return $.html(el).trim();
   }
   return "";
@@ -268,8 +319,16 @@ const pageTasks = pagePaths.map((path) => async () => {
   cssFiles.forEach((c) => globalCss.add(c));
   collectAssetUrls(html).forEach((u) => assetUrls.add(u));
   const slug = path.replace(/^\/|\/$/g, "") || "home";
+  const GLOBAL_DOC_IDS = new Set([30, 861, 940]);
+  const elementorId =
+    Number((bodyHtml.match(/data-elementor-id=["'](\d+)["']/) || [])[1]) ||
+    cssFiles
+      .map((c) => Number((c.match(/\/post-(\d+)\.css/) || [])[1]))
+      .find((n) => n && !GLOBAL_DOC_IDS.has(n)) ||
+    pageEntries.length + 1;
   const entry = {
-    id: pageEntries.length + 1,
+    id: elementorId,
+    elementorId,
     type: "page",
     slug,
     path,

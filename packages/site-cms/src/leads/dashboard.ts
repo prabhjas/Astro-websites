@@ -35,6 +35,8 @@ export function getDeliveryStatusLabel(status: DeliveryStatus): string {
   switch (status) {
     case 'delivered':
       return 'Delivered to Pipedrive';
+    case 'skipped':
+      return 'Stored locally (Pipedrive skipped)';
     case 'retry_scheduled':
       return 'Retry scheduled';
     case 'failed':

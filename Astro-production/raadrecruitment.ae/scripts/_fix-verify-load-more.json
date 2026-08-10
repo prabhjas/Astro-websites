@@ -1,0 +1,389 @@
+{
+  "desktop": {
+    "name": "desktop",
+    "clicks": [
+      {
+        "c": 1,
+        "count": 12,
+        "widthRange": [
+          401,
+          401
+        ],
+        "uniqueWidths": [
+          401
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 474
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 2,
+        "count": 18,
+        "widthRange": [
+          401,
+          401
+        ],
+        "uniqueWidths": [
+          401
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 474
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 3,
+        "count": 24,
+        "widthRange": [
+          401,
+          401
+        ],
+        "uniqueWidths": [
+          401
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 474
+        },
+        "btnHidden": false
+      }
+    ],
+    "initial": {
+      "count": 6,
+      "widthRange": [
+        401,
+        401
+      ],
+      "uniqueWidths": [
+        401
+      ],
+      "templates": [
+        "861"
+      ],
+      "titleFonts": [
+        "28px"
+      ],
+      "badTplCount": 0,
+      "allHaveDate": true,
+      "allHaveAuthor": true,
+      "firstLastTitle": [
+        "28px",
+        "28px"
+      ],
+      "sticky": {
+        "pos": "sticky",
+        "top": 474
+      },
+      "btnHidden": false
+    },
+    "afterScrollSticky": {
+      "pos": "sticky",
+      "top": 90
+    }
+  },
+  "tablet": {
+    "name": "tablet",
+    "clicks": [
+      {
+        "c": 1,
+        "count": 12,
+        "widthRange": [
+          516,
+          516
+        ],
+        "uniqueWidths": [
+          516
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 372
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 2,
+        "count": 18,
+        "widthRange": [
+          516,
+          516
+        ],
+        "uniqueWidths": [
+          516
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 372
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 3,
+        "count": 24,
+        "widthRange": [
+          516,
+          516
+        ],
+        "uniqueWidths": [
+          516
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "sticky",
+          "top": 372
+        },
+        "btnHidden": false
+      }
+    ],
+    "initial": {
+      "count": 6,
+      "widthRange": [
+        516,
+        516
+      ],
+      "uniqueWidths": [
+        516
+      ],
+      "templates": [
+        "861"
+      ],
+      "titleFonts": [
+        "28px"
+      ],
+      "badTplCount": 0,
+      "allHaveDate": true,
+      "allHaveAuthor": true,
+      "firstLastTitle": [
+        "28px",
+        "28px"
+      ],
+      "sticky": {
+        "pos": "sticky",
+        "top": 372
+      },
+      "btnHidden": false
+    },
+    "afterScrollSticky": {
+      "pos": "sticky",
+      "top": 90
+    }
+  },
+  "mobile": {
+    "name": "mobile",
+    "clicks": [
+      {
+        "c": 1,
+        "count": 12,
+        "widthRange": [
+          390,
+          390
+        ],
+        "uniqueWidths": [
+          390
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "static",
+          "top": 8359
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 2,
+        "count": 18,
+        "widthRange": [
+          390,
+          390
+        ],
+        "uniqueWidths": [
+          390
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "static",
+          "top": 11921
+        },
+        "btnHidden": false
+      },
+      {
+        "c": 3,
+        "count": 24,
+        "widthRange": [
+          390,
+          390
+        ],
+        "uniqueWidths": [
+          390
+        ],
+        "templates": [
+          "861"
+        ],
+        "titleFonts": [
+          "28px"
+        ],
+        "badTplCount": 0,
+        "allHaveDate": true,
+        "allHaveAuthor": true,
+        "firstLastTitle": [
+          "28px",
+          "28px"
+        ],
+        "sticky": {
+          "pos": "static",
+          "top": 15554
+        },
+        "btnHidden": false
+      }
+    ],
+    "initial": {
+      "count": 6,
+      "widthRange": [
+        390,
+        390
+      ],
+      "uniqueWidths": [
+        390
+      ],
+      "templates": [
+        "861"
+      ],
+      "titleFonts": [
+        "28px"
+      ],
+      "badTplCount": 0,
+      "allHaveDate": true,
+      "allHaveAuthor": true,
+      "firstLastTitle": [
+        "28px",
+        "28px"
+      ],
+      "sticky": {
+        "pos": "static",
+        "top": 4870
+      },
+      "btnHidden": false
+    },
+    "afterScrollSticky": {
+      "pos": "static",
+      "top": 14553
+    }
+  },
+  "api": {
+    "ok": true,
+    "hasMore": true,
+    "ids": [
+      61,
+      62,
+      64,
+      65,
+      66,
+      67
+    ],
+    "uses861": true,
+    "uses540": false,
+    "overlap": []
+  }
+}

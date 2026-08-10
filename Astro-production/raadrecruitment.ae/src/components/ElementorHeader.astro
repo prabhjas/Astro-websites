@@ -69,7 +69,16 @@ function withActiveState(html: string, current: string) {
     },
   );
 
-  const topNeedles = ["/", "/about-us/", "/insights/", "/contact-us/", "/industries/"];
+  const topNeedles = [
+    "/",
+    "/about-raad-recruitment/",
+    "/emiratisation/",
+    "/staff-outsourcing-in-uae/",
+    "/recruitment/",
+    "/blog/",
+    "/contact-us/",
+    "/mazaya/",
+  ];
   let activeTop = markDeep;
   if (!topNeedles.includes(markDeep)) {
     for (const t of topNeedles) {

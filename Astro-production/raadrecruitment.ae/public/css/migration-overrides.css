@@ -3,7 +3,8 @@ html,
 body {
   margin: 0 !important;
   padding: 0;
-  overflow-x: hidden;
+  /* clip avoids breaking position:sticky (hidden coerces overflow-y:auto) */
+  overflow-x: clip;
   max-width: 100%;
 }
 

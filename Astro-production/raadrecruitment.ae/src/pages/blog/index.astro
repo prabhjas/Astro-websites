@@ -1,6 +1,41 @@
 ---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPageByPath } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+import { notFoundResponse } from "../../lib/not-found";
+
 export const prerender = false;
 
-/** Live WordPress sends /blog/ → /insights/ */
-return Astro.redirect("/insights/", 301);
+/** Live Rank Math / menu: /blog/ (not peer /insights/). */
+const page = getPageByPath("/blog/");
+if (!page) return notFoundResponse();
+
+const html = page.bodyHtml || page.content;
+const extraCss = [...(page.pageCss || [])];
+const bodyClass = `wp-singular page-template-default page page-id-${page.id} elementor-page elementor-page-${page.id}`;
 ---
+
+<BaseLayout
+  currentPath="/blog/"
+  menuActivePath="/blog/"
+  bodyClass={bodyClass}
+  extraCss={extraCss}
+  fallback={page.seo}
+  seo={{
+    title: page.seo.title || "Blog | RAAD Recruitment",
+    description:
+      page.seo.description ||
+      "RAAD Recruitment blogs and Emiratisation guides.",
+    canonical: "/blog/",
+    ogImage: page.seo.ogImage,
+    schemas: [
+      ...(page.seo.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Blog", url: "/blog/" },
+      ]),
+    ],
+  }}
+>
+  <Fragment set:html={html} />
+</BaseLayout>

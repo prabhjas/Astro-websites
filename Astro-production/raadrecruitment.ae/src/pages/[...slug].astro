@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
 import {
@@ -107,8 +106,8 @@ const postUsesElementor =
 const pageBodyClass = page
   ? isListingArchive
     ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
-    : `wp-singular page-template-default page page-id-${page.id}`
-  : `wp-singular single single-post postid-${post!.id} post-${post!.id} post type-post status-publish`;
+    : `wp-singular page-template-default page page-id-${page.id} elementor-page elementor-page-${page.id}`
+  : `wp-singular single single-post postid-${post!.id} post-${post!.id} post type-post status-publish elementor-page elementor-page-${post!.id}`;
 ---
 
 <BaseLayout
@@ -117,7 +116,7 @@ const pageBodyClass = page
   fallback={entry.seo}
   extraCss={extraCss}
   seo={seo}
-  menuActivePath={post ? "/insights/" : undefined}
+  menuActivePath={post ? "/blog/" : undefined}
 >
   {
     page ? (

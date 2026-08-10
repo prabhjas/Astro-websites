@@ -1,0 +1,506 @@
+{
+  "before": {
+    "loading": "lazy",
+    "complete": false,
+    "nw": 0,
+    "rect": {
+      "x": -99890,
+      "y": 4745.21875,
+      "width": 396.671875,
+      "height": 264.625,
+      "top": 4745.21875,
+      "right": -99493.328125,
+      "bottom": 5009.84375,
+      "left": -99890
+    },
+    "chain": [
+      {
+        "tag": "IMG",
+        "id": "n2-ss-2item1",
+        "cls": "skip-lazy",
+        "display": "inline-block",
+        "visibility": "visible",
+        "overflow": "clip",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 397,
+        "h": 265
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": " n2-ss-item-image-content n2-ss-item-content n2-ow-all",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "hidden",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 397,
+        "h": 265
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer n2-ow n-uc-z3fwHvMZsa9T",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 397,
+        "h": 265
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer-col n2-ss-layer-with-background n2-ss-layer-content n-uc-116e76cfcbd01-inner",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 397,
+        "h": 382
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer n2-ow n-uc-116e76cfcbd01",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 397,
+        "h": 382
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer-row-inner ",
+        "display": "flex",
+        "visibility": "hidden",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1250,
+        "h": 402
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer-row n2-ss-layer-with-background n-uc-11a5a81e39082-inner",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1250,
+        "h": 402
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer n2-ow n2-ss-layer--block n2-ss-has-self-align n-uc-11a5a81e39082",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1250,
+        "h": 402
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-section-main-content n2-ss-layer-with-background n2-ss-layer-content n2-ow n-uc-3UWP8bhd9bcG-i",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1270,
+        "h": 422
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer n2-ow n-uc-3UWP8bhd9bcG",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1270,
+        "h": 422
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layer n2-ow n-uc-XaHKA5gqHE0R",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1280,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-layers-container n2-ss-slide-limiter n2-ow",
+        "display": "flex",
+        "visibility": "hidden",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "0.001",
+        "transform": "none",
+        "w": 1280,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slide n2-ow  n2-ss-slide-3",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "hidden",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "matrix(1, 0, 0, 1, -100000, 0)",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slider-4 n2-ow",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slider-3 n2-ow",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "hidden",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slider-2 n2-ow",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "hidden",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slider-1 n2_ss__touch_element n2-ow",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-ss-slider-wrapper-inside",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "n2-ss-2",
+        "cls": "n2-ss-slider n2-ow n2-has-hover n2notransition  ",
+        "display": "grid",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-padding",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "n2-ss-2-align",
+        "cls": "n2-ss-align",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "hidden",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "n2-section-smartslider fitvidsignore  n2_clear",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "elementor-widget-container",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "elementor-element elementor-element-5579635 elementor-widget elementor-widget-text-editor",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1420,
+        "h": 442
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "elementor-widget-wrap elementor-element-populated",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 609
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e04a7de",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 609
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "elementor-container elementor-column-gap-default",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 609
+      },
+      {
+        "tag": "SECTION",
+        "id": "",
+        "cls": "elementor-section elementor-top-section elementor-element elementor-element-db13b52 elementor-sectio",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 609
+      },
+      {
+        "tag": "MAIN",
+        "id": "main",
+        "cls": "site-main",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 7335
+      },
+      {
+        "tag": "DIV",
+        "id": "primary",
+        "cls": "content-area primary",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 7335
+      },
+      {
+        "tag": "DIV",
+        "id": "",
+        "cls": "ast-container",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 7335
+      },
+      {
+        "tag": "DIV",
+        "id": "content",
+        "cls": "site-content",
+        "display": "block",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 7335
+      },
+      {
+        "tag": "DIV",
+        "id": "page",
+        "cls": "hfeed site",
+        "display": "flex",
+        "visibility": "visible",
+        "overflow": "visible",
+        "contentVisibility": "visible",
+        "opacity": "1",
+        "transform": "none",
+        "w": 1440,
+        "h": 7850
+      }
+    ]
+  },
+  "afterForce": [
+    {
+      "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg",
+      "nw": 700,
+      "complete": true,
+      "currentSrc": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg"
+    },
+    {
+      "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Banking-Finance.jpg",
+      "nw": 700,
+      "complete": true,
+      "currentSrc": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Banking-Finance.jpg"
+    },
+    {
+      "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/IT-Technology.jpg",
+      "nw": 700,
+      "complete": true,
+      "currentSrc": "http://127.0.0.1:5113/wp-content/uploads/2023/08/IT-Technology.jpg"
+    },
+    {
+      "src": "http://127.0.0.1:5113/wp-content/uploads/2024/03/Male-01.png",
+      "nw": 1,
+      "complete": true,
+      "currentSrc": "http://127.0.0.1:5113/wp-content/uploads/2024/03/Male-01.png"
+    }
+  ],
+  "liveHits": {
+    "Oil-and-gas": [
+      "zy=\"1\" src=\"//raadrecruitment.ae/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg\" /></div></div><div class=\"n2-ss-layer n2-ow n-uc-dBl06ICK5yyv\" dat"
+    ],
+    "Male-01": [
+      "=\"1\" src=\"//raadrecruitment.ae/wp-content/uploads/2024/03/Female-01.png\" /></div></div><div class=\"n2-ss-layer n2-ow n-uc-ulLvH5SlC7pL\" data-pm=\"no",
+      "zy=\"1\" src=\"//raadrecruitment.ae/wp-content/uploads/2024/03/Male-01.png\" /></div></div><div class=\"n2-ss-layer n2-ow n-uc-KHm88jWimC0c\" data-pm=\"no"
+    ],
+    "Staff-Outsourcing": [
+      "ct-page menu-item-1690\"><a href=\"https://raadrecruitment.ae/staff-outsourcing-in-uae/\" class=\"menu-link\"><span class=\"ast-icon icon-arrow\"><svg class=\"ast-ar",
+      "ct-page menu-item-1690\"><a href=\"https://raadrecruitment.ae/staff-outsourcing-in-uae/\" class=\"menu-link\"><span class=\"ast-icon icon-arrow\"><svg class=\"ast-ar",
+      " src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/Staff-Outsourcing-Services-RAAD.webp\" title=\"\" alt=\"Staff Outsourcing Services - RAAD\" loading=\"l"
+    ],
+    "emirati-talent": [
+      " src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/emirati-talent-acquisition-services.webp\" title=\"\" alt=\"emirati talent acquisition services\" l"
+    ],
+    "services-we-offer": [
+      " src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/services-we-offer.webp\" title=\"\" alt=\"services-we-offer\" loading=\"lazy\" /> </div>",
+      " src=\"https://raadrecruitment.ae/wp-content/uploads/2023/07/services-we-offer.jpg\" class=\"attachment-large size-large wp-image-487\" alt=\"UAE Emiratisation Ac",
+      "cset=\"https://raadrecruitment.ae/wp-content/uploads/2023/07/services-we-offer.jpg 512w, https://raadrecruitment.ae/wp-content/uploads/2023/07/services-we-off"
+    ],
+    "Recruitment": [
+      "<title>Emiratisation Recruitment Agency UAE | RAAD Recruitment</title><link rel=\"preload\" data-rocket-preload as=\"image\" href=\"https://raadrec",
+      "<meta name=\"description\" content=\"RAAD Recruitment is a leading Emiratisation Recruitment Agency in UAE helping businesses hire to",
+      "<link rel=\"canonical\" href=\"https://raadrecruitment.ae/\" />"
+    ],
+    "2025/10": [
+      "=\"async\" src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/emirati-talent-acquisition-services.webp\" title=\"\" alt=\"emirati talent acquisit",
+      "=\"async\" src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/services-we-offer.webp\" title=\"\" alt=\"services-we-offer\" loading=\"lazy\" /> ",
+      "=\"async\" src=\"https://raadrecruitment.ae/wp-content/uploads/2025/10/Staff-Outsourcing-Services-RAAD.webp\" title=\"\" alt=\"Staff Outsourcing Services "
+    ]
+  }
+}

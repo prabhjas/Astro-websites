@@ -1,69 +1,47 @@
 ---
 /**
- * jQuery + Impreza + Smart Slider + VC scripts for RAAD Recruitment.
+ * jQuery + Astra + Elementor + Smart Slider + CF7 scripts for RAAD Recruitment.
+ * Order mirrors live homepage (`src/data/live-js-order.json`).
  */
+import liveJsOrder from "../data/live-js-order.json";
+
+const skip = new Set([
+  "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+]);
+
+const scripts = (liveJsOrder as string[]).filter((src) => !skip.has(src));
+
+/** Smart Slider scripts must load after the _N2 bootstrap and before the per-page init. */
+const smartSliderSrc = new Set([
+  "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js",
+  "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js",
+  "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js",
+  "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js",
+  "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js",
+]);
+const smartSliderScripts = scripts.filter((src) => smartSliderSrc.has(src));
+const otherScripts = scripts.filter((src) => !smartSliderSrc.has(src));
 ---
 
-<script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+{/* Smart Slider 3: live WP injects _N2 queue + SmartSliderSimple('n2-ss-*') inlines */}
+<script is:inline src="/scripts/smart-slider/bootstrap.js"></script>
+{smartSliderScripts.map((src) => <script is:inline src={src} />)}
+<script is:inline src="/scripts/smart-slider/init-home.js"></script>
+{/* WP `wp_localize_script` for Astra — without this, frontend.js throws and the hamburger never binds */}
+<script is:inline>
+  window.astra = window.astra || {
+    break_point: "921",
+    isRtl: "",
+    is_scroll_to_id: "1",
+    is_scroll_to_top: "1",
+    is_header_footer_builder_active: "1",
+    responsive_cart_click: "flyout",
+    is_dark_palette: "",
+  };
+</script>
+{otherScripts.map((src) => <script is:inline src={src} />)}
+
 <script is:inline src="/scripts/fix-content-image-srcset.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/js/us.core.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
-<script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
-<script is:inline src="/scripts/swiper.min.js"></script>
-<script is:inline src="/scripts/sp-carousels.js"></script>
-<!-- WP Carousel Free (client logo strip) — needs plugin Swiper + public init -->
-<script
-  is:inline
-  src="/wp-content/plugins/wp-carousel-free/public/js/swiper-bundle.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/wp-carousel-free/public/js/preloader.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/wp-carousel-free/public/js/wp-carousel-free-public.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js"
-></script>
-<script is:inline src="/scripts/smartslider-n2-ss-2-init.js"></script>
-<script is:inline src="/scripts/smartslider-n2-ss-3-init.js"></script>
-<script
-  is:inline
-  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate-params.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/jquery-appear.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/countUp.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/custom.min.js"
-></script>
-<script
-  is:inline
-  src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/video_module.min.js"
-></script>
-<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
 <script is:inline src="/scripts/phone-flags.js"></script>
 <script>
   import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
@@ -89,9 +67,6 @@
   });
 </script>
 <script is:inline src="/scripts/cf7-bridge.js"></script>
-<script is:inline src="/scripts/jquery.simplePagination.min.js"></script>
+<script is:inline src="/js/astro-mirror-fixes.js"></script>
 <script is:inline src="/scripts/blog-load-more.js"></script>
-<script is:inline src="/scripts/insights-load-more.js"></script>
-<script is:inline src="/scripts/insights-topic-filter.js"></script>
-<script is:inline src="/scripts/sticky-post-form.js"></script>
 <script is:inline src="/scripts/accordion.js"></script>
