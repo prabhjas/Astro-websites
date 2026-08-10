@@ -1,0 +1,62 @@
+---
+/**
+ * Custom 404 for unknown URLs.
+ * Must return HTTP 404 (not 503) so crawlers drop dead links.
+ */
+export const prerender = false;
+
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Emiratisation Hub</title>
+    <meta name="description" content="The page you requested could not be found on Emiratisation Hub." />
+    <meta name="robots" content="noindex, follow" />
+    <style>
+      :root {
+        --ink: #070c13;
+        --accent: #006341;
+        --mist: #f4f5f7;
+        --line: #e5e7eb;
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        color: var(--ink);
+        background: var(--mist);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+      }
+      h1 { font-size: 6rem; font-weight: 800; color: var(--accent); line-height: 1; }
+      h2 { font-size: 1.5rem; font-weight: 600; margin: 0.75rem 0; }
+      p  { color: #6b7280; max-width: 40ch; }
+      a  {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.75rem 2rem;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 0.375rem;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      a:hover { opacity: 0.85; }
+    </style>
+  </head>
+  <body>
+    <h1>404</h1>
+    <h2>Page not found</h2>
+    <p>The page you are looking for does not exist or has been moved.</p>
+    <a href="/">Return home</a>
+  </body>
+</html>

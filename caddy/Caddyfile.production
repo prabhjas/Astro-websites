@@ -12,10 +12,12 @@
 #   systemctl reload caddy
 #
 # Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect HR 5084, Connect Group 5085, Connect FM 5087, Connect Resources SA 5088,
-# Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
-# Connect FZ 5096, Royal Visa 5097, Connect Resources Int 5098 (live).
-# kpmpro moved to 5124 (git template until cutover).
+# Connect HR 5084, Connect Group 5085, Connect Resources 5086, Connect FM 5087,
+# Connect Resources SA 5088, Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091,
+# C-UAE 5092, KinzaHR 5093, Connect Freelance 5094, Redo 5095, Connect FZ 5096,
+# Royal Visa 5097, Connect Resources Int 5098, The Freelancer Gate 5100, NG Manpower 5102,
+# Emirati Guard 5103, Emiratisation Gate 5105, Emiratisation Gateway 5106, Freelancer DXB 5109,
+# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124.
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -43,7 +45,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.movey.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -92,11 +94,50 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@connectresourcesint host connectresourcesint.com
 	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
 
+	@connectresources host www.connectresources.ae
+	redir @connectresources https://connectresources.ae{uri} permanent
+
+	@connectfreelance host www.connectfreelance.ae
+	redir @connectfreelance https://connectfreelance.ae{uri} permanent
+
+	@redo host www.redo.ae
+	redir @redo https://redo.ae{uri} permanent
+
+	@thefreelancergate host www.thefreelancergate.com
+	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
+
+	@ngmanpower host www.ngmanpower.com
+	redir @ngmanpower https://ngmanpower.com{uri} permanent
+
+	@emiratiguard host www.emiratiguard.com
+	redir @emiratiguard https://emiratiguard.com{uri} permanent
+
+	@emiratisationgate host www.emiratisationgate.org
+	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
+
+	@emiratisationgateway host www.emiratisationgateway.com
+	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
+
+	@freelancerdxb host www.freelancerdxb.com
+	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
+
+	@payrollmiddleast host payrollmiddleast.org
+	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
+
+	@pittant host www.pittant.com
+	redir @pittant https://pittant.com{uri} permanent
+
 	@peomiddleast host www.peomiddleast.com
 	redir @peomiddleast https://peomiddleast.com{uri} permanent
 
 	@kpmpro host www.kpmpro.ae
 	redir @kpmpro https://kpmpro.ae{uri} permanent
+
+	@companyformationsaudi host www.companyformationsaudi.com
+	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
+
+	@connectbusinesscenter host www.connectbusinesscenter.com
+	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
 
 	@movey host www.movey.ae
 	redir @movey https://movey.ae{uri} permanent
@@ -295,7 +336,7 @@ eormiddleast.com, www.eormiddleast.com {
 	}
 }
 
-# peomiddleast.com -> peomiddleeast.service (PORT 5118) — git template only until owner cutover
+# peomiddleast.com -> peomiddleeast.service (PORT 5118) — live on Astro host
 peomiddleast.com, www.peomiddleast.com {
 	tls internal
 	encode zstd gzip
@@ -647,7 +688,360 @@ connectresourcesint.com, www.connectresourcesint.com {
 	}
 }
 
-# kpmpro.ae -> kpmpro.service (PORT 5124) — git template only until owner cutover
+
+# connectresources.ae -> connectresources.service (PORT 5086) — live on Astro host
+connectresources.ae, www.connectresources.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectresources.ae
+	redir @noncanonical https://connectresources.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5086
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/connectresources.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectfreelance.ae -> connectfreelance.service (PORT 5094) — live on Astro host
+connectfreelance.ae, www.connectfreelance.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectfreelance.ae
+	redir @noncanonical https://connectfreelance.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5094
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/connectfreelance.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# redo.ae -> redo.service (PORT 5095) — live on Astro host
+redo.ae, www.redo.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.redo.ae
+	redir @noncanonical https://redo.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5095
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/redo.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# thefreelancergate.com -> thefreelancergate.service (PORT 5100) — live on Astro host
+thefreelancergate.com, www.thefreelancergate.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.thefreelancergate.com
+	redir @noncanonical https://thefreelancergate.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5100
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/thefreelancergate.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# ngmanpower.com -> ngmanpower.service (PORT 5102) — live on Astro host
+ngmanpower.com, www.ngmanpower.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.ngmanpower.com
+	redir @noncanonical https://ngmanpower.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5102
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/ngmanpower.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratiguard.com -> emiratiguard.service (PORT 5103) — live on Astro host
+emiratiguard.com, www.emiratiguard.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratiguard.com
+	redir @noncanonical https://emiratiguard.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5103
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/emiratiguard.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratisationgate.org -> emiratisationgate.service (PORT 5105) — live on Astro host
+emiratisationgate.org, www.emiratisationgate.org {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationgate.org
+	redir @noncanonical https://emiratisationgate.org{uri} permanent
+
+	reverse_proxy 127.0.0.1:5105
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/emiratisationgate.org-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratisationgateway.com -> emiratisationgateway.service (PORT 5106) — live on Astro host
+emiratisationgateway.com, www.emiratisationgateway.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationgateway.com
+	redir @noncanonical https://emiratisationgateway.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5106
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/emiratisationgateway.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# freelancerdxb.com -> freelancerdxb.service (PORT 5109) — live on Astro host
+freelancerdxb.com, www.freelancerdxb.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.freelancerdxb.com
+	redir @noncanonical https://freelancerdxb.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5109
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/freelancerdxb.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# payrollmiddleast.org -> payrollmiddleast.service (PORT 5110) — live on Astro host (canonical www)
+payrollmiddleast.org, www.payrollmiddleast.org {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host payrollmiddleast.org
+	redir @noncanonical https://www.payrollmiddleast.org{uri} permanent
+
+	reverse_proxy 127.0.0.1:5110
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/payrollmiddleast.org-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# pittant.com -> pittant.service (PORT 5111) — live on Astro host
+pittant.com, www.pittant.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.pittant.com
+	redir @noncanonical https://pittant.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5111
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/pittant.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# kpmpro.ae -> kpmpro.service (PORT 5124) — live on Astro host
 # (5098 reassigned to live connectresourcesint.com)
 kpmpro.ae, www.kpmpro.ae {
 	tls internal
@@ -673,6 +1067,66 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 	log {
 		output file /var/log/caddy/kpmpro.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# companyformationsaudi.com -> companyformationsaudi.service (PORT 5114) — git template only until owner cutover
+companyformationsaudi.com, www.companyformationsaudi.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.companyformationsaudi.com
+	redir @noncanonical https://companyformationsaudi.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5114
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/companyformationsaudi.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectbusinesscenter.com -> connectbusinesscenter.service (PORT 5116) — git template only until owner cutover
+connectbusinesscenter.com, www.connectbusinesscenter.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectbusinesscenter.com
+	redir @noncanonical https://connectbusinesscenter.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5116
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/connectbusinesscenter.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

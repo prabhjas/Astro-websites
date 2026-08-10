@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "MBS Consultancy — Astro migration of mbs-consultancy.com",
+  "description": "MBS Consultancy \u2014 Astro migration of mbs-consultancy.com",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
@@ -17,11 +17,8 @@
     "extract": "node scripts/extract-wp.mjs",
     "refresh:bodies": "node scripts/refresh-bodies.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
-    "audit:assets": "node scripts/audit-and-fetch-assets.mjs --active",
-    "audit:assets:all": "node scripts/audit-and-fetch-assets.mjs",
-    "audit:assets:fix": "node scripts/audit-and-fetch-assets.mjs --active --fix --rewrite --check-dist",
-    "audit:assets:predeploy": "node scripts/audit-and-fetch-assets.mjs --active --check-dist && node scripts/verify-pages-assets.mjs",
-    "verify:pages": "node scripts/verify-pages-assets.mjs",
+    "audit:assets": "node scripts/audit-and-fetch-assets.mjs",
+    "audit:assets:fix": "node scripts/audit-and-fetch-assets.mjs --fix --rewrite",
     "sitemap:sync": "node scripts/sync-sitemap-from-live.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
@@ -31,7 +28,7 @@
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "cheerio": "catalog:",
-    "nodemailer": "9.0.3",
+    "nodemailer": "catalog:",
     "sharp": "0.35.3",
     "tailwindcss": "catalog:",
     "yaml": "catalog:",
@@ -40,8 +37,8 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/node": "24.13.3",
-    "@types/nodemailer": "8.0.1",
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
     "eslint": "10.8.0",
     "eslint-plugin-astro": "3.0.1",
     "playwright": "1.49.0",

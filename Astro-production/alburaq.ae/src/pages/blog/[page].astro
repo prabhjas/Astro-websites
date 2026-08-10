@@ -1,0 +1,39 @@
+---
+/**
+ * Live WordPress uses /blog/2/ (not only /blog/page/2/).
+ * Serve prepared mirrors or fall through to /blog/page/N/ assembly.
+ */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { getBlogPageData, serveArchivePage } from '../../lib/archives.ts';
+import { getAllBlogPosts, ARCHIVE_POSTS_PER_PAGE } from '../../lib/blog.ts';
+import { serveLegacyPage } from '../../lib/legacy-page.js';
+import { notFoundResponse } from '../../lib/not-found.js';
+
+export const prerender = false;
+
+const raw = String(Astro.params.page || '');
+if (!/^\d+$/.test(raw)) {
+  return notFoundResponse();
+}
+
+const page = Number(raw);
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect('/blog/');
+}
+
+const mirrorSlug = `blog/page/${page}`;
+const cleanedPath = join(process.cwd(), 'src/legacy', `${mirrorSlug}.cleaned.html`);
+if (existsSync(cleanedPath)) {
+  return serveLegacyPage(mirrorSlug);
+}
+
+const total = getAllBlogPosts().length;
+const totalPages = Math.max(1, Math.ceil(total / ARCHIVE_POSTS_PER_PAGE));
+if (page > totalPages) {
+  return notFoundResponse();
+}
+
+const data = getBlogPageData(page);
+return serveArchivePage(data);
+---
