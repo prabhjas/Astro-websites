@@ -1,0 +1,46 @@
+{
+  "siteTitle": "Connect Business Center",
+  "summary": "Connect Business Center helps entrepreneurs and companies set up and operate in the UAE and Dubai — business licensing, visas, offices, coworking, and PRO services.",
+  "details": "Connect Business Center is part of Connect Group and publishes guides on UAE trade licenses, visas, virtual and executive offices, coworking, Ejari, and corporate sponsorship.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Articles cover UAE company setup, visas, offices, licensing, and business operations in Dubai.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Connect Business Center homepage — Dubai and UAE business center services."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Connect Business Center."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Connect Business Center."
+    },
+    "/business-formation-service/": {
+      "group": "Services",
+      "title": "Business Formation",
+      "description": "UAE and Dubai business formation services."
+    },
+    "/coworking-space-dubai/": {
+      "group": "Services",
+      "title": "Coworking Space Dubai",
+      "description": "Coworking and office solutions in Dubai."
+    },
+    "/insights/": {
+      "group": "Blog",
+      "title": "Insights",
+      "description": "Connect Business Center insights and articles."
+    }
+  }
+}
