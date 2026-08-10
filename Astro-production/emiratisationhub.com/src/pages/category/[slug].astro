@@ -1,0 +1,13 @@
+---
+import { getCategoryPageData, serveArchivePage } from '../../lib/archives.ts';
+import { notFoundResponse } from '../../lib/not-found.js';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const data = getCategoryPageData(slug, 1);
+if (!data) {
+  return notFoundResponse();
+}
+return serveArchivePage(data);
+---

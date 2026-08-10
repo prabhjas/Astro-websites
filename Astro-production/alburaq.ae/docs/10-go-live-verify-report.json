@@ -1,0 +1,200 @@
+{
+  "domain": "alburaq.ae",
+  "port": 5120,
+  "at": "2026-08-07T07:26:29.550Z",
+  "pass": true,
+  "passed": 38,
+  "failed": 0,
+  "rows": [
+    {
+      "name": "1 trailing bare→slash",
+      "ok": true,
+      "detail": "301 /about-us/"
+    },
+    {
+      "name": "1 trailing slashed 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "1 asset no slash redirect",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 absolute canonical",
+      "ok": true,
+      "detail": "https://alburaq.ae/"
+    },
+    {
+      "name": "2 /robots.txt",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 /sitemap_index.xml",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 /page-sitemap.xml",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 /post-sitemap.xml",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 /llms.txt",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2 /llm.txt",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "3 runtime-gtm.js",
+      "ok": true,
+      "detail": "len=2325"
+    },
+    {
+      "name": "3 page loads runtime-gtm",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3 no hardcoded gtm.js in home",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "4 health",
+      "ok": true,
+      "detail": "{\"ok\":true,\"service\":\"alburaq-astro\",\"ts\":\"2026-08-07T07:26:23.887Z\"}"
+    },
+    {
+      "name": "4 empty contact rejects",
+      "ok": true,
+      "detail": "422"
+    },
+    {
+      "name": "4 contact success",
+      "ok": true,
+      "detail": "{\"success\":true,\"submissionId\":\"a57a6324-f43c-43df-8796-5b1ef9024b5d\",\"message\":\"Thank you. Your enquiry has been receiv"
+    },
+    {
+      "name": "4 attribution gclid/UTM on lead",
+      "ok": true,
+      "detail": "submissionId=a57a6324-f43c-43df-8796-5b1ef9024b5d"
+    },
+    {
+      "name": "4 no FORM_NOTIFICATION required",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "5 internal deny",
+      "ok": true,
+      "detail": "403"
+    },
+    {
+      "name": "5 internal auth",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "5 /api/internal/gtm/",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "5 /api/internal/redirects/",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "5 /api/internal/posts/",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "6 redirects.yml loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "7 entry.mjs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "7 deploy templates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "8 no PHP in public",
+      "ok": true,
+      "detail": "php=0"
+    },
+    {
+      "name": "8 no quarantine junk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "9 404 status",
+      "ok": true,
+      "detail": "404"
+    },
+    {
+      "name": "9 404 Al Buraq brand",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "9 404 logo file 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "9 404 logo on disk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "10 all sitemap paths 200",
+      "ok": true,
+      "detail": "checked=87 bad=0 "
+    },
+    {
+      "name": "10 post count vs live",
+      "ok": true,
+      "detail": "local=77 live=77"
+    },
+    {
+      "name": "10 page count vs live",
+      "ok": true,
+      "detail": "local=10 live=10"
+    },
+    {
+      "name": "10 blog card images 200",
+      "ok": true,
+      "detail": "checked=15 missing=0"
+    },
+    {
+      "name": "mirror-fixes.js",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cms FEATURES_FULL_CMS",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

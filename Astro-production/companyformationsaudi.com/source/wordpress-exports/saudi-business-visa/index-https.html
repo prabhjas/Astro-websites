@@ -1,0 +1,1774 @@
+
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: https://ogp.me/ns#">
+
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				<script type="text/rocketlazyloadscript">
+		(function(){
+			window.ecsSchemeConfig={systemAuto:false,darkLogoUrl:""};
+			var m=document.cookie.match(/(?:^|;\s*)ecs_color_scheme=([^;]+)/);
+			if(m&&m[1]==='alt'){
+				document.documentElement.setAttribute('data-ecs-scheme','alt');
+			}else if(!m&&false){
+				if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){
+					document.documentElement.setAttribute('data-ecs-scheme','alt');
+				}
+			}
+		})();
+		</script>
+		
+<!-- Search Engine Optimization by Rank Math PRO - https://rankmath.com/ -->
+<title>Saudi Arabia Multiple Entry Business Visa | Benefits | Cost</title><link rel="preload" data-rocket-preload as="image" href="https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg" fetchpriority="high">
+<meta name="description" content="We help you with the company formation in Saudi Arabia which includes all the administrative and legal procedures."/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://companyformationsaudi.com/saudi-business-visa/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Saudi Arabia Multiple Entry Business Visa | Benefits | Cost" />
+<meta property="og:description" content="We help you with the company formation in Saudi Arabia which includes all the administrative and legal procedures." />
+<meta property="og:url" content="https://companyformationsaudi.com/saudi-business-visa/" />
+<meta property="og:site_name" content="Company Formation Saudi" />
+<meta property="og:updated_time" content="2025-10-28T05:48:11+00:00" />
+<meta property="og:image" content="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" />
+<meta property="og:image:secure_url" content="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" />
+<meta property="og:image:width" content="852" />
+<meta property="og:image:height" content="633" />
+<meta property="og:image:alt" content="guy with Laptop Bag" />
+<meta property="og:image:type" content="image/png" />
+<meta property="article:published_time" content="2023-03-06T06:41:58+00:00" />
+<meta property="article:modified_time" content="2025-10-28T05:48:11+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Saudi Arabia Multiple Entry Business Visa | Benefits | Cost" />
+<meta name="twitter:description" content="We help you with the company formation in Saudi Arabia which includes all the administrative and legal procedures." />
+<meta name="twitter:image" content="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" />
+<meta name="twitter:label1" content="Time to read" />
+<meta name="twitter:data1" content="3 minutes" />
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://companyformationsaudi.com/#organization","name":"Company Formation Saudi","logo":{"@type":"ImageObject","@id":"https://companyformationsaudi.com/#logo","url":"https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png","contentUrl":"https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png","caption":"Company Formation Saudi","inLanguage":"en-US","width":"1343","height":"340"}},{"@type":"WebSite","@id":"https://companyformationsaudi.com/#website","url":"https://companyformationsaudi.com","name":"Company Formation Saudi","publisher":{"@id":"https://companyformationsaudi.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg","url":"https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg","width":"200","height":"200","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://companyformationsaudi.com/saudi-business-visa/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://companyformationsaudi.com","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://companyformationsaudi.com/saudi-business-visa/","name":"Saudi Business Visa"}}]},{"@type":"WebPage","@id":"https://companyformationsaudi.com/saudi-business-visa/#webpage","url":"https://companyformationsaudi.com/saudi-business-visa/","name":"Saudi Arabia Multiple Entry Business Visa | Benefits | Cost","datePublished":"2023-03-06T06:41:58+00:00","dateModified":"2025-10-28T05:48:11+00:00","isPartOf":{"@id":"https://companyformationsaudi.com/#website"},"primaryImageOfPage":{"@id":"https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg"},"inLanguage":"en-US","breadcrumb":{"@id":"https://companyformationsaudi.com/saudi-business-visa/#breadcrumb"}},{"@type":"Service","name":"Saudi Arabia Multiple Entry Business Visa | Benefits | Cost","description":"We help you with the company formation in Saudi Arabia which includes all the administrative and legal procedures.","offers":{"@type":"Offer","availability":"InStock"},"image":{"@id":"https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg"},"@id":"https://companyformationsaudi.com/saudi-business-visa/#schema-52786"}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+
+<link rel="alternate" type="application/rss+xml" title="Get Business Setup &amp; License Services in Saudi Arabia &raquo; Feed" href="https://companyformationsaudi.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Get Business Setup &amp; License Services in Saudi Arabia &raquo; Comments Feed" href="https://companyformationsaudi.com/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://companyformationsaudi.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcompanyformationsaudi.com%2Fsaudi-business-visa%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://companyformationsaudi.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcompanyformationsaudi.com%2Fsaudi-business-visa%2F&#038;format=xml" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<link rel='stylesheet' id='elementor-frontend-css' href='https://companyformationsaudi.com/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='elementor-post-33795-css' href='https://companyformationsaudi.com/wp-content/uploads/elementor/css/post-33795.css?ver=1786048020' media='all' />
+<link rel='stylesheet' id='elementor-post-28915-css' href='https://companyformationsaudi.com/wp-content/uploads/elementor/css/post-28915.css?ver=1786048020' media='all' />
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: 800px;--wp--style--global--wide-size: 1200px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:root :where(.wp-block-icon svg){width: 24px;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://companyformationsaudi.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=7.0.3' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://companyformationsaudi.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=7.0.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='cstmsrch_stylesheet-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/custom-search-plugin/css/style.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='wpa-css-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='wpml-legacy-horizontal-list-0-css' href='https://companyformationsaudi.com/wp-content/plugins/sitepress-multilingual-cms/templates/language-switchers/legacy-list-horizontal/style.min.css?ver=1' media='all' />
+<link rel='stylesheet' id='search-filter-plugin-styles-css' href='https://companyformationsaudi.com/wp-content/plugins/search-filter-pro/public/assets/css/search-filter.min.css?ver=2.5.14' media='all' />
+<link data-minify="1" rel='stylesheet' id='cms-navigation-style-base-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation-base.css?ver=1786048024' media='screen' />
+<link data-minify="1" rel='stylesheet' id='cms-navigation-style-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation.css?ver=1786048024' media='screen' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/reset.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-theme-style-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-header-footer-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='elementor-post-56-css' href='https://companyformationsaudi.com/wp-content/uploads/elementor/css/post-56.css?ver=1786048022' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-color-scheme-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-container-layout-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='swiper-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='e-swiper-css' href='https://companyformationsaudi.com/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=4.1.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-mobile-menu-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-editorial-text-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='she-header-style-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/sticky-header-effects-for-elementor/assets/css/she-header-style.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='widget-image-css' href='https://companyformationsaudi.com/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-heading-css' href='https://companyformationsaudi.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='elementor-post-30384-css' href='https://companyformationsaudi.com/wp-content/uploads/elementor/css/post-30384.css?ver=1786060190' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-widget-styles-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/widget-styles.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-responsive-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/responsive.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='eael-general-css' href='https://companyformationsaudi.com/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css?ver=6.6.8' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-styles-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css?ver=1786048024' media='all' />
+<link rel='stylesheet' id='elementor-post-31769-css' href='https://companyformationsaudi.com/wp-content/uploads/elementor/css/post-31769.css?ver=1693292157' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-poppins-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/poppins.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-roboto-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-robotoslab-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/robotoslab.css?ver=1786048024' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-ekiticons-css' href='https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/modules/elementskit-icon-pack/assets/css/ekiticons.css?ver=1786048024' media='all' />
+<!--n2css--><!--n2js--><script type="text/rocketlazyloadscript" data-rocket-type='text/javascript'>
+		var elementskit = {
+			resturl: 'https://companyformationsaudi.com/wp-json/elementskit/v1/',
+		}
+
+		</script><script id="wpml-cookie-js-extra">
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"/"}};
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"/"}};
+//# sourceURL=wpml-cookie-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" data-wp-strategy="defer" defer id="wpml-cookie-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/sitepress-multilingual-cms/res/js/cookies/language-cookie.js?ver=1782386104"></script>
+<script type="text/rocketlazyloadscript" id="jquery-core-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-migrate-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" data-rocket-defer defer></script>
+<script id="search-filter-plugin-build-js-extra">
+var SF_LDATA = {"ajax_url":"https://companyformationsaudi.com/wp-admin/admin-ajax.php","home_url":"https://companyformationsaudi.com/","extensions":[]};
+//# sourceURL=search-filter-plugin-build-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="search-filter-plugin-build-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/search-filter-pro/public/assets/js/search-filter-build.min.js?ver=2.5.14" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="search-filter-plugin-chosen-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/search-filter-pro/public/assets/js/chosen.jquery.min.js?ver=2.5.14" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="she-header-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/sticky-header-effects-for-elementor/assets/js/she-header.js?ver=1782386104" data-rocket-defer defer></script>
+<script id="ecs_ajax_load-js-extra">
+var ecs_ajax_params = {"ajaxurl":"https://companyformationsaudi.com/wp-admin/admin-ajax.php","posts":"{\"page\":0,\"pagename\":\"saudi-business-visa\",\"error\":\"\",\"m\":\"\",\"p\":0,\"post_parent\":\"\",\"subpost\":\"\",\"subpost_id\":\"\",\"attachment\":\"\",\"attachment_id\":0,\"name\":\"saudi-business-visa\",\"page_id\":0,\"second\":\"\",\"minute\":\"\",\"hour\":\"\",\"day\":0,\"monthnum\":0,\"year\":0,\"w\":0,\"category_name\":\"\",\"tag\":\"\",\"cat\":\"\",\"tag_id\":\"\",\"author\":\"\",\"author_name\":\"\",\"feed\":\"\",\"tb\":\"\",\"paged\":0,\"meta_key\":\"\",\"meta_value\":\"\",\"preview\":\"\",\"s\":\"\",\"sentence\":\"\",\"title\":\"\",\"fields\":\"all\",\"menu_order\":\"\",\"embed\":\"\",\"category__in\":[],\"category__not_in\":[],\"category__and\":[],\"post__in\":[],\"post__not_in\":[],\"post_name__in\":[],\"tag__in\":[],\"tag__not_in\":[],\"tag__and\":[],\"tag_slug__in\":[],\"tag_slug__and\":[],\"post_parent__in\":[],\"post_parent__not_in\":[],\"author__in\":[],\"author__not_in\":[],\"search_columns\":[],\"ignore_sticky_posts\":false,\"suppress_filters\":false,\"cache_results\":true,\"update_post_term_cache\":true,\"update_menu_item_cache\":false,\"lazy_load_term_meta\":true,\"update_post_meta_cache\":true,\"post_type\":\"\",\"posts_per_page\":5,\"nopaging\":false,\"comments_per_page\":\"50\",\"no_found_rows\":false,\"order\":\"DESC\"}"};
+//# sourceURL=ecs_ajax_load-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs_ajax_load-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-script-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs.js?ver=1782386104" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://companyformationsaudi.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://companyformationsaudi.com/wp-json/wp/v2/pages/30384" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://companyformationsaudi.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0.3" />
+<link rel='shortlink' href='https://companyformationsaudi.com/?p=30384' />
+<meta name="generator" content="WPML ver:4.9.5 stt:5,1;" />
+<script type="text/rocketlazyloadscript">readMoreArgs = []</script><script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">
+				EXPM_VERSION=3.55;EXPM_AJAX_URL='https://companyformationsaudi.com/wp-admin/admin-ajax.php';
+			function yrmAddEvent(element, eventName, fn) {
+				if (element.addEventListener)
+					element.addEventListener(eventName, fn, false);
+				else if (element.attachEvent)
+					element.attachEvent('on' + eventName, fn);
+			}
+			</script><!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=UA-159934309-22"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-159934309-22');
+</script>
+<!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-J1RM7CW7YS"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J1RM7CW7YS');
+</script>
+<meta name="generator" content="Elementor 4.1.4; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<link rel="icon" href="https://companyformationsaudi.com/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://companyformationsaudi.com/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://companyformationsaudi.com/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-180x180.png" />
+<meta name="msapplication-TileImage" content="https://companyformationsaudi.com/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png" />
+<style id="wp-custom-css">
+.single-post label{
+	line-height:2;
+}
+
+input.wpcf7-form-control.wpcf7-submit:hover{
+    background:#18407c;
+    color:#fff;
+    border:1px solid #18407c ;
+}
+
+.blog-fil-img .caf-featured-img-box {
+    height: 250px !important;
+}
+
+
+    .intl-tel-input.allow-dropdown .selected-flag, .intl-tel-input.separate-dial-code .selected-flag {
+        min-width: 100px !important;
+    }
+    .intl-tel-input.allow-dropdown input[type=text] {
+        padding-left: 110px !important;
+    }
+
+
+/* Search */
+
+.lawsearch {
+    display:flex;
+    justify-content:center;
+}
+.lawsearch input {
+     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+     padding:12px 16px;
+     width:560px !important;
+    padding-left:60px !important;
+}
+.lawsearch li:before{
+   content:''; background:url(https://companyformationsaudi.com/wp-content/uploads/2023/08/search.png);
+    background-repeat: no-repeat;
+    position:absolute;
+    z-index:999;
+    height:20px;
+    width:30px;
+    margin:0px 20px;
+    top:20px;
+    
+}
+
+/* End */
+
+.textafter h2:after {
+    content: "";
+    background: url(https://companyformationsaudi.com/wp-content/uploads/2023/08/arrow_downward.svg);
+    position: absolute;
+    background-repeat: no-repeat;
+    width: 27px;
+    height: 27px;
+    top: 37px;
+    right: 13px;
+}
+
+
+/***Sidebar Code**/
+.flag-container {
+    margin-top: 10px;
+}
+
+h2.widgettitle {
+    font-size: 22px;
+}
+.sidebar li#text-2 {
+    display: block;
+}
+section#comments {
+    display: none;
+}
+@media only screen and (min-width: 768px) and (max-width: 2160px){
+	
+		.single-post .col-4 {
+    display: inline-block; 
+	width: 30%; 
+	vertical-align: top; 
+	top: 20%; 
+	position: sticky; 
+	padding: 2%; 
+	box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);
+	border-radius:10px;
+}
+.single-post .col-8 {
+    display: inline-block;
+    width: 63%;
+	margin-left: 3%;
+margin-right:3%;
+}
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 767px){
+.single-post .col-4 {
+    margin: 15px;
+}
+}
+
+
+
+
+
+.header_button a.ekit-menu-nav-link {
+  
+    color: #17407d !important;
+    
+}
+
+.header_button {
+    background: #f5a749 !important;
+    padding: 5px 10px !important;
+    border-radius: 5px !important;
+    color: #17407d !important;
+	
+}
+/*** POP UP Code**/
+
+@media only screen and (min-width: 768px) and (max-width: 2160px){
+	
+	.mobile_banner{
+		
+		display:none !important;
+	}
+	.header_button {
+		margin-left:8% !important;
+		
+	}
+}
+
+@media only screen and (min-width: 320px) and (max-width: 767px){
+	
+	.desktop_banner{
+		
+		display:none !important;
+	}
+}
+
+
+
+#transaction_hide{
+	display:none;
+}
+
+/*font style*/
+
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*--contact form--*/
+
+[type=submit]{
+	display: inline-block;
+    font-weight: 600;
+    color: #18407c;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #ffa84b;
+    border: 1px solid #ffa84b;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 3px;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    width: 100%;
+}
+
+input[type=text], textarea, input[type=email]{
+	  width: 100%;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+textarea{
+	height: 120px;
+}
+
+
+/*----filter-------*/
+.caf-post-layout1 a {
+    transition: all .15s linear;
+    text-decoration: none!important;
+    color: #000;
+	font-weight:600;
+	font-family:"Poppins";
+	font-size: 17px;
+}
+
+.data-target-div1 .caf-post-layout1 .caf-post-title {
+    background-color: #fff;
+}
+
+.caf-post-layout1 .caf-content-read-more {
+	display:none;
+}
+
+div#caf-filter-layout3 h2 {
+    background: #333;
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 20px;
+    display: none;
+}
+
+.data-target-div1 #caf-filter-layout3 li a.active {
+    background-color: #E7F8F8;
+    color: #2ba2a3;
+    border-color: #2BA2A3;
+}
+
+.data-target-div1 #caf-filter-layout3 li a {
+    font-family: inherit;
+    background-color: #E7F8F8;
+	border-color: #2BA2A3;
+}
+
+
+
+
+.data-target-div1 #caf-filter-layout3 li a span.post_count{
+	display:none;
+}
+
+
+i.fa.fa-angle-double-right {
+    float: right;
+    display: inline-block;
+    position: relative;
+    top: 7px;
+    display: none;
+}
+
+.filter-layout3 #caf-filter-layout3 {
+    width: 20%;
+    display: inline-block;
+    float: left;
+    padding: 0px 0px;
+}
+
+.filter-layout3 #manage-ajax-response {
+    width: 80%;
+    padding: 0 20px;
+}
+
+.data-target-div1 .caf-post-layout1 .caf-content {
+    color: #000;
+    font-family: "Poppins";
+	font-weight: 400;
+	
+}
+
+
+
+
+/*read more button*/
+
+.yrm-button-auto-mode.yrm-toggle-expand-1 {
+    width: auto !important;
+    height: auto !important;
+    padding: 10px 20px 10px 20px;
+	  color: #18407C;
+	  border:0;
+	  border-bottom: 2px solid #FFA84B;
+}
+
+.yrm-btn-wrapper {
+    text-align: left;
+ 
+}
+	
+	
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+		.filter-layout3 #caf-filter-layout3 {
+    width: 100%;
+    display: inline-block;
+    float: left;
+    padding: 0px 0px;
+}
+		
+	
+}
+</style>
+<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><style id="rocket-lazyrender-inline-css">[data-wpr-lazyrender] {content-visibility: auto;}</style><meta name="generator" content="WP Rocket 3.22.0.2" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_lazyload_images wpr_lazyload_iframes wpr_automatic_lazy_rendering wpr_oci wpr_minify_css wpr_cdn wpr_desktop" /></head>
+
+<body class="wp-singular page-template-default page page-id-30384 wp-custom-logo wp-embed-responsive wp-theme-hello-elementor cstmsrch_?utm_source=wp-themes&amp;utm_campaign=theme-uri&amp;utm_medium=wp-dash hello-elementor-default elementor-default elementor-kit-56 elementor-page elementor-page-30384">
+
+	
+			<a class="skip-link screen-reader-text" href="#content">
+			Skip to content		</a>
+	
+	
+	<div  class="ekit-template-content-markup ekit-template-content-header ekit-template-content-theme-support">
+				<div  data-elementor-type="wp-post" data-elementor-id="33795" class="elementor elementor-33795" data-elementor-post-type="elementskit_template">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-7816aac elementor-section-full_width she-header-yes elementor-section-height-default elementor-section-height-default" data-id="7816aac" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;transparent&quot;:&quot;yes&quot;,&quot;background_show&quot;:&quot;yes&quot;,&quot;background&quot;:&quot;#F8F9FA&quot;,&quot;transparent_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;scroll_distance&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:60,&quot;sizes&quot;:[]},&quot;scroll_distance_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;scroll_distance_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;she_offset_top&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0,&quot;sizes&quot;:[]},&quot;she_offset_top_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;she_offset_top_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;she_width&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:100,&quot;sizes&quot;:[]},&quot;she_width_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;she_width_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;she_padding&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:0,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:0,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;she_padding_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;she_padding_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true}}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-2d50944" data-id="2d50944" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-cf68c41 elementor-widget elementor-widget-image" data-id="cf68c41" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://companyformationsaudi.com/">
+							<img fetchpriority="high" width="1343" height="340" src="https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png" class="attachment-full size-full wp-image-530" alt="Business Setup in saudi arabia" srcset="https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png 1343w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-300x76.png 300w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-1024x259.png 1024w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-150x38.png 150w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-768x194.png 768w" sizes="(max-width: 1343px) 100vw, 1343px" />								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-682cf16" data-id="682cf16" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-dcac859 elementor-widget elementor-widget-ekit-nav-menu" data-id="dcac859" data-element_type="widget" data-e-type="widget" data-widget_type="ekit-nav-menu.default">
+				<div class="elementor-widget-container">
+							<nav class="ekit-wid-con ekit_menu_responsive_tablet"
+			data-hamburger-icon=""
+			data-hamburger-icon-type="icon"
+			data-responsive-breakpoint="1024"
+			data-close-on-anchor="no">
+			            <button class="elementskit-menu-hamburger elementskit-menu-toggler"  type="button" aria-label="hamburger-icon">
+                                    <span class="elementskit-menu-hamburger-icon"></span><span class="elementskit-menu-hamburger-icon"></span><span class="elementskit-menu-hamburger-icon"></span>
+                            </button>
+            <div id="ekit-megamenu-main-menu" class="elementskit-menu-container elementskit-menu-offcanvas-elements elementskit-navbar-nav-default ekit-nav-menu-one-page-no ekit-nav-dropdown-hover"><ul id="menu-main-menu" class="elementskit-navbar-nav elementskit-menu-po-center submenu-click-on-icon"><li id="menu-item-32677" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32677 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="/" class="ekit-menu-nav-link">Home</a></li>
+<li id="menu-item-30192" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30192 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/about-us/" class="ekit-menu-nav-link">About</a></li>
+<li id="menu-item-30208" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children menu-item-30208 nav-item elementskit-dropdown-has relative_position elementskit-dropdown-menu-default_width elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/services/" class="ekit-menu-nav-link ekit-menu-dropdown-toggle">Services<i aria-hidden="true" class="icon icon-none elementskit-submenu-indicator"></i></a>
+<ul class="elementskit-dropdown elementskit-submenu-panel">
+	<li id="menu-item-30805" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children menu-item-30805 nav-item elementskit-dropdown-has relative_position elementskit-dropdown-menu-default_width elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/pro-services/" class=" dropdown-item">PRO Services<i aria-hidden="true" class="icon icon-none elementskit-submenu-indicator"></i></a>
+	<ul class="elementskit-dropdown elementskit-submenu-panel">
+		<li id="menu-item-31222" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-31222 nav-item elementskit-dropdown-has relative_position elementskit-dropdown-menu-default_width elementskit-mobile-builder-content" data-vertical-menu=750px><a href="/business-license/" class=" dropdown-item">Business License<i aria-hidden="true" class="icon icon-none elementskit-submenu-indicator"></i></a>
+		<ul class="elementskit-dropdown elementskit-submenu-panel">
+			<li id="menu-item-31348" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31348 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/tourism-license/" class=" dropdown-item">Tourism License in Saudi Arabia</a>			<li id="menu-item-31347" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31347 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/commercial-license/" class=" dropdown-item">Commercial License in Saudi Arabia</a>			<li id="menu-item-31349" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31349 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/trade-license/" class=" dropdown-item">Trade License in Saudi Arabia</a>			<li id="menu-item-31346" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31346 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/ecommerce-license-saudi-arabia/" class=" dropdown-item">E-Commerce License in Saudi Arabia</a>			<li id="menu-item-31345" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31345 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/food-establishment/" class=" dropdown-item">Food Establishment License in Saudi Arabia</a>		</ul>
+		<li id="menu-item-30193" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-30193 nav-item elementskit-dropdown-has relative_position elementskit-dropdown-menu-default_width elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/visa-services/" class=" dropdown-item">Visa Services<i aria-hidden="true" class="icon icon-none elementskit-submenu-indicator"></i></a>
+		<ul class="elementskit-dropdown elementskit-submenu-panel">
+			<li id="menu-item-30406" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-30384 current_page_item menu-item-30406 nav-item elementskit-mobile-builder-content active" data-vertical-menu=750px><a href="https://companyformationsaudi.com/saudi-business-visa/" class=" dropdown-item active">Saudi Business Visa</a>			<li id="menu-item-31753" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31753 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/investor-visa/" class=" dropdown-item">Investor Visa</a>		</ul>
+		<li id="menu-item-31558" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31558 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/business-consultancy/" class=" dropdown-item">Business Consultancy in Saudi Arabia</a>	</ul>
+	<li id="menu-item-31707" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-31707 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/franchise-service/" class=" dropdown-item">Franchise Service</a>	<li id="menu-item-30199" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30199 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/virtual-office/" class=" dropdown-item">Virtual Office</a>	<li id="menu-item-30204" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30204 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/open-company-saudi-arabia/" class=" dropdown-item">Open Company in KSA</a>	<li id="menu-item-30201" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30201 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/open-branch/" class=" dropdown-item">Open a Branch</a>	<li id="menu-item-30202" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30202 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/payroll-services/" class=" dropdown-item">Payroll Services</a>	<li id="menu-item-30197" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30197 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/legal-services/" class=" dropdown-item">Legal Services</a>	<li id="menu-item-30194" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30194 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/accountant-services/" class=" dropdown-item">Accountant Services</a>	<li id="menu-item-30191" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30191 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/immigration-services/" class=" dropdown-item">Immigration Services</a></ul>
+</li>
+<li id="menu-item-32154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-32154 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/law/" class="ekit-menu-nav-link">Law</a></li>
+<li id="menu-item-30442" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30442 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/blogs/" class="ekit-menu-nav-link">Blogs</a></li>
+<li id="menu-item-30206" class="header_button menu-item menu-item-type-post_type menu-item-object-page menu-item-30206 nav-item elementskit-mobile-builder-content" data-vertical-menu=750px><a href="https://companyformationsaudi.com/contact-us/" class="ekit-menu-nav-link">Contact Us</a></li>
+</ul><div class="elementskit-nav-identity-panel"><button class="elementskit-menu-close elementskit-menu-toggler" type="button">X</button></div></div>
+			<div class="elementskit-menu-overlay elementskit-menu-offcanvas-elements elementskit-menu-toggler ekit-nav-menu--overlay"></div>        </nav>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-6a1ce85 elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile" data-id="6a1ce85" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-620e846 elementor-hidden-mobile elementor-widget elementor-widget-button" data-id="620e846" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-md" href="https://companyformationsaudi.com/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Contact Us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+			</div>
+
+	
+<main  id="content" class="site-main post-30384 page type-page status-publish hentry">
+
+	
+	<div  class="page-content">
+				<div  data-elementor-type="wp-page" data-elementor-id="30384" class="elementor elementor-30384" data-elementor-post-type="page">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-dfa28cf elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="dfa28cf" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-6811b01" data-id="6811b01" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-9fb16bc elementor-hidden-desktop elementor-hidden-tablet elementor-widget elementor-widget-image" data-id="9fb16bc" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="362" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg" class="attachment-large size-large wp-image-29437" alt="" />															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-5bdba35" data-id="5bdba35" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-e4c2ce4 elementor-widget elementor-widget-heading" data-id="e4c2ce4" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<span class="elementor-heading-title elementor-size-default">Saudi Arabia Business Visa</span>				</div>
+				</div>
+				<div class="elementor-element elementor-element-4de127e elementor-widget elementor-widget-heading" data-id="4de127e" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">Get your  <span style="color:#2BA2A3"> Multiple Entry Business Visa for Saudi Arabia</span>  with us!</h1>				</div>
+				</div>
+				<div class="elementor-element elementor-element-5f0461e elementor-widget elementor-widget-text-editor" data-id="5f0461e" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Saudi Arabia has a considerable presence in the global oil market. The nation&#8217;s economy heavily depends on the output of oil and petroleum-based goods. Nevertheless, the region has been working to expand new economic sectors; such as manufacturing, tourism, and technology, in recent years.</p>
+<p>Consequently, the authorities are now implementing the <b>Saudi business visa for foreigners</b> looking to start a company in the area. With us, you can obtain the <a href="https://companyformationsaudi.com/need-to-know-how-to-check-saudi-visa-status-online/">business visit visa Saudi Arabia</a> that you need to begin your company formation process. Allow us to make your processes easier and guide you through the visa application procedure.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-e0b1d1e elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="e0b1d1e" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-md" href="https://companyformationsaudi.com/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Contact Us Today</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-4626e66 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="4626e66" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-43cf790" data-id="43cf790" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3c026e7 elementor-widget elementor-widget-heading" data-id="3c026e7" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">What are the requirements to apply for your Saudi business Visa?</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-7445a21 elementor-widget elementor-widget-text-editor" data-id="7445a21" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Here are the requirements for the business visit visa Saudi Arabia:</p><ul><li>Passport copy.</li><li>UAE <a href="https://companyformationsaudi.com/residence-visa-for-family-in-saudi-arabia/">residence visa</a> copy.</li><li>Emirates ID.</li><li>NOC from the company.</li><li><a href="https://companyformationsaudi.com/trade-license/">Trade license</a> copy of the company (if the individual has a company) or the employer&#8217;s NOC.</li><li>Photo (Digital picture, passport size, and against a white background).</li></ul><p>We would gladly provide the forms you need to register with the Saudi Ministry of Foreign Affairs. Consequently, our team will send you the paperwork you need to apply for a visa at your local Embassy, consulate, or <a href="https://companyformationsaudi.com/visa-services/">visa service</a> center as soon as we receive a response from the Ministry.</p><p>After you pay the necessary fees, the Saudi business visa multiple entry fees change according to the region. Once the application is over, you will receive your visa in 10 to 14 business days.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-bf8933e elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="bf8933e" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-md" href="https://companyformationsaudi.com/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Talk to Us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-50f94f3" data-id="50f94f3" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-4635df5 elementor-widget elementor-widget-image" data-id="4635df5" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="852" height="633" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" class="attachment-full size-full wp-image-29526" alt="guy with Laptop Bag" srcset="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png 852w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-300x223.png 300w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-150x111.png 150w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-768x571.png 768w" sizes="(max-width: 852px) 100vw, 852px" />															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-a91bbdf elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="a91bbdf" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-2aeb03e" data-id="2aeb03e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a325675 elementor-widget elementor-widget-image" data-id="a325675" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img  decoding="async" width="800" height="594" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" class="attachment-large size-large wp-image-29526" alt="guy with Laptop Bag" srcset="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png 852w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-300x223.png 300w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-150x111.png 150w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-768x571.png 768w" sizes="(max-width: 800px) 100vw, 800px" />															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-08ac375" data-id="08ac375" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f014916 elementor-widget elementor-widget-text-editor" data-id="f014916" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<h2>Take advantage of the benefits this Saudi business visa multiple-entry can offer!</h2><p>The business visa is the ideal alternative for travelers who need to travel for business purposes such as meetings and conferences. The activities that are approved must be related to the stated objective of the visit in your statement of invitation application. Depending on your field of work, you may benefit from the following activities as a business traveler to Saudi Arabia:</p><ul><li>Buy products for sale outside the country.</li><li>Can travel to Saudi Arabia from any part of the world.</li><li>Attend business meetings or discussions, as well as conferences, trade exhibits, and seminars.</li><li>Visit the company&#8217;s buildings and manufacturing units.</li></ul><p>Once you obtain your multiple entry visa, you will be able to go to Saudi Arabia multiple time in the span of a year. Also, you can stay for a maximum of 90 days per entry.</p><p>We will make sure that your application process goes smoothly, so you can enjoy all the benefit of having a business visit <a href="https://companyformationsaudi.com/acquire-an-investor-visa-in-saudi-arabia/">visa Saudi Arabia</a>!</p>								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-1c12f13 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="1c12f13" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7b8595f" data-id="7b8595f" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-0ff8acd elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="0ff8acd" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-7d53d21" data-id="7d53d21" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f86a351 elementor-widget elementor-widget-heading" data-id="f86a351" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Are you ready to<span style="color:#18407C;font-weight:700"> start your business</span> in Saudi Arabia?</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-6a34e9d elementor-widget elementor-widget-heading" data-id="6a34e9d" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Let us help you out with the setup process. Contact our specialists today!</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-481ac9b elementor-align-center elementor-widget elementor-widget-button" data-id="481ac9b" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-md" href="https://companyformationsaudi.com/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Talk to an Expert</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-ded6e4e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="ded6e4e" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-5cf8b8c" data-id="5cf8b8c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-af687a5 elementor-widget elementor-widget-heading" data-id="af687a5" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Related Services</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-837a6ce elementor-widget elementor-widget-heading" data-id="837a6ce" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Achieve your <span style="color:#2BA2A3"> Business Goals</span> With <span style="color:#2BA2A3">Our</span> Support.</h2>				</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-8b8e994 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="8b8e994" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-8e93910" data-id="8e93910" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2bf53a5 e-transform elementor-widget elementor-widget-image" data-id="2bf53a5" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="362" height="297" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20362%20297'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29435" alt="" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Immigration-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="362" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Immigration-Icon.svg" class="attachment-full size-full wp-image-29435" alt="" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-c3c8b4c elementor-view-default elementor-widget elementor-widget-icon" data-id="c3c8b4c" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-e0ba3e1 elementor-widget elementor-widget-heading" data-id="e0ba3e1" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Immigration</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-0fdbc25 elementor-widget elementor-widget-text-editor" data-id="0fdbc25" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>We have the best agent in the middle east that will help you go through this overwhelming process.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-8f7210c elementor-align-center elementor-widget elementor-widget-button" data-id="8f7210c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/immigration-services/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-2800e95" data-id="2800e95" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-25575f0 e-transform elementor-widget elementor-widget-image" data-id="25575f0" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="359" height="297" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20359%20297'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29436" alt="Legal Services Icon" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Legal-Services-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="359" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Legal-Services-Icon.svg" class="attachment-full size-full wp-image-29436" alt="Legal Services Icon" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-38e3a86 elementor-view-default elementor-widget elementor-widget-icon" data-id="38e3a86" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-f707cfd elementor-widget elementor-widget-heading" data-id="f707cfd" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Legal Services</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-4ad9cb0 elementor-widget elementor-widget-text-editor" data-id="4ad9cb0" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Our duty as legal advisors is based on being the person who is authorized to provide legal services in Saudi Arabia</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-c63356f elementor-align-center elementor-widget elementor-widget-button" data-id="c63356f" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/legal-services/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-c053989" data-id="c053989" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-19742a3 e-transform elementor-widget elementor-widget-image" data-id="19742a3" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img  decoding="async" width="362" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Branch-Icon.svg" class="attachment-full size-full wp-image-29437" alt="" />															</div>
+				</div>
+				<div class="elementor-element elementor-element-06fa33b elementor-view-default elementor-widget elementor-widget-icon" data-id="06fa33b" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-8dc1cb2 elementor-widget elementor-widget-heading" data-id="8dc1cb2" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Open A Branch</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-6d927dc elementor-widget elementor-widget-text-editor" data-id="6d927dc" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>When you open a branch, you will have 100% ownership of it, and will not need a local partner.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-fdeaa23 elementor-align-center elementor-widget elementor-widget-button" data-id="fdeaa23" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/open-branch/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-ef34daf" data-id="ef34daf" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a395676 e-transform elementor-widget elementor-widget-image" data-id="a395676" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="362" height="297" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20362%20297'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29439" alt="" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Payroll-Service-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="362" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Payroll-Service-Icon.svg" class="attachment-full size-full wp-image-29439" alt="" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-b058d5f elementor-view-default elementor-widget elementor-widget-icon" data-id="b058d5f" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-a64e2d6 elementor-widget elementor-widget-heading" data-id="a64e2d6" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Payroll Services</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-08eb423 elementor-widget elementor-widget-text-editor" data-id="08eb423" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>With our payroll services, we guarantee your business the transparency and efficiency it deserves.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-9ea2366 elementor-align-center elementor-widget elementor-widget-button" data-id="9ea2366" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/payroll-services/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-72bb51c elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="72bb51c" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-20 elementor-inner-column elementor-element elementor-element-6d41350" data-id="6d41350" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-inner-column elementor-element elementor-element-694d0ce" data-id="694d0ce" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-fc84e5f e-transform elementor-widget elementor-widget-image" data-id="fc84e5f" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="360" height="297" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20297'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29440" alt="virtual office logo" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Virtual-Office-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="360" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Virtual-Office-Icon.svg" class="attachment-full size-full wp-image-29440" alt="virtual office logo" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-3985775 elementor-view-default elementor-widget elementor-widget-icon" data-id="3985775" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-0fe05d9 elementor-widget elementor-widget-heading" data-id="0fe05d9" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Virtual Office</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-00857c6 elementor-widget elementor-widget-text-editor" data-id="00857c6" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>We can help your business by renting <a href="https://companyformationsaudi.com/virtual-office/">virtual office</a> services in Jeddah and Riyadh.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-ab42fb4 elementor-align-center elementor-widget elementor-widget-button" data-id="ab42fb4" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/virtual-office/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-inner-column elementor-element elementor-element-b647263" data-id="b647263" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-fcc4e9c e-transform elementor-widget elementor-widget-image" data-id="fcc4e9c" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="360" height="297" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20360%20297'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29438" alt="" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Company-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="360" height="297" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Open-Company-Icon.svg" class="attachment-full size-full wp-image-29438" alt="" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-f198eaa elementor-view-default elementor-widget elementor-widget-icon" data-id="f198eaa" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-714551e elementor-widget elementor-widget-heading" data-id="714551e" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Open Company in KSA</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-ce34669 elementor-widget elementor-widget-text-editor" data-id="ce34669" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Open a company in Saudi Arabia and allow us to be your guiding team through any business-related challenge</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-57897bd elementor-align-center elementor-widget elementor-widget-button" data-id="57897bd" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/open-company-saudi-arabia/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-inner-column elementor-element elementor-element-4d9911a" data-id="4d9911a" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-6c05cee e-transform elementor-widget elementor-widget-image" data-id="6c05cee" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_scale_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1.2,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_scale_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="362" height="288" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20362%20288'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29434" alt="" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Accountants-Services-Icon.svg" /><noscript><img loading="lazy" decoding="async" width="362" height="288" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Accountants-Services-Icon.svg" class="attachment-full size-full wp-image-29434" alt="" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-f7827ba elementor-view-default elementor-widget elementor-widget-icon" data-id="f7827ba" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<div class="elementor-icon">
+			<i aria-hidden="true" class="icon icon-minus"></i>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-66e105f elementor-widget elementor-widget-heading" data-id="66e105f" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Accountant Services</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-d72c208 elementor-widget elementor-widget-text-editor" data-id="d72c208" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>We can provide you with excellent accounting &amp; bookkeeping services to allow you to start your business smoothly.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-54137bc elementor-align-center elementor-widget elementor-widget-button" data-id="54137bc" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://companyformationsaudi.com/accountant-services/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Learn More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-20 elementor-inner-column elementor-element elementor-element-e249d6c" data-id="e249d6c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-ee1f093 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="ee1f093" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-245ee3e" data-id="245ee3e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-075cf59 elementor-widget elementor-widget-heading" data-id="075cf59" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Why Us?</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-8df65d5 elementor-widget elementor-widget-heading" data-id="8df65d5" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">We<span style="color:#2BA2A3"> Find</span>  What's <span style="color:#2BA2A3"> Best</span> For You<span style="color:#2BA2A3">.</span></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-dc986aa elementor-widget elementor-widget-text-editor" data-id="dc986aa" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-element elementor-element-259296c elementor-widget elementor-widget-text-editor" data-id="259296c" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>If you want to come to the region to look for inversion opportunities, you will need the multiple-entry visa. Consequently, the best way to obtain it is to hire us to support you through the application process. Our agents will make sure to provide you with the necessary tools to make your application as swift as possible and obtain positive results.</p></div></div>								</div>
+				</div>
+				<div class="elementor-element elementor-element-ab91d3f elementor-align-left elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="ab91d3f" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-md" href="https://companyformationsaudi.com/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Contact Us Today</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-08894ef" data-id="08894ef" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-df8504f elementor-widget elementor-widget-image" data-id="df8504f" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="852" height="633" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png" class="attachment-full size-full wp-image-29526" alt="guy with Laptop Bag" srcset="https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag.png 852w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-300x223.png 300w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-150x111.png 150w, https://companyformationsaudi.com/wp-content/uploads/2023/02/guy-with-laptop-bag-768x571.png 768w" sizes="(max-width: 852px) 100vw, 852px" />															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-71fb805 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="71fb805" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-97b0bcc" data-id="97b0bcc" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7d5fd33 elementor-widget elementor-widget-heading" data-id="7d5fd33" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Let's<span style="color:#2BA2A3"> Talk </span>About<span style="color:#2BA2A3"> Your</span> Business</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-e0e2b41 elementor-widget elementor-widget-text-editor" data-id="e0e2b41" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-element elementor-element-a4dcf7f elementor-widget elementor-widget-text-editor" data-id="a4dcf7f" data-element_type="widget" data-widget_type="text-editor.default"><div class="elementor-widget-container"><p>With the support of our professional experts, investors do not have to spend their time and resources looking for this type of information. Ultimately, they leave their company registration process in Saudi Arabia in our capable hands. </p></div></div>								</div>
+				</div>
+				<div class="elementor-element elementor-element-bddabc4 elementor-widget elementor-widget-html" data-id="bddabc4" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+				<div class="elementor-widget-container">
+					<style>
+    a {
+    background-color: transparent;
+    text-decoration: none;
+    color: #18407c;
+}
+</style>				</div>
+				</div>
+				<div class="elementor-element elementor-element-bacec4d elementor-widget elementor-widget-text-editor" data-id="bacec4d" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<h4 style="color: #000; font-weight: bold; font-size: 20px;"><strong>Call Us:</strong></h4>
+<p style="color: #18407c; font-weight: 500; font-size: 18px;"><a href="tel:+966 50 003 7232">+966 50 003 7232</a></p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-68c7509 elementor-widget elementor-widget-text-editor" data-id="68c7509" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<h4 style="color: #000; font-weight: bold; font-size: 20px;"><strong>Email Us:</strong></h4><p style="color: #18407c; font-weight: 500; font-size: 18px;"><a href="mailto:contact@companyformationsaudi.com">contact@companyformationsaudi.com</a></p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-984ad8d" data-id="984ad8d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-05e4efe elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="05e4efe" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-18b1030" data-id="18b1030" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1bd7740 elementor-widget elementor-widget-heading" data-id="1bd7740" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">Get Started Today!</h4>				</div>
+				</div>
+				<div class="elementor-element elementor-element-127d182 elementor-widget elementor-widget-text-editor" data-id="127d182" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Fill the form and book a free consultation with us.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-4f27cc8 elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-shortcode" data-id="4f27cc8" data-element_type="widget" data-e-type="widget" data-widget_type="shortcode.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-shortcode"><p class="wpcf7-contact-form-not-found"><strong>Error:</strong> Contact form not found.</p></div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-f4bf19d elementor-widget elementor-widget-shortcode" data-id="f4bf19d" data-element_type="widget" data-e-type="widget" data-widget_type="shortcode.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-shortcode">
+<div class="wpcf7 no-js" id="wpcf7-f30948-p30384-o1" lang="en-US" dir="ltr" data-wpcf7-id="30948">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/saudi-business-visa/#wpcf7-f30948-p30384-o1" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<fieldset class="hidden-fields-container"><input type="hidden" name="_wpcf7" value="30948" /><input type="hidden" name="_wpcf7_version" value="6.1.6" /><input type="hidden" name="_wpcf7_locale" value="en_US" /><input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f30948-p30384-o1" /><input type="hidden" name="_wpcf7_container_post" value="30384" /><input type="hidden" name="_wpcf7_posted_data_hash" value="" />
+</fieldset>
+<div class="label_r">
+	<p><label> Your Name<br />
+<span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required inside_label" aria-required="true" aria-invalid="false" placeholder="John Doe" value="" type="text" name="your-name" /></span> </label>
+	</p>
+</div>
+<div class="label_r">
+	<p><label> Your Email<br />
+<span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email inside_label" aria-required="true" aria-invalid="false" placeholder="mymail@gmail.com" value="" type="email" name="your-email" /></span> </label>
+	</p>
+</div>
+<div style="display:none;" class="gclid_tag" id="transaction_hide">
+	<p><span class="wpcf7-form-control-wrap" data-name="gclid"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="testgclid" aria-invalid="false" placeholder="No Tag" name="gclid"></textarea></span>
+	</p>
+</div>
+<div style="display:none;" class="gclid_tag" id="transaction_hide">
+	<p><span class="wpcf7-form-control-wrap" data-name="initial_url"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="initial_url" aria-invalid="false" placeholder="No URL" name="initial_url"></textarea></span>
+	</p>
+</div>
+<p><span id="wpcf7-6a76b894b54c9-wrapper" class="wpcf7-form-control-wrap text-568-wrap" data-cf7apps-honeypot="text-568" style="display: block;
+		    width: 0px;
+		    height: 0px;
+		    padding: 0px;
+		    border: 1px solid transparent;
+		    display: block;
+		    overflow: hidden;
+		    "><input type="hidden" name="text-568-random-hash" value="39491860"><label
+		    for="wpcf7-6a76b894b54c9-field"
+		    class="hp-message"
+        >Please leave this field empty.</label><input
+	    id="wpcf7-6a76b894b54c9-field"
+	     placeholder="test field" 
+	    class="wpcf7-form-control wpcf7-text"
+	    type="text"
+	    name="gxp1rosc4toj"
+	    value=""
+	    size="40"
+	    autocomplete="off"
+	    tabindex="1000"
+    /></span>
+</p>
+<div class="label_r">
+	<p><label>Phone<br />
+<span class="wpcf7-form-control-wrap" data-name="phonetext-257"><input size="40" class="wpcf7-form-control wpcf7-phonetext wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-phonetext inside_label" data-numberonly="true" aria-required="true" aria-invalid="false" placeholder="Phone Number" value="" type="text" name="phonetext-257" /><input type="hidden" name="phonetext-257-country-code" class="wpcf7-phonetext-country-code" /></span></label>
+	</p>
+</div>
+<div class="label_r">
+<!--div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12" id="transaction_hide">
+<span class="wpcf7-form-control-wrap" data-name="countrytext-787"><input size="40" class="wpcf7-form-control wpcf7-countrytext wpcf7-text wpcf7-validates-as-countrytext" aria-invalid="false" placeholder="Select the Country" value="" type="text" name="countrytext-787" /></span>
+</div-->
+	<div class="label_r">
+		<p><label>Your Message (Optional)<br />
+<span class="wpcf7-form-control-wrap" data-name="your-message"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea inside_label" aria-invalid="false" placeholder="How can we help you today?" name="your-message"></textarea></span> </label>
+		</p>
+	</div>
+	<p><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Send" />
+	</p>
+</div><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-363c694 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="363c694" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-2a88258" data-id="2a88258" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-ac83356 elementor-widget elementor-widget-image" data-id="ac83356" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img decoding="async" width="799" height="406" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20799%20406'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29073" alt="Footer Pattern" data-lazy-srcset="https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern.png 799w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-300x152.png 300w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-150x76.png 150w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-768x390.png 768w" data-lazy-sizes="(max-width: 799px) 100vw, 799px" data-lazy-src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern.png" /><noscript><img loading="lazy" decoding="async" width="799" height="406" src="https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern.png" class="attachment-full size-full wp-image-29073" alt="Footer Pattern" srcset="https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern.png 799w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-300x152.png 300w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-150x76.png 150w, https://companyformationsaudi.com/wp-content/uploads/2023/02/Footer-Pattern-768x390.png 768w" sizes="(max-width: 799px) 100vw, 799px" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-56d045a" data-id="56d045a" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-2af71ba elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="2af71ba" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-ee34852" data-id="ee34852" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-aa21e8d" data-id="aa21e8d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-8327f58 elementor-widget elementor-widget-elementskit-back-to-top" data-id="8327f58" data-element_type="widget" data-e-type="widget" data-widget_type="elementskit-back-to-top.default">
+				<div class="elementor-widget-container">
+					<div class="ekit-wid-con" >			<div class="ekit-back-to-top-container ekit-btt icon_only" data-settings="{&quot;offset_top&quot;:&quot;&quot;,&quot;show_after&quot;:null,&quot;show_scroll&quot;:&quot;&quot;,&quot;style&quot;:&quot;icon_only&quot;,&quot;foreground&quot;:null,&quot;background&quot;:null}"> 
+				<span class="ekit-btt__button ">
+					<svg xmlns="http://www.w3.org/2000/svg" width="167" height="166" viewBox="0 0 167 166" fill="none"><rect width="167" height="165.949" rx="82.9744" fill="#F8F9FA"></rect><mask id="mask0_404_1245" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="29" y="29" width="109" height="109"><rect x="138" y="138" width="109" height="109" transform="rotate(-180 138 138)" fill="#D9D9D9"></rect></mask><g mask="url(#mask0_404_1245)"><path d="M83.4999 47.1663L119.833 83.4997L113.475 89.9716L88.0416 64.5382V119.833H78.9583V64.5382L53.5249 89.9716L47.1666 83.4997L83.4999 47.1663Z" fill="#FFA84B"></path></g><path d="M63.2887 149.516C63.5055 150.288 63.9002 150.928 64.4726 151.437C65.0451 151.945 65.7678 152.3 66.6408 152.5C67.6073 152.722 68.5147 152.7 69.3631 152.435C70.2114 152.17 70.939 151.681 71.5459 150.967C72.1527 150.253 72.5777 149.366 72.8208 148.306C73.0711 147.215 73.0788 146.215 72.8439 145.308C72.5933 144.398 72.1362 143.636 71.4725 143.025C70.8088 142.413 69.9703 141.991 68.957 141.759C67.71 141.472 66.6138 141.566 65.6686 142.038C64.7199 142.526 63.9849 143.334 63.4637 144.461L69.0756 145.748L68.5017 148.25L59.663 146.223L60.3174 143.37C60.7966 142.282 61.5056 141.337 62.4444 140.535C63.3832 139.733 64.4895 139.167 65.7633 138.835C67.018 138.516 68.3468 138.517 69.7498 138.839C71.3242 139.2 72.6701 139.878 73.7875 140.873C74.8856 141.88 75.6562 143.098 76.0993 144.529C76.5267 145.956 76.5562 147.473 76.1879 149.078C75.8196 150.684 75.1321 152.036 74.1254 153.134C73.0995 154.244 71.8748 155.005 70.4512 155.417C69.0085 155.841 67.5077 155.874 65.9489 155.516C64.1094 155.094 62.6153 154.276 61.4665 153.061C60.3141 151.861 59.6667 150.392 59.5241 148.652L63.2887 149.516Z" fill="#18407C"></path><path d="M51.3241 130.621C52.6352 131.48 53.6378 132.577 54.3318 133.911C55.0258 135.245 55.3391 136.664 55.2715 138.168C55.1951 139.686 54.7057 141.134 53.8031 142.512C52.9093 143.876 51.7864 144.89 50.4345 145.553C49.0737 146.23 47.6433 146.516 46.1431 146.413C44.6429 146.31 43.2373 145.829 41.9261 144.971C40.6016 144.103 39.599 143.007 38.9183 141.682C38.2243 140.348 37.9222 138.926 38.0119 137.417C38.0795 135.913 38.5602 134.478 39.454 133.114C40.3565 131.736 41.4882 130.708 42.8489 130.032C44.1875 129.36 45.6069 129.076 47.1071 129.179C48.6073 129.282 50.0129 129.763 51.3241 130.621ZM49.6811 133.13C48.8382 132.578 47.973 132.279 47.0854 132.233C46.1891 132.2 45.3281 132.42 44.5024 132.893C43.6768 133.365 42.9573 134.07 42.3439 135.006C41.7305 135.943 41.3766 136.877 41.2822 137.81C41.179 138.755 41.3258 139.626 41.7226 140.421C42.1195 141.216 42.7394 141.89 43.5822 142.442C44.4251 142.994 45.297 143.297 46.198 143.352C47.0855 143.398 47.9421 143.185 48.7678 142.712C49.5847 142.253 50.2998 141.555 50.9132 140.619C51.5266 139.682 51.8849 138.741 51.9881 137.796C52.0913 136.85 51.9488 135.973 51.5607 135.164C51.1505 134.36 50.524 133.682 49.6811 133.13Z" fill="#18407C"></path><path d="M15.4869 113.629L17.8513 112.303L20.0339 116.195L32.2747 109.331L33.9174 112.26L21.6766 119.125L23.8592 123.017L21.4947 124.343L15.4869 113.629Z" fill="#18407C"></path><path d="M27.1425 93.4169C27.4441 94.9549 27.3601 96.4382 26.8905 97.8667C26.421 99.2952 25.6244 100.511 24.5009 101.513C23.3616 102.519 21.9838 103.18 20.3672 103.497C18.7664 103.811 17.2565 103.716 15.8375 103.212C14.4029 102.711 13.1984 101.888 12.2241 100.743C11.2498 99.5973 10.6118 98.2556 10.3102 96.7175C10.0056 95.1637 10.0896 93.6805 10.5622 92.2676C11.0318 90.8391 11.8377 89.6299 12.9801 88.6399C14.1036 87.6373 15.4658 86.979 17.0666 86.6651C18.6831 86.3481 20.2087 86.4401 21.6434 86.9411C23.0593 87.4295 24.2544 88.2463 25.2287 89.3917C26.203 90.5371 26.8409 91.8788 27.1425 93.4169ZM24.1998 93.9939C24.0059 93.0051 23.6154 92.1772 23.0282 91.51C22.4254 90.8459 21.6665 90.3836 20.7516 90.1229C19.8367 89.8623 18.83 89.8397 17.7313 90.0551C16.6327 90.2705 15.7169 90.6701 14.9839 91.2539C14.2352 91.8408 13.715 92.554 13.4232 93.3935C13.1315 94.233 13.0826 95.1471 13.2765 96.1358C13.4704 97.1246 13.8624 97.9604 14.4527 98.6433C15.0398 99.3104 15.7909 99.7743 16.7058 100.035C17.605 100.299 18.6039 100.323 19.7025 100.107C20.8011 99.892 21.7248 99.4908 22.4735 98.904C23.2222 98.3171 23.7503 97.6024 24.0577 96.7598C24.3463 95.9046 24.3937 94.9826 24.1998 93.9939Z" fill="#18407C"></path><path d="M14.2628 55.906L16.8634 56.6713L15.6036 60.9519L29.0667 64.9143L28.1185 68.1363L14.6553 64.1739L13.3955 68.4545L10.7949 67.6891L14.2628 55.906Z" fill="#18407C"></path><path d="M36.8675 50.1236C35.9778 51.4139 34.8578 52.39 33.5077 53.0521C32.1576 53.7141 30.7313 53.9934 29.2291 53.89C27.7136 53.7775 26.2778 53.2537 24.9217 52.3185C23.5787 51.3925 22.5918 50.2457 21.9611 48.8783C21.3173 47.5019 21.0648 46.065 21.2036 44.5677C21.3424 43.0704 21.8567 41.6766 22.7464 40.3863C23.6453 39.0828 24.7652 38.1066 26.1063 37.4578C27.4564 36.7957 28.8847 36.5276 30.391 36.6532C31.8933 36.7566 33.316 37.2714 34.6589 38.1974C36.0151 39.1326 37.0151 40.2884 37.659 41.6649C38.2987 43.0191 38.5492 44.4448 38.4104 45.9421C38.2716 47.4394 37.7573 48.8332 36.8675 50.1236ZM34.3988 48.4212C34.9708 47.5917 35.2903 46.7339 35.3575 45.8477C35.4114 44.9524 35.2121 44.0864 34.7594 43.2497C34.3067 42.413 33.6195 41.6769 32.6979 41.0414C31.7762 40.4059 30.8505 40.0298 29.9207 39.9132C28.9777 39.7875 28.104 39.9135 27.2996 40.2913C26.4951 40.6691 25.8069 41.2727 25.2349 42.1022C24.6629 42.9317 24.3388 43.7961 24.2626 44.6955C24.1955 45.5817 24.3883 46.4432 24.841 47.2798C25.2805 48.1075 25.9611 48.839 26.8827 49.4746C27.8044 50.1101 28.7367 50.4907 29.6797 50.6164C30.6226 50.7421 31.5029 50.6206 32.3205 50.2519C33.1341 49.8609 33.8268 49.2507 34.3988 48.4212Z" fill="#18407C"></path><path d="M47.8559 23.8837C48.3924 24.6008 48.7224 25.4025 48.8461 26.2887C48.9826 27.1653 48.8295 28.0687 48.387 28.999C47.9572 29.9197 47.1917 30.792 46.0904 31.6159L43.8428 33.2973L47.6942 38.4454L45.0048 40.4573L34.9742 27.0491L39.911 23.3558C40.9483 22.5798 41.9661 22.098 42.9643 21.9105C43.9625 21.723 44.8756 21.8089 45.7036 22.1682C46.5445 22.5179 47.2619 23.0897 47.8559 23.8837ZM44.3512 29.5315C45.094 28.9758 45.5201 28.3974 45.6296 27.7961C45.7295 27.1821 45.5495 26.5678 45.0897 25.9531C44.1125 24.6468 42.8939 24.5398 41.434 25.6319L39.3017 27.2271L42.219 31.1266L44.3512 29.5315Z" fill="#18407C"></path><path d="M71.0245 22.5927C70.4297 22.7174 69.8523 22.6914 69.2923 22.5147C68.7291 22.3223 68.2462 22.0069 67.8438 21.5684C67.457 21.1266 67.2012 20.6083 67.0765 20.0134C66.9485 19.403 66.9728 18.8178 67.1495 18.2578C67.3419 17.6945 67.659 17.2195 68.1008 16.8327C68.5393 16.4303 69.056 16.1667 69.6508 16.0419C70.2612 15.9139 70.8481 15.9461 71.4114 16.1385C71.987 16.3119 72.4682 16.6195 72.855 17.0613C73.2574 17.4998 73.5227 18.0243 73.6507 18.6348C73.7754 19.2296 73.7416 19.8086 73.5492 20.3719C73.3725 20.9319 73.0571 21.4147 72.6029 21.8204C72.1611 22.2072 71.635 22.4646 71.0245 22.5927Z" fill="#18407C"></path><path d="M105.671 17.8104C105.48 17.032 105.106 16.3791 104.551 15.8518C103.995 15.3246 103.285 14.9465 102.419 14.7177C101.46 14.4643 100.553 14.456 99.696 14.6928C98.8394 14.9296 98.096 15.3948 97.4661 16.0885C96.8361 16.7822 96.3821 17.6548 96.1042 18.7062C95.8182 19.7886 95.7776 20.787 95.9826 21.7014C96.203 22.6198 96.6349 23.3957 97.2781 24.0289C97.9213 24.6621 98.7455 25.1115 99.7505 25.3771C100.988 25.704 102.086 25.647 103.046 25.206C104.011 24.7495 104.772 23.9664 105.33 22.8567L99.7633 21.3855L100.419 18.9038L109.186 21.2209L108.439 24.0505C107.924 25.1221 107.184 26.0432 106.219 26.8139C105.255 27.5845 104.13 28.1145 102.846 28.4037C101.582 28.6816 100.254 28.6366 98.8622 28.2688C97.3005 27.8561 95.9776 27.1343 94.8936 26.1033C93.8291 25.061 93.099 23.8176 92.7033 22.3731C92.3231 20.9327 92.3434 19.4161 92.7643 17.8235C93.1853 16.2309 93.9169 14.9023 94.9592 13.8379C96.021 12.762 97.2701 12.0417 98.7065 11.6769C100.162 11.3008 101.663 11.317 103.21 11.7257C105.034 12.2079 106.501 13.0752 107.609 14.3276C108.721 15.5645 109.32 17.0544 109.405 18.7973L105.671 17.8104Z" fill="#18407C"></path><path d="M117.008 37.0882C115.725 36.1868 114.759 35.0581 114.11 33.702C113.46 32.3459 113.194 30.9172 113.311 29.4159C113.437 27.9015 113.974 26.4705 114.921 25.1229C115.859 23.7884 117.015 22.812 118.388 22.1937C119.77 21.5624 121.209 21.3229 122.705 21.4753C124.201 21.6277 125.59 22.1546 126.873 23.056C128.168 23.9666 129.134 25.0954 129.77 26.4423C130.42 27.7984 130.675 29.229 130.536 30.7342C130.419 32.2355 129.891 33.6534 128.953 34.9879C128.006 36.3355 126.841 37.325 125.459 37.9563C124.099 38.5838 122.671 38.8213 121.175 38.6689C119.679 38.5165 118.29 37.9896 117.008 37.0882ZM118.732 34.635C119.556 35.2145 120.411 35.5418 121.297 35.617C122.192 35.6791 123.059 35.4876 123.9 35.0425C124.741 34.5974 125.483 33.917 126.127 33.0011C126.771 32.0852 127.155 31.163 127.281 30.2343C127.415 29.2925 127.297 28.4177 126.926 27.6098C126.556 26.802 125.958 26.1083 125.134 25.5288C124.31 24.9493 123.448 24.6174 122.55 24.5331C121.664 24.4579 120.801 24.6429 119.96 25.0879C119.129 25.5199 118.391 26.1939 117.747 27.1097C117.103 28.0256 116.714 28.9544 116.58 29.8962C116.446 30.838 116.559 31.7193 116.92 32.5403C117.304 33.3573 117.908 34.0556 118.732 34.635Z" fill="#18407C"></path><path d="M152.266 55.2498L149.859 56.4973L147.806 52.5356L135.346 58.9936L133.801 56.0118L146.261 49.5538L144.207 45.5921L146.614 44.3447L152.266 55.2498Z" fill="#18407C"></path><path d="M139.952 75.0677C139.701 73.5205 139.834 72.0408 140.35 70.6285C140.867 69.2162 141.703 68.0275 142.859 67.0624C144.03 66.0947 145.429 65.4791 147.055 65.2155C148.666 64.9544 150.172 65.0991 151.573 65.6495C152.991 66.1974 154.167 67.0598 155.103 68.2366C156.039 69.4134 156.633 70.7754 156.884 72.3225C157.137 73.8855 157.004 75.3652 156.486 76.7617C155.969 78.174 155.124 79.3561 153.95 80.308C152.794 81.2731 151.411 81.8862 149.8 82.1472C148.174 82.4109 146.653 82.2687 145.235 81.7208C143.836 81.1861 142.668 80.3304 141.732 79.1536C140.796 77.9768 140.203 76.6148 139.952 75.0677ZM142.912 74.5877C143.073 75.5823 143.436 76.4227 144.001 77.1088C144.582 77.7924 145.325 78.2794 146.231 78.57C147.137 78.8606 148.142 78.9164 149.248 78.7372C150.353 78.558 151.281 78.1888 152.033 77.6294C152.801 77.0675 153.344 76.3718 153.663 75.5424C153.982 74.7129 154.061 73.8009 153.9 72.8063C153.739 71.8117 153.374 70.9635 152.807 70.2616C152.242 69.5754 151.507 69.0871 150.601 68.7965C149.711 68.5033 148.713 68.4463 147.608 68.6255C146.503 68.8047 145.567 69.1752 144.799 69.7371C144.031 70.299 143.48 70.996 143.145 71.828C142.829 72.6732 142.751 73.5932 142.912 74.5877Z" fill="#18407C"></path><path d="M151.591 112.983L149.017 112.132L150.417 107.896L137.091 103.492L138.145 100.303L151.47 104.707L152.87 100.47L155.444 101.32L151.591 112.983Z" fill="#18407C"></path><path d="M128.808 118.018C129.74 116.758 130.891 115.819 132.262 115.202C133.634 114.584 135.068 114.352 136.566 114.505C138.077 114.667 139.495 115.238 140.82 116.217C142.132 117.187 143.08 118.365 143.665 119.753C144.264 121.15 144.469 122.594 144.281 124.086C144.093 125.578 143.533 126.954 142.601 128.215C141.66 129.488 140.509 130.427 139.147 131.031C137.776 131.648 136.339 131.869 134.838 131.694C133.34 131.541 131.935 130.98 130.623 130.01C129.299 129.031 128.337 127.843 127.739 126.446C127.144 125.071 126.941 123.638 127.129 122.146C127.317 120.654 127.876 119.278 128.808 118.018ZM131.219 119.801C130.621 120.611 130.273 121.458 130.177 122.341C130.093 123.234 130.264 124.106 130.689 124.957C131.114 125.809 131.776 126.567 132.677 127.232C133.577 127.898 134.49 128.304 135.415 128.451C136.354 128.608 137.231 128.511 138.047 128.16C138.864 127.809 139.572 127.228 140.171 126.418C140.77 125.607 141.122 124.754 141.228 123.858C141.324 122.974 141.16 122.107 140.735 121.256C140.323 120.414 139.666 119.661 138.766 118.995C137.866 118.33 136.947 117.918 136.008 117.762C135.07 117.605 134.186 117.698 133.357 118.039C132.531 118.403 131.818 118.99 131.219 119.801Z" fill="#18407C"></path><path d="M116.962 143.882C116.45 143.148 116.146 142.336 116.052 141.446C115.944 140.565 116.127 139.668 116.6 138.752C117.06 137.846 117.853 137 118.981 136.212L121.283 134.606L117.603 129.334L120.357 127.411L129.941 141.142L124.886 144.671C123.823 145.413 122.79 145.861 121.786 146.015C120.782 146.17 119.873 146.054 119.057 145.668C118.228 145.291 117.53 144.695 116.962 143.882ZM120.651 138.353C119.89 138.884 119.445 139.448 119.316 140.045C119.196 140.656 119.356 141.276 119.795 141.905C120.729 143.243 121.943 143.39 123.438 142.346L125.622 140.822L122.834 136.829L120.651 138.353Z" fill="#18407C"></path><path d="M93.7639 144.411C94.3625 144.305 94.9387 144.35 95.4926 144.545C96.0492 144.756 96.5214 145.087 96.9092 145.539C97.2812 145.993 97.5198 146.52 97.6249 147.118C97.7328 147.733 97.6892 148.317 97.4942 148.871C97.2834 149.427 96.9508 149.892 96.4965 150.264C96.045 150.651 95.52 150.898 94.9214 151.003C94.307 151.111 93.7215 151.059 93.1649 150.849C92.5953 150.656 92.1245 150.333 91.7524 149.879C91.3646 149.427 91.1168 148.894 91.0089 148.28C90.9038 147.681 90.9567 147.104 91.1675 146.547C91.3625 145.993 91.6937 145.521 92.1609 145.13C92.6152 144.758 93.1495 144.518 93.7639 144.411Z" fill="#18407C"></path></svg>				</span>
+			</div>
+		</div>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+		
+		
+			</div>
+
+	
+</main>
+
+	<div data-wpr-lazyrender="1" class="ekit-template-content-markup ekit-template-content-footer ekit-template-content-theme-support">
+		<div  data-elementor-type="wp-post" data-elementor-id="28915" class="elementor elementor-28915" data-elementor-post-type="elementskit_template">
+						<section class="elementor-section elementor-top-section elementor-element elementor-element-7664e54 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="7664e54" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-15c8238" data-id="15c8238" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f6e54b5 elementor-widget elementor-widget-image" data-id="f6e54b5" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="1343" height="340" src="https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png" class="attachment-full size-full wp-image-530" alt="Business Setup in saudi arabia" srcset="https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png 1343w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-300x76.png 300w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-1024x259.png 1024w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-150x38.png 150w, https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3-768x194.png 768w" sizes="(max-width: 1343px) 100vw, 1343px" />															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-e5f44a0" data-id="e5f44a0" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-93ec279 elementor-widget elementor-widget-heading" data-id="93ec279" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">© 2026 Company Formation Saudi. All rights reserved</p>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+		</div>
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hello-elementor/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/rocketlazyloadscript">
+    (function(w,d,s,c,r,a,m){
+      w['KiwiObject']=r;
+      w[r]=w[r] || function () {
+        (w[r].q=w[r].q||[]).push(arguments)};
+      w[r].l=1*new Date();
+        a=d.createElement(s);
+        m=d.getElementsByTagName(s)[0];
+      a.async=1;
+      a.src=c;
+      m.parentNode.insertBefore(a,m)
+    })(window,document,'script',"https://app.interakt.ai/kiwi-sdk/kiwi-sdk-17-prod-min.js?v="+ new Date().getTime(),'kiwi');
+    window.addEventListener("load",function () {
+      kiwi.init('', 'o5yykBEmj6i4Gzjo3Nw7TJwMpqN3pCQ1', {});
+    });
+  </script>
+
+<!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-J1RM7CW7YS"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J1RM7CW7YS');
+</script>
+
+<!-- Hotjar Tracking Code for https://companyformationsaudi.com/ -->
+<script type="text/rocketlazyloadscript">
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3325250,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Company Formation Saudi",
+  "url": "https://companyformationsaudi.com/",
+  "logo": "https://companyformationsaudi.com/wp-content/uploads/2022/12/logo3.png",
+  "sameAs": [
+    "https://www.facebook.com/CompanyFormationSaudi/",
+    "https://www.instagram.com/companyformation.saudi/",
+    "https://www.linkedin.com/company/88426278/"
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+97143316688",
+      "contactType": "sales",
+      "email": "contact@companyformationsaudi.com",
+      "areaServed": "SA"
+    }
+  ]
+}
+</script>
+<script type="text/rocketlazyloadscript">
+  (function(ss,ex){
+    window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));};
+    (function(d,s){
+      fs=d.getElementsByTagName(s)[0];
+      function ce(src){
+        var cs=d.createElement(s);
+        cs.src=src;
+        cs.async=1;
+        fs.parentNode.insertBefore(cs,fs);
+      };
+      ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js');
+    })(document,'script');
+  })('p1e024BzvjZ4GB6d');
+</script>			<script type="text/rocketlazyloadscript">
+				const lazyloadRunObserver = () => {
+					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+						entries.forEach( ( entry ) => {
+							if ( entry.isIntersecting ) {
+								let lazyloadBackground = entry.target;
+								if( lazyloadBackground ) {
+									lazyloadBackground.classList.add( 'e-lazyloaded' );
+								}
+								lazyloadBackgroundObserver.unobserve( entry.target );
+							}
+						});
+					}, { rootMargin: '200px 0px 200px 0px' } );
+					lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+						lazyloadBackgroundObserver.observe( lazyloadBackground );
+					} );
+				};
+				const events = [
+					'DOMContentLoaded',
+					'elementor/lazyload/observe',
+				];
+				events.forEach( ( event ) => {
+					document.addEventListener( event, lazyloadRunObserver );
+				} );
+			</script>
+			<script type="text/rocketlazyloadscript">(function () {
+  // --- helpers ---
+  function getAllParams() {
+    // Merge query + hash params
+    var q = new URLSearchParams(window.location.search || "");
+    var h = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    return {
+      get: function (key) {
+        if (q.has(key)) return q.get(key);
+        if (h.has(key)) return h.get(key);
+        return "";
+      },
+      has: function (key) {
+        return q.has(key) || h.has(key);
+      }
+    };
+  }
+
+  function setCookie(name, value, days) {
+    if (!value) return;
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+  }
+
+  function setFieldValue(selectors, value) {
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) el.value = value || "";
+    }
+  }
+
+  function populateGclidFields(value) {
+    // populate both by id and by name (CF7 creates name="gclid")
+    setFieldValue(["#testgclid", 'textarea[name="gclid"]', 'input[name="gclid"]'], value || "");
+  }
+
+  function populateAll() {
+    populateGclidFields(getCookie("gclid"));
+
+    function set(idOrName, cookieName) {
+      setFieldValue(
+        ["#" + idOrName, 'textarea[name="' + idOrName + '"]', 'input[name="' + idOrName + '"]'],
+        getCookie(cookieName)
+      );
+    }
+
+    set("campaign_id", "campaign_id");
+    set("adgroup_id", "adgroup_id");
+    set("creative_id", "creative_id");
+    set("keyword", "keyword");
+    set("matchtype", "matchtype");
+    set("device", "device");
+    set("network", "network");
+    set("placement", "placement");
+    set("target_id", "target_id");
+    set("adposition", "adposition");
+    set("loc_interest_ms", "loc_interest_ms");
+    set("loc_physical_ms", "loc_physical_ms");
+    set("initial_url", "initialUrl");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var params = getAllParams();
+
+    // ✅ Always store landing URL once (first touch)
+    if (!getCookie("initialUrl")) {
+      setCookie("initialUrl", window.location.href, 30);
+    }
+
+    // Read from URL (query or hash) with priority
+    var url_gclid = params.get("gclid") || "";
+    var url_gbraid = params.get("gbraid") || "";
+    var url_wbraid = params.get("wbraid") || "";
+    var url_gclsrc = params.get("gclsrc") || ""; // optional / informational
+
+    // ✅ Decide final click id (gclid > gbraid > wbraid) + fallback to cookie
+    var final_gclid = url_gclid || url_gbraid || url_wbraid || getCookie("gclid") || "";
+
+    // If we got a value from URL (fresh), write cookie and populate immediately
+    if (url_gclid || url_gbraid || url_wbraid) {
+      if (final_gclid) {
+        setCookie("gclid", final_gclid, 30);
+        populateGclidFields(final_gclid); // immediate fill so you SEE it now
+      }
+      if (url_gbraid) setCookie("gbraid", url_gbraid, 30);
+      if (url_wbraid) setCookie("wbraid", url_wbraid, 30);
+
+      // (Optional) store gclsrc too if you want it later
+      if (url_gclsrc) setCookie("gclsrc", url_gclsrc, 30);
+    }
+
+    // Capture the rest (same behavior, cleaner)
+    var captureMap = {
+      campaign_id: ["campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroupid"],
+      creative_id: ["creative", "creativeid"],
+      keyword: ["keyword", "q", "kw"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target_id: ["targetid"],
+      adposition: ["adposition"],
+      loc_interest_ms: ["loc_interest_ms"],
+      loc_physical_ms: ["loc_physical_ms"]
+    };
+
+    Object.keys(captureMap).forEach(function (field) {
+      var val = "";
+      var keys = captureMap[field];
+
+      for (var i = 0; i < keys.length; i++) {
+        if (params.has(keys[i])) {
+          val = params.get(keys[i]);
+          break;
+        }
+      }
+
+      if (!val) val = getCookie(field);
+      if (val) setCookie(field, val, 30);
+    });
+
+    // Initial full populate (covers cookie-only cases)
+    populateAll();
+
+    // Re-populate on dynamically inserted forms (CF7/AJAX)
+    var mo = new MutationObserver(populateAll);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Debug (optional)
+    // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
+  });
+})();
+</script><script type="text/rocketlazyloadscript">// Function to get URL parameters
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Function to get a cookie
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Capture gclid, gbraid, or wbraid from URL and store in a cookie if present
+document.addEventListener('DOMContentLoaded', function () {
+    // Capture the initial landing URL
+    var initialUrl = getCookie('initialUrl');
+    if (!initialUrl) {
+        initialUrl = window.location.href;
+        setCookie('initialUrl', initialUrl, 30); // Store the initial URL in a cookie for 30 days
+        console.log("Initial URL stored in cookie:", initialUrl);
+    } else {
+        console.log("Initial URL retrieved from cookie:", initialUrl);
+    }
+
+    // Get URL parameters
+    var gclid = getUrlParameter('gclid');
+    var gbraid = getUrlParameter('gbraid');
+    var wbraid = getUrlParameter('wbraid');
+
+    console.log("gclid from URL:", gclid);
+    console.log("gbraid from URL:", gbraid);
+    console.log("wbraid from URL:", wbraid);
+
+    if (gclid) {
+        setCookie('gclid', gclid, 30); // Store gclid in a cookie for 30 days
+        console.log("gclid stored in cookie:", gclid);
+    } else {
+        gclid = getCookie('gclid'); // Retrieve gclid from cookie if not in URL
+        console.log("gclid retrieved from cookie:", gclid);
+    }
+
+    // If GCLID is not present, check for GBRAID or WBRAID
+    if (!gclid) {
+        if (gbraid) {
+            setCookie('gclid', gbraid, 30); // Store GBRAID in gclid cookie
+            gclid = gbraid;
+            console.log("GBRAID stored in cookie as gclid:", gbraid);
+        } else if (wbraid) {
+            setCookie('gclid', wbraid, 30); // Store WBRAID in gclid cookie
+            gclid = wbraid;
+            console.log("WBRAID stored in cookie as gclid:", wbraid);
+        } else {
+            console.warn("gclid, gbraid, and wbraid not found in URL or cookies.");
+        }
+    }
+
+    // Set gclid in textarea form field if available
+    if (gclid) {
+        var textAreaField = document.querySelector('textarea[name="gclid"]');
+        if (textAreaField) {
+            textAreaField.value = gclid;
+            console.log("gclid set in textarea field:", gclid);
+        } else {
+            console.error("Textarea field with name 'gclid' not found.");
+        }
+    }
+
+    // Set initial URL in a form field if available
+    var initialUrlField = document.querySelector('textarea[name="initial_url"]'); // Assuming an input field for the initial URL
+    if (initialUrlField) {
+        initialUrlField.value = initialUrl;
+        console.log("Initial URL set in input field:", initialUrl);
+    } else {
+        console.error("Input field with name 'initial_url' not found.");
+    }
+});
+</script><script type="text/rocketlazyloadscript" data-minify="1" id="ekit-widget-scripts-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widget-scripts.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7-pipedrive-theme-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wp-hooks-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="swv-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="contact-form-7-js-before">
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/companyformationsaudi.com\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    },
+    "cached": 1
+};
+//# sourceURL=contact-form-7-js-before
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="contact-form-7-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1782386104" data-rocket-defer defer></script>
+<script id="cf7apps-honeypot-refill-js-extra">
+var cf7appsHoneypotRefill = {"forceRefillOnInit":"1"};
+//# sourceURL=cf7apps-honeypot-refill-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7apps-honeypot-refill-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7-honeypot/legacy-honeypot/includes/js/honeypot-refill.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-intlTelInput-script-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https://companyformationsaudi.com/wp-admin/admin-ajax.php"};
+//# sourceURL=nbcpf-countryFlag-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: true,
+						autoPlaceholder: true,
+						nationalMode: true,
+						separateDialCode: true,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+						
+					});$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					url: "https://ipinfo.io/json",
+					//url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country);
+						if( response.country !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: true,
+								autoPlaceholder: true,
+								nationalMode: true,
+								separateDialCode: true,
+								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+								
+							});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+//# sourceURL=nbcpf-countryFlag-script-js-after
+});</script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-core-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-mouse-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/ui/mouse.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-sortable-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/ui/sortable.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cstmsrch_script-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/custom-search-plugin/js/script.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="wpascript-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/js/wpa.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpascript-js-after">
+wpa_field_info = {"wpa_field_name":"qgdszl7993","wpa_field_value":251933,"wpa_add_test":"no"}
+//# sourceURL=wpascript-js-after
+</script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-datepicker-js" data-rocket-src="https://companyformationsaudi.com/wp-includes/js/jquery/ui/datepicker.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-datepicker-js-after">window.addEventListener('DOMContentLoaded', function() {
+jQuery(function(jQuery){jQuery.datepicker.setDefaults({"closeText":"Close","currentText":"Today","monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Previous","dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"dateFormat":"MM d, yy","firstDay":1,"isRTL":false});});
+//# sourceURL=jquery-ui-datepicker-js-after
+});</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="hello-theme-frontend-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-color-switcher-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="swiper-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-webpack-runtime-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-modules-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script id="elementor-frontend-js-extra">
+var EAELImageMaskingConfig = {"svg_dir_url":"https://companyformationsaudi.com/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/img/image-masking/svg-shapes/"};
+//# sourceURL=elementor-frontend-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.1.4","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"e_panel_promotions":true,"theme_builder_v2":true,"hello-theme-header-footer":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_opt_in_v4_page":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/companyformationsaudi.com\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/companyformationsaudi.com\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/companyformationsaudi.com\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"50ad1a5242","atomicFormsSendForm":"67a1983a9a"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description","hello_header_logo_type":"logo","hello_header_menu_layout":"horizontal","hello_footer_logo_type":"logo"},"post":{"id":30384,"title":"Saudi%20Arabia%20Multiple%20Entry%20Business%20Visa%20%7C%20Benefits%20%7C%20Cost","excerpt":"","featuredImage":false}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-slider-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js?ver=1782386104" data-rocket-defer defer></script>
+<script id="ekit-core-js-extra">
+var ekit_config = {"ajaxurl":"https://companyformationsaudi.com/wp-admin/admin-ajax.php","nonce":"31a59d05df"};
+//# sourceURL=ekit-core-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ekit-core-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widgets/core.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ekit-back-to-top-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widgets/back-to-top.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="animate-circle-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementskit-lite/widgets/init/assets/js/animate-circle.min.js?ver=3.9.9" data-rocket-defer defer></script>
+<script id="eael-general-js-extra">
+var localize = {"ajaxurl":"https://companyformationsaudi.com/wp-admin/admin-ajax.php","nonce":"4b896f04cf","i18n":{"added":"Added ","compare":"Compare","loading":"Loading..."},"eael_translate_text":{"required_text":"is a required field","invalid_text":"Invalid","billing_text":"Billing","shipping_text":"Shipping","fg_mfp_counter_text":"of"},"page_permalink":"https://companyformationsaudi.com/saudi-business-visa/","cart_redirectition":"","cart_page_url":"","el_breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}};
+//# sourceURL=eael-general-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="eael-general-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/js/view/general.min.js?ver=6.6.8" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ekit-nav-menu-js" data-rocket-src="https://companyformationsaudi.com/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widgets/nav-menu.js?ver=1782386104" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-webpack-runtime-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/companyformationsaudi.com\/wp-admin\/admin-ajax.php","nonce":"8b99274fb0","urls":{"assets":"https:\/\/companyformationsaudi.com\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/companyformationsaudi.com\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"en_US","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/companyformationsaudi.com\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="pro-elements-handlers-js" data-rocket-src="https://companyformationsaudi.com/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://companyformationsaudi.com/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script>
+<script>(()=>{class RocketElementorPreload{constructor(){this.deviceMode=document.createElement("span"),this.deviceMode.id="elementor-device-mode-wpr",this.deviceMode.setAttribute("class","elementor-screen-only"),document.body.appendChild(this.deviceMode)}t(){let t=getComputedStyle(this.deviceMode,":after").content.replace(/"/g,"");this.animationSettingKeys=this.i(t),document.querySelectorAll(".elementor-invisible[data-settings]").forEach(t=>{const e=t.getBoundingClientRect();if(e.bottom>=0&&e.top<=window.innerHeight)try{this.o(t)}catch(t){}})}o(t){const e=JSON.parse(t.dataset.settings),i=e.m||e.animation_delay||0,n=e[this.animationSettingKeys.find(t=>e[t])];if("none"===n)return void t.classList.remove("elementor-invisible");t.classList.remove(n),this.currentAnimation&&t.classList.remove(this.currentAnimation),this.currentAnimation=n;let o=setTimeout(()=>{t.classList.remove("elementor-invisible"),t.classList.add("animated",n),this.l(t,e)},i);window.addEventListener("rocket-startLoading",function(){clearTimeout(o)})}i(t="mobile"){const e=[""];switch(t){case"mobile":e.unshift("_mobile");case"tablet":e.unshift("_tablet");case"desktop":e.unshift("_desktop")}const i=[];return["animation","_animation"].forEach(t=>{e.forEach(e=>{i.push(t+e)})}),i}l(t,e){this.i().forEach(t=>delete e[t]),t.dataset.settings=JSON.stringify(e)}static run(){const t=new RocketElementorPreload;requestAnimationFrame(t.t.bind(t))}}document.addEventListener("DOMContentLoaded",RocketElementorPreload.run)})();</script></body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1786165396 -->

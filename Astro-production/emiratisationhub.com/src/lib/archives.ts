@@ -98,65 +98,52 @@ function getLoopCardStyles(): string {
 
 const ARCHIVE_FIX_STYLES = `<style id="astro-archive-fix-css">
 /* Match live Blog canvas */
-html body.page-id-401,
-html body.elementor-page-401,
+html body.page-id-1199,
+html body.elementor-page-1199,
 html body.page-id-blog,
 html body.elementor-page-blog{
   background-color:#ffffff !important;
   background-image:none !important;
 }
 .e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle}
-/* Featured hero (loop 714): single full-width card */
-.elementor-element-eb26798 .ecs-posts.elementor-posts-container{
-  display:block !important;
-  grid-template-columns:none !important;
+/* Featured loop 1975 */
+.elementor-1975 .elementor-widget-theme-post-featured-image img{
+  width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:16/9;border-radius:12px;
 }
-.elementor-element-eb26798 .ecs-posts > .elementor-post{width:100%;max-width:100%;}
-.elementor-714 .elementor-element-f8a3136 img,
-.elementor-714 .elementor-widget-theme-post-featured-image img{
-  width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:16/9;border-radius:8px;
+.elementor-1975 .elementor-heading-title a{text-decoration:none;color:#0B092D;}
+.elementor-1975 .elementor-heading-title a:hover{color:#5A8C1C;}
+.elementor-1975 .elementor-heading-title{font-size:clamp(1.35rem,2.1vw,2rem);line-height:1.25;font-weight:700;}
+.elementor-1975 .elementor-post-info{font-size:14px;color:#6b7280;}
+/* Grid loop 1985 */
+.elementor-1985 .elementor-widget-theme-post-featured-image img{
+  width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:16/9;border-radius:12px;
 }
-.elementor-714{
-  background:#0B092D;
-  border-radius:12px;
-  overflow:hidden;
+.elementor-1985 .elementor-heading-title a{text-decoration:none;color:#0B092D;}
+.elementor-1985 .elementor-heading-title a:hover{color:#5A8C1C;}
+.elementor-1985 .elementor-heading-title{
+  font-size:clamp(1rem,1.35vw,1.2rem);line-height:1.35;font-weight:700;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-.elementor-714 .elementor-container{
-  display:flex;
-  align-items:stretch;
-}
-.elementor-714 .elementor-col-50{width:50%;}
-.elementor-714 .elementor-element-a4b52c2 > .elementor-element-populated,
-.elementor-714 .elementor-element-a4b52c2 .elementor-widget-wrap{
-  background:#0B092D;
-  min-height:100%;
-}
-.elementor-714 .elementor-button{
-  color:#fff !important;
-  border-color:#fff !important;
-}
-.elementor-714 .elementor-heading-title a{color:#fff !important;text-decoration:none;}
-.elementor-714 .elementor-element-f8a3136 img{height:350px;object-fit:cover;border-radius:0;}
-
-/* Main grid (loop 244): 3 columns on desktop like live */
-.elementor-element-b877973 .ecs-posts.elementor-posts-container{
+.elementor-1985 .elementor-post-info{font-size:13px;color:#6b7280;}
+/* Match Elementor posts widgets: featured=1 col, side grid=2 cols */
+.elementor-grid-1 .ecs-posts.elementor-posts-container.elementor-grid{
   display:grid !important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:30px;
+  grid-template-columns:1fr !important;
+  gap:35px;
 }
-@media (max-width:1024px){
-  .elementor-element-b877973 .ecs-posts.elementor-posts-container{grid-template-columns:repeat(2,minmax(0,1fr));}
+.elementor-grid-2 .ecs-posts.elementor-posts-container.elementor-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:10px 24px;
 }
-@media (max-width:767px){
-  .elementor-element-b877973 .ecs-posts.elementor-posts-container{grid-template-columns:1fr;}
-  .elementor-714 .elementor-container{flex-direction:column;}
-  .elementor-714 .elementor-col-50{width:100%;}
+/* Live /blog/ has no Elementor pagination UI */
+body.page-id-1199 .elementor-pagination,
+body.elementor-page-1199 .elementor-pagination,
+body.page-id-blog .elementor-pagination,
+body.elementor-page-blog .elementor-pagination{display:none !important;}
+.catbutton .filter-button.active,.catbutton .filter-button.is-active{
+  background:#57820C !important;color:#fff !important;border-color:#57820C !important;
 }
-.elementor-244 .elementor-widget-theme-post-featured-image img{
-  width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:16/9;border-radius:8px 8px 0 0;
-}
-.elementor-244 .elementor-heading-title a{text-decoration:none;color:#0B092D;}
-.elementor-244 .elementor-heading-title a:hover{color:#1C1CD1;}
 .astro-archive-heading{font-size:1.75rem;font-weight:700;margin:0 0 1.5rem;color:#070c13}
 </style>`;
 
@@ -194,6 +181,107 @@ function getArchiveBasePath(data: ArchivePageData): string {
   return `/tag/${data.slug}/`;
 }
 
+function buildPaginationHtmlForArchive(data: ArchivePageData): string {
+  const basePath = getArchiveBasePath(data);
+  if (data.totalPages <= 1) return '';
+
+  // Live WordPress uses /blog/page/2/ and /category/x/page/2/
+  const pageHref = (p: number) => {
+    if (p <= 1) return basePath;
+    if (data.type === 'blog') return `/blog/page/${p}/`;
+    if (data.type === 'category') return `/category/${data.slug}/page/${p}/`;
+    return `/tag/${data.slug}/page/${p}/`;
+  };
+
+  const items: string[] = [];
+  if (data.currentPage > 1) {
+    items.push(`<a class="page-numbers prev" href="${pageHref(data.currentPage - 1)}">&lt;</a>`);
+  }
+  for (let p = 1; p <= data.totalPages; p++) {
+    if (p === data.currentPage) {
+      items.push(
+        `<span aria-current="page" class="page-numbers current"><span class="elementor-screen-only">Page</span>${p}</span>`,
+      );
+    } else {
+      items.push(
+        `<a class="page-numbers" href="${pageHref(p)}"><span class="elementor-screen-only">Page</span>${p}</a>`,
+      );
+    }
+  }
+  if (data.currentPage < data.totalPages) {
+    items.push(`<a class="page-numbers next" href="${pageHref(data.currentPage + 1)}">&gt;</a>`);
+  }
+  return `<nav class="elementor-pagination" role="navigation" aria-label="Pagination">${items.join('\n')}</nav>`;
+}
+
+/** Rewrite absolute live host URLs + promote lazy images + unblock Rocket CSS. */
+function normalizeArchiveHtml(html: string): string {
+  let out = html
+    .replace(/https:\/\/(?:www\.)?emiratisationhub\.com\//g, '/')
+    .replace(/http:\/\/(?:www\.)?emiratisationhub\.com\//g, '/');
+
+  // WP Rocket deferred stylesheets → immediate stylesheets
+  out = out.replace(
+    /<link([^>]*)\sdata-rocket-async="style"([^>]*)\sas="style"([^>]*)>/g,
+    (_match, pre, mid, post) => {
+      let attrs = `${pre} ${mid} ${post}`
+        .replace(/\s*data-rocket-async="style"/g, '')
+        .replace(/\s*as="style"/g, '')
+        .replace(/\s*onload="[^"]*"/g, '')
+        .replace(/\s*onerror="[^"]*"/g, '')
+        .replace(/\brel=['"]preload['"]/g, 'rel="stylesheet"');
+      return `<link${attrs}>`;
+    },
+  );
+
+  out = out.replace(/<img\b([^>]*)\/?>/gi, (full, attrs) => {
+    const lazySrc =
+      attrs.match(/\bdata-lazy-src=(['"])(.*?)\1/i) ||
+      attrs.match(/(?:^|\s)data-src=(['"])(.*?)\1/i);
+    if (!lazySrc) return full;
+    let next = String(attrs).replace(/\/\s*$/, '').trimEnd();
+    if (/(?:^|\s)src=(['"])/.test(next)) {
+      next = next.replace(/(?:^|\s)src=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}src=${q}${lazySrc[2]}${q}`);
+    } else {
+      next += ` src="${lazySrc[2]}"`;
+    }
+    const lazySrcset =
+      next.match(/\bdata-lazy-srcset=(['"])(.*?)\1/i) ||
+      next.match(/(?:^|\s)data-srcset=(['"])(.*?)\1/i);
+    if (lazySrcset) {
+      if (/(?:^|\s)srcset=(['"])/.test(next)) {
+        next = next.replace(/(?:^|\s)srcset=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}srcset=${q}${lazySrcset[2]}${q}`);
+      } else {
+        next += ` srcset="${lazySrcset[2]}"`;
+      }
+    }
+    next = next
+      .replace(/\sdata-lazy-src=(['"]).*?\1/gi, '')
+      .replace(/\sdata-src=(['"]).*?\1/gi, '')
+      .replace(/\sdata-lazy-srcset=(['"]).*?\1/gi, '')
+      .replace(/\sdata-srcset=(['"]).*?\1/gi, '')
+      .replace(/\sdata-lazy-sizes=(['"]).*?\1/gi, '')
+      .replace(/\bswiper-lazy\b/g, '');
+    return `<img ${next.trim()} />`;
+  });
+
+  // Ensure loop CSS for blog cards is present
+  if (!/post-1975\.css/i.test(out)) {
+    out = out.replace(
+      /<\/head>/i,
+      '<link rel="stylesheet" href="/wp-content/uploads/elementor/css/post-1975.css" />\n</head>',
+    );
+  }
+  if (!/post-1985\.css/i.test(out)) {
+    out = out.replace(
+      /<\/head>/i,
+      '<link rel="stylesheet" href="/wp-content/uploads/elementor/css/post-1985.css" />\n</head>',
+    );
+  }
+
+  return out;
+}
+
 /** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
   const $ = cheerio.load(html, { decodeEntities: false });
@@ -217,11 +305,17 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
     }
   }
 
-  const pagination = buildPaginationHtml(getArchiveBasePath(data), data.currentPage, data.totalPages);
-  const pagNav = $('.elementor-pagination').first();
-  if (pagNav.length) pagNav.replaceWith(pagination);
-  else if (loopContainer.length) loopContainer.parent().append(pagination);
-  else if ($('.ecs-posts').length) $($('.ecs-posts')[$('.ecs-posts').length - 1]).parent().append(pagination);
+  // Live /blog/ never renders pagination (top widgets always show latest 5;
+  // "Latest Blogs" lists all posts with client-side filters).
+  if (data.type === 'blog') {
+    $('.elementor-pagination').remove();
+  } else {
+    const pagination = buildPaginationHtmlForArchive(data);
+    const pagNav = $('.elementor-pagination').first();
+    if (pagNav.length) pagNav.replaceWith(pagination);
+    else if (loopContainer.length) loopContainer.parent().append(pagination);
+    else if ($('.ecs-posts').length) $($('.ecs-posts')[$('.ecs-posts').length - 1]).parent().append(pagination);
+  }
 
   if (data.type === 'category') {
     const heading = `<h1 class="astro-archive-heading">${escapeHtml(data.title)}</h1>`;
@@ -253,7 +347,7 @@ function assembleTagHtml(data: ArchivePageData): string {
 
   let html = readFileSync(TAG_SHELL_PATH, 'utf8');
   const postsHtml = data.posts.map((p) => buildArchiveCardHtml(p)).join('\n');
-  const pagination = buildPaginationHtml(getArchiveBasePath(data), data.currentPage, data.totalPages);
+  const pagination = buildPaginationHtmlForArchive(data);
 
   html = html
     .replace('<!--ASTRO_TAG:POSTS-->', postsHtml)
@@ -302,17 +396,22 @@ function patchArchiveMeta(html: string, data: ArchivePageData): string {
 
 export function getBlogPageData(page = 1): ArchivePageData {
   const allPosts = getAllBlogPosts();
-  const paged = paginatePosts(allPosts, page);
+  // Live keeps the Elementor featured+grid widgets on the latest 5 posts for
+  // every /blog/page/N/ URL and does not expose pagination controls.
+  const posts = allPosts.slice(0, ARCHIVE_POSTS_PER_PAGE);
   const canonical =
-    page === 1 ? `${ORIGIN}/blog/` : `${ORIGIN}/blog/${page}/`;
+    page <= 1 ? `${ORIGIN}/blog/` : `${ORIGIN}/blog/page/${page}/`;
 
   return {
     type: 'blog',
-    title: 'Read Our Blogs | KPM PRO Services | Insights',
+    title: 'Blog | Emiratisation Hub',
     description:
-      'Latest insights from KPM PRO on PRO services, visas, business setup, and compliance in Dubai and the UAE.',
+      'Latest insights on Emiratisation, Nafis, recruitment, and workforce compliance in the UAE.',
     canonical,
-    ...paged,
+    posts,
+    currentPage: 1,
+    totalPages: 1,
+    totalPosts: allPosts.length,
   };
 }
 
@@ -364,7 +463,7 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
     throw new Error('Insights shell missing. Run: npm run prepare:insights');
   }
 
-  let html = readFileSync(INSIGHTS_PATH, 'utf8');
+  let html = normalizeArchiveHtml(readFileSync(INSIGHTS_PATH, 'utf8'));
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
   return injectRuntimeGtmLoader(html);
@@ -380,7 +479,8 @@ export function serveArchivePage(data: ArchivePageData): Response {
 }
 
 export function getInsightsTotalPages(): number {
-  return Math.max(1, Math.ceil(getAllBlogPosts().length / ARCHIVE_POSTS_PER_PAGE));
+  // Blog archive is not paginated on live; keep a single logical page.
+  return 1;
 }
 
 export { getAllCategorySlugs, getAllTagSlugs };

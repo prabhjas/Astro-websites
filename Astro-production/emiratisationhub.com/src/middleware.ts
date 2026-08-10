@@ -20,9 +20,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // API routes handle their own routing — never force a trailing slash
+    // (would 301/308 /api/contact → /api/contact/ and break form POSTs).
+    const isApi = pathname === '/api' || pathname.startsWith('/api/');
+
     // Enforce trailing slash — bare paths (no file extension) redirect.
     // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
-    if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+    if (!isApi && pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
       const target = `${pathname}/${context.url.search}`;
       const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
       return new Response(null, { status, headers: { Location: target } });
@@ -38,9 +42,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return new Response('Not found', { status: 404 });
     }
 
-    if (!['GET', 'HEAD'].includes(method)) return next();
-    // All /api/* routes bypass the trailing-slash redirect — they handle their own routing.
-    if (pathname.startsWith('/api/')) return next();
+    if (isApi || !['GET', 'HEAD'].includes(method)) return next();
 
     try {
       const adminDir = resolveInternalAdminDir();

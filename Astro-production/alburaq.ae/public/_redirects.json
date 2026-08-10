@@ -1,0 +1,77 @@
+[
+  {
+    "from": "/about/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/aboutus/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/contact/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/contactus/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/get-in-touch/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/home-new/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/feed/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/sample-page/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/insights/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/blogs/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/payroll/",
+    "to": "/payroll-outsourcing/",
+    "status": 301
+  },
+  {
+    "from": "/sponsorship/",
+    "to": "/corporate-sponsorship/",
+    "status": 301
+  },
+  {
+    "from": "/services/",
+    "to": "/what-we-do/",
+    "status": 301
+  }
+]
