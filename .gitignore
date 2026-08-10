@@ -65,5 +65,20 @@ Astro-production/**/_quarantine-html-masquerade/
 Astro-production/**/.data/
 Astro-production/**/.env
 
+# H-08: this application is live and must have a reviewable Git baseline even
+# on hosts whose local .git/info/exclude predates the import. Keep runtime and
+# generated files excluded explicitly after re-including its source tree.
+!Astro-production/connectresourcesint.com/
+!Astro-production/connectresourcesint.com/**
+Astro-production/connectresourcesint.com/.astro/
+Astro-production/connectresourcesint.com/.data/
+Astro-production/connectresourcesint.com/.env
+Astro-production/connectresourcesint.com/.env.*
+Astro-production/connectresourcesint.com/dist/
+Astro-production/connectresourcesint.com/dist.*/
+Astro-production/connectresourcesint.com/node_modules/
+Astro-production/connectresourcesint.com/node_modules.*/
+Astro-production/connectresourcesint.com/package-lock.json
+
 # Local audit / handoff PDFs at repo root (keep findings in docs/)
 /*.pdf
