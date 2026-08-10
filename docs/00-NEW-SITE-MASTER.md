@@ -6,7 +6,8 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 45 domains, ports **5080–5124**, next free **5125**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
+| **Fleet status (Aug 2026)** | **34 live/cutover** on branch [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (28 live + next 6). Working branch: `work/astro-sites`. Ports **5080–5124**. Also on live Caddy: `connectresourcesint.com` (**5098**). |
+| **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — **not** `tls internal`. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
 | **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |
@@ -347,12 +348,18 @@ node scripts/fleet-local.mjs smoke <site-id>
 **Detail:** [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) · copy `deploy/` from peer
 
 - [ ] `deploy/<unit>.service` — `PORT`, `EnvironmentFile=…/.env.prod`, correct user
-- [ ] `deploy/<domain>.caddy` — production pattern (bare hosts, named CA `astro_origin_2026` with paired manual cert/key loaders, HSTS, `@noncanonical`, static cache)
-- [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production`
-- [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`
+- [ ] `deploy/<domain>.caddy` — **Aaron production pattern** (copy a live peer such as `connectfm.ae`):
+  - named CA `astro_origin_2026` via `tls force_automate { issuer internal { ca … } }`
+  - paired manual loaders for apex **and** `www` under `/var/lib/caddy/.../certificates/astro_origin_2026/`
+  - **never** ship new sites with bare `tls internal`
+  - HSTS, `@noncanonical`, static cache headers
+- [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production` (include `http://www.<domain>`)
+- [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`; Cloudflare **Full** (not Flexible)
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`
-- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned
+- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned — match the peer CA block, not an old `tls internal` scaffold
+- [ ] Contact `POST /api/contact` bounds body with `readRequestBodyLimited` (Aaron contact hardening) + rate limit
 - [ ] GTM wiring complete per **Phase 05 § Dynamic GTM / GA4** (`resolveEffectiveGtmConfig`, `recreateScript`, `inject.ts`, `.env.example` IDs blank — live IDs only on server / FLOW)
+- [ ] Private keys / Caddy PEM material must never be committed — CI `private-key-guard` must stay green
 
 **Do not** edit `/etc/caddy/Caddyfile` or reload Caddy as a developer step. That is **owner-only** — [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md).
 

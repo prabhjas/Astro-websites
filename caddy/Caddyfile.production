@@ -7,7 +7,7 @@
 # Source of truth in git: caddy/Caddyfile.production
 # How to add a site: docs/CONNECT-CADDY-DEPLOYMENT.md
 #
-# Cloudflare SSL mode must be Full (not Flexible, not Full strict with tls internal).
+# Cloudflare SSL mode must be Full (not Flexible). Origin uses named CA astro_origin_2026 (payroll uses payroll_origin_isolated_2026).
 # Validate before reloading:
 #   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
 #   systemctl reload caddy
@@ -45,9 +45,8 @@
 
 # Astro production fleet. Each domain proxies the complete request surface to
 # its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
+# Cloudflare terminates public TLS; origin hop uses named CA + paired manual cert loaders.
+# Cloudflare SSL mode must be Full, not Flexible. Bare hostnames enable HTTP→HTTPS redirects.
 #
 # Validate before reloading:
 #   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
@@ -1185,136 +1184,18 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 }
 
-# --- Next 6 cutover (from work/astro-sites) ---
+# --- Next 6 cutover (Aaron CA astro_origin_2026) ---
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# mbs-consultancy.com -> mbs-consultancy.service (PORT 5099) — git template only until owner cutover
+# mbs-consultancy.com -> mbs-consultancy.service (next-6 cutover)
 mbs-consultancy.com, www.mbs-consultancy.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/mbs-consultancy.com/mbs-consultancy.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/mbs-consultancy.com/mbs-consultancy.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.mbs-consultancy.com/www.mbs-consultancy.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.mbs-consultancy.com/www.mbs-consultancy.com.key
 	encode zstd gzip
 
 	@noncanonical host www.mbs-consultancy.com
@@ -1340,134 +1221,16 @@ mbs-consultancy.com, www.mbs-consultancy.com {
 	}
 }
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# connectzone.ae -> connectzone.service (PORT 5101) — git template only until owner cutover
+# connectzone.ae -> connectzone.service (next-6 cutover)
 connectzone.ae, www.connectzone.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connectzone.ae
@@ -1493,134 +1256,16 @@ connectzone.ae, www.connectzone.ae {
 	}
 }
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# movey.ae -> movey.service (PORT 5104) — git template only until owner cutover
+# movey.ae -> movey.service (next-6 cutover)
 movey.ae, www.movey.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/movey.ae/movey.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/movey.ae/movey.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.movey.ae/www.movey.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.movey.ae/www.movey.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.movey.ae
@@ -1646,134 +1291,16 @@ movey.ae, www.movey.ae {
 	}
 }
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# emiratisationhub.com -> emiratisationhub.service (PORT 5107) — git template only until owner cutover
+# emiratisationhub.com -> emiratisationhub.service (next-6 cutover)
 emiratisationhub.com, www.emiratisationhub.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationhub.com/emiratisationhub.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationhub.com/emiratisationhub.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationhub.com/www.emiratisationhub.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationhub.com/www.emiratisationhub.com.key
 	encode zstd gzip
 
 	@noncanonical host www.emiratisationhub.com
@@ -1799,134 +1326,16 @@ emiratisationhub.com, www.emiratisationhub.com {
 	}
 }
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# companyformationsaudi.com -> companyformationsaudi.service (PORT 5114) — git template only until owner cutover
+# companyformationsaudi.com -> companyformationsaudi.service (next-6 cutover)
 companyformationsaudi.com, www.companyformationsaudi.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/companyformationsaudi.com/companyformationsaudi.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/companyformationsaudi.com/companyformationsaudi.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.companyformationsaudi.com/www.companyformationsaudi.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.companyformationsaudi.com/www.companyformationsaudi.com.key
 	encode zstd gzip
 
 	@noncanonical host www.companyformationsaudi.com
@@ -1934,16 +1343,14 @@ companyformationsaudi.com, www.companyformationsaudi.com {
 
 	reverse_proxy 127.0.0.1:5114
 
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
 	}
 	log {
 		output file /var/log/caddy/companyformationsaudi.com-access.log {
@@ -1954,134 +1361,16 @@ companyformationsaudi.com, www.companyformationsaudi.com {
 	}
 }
 
-
-# Astro production fleet. Each domain proxies the complete request surface to
-# its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
-#
-# Validate before reloading:
-#   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
-#   systemctl reload caddy
-
-# Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
-# URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
-# chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
-	@evolution host evolutionmiddleast.com
-	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
-
-	@cbss host www.cbss.ae
-	redir @cbss https://cbss.ae{uri} permanent
-
-	@spheavyrental host www.spheavyrental.ae
-	redir @spheavyrental https://spheavyrental.ae{uri} permanent
-
-	@iberiaworkforce host www.iberiaworkforce.com
-	redir @iberiaworkforce https://iberiaworkforce.com{uri} permanent
-
-	@connecthr host www.connecthr.ae
-	redir @connecthr https://connecthr.ae{uri} permanent
-
-	@connectgroup host www.connectgroup.co
-	redir @connectgroup https://connectgroup.co{uri} permanent
-
-	@connectfm host www.connectfm.ae
-	redir @connectfm https://connectfm.ae{uri} permanent
-
-	@connectresources_sa host www.connectresources.sa
-	redir @connectresources_sa https://connectresources.sa{uri} permanent
-
-	@iberiaeor host www.iberiaeor.com
-	redir @iberiaeor https://iberiaeor.com{uri} permanent
-
-	@eormiddleast host www.eormiddleast.com
-	redir @eormiddleast https://eormiddleast.com{uri} permanent
-
-	@connectstaff host www.connectstaff.ae
-	redir @connectstaff https://connectstaff.ae{uri} permanent
-
-	@cuae host www.c-uae.com
-	redir @cuae https://c-uae.com{uri} permanent
-
-	@kinzahr host www.kinzahr.com
-	redir @kinzahr https://kinzahr.com{uri} permanent
-
-	@connectfz host www.connectfz.com
-	redir @connectfz https://connectfz.com{uri} permanent
-
-	@royalvisa host www.royalvisa.ae
-	redir @royalvisa https://royalvisa.ae{uri} permanent
-
-	@connectresourcesint host connectresourcesint.com
-	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
-
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
-
-	@connectfreelance host www.connectfreelance.ae
-	redir @connectfreelance https://connectfreelance.ae{uri} permanent
-
-	@redo host www.redo.ae
-	redir @redo https://redo.ae{uri} permanent
-
-	@thefreelancergate host www.thefreelancergate.com
-	redir @thefreelancergate https://thefreelancergate.com{uri} permanent
-
-	@ngmanpower host www.ngmanpower.com
-	redir @ngmanpower https://ngmanpower.com{uri} permanent
-
-	@emiratiguard host www.emiratiguard.com
-	redir @emiratiguard https://emiratiguard.com{uri} permanent
-
-	@emiratisationgate host www.emiratisationgate.org
-	redir @emiratisationgate https://emiratisationgate.org{uri} permanent
-
-	@emiratisationgateway host www.emiratisationgateway.com
-	redir @emiratisationgateway https://emiratisationgateway.com{uri} permanent
-
-	@freelancerdxb host www.freelancerdxb.com
-	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
-
-	@payrollmiddleast host payrollmiddleast.org
-	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
-
-	@pittant host www.pittant.com
-	redir @pittant https://pittant.com{uri} permanent
-
-	@peomiddleast host www.peomiddleast.com
-	redir @peomiddleast https://peomiddleast.com{uri} permanent
-
-	@kpmpro host www.kpmpro.ae
-	redir @kpmpro https://kpmpro.ae{uri} permanent
-
-	@companyformationsaudi host www.companyformationsaudi.com
-	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
-
-	@connectbusinesscenter host www.connectbusinesscenter.com
-	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
-
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
-
-	@mbs host www.mbs-consultancy.com
-	redir @mbs https://mbs-consultancy.com{uri} permanent
-
-	@connectzone host www.connectzone.ae
-	redir @connectzone https://connectzone.ae{uri} permanent
-
-	@emiratisationhub host www.emiratisationhub.com
-	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
-
-	@alburaq host www.alburaq.ae
-	redir @alburaq https://alburaq.ae{uri} permanent
-}
-
-
-# alburaq.ae -> alburaq.service (PORT 5120) — git template only until owner cutover
+# alburaq.ae -> alburaq.service (next-6 cutover)
 alburaq.ae, www.alburaq.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/alburaq.ae/alburaq.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/alburaq.ae/alburaq.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.alburaq.ae/www.alburaq.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.alburaq.ae/www.alburaq.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.alburaq.ae
