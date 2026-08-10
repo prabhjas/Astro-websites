@@ -10,7 +10,7 @@ body.l-body {
 }
 
 :root {
-  --header-height: 100px;
+  --header-height: 80px;
 }
 
 /* Fixed header offset — header sits in .mbs-site-header wrapper */
