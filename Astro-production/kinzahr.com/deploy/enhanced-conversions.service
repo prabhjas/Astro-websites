@@ -1,0 +1,13 @@
+[Unit]
+Description=Kinza enhanced conversions (Pipedrive → Google Ads) every 12h
+Requires=kinzahr.service
+After=kinzahr.service network-online.target
+
+[Service]
+Type=oneshot
+User=webdev
+# Secret must live in an EnvironmentFile readable by webdev (mode 640), not in this unit.
+EnvironmentFile=-/opt/Astro-production/kinzahr.com/.env.prod
+Environment=BASE_URL=https://kinzahr.com
+ExecStart=/opt/Astro-production/kinzahr.com/scripts/run-enhanced-jobs.sh
+Nice=10

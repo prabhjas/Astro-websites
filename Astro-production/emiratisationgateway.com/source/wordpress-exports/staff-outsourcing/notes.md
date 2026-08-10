@@ -1,0 +1,16 @@
+# staff-outsourcing export notes
+
+| Field | Value |
+|-------|-------|
+| Kind | page |
+| Live URL | https://emiratisationgateway.com/staff-outsourcing/ |
+| File | `index-https.html` |
+| Source | Live fetch via import-from-sitemap.mjs |
+| Added | 2026-08-06 |
+| Astro route | /staff-outsourcing/ |
+
+## Prepare
+
+```bash
+npm run prepare:page -- staff-outsourcing --download
+```

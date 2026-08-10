@@ -1,0 +1,22 @@
+# /etc/caddy/sites.d/mbs-consultancy.com.caddy
+# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
+# Origin SSL mode must be Full (not Full strict) — origin uses tls internal.
+# Cloudflare DNS must point apex (+ www) at this host before traffic reaches Astro.
+# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+
+http://mbs-consultancy.com, http://www.mbs-consultancy.com, https://mbs-consultancy.com, https://www.mbs-consultancy.com {
+	tls internal
+	encode gzip zstd
+	reverse_proxy 127.0.0.1:5099
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/mbs-consultancy.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

@@ -54,6 +54,19 @@ const organizationSchema = {
     <meta name="description" content={description} />
     <link rel="canonical" href={Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined} />
 
+    <!-- Open Graph / Twitter — SEO & AI crawler audit 2026-08-06 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CBSS" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site ? new URL(Astro.url.pathname, Astro.site).href : siteOrigin} />
+    <meta property="og:image" content={`${siteOrigin}/assets/images/cbss-logo.png`} />
+    <meta property="og:locale" content="en_AE" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteOrigin}/assets/images/cbss-logo.png`} />
+
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-74QG9D45EM"></script>

@@ -1,0 +1,114 @@
+/* Connect Freelance — site-wide visual polish (live parity helpers) */
+
+/* Global text color baseline when Elementor kit vars fail to load.
+   Do NOT force .elementor-widget-text-editor color — dark sections (payment/contact)
+   set white text via Elementor; a global override made body copy unreadable. */
+body {
+  color: #1a1b1a;
+}
+
+/* Top-level nav active only (not dropdown items — hover uses dark bg + white text) */
+.elementor-nav-menu > li > a.elementor-item.elementor-item-active,
+.elementor-nav-menu > li.current-menu-item > a.elementor-item,
+.elementor-nav-menu > li.current-menu-ancestor > a.elementor-item {
+  color: #b82e29 !important;
+}
+
+/* Dropdown hover/focus: white on charcoal (match live Elementor) */
+.elementor-nav-menu .elementor-nav-menu--dropdown a.elementor-sub-item:hover,
+.elementor-nav-menu .elementor-nav-menu--dropdown a.elementor-sub-item:focus,
+.elementor-nav-menu .elementor-nav-menu--dropdown a.elementor-sub-item.highlighted,
+.elementor-nav-menu .elementor-nav-menu--dropdown .current-menu-item > a.elementor-sub-item {
+  color: #ffffff !important;
+}
+
+/* Mailto / decoded CF emails — inherit surrounding text (avoid browser link blue) */
+a[href^='mailto:'],
+a.__cf_email__ {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+/* Insights / archive cards — equal-height only.
+   Do NOT force widget-wrap to flex-direction:column (breaks live date|Read More row). */
+.ecs-posts.elementor-grid {
+  align-items: stretch;
+}
+body:not(:has([data-cf-insights-layout])) .ecs-posts .elementor-post,
+body:not(:has([data-cf-insights-layout])) .ecs-posts article.elementor-post {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+body:not(:has([data-cf-insights-layout])) .ecs-posts .elementor-545,
+body:not(:has([data-cf-insights-layout])) .ecs-posts .elementor.elementor-545 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+body:not(:has([data-cf-insights-layout]))
+  .ecs-posts
+  .elementor-545
+  .elementor-element-11e3e38
+  > .elementor-widget-wrap {
+  flex: 1;
+  height: 100%;
+  align-content: space-between;
+}
+
+/* TOC readable grey + working anchors */
+.elementor-toc__list-item-text {
+  color: #54595f !important;
+  font-family: Inter, Lexend, Manrope, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.elementor-toc__list-item-text:hover {
+  color: #1a1b1a !important;
+}
+.elementor-toc__header-title {
+  color: #1a1b1a !important;
+  font-family: Lexend, Inter, sans-serif;
+  font-weight: 700;
+}
+.elementor-toc__spinner-container {
+  display: none;
+}
+.elementor-toc__body:has(.elementor-toc__list-wrapper) .elementor-toc__spinner-container {
+  display: none !important;
+}
+
+/* Blog single title — kit primary (near-black), not browser link blue */
+.elementor-widget-theme-post-title .elementor-heading-title,
+.elementor-widget-theme-post-title .elementor-heading-title a {
+  color: var(--e-global-color-primary, #1a1b1a) !important;
+  text-decoration: none;
+}
+
+/* Form labels — match live child-theme .main-form */
+.wpcf7 label,
+.main-form label,
+.contactform label {
+  color: #a5a3b7 !important;
+  font-family: "Plus Jakarta Sans", Inter, Lexend, Manrope, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 40px !important;
+}
+
+/* Archive category title */
+.astro-archive-heading {
+  font-family: Lexend, Inter, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: #1a1b1a !important;
+  margin: 8px 0 24px !important;
+}
+
+/* Hide stuck ECS loading affordance if our load-more JS not yet ready */
+.ecs-load-more-button a.elementor-button.disabled {
+  pointer-events: auto;
+  opacity: 1;
+}

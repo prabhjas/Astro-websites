@@ -1,0 +1,185 @@
+---
+/**
+ * Prefer full live HTML mirrors under src/legacy/<slug>.cleaned.html.
+ * Fallback to JSON page/post rendering when a mirror is missing.
+ */
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PostCard from "../components/PostCard.astro";
+import {
+  getCategories,
+  getPageByPath,
+  getPublishedPostByPath,
+  getRelatedPosts,
+  formatDate,
+  stripHtml,
+  normalizePath,
+} from "../lib/content";
+import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
+import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { notFoundResponse } from "../lib/not-found";
+import { pathToLegacySlug, serveLegacyPage } from "../lib/legacy-page";
+import { sanitizeMirrorHtml } from "@connect/site-cms";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slugPath = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/${slugPath}`);
+const legacySlug = pathToLegacySlug(path);
+const mirrorPath = join(process.cwd(), "src/legacy", `${legacySlug}.cleaned.html`);
+
+if (existsSync(mirrorPath)) {
+  return serveLegacyPage(legacySlug);
+}
+
+const page = getPageByPath(path);
+const post = page ? null : getPublishedPostByPath(path);
+
+if (!page && !post) {
+  return notFoundResponse();
+}
+
+const entry = page || post!;
+const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
+// Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
+const html = sanitizeMirrorHtml(
+  injectCanonicalCf7Forms(rawHtml, {
+    path,
+    variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
+  }),
+);
+const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
+
+const pageCrumbs = page
+  ? (() => {
+      const crumbs = [
+        { name: "Home", href: "/" },
+        { name: stripHtml(page.title), href: undefined as string | undefined },
+      ];
+      const parts = path.replace(/^\/|\/$/g, "").split("/").filter(Boolean);
+      if (parts.length >= 2) {
+        crumbs.splice(1, 0, {
+          name: parts[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+          href: `/${parts[0]}/`,
+        });
+      }
+      return crumbs;
+    })()
+  : [];
+
+const related = post ? getRelatedPosts(post, 3) : [];
+const postCrumbs = post
+  ? [
+      { name: "Home", href: "/" },
+      { name: "Blog", href: "/blog/" },
+      { name: stripHtml(post.title) },
+    ]
+  : [];
+
+function robotsDirective(seoRobots: unknown): string | undefined {
+  if (typeof seoRobots === "string" && seoRobots.trim()) return seoRobots.trim();
+  return undefined;
+}
+
+const seo = page
+  ? {
+      title: page.seo.title,
+      description: page.seo.description,
+      canonical: path,
+      ogImage: page.seo.ogImage,
+      robots: robotsDirective(page.seo.robots),
+      schemas: [
+        ...(page.seo.schemas || []),
+        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+      ],
+    }
+  : {
+      title: post!.seo.title || stripHtml(post!.title),
+      description: post!.seo.description || stripHtml(post!.excerpt),
+      canonical: path,
+      ogImage: post!.seo.ogImage || post!.featuredImage,
+      ogType: "article" as const,
+      robots: robotsDirective(post!.seo.robots),
+      publishedTime: post!.date,
+      modifiedTime: post!.modified,
+      authorName: post!.authorName,
+      schemas: [
+        ...(post!.seo.schemas || []),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        articleSchema(
+          {
+            title: stripHtml(post!.title),
+            description: post!.seo.description || stripHtml(post!.excerpt),
+            url: path,
+            image: post!.featuredImage || post!.seo.ogImage,
+            datePublished: post!.date,
+            dateModified: post!.modified,
+            authorName: post!.authorName,
+          },
+          Astro.url.origin,
+        ),
+      ],
+    };
+
+const extraCss = page
+  ? [
+      ...(page.pageCss || []),
+      page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+    ]
+  : [
+      ...(post!.pageCss || []),
+      post!.elementorCss || `/wp-content/uploads/elementor/css/post-${post!.id}.css`,
+    ];
+
+const postUsesElementor =
+  !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
+const postElementorId =
+  post?.bodyHtml?.match(/data-elementor-id="(\d+)"/)?.[1] || String(post?.id || "");
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={
+    page
+      ? `page page-id-${page.id}`
+      : postUsesElementor
+        ? `single single-post postid-${post!.id} post post-id-${post!.id} elementor-page elementor-page-${postElementorId}`
+        : `single single-post postid-${post!.id} post post-id-${post!.id}`
+  }
+  fallback={entry.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={post ? "/blog/" : undefined}
+>
+  {
+    page ? (
+      <div class="sp-page-content" set:html={html} />
+    ) : (
+      <article class="sp-single-post">
+        <Breadcrumbs items={postCrumbs} />
+        <header>
+          <h1 set:html={post!.title} />
+          <p>
+            {formatDate(post!.date)}
+            {post!.authorName ? ` · ${post!.authorName}` : ""}
+            {catNames.length ? ` · ${catNames.map((c) => c.name).join(", ")}` : ""}
+          </p>
+        </header>
+        <div class="sp-page-content" set:html={html} />
+        {related.length > 0 && (
+          <section>
+            <h2>Related</h2>
+            <div class="sp-blog-grid">
+              {related.map((p) => (
+                <PostCard post={p} />
+              ))}
+            </div>
+          </section>
+        )}
+      </article>
+    )
+  }
+</BaseLayout>

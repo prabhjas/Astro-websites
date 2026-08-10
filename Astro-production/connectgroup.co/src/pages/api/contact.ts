@@ -8,6 +8,7 @@ import { logFormFailure } from '../../services/logger';
 import { getClientIp, isRateLimited } from '../../utils/form/rate-limit';
 import { maskSensitiveValue } from '../../utils/form/mask';
 import { parseContactFormBody } from '../../utils/form/parse-contact-body';
+import { readRequestBodyLimited } from '../../utils/form/read-body-limited';
 import { validateContactForm, type ContactFormInput } from '../../utils/form/validate';
 
 export const prerender = false;
@@ -82,22 +83,48 @@ export const POST: APIRoute = async ({ request }) => {
 
   let input: ContactFormInput;
   try {
+
+    const limited = await readRequestBodyLimited(request, MAX_BODY_BYTES);
+    if (!limited.ok) {
+      logFormFailure({
+        requestId,
+        timestamp,
+        errorMessage: 'Request body too large',
+        errorCode: 'payload_too_large',
+      });
+      return jsonResponse(
+        { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+        413,
+      );
+    }
+    const bodyText = new TextDecoder('utf-8').decode(limited.bytes);
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-      input = (await request.json()) as ContactFormInput;
-    } else {
-      const formData = await request.formData();
+      const json = (bodyText ? JSON.parse(bodyText) : {}) as Record<string, unknown>;
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
-      formData.forEach((value, key) => {
+      for (const [key, value] of Object.entries(json || {})) {
+        if (Array.isArray(value)) {
+          arrays[key] = value.map((v) => String(v));
+        } else if (value != null && typeof value !== 'object') {
+          raw[key] = String(value);
+        }
+      }
+      input = parseContactFormBody(raw, arrays);
+    } else {
+      const params = new URLSearchParams(bodyText);
+      const raw: Record<string, FormDataEntryValue> = {};
+      const arrays: Record<string, string[]> = {};
+      for (const key of new Set(params.keys())) {
+        const values = params.getAll(key);
         if (key.endsWith('[]')) {
           const arrayKey = key.slice(0, -2);
-          if (!arrays[arrayKey]) arrays[arrayKey] = [];
-          arrays[arrayKey].push(String(value));
-          return;
+          arrays[arrayKey] = values.map(String);
+          continue;
         }
-        raw[key] = value;
-      });
+        if (values.length > 1) arrays[key] = values.map(String);
+        raw[key] = values[0] ?? '';
+      }
       input = parseContactFormBody(raw, arrays);
     }
   } catch {

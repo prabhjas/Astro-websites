@@ -1,0 +1,2023 @@
+<!doctype html>
+<html lang="en-US" prefix="og: https://ogp.me/ns#">
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+			<script type="text/rocketlazyloadscript">
+		(function(){
+			window.ecsSchemeConfig={systemAuto:false,darkLogoUrl:""};
+			var m=document.cookie.match(/(?:^|;\s*)ecs_color_scheme=([^;]+)/);
+			if(m&&m[1]==='alt'){
+				document.documentElement.setAttribute('data-ecs-scheme','alt');
+			}else if(!m&&false){
+				if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){
+					document.documentElement.setAttribute('data-ecs-scheme','alt');
+				}
+			}
+		})();
+		</script>
+		
+<!-- Search Engine Optimization by Rank Math PRO - https://rankmath.com/ -->
+<title>Freelance Visa Dubai for Filipino, All You Need to Know</title><link rel="preload" data-rocket-preload as="image" href="https://connectfreelance.ae/wp-content/uploads/2024/07/Insights-post-hero-image-Desktop.webp" fetchpriority="high">
+<meta name="description" content="Discover all you need to know about obtaining a freelance visa Dubai for Filipino, including requirements, benefits, &amp; application steps."/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://connectfreelance.ae/freelance-visa-dubai-for-filipino/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Freelance Visa Dubai for Filipino, All You Need to Know" />
+<meta property="og:description" content="Discover all you need to know about obtaining a freelance visa Dubai for Filipino, including requirements, benefits, &amp; application steps." />
+<meta property="og:url" content="https://connectfreelance.ae/freelance-visa-dubai-for-filipino/" />
+<meta property="og:site_name" content="Connect Freelance" />
+<meta property="article:section" content="Freelance Visa" />
+<meta property="og:updated_time" content="2025-09-15T11:45:40+00:00" />
+<meta property="og:image" content="https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp" />
+<meta property="og:image:secure_url" content="https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="freelance visa dubai for filipino" />
+<meta property="og:image:type" content="image/webp" />
+<meta property="article:published_time" content="2025-01-09T04:51:11+00:00" />
+<meta property="article:modified_time" content="2025-09-15T11:45:40+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Freelance Visa Dubai for Filipino, All You Need to Know" />
+<meta name="twitter:description" content="Discover all you need to know about obtaining a freelance visa Dubai for Filipino, including requirements, benefits, &amp; application steps." />
+<meta name="twitter:image" content="https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp" />
+<meta name="twitter:label1" content="Written by" />
+<meta name="twitter:data1" content="Timothy Duncan" />
+<meta name="twitter:label2" content="Time to read" />
+<meta name="twitter:data2" content="4 minutes" />
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://connectfreelance.ae/#organization","name":"Connect Freelance","url":"https://connectfreelance.ae"},{"@type":"WebSite","@id":"https://connectfreelance.ae/#website","url":"https://connectfreelance.ae","name":"Connect Freelance","publisher":{"@id":"https://connectfreelance.ae/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp","url":"https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp","width":"1920","height":"1080","caption":"freelance visa dubai for filipino","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://connectfreelance.ae","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/","name":"Freelance Visa Dubai for Filipino, Everything You Need to Know"}}]},{"@type":"WebPage","@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#webpage","url":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/","name":"Freelance Visa Dubai for Filipino, All You Need to Know","datePublished":"2025-01-09T04:51:11+00:00","dateModified":"2025-09-15T11:45:40+00:00","isPartOf":{"@id":"https://connectfreelance.ae/#website"},"primaryImageOfPage":{"@id":"https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp"},"inLanguage":"en-US","breadcrumb":{"@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#breadcrumb"}},{"@type":"Person","@id":"https://connectfreelance.ae/author/timothy-duncan/","name":"Timothy Duncan","description":"Timothy Duncan is an accomplished Business Development Manager with a proven track record of driving revenue growth and fostering strategic partnerships. With over 10 years of experience in the field, Timothy possesses a keen understanding of market dynamics and a knack for identifying lucrative business opportunities. His expertise lies in formulating and executing innovative strategies to expand market presence and maximize profitability. Timothy is a results-driven professional known for his strong negotiation skills, exceptional communication abilities, and ability to cultivate long-term client relationships.","url":"https://connectfreelance.ae/author/timothy-duncan/","image":{"@type":"ImageObject","@id":"https://dev.connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-96x96.png","url":"https://dev.connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-96x96.png","caption":"Timothy Duncan","inLanguage":"en-US"}},{"@type":"BlogPosting","headline":"Freelance Visa Dubai for Filipino, All You Need to Know","keywords":"freelance visa dubai for filipino","datePublished":"2025-01-09T04:51:11+00:00","dateModified":"2025-09-15T11:45:40+00:00","author":{"@id":"https://connectfreelance.ae/author/timothy-duncan/","name":"Timothy Duncan"},"publisher":{"@id":"https://connectfreelance.ae/#organization"},"description":"Discover all you need to know about obtaining a freelance visa Dubai for Filipino, including requirements, benefits, &amp; application steps.","name":"Freelance Visa Dubai for Filipino, All You Need to Know","@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#richSnippet","isPartOf":{"@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#webpage"},"image":{"@id":"https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/#webpage"}}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://connectfreelance.ae/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fconnectfreelance.ae%2Ffreelance-visa-dubai-for-filipino%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://connectfreelance.ae/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fconnectfreelance.ae%2Ffreelance-visa-dubai-for-filipino%2F&#038;format=xml" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://connectfreelance.ae/wp-includes/css/dist/block-library/style.min.css?ver=7.0.2' media='all' />
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: 800px;--wp--style--global--wide-size: 1200px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:root :where(.wp-block-icon svg){width: 24px;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='fv-chatbot-css-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ai-chatbot-plugin-final-fixed-working/assets/css/chatbot.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://connectfreelance.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=7.0.2' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://connectfreelance.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=7.0.2' media='all' />
+<link data-minify="1" rel='stylesheet' id='wpa-css-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-theme-style-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='hello-elementor-header-footer-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/custom-frontend.min.css?ver=1784316579' media='all' />
+<style id="elementor-frontend-inline-css">
+.wpr-dc-hidden{display:none!important}.wpr-dc-fallback{margin:0;padding:0}
+/*# sourceURL=elementor-frontend-inline-css */
+</style>
+<link rel='stylesheet' id='elementor-post-6-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/post-6.css?ver=1784316579' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-color-scheme-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-container-layout-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='swiper-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='e-swiper-css' href='https://connectfreelance.ae/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=4.1.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-mobile-menu-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-editorial-text-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='widget-image-css' href='https://connectfreelance.ae/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-nav-menu-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/custom-pro-widget-nav-menu.min.css?ver=1784316579' media='all' />
+<link rel='stylesheet' id='e-sticky-css' href='https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='widget-heading-css' href='https://connectfreelance.ae/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-social-icons-css' href='https://connectfreelance.ae/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='e-apple-webkit-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/custom-apple-webkit.min.css?ver=1784316579' media='all' />
+<link rel='stylesheet' id='widget-icon-list-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/custom-widget-icon-list.min.css?ver=1784316579' media='all' />
+<link rel='stylesheet' id='widget-post-info-css' href='https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='widget-share-buttons-css' href='https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/css/widget-share-buttons.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='widget-table-of-contents-css' href='https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/css/widget-table-of-contents.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='widget-posts-css' href='https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='elementor-post-25-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/post-25.css?ver=1784316579' media='all' />
+<link rel='stylesheet' id='elementor-post-33-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/post-33.css?ver=1784316580' media='all' />
+<link rel='stylesheet' id='elementor-post-623-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/post-623.css?ver=1784316613' media='all' />
+<link rel='stylesheet' id='orbisius_ct_hello_elementor_child_theme_parent_style-css' href='https://connectfreelance.ae/wp-content/themes/hello-elementor/style.css?ver=1777358023' media='all' />
+<link data-minify="1" rel='stylesheet' id='orbisius_ct_hello_elementor_child_theme_parent_style_child_style-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor-child-theme/style.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='wpr-text-animations-css-css' href='https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/css/lib/animations/text-animations.min.css?ver=1.7.1063' media='all' />
+<link rel='stylesheet' id='wpr-addons-css-css' href='https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/css/frontend.min.css?ver=1.7.1063' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-5-all-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-styles-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css?ver=1784316581' media='all' />
+<link rel='stylesheet' id='elementor-post-545-css' href='https://connectfreelance.ae/wp-content/uploads/elementor/css/post-545.css?ver=1721881890' media='all' />
+<style id="rocket-lazyload-inline-css">
+.rll-youtube-player{position:relative;padding-bottom:56.23%;height:0;overflow:hidden;max-width:100%;}.rll-youtube-player:focus-within{outline: 2px solid currentColor;outline-offset: 5px;}.rll-youtube-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;background:0 0}.rll-youtube-player img{bottom:0;display:block;left:0;margin:auto;max-width:100%;width:100%;position:absolute;right:0;top:0;border:none;height:auto;-webkit-transition:.4s all;-moz-transition:.4s all;transition:.4s all}.rll-youtube-player img:hover{-webkit-filter:brightness(75%)}.rll-youtube-player .play{height:100%;width:100%;left:0;top:0;position:absolute;background:url(https://connectfreelance.ae/wp-content/plugins/wp-rocket/assets/img/youtube.png) no-repeat center;background-color: transparent !important;cursor:pointer;border:none;}.wp-embed-responsive .wp-has-aspect-ratio .rll-youtube-player{position:absolute;padding-bottom:0;width:100%;height:100%;top:0;bottom:0;left:0;right:0}
+/*# sourceURL=rocket-lazyload-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-lexend-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/lexend.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-kanit-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/kanit.css?ver=1784316581' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-manrope-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/manrope.css?ver=1784316581' media='all' />
+<script type="text/rocketlazyloadscript" id="jquery-core-js" data-cfasync="false" data-rocket-src="https://connectfreelance.ae/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-migrate-js" data-cfasync="false" data-rocket-src="https://connectfreelance.ae/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" data-rocket-defer defer></script>
+<script id="ecs_ajax_load-js-extra">
+var ecs_ajax_params = {"ajaxurl":"https://connectfreelance.ae/wp-admin/admin-ajax.php","posts":"{\"page\":0,\"name\":\"freelance-visa-dubai-for-filipino\",\"error\":\"\",\"m\":\"\",\"p\":0,\"post_parent\":\"\",\"subpost\":\"\",\"subpost_id\":\"\",\"attachment\":\"\",\"attachment_id\":0,\"pagename\":\"\",\"page_id\":0,\"second\":\"\",\"minute\":\"\",\"hour\":\"\",\"day\":0,\"monthnum\":0,\"year\":0,\"w\":0,\"category_name\":\"\",\"tag\":\"\",\"cat\":\"\",\"tag_id\":\"\",\"author\":\"\",\"author_name\":\"\",\"feed\":\"\",\"tb\":\"\",\"paged\":0,\"meta_key\":\"\",\"meta_value\":\"\",\"preview\":\"\",\"s\":\"\",\"sentence\":\"\",\"title\":\"\",\"fields\":\"all\",\"menu_order\":\"\",\"embed\":\"\",\"category__in\":[],\"category__not_in\":[],\"category__and\":[],\"post__in\":[],\"post__not_in\":[],\"post_name__in\":[],\"tag__in\":[],\"tag__not_in\":[],\"tag__and\":[],\"tag_slug__in\":[],\"tag_slug__and\":[],\"post_parent__in\":[],\"post_parent__not_in\":[],\"author__in\":[],\"author__not_in\":[],\"search_columns\":[],\"ignore_sticky_posts\":false,\"suppress_filters\":false,\"cache_results\":true,\"update_post_term_cache\":true,\"update_menu_item_cache\":false,\"lazy_load_term_meta\":true,\"update_post_meta_cache\":true,\"post_type\":\"\",\"posts_per_page\":10,\"nopaging\":false,\"comments_per_page\":\"50\",\"no_found_rows\":false,\"order\":\"DESC\"}"};
+//# sourceURL=ecs_ajax_load-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs_ajax_load-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js?ver=1782374550" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-script-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs.js?ver=1782374550" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://connectfreelance.ae/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://connectfreelance.ae/wp-json/wp/v2/posts/23113" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://connectfreelance.ae/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0.2" />
+<link rel='shortlink' href='https://connectfreelance.ae/?p=23113' />
+<!-- Google Tag Manager -->
+<script type="text/rocketlazyloadscript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NN6Z3Q5');</script>
+<!-- End Google Tag Manager --><meta name="generator" content="Elementor 4.1.4; features: e_font_icon_svg, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Freelance Visa Dubai",
+  "image": "https://connectfreelance.ae/wp-content/uploads/2023/03/logo-Connect-Freelance-color-small.png",
+  "@id": "",
+  "url": "https://connectfreelance.ae/",
+  "telephone": "+971 43316688",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Head Office:- City Tower 2, Office 804, Sheikh Zayed Road, Dubai, United Arab Emirates",
+    "addressLocality": "Dubai",
+    "postalCode": "500001",
+    "addressCountry": "AE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 25.0692834,
+    "longitude": 55.1417222
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Monday",
+    "opens": "09:00",
+    "closes": "06:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Tuesday",
+    "opens": "09:00",
+    "closes": "06:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Wednesday",
+    "opens": "09:00",
+    "closes": "06:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Thursday",
+    "opens": "09:00",
+    "closes": "06:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Friday",
+    "opens": "09:00",
+    "closes": "06:00"
+  },{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": "Saturday",
+    "opens": "09:00",
+    "closes": "06:00"
+   }] 
+}
+</script>
+			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<link rel="icon" href="https://connectfreelance.ae/wp-content/uploads/2024/09/fav-new.png" sizes="32x32" />
+<link rel="icon" href="https://connectfreelance.ae/wp-content/uploads/2024/09/fav-new.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://connectfreelance.ae/wp-content/uploads/2024/09/fav-new.png" />
+<meta name="msapplication-TileImage" content="https://connectfreelance.ae/wp-content/uploads/2024/09/fav-new.png" />
+<style id="wp-custom-css">
+/* Lp form Css */
+#lp-form {
+    border-radius: 20px;
+    background: #FFF;
+    padding: 20px;
+    padding-bottom:0px;
+}
+
+#lp-form label span{
+    color: #F46554;
+}
+
+
+#lp-form label {
+    color: #021212;
+    font-family: "Special Gothic";
+    font-size: 14px;
+    font-weight: 400 !important;
+    line-height: 21px;
+}
+
+#lp-form input , #lp-form select , #lp-form textarea{
+    border:none;
+    border-bottom: 1px solid #EBECEC;
+    padding-left:0px
+    
+}
+
+#lp-form input::placeholder , #lp-form textarea::placeholder , #lp-form textarea::placeholder , #lp-form select:first-child { 
+    color: #CCC;
+    font-family: "Special Gothic";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22.4px ;
+    letter-spacing: -0.32px;
+}
+
+#lp-form .intl-tel-input.separate-dial-code .selected-flag {
+    background:none;
+}
+
+#lp-form textarea{
+    height: 48px;
+}
+
+#lp-form input[type="submit"]{
+    width:100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #021212;
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+/* End */
+
+.headervedio.elementor-widget-video .elementor-wrapper{
+    aspect-ratio:auto;
+}
+
+
+
+/* Pricing css */
+
+
+.counter {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    font-family: "Special Gothic";
+    
+  }
+
+  .counter button {
+    width: 26px;
+    height: 26px;
+    border:2px solid #021212;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight:bold;
+    cursor: pointer;
+    padding:0px;
+    color:#021212;
+  }
+
+    .counter button:hover , .counter button:focus {
+      background: none; 
+    }
+    .counter span {
+      font-size: 16px;;
+       font-weight:bold;
+      line-height:19px;
+      color:#021212;
+      letter-spacing: -0.32px;
+    }
+
+
+
+  .price {
+    font-family: "Special Gothic";
+    color: #021212;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 38.4px;
+    letter-spacing: -0.64px;
+		margin-top: 40px;
+		margin-bottom:14px;
+  }
+
+  .extra {
+    color: #021212;
+    font-family: "Special Gothic";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: -0.48px;
+  }
+}
+/* End  */
+
+
+
+
+
+.selected-flag {
+    min-width: 100px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+} 
+
+.fourbox{
+    background-color: #FEDAFF;
+    border-radius: 15px 15px 15px 15px;
+    min-height: 220px;
+}
+
+
+
+/* author template */
+
+
+.author-sec2 {
+    text-align: center;
+}
+
+.auth-name {
+    display:flex;
+    justify-content:center; 
+    align-items:baseline;
+}
+
+.auth-name img{
+    width:25px;
+    height:25px;
+}
+
+.auth-name h2 {
+    color: #1E1E1E;
+    text-align: center;
+    font-family: Inter;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 0px;
+    margin-right: 15px;
+}
+
+.auth-desig span {
+    color: #ADB5BD;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.auth-bio p {
+    color: #1E1E1E;
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+	  margin-top:15px;
+}
+
+
+
+.author-sec2 {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.filter-wrap{
+    display:flex;
+    justify-content:space-between;
+	  align-items: center;
+}
+
+
+.filter-box span {
+    color: #0B1347;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;  
+}
+
+.filter-post {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px !important;
+    margin-top: 70px;
+}
+
+.post-wrap img{
+    width:100%;
+    margin-bottom:10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.post-wrap span{
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height:25.6px; 
+    letter-spacing: 0.32px;
+    font-family: "SF Pro Display", SF Pro Display;
+}
+
+.post-wrap h3 {
+    color: #000;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px !important;
+    letter-spacing: 0.48px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-wrap p {
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.36px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-wrap{
+   background:#fff; 
+   box-shadow: 0px 4px 15px -5px rgba(0,0,0,0.1);
+   border-radius: 10px;
+}
+
+.post-ct {
+    padding: 30px 15px;
+    padding-top: 10px;
+}
+
+.filter-wrap h2{
+    color: #000;
+    font-family: SF Pro Display;
+    font-size: 26px;
+    font-style: normal;
+}
+
+.author-sec1 {
+    background-image:url(/wp-content/uploads/2024/05/Banner.jpg);
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+
+.auth-img img {
+    width: 250px;
+		margin:auto;
+}
+
+.main-profile {
+  display: none;
+}
+
+#loadMore {
+    text-align: center;
+    margin-top: 60px;
+	 transition: .3s;
+}
+
+#loadMore a{
+    border:2px solid #b82e29;
+    padding:10px 20px;
+    color:#b82e29;
+}
+
+</style>
+<style id="wpr_lightbox_styles">
+				.lg-backdrop {
+					background-color: rgba(0,0,0,0.6) !important;
+				}
+				.lg-toolbar,
+				.lg-dropdown {
+					background-color: rgba(0,0,0,0.8) !important;
+				}
+				.lg-dropdown:after {
+					border-bottom-color: rgba(0,0,0,0.8) !important;
+				}
+				.lg-sub-html {
+					background-color: rgba(0,0,0,0.8) !important;
+				}
+				.lg-thumb-outer,
+				.lg-progress-bar {
+					background-color: #444444 !important;
+				}
+				.lg-progress {
+					background-color: #a90707 !important;
+				}
+				.lg-icon {
+					color: #efefef !important;
+					font-size: 20px !important;
+				}
+				.lg-icon.lg-toogle-thumb {
+					font-size: 24px !important;
+				}
+				.lg-icon:hover,
+				.lg-dropdown-text:hover {
+					color: #ffffff !important;
+				}
+				.lg-sub-html,
+				.lg-dropdown-text {
+					color: #efefef !important;
+					font-size: 14px !important;
+				}
+				#lg-counter {
+					color: #efefef !important;
+					font-size: 14px !important;
+				}
+				.lg-prev,
+				.lg-next {
+					font-size: 35px !important;
+				}
+
+				/* Defaults */
+				.lg-icon {
+				background-color: transparent !important;
+				}
+
+				#lg-counter {
+				opacity: 0.9;
+				}
+
+				.lg-thumb-outer {
+				padding: 0 10px;
+				}
+
+				.lg-thumb-item {
+				border-radius: 0 !important;
+				border: none !important;
+				opacity: 0.5;
+				}
+
+				.lg-thumb-item.active {
+					opacity: 1;
+				}
+	         </style><noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><style id="rocket-lazyrender-inline-css">[data-wpr-lazyrender] {content-visibility: auto;}</style><meta name="generator" content="WP Rocket 3.22.0.2" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_lazyload_images wpr_lazyload_iframes wpr_automatic_lazy_rendering wpr_oci wpr_minify_css wpr_cdn wpr_host_fonts_locally" /></head>
+<body class="wp-singular post-template-default single single-post postid-23113 single-format-standard wp-embed-responsive wp-theme-hello-elementor wp-child-theme-hello-elementor-child-theme hello-elementor-default elementor-default elementor-kit-6 elementor-page-623">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NN6Z3Q5"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<header  data-elementor-type="header" data-elementor-id="25" class="elementor elementor-25 elementor-location-header" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-af1ad56 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="af1ad56" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;sticky&quot;:&quot;top&quot;,&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_offset&quot;:0,&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-b8851d6" data-id="b8851d6" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5462a53 elementor-widget__width-auto elementor-widget elementor-widget-image" data-id="5462a53" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="/">
+							<img width="341" height="100" src="https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf.png" class="attachment-full size-full wp-image-22844" alt="connect freelance logo" srcset="https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf.png 341w, https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf-300x88.png 300w" sizes="(max-width: 341px) 100vw, 341px" />								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-0b5c271 elementor-widget__width-auto e--pointer-none elementor-nav-menu--stretch ecs-nav-layout-horizontal elementor-nav-menu--dropdown-tablet elementor-nav-menu--toggle elementor-nav-menu--burger ecs-toggle-align-center elementor-widget elementor-widget-nav-menu" data-id="0b5c271" data-element_type="widget" data-e-type="widget" data-settings="{&quot;full_width&quot;:&quot;stretch&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;svg aria-hidden=\&quot;true\&quot; class=\&quot;e-font-icon-svg e-fas-caret-down\&quot; viewBox=\&quot;0 0 320 512\&quot; xmlns=\&quot;http:\/\/www.w3.org\/2000\/svg\&quot;&gt;&lt;path d=\&quot;M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z\&quot;&gt;&lt;\/path&gt;&lt;\/svg&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+								<nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-none">
+				<ul id="menu-1-0b5c271" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-17"><a href="https://connectfreelance.ae/" class="elementor-item">Home</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-18"><a href="https://connectfreelance.ae/about-us/" class="elementor-item">About us</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1079"><a href="https://connectfreelance.ae/insights/" class="elementor-sub-item">Insights</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-19"><a href="https://connectfreelance.ae/freelance-visa-services/" class="elementor-item">Services</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1065"><a href="https://connectfreelance.ae/freelance-license-in-dubai/" class="elementor-sub-item">Freelance License</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1066"><a href="https://connectfreelance.ae/freelance-work-permit/" class="elementor-sub-item">Freelance Work Permit</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1067"><a href="https://connectfreelance.ae/residence-visa-uae/" class="elementor-sub-item">Residence visa uae</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-20"><a href="https://connectfreelance.ae/freelance-affiliate-partnership/" class="elementor-item">Become a Partner</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-21"><a href="#" class="elementor-item elementor-item-anchor">Insurance</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1069"><a href="https://connectfreelance.ae/fire-insurance-plan-in-dubai-uae/" class="elementor-sub-item">Fire Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1068"><a href="https://connectfreelance.ae/travel-insurance/" class="elementor-sub-item">Travel Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1073"><a href="https://connectfreelance.ae/property-insurance/" class="elementor-sub-item">Property Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1074"><a href="https://connectfreelance.ae/personal-accident-insurance-in-dubai-uae/" class="elementor-sub-item">Accident Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1076"><a href="https://connectfreelance.ae/maternity-insurance/" class="elementor-sub-item">Maternity Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1077"><a href="https://connectfreelance.ae/term-life-insurance-dubai-uae/" class="elementor-sub-item">Term Life Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1078"><a href="https://connectfreelance.ae/car-insurance/" class="elementor-sub-item">Car Insurance</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-22"><a href="https://connectfreelance.ae/payment/" class="elementor-item">Payment</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="https://connectfreelance.ae/contact-us/" class="elementor-item">Contact us</a></li>
+</ul>			</nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<span class="elementor-menu-toggle__icon--open"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 2C0 1.60218 0.158035 1.22064 0.43934 0.93934C0.720644 0.658036 1.10218 0.5 1.5 0.5H19.5C19.8978 0.5 20.2794 0.658036 20.5607 0.93934C20.842 1.22064 21 1.60218 21 2C21 2.39782 20.842 2.77936 20.5607 3.06066C20.2794 3.34196 19.8978 3.5 19.5 3.5H1.5C1.10218 3.5 0.720644 3.34196 0.43934 3.06066C0.158035 2.77936 0 2.39782 0 2ZM0 9.5C0 9.10218 0.158035 8.72064 0.43934 8.43934C0.720644 8.15804 1.10218 8 1.5 8H19.5C19.8978 8 20.2794 8.15804 20.5607 8.43934C20.842 8.72064 21 9.10218 21 9.5C21 9.89782 20.842 10.2794 20.5607 10.5607C20.2794 10.842 19.8978 11 19.5 11H1.5C1.10218 11 0.720644 10.842 0.43934 10.5607C0.158035 10.2794 0 9.89782 0 9.5ZM9 17C9 16.6022 9.15804 16.2206 9.43934 15.9393C9.72064 15.658 10.1022 15.5 10.5 15.5H19.5C19.8978 15.5 20.2794 15.658 20.5607 15.9393C20.842 16.2206 21 16.6022 21 17C21 17.3978 20.842 17.7794 20.5607 18.0607C20.2794 18.342 19.8978 18.5 19.5 18.5H10.5C10.1022 18.5 9.72064 18.342 9.43934 18.0607C9.15804 17.7794 9 17.3978 9 17Z" fill="#1A1B1A"></path></svg></span><svg aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close e-font-icon-svg e-eicon-close" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M742 167L500 408 258 167C246 154 233 150 217 150 196 150 179 158 167 167 154 179 150 196 150 212 150 229 154 242 171 254L408 500 167 742C138 771 138 800 167 829 196 858 225 858 254 829L496 587 738 829C750 842 767 846 783 846 800 846 817 842 829 829 842 817 846 804 846 783 846 767 842 750 829 737L588 500 833 258C863 229 863 200 833 171 804 137 775 137 742 167Z"></path></svg>		</div>
+					<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true">
+				<ul id="menu-2-0b5c271" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-17"><a href="https://connectfreelance.ae/" class="elementor-item" tabindex="-1">Home</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-18"><a href="https://connectfreelance.ae/about-us/" class="elementor-item" tabindex="-1">About us</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1079"><a href="https://connectfreelance.ae/insights/" class="elementor-sub-item" tabindex="-1">Insights</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-19"><a href="https://connectfreelance.ae/freelance-visa-services/" class="elementor-item" tabindex="-1">Services</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1065"><a href="https://connectfreelance.ae/freelance-license-in-dubai/" class="elementor-sub-item" tabindex="-1">Freelance License</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1066"><a href="https://connectfreelance.ae/freelance-work-permit/" class="elementor-sub-item" tabindex="-1">Freelance Work Permit</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1067"><a href="https://connectfreelance.ae/residence-visa-uae/" class="elementor-sub-item" tabindex="-1">Residence visa uae</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-20"><a href="https://connectfreelance.ae/freelance-affiliate-partnership/" class="elementor-item" tabindex="-1">Become a Partner</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-21"><a href="#" class="elementor-item elementor-item-anchor" tabindex="-1">Insurance</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1069"><a href="https://connectfreelance.ae/fire-insurance-plan-in-dubai-uae/" class="elementor-sub-item" tabindex="-1">Fire Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1068"><a href="https://connectfreelance.ae/travel-insurance/" class="elementor-sub-item" tabindex="-1">Travel Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1073"><a href="https://connectfreelance.ae/property-insurance/" class="elementor-sub-item" tabindex="-1">Property Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1074"><a href="https://connectfreelance.ae/personal-accident-insurance-in-dubai-uae/" class="elementor-sub-item" tabindex="-1">Accident Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1076"><a href="https://connectfreelance.ae/maternity-insurance/" class="elementor-sub-item" tabindex="-1">Maternity Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1077"><a href="https://connectfreelance.ae/term-life-insurance-dubai-uae/" class="elementor-sub-item" tabindex="-1">Term Life Insurance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1078"><a href="https://connectfreelance.ae/car-insurance/" class="elementor-sub-item" tabindex="-1">Car Insurance</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-22"><a href="https://connectfreelance.ae/payment/" class="elementor-item" tabindex="-1">Payment</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="https://connectfreelance.ae/contact-us/" class="elementor-item" tabindex="-1">Contact us</a></li>
+</ul>			</nav>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-0c083c5 elementor-widget__width-auto elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-button" data-id="0c083c5" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">CALL US NOW</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</header>
+				<div  data-elementor-type="single-post" data-elementor-id="623" class="elementor elementor-623 elementor-location-single post-23113 post type-post status-publish format-standard has-post-thumbnail hentry category-freelance-visa" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-211efa1 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="211efa1" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-1d1212b" data-id="1d1212b" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-addc27e elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="addc27e" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-6ed1b5c" data-id="6ed1b5c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d647931 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="d647931" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+															<img  width="800" height="450" src="https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino-1024x576.webp" class="attachment-large size-large wp-image-23115" alt="freelance visa dubai for filipino" srcset="https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino-1024x576.webp 1024w, https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino-300x169.webp 300w, https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino-768x432.webp 768w, https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino-1536x864.webp 1536w, https://connectfreelance.ae/wp-content/uploads/2025/01/freelance-visa-dubai-for-filipino.webp 1920w" sizes="(max-width: 800px) 100vw, 800px" />															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-692fc0b" data-id="692fc0b" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-ffc0f14 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="ffc0f14" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">Freelance Visa Dubai for Filipino, Everything You Need to Know</h1>				</div>
+				</div>
+				<div class="elementor-element elementor-element-f696b51 elementor-widget elementor-widget-post-info" data-id="f696b51" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-2d133f6 elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+							<span class="elementor-post-info__item-prefix">Updated</span>
+										<time>January 9, 2025</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-5f08703 elementor-inline-item">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-time">
+										<time>4:51 am</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-6b84fe3 elementor-inline-item" itemprop="author">
+						<a href="https://connectfreelance.ae/author/timothy-duncan/">
+														<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										Timothy Duncan					</span>
+									</a>
+				</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-49e1a2f elementor-widget__width-auto elementor-widget elementor-widget-heading" data-id="49e1a2f" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<span class="elementor-heading-title elementor-size-default">SHARE:</span>				</div>
+				</div>
+				<div class="elementor-element elementor-element-1f1420e elementor-share-buttons--view-icon elementor-widget__width-auto elementor-share-buttons--skin-gradient elementor-share-buttons--shape-square elementor-grid-0 elementor-share-buttons--color-official elementor-widget elementor-widget-share-buttons" data-id="1f1420e" data-element_type="widget" data-e-type="widget" data-widget_type="share-buttons.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-grid" role="list">
+								<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_facebook" role="button" tabindex="0" aria-label="Share on facebook">
+															<span class="elementor-share-btn__icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fab-facebook" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>							</span>
+																				</div>
+					</div>
+									<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_twitter" role="button" tabindex="0" aria-label="Share on twitter">
+															<span class="elementor-share-btn__icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fab-twitter" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>							</span>
+																				</div>
+					</div>
+									<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_linkedin" role="button" tabindex="0" aria-label="Share on linkedin">
+															<span class="elementor-share-btn__icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>							</span>
+																				</div>
+					</div>
+									<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_whatsapp" role="button" tabindex="0" aria-label="Share on whatsapp">
+															<span class="elementor-share-btn__icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fab-whatsapp" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>							</span>
+																				</div>
+					</div>
+						</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section  class="elementor-section elementor-top-section elementor-element elementor-element-ddcf736 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="ddcf736" data-element_type="section" data-e-type="section">
+						<div  class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-66 elementor-top-column elementor-element elementor-element-cc51779" data-id="cc51779" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a12f36d elementor-toc--minimized-on-tablet elementor-widget elementor-widget-table-of-contents" data-id="a12f36d" data-element_type="widget" data-e-type="widget" data-settings="{&quot;headings_by_tags&quot;:[&quot;h2&quot;,&quot;h3&quot;,&quot;h4&quot;],&quot;container&quot;:&quot;.toc-control&quot;,&quot;exclude_headings_by_selector&quot;:[],&quot;no_headings_message&quot;:&quot;No headings were found on this page.&quot;,&quot;marker_view&quot;:&quot;numbers&quot;,&quot;minimize_box&quot;:&quot;yes&quot;,&quot;minimized_on&quot;:&quot;tablet&quot;,&quot;hierarchical_view&quot;:&quot;yes&quot;,&quot;min_height&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;min_height_laptop&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;min_height_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;min_height_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="table-of-contents.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-toc__header">
+						<h2 class="elementor-toc__header-title">
+				Table of Contents			</h2>
+										<div class="elementor-toc__toggle-button elementor-toc__toggle-button--expand" role="button" tabindex="0" aria-controls="elementor-toc__a12f36d" aria-expanded="true" aria-label="Open table of contents"><svg aria-hidden="true" class="e-font-icon-svg e-fas-chevron-down" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path></svg></div>
+				<div class="elementor-toc__toggle-button elementor-toc__toggle-button--collapse" role="button" tabindex="0" aria-controls="elementor-toc__a12f36d" aria-expanded="true" aria-label="Close table of contents"><svg aria-hidden="true" class="e-font-icon-svg e-fas-chevron-up" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"></path></svg></div>
+					</div>
+				<div id="elementor-toc__a12f36d" class="elementor-toc__body">
+			<div class="elementor-toc__spinner-container">
+				<svg class="elementor-toc__spinner eicon-animation-spin e-font-icon-svg e-eicon-loading" aria-hidden="true" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M500 975V858C696 858 858 696 858 500S696 142 500 142 142 304 142 500H25C25 237 238 25 500 25S975 237 975 500 763 975 500 975Z"></path></svg>			</div>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-d2e2108 toc-control elementor-widget elementor-widget-theme-post-content" data-id="d2e2108" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-content.default">
+				<div class="elementor-widget-container">
+					<p><span style="font-weight: 400;">Indeed, Dubai has arisen as a worldwide center point for freelancers. This energetic city offers a powerful climate for experts to flourish. Understanding the complexities of the freelance visa for Filipino, is essential. Particularly for Filipinos seeking to leverage this opportunity.</span></p>
+<p><span style="font-weight: 400;">In this guide, we will provide a comprehensive overview of the:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Freelance visa process</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Their eligibility criteria</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Required documents, and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Cost of acquiring this visa</span></li>
+</ul>
+<p><span style="font-weight: 400;">Let’s start exploring the details to know how you can obtain a freelance visa Dubai for Filipino.</span></p>
+<p><span style="font-weight: 400;"> </span></p>
+<h2><b>Understanding the <a href="https://connectfreelance.ae/">Freelance Visa in Dubai</a></b></h2>
+<p><span style="font-weight: 400;">In Dubai, a freelance visa grants foreign nationals to freely work. They are permitted to work without being employed by an organization. The freelance visa offers adaptability to deal with different projects. They can have a facility to work with different clients while living in the UAE.</span></p>
+<p><span style="font-weight: 400;">Individuals should meet qualification models to get a freelance visa. Likewise, they should go through the application process ordered by the relevant authorities.</span></p>
+<p><span style="font-weight: 400;"> </span></p>
+<h2><b>Freelance Work Opportunities in Dubai</b></h2>
+<p><span style="font-weight: 400;">Across various sectors, Dubai offers a diverse range of <a href="https://connectfreelance.ae/freelance-work/"><em>freelance work opportunities</em></a>. The thriving economy coupled with its focus on innovation and technology. This creates a demand for freelancers with expertise in the field of:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Digital marketing</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Content creation</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Web development</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Graphic design, and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Consulting.</span></li>
+</ul>
+<p><span style="font-weight: 400;">Likewise, the developing the travel industry presents valuable open doors for freelance experts. Especially in the fields of hospitality, event management, and photography.</span></p>
+<h2><b>Eligibility Criteria for Filipino Freelancers</b></h2>
+<p><img fetchpriority="high" fetchpriority="high" decoding="async" class="alignnone wp-image-23116 size-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201000%20667'%3E%3C/svg%3E" alt="Eligibility Criteria for Filipino Freelancers" width="1000" height="667" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers.webp 1000w, https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers-300x200.webp 300w, https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers-768x512.webp 768w" data-lazy-sizes="(max-width: 1000px) 100vw, 1000px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers.webp" /><noscript><img fetchpriority="high" fetchpriority="high" decoding="async" class="alignnone wp-image-23116 size-full" src="https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers.webp" alt="Eligibility Criteria for Filipino Freelancers" width="1000" height="667" srcset="https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers.webp 1000w, https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers-300x200.webp 300w, https://connectfreelance.ae/wp-content/uploads/2025/01/eligibility-criteria-for-filipino-freelancers-768x512.webp 768w" sizes="(max-width: 1000px) 100vw, 1000px" /></noscript></p>
+<p><span style="font-weight: 400;">Here, we share the eligibility criteria for Filipino freelancers. The Filipino freelancers need to meet the following criteria to qualify for a freelance visa in Dubai:</span></p>
+<p><b>Professional Qualifications:</b></p>
+<p><span style="font-weight: 400;">The Filipino aspirants must possess relevant qualifications and experience in the intended field of work.</span></p>
+<p><b>Financial Stability:</b></p>
+<p><span style="font-weight: 400;">As a foreign national, they demonstrate sufficient financial resources. This is essential to support oneself and dependents during the visa period.</span></p>
+<p><b>No Criminal Record:</b></p>
+<p><span style="font-weight: 400;">It is required to have a clean criminal record for visa approval.</span></p>
+<p><b>Free Zone Sponsorship:</b></p>
+<p><span style="font-weight: 400;">It is an important step to secure sponsorship from a free zone in Dubai. Generally, freelance visas are issued through free zones.</span></p>
+<p><b>Specific Occupation:</b></p>
+<p><span style="font-weight: 400;">As an aspirant, align your freelance work with the approved occupation list of the chosen free zone.</span></p>
+<p><span style="font-weight: 400;">Additionally, meeting these requirements is crucial. Especially for a successful freelance visa application in Dubai.</span></p>
+<h2><b>How to Apply for Freelance Visa Dubai for Filipino?</b></h2>
+<p><span style="font-weight: 400;">The process is easy and simple to apply for a freelance visa Dubai for Filipino. For instance, we share the complete guidelines to help you. You need to fulfill the:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Eligibility Criteria</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Required Documents</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Submit Application</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Fee Payment</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Medical Examination</span></li>
+<li><span style="font-weight: 400;">       </span><a href="https://connectfreelance.ae/freelance-license-in-dubai/"><strong>Freelancer License</strong></a></li>
+</ul>
+<h3><b>Determine Eligibility</b></h3>
+<p><span style="font-weight: 400;">For a freelance visa, assess if you meet the necessary qualifications and requirements. This includes:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Professional experience and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Financial stability.</span></li>
+</ul>
+<h3><b>Prepare Required Documents</b></h3>
+<p><span style="font-weight: 400;">It is essential to</span> <span style="font-weight: 400;">gather essential documents. The documents include:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Passport</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">CV</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Educational certificates</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Proof of financial resources, and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Medical reports</span></li>
+</ul>
+<h3><b>Submit Application</b></h3>
+<p><span style="font-weight: 400;">Complete the online visa application form. You can submit it along with the required documents to the designated authorities.</span></p>
+<h3><b>Fees Compensation</b></h3>
+<p><span style="font-weight: 400;">According to the official guidelines,</span> <span style="font-weight: 400;">pay the visa fees and other government charges</span></p>
+<h3><b>Undergo Medical Examination</b></h3>
+<p><span style="font-weight: 400;">At this point,</span> <span style="font-weight: 400;">complete a medical examination. This is essential to assess your health condition as per visa requirements.</span></p>
+<h3><b>Obtain Freelancer License</b></h3>
+<p><span style="font-weight: 400;">Now you’re all set to secure a freelancer license from a designated free zone in Dubai to commence your freelance activities.</span></p>
+<h2><b>Cost of Freelance Visa Dubai for Filipino</b></h2>
+<p><span style="font-weight: 400;">For every foreign national, the freelance visa cost is the same. For instance, the total annual cost of a freelance visa is AED 11,525. This includes:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Visa stamping</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Medical tests, and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Emirates ID but does not cover health insurance.</span></li>
+</ul>
+<h2><b>Tips for Filipinos to be Successful Freelancer in Dubai</b></h2>
+<p><img decoding="async" class="alignnone size-full wp-image-23117" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201000%20563'%3E%3C/svg%3E" alt="Tips for Filipinos" width="1000" height="563" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos.webp 1000w, https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos-300x169.webp 300w, https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos-768x432.webp 768w" data-lazy-sizes="(max-width: 1000px) 100vw, 1000px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos.webp" /><noscript><img decoding="async" class="alignnone size-full wp-image-23117" src="https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos.webp" alt="Tips for Filipinos" width="1000" height="563" srcset="https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos.webp 1000w, https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos-300x169.webp 300w, https://connectfreelance.ae/wp-content/uploads/2025/01/tips-for-filipinos-768x432.webp 768w" sizes="(max-width: 1000px) 100vw, 1000px" /></noscript></p>
+<p><span style="font-weight: 400;">Following are the tips for Filipinos to be Successful Freelancers in Dubai. Let’s dig into them further:</span></p>
+<p><b>Network Extensively:</b></p>
+<p><span style="font-weight: 400;">It is crucial to <a href="https://connectfreelance.ae/the-ultimate-guide-to-networking-for-freelancers/"><strong>build a strong professional network</strong></a>. This is particularly for finding clients and securing projects. For this, you can:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Attend industry events</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Join online communities, and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Leverage social media platforms.</span></li>
+</ul>
+<p><b>Master Your Craft:</b></p>
+<p><span style="font-weight: 400;">Enhance your skills and knowledge in your chosen field. You should stay updated with industry trends. While investing in professional development.</span></p>
+<p><b>Build a Strong Online Presence:</b></p>
+<p><span style="font-weight: 400;">Create a professional website. This helps you to maintain an active presence on social media platforms. While showcasing your portfolio and attracting potential clients.</span></p>
+<p><b>Understand the Market:</b></p>
+<p><span style="font-weight: 400;">To identify potential clients, <a href="https://connectfreelance.ae/dubai-freelance-market/"><strong>research the Dubai market</strong></a>. By doing so, you can understand their needs and preferences.</span></p>
+<p><b>Legal and Financial Compliance:</b></p>
+<p><span style="font-weight: 400;">For freelancers in Dubai, familiarize yourself with the legal and financial obligations. This includes:</span></p>
+<ul>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Tax regulations and</span></li>
+<li><span style="font-weight: 400;">       </span><span style="font-weight: 400;">Visa requirements of freelance visa Dubai</span></li>
+</ul>
+<p><span style="font-weight: 400;"> </span></p>
+<p><b>Time Management:</b></p>
+<p><span style="font-weight: 400;">Effective time management is essential. This is particularly to balance multiple projects, It also helps them in meeting deadlines.</span></p>
+<p><b>Price Competitively:</b></p>
+<p><span style="font-weight: 400;">When it comes to getting the price, you should be wise. Research industry standards and set competitive rates for your services.</span></p>
+<p><b>Deliver Exceptional Service:</b></p>
+<p><span style="font-weight: 400;">The Filipinos can excel in the market. They do so by focusing on building strong client relationships. This can be achieved by consistently delivering high-quality work. To win client’s trust, they must exceed expectations.</span></p>
+<p><span style="font-weight: 400;">Want to increase your chances of success? Follow these tips to get instant results. These tips are crafted especially for Filipino freelancers</span></p>
+<h2><span style="font-weight: 400;"> </span><b>The Final Words</b></h2>
+<p><span style="font-weight: 400;">In conclusion, obtaining a freelance visa Dubai for Filipino offers Filipino professionals a promising opportunity. The opportunity allows them to establish a successful career in the UAE.</span></p>
+<p><span style="font-weight: 400;">This entails the eligibility criteria, necessary documents preparations, and following the application process. By doing so, Filipinos can tap into the thriving freelance market in Dubai.</span></p>
+<p><span style="font-weight: 400;">It is essential to build a professional network, develop skills, and understanding the local market for long-term success. However, the process may involve certain challenges. Still, the rewards of work freedom and Dubai’s lifestyle make it an attractive option for many Filipino freelancers.</span></p>
+
+                
+                    <!--begin code -->
+
+                    
+                    <div class="pp-multiple-authors-boxes-wrapper pp-multiple-authors-wrapper pp-multiple-authors-layout-boxed multiple-authors-target-the-content box-post-id-22816 box-instance-id-1 ppma_boxes_22816"
+                    data-post_id="22816"
+                    data-instance_id="1"
+                    data-additional_class="pp-multiple-authors-layout-boxed.multiple-authors-target-the-content"
+                    data-original_class="pp-multiple-authors-boxes-wrapper pp-multiple-authors-wrapper box-post-id-22816 box-instance-id-1">
+                                                                                    <h2 class="widget-title box-header-title">Author</h2>
+                                                                            <span class="ppma-layout-prefix"></span>
+                        <div class="ppma-author-category-wrap">
+                                                                                                                                    <span class="ppma-category-group ppma-category-group-1 category-index-0">
+                                                                                                                        <ul class="pp-multiple-authors-boxes-ul author-ul-0">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                    <li class="pp-multiple-authors-boxes-li author_index_0 author_timothy-duncan has-avatar">
+                                                                                                                                                                                    <div class="pp-author-boxes-avatar">
+                                                                    <div class="avatar-image">
+                                                                                                                                                                                                                <img alt='Timothy Duncan' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2080%2080'%3E%3C/svg%3E" data-lazy-srcset='https://connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-160x160.png 2x' class='avatar avatar-80 photo' height='80' width='80' data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-80x80.png" /><noscript><img alt='Timothy Duncan' src='https://connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-80x80.png' srcset='https://connectfreelance.ae/wp-content/uploads/2024/07/timothy-duncan-160x160.png 2x' class='avatar avatar-80 photo' height='80' width='80' /></noscript>                                                                                                                                                                                                            </div>
+                                                                                                                                    </div>
+                                                            
+                                                            <div class="pp-author-boxes-avatar-details">
+                                                                <div class="pp-author-boxes-name multiple-authors-name"><a href="https://connectfreelance.ae/author/timothy-duncan/" rel="author" title="Timothy Duncan" class="author url fn">Timothy Duncan</a></div>                                                                                                                                                                                                    
+                                                                                                                                            <div class="pp-author-boxes-description multiple-authors-description author-description-0">
+                                                                                                                                                    <p>Timothy Duncan is an accomplished Business Development Manager with a proven track record of driving revenue growth and fostering strategic partnerships. With over 10 years of experience in the field, Timothy possesses a keen understanding of market dynamics and a knack for identifying lucrative business opportunities. His expertise lies in formulating and executing innovative strategies to expand market presence and maximize profitability. Timothy is a results-driven professional known for his strong negotiation skills, exceptional communication abilities, and ability to cultivate long-term client relationships.</p>
+                                                                                                                                                </div>
+                                                                                                                                                                                                    
+                                                                                                                                    <span class="pp-author-boxes-meta multiple-authors-links">
+                                                                        <a href="https://connectfreelance.ae/author/timothy-duncan/" title="View all posts">
+                                                                            <span>View all posts</span>
+                                                                        </a>
+                                                                    </span>
+                                                                                                                                <a class="ppma-author-user_email-profile-data ppma-author-field-meta ppma-author-field-type-email" aria-label="Email" href="/cdn-cgi/l/email-protection#4f3b2b0f2c2021212a2c3b3d2a3c203a3d2c2a3c612e2a" target="_self"><span class="dashicons dashicons-email-alt"></span> </a>
+                                                                                                                            </div>
+                                                                                                                                                                                                                        </li>
+                                                                                                                                                                                                                                                                                        </ul>
+                                                                            </span>
+                                                                                                                        </div>
+                        <span class="ppma-layout-suffix"></span>
+                                            </div>
+                    <!--end code -->
+                    
+                
+                            
+        				</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-b013e4a elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="b013e4a" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-4f05592" data-id="4f05592" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f8c7f92 elementor-widget elementor-widget-heading" data-id="f8c7f92" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">What’s a Freelancer Visa?</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-2093ad0 elementor-widget elementor-widget-text-editor" data-id="2093ad0" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>Dubai freelance visa is a document that gives individuals the possibility of having legal residence and work in the UAE as a freelancer.</p>								</div>
+				</div>
+				<div class="elementor-element elementor-element-5f64f90 elementor-widget__width-auto elementor-widget elementor-widget-button" data-id="5f64f90" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="#">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">CONTACT US NOW!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-f1e1f1d" data-id="f1e1f1d" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-ca6ddd4 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="ca6ddd4" data-element_type="section" data-e-type="section" data-settings="{&quot;sticky&quot;:&quot;top&quot;,&quot;sticky_parent&quot;:&quot;yes&quot;,&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;],&quot;sticky_offset&quot;:80,&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-e26faee f-border" data-id="e26faee" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-b36caae elementor-widget elementor-widget-heading" data-id="b36caae" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">Your Dubai Business Starts Here: Let's Chat</h4>				</div>
+				</div>
+				<div class="elementor-element elementor-element-7a1e098 elementor-widget elementor-widget-shortcode" data-id="7a1e098" data-element_type="widget" data-e-type="widget" data-widget_type="shortcode.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-shortcode">
+<div class="wpcf7 no-js" id="wpcf7-f170-p23113-o1" lang="en-US" dir="ltr" data-wpcf7-id="170">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/freelance-visa-dubai-for-filipino/#wpcf7-f170-p23113-o1" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<fieldset class="hidden-fields-container"><input type="hidden" name="_wpcf7" value="170" /><input type="hidden" name="_wpcf7_version" value="6.1.6" /><input type="hidden" name="_wpcf7_locale" value="en_US" /><input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f170-p23113-o1" /><input type="hidden" name="_wpcf7_container_post" value="23113" /><input type="hidden" name="_wpcf7_posted_data_hash" value="" />
+</fieldset>
+<div class="main-form">
+	<div>
+		<p><label>*Full Name</label><br />
+<span class="wpcf7-form-control-wrap" data-name="your-name"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" value="" type="text" name="your-name" /></span>
+		</p>
+	</div>
+	<div>
+		<p><label>*Email ID</label><br />
+<span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email" aria-required="true" aria-invalid="false" value="" type="email" name="your-email" /></span>
+		</p>
+	</div>
+	<div>
+		<p><label>*Contact Number</label><br />
+<span class="wpcf7-form-control-wrap" data-name="phonetext-106"><input size="40" class="wpcf7-form-control wpcf7-phonetext wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-phonetext" data-numberonly="true" aria-required="true" aria-invalid="false" value="" type="text" name="phonetext-106" /><input type="hidden" name="phonetext-106-country-code" class="wpcf7-phonetext-country-code" /></span>
+		</p>
+	</div>
+	<div style="display:none;">
+		<p><span class="wpcf7-form-control-wrap" data-name="countrytext-350"><input size="40" class="wpcf7-form-control wpcf7-countrytext wpcf7-text wpcf7-validates-as-countrytext" aria-invalid="false" value="" type="text" name="countrytext-350" /></span>
+		</p>
+	</div>
+	<div>
+		<p><label>*Get help with</label><br />
+<span class="wpcf7-form-control-wrap" data-name="menu-612"><select class="wpcf7-form-control wpcf7-select" aria-invalid="false" name="menu-612"><option value="Freelance visa">Freelance visa</option><option value="Freelance work permit">Freelance work permit</option><option value="Freelance license">Freelance license</option></select></span>
+		</p>
+	</div>
+	<p><span id="wpcf7-6a72dca58d2a2-wrapper" class="wpcf7-form-control-wrap honeypot-435-wrap" data-cf7apps-honeypot="honeypot-435" style="display: block;
+		    width: 0px;
+		    height: 0px;
+		    padding: 0px;
+		    border: 1px solid transparent;
+		    display: block;
+		    overflow: hidden;
+		    "><input type="hidden" name="honeypot-435-random-hash" value="98538584"><label
+		    for="wpcf7-6a72dca58d2a2-field"
+		    class="hp-message"
+        >Please leave this field empty.</label><input
+	    id="wpcf7-6a72dca58d2a2-field"
+	    
+	    class="wpcf7-form-control wpcf7-text"
+	    type="text"
+	    name="sqirkvs8hbaw"
+	    value=""
+	    size="40"
+	    autocomplete="new-password"
+	    tabindex="1000"
+    /></span>
+	</p>
+	<div>
+		<p><label> *Your Message</label><br />
+<span class="wpcf7-form-control-wrap" data-name="your-message"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" aria-invalid="false" name="your-message"></textarea></span>
+		</p>
+	</div>
+	<div style="display:none;" class="gclid_tag" id="transaction_hide">
+		<p><span class="wpcf7-form-control-wrap" data-name="gclid"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="testgclid" aria-invalid="false" placeholder="No Tag" name="gclid"></textarea></span>
+		</p>
+	</div>
+	<div style="display:none;" class="gclid_tag" id="transaction_hide">
+		<p><span class="wpcf7-form-control-wrap" data-name="initial_url"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="initial_url" aria-invalid="false" placeholder="No URL" name="initial_url"></textarea></span>
+		</p>
+	</div>
+	<p><input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Send Message" />
+	</p>
+</div><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-wpr-lazyrender="1" class="elementor-section elementor-top-section elementor-element elementor-element-f38c1e2 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="f38c1e2" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-420ea9a" data-id="420ea9a" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-1c6e4f8 elementor-posts--thumbnail-top elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-widget elementor-widget-posts" data-id="1c6e4f8" data-element_type="widget" data-e-type="widget" data-settings="{&quot;custom_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:30,&quot;sizes&quot;:[]},&quot;custom_columns&quot;:&quot;3&quot;,&quot;custom_columns_tablet&quot;:&quot;2&quot;,&quot;custom_columns_mobile&quot;:&quot;1&quot;,&quot;custom_row_gap_laptop&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;custom_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;custom_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.custom">
+				<div class="elementor-widget-container">
+					      <div class="ecs-posts elementor-posts-container elementor-posts   elementor-grid elementor-posts--skin-custom" data-settings="{&quot;current_page&quot;:1,&quot;max_num_pages&quot;:66,&quot;load_method&quot;:&quot;numbers_and_prev_next&quot;,&quot;widget_id&quot;:&quot;1c6e4f8&quot;,&quot;post_id&quot;:23113,&quot;theme_id&quot;:623,&quot;change_url&quot;:false,&quot;reinit_js&quot;:false}">
+      		<article id="post-30689" class="elementor-post elementor-grid-item ecs-post-loop post-30689 post type-post status-publish format-standard has-post-thumbnail hentry category-freezone-visa tag-business-setup-in-dubai tag-dubai-business-setup tag-dubai-free-zone-license tag-ifza-business-cost tag-ifza-company-formation tag-ifza-free-zone tag-ifza-free-zone-dubai tag-ifza-free-zone-license tag-ifza-license-cost tag-ifza-license-fees">
+				<div data-elementor-type="loop" data-elementor-id="545" class="elementor elementor-545 elementor-location-single post-30689 post type-post status-publish format-standard has-post-thumbnail hentry category-freezone-visa tag-business-setup-in-dubai tag-dubai-business-setup tag-dubai-free-zone-license tag-ifza-business-cost tag-ifza-company-formation tag-ifza-free-zone tag-ifza-free-zone-dubai tag-ifza-free-zone-license tag-ifza-license-cost tag-ifza-license-fees" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-d23482b elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="d23482b" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-11e3e38" data-id="11e3e38" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d937dc0 elementor-widget elementor-widget-image" data-id="d937dc0" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="800" height="450" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20450'%3E%3C/svg%3E" class="attachment-large size-large wp-image-30700" alt="Overview of IFZA Free Zone license cost, benefits, and options for UAE business founders" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone.png 1920w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1024x576.png" /><noscript><img loading="lazy" width="800" height="450" src="https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1024x576.png" class="attachment-large size-large wp-image-30700" alt="Overview of IFZA Free Zone license cost, benefits, and options for UAE business founders" srcset="https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2026/01/ifza-freezone.png 1920w" sizes="(max-width: 800px) 100vw, 800px" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-fbe94b3 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="fbe94b3" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">7 Powerful Reasons IFZA Free Zone License Cost Attracts Smart Founders</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-46364c0 elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="46364c0" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-eddf236 elementor-inline-item" itemprop="datePublished">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fas-calendar" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>January 5, 2026</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-1e78e04 elementor-inline-item" itemprop="author">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-far-user-circle" viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b4acb1b8b4b4b8bdf7bfb8b0bcbca399afb0aaadb8b6acadaab6acabbab0b7bef7bab6b4">[email&#160;protected]</a>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-808fe6c elementor-widget__width-auto elementor-widget elementor-widget-button" data-id="808fe6c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://connectfreelance.ae/ifza-free-zone-license-cost/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Read More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				<article id="post-30664" class="elementor-post elementor-grid-item ecs-post-loop post-30664 post type-post status-publish format-standard has-post-thumbnail hentry category-freelance-visa tag-abu-dhabi-visa tag-dubai-visa tag-residence-visa-uae tag-uae-family-visa tag-uae-immigration tag-uae-jobs tag-uae-residency tag-uae-visa tag-visa-guide-uae tag-work-in-uae">
+				<div data-elementor-type="loop" data-elementor-id="545" class="elementor elementor-545 elementor-location-single post-30664 post type-post status-publish format-standard has-post-thumbnail hentry category-freelance-visa tag-abu-dhabi-visa tag-dubai-visa tag-residence-visa-uae tag-uae-family-visa tag-uae-immigration tag-uae-jobs tag-uae-residency tag-uae-visa tag-visa-guide-uae tag-work-in-uae" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-d23482b elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="d23482b" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-11e3e38" data-id="11e3e38" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d937dc0 elementor-widget elementor-widget-image" data-id="d937dc0" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="800" height="450" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20450'%3E%3C/svg%3E" class="attachment-large size-large wp-image-30680" alt="Step-by-step overview of UAE residence visa for jobs and family" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2.png 1920w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1024x576.png" /><noscript><img loading="lazy" width="800" height="450" src="https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1024x576.png" class="attachment-large size-large wp-image-30680" alt="Step-by-step overview of UAE residence visa for jobs and family" srcset="https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2026/01/UAE-residence-Visa-2.png 1920w" sizes="(max-width: 800px) 100vw, 800px" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-fbe94b3 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="fbe94b3" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Everything You Must Know Before Applying for UAE Residence Visa</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-46364c0 elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="46364c0" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-eddf236 elementor-inline-item" itemprop="datePublished">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fas-calendar" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>January 3, 2026</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-1e78e04 elementor-inline-item" itemprop="author">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-far-user-circle" viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c0119040d01010d08420a0d050909162c1a051f180d0319181f03191e0f05020b420f0301">[email&#160;protected]</a>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-808fe6c elementor-widget__width-auto elementor-widget elementor-widget-button" data-id="808fe6c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://connectfreelance.ae/uae-residence-visa-guide/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Read More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				<article id="post-30634" class="elementor-post elementor-grid-item ecs-post-loop post-30634 post type-post status-publish format-standard has-post-thumbnail hentry category-freelance-visa tag-how-to-apply-for-spouse-visa-in-uae tag-spouse-visa-process-uae tag-spouse-visa-renewal-cost-uae tag-spouse-visa-requirements-uae tag-spouse-visa-uae-cost tag-uae-dependent-visa-spouse tag-uae-family-visa-for-spouse tag-uae-spouse-visa-benefits tag-uae-spouse-visa-eligibility tag-uae-spouse-visa-fees">
+				<div data-elementor-type="loop" data-elementor-id="545" class="elementor elementor-545 elementor-location-single post-30634 post type-post status-publish format-standard has-post-thumbnail hentry category-freelance-visa tag-how-to-apply-for-spouse-visa-in-uae tag-spouse-visa-process-uae tag-spouse-visa-renewal-cost-uae tag-spouse-visa-requirements-uae tag-spouse-visa-uae-cost tag-uae-dependent-visa-spouse tag-uae-family-visa-for-spouse tag-uae-spouse-visa-benefits tag-uae-spouse-visa-eligibility tag-uae-spouse-visa-fees" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-d23482b elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="d23482b" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-11e3e38" data-id="11e3e38" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d937dc0 elementor-widget elementor-widget-image" data-id="d937dc0" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="800" height="450" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20450'%3E%3C/svg%3E" class="attachment-large size-large wp-image-30643" alt="UAE spouse visa explained – eligibility, documents, and process" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply.png 1920w" data-lazy-sizes="(max-width: 800px) 100vw, 800px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1024x576.png" /><noscript><img loading="lazy" width="800" height="450" src="https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1024x576.png" class="attachment-large size-large wp-image-30643" alt="UAE spouse visa explained – eligibility, documents, and process" srcset="https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1024x576.png 1024w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-300x169.png 300w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-768x432.png 768w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply-1536x864.png 1536w, https://connectfreelance.ae/wp-content/uploads/2025/12/Spouse-Visa-UAE-Cost-–-Fees-Benefits-Eligibility-How-to-Apply.png 1920w" sizes="(max-width: 800px) 100vw, 800px" /></noscript>															</div>
+				</div>
+				<div class="elementor-element elementor-element-fbe94b3 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="fbe94b3" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Spouse Visa UAE Cost – Fees, Benefits, Eligibility &#038; How to Apply</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-46364c0 elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="46364c0" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-eddf236 elementor-inline-item" itemprop="datePublished">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-fas-calendar" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm436-44v-36c0-26.5-21.5-48-48-48h-48V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H160V12c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v36c0 6.6 5.4 12 12 12h424c6.6 0 12-5.4 12-12z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>December 31, 2025</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-1e78e04 elementor-inline-item" itemprop="author">
+										<span class="elementor-icon-list-icon">
+								<svg aria-hidden="true" class="e-font-icon-svg e-far-user-circle" viewBox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path></svg>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0d6078656c60606c69236b6c646868774d7b647e796c6278797e62787f6e64636a236e6260">[email&#160;protected]</a>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-808fe6c elementor-widget__width-auto elementor-widget elementor-widget-button" data-id="808fe6c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://connectfreelance.ae/spouse-visa-uae-cost/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Read More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				</div>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				<footer data-elementor-type="footer" data-elementor-id="33" class="elementor elementor-33 elementor-location-footer" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-b21c9df elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="b21c9df" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e553ddb" data-id="e553ddb" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-cce77fc elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="cce77fc" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-a3e568c" data-id="a3e568c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7a1ac8b elementor-widget elementor-widget-image" data-id="7a1ac8b" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="/">
+							<img  width="341" height="100" src="https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf.png" class="attachment-large size-large wp-image-22844" alt="connect freelance logo" srcset="https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf.png 341w, https://connectfreelance.ae/wp-content/uploads/2024/07/logo-cf-300x88.png 300w" sizes="(max-width: 341px) 100vw, 341px" />								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-e8ecf35 elementor-widget elementor-widget-heading" data-id="e8ecf35" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">Connect Freelance Provides a Freelance visa to freelancers to work and live legally in Dubai. Connect Freelance Hub connects exceptional talents with each other.</p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-c7cf532 e-grid-align-left elementor-shape-rounded elementor-grid-0 elementor-widget elementor-widget-social-icons" data-id="c7cf532" data-element_type="widget" data-e-type="widget" data-widget_type="social-icons.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-social-icons-wrapper elementor-grid" role="list">
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-facebook elementor-repeater-item-8e01a81" href="https://www.facebook.com/ConnectFreelanceUAE" target="_blank">
+						<span class="elementor-screen-only">Facebook</span>
+						<svg aria-hidden="true" class="e-font-icon-svg e-fab-facebook" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"></path></svg>					</a>
+				</span>
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-linkedin elementor-repeater-item-2b10507" href="https://www.linkedin.com/company/connect-freelance/" target="_blank">
+						<span class="elementor-screen-only">Linkedin</span>
+						<svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>					</a>
+				</span>
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-8b0c8bb" href="https://www.instagram.com/connectfreelance/" target="_blank">
+						<span class="elementor-screen-only">Instagram</span>
+						<svg aria-hidden="true" class="e-font-icon-svg e-fab-instagram" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>					</a>
+				</span>
+					</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-d11d5b0 elementor-widget elementor-widget-image" data-id="d11d5b0" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="320" height="99" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20320%2099'%3E%3C/svg%3E" class="attachment-large size-large wp-image-393" alt="certified iso company" data-lazy-srcset="https://connectfreelance.ae/wp-content/uploads/2024/07/Certified.webp 320w, https://connectfreelance.ae/wp-content/uploads/2024/07/Certified-300x93.webp 300w" data-lazy-sizes="(max-width: 320px) 100vw, 320px" data-lazy-src="https://connectfreelance.ae/wp-content/uploads/2024/07/Certified.webp" /><noscript><img loading="lazy" width="320" height="99" src="https://connectfreelance.ae/wp-content/uploads/2024/07/Certified.webp" class="attachment-large size-large wp-image-393" alt="certified iso company" srcset="https://connectfreelance.ae/wp-content/uploads/2024/07/Certified.webp 320w, https://connectfreelance.ae/wp-content/uploads/2024/07/Certified-300x93.webp 300w" sizes="(max-width: 320px) 100vw, 320px" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-0cc30ae" data-id="0cc30ae" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7e50c44 elementor-widget elementor-widget-heading" data-id="7e50c44" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">QUICK LINKS<br></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-2b6c795 elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="2b6c795" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-icon-list-items">
+							<li class="elementor-icon-list-item">
+											<a href="/about-us/">
+
+											<span class="elementor-icon-list-text">About us</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="/insights/">
+
+											<span class="elementor-icon-list-text">Insights</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="/contact-us/">
+
+											<span class="elementor-icon-list-text">Contact us</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="/freelance-work-permit/">
+
+											<span class="elementor-icon-list-text">Freelance Work Permit</span>
+											</a>
+									</li>
+								<li class="elementor-icon-list-item">
+											<a href="/faqs/">
+
+											<span class="elementor-icon-list-text">FAQ's</span>
+											</a>
+									</li>
+						</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-f9d6cc9" data-id="f9d6cc9" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d5b2dda elementor-widget elementor-widget-heading" data-id="d5b2dda" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Contact Us</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-4b5d059 elementor-widget elementor-widget-heading" data-id="4b5d059" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">Head Office:- City Tower 2, Office 804, Sheikh Zayed Road, Dubai, United Arab Emirates</p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-491c0bb elementor-widget elementor-widget-heading" data-id="491c0bb" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">Branch Office:- AB701, 7th Floor, JAFZA ONE Building , Gate 5 , Jebel Ali Freezone, Dubai, UAE</p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-a88b7f8 elementor-widget elementor-widget-heading" data-id="a88b7f8" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default"><a href="/cdn-cgi/l/email-protection#583b37362c393b2c183b3736363d3b2c3e2a3d3d3439363b3d76393d"><span class="__cf_email__" data-cfemail="8eede1e0faefedfaceede1e0e0ebedfae8fcebebe2efe0edeba0efeb">[email&#160;protected]</span></a></p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-6ebfe31 elementor-widget elementor-widget-heading" data-id="6ebfe31" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default"><a href="tel:+971%2043316688">+971 43316688</a></p>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-8c2c697 elementor-section-boxed elementor-section-height-default elementor-section-height-default wpr-particle-no wpr-jarallax-no wpr-parallax-no wpr-sticky-section-no wpr-column-slider-no wpr-equal-height-no" data-id="8c2c697" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-e837887" data-id="e837887" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3155e43 elementor-widget elementor-widget-heading" data-id="3155e43" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">Copyright 2026 © Connect Freelance part of Connect Resources registered in the United Arab Emirates. License No: 773036. All Rights Reserved.</p>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				</footer>
+		
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hello-elementor-child-theme/*","/wp-content/themes/hello-elementor/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+			<script type="text/rocketlazyloadscript">
+				const lazyloadRunObserver = () => {
+					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+						entries.forEach( ( entry ) => {
+							if ( entry.isIntersecting ) {
+								let lazyloadBackground = entry.target;
+								if( lazyloadBackground ) {
+									lazyloadBackground.classList.add( 'e-lazyloaded' );
+								}
+								lazyloadBackgroundObserver.unobserve( entry.target );
+							}
+						});
+					}, { rootMargin: '200px 0px 200px 0px' } );
+					lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+						lazyloadBackgroundObserver.observe( lazyloadBackground );
+					} );
+				};
+				const events = [
+					'DOMContentLoaded',
+					'elementor/lazyload/observe',
+				];
+				events.forEach( ( event ) => {
+					document.addEventListener( event, lazyloadRunObserver );
+				} );
+			</script>
+			<style id="mutliple-author-box-inline-style">.pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-avatar img { 
+        width: 80px !important; 
+        height: 80px !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-avatar img {
+        border-radius: 50% !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-meta a {
+        background-color: #655997 !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-meta a {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-meta a:hover {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_email-profile-data {
+        background-color: #655997 !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_email-profile-data {
+        border-radius: 100% !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_email-profile-data {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_email-profile-data:hover {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_url-profile-data {
+        background-color: #655997 !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_url-profile-data {
+        border-radius: 100% !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_url-profile-data {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .ppma-author-user_url-profile-data:hover {
+        color: #ffffff !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-author-boxes-recent-posts-title {
+        border-bottom-style: dotted !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-multiple-authors-boxes-li {
+        border-style: solid !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-multiple-authors-boxes-li {
+        border-width: 1px !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-multiple-authors-boxes-li {
+        border-color: #999 !important; 
+    }
+
+    .pp-multiple-authors-boxes-wrapper.pp-multiple-authors-layout-boxed.multiple-authors-target-the-content .pp-multiple-authors-boxes-li {
+        color: #3c434a !important; 
+    }
+
+</style><script type="text/rocketlazyloadscript">(function () {
+  // --- helpers ---
+  function getAllParams() {
+    // Merge query + hash params
+    var q = new URLSearchParams(window.location.search || "");
+    var h = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    return {
+      get: function (key) {
+        if (q.has(key)) return q.get(key);
+        if (h.has(key)) return h.get(key);
+        return "";
+      },
+      has: function (key) {
+        return q.has(key) || h.has(key);
+      }
+    };
+  }
+
+  function setCookie(name, value, days) {
+    if (!value) return;
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+  }
+
+  function setFieldValue(selectors, value) {
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) el.value = value || "";
+    }
+  }
+
+  function populateGclidFields(value) {
+    // populate both by id and by name (CF7 creates name="gclid")
+    setFieldValue(["#testgclid", 'textarea[name="gclid"]', 'input[name="gclid"]'], value || "");
+  }
+
+  function populateAll() {
+    populateGclidFields(getCookie("gclid"));
+
+    function set(idOrName, cookieName) {
+      setFieldValue(
+        ["#" + idOrName, 'textarea[name="' + idOrName + '"]', 'input[name="' + idOrName + '"]'],
+        getCookie(cookieName)
+      );
+    }
+
+    set("campaign_id", "campaign_id");
+    set("adgroup_id", "adgroup_id");
+    set("creative_id", "creative_id");
+    set("keyword", "keyword");
+    set("matchtype", "matchtype");
+    set("device", "device");
+    set("network", "network");
+    set("placement", "placement");
+    set("target_id", "target_id");
+    set("adposition", "adposition");
+    set("loc_interest_ms", "loc_interest_ms");
+    set("loc_physical_ms", "loc_physical_ms");
+    set("initial_url", "initialUrl");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var params = getAllParams();
+
+    // ✅ Always store landing URL once (first touch)
+    if (!getCookie("initialUrl")) {
+      setCookie("initialUrl", window.location.href, 30);
+    }
+
+    // Read from URL (query or hash) with priority
+    var url_gclid = params.get("gclid") || "";
+    var url_gbraid = params.get("gbraid") || "";
+    var url_wbraid = params.get("wbraid") || "";
+    var url_gclsrc = params.get("gclsrc") || ""; // optional / informational
+
+    // ✅ Decide final click id (gclid > gbraid > wbraid) + fallback to cookie
+    var final_gclid = url_gclid || url_gbraid || url_wbraid || getCookie("gclid") || "";
+
+    // If we got a value from URL (fresh), write cookie and populate immediately
+    if (url_gclid || url_gbraid || url_wbraid) {
+      if (final_gclid) {
+        setCookie("gclid", final_gclid, 30);
+        populateGclidFields(final_gclid); // immediate fill so you SEE it now
+      }
+      if (url_gbraid) setCookie("gbraid", url_gbraid, 30);
+      if (url_wbraid) setCookie("wbraid", url_wbraid, 30);
+
+      // (Optional) store gclsrc too if you want it later
+      if (url_gclsrc) setCookie("gclsrc", url_gclsrc, 30);
+    }
+
+    // Capture the rest (same behavior, cleaner)
+    var captureMap = {
+      campaign_id: ["campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroupid"],
+      creative_id: ["creative", "creativeid"],
+      keyword: ["keyword", "q", "kw"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target_id: ["targetid"],
+      adposition: ["adposition"],
+      loc_interest_ms: ["loc_interest_ms"],
+      loc_physical_ms: ["loc_physical_ms"]
+    };
+
+    Object.keys(captureMap).forEach(function (field) {
+      var val = "";
+      var keys = captureMap[field];
+
+      for (var i = 0; i < keys.length; i++) {
+        if (params.has(keys[i])) {
+          val = params.get(keys[i]);
+          break;
+        }
+      }
+
+      if (!val) val = getCookie(field);
+      if (val) setCookie(field, val, 30);
+    });
+
+    // Initial full populate (covers cookie-only cases)
+    populateAll();
+
+    // Re-populate on dynamically inserted forms (CF7/AJAX)
+    var mo = new MutationObserver(populateAll);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Debug (optional)
+    // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
+  });
+})();
+</script><script type="text/rocketlazyloadscript">(function () {
+  // --- helpers ---
+  function getAllParams() {
+    // Merge query + hash params
+    var q = new URLSearchParams(window.location.search || "");
+    var h = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    return {
+      get: function (key) {
+        if (q.has(key)) return q.get(key);
+        if (h.has(key)) return h.get(key);
+        return "";
+      },
+      has: function (key) {
+        return q.has(key) || h.has(key);
+      }
+    };
+  }
+
+  function setCookie(name, value, days) {
+    if (!value) return;
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+  }
+
+  function setFieldValue(selectors, value) {
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) el.value = value || "";
+    }
+  }
+
+  function populateGclidFields(value) {
+    // populate both by id and by name (CF7 creates name="gclid")
+    setFieldValue(["#testgclid", 'textarea[name="gclid"]', 'input[name="gclid"]'], value || "");
+  }
+
+  function populateAll() {
+    populateGclidFields(getCookie("gclid"));
+
+    function set(idOrName, cookieName) {
+      setFieldValue(
+        ["#" + idOrName, 'textarea[name="' + idOrName + '"]', 'input[name="' + idOrName + '"]'],
+        getCookie(cookieName)
+      );
+    }
+
+    set("campaign_id", "campaign_id");
+    set("adgroup_id", "adgroup_id");
+    set("creative_id", "creative_id");
+    set("keyword", "keyword");
+    set("matchtype", "matchtype");
+    set("device", "device");
+    set("network", "network");
+    set("placement", "placement");
+    set("target_id", "target_id");
+    set("adposition", "adposition");
+    set("loc_interest_ms", "loc_interest_ms");
+    set("loc_physical_ms", "loc_physical_ms");
+    set("initial_url", "initialUrl");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var params = getAllParams();
+
+    // ✅ Always store landing URL once (first touch)
+    if (!getCookie("initialUrl")) {
+      setCookie("initialUrl", window.location.href, 30);
+    }
+
+    // Read from URL (query or hash) with priority
+    var url_gclid = params.get("gclid") || "";
+    var url_gbraid = params.get("gbraid") || "";
+    var url_wbraid = params.get("wbraid") || "";
+    var url_gclsrc = params.get("gclsrc") || ""; // optional / informational
+
+    // ✅ Decide final click id (gclid > gbraid > wbraid) + fallback to cookie
+    var final_gclid = url_gclid || url_gbraid || url_wbraid || getCookie("gclid") || "";
+
+    // If we got a value from URL (fresh), write cookie and populate immediately
+    if (url_gclid || url_gbraid || url_wbraid) {
+      if (final_gclid) {
+        setCookie("gclid", final_gclid, 30);
+        populateGclidFields(final_gclid); // immediate fill so you SEE it now
+      }
+      if (url_gbraid) setCookie("gbraid", url_gbraid, 30);
+      if (url_wbraid) setCookie("wbraid", url_wbraid, 30);
+
+      // (Optional) store gclsrc too if you want it later
+      if (url_gclsrc) setCookie("gclsrc", url_gclsrc, 30);
+    }
+
+    // Capture the rest (same behavior, cleaner)
+    var captureMap = {
+      campaign_id: ["campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroupid"],
+      creative_id: ["creative", "creativeid"],
+      keyword: ["keyword", "q", "kw"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target_id: ["targetid"],
+      adposition: ["adposition"],
+      loc_interest_ms: ["loc_interest_ms"],
+      loc_physical_ms: ["loc_physical_ms"]
+    };
+
+    Object.keys(captureMap).forEach(function (field) {
+      var val = "";
+      var keys = captureMap[field];
+
+      for (var i = 0; i < keys.length; i++) {
+        if (params.has(keys[i])) {
+          val = params.get(keys[i]);
+          break;
+        }
+      }
+
+      if (!val) val = getCookie(field);
+      if (val) setCookie(field, val, 30);
+    });
+
+    // Initial full populate (covers cookie-only cases)
+    populateAll();
+
+    // Re-populate on dynamically inserted forms (CF7/AJAX)
+    var mo = new MutationObserver(populateAll);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Debug (optional)
+    // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
+  });
+})();
+</script><link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1784316613' media='all' />
+<link data-minify="1" rel='stylesheet' id='multiple-authors-widget-css-css' href='https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/publishpress-authors/src/assets/css/multiple-authors-widget.css?ver=1784316613' media='all' />
+<style id="multiple-authors-widget-css-inline-css">
+:root { --ppa-color-scheme: #655997; --ppa-color-scheme-active: #514779; }
+/*# sourceURL=multiple-authors-widget-css-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='multiple-authors-fontawesome-css' href='https://connectfreelance.ae/wp-content/cache/min/1/ajax/libs/font-awesome/6.7.1/css/all.min.css?ver=1784316613' media='all' />
+<script id="fv-chatbot-js-js-extra">
+var fv_chatbot_vars = {"ajaxurl":"https://connectfreelance.ae/wp-admin/admin-ajax.php"};
+//# sourceURL=fv-chatbot-js-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="fv-chatbot-js-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ai-chatbot-plugin-final-fixed-working/assets/js/chatbot.js?ver=1782374550" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7-pipedrive-theme-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js?ver=1782374550" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wp-hooks-js" data-rocket-src="https://connectfreelance.ae/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js" data-rocket-src="https://connectfreelance.ae/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="swv-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1782374550" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="contact-form-7-js-before">
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/connectfreelance.ae\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    },
+    "cached": 1
+};
+//# sourceURL=contact-form-7-js-before
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="contact-form-7-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1782374550" data-rocket-defer defer></script>
+<script id="cf7apps-honeypot-refill-js-extra">
+var cf7appsHoneypotRefill = {"forceRefillOnInit":"1"};
+//# sourceURL=cf7apps-honeypot-refill-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7apps-honeypot-refill-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7-honeypot/legacy-honeypot/includes/js/honeypot-refill.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-intlTelInput-script-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=7.0.2" data-rocket-defer defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https://connectfreelance.ae/wp-admin/admin-ajax.php"};
+//# sourceURL=nbcpf-countryFlag-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=7.0.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: true,
+						autoPlaceholder: true,
+						nationalMode: false,
+						separateDialCode: true,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+						
+					});
+						$(".wpcf7-phonetext").on("keyup", function() {
+							var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+							
+							var value   = $(this).val();
+							//console.log(dial_code, value);
+							if(value == "+")
+								$(this).val("");
+							else if(value.indexOf("+") == "-1")
+								$(this).val(dial_code + value);
+							else if(value.indexOf("+") > 0)
+								$(this).val(dial_code + value.substring(dial_code.length));
+						});
+						$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					url: "https://ipinfo.io/json",
+					//url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country);
+						if( response.country !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: true,
+								autoPlaceholder: true,
+								nationalMode: false,
+								separateDialCode: true,
+								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+								
+							});
+								
+								$(".wpcf7-phonetext").on("keyup", function() {
+									var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+									
+									var value   = $(this).val();
+									if(value == "+")
+										$(this).val("");
+									else if(value.indexOf("+") == "-1")
+										$(this).val(dial_code + value);
+									else if(value.indexOf("+") > 0)
+										$(this).val(dial_code + value.substring(dial_code.length));
+								
+								});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+//# sourceURL=nbcpf-countryFlag-script-js-after
+});</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="wpascript-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/js/wpa.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpascript-js-after">
+wpa_field_info = {"wpa_field_name":"qolbks5787","wpa_field_value":218294,"wpa_add_test":"no"}
+//# sourceURL=wpascript-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="wpr-particles-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/royal-elementor-addons/assets/js/lib/particles/particles.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpr-jarallax-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/js/lib/jarallax/jarallax.min.js?ver=1.12.7" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpr-parallax-hover-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/js/lib/parallax/parallax.min.js?ver=1.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="hello-theme-frontend-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-color-switcher-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="swiper-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-webpack-runtime-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-modules-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-core-js" data-rocket-src="https://connectfreelance.ae/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":992,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":991,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1024,"default_value":1366,"direction":"max","is_enabled":true},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":true},"version":"4.1.4","is_static":false,"experimentalFeatures":{"e_font_icon_svg":true,"additional_custom_breakpoints":true,"e_panel_promotions":true,"theme_builder_v2":true,"hello-theme-header-footer":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_opt_in_v4_page":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/connectfreelance.ae\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/connectfreelance.ae\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/connectfreelance.ae\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"ee9c21a5cc","atomicFormsSendForm":"076ab269c8"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet","viewport_laptop"],"viewport_tablet":991,"viewport_laptop":1024,"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description","hello_header_logo_type":"title","hello_header_menu_layout":"horizontal","hello_footer_logo_type":"logo"},"post":{"id":23113,"title":"Freelance%20Visa%20Dubai%20for%20Filipino%2C%20All%20You%20Need%20to%20Know","excerpt":"","featuredImage":"https:\/\/connectfreelance.ae\/wp-content\/uploads\/2025\/01\/freelance-visa-dubai-for-filipino-1024x576.webp"}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-slider-js" data-rocket-src="https://connectfreelance.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js?ver=1782374551" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="smartmenus-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.2.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="e-sticky-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="imagesloaded-js" data-rocket-src="https://connectfreelance.ae/wp-includes/js/imagesloaded.min.js?ver=5.0.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-webpack-runtime-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/connectfreelance.ae\/wp-admin\/admin-ajax.php","nonce":"83247e2eb5","urls":{"assets":"https:\/\/connectfreelance.ae\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/connectfreelance.ae\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"en_US","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/connectfreelance.ae\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="pro-elements-handlers-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script id="wpr-addons-js-js-extra">
+var WprConfig = {"ajaxurl":"https://connectfreelance.ae/wp-admin/admin-ajax.php","resturl":"https://connectfreelance.ae/wp-json/wpraddons/v1","nonce":"f377abde0a","addedToCartText":"was added to cart","viewCart":"View Cart","comparePageID":"","comparePageURL":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/","wishlistPageID":"","wishlistPageURL":"https://connectfreelance.ae/freelance-visa-dubai-for-filipino/","chooseQuantityText":"Please select the required number of items.","site_key":"","site_key_v2":"","is_admin":"","input_empty":"Please fill out this field","select_empty":"Nothing selected","file_empty":"Please upload a file","recaptcha_error":"Recaptcha Error","woo_shop_ppp":"9","woo_shop_cat_ppp":"9","woo_shop_tag_ppp":"9","is_product_category":"","is_product_tag":"","sticky_section":"on"};
+//# sourceURL=wpr-addons-js-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="wpr-addons-js-js" data-cfasync="false" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/js/frontend.min.js?ver=1.7.1063" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpr-modal-popups-js-js" data-rocket-src="https://connectfreelance.ae/wp-content/plugins/royal-elementor-addons/assets/js/modal-popups.min.js?ver=1.7.1063" data-rocket-defer defer></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://connectfreelance.ae/wp-includes/js/wp-emoji-release.min.js?ver=7.0.2"}}
+</script>
+<script type="text/rocketlazyloadscript" data-rocket-type="module">
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://connectfreelance.ae/wp-includes/js/wp-emoji-loader.min.js
+</script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://connectfreelance.ae/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script><script>function lazyLoadThumb(e,alt,l){var t='<img loading="lazy" data-lazy-src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"><noscript><img loading="lazy" src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"></noscript>',a='<button class="play" aria-label="Play Youtube video"></button>';if(l){t=t.replace('data-lazy-','');t=t.replace('loading="lazy"','');t=t.replace(/<noscript>.*?<\/noscript>/g,'');}t=t.replace('alt=""','alt="'+alt+'"');return t.replace("ID",e)+a}function lazyLoadYoutubeIframe(){var e=document.createElement("iframe"),t="ID?autoplay=1";t+=0===this.parentNode.dataset.query.length?"":"&"+this.parentNode.dataset.query;e.setAttribute("src",t.replace("ID",this.parentNode.dataset.src)),e.setAttribute("frameborder","0"),e.setAttribute("allowfullscreen","1"),e.setAttribute("allow","accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"),this.parentNode.parentNode.replaceChild(e,this.parentNode)}document.addEventListener("DOMContentLoaded",function(){var exclusions=[];var e,t,p,u,l,a=document.getElementsByClassName("rll-youtube-player");for(t=0;t<a.length;t++)(e=document.createElement("div")),(u='https://i.ytimg.com/vi/ID/hqdefault.jpg'),(u=u.replace('ID',a[t].dataset.id)),(l=exclusions.some(exclusion=>u.includes(exclusion))),e.setAttribute("data-id",a[t].dataset.id),e.setAttribute("data-query",a[t].dataset.query),e.setAttribute("data-src",a[t].dataset.src),(e.innerHTML=lazyLoadThumb(a[t].dataset.id,a[t].dataset.alt,l)),a[t].appendChild(e),(p=e.querySelector(".play")),(p.onclick=lazyLoadYoutubeIframe)});</script>
+<script>(()=>{class RocketElementorPreload{constructor(){this.deviceMode=document.createElement("span"),this.deviceMode.id="elementor-device-mode-wpr",this.deviceMode.setAttribute("class","elementor-screen-only"),document.body.appendChild(this.deviceMode)}t(){let t=getComputedStyle(this.deviceMode,":after").content.replace(/"/g,"");this.animationSettingKeys=this.i(t),document.querySelectorAll(".elementor-invisible[data-settings]").forEach(t=>{const e=t.getBoundingClientRect();if(e.bottom>=0&&e.top<=window.innerHeight)try{this.o(t)}catch(t){}})}o(t){const e=JSON.parse(t.dataset.settings),i=e.m||e.animation_delay||0,n=e[this.animationSettingKeys.find(t=>e[t])];if("none"===n)return void t.classList.remove("elementor-invisible");t.classList.remove(n),this.currentAnimation&&t.classList.remove(this.currentAnimation),this.currentAnimation=n;let o=setTimeout(()=>{t.classList.remove("elementor-invisible"),t.classList.add("animated",n),this.l(t,e)},i);window.addEventListener("rocket-startLoading",function(){clearTimeout(o)})}i(t="mobile"){const e=[""];switch(t){case"mobile":e.unshift("_mobile");case"tablet":e.unshift("_tablet");case"desktop":e.unshift("_desktop")}const i=[];return["animation","_animation"].forEach(t=>{e.forEach(e=>{i.push(t+e)})}),i}l(t,e){this.i().forEach(t=>delete e[t]),t.dataset.settings=JSON.stringify(e)}static run(){const t=new RocketElementorPreload;requestAnimationFrame(t.t.bind(t))}}document.addEventListener("DOMContentLoaded",RocketElementorPreload.run)})();</script></body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me -->

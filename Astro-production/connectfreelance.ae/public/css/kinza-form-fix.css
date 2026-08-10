@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&family=Manrope:wght@700&display=swap');
+
+/* Connect Freelance — CF7 / contact form skin (live child-theme parity)
+ * Source of truth: hello-elementor-child-theme .main-form + .f-border
+ */
+
+/* Gradient frame — match live; do NOT force width/display (breaks Elementor 50% columns) */
+.f-border {
+  border: 0 solid transparent !important;
+  background: linear-gradient(89.65deg, #e915e0, #45d7dd) !important;
+  border-radius: 15px !important;
+  padding: 12px !important;
+  box-sizing: border-box !important;
+}
+
+.elementor-column.f-border > .elementor-widget-wrap.elementor-element-populated {
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+}
+
+/* Reinforce live post-766 hero container width */
+.elementor-766 .elementor-element-f94c980 > .elementor-container {
+  max-width: 1024px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.wpcf7,
+.wpcf7-form,
+.main-form,
+.contactform,
+.contact-home .wpcf7 {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.main-form label,
+.wpcf7 .main-form label,
+.contactform label,
+.form-wp label {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #a5a3b7 !important;
+  font-family: "Plus Jakarta Sans", Inter, Lexend, Manrope, sans-serif !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: 40px !important;
+}
+
+.wpcf7 .wpcf7-form-control-wrap,
+.main-form .wpcf7-form-control-wrap,
+.contactform .wpcf7-form-control-wrap,
+.wpcf7 .intl-tel-input,
+.wpcf7 .iti,
+.main-form .intl-tel-input,
+.main-form .iti,
+.contactform .intl-tel-input,
+.contactform .iti {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.main-form input[type='text'],
+.main-form input[type='email'],
+.main-form input[type='tel'],
+.main-form input[type='url'],
+.main-form input.wpcf7-form-control:not([type='submit']):not([type='checkbox']):not([type='hidden']):not([type='radio']),
+.main-form textarea,
+.main-form select,
+.main-form .wpcf7-select,
+.wpcf7 .main-form input[type='text'],
+.wpcf7 .main-form input[type='email'],
+.wpcf7 .main-form input[type='tel'],
+.wpcf7 .main-form textarea,
+.wpcf7 .main-form select,
+.contactform input[type='text'],
+.contactform input[type='email'],
+.contactform input[type='tel'],
+.contactform textarea,
+.contactform select,
+.form-wp input[type='text'],
+.form-wp input[type='email'],
+.form-wp input[type='tel'],
+.form-wp textarea,
+.form-wp select {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #faf6fe !important;
+  color: #1a1b1a !important;
+  padding: 13px 24px !important;
+  margin: 0 !important;
+  font-family: "Plus Jakarta Sans", Inter, Lexend, Manrope, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  box-shadow: none !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.main-form textarea,
+.wpcf7 .main-form textarea,
+.contactform textarea {
+  height: 115px !important;
+  min-height: 115px !important;
+  resize: vertical;
+}
+
+.main-form select,
+.wpcf7 .main-form select,
+.contactform select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1.41 0L6 4.58 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 18px center !important;
+  padding-right: 44px !important;
+  cursor: pointer;
+}
+
+/* Phone: keep dial-code flag strip space (live wp-custom-css) */
+.main-form .selected-flag,
+.wpcf7 .selected-flag {
+  min-width: 100px !important;
+}
+
+.main-form .separate-dial-code input.wpcf7-validates-as-phonetext,
+.main-form .intl-tel-input.separate-dial-code input,
+.main-form .iti--separate-dial-code input,
+.wpcf7 .separate-dial-code input.wpcf7-validates-as-phonetext,
+.wpcf7 .intl-tel-input.separate-dial-code input {
+  padding-left: 110px !important;
+}
+
+.main-form .intl-tel-input.separate-dial-code .selected-flag,
+.wpcf7 .intl-tel-input.separate-dial-code .selected-flag {
+  background: transparent !important;
+}
+
+.main-form .intl-tel-input,
+.main-form .iti,
+.wpcf7 .intl-tel-input,
+.wpcf7 .iti {
+  width: 100% !important;
+}
+
+.main-form .intl-tel-input input,
+.main-form .iti input,
+.main-form .iti__tel-input,
+.wpcf7 .intl-tel-input input,
+.wpcf7 .iti input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.main-form input[type='submit'],
+.main-form .wpcf7-submit,
+.wpcf7 .main-form input[type='submit'],
+.wpcf7 .main-form .wpcf7-submit,
+.contactform input[type='submit'],
+.contactform .wpcf7-submit,
+.form-wp input[type='submit'] {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  cursor: pointer;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #3d1457 !important;
+  color: #ffffff !important;
+  font-family: "Plus Jakarta Sans", Inter, Lexend, Kanit, sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: 25.6px !important;
+  padding: 13px 24px !important;
+  height: auto !important;
+  margin-top: 8px !important;
+}
+
+.main-form input[type='submit']:hover,
+.main-form .wpcf7-submit:hover,
+.contactform input[type='submit']:hover {
+  background: #2e0f42 !important;
+  color: #ffffff !important;
+}
+
+.wpcf7-not-valid,
+.wpcf7 .wpcf7-not-valid {
+  border: 1px solid #b82e29 !important;
+}
+.wpcf7-not-valid-tip,
+.wpcf7-validation-errors,
+.wpcf7-response-output,
+.main-form .wpcf7-response-output,
+.f-border .wpcf7-response-output,
+.main-form .wpcf7-response-output.wpcf7-mail-sent-ng,
+.f-border .wpcf7 form.failed .wpcf7-response-output,
+.f-border .wpcf7 form.invalid .wpcf7-response-output {
+  color: #b82e29 !important;
+  border-color: #b82e29 !important;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+}
+
+.main-form .wpcf7-response-output.wpcf7-mail-sent-ok,
+.f-border .wpcf7 form.sent .wpcf7-response-output {
+  color: #1a7a3a !important;
+  border-color: #1a7a3a !important;
+}
+
+.wpcf7 textarea#testgclid,
+.wpcf7 textarea#initial_url,
+.wpcf7 textarea[name='gclid'],
+.wpcf7 textarea[name='initial_url'],
+.wpcf7 .wpcf7-form-control-wrap[data-name='gclid'],
+.wpcf7 .wpcf7-form-control-wrap[data-name='initial_url'] {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.elementor-766 .elementor-element-4bdec42 .elementor-heading-title {
+  font-family: Manrope, Inter, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 34px !important;
+  color: #1a1b1a !important;
+}
+
+.elementor-location-header .elementor-sticky--active,
+.elementor-element-6f7aa16.elementor-sticky--active {
+  z-index: 1000 !important;
+}
+.elementor-element-f006bfc.elementor-sticky--active {
+  z-index: 10 !important;
+}

@@ -1,0 +1,109 @@
+---
+/**
+ * Blog / Insights index — Impreza us_grid mirror (src/legacy/blog.cleaned.html).
+ * Pagination uses regular /blog/page/N/ links (not AJAX blog-list).
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
+import { applySharedChrome } from '../lib/shared-chrome.js';
+import { resolveSiteOrigin } from '../lib/seo/site-url';
+
+export const prerender = false;
+
+function absolutizeBlogSeo(html: string): string {
+  let origin = 'https://pittant.com';
+  try {
+    origin = resolveSiteOrigin();
+  } catch {
+    /* keep default */
+  }
+  const absolutePage = `${origin}/blog/`;
+  let out = html;
+  if (/rel=["']canonical["']/i.test(out)) {
+    out = out.replace(
+      /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
+      `<link rel="canonical" href="${absolutePage}" />`,
+    );
+  }
+  out = out.replace(
+    /<meta\s+[^>]*property=["']og:url["'][^>]*>/gi,
+    `<meta property="og:url" content="${absolutePage}" />`,
+  );
+  out = out.replace(
+    /(<meta\s+(?:property|name)=["'](?:og:image|twitter:image)["']\s+content=["'])(\/[^"']+)(["'])/gi,
+    `$1${origin}$2$3`,
+  );
+  return out;
+}
+
+function decorateBlogPage(html: string): string {
+  let out = html;
+
+  // Do NOT inject pittant-blog-listing.js — live uses Impreza us_grid + /blog/page/N/.
+  out = out.replace(
+    /<script[^>]*id="custom-blog-listing-script-js"[^>]*><\/script>/i,
+    '<!-- WP custom-blog-listing removed -->',
+  );
+  out = out.replace(
+    /<script[^>]*src="[^"]*pittant-blog-listing\.js[^"]*"[^>]*><\/script>/gi,
+    '<!-- pittant-blog-listing removed — Impreza pagination -->',
+  );
+
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/astro-mirror-fixes.js?v=20260805-qa9" defer></script>\n</body>`,
+    );
+  } else {
+    out = out.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260805-qa9',
+    );
+  }
+
+  if (!out.includes('cf-email-decode.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/cf-email-decode.js" defer></script>\n</body>`,
+    );
+  }
+
+  // Active pagination styles match live us-nav-style_6 (teal inactive, light current).
+  if (!out.includes('data-pittant-blog-pagination-css')) {
+    const css = `<style data-pittant-blog-pagination-css="1">
+.nav-links.custom.us-nav-style_6{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin:2rem 0 1rem;}
+.nav-links.custom.us-nav-style_6 .page-numbers{
+  display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:42px;padding:0 12px;
+  border-radius:8px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;pointer-events:auto!important;z-index:2;position:relative;
+}
+.nav-links.custom.us-nav-style_6 a.page-numbers{background:var(--color-content-primary,#00a88e);color:#fff!important;border-color:transparent;}
+.nav-links.custom.us-nav-style_6 a.page-numbers:hover{filter:brightness(0.95);}
+.nav-links.custom.us-nav-style_6 span.page-numbers.current{
+  background:#fff;color:#1a1a1a!important;border:1px solid #d0d5dd;cursor:default;
+}
+.nav-links.custom.us-nav-style_6 span.page-numbers.dots{background:transparent;border:0;min-width:auto;color:#667085;}
+.nav-links.custom.us-nav-style_6 a.prev.page-numbers,
+.nav-links.custom.us-nav-style_6 a.next.page-numbers{background:var(--color-content-primary,#00a88e);color:#fff!important;}
+</style>`;
+    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${css}\n</head>`) : css + out;
+  }
+
+  return out;
+}
+
+const cleanedPath = join(process.cwd(), 'src/legacy/blog.cleaned.html');
+if (!existsSync(cleanedPath)) {
+  return new Response('Blog page not prepared', { status: 404 });
+}
+
+let html = readFileSync(cleanedPath, 'utf8');
+html = absolutizeBlogSeo(decorateBlogPage(injectRuntimeGtmLoader(applySharedChrome(html, 'blog'))));
+
+return new Response(html, {
+  headers: {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Cache-Control': 'public, max-age=0',
+  },
+});
+---

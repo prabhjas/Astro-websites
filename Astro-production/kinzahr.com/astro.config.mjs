@@ -23,6 +23,7 @@ export default defineConfig({
   // request URL as http://, and checkOrigin rejects HTTPS visitors' form
   // POSTs with "Cross-site POST form submissions are forbidden" (403).
   security: {
+    checkOrigin: true,
     allowedDomains: [
       { hostname: 'kinzahr.com', protocol: 'https' },
       { hostname: 'www.kinzahr.com', protocol: 'https' },
@@ -37,5 +38,11 @@ export default defineConfig({
   },
   vite: {
     assetsInclude: ['**/*.cleaned.html'],
+    // Never serve legacy PHP reference sources over the dev/static file server.
+    server: {
+      fs: {
+        deny: ['**/.env', '**/.env.*', '**/*.php'],
+      },
+    },
   },
 });
