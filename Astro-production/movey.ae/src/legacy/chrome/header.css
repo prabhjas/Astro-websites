@@ -1,0 +1,110 @@
+/* Movey shared header — primary look comes from Astra/Elementor CSS */
+
+/* Keep header logo at brand proportions (wide wordmark, not square favicon crop). */
+.elementor-location-header .elementor-widget-image img[src*="Logo-color"],
+.elementor-location-header .elementor-widget-image img[src*="Logo-white"] {
+  width: auto !important;
+  max-width: 236px;
+  max-height: 56px;
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* Submenu caret: avoid empty tofu square when icon font races in */
+.elementor-nav-menu .menu-item-has-children > a .sub-arrow {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.35em;
+  line-height: 1;
+}
+
+.elementor-nav-menu .menu-item-has-children > a .sub-arrow svg {
+  width: 0.65em;
+  height: 0.65em;
+  fill: currentColor;
+}
+/* Service-page FAQ + CTA rows — match Movey design mockups */
+.elementor-widget-accordion.bd_r .elementor-accordion,
+.elementor-widget-accordion.bd_r2 .elementor-accordion {
+  border: 0 !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-item,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e8e8e8 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-title,
+.elementor-widget-accordion.bd_r2 .elementor-tab-title {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 0.1rem !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  color: #111 !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-icon-closed,
+.elementor-widget-accordion.bd_r .elementor-accordion-icon-opened,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon-closed,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon-opened {
+  display: none !important;
+}
+
+.elementor-widget-accordion.bd_r .elementor-accordion-icon::before,
+.elementor-widget-accordion.bd_r2 .elementor-accordion-icon::before {
+  content: '+';
+  color: #ff0173;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-title.elementor-active .elementor-accordion-icon::before,
+.elementor-widget-accordion.bd_r2 .elementor-tab-title.elementor-active .elementor-accordion-icon::before {
+  content: '−';
+}
+
+.elementor-widget-accordion.bd_r .elementor-tab-content,
+.elementor-widget-accordion.bd_r2 .elementor-tab-content {
+  border: 0 !important;
+  padding: 0 0.1rem 1rem !important;
+}
+
+/* Footer brand graphic (pink→orange speed bars) */
+.elementor-location-footer .elementor-element-29ed4d40,
+.elementor-370 .elementor-element-29ed4d40 {
+  background-image: url('/wp-content/uploads/2023/08/Footer_bkg.png') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-color: #ff0173 !important;
+}
+
+.elementor-location-footer .elementor-element-29ed4d40:not(.elementor-motion-effects-element-type-background),
+.elementor-370 .elementor-element-29ed4d40:not(.elementor-motion-effects-element-type-background),
+.elementor-370 .elementor-element-29ed4d40 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-image: url('/wp-content/uploads/2023/08/Footer_bkg.png') !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+
+
+/* Sticky header clearance — contact title was clipped under fixed header */
+.elementor-3218 .elementor-element-75bfedf {
+  padding-top: 6.5rem !important;
+}
+
+/* Keep first content clear of sticky header when hero spacer is short */
+.elementor-location-header ~ .elementor[data-elementor-type="wp-page"] > .elementor-top-section:first-child {
+  min-height: 0;
+}
