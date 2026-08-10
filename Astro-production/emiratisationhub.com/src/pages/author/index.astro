@@ -1,0 +1,14 @@
+---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { serveLegacyPage } from '../../lib/legacy-page.js';
+import { serveAuthorDirectory } from '../../lib/authors.ts';
+
+export const prerender = false;
+
+// Prefer pixel-perfect live HTML mirror when prepared.
+if (existsSync(join(process.cwd(), 'src/legacy/author.cleaned.html'))) {
+  return serveLegacyPage('author');
+}
+return serveAuthorDirectory();
+---

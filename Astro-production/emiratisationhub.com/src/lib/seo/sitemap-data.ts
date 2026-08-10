@@ -62,6 +62,14 @@ function applyOverrides(
   });
 }
 
+function inventorySlug(entry: unknown): string {
+  if (typeof entry === 'string') return entry;
+  if (entry && typeof entry === 'object' && 'slug' in entry) {
+    return String((entry as { slug: unknown }).slug || '');
+  }
+  return '';
+}
+
 function collectFromInventory(
   siteOrigin: string,
   overrides: Record<string, SitemapOverride>,
@@ -70,8 +78,16 @@ function collectFromInventory(
   const prepared = new Set(listAllPreparedPaths());
 
   const pageSlugs = inventory.pages.length
-    ? inventory.pages.map((p) => (p.slug === 'homepage' ? '' : p.slug))
+    ? inventory.pages.map((p) => {
+        const raw = inventorySlug(p);
+        return raw === 'homepage' ? '' : raw;
+      })
     : [...prepared].filter((s) => s === '');
+
+  // Live page-sitemap always includes `/` even when inventory omits homepage.
+  if (!pageSlugs.includes('') && prepared.has('')) {
+    pageSlugs.unshift('');
+  }
 
   const pages: SitemapEntry[] = [];
   for (const slug of pageSlugs) {

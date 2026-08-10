@@ -299,6 +299,13 @@
       fa.href = '/css/fontawesome-all.min.css?v=20260804';
       document.head.appendChild(fa);
     }
+    if (!document.querySelector('link[href*="eicons"],link[href*="elementor-icons"]') && !document.getElementById('astro-eicons-css')) {
+      var ei = document.createElement('link');
+      ei.id = 'astro-eicons-css';
+      ei.rel = 'stylesheet';
+      ei.href = '/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css';
+      document.head.appendChild(ei);
+    }
     if (!document.querySelector('link[href*="swiper"]') && !document.getElementById('astro-swiper-css')) {
       var sw = document.createElement('link');
       sw.id = 'astro-swiper-css';
@@ -308,27 +315,76 @@
     }
   }
 
-  /** WP Rocket leaves type="rocketlazyloadscript" / type="text/rocketlazyloadscript" — unwrap */
+  /**
+   * WP Rocket leaves type="rocketlazyloadscript" — browsers ignore those tags.
+   * Mutating `type`/`src` in place does NOT execute them; we must replace the node.
+   */
   function unwrapRocketLazyScripts() {
     document
       .querySelectorAll(
-        'script[type="rocketlazyloadscript"],script[type="text/rocketlazyloadscript"]',
+        'script[type="rocketlazyloadscript"],script[type="text/rocketlazyloadscript"],script[data-rocket-src]',
       )
       .forEach(function (script) {
-        var src = script.getAttribute('data-rocket-src') || script.getAttribute('src');
-        if (script.getAttribute('data-rocket-src') && !script.getAttribute('src')) {
-          script.setAttribute('src', script.getAttribute('data-rocket-src'));
-          script.removeAttribute('data-rocket-src');
-        } else if (!src && script.textContent && script.textContent.trim()) {
-          var replacement = document.createElement('script');
-          if (script.className) replacement.className = script.className;
-          if (script.id) replacement.id = script.id;
+        if (!script || !script.parentNode) return;
+        if (script.dataset.astroRocketUnwrapped === '1') return;
+        script.dataset.astroRocketUnwrapped = '1';
+
+        var src = script.getAttribute('data-rocket-src') || script.getAttribute('src') || '';
+        var replacement = document.createElement('script');
+        Array.prototype.forEach.call(script.attributes || [], function (attr) {
+          if (!attr || !attr.name) return;
+          if (attr.name === 'type' || attr.name === 'data-rocket-src' || attr.name === 'data-rocket-defer') return;
+          try {
+            replacement.setAttribute(attr.name, attr.value);
+          } catch (e) {
+            /* ignore invalid attrs */
+          }
+        });
+        if (src) {
+          replacement.src = src;
+          if (script.hasAttribute('defer') || script.getAttribute('data-rocket-defer') != null) {
+            replacement.defer = true;
+          }
+          if (script.hasAttribute('async')) replacement.async = true;
+        } else if (script.textContent && script.textContent.trim()) {
           replacement.textContent = script.textContent;
-          script.parentNode.replaceChild(replacement, script);
+        } else {
           return;
         }
-        script.removeAttribute('type');
+        script.parentNode.replaceChild(replacement, script);
       });
+  }
+
+  /** Ensure Swiper global exists even if Elementor chunk is still racing. */
+  function ensureSwiperGlobal(cb) {
+    if (typeof window.Swiper !== 'undefined') {
+      if (typeof cb === 'function') cb();
+      return;
+    }
+    if (window.__astroSwiperLoading) {
+      if (typeof cb === 'function') {
+        var tries = 0;
+        var t = setInterval(function () {
+          tries += 1;
+          if (typeof window.Swiper !== 'undefined' || tries > 40) {
+            clearInterval(t);
+            if (typeof window.Swiper !== 'undefined' && typeof cb === 'function') cb();
+          }
+        }, 100);
+      }
+      return;
+    }
+    window.__astroSwiperLoading = true;
+    var s = document.createElement('script');
+    s.src = '/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5';
+    s.onload = function () {
+      window.__astroSwiperLoading = false;
+      if (typeof cb === 'function') cb();
+    };
+    s.onerror = function () {
+      window.__astroSwiperLoading = false;
+    };
+    document.head.appendChild(s);
   }
 
   /** Scrollsequence (Global Footprint canvas scrub) */
@@ -645,6 +701,10 @@
   /** Elementor image carousel (client logo marquee on subsidiary pages) */
   function ensureImageCarousels() {
     if (typeof Swiper === 'undefined') {
+      ensureSwiperGlobal(function () {
+        ensureImageCarousels();
+        ensureLoopCarousel();
+      });
       scheduleCarouselRetry();
       return;
     }
@@ -910,6 +970,10 @@
   /** Elementor Pro loop-carousel (Insights / blog cards) */
   function ensureLoopCarousel() {
     if (typeof Swiper === 'undefined') {
+      ensureSwiperGlobal(function () {
+        ensureLoopCarousel();
+        ensureImageCarousels();
+      });
       scheduleCarouselRetry();
       return;
     }
@@ -1100,16 +1164,16 @@
     });
   }
 
-  /** WP Rocket / Elementor lazy images: promote data-lazy-src to real src */
+  /** WP Rocket / Elementor / Swiper lazy images: promote data-lazy-src + data-src to real src */
   function ensureLazyImages() {
-    document.querySelectorAll('img[data-lazy-src]').forEach(function (img) {
-      var lazySrc = img.getAttribute('data-lazy-src');
+    document.querySelectorAll('img[data-lazy-src], img[data-src], img.swiper-lazy').forEach(function (img) {
+      var lazySrc = img.getAttribute('data-lazy-src') || img.getAttribute('data-src');
       if (!lazySrc) return;
       var current = img.getAttribute('src') || '';
       if (!current || current.indexOf('data:image') === 0 || current !== lazySrc) {
         img.setAttribute('src', lazySrc);
       }
-      var lazySrcset = img.getAttribute('data-lazy-srcset');
+      var lazySrcset = img.getAttribute('data-lazy-srcset') || img.getAttribute('data-srcset');
       if (lazySrcset && !img.getAttribute('srcset')) {
         img.setAttribute('srcset', lazySrcset);
       }
@@ -1118,8 +1182,25 @@
         img.setAttribute('sizes', lazySizes);
       }
       img.removeAttribute('data-lazy-src');
+      img.removeAttribute('data-src');
       img.removeAttribute('data-lazy-srcset');
+      img.removeAttribute('data-srcset');
       img.removeAttribute('data-lazy-sizes');
+      img.classList.remove('swiper-lazy');
+      img.classList.add('swiper-lazy-loaded');
+      var slide = img.closest('.swiper-slide, .swiper-slide-inner, figure');
+      if (slide) {
+        slide.querySelectorAll('.swiper-lazy-preloader').forEach(function (el) {
+          el.remove();
+        });
+      }
+    });
+    // Also drop orphan preloaders when images already have real src
+    document.querySelectorAll('.swiper-lazy-preloader').forEach(function (el) {
+      var slide = el.closest('.swiper-slide, .swiper-slide-inner, figure');
+      var img = slide && slide.querySelector('img');
+      var src = img && img.getAttribute('src');
+      if (src && src.indexOf('data:image') !== 0) el.remove();
     });
   }
 
@@ -1348,6 +1429,21 @@
 
   /** Classic Elementor accordion (FAQ) — reliable toggle (no mid-collapse ghost text) */
   function ensureClassicAccordion() {
+    function ensureFaqIcons(root) {
+      root.querySelectorAll('.elementor-tab-title').forEach(function (title) {
+        if (title.querySelector('.elementor-accordion-icon')) return;
+        var icon = document.createElement('span');
+        icon.className = 'elementor-accordion-icon elementor-accordion-icon-left';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML =
+          '<span class="elementor-accordion-icon-closed"><span class="elementor-accordion-icon-closed-text">+</span></span>' +
+          '<span class="elementor-accordion-icon-opened"><span class="elementor-accordion-icon-opened-text">–</span></span>';
+        var link = title.querySelector('.elementor-accordion-title');
+        if (link) title.insertBefore(icon, link);
+        else title.insertBefore(icon, title.firstChild);
+      });
+    }
+
     function getContent(title) {
       var contentId = title.getAttribute('aria-controls');
       return contentId ? document.getElementById(contentId) : null;
@@ -1377,7 +1473,20 @@
       clearAnim(content);
       content.classList.add('elementor-active');
       content.hidden = false;
-      content.style.removeProperty('display');
+      content.style.display = 'block';
+      content.style.overflow = 'hidden';
+      content.style.height = '0px';
+      content.style.opacity = '0';
+      // Force reflow then animate open
+      void content.offsetHeight;
+      var target = content.scrollHeight;
+      content.style.transition = 'height 280ms ease, opacity 220ms ease';
+      content.style.height = target + 'px';
+      content.style.opacity = '1';
+      content._astroAccordionTimer = window.setTimeout(function () {
+        clearAnim(content);
+        content.style.removeProperty('display');
+      }, 300);
     }
 
     function closePanel(title) {
@@ -1386,9 +1495,20 @@
       title.setAttribute('aria-expanded', 'false');
       if (!content) return;
       clearAnim(content);
-      content.classList.remove('elementor-active');
-      content.hidden = true;
-      content.style.display = 'none';
+      content.style.display = 'block';
+      content.style.overflow = 'hidden';
+      content.style.height = content.scrollHeight + 'px';
+      content.style.opacity = '1';
+      void content.offsetHeight;
+      content.style.transition = 'height 240ms ease, opacity 180ms ease';
+      content.style.height = '0px';
+      content.style.opacity = '0';
+      content._astroAccordionTimer = window.setTimeout(function () {
+        content.classList.remove('elementor-active');
+        content.hidden = true;
+        content.style.display = 'none';
+        clearAnim(content);
+      }, 260);
     }
 
     function collapseAll(root) {
@@ -1400,6 +1520,7 @@
     document.querySelectorAll('.elementor-widget-accordion .elementor-accordion').forEach(function (root) {
       if (root.dataset.astroAccordion) return;
       root.dataset.astroAccordion = '1';
+      ensureFaqIcons(root);
 
       // Collapse all by default (match live collapsed FAQ look)
       collapseAll(root);
@@ -1896,19 +2017,29 @@
       /* FAQ affordance — match live Elementor accordion (no fake link underlines) */
       '.elementor-widget-accordion .elementor-tab-title{cursor:pointer;}',
       '.elementor-widget-accordion .elementor-accordion-item{overflow:hidden;}',
-      '.elementor-widget-accordion .elementor-tab-content:not(.elementor-active),' +
-        '.elementor-widget-accordion .elementor-tab-content[hidden]{display:none!important;height:auto!important;opacity:1!important;overflow:visible!important;}',
-      '.elementor-widget-accordion .elementor-tab-content.elementor-active{display:block!important;}',
+      /* Keep closed panels hidden, but do not force height/opacity (breaks smooth open) */
+      '.elementor-widget-accordion .elementor-tab-content:not(.elementor-active){display:none;}',
+      '.elementor-widget-accordion .elementor-tab-content[hidden]{display:none!important;}',
+      '.elementor-widget-accordion .elementor-tab-content.elementor-active{display:block;}',
       '.elementor-widget-accordion .elementor-tab-title .elementor-accordion-title,' +
         '.elementor-widget-accordion .elementor-tab-title a.elementor-accordion-title{' +
         'text-decoration:none!important;color:inherit;font-weight:700;box-shadow:none!important;}' +
         '.elementor-widget-accordion .elementor-tab-title .elementor-accordion-title:hover,' +
         '.elementor-widget-accordion .elementor-tab-title .elementor-accordion-title:focus{' +
         'text-decoration:none!important;}',
-      '.elementor-widget-accordion .elementor-accordion-icon{display:inline-flex;align-items:center;margin-right:10px;}',
+      '.elementor-widget-accordion .elementor-accordion-icon{display:inline-flex;align-items:center;justify-content:center;min-width:1.1em;margin-right:10px;float:none;font-size:18px;font-weight:700;line-height:1;color:#121212;}',
+      '.elementor-widget-accordion .elementor-tab-title{display:flex;align-items:center;justify-content:flex-start;gap:8px;}',
+      '.elementor-widget-accordion .elementor-tab-title .elementor-accordion-title{flex:1;}',
       '.elementor-widget-accordion .elementor-tab-title:not(.elementor-active) .elementor-accordion-icon-opened{display:none!important;}',
       '.elementor-widget-accordion .elementor-tab-title.elementor-active .elementor-accordion-icon-closed{display:none!important;}',
       '.elementor-widget-accordion .elementor-tab-title.elementor-active .elementor-accordion-icon-opened{display:inline-flex!important;}',
+      /* Blog Latest Blogs category chips */
+      '.catbutton .filter-button{cursor:pointer;}',
+      '.catbutton .filter-button.active,.catbutton .filter-button.is-active{background:#5A8C1C!important;color:#fff!important;border-color:#5A8C1C!important;}',
+      '.filter-post .main-post.post-wrap{display:flex;gap:24px;align-items:flex-start;margin-bottom:28px;}',
+      '.filter-post .main-post.post-wrap.is-hidden{display:none!important;}',
+      /* Sticky form: ancestor overflow must not clip sticky */
+      '@media (min-width:768px){.elementor-section:has(.elementor-element-3595752),.elementor-section:has(.elementor-element-3595752)>.elementor-container,.elementor-section:has(.elementor-element-3595752) .elementor-column,.elementor-section:has(.elementor-element-3595752)>.elementor-container>.elementor-column>.elementor-widget-wrap{overflow:visible!important;}}',
       'img[data-rv-broken]{visibility:hidden;max-height:0;margin:0;padding:0;}',
       /* Bootstrap collapse FAQ (Pixfort / WPBakery) */
       '.accordion [data-toggle="collapse"],.accordion [data-bs-toggle="collapse"]{cursor:pointer;}',
@@ -2714,7 +2845,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(buildContactFormPayload(form)),
@@ -2909,38 +3040,42 @@
       });
   }
 
-  /** Disable Elementor jQuery-sticky on CRS post sidebar — CSS sticky is the source of truth. */
+  /** Prefer CSS sticky for single-post sidebar forms (Elementor sticky often never boots). */
   function preferCssStickyPostForm() {
-    document.querySelectorAll('.elementor-element-f006bfc').forEach(function (el) {
-      if (el.dataset.astroCssSticky) return;
-      el.dataset.astroCssSticky = '1';
-      // Strip Elementor sticky flags so jquery.sticky does not force position:fixed
-      var raw = el.getAttribute('data-settings') || '';
-      if (raw && /sticky/.test(raw)) {
-        try {
-          var settings = JSON.parse(
-            raw.replace(/&quot;/g, '"').replace(/&amp;/g, '&'),
-          );
-          delete settings.sticky;
-          delete settings.sticky_on;
-          delete settings.sticky_parent;
-          delete settings.sticky_offset;
-          el.setAttribute('data-settings', JSON.stringify(settings));
-        } catch (e) {
-          /* keep original */
+    document
+      .querySelectorAll('.elementor-element-f006bfc, .elementor-element-3595752')
+      .forEach(function (el) {
+        if (el.dataset.astroCssSticky) return;
+        el.dataset.astroCssSticky = '1';
+        // Strip Elementor sticky flags so jquery.sticky does not force position:fixed
+        var raw = el.getAttribute('data-settings') || '';
+        if (raw && /sticky/.test(raw)) {
+          try {
+            var settings = JSON.parse(
+              raw.replace(/&quot;/g, '"').replace(/&amp;/g, '&'),
+            );
+            delete settings.sticky;
+            delete settings.sticky_on;
+            delete settings.sticky_parent;
+            delete settings.sticky_offset;
+            el.setAttribute('data-settings', JSON.stringify(settings));
+          } catch (e) {
+            /* keep original */
+          }
         }
-      }
-      el.classList.remove('elementor-sticky', 'elementor-sticky--active', 'elementor-sticky--effects');
-      el.style.removeProperty('top');
-      el.style.removeProperty('position');
-      el.style.removeProperty('width');
-      el.style.removeProperty('left');
-    });
+        el.classList.remove('elementor-sticky', 'elementor-sticky--active', 'elementor-sticky--effects');
+        el.style.removeProperty('top');
+        el.style.removeProperty('position');
+        el.style.removeProperty('width');
+        el.style.removeProperty('left');
+      });
 
     // Fixed-position fallback when CSS sticky cannot engage
     if (window.__astroPostFormStickyBound) return;
     window.__astroPostFormStickyBound = true;
-    var el = document.querySelector('.elementor-element-f006bfc');
+    var el =
+      document.querySelector('.elementor-element-f006bfc') ||
+      document.querySelector('.elementor-element-3595752');
     if (!el) return;
     var col = el.closest('.elementor-column');
     if (!col) return;
@@ -3027,12 +3162,48 @@
     setTimeout(onScroll, 500);
   }
 
+  /** Latest Blogs shortcode filters (`.filter-button` → `.filter-post .filter`) */
+  function ensureBlogCategoryFilters() {
+    var buttons = document.querySelectorAll('.catbutton .filter-button, .filter-button[data-filter]');
+    var posts = document.querySelectorAll('.filter-post .filter, .filter-post .main-post.post-wrap');
+    if (!buttons.length || !posts.length) return;
+
+    function applyFilter(value) {
+      var slug = String(value || 'all').toLowerCase();
+      var isAll = !slug || slug === 'all';
+      posts.forEach(function (post) {
+        var match = isAll || post.classList.contains(slug);
+        post.classList.toggle('is-hidden', !match);
+        post.style.display = match ? '' : 'none';
+      });
+      buttons.forEach(function (btn) {
+        var active = String(btn.getAttribute('data-filter') || '').toLowerCase() === slug || (isAll && String(btn.getAttribute('data-filter') || '').toLowerCase() === 'all');
+        btn.classList.toggle('active', active);
+        btn.classList.toggle('is-active', active);
+      });
+    }
+
+    buttons.forEach(function (btn) {
+      if (btn.dataset.astroFilterBound === '1') return;
+      btn.dataset.astroFilterBound = '1';
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        applyFilter(btn.getAttribute('data-filter') || 'all');
+      });
+    });
+
+    // Default: show all
+    applyFilter('all');
+  }
+
   function boot() {
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
+    safe(ensureFormFixCss);
     safe(preferCssStickyPostForm);
     safe(wireLegacyContactForms);
     safe(unwrapRocketLazyScripts);
+    safe(ensureSwiperGlobal);
     safe(prepareTestimonialCarousels);
     safe(ensureLazyImages);
     safe(fixResponsiveImages);
@@ -3048,6 +3219,7 @@
     safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(ensureBlogCategoryFilters);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
     safe(ensurePixfortAnimations);
@@ -3073,6 +3245,7 @@
       safe(ensureHaCarousel);
       safe(ensureKinzaFormSkin);
       safe(ensureTaxonomyFilter);
+      safe(ensureBlogCategoryFilters);
       safe(ensureStickySidebarClamp);
       safe(bindStickySidebarClampObservers);
     }, 600);
@@ -3093,6 +3266,7 @@
       safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(ensureBlogCategoryFilters);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
       safe(ensurePixfortAnimations);
@@ -3139,6 +3313,18 @@
       safe(forceUninitCarousels);
       safe(ensurePhoneCountryFields);
     }, 4000);
+  }
+
+  /** Ensure Emiratisation Hub form/menu CSS is present on every page (incl. homepage). */
+  function ensureFormFixCss() {
+    if (document.querySelector('link[href*="form-fix.css"]') || document.getElementById('astro-form-fix-css')) {
+      return;
+    }
+    var link = document.createElement('link');
+    link.id = 'astro-form-fix-css';
+    link.rel = 'stylesheet';
+    link.href = '/css/form-fix.css?v=20260808';
+    document.head.appendChild(link);
   }
 
   /**

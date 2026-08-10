@@ -1,7 +1,64 @@
-# Redirects for emiratisationhub.com
-# Format:
-#   redirects:
-#     - from: /old-path/
-#       to: /new-path/
-#       status: 301   # optional, defaults to 301
-redirects: []
+# Canonical interim redirects for emiratisationhub.com
+# Sources: existing aliases + imports/redirects/2026-08-08-redirection-log.csv (unique source→target).
+# Drop future Rank Math / Redirection exports under imports/redirects/
+# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# FLOW will own day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /emiratisation-hub/
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+  - from: /hello-world/
+    to: /
+    status: 301
+  - from: /home/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /our-services/
+    to: /emiratisation/
+    status: 301
+  - from: /privacy-policy/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+  - from: /services/
+    to: /emiratisation/
+    status: 301
+  - from: /services/emiratisation/
+    to: /emiratisation/
+    status: 301
+  - from: /sitemap.xml
+    to: /sitemap_index.xml
+    status: 301
+  - from: /sitemap/
+    to: /
+    status: 301
+  - from: /terms-and-conditions/
+    to: /
+    status: 301
+  - from: /terms/
+    to: /
+    status: 301

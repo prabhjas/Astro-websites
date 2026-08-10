@@ -1,0 +1,131 @@
+{
+  "checks": [
+    {
+      "name": "sitemap_index 200",
+      "ok": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "sitemap_index xml",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sitemap_index has locs",
+      "ok": true,
+      "detail": "count=2 sample=https://alburaq.ae/page-sitemap.xml, https://alburaq.ae/post-sitemap.xml"
+    },
+    {
+      "name": "sitemap chunks ok",
+      "ok": true,
+      "detail": "urls=87"
+    },
+    {
+      "name": "sitemap url count",
+      "ok": true,
+      "detail": "totalUrls=87"
+    },
+    {
+      "name": "sitemap sample URLs 200",
+      "ok": true,
+      "detail": "10/10"
+    },
+    {
+      "name": "redirects.json present",
+      "ok": true,
+      "detail": "count=15"
+    },
+    {
+      "name": "local redirects",
+      "ok": true,
+      "detail": "15/15"
+    },
+    {
+      "name": "redirect structure documented",
+      "ok": true,
+      "detail": "[\"/about/: live=301 https://alburaq.ae | local=301 /about-us/\",\"/aboutus/: live=301 https://alburaq.ae | local=301 /about-us/\",\"/contact/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/contactus/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/get-in-touch/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/home/: live=301 https://alburaq.ae/ | local=301 /\",\"/home-new/: li"
+    },
+    {
+      "name": "runtime-gtm.js 200",
+      "ok": true,
+      "detail": "len=2325"
+    },
+    {
+      "name": "home loads runtime-gtm",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no hardcoded gtm.js in home",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no hardcoded G- id in home html",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "PUBLIC_GA4_ID in .env",
+      "ok": true,
+      "detail": "G-9WMEJS3R07"
+    },
+    {
+      "name": "PUBLIC_GTM_ID optional",
+      "ok": true,
+      "detail": "(empty — live uses gtag/GA4 only)"
+    },
+    {
+      "name": "runtime-gtm embeds GA4 from env",
+      "ok": true,
+      "detail": "looks for G-9WMEJS3R07"
+    },
+    {
+      "name": "cleaned html free of hardcoded gtm/gtag",
+      "ok": true,
+      "detail": "0 dirty"
+    },
+    {
+      "name": "no external image hosts on sample pages",
+      "ok": true,
+      "detail": "0 external"
+    },
+    {
+      "name": "local upload assets resolve",
+      "ok": true,
+      "detail": "all ok"
+    },
+    {
+      "name": "robots.txt 200",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "robots mentions sitemap",
+      "ok": true,
+      "detail": "# Al Buraq — robots.txt defaults matching live (2026-08-05) # FLOW can override via managed text file. User-agent: * Disallow: Disallow: /cgi-bin/ Disallow: /cdn-cgi/ Disallow: /wp-admin/ Disallow: /"
+    },
+    {
+      "name": "robots has User-agent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "robots sitemap reachable",
+      "ok": true,
+      "detail": "https://alburaq.ae/sitemap_index.xml"
+    },
+    {
+      "name": "contact API success",
+      "ok": true,
+      "detail": "{\"success\":true,\"submissionId\":\"c636abb2-e3db-4888-86bc-29f251ae626f\",\"message\":\"Thank you. Your enquiry has been received.\"}"
+    },
+    {
+      "name": "lead stored with Pipedrive sync",
+      "ok": true,
+      "detail": "{\"id\":\"9c1c04a9-e8b7-40af-9dda-9f3202b553c6\",\"publicId\":\"c636abb2-e3db-4888-86bc-29f251ae626f\",\"deliveryStatus\":\"delivered\",\"pipedrivePersonId\":722672,\"pipedriveLeadId\":\"b72dda30-923a-11f1-90df-1beaaf55dd21\"}"
+    }
+  ],
+  "pass": 25,
+  "fail": 0
+}
