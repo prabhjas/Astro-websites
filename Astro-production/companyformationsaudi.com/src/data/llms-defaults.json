@@ -1,0 +1,37 @@
+{
+  "siteTitle": "Company Formation Saudi",
+  "summary": "Company Formation Saudi helps entrepreneurs and businesses set up and operate companies in the Kingdom of Saudi Arabia — licensing, visas, payroll, accounting, and labor-law guidance.",
+  "details": "Company Formation Saudi is part of Connect Group and publishes English and Arabic guides on Saudi company setup, visas, taxes, and labor law.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Law",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Articles cover Saudi company formation, visas, payroll, e-invoicing, and labor law.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "Company Formation Saudi homepage — Saudi business setup services."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About Company Formation Saudi."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact Company Formation Saudi."
+    },
+    "/saudi-arabia-labor-law/": {
+      "group": "Law",
+      "title": "Saudi Arabia Labor Law",
+      "description": "Guides to Saudi labor law topics."
+    }
+  }
+}
