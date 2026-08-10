@@ -10,17 +10,17 @@ import * as cheerio from "cheerio";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DATA = path.join(ROOT, "src", "data");
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 const UA = "EOR-Astro-Migration/1.0";
 const CONCURRENCY = Number(process.env.EOR_BODY_CONCURRENCY || 6);
 const MIN_BODY = 800;
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://www.ngmanpower.com", "")
-    .replaceAll("http://www.ngmanpower.com", "")
-    .replaceAll("https://ngmanpower.com", "")
-    .replaceAll("http://ngmanpower.com", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//ngmanpower.com", "")
     .replaceAll("//www.ngmanpower.com", "");
 }

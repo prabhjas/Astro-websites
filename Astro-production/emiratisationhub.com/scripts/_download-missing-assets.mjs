@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 const urls = new Set();
 
 function addUrl(raw) {

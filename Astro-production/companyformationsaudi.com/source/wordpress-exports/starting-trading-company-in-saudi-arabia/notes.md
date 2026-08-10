@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://companyformationsaudi.com/starting-trading-company-in-saudi-arabia/ |
+| Live URL | /starting-trading-company-in-saudi-arabia/ |
 | Fetched | 2026-08-08T06:11:43.055Z |

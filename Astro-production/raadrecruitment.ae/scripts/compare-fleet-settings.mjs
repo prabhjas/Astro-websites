@@ -38,7 +38,7 @@ async function probe(url, label) {
   await page.close();
 }
 
-await probe("https://spheavyrental.ae/heavy-machinery-rental/?nowprocket=1", "live");
+await probe("/heavy-machinery-rental/?nowprocket=1", "live");
 await probe("http://127.0.0.1:4321/heavy-machinery-rental/", "local");
 
 // about testimonials
@@ -63,7 +63,7 @@ async function probeAbout(url, label) {
   await page.close();
 }
 
-await probeAbout("https://spheavyrental.ae/about-us/?nowprocket=1", "live");
+await probeAbout("/about-us/?nowprocket=1", "live");
 await probeAbout("http://127.0.0.1:4321/about-us/", "local");
 
 await browser.close();

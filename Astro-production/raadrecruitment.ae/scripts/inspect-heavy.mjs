@@ -16,7 +16,7 @@ console.log("local top sections", (h.match(/elementor-top-section/g) || []).leng
 
 const b = await chromium.launch({ headless: true });
 const page = await b.newPage();
-await page.goto("https://spheavyrental.ae/heavy-machinery-rental/?nowprocket=1", {
+await page.goto("/heavy-machinery-rental/?nowprocket=1", {
   waitUntil: "networkidle",
   timeout: 90000,
 });
@@ -31,7 +31,7 @@ console.log("live top sections", (html.match(/elementor-top-section/g) || []).le
 
 // Also get without waiting for networkidle - raw SSR
 const page2 = await b.newPage();
-await page2.goto("https://spheavyrental.ae/heavy-machinery-rental/?nowprocket=1", {
+await page2.goto("/heavy-machinery-rental/?nowprocket=1", {
   waitUntil: "domcontentloaded",
   timeout: 60000,
 });

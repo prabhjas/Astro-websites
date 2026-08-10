@@ -21,7 +21,7 @@ for (const n of [
 console.log("sample", h.slice(0, 600).replace(/\s+/g, " "));
 
 const live = await (
-  await fetch("https://ngmanpower.com/insights/?nowprocket=1", {
+  await fetch("/insights/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

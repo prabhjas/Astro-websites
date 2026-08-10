@@ -6,7 +6,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 45 domains, ports **5080–5124**, next free **5125**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
+| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — ports **5080–5124**. **Live production = 28 sites** (Aaron inventory + immutable release `92d5bb1a2`) — see [SECURITY-AARON-FULL-HANDOFF](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md). **Next batch (scaffolded + Caddy in git):** Movey `:5104`, Emiratisationhub `:5107`, Connectzone `:5101`, MBS `:5099`, Companyformationsaudi `:5114`, Alburaq `:5120` (+ Raadrecruitment). Local smoke skips contact on live tier (`FLEET_SMOKE_CONTACT=1` to opt in). |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
 | **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |

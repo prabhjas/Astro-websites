@@ -45,7 +45,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.emiratisationhub.com, http://www.alburaq.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -138,6 +138,21 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@connectbusinesscenter host www.connectbusinesscenter.com
 	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
+
+	@movey host www.movey.ae
+	redir @movey https://movey.ae{uri} permanent
+
+	@mbs host www.mbs-consultancy.com
+	redir @mbs https://mbs-consultancy.com{uri} permanent
+
+	@connectzone host www.connectzone.ae
+	redir @connectzone https://connectzone.ae{uri} permanent
+
+	@emiratisationhub host www.emiratisationhub.com
+	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
+
+	@alburaq host www.alburaq.ae
+	redir @alburaq https://alburaq.ae{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -1124,6 +1139,146 @@ connectbusinesscenter.com, www.connectbusinesscenter.com {
 	}
 	log {
 		output file /var/log/caddy/connectbusinesscenter.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# movey.ae -> movey.service (PORT 5104) — git template only until owner cutover
+movey.ae, www.movey.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.movey.ae
+	redir @noncanonical https://movey.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5104
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/movey.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# mbs-consultancy.com -> mbs-consultancy.service (PORT 5099) — git template only until owner cutover
+mbs-consultancy.com, www.mbs-consultancy.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.mbs-consultancy.com
+	redir @noncanonical https://mbs-consultancy.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5099
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/mbs-consultancy.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectzone.ae -> connectzone.service (PORT 5101) — git template only until owner cutover
+connectzone.ae, www.connectzone.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectzone.ae
+	redir @noncanonical https://connectzone.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5101
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectzone.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# emiratisationhub.com -> emiratisationhub.service (PORT 5107) — git template only until owner cutover
+emiratisationhub.com, www.emiratisationhub.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationhub.com
+	redir @noncanonical https://emiratisationhub.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5107
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/emiratisationhub.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# alburaq.ae -> alburaq.service (PORT 5120) — git template only until owner cutover
+alburaq.ae, www.alburaq.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.alburaq.ae
+	redir @noncanonical https://alburaq.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5120
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/alburaq.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

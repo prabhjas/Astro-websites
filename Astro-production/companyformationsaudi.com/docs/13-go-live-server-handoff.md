@@ -52,11 +52,11 @@ Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Every
 
 ```bash
 curl -sS http://127.0.0.1:5114/api/health/
-curl -sI https://companyformationsaudi.com/ | head
-curl -sI https://www.companyformationsaudi.com/ | head   # → canonical apex
-curl -sI https://companyformationsaudi.com/robots.txt
-curl -sI https://companyformationsaudi.com/sitemap_index.xml
-curl -sI https://companyformationsaudi.com/about/
+curl -sI / | head
+curl -sI / | head   # → canonical apex
+curl -sI /robots.txt
+curl -sI /sitemap_index.xml
+curl -sI /about/
 ```
 
 ---

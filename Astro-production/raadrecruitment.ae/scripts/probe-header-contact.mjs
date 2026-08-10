@@ -11,7 +11,7 @@ console.log("section ids", ids);
 
 const browser = await chromium.launch({ headless: true });
 for (const [label, url] of [
-  ["live", "https://spheavyrental.ae/contact-us/?nowprocket=1"],
+  ["live", "/contact-us/?nowprocket=1"],
   ["local", "http://127.0.0.1:4321/contact-us/"],
 ]) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -61,7 +61,7 @@ for (const [label, url] of [
 for (const [label, url] of [
   ["home", "http://127.0.0.1:4321/"],
   ["blog", "http://127.0.0.1:4321/wheel-loaders-for-rent/"],
-  ["liveblog", "https://spheavyrental.ae/wheel-loaders-for-rent/?nowprocket=1"],
+  ["liveblog", "/wheel-loaders-for-rent/?nowprocket=1"],
 ]) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });

@@ -5,7 +5,7 @@ import fs from "node:fs";
 import { chromium } from "playwright";
 
 const LOCAL = "http://127.0.0.1:5102";
-const LIVE = "https://ngmanpower.com";
+const LIVE = "";
 
 function collectMedia(html) {
   const videos = [...html.matchAll(/<(?:video|source)[^>]*(?:src|data-src)=["']([^"']+)["']/gi)].map((m) => m[1]);

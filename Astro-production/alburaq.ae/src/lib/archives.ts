@@ -23,7 +23,7 @@ import {
 const ROOT = process.cwd();
 const INSIGHTS_PATH = join(ROOT, 'src/legacy/blog.cleaned.html');
 const TAG_SHELL_PATH = join(ROOT, 'src/legacy/tag-shell/template.html');
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 
 export interface ArchivePageData {
   type: 'blog' | 'category' | 'tag';

@@ -11,7 +11,7 @@ import * as cheerio from 'cheerio';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SHELL_DIR = join(ROOT, 'src/legacy/blog-shell');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 const REF_URL = process.argv[2] || `${ORIGIN}/advantages-of-the-uae-golden-visa/`;
 
 const MARKERS = {
@@ -27,10 +27,10 @@ const MARKERS = {
 
 function rewriteUrls(html) {
   return html
-    .replaceAll('https://companyformationsaudi.com/', '/')
-    .replaceAll('https://companyformationsaudi.com/', '/')
-    .replaceAll('https://www.companyformationsaudi.com/', '/')
-    .replaceAll('http://www.companyformationsaudi.com/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
     .replace(/\/\/companyformationsaudi\.com\//g, '/');
 }
 

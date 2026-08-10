@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const L = 'http://127.0.0.1:5107';
-const V = 'https://emiratisationhub.com';
+const V = '';
 
 async function dump(base, path, label) {
   const h = await (await fetch(base + path)).text();

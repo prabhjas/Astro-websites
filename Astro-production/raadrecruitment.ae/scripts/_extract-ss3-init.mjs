@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const live = await (
-  await fetch("https://ngmanpower.com/construction/?nowprocket=1", {
+  await fetch("/construction/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

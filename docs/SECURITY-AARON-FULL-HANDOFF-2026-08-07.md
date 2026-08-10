@@ -1,36 +1,77 @@
-# Security work — full handoff for Aaron (2026-08-07)
+# Security work — full handoff for Aaron (updated 2026-08-10)
 
 **Audience:** Aaron / root / Cloudflare admin  
-**Branch:** `work/astro-sites` (latest: sanitizer fix `eaf55538`+)  
-**Audit source:** `Astro_Security_Audit_Report_2026-08-06.pdf`  
-**Short ops checklist (copy-paste):** [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md)  
-**Engineering tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](./SECURITY-AUDIT-REMEDIATION-2026-08-06.md)
+**Branch:** `work/astro-sites` (contains Connect Group `main` #21 + personal/main)  
+**Live app release on host:** immutable `92d5bb1a2` (= Connect Group `main` security remediation merge #21)  
+**Ops pack (owner-run):** [`ops/security-remediation-20260809/`](../ops/security-remediation-20260809/README.md)  
+**Short ops checklist:** [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md)  
+**Engineering tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](./SECURITY-AUDIT-REMEDIATION-2026-08-06.md)  
+**c-uae GSC spam audit:** [SEO-CUAE-COVERAGE-SPAM-AUDIT-2026-08-10.md](./SEO-CUAE-COVERAGE-SPAM-AUDIT-2026-08-10.md)
 
 This is the **one full document** for what engineering shipped, what you must run on the host, and what you **must not** turn on yet because it breaks Elementor / GTM / WP mirrors on the live fleet.
 
 ---
 
-## 1. Scope — 15 live Astro sites
+## 0. Status snapshot (2026-08-10)
 
-| Domain | site-ctl unit | Typical PORT |
-|--------|---------------|--------------|
-| evolutionmiddleast.com | evolutionmiddleast | 5080 |
-| cbss.ae | cbss | 5081 |
-| spheavyrental.ae | spheavyrental | 5082 |
-| iberiaworkforce.com | iberiaworkforce | 5083 |
-| connecthr.ae | connecthr | 5084 |
-| connectgroup.co | connectgroup | 5085 |
-| connectfm.ae | connectfm | 5087 |
-| connectresources.sa | connectresources-sa | 5088 |
-| iberiaeor.com | iberiaeor | 5089 |
-| eormiddleast.com | eormiddleast | 5090 |
-| connectstaff.ae | connectstaff | 5091 |
-| c-uae.com | cuae | 5092 |
-| kinzahr.com | kinzahr | 5093 |
-| connectfz.com | connectfz | 5096 |
-| royalvisa.ae | royalvisa | 5097 |
+| Layer | Status |
+|-------|--------|
+| **28 live units** | Active on host; all serve from immutable security release `92d5bb1a2` |
+| **App security C-02 / H-01 / M-03 / M-04** | Wired on all **28** (`@connect/site-cms` rate-limit, streaming body limits, lead public-id, hardened GTM save). Local audit: **28/28 pass**. Live Node already runs this SHA. |
+| **Host ops 01–09** | Owner/root only (perms, secret rotation, UFW, restic, access). Script **10** verifies builds — never deploys. |
+| **Local `fleet-local` smoke** | **Contact/form smoke skipped** for `tier: live` sites (avoids Pipedrive spam). Opt in after form changes: `FLEET_SMOKE_CONTACT=1`. |
+| **Next batch (not live)** | Movey (placeholder), Emiratisationhub, Connectzone, Raadrecruitment, Companyformationsaudi, Alburaq, MBS — see §1b |
 
-`connectresourcesint.com` — **ignore** for site-ctl / app security this round.
+---
+
+## 1. Scope — 28 live Astro sites (Aaron inventory)
+
+Source of truth: `ops/security-remediation-20260809/10-rollout-app-security-fixes.sh` `FLEET_MANIFEST`.
+
+| Domain | site-ctl unit | PORT | GTM writer |
+|--------|---------------|------|------------|
+| c-uae.com | cuae | 5092 | yes |
+| cbss.ae | cbss | 5081 | no |
+| connectfm.ae | connectfm | 5087 | yes |
+| connectfreelance.ae | connectfreelance | 5094 | yes |
+| connectfz.com | connectfz | 5096 | yes |
+| connectgroup.co | connectgroup | 5085 | yes |
+| connecthr.ae | connecthr | 5084 | yes |
+| connectresources.ae | connectresources | 5086 | yes |
+| connectresources.sa | connectresources-sa | 5088 | yes |
+| connectstaff.ae | connectstaff | 5091 | yes |
+| emiratiguard.com | emiratiguard | 5103 | yes |
+| emiratisationgate.org | emiratisationgate | 5105 | yes |
+| emiratisationgateway.com | emiratisationgateway | 5106 | yes |
+| eormiddleast.com | eormiddleast | 5090 | yes |
+| evolutionmiddleast.com | evolutionmiddleast | 5080 | yes |
+| freelancerdxb.com | freelancerdxb | 5109 | yes |
+| iberiaeor.com | iberiaeor | 5089 | yes |
+| iberiaworkforce.com | iberiaworkforce | 5083 | no |
+| kinzahr.com | kinzahr | 5093 | yes |
+| kpmpro.ae | kpmpro | 5124 | yes |
+| ngmanpower.com | ngmanpower | 5102 | yes |
+| payrollmiddleast.org | payrollmiddleast | 5110 | yes |
+| peomiddleast.com | peomiddleeast | 5118 | yes |
+| pittant.com | pittant | 5111 | yes |
+| redo.ae | redo | 5095 | yes |
+| royalvisa.ae | royalvisa | 5097 | yes |
+| spheavyrental.ae | spheavyrental | 5082 | yes |
+| thefreelancergate.com | thefreelancergate | 5100 | yes |
+
+`connectresourcesint.com` — **explicit exclusion** (active unit, no `@connect/site-cms` / contact route).
+
+### 1b. Next batch (local prep — not in live 28 cutover)
+
+| Domain | unit / id | PORT | Notes |
+|--------|-----------|------|-------|
+| movey.ae | movey | 5104 | Placeholder only (`.gitkeep`) — needs Phase 01–02 clone |
+| emiratisationhub.com | emiratisationhub | 5107 | Scaffolded; body-limit + local assets in progress |
+| connectzone.ae | connectzone | 5101 | Scaffolded; `cms.ts` siteId must be `connectzone` |
+| raadrecruitment.ae | raadrecruitment | 5113 | Scaffolded; purge peer hotlinks |
+| companyformationsaudi.com | companyformationsaudi | 5114 | Scaffolded; localize abs URLs |
+| alburaq.ae | alburaq | 5120 | Scaffolded; localize abs URLs |
+| mbs-consultancy.com | mbs-consultancy | 5099 | Scaffolded; strongest local-asset shape |
 
 ---
 

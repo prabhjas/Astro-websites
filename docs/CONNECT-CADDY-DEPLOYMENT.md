@@ -34,26 +34,32 @@ Keep Caddy snippets in git for deploy day; do not try to mirror production Caddy
 
 ## 1. Inventory — do we have everything?
 
-**Full fleet ports (44 domains, 5080–5123):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
+**Full fleet ports (45 domains, 5080–5124):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
 
 Your live production Caddyfile is in git as:
 
 - **`caddy/Caddyfile.production`** — canonical live target (this doc’s standard)
 - **`caddy/Caddyfile.canonical-host-redirects.pending`** — same content (historical snapshot name)
 
-| Domain | Port | In live Caddyfile? | Canonical host (`PUBLIC_SITE_URL`) |
-|--------|------|--------------------|--------------------------------------|
-| evolutionmiddleast.com | 5080 | Yes | `https://www.evolutionmiddleast.com` |
-| cbss.ae | 5081 | Yes | `https://cbss.ae` |
-| spheavyrental.ae | 5082 | Yes | `https://spheavyrental.ae` |
-| iberiaworkforce.com | 5083 | Yes | `https://iberiaworkforce.com` |
-| connectgroup.co | 5085 | Yes | `https://connectgroup.co` |
+| Domain | Port | In git `Caddyfile.production`? | Canonical host (`PUBLIC_SITE_URL`) |
+|--------|------|--------------------------------|--------------------------------------|
+| evolutionmiddleast.com | 5080 | Yes (live) | `https://www.evolutionmiddleast.com` |
+| cbss.ae | 5081 | Yes (live) | `https://cbss.ae` |
+| spheavyrental.ae | 5082 | Yes (live) | `https://spheavyrental.ae` |
+| iberiaworkforce.com | 5083 | Yes (live) | `https://iberiaworkforce.com` |
+| connectgroup.co | 5085 | Yes (live) | `https://connectgroup.co` |
 | eormiddleast.com | 5090 | Yes | `https://eormiddleast.com` |
-| connectstaff.ae | 5091 | Yes (git target) | `https://connectstaff.ae` |
+| connectstaff.ae | 5091 | Yes | `https://connectstaff.ae` |
 | c-uae.com | 5092 | Yes | `https://c-uae.com` |
-| kinzahr.com | 5093 | Yes (git target) | `https://kinzahr.com` |
+| kinzahr.com | 5093 | Yes | `https://kinzahr.com` |
+| mbs-consultancy.com | 5099 | Yes (git template) | `https://mbs-consultancy.com` |
+| connectzone.ae | 5101 | Yes (git template) | `https://connectzone.ae` |
+| movey.ae | 5104 | Yes (git template) | `https://movey.ae` |
+| emiratisationhub.com | 5107 | Yes (git template) | `https://emiratisationhub.com` |
+| companyformationsaudi.com | 5114 | Yes (git template) | `https://companyformationsaudi.com` |
+| alburaq.ae | 5120 | Yes (git template) | `https://alburaq.ae` |
 
-**Gap:** connecthr.ae (**5084**) and later reserved ports — wire each on server cutover using §4. EOR / Staff / C‑UAE / Kinza blocks are in `caddy/Caddyfile.production`; **live `/etc/caddy` install is owner-only** — see **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** (do not treat git presence as “already on the host”).
+**Gap:** Remaining scaffolded ports not listed above — wire each on server cutover using §4. Blocks in `caddy/Caddyfile.production` are **git templates**; **live `/etc/caddy` install is owner-only** — see **[OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)** (do not treat git presence as “already on the host”).
 
 Older iteration files under `caddy/` remain for history only.
 

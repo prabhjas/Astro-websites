@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const liveHtml = await (
-  await fetch("https://ngmanpower.com/insights/?nowprocket=1", {
+  await fetch("/insights/?nowprocket=1", {
     headers: { "User-Agent": "EOR/1.0" },
   })
 ).text();

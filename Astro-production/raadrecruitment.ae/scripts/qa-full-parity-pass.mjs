@@ -8,7 +8,7 @@ import * as cheerio from "cheerio";
 import { chromium } from "playwright";
 
 const LOCAL = "http://127.0.0.1:5102";
-const LIVE = "https://ngmanpower.com";
+const LIVE = "";
 const ROOT = process.cwd();
 
 function isStub(u) {

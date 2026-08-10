@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PostCard from "../components/PostCard.astro";
@@ -122,6 +121,11 @@ const extraCss = page
       ...(post!.pageCss || []),
       post!.elementorCss || "/wp-content/uploads/elementor/css/post-652.css",
     ];
+
+// Figma redesign for Smart Homes — Elementor post-1056.css is stale vs current widget IDs.
+if (path === "/security/smart-homes/" && !extraCss.includes("/css/page-design/smart-homes-sec2-4.css")) {
+  extraCss.push("/css/page-design/smart-homes-sec2-4.css");
+}
 
 const postUsesElementor =
   !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);

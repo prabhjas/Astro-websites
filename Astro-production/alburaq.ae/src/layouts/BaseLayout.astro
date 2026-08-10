@@ -46,7 +46,7 @@ const twitterCard = twitter.card ?? 'summary_large_image';
 const twitterTitle = twitter.title ?? title;
 const twitterDescription = twitter.description ?? description;
 
-const siteUrl = Astro.site?.href?.replace(/\/$/, '') ?? 'https://alburaq.ae';
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') ?? '';
 const orgName = schema.organizationName ?? 'Al Buraq';
 const pageUrl = (canonical ?? siteUrl).replace(/\/$/, '') || siteUrl;
 

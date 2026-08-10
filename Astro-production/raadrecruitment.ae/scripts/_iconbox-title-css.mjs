@@ -22,7 +22,7 @@ for (const re of [
 
 // Fetch live homepage CSS for h4 / iconbox title in us-customizer
 const live = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
 ).text();
 const styles = [...live.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join("\n");
 console.log("\nlive h4", styles.match(/h4\{[^}]+\}/g));

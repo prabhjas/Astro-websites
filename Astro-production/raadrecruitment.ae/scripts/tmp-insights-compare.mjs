@@ -10,7 +10,7 @@ async function get(url) {
 }
 
 const local = await get("http://127.0.0.1:5084/insights/");
-const live = await get("https://ngmanpower.com/insights/?nowprocket=1");
+const live = await get("/insights/?nowprocket=1");
 
 function cssLinks(html) {
   return [...html.matchAll(/href=["']([^"']+\.css[^"']*)["']/gi)].map((m) =>

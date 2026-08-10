@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: https://ogp.me/ns#">
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />				<script type="text/rocketlazyloadscript">
+		(function(){
+			window.ecsSchemeConfig={systemAuto:false,darkLogoUrl:""};
+			var m=document.cookie.match(/(?:^|;\s*)ecs_color_scheme=([^;]+)/);
+			if(m&&m[1]==='alt'){
+				document.documentElement.setAttribute('data-ecs-scheme','alt');
+			}else if(!m&&false){
+				if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){
+					document.documentElement.setAttribute('data-ecs-scheme','alt');
+				}
+			}
+		})();
+		</script>
+		
+<!-- Search Engine Optimization by Rank Math - https://rankmath.com/ -->
+<title>Get to know About Movers and Packers in Al Barsha - Movey</title>
+<link data-rocket-preload as="style" href="https://fonts.googleapis.com/css?family=Anybody%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap" rel="preload">
+<link href="https://fonts.googleapis.com/css?family=Anybody%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap" media="print" onload="this.media=&#039;all&#039;" rel="stylesheet">
+<noscript data-wpr-hosted-gf-parameters=""><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anybody%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap"></noscript>
+<meta name="description" content="Moving from one place to another can be a complex and exhausting process whether it is a residential or commercial move. This is why it is essential to have"/>
+<meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://movey.ae/movers-and-packers-in-al-barsha/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Get to know About Movers and Packers in Al Barsha - Movey" />
+<meta property="og:description" content="Moving from one place to another can be a complex and exhausting process whether it is a residential or commercial move. This is why it is essential to have" />
+<meta property="og:url" content="https://movey.ae/movers-and-packers-in-al-barsha/" />
+<meta property="og:site_name" content="Born To Be Wild" />
+<meta property="article:tag" content="Movers" />
+<meta property="article:tag" content="Movers Al Barsha" />
+<meta property="article:tag" content="Movers and Packers" />
+<meta property="article:tag" content="UAE Movers" />
+<meta property="article:section" content="Movers" />
+<meta property="og:updated_time" content="2024-12-19T08:24:57+00:00" />
+<meta property="og:image" content="https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png" />
+<meta property="og:image:secure_url" content="https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="movers and packers in al barsha featured image" />
+<meta property="og:image:type" content="image/png" />
+<meta property="article:published_time" content="2024-01-21T06:14:05+00:00" />
+<meta property="article:modified_time" content="2024-12-19T08:24:57+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Get to know About Movers and Packers in Al Barsha - Movey" />
+<meta name="twitter:description" content="Moving from one place to another can be a complex and exhausting process whether it is a residential or commercial move. This is why it is essential to have" />
+<meta name="twitter:image" content="https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png" />
+<meta name="twitter:label1" content="Written by" />
+<meta name="twitter:data1" content="Danish Rabbani" />
+<meta name="twitter:label2" content="Time to read" />
+<meta name="twitter:data2" content="14 minutes" />
+<script type="application/ld+json" class="rank-math-schema">{"@context":"https://schema.org","@graph":[{"@type":["Person","Organization"],"@id":"https://movey.ae/#person","name":"Born To Be Wild"},{"@type":"WebSite","@id":"https://movey.ae/#website","url":"https://movey.ae","name":"Born To Be Wild","publisher":{"@id":"https://movey.ae/#person"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png","url":"https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png","width":"1920","height":"1080","caption":"movers and packers in al barsha featured image","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://movey.ae/movers-and-packers-in-al-barsha/#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://movey.ae","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://movey.ae/category/movers/","name":"Movers"}},{"@type":"ListItem","position":"3","item":{"@id":"https://movey.ae/movers-and-packers-in-al-barsha/","name":"Get to know About Movers and Packers in Al Barsha"}}]},{"@type":"WebPage","@id":"https://movey.ae/movers-and-packers-in-al-barsha/#webpage","url":"https://movey.ae/movers-and-packers-in-al-barsha/","name":"Get to know About Movers and Packers in Al Barsha - Movey","datePublished":"2024-01-21T06:14:05+00:00","dateModified":"2024-12-19T08:24:57+00:00","isPartOf":{"@id":"https://movey.ae/#website"},"primaryImageOfPage":{"@id":"https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png"},"inLanguage":"en-US","breadcrumb":{"@id":"https://movey.ae/movers-and-packers-in-al-barsha/#breadcrumb"}},{"@type":"Person","@id":"https://movey.ae/author/danish-rabbani/","name":"Danish Rabbani","url":"https://movey.ae/author/danish-rabbani/","image":{"@type":"ImageObject","@id":"https://movey.ae/wp-content/uploads/2024/05/Author-2-96x96.png","url":"https://movey.ae/wp-content/uploads/2024/05/Author-2-96x96.png","caption":"Danish Rabbani","inLanguage":"en-US"}},{"@type":"BlogPosting","headline":"Get to know About Movers and Packers in Al Barsha - Movey","datePublished":"2024-01-21T06:14:05+00:00","dateModified":"2024-12-19T08:24:57+00:00","articleSection":"Movers","author":{"@id":"https://movey.ae/author/danish-rabbani/","name":"Danish Rabbani"},"publisher":{"@id":"https://movey.ae/#person"},"description":"Moving from one place to another can be a complex and exhausting process whether it is a residential or commercial move. This is why it is essential to have","name":"Get to know About Movers and Packers in Al Barsha - Movey","@id":"https://movey.ae/movers-and-packers-in-al-barsha/#richSnippet","isPartOf":{"@id":"https://movey.ae/movers-and-packers-in-al-barsha/#webpage"},"image":{"@id":"https://movey.ae/wp-content/uploads/2024/01/Featured-Image-29-1.png"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://movey.ae/movers-and-packers-in-al-barsha/#webpage"}}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<link href='https://fonts.gstatic.com' crossorigin rel='preconnect' />
+<link rel="alternate" type="application/rss+xml" title="Movey &raquo; Feed" href="https://movey.ae/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Movey &raquo; Comments Feed" href="https://movey.ae/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Movey &raquo; Get to know About Movers and Packers in Al Barsha Comments Feed" href="https://movey.ae/movers-and-packers-in-al-barsha/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://movey.ae/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fmovey.ae%2Fmovers-and-packers-in-al-barsha%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://movey.ae/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fmovey.ae%2Fmovers-and-packers-in-al-barsha%2F&#038;format=xml" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+<meta name="theme-color" content="#f5f5f5">
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://movey.ae/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='admin-bar-css' href='https://movey.ae/wp-includes/css/admin-bar.min.css?ver=7.0.3' media='all' />
+<style id="admin-bar-inline-css">
+
+    /* Hide CanvasJS credits for P404 charts specifically */
+    #p404RedirectChart .canvasjs-chart-credit {
+        display: none !important;
+    }
+    
+    #p404RedirectChart canvas {
+        border-radius: 6px;
+    }
+
+    .p404-redirect-adminbar-weekly-title {
+        font-weight: bold;
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 6px;
+    }
+
+    #wpadminbar #wp-admin-bar-p404_free_top_button .ab-icon:before {
+        content: "\f103";
+        color: #dc3545;
+        top: 3px;
+    }
+    
+    #wp-admin-bar-p404_free_top_button .ab-item {
+        min-width: 80px !important;
+        padding: 0px !important;
+    }
+    
+    /* Ensure proper positioning and z-index for P404 dropdown */
+    .p404-redirect-adminbar-dropdown-wrap { 
+        min-width: 0; 
+        padding: 0;
+        position: static !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button_dropdown {
+        position: static !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button_dropdown .ab-item {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .p404-redirect-dropdown-container {
+        min-width: 340px;
+        padding: 18px 18px 12px 18px;
+        background: #23282d !important;
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        margin-top: 10px;
+        position: relative !important;
+        z-index: 999999 !important;
+        display: block !important;
+        border: 1px solid #444;
+    }
+    
+    /* Ensure P404 dropdown appears on hover */
+    #wpadminbar #wp-admin-bar-p404_free_top_button .p404-redirect-dropdown-container { 
+        display: none !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover .p404-redirect-dropdown-container { 
+        display: block !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover #wp-admin-bar-p404_free_top_button_dropdown .p404-redirect-dropdown-container {
+        display: block !important;
+    }
+    
+    .p404-redirect-card {
+        background: #2c3338;
+        border-radius: 8px;
+        padding: 18px 18px 12px 18px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid #444;
+    }
+    
+    .p404-redirect-btn {
+        display: inline-block;
+        background: #dc3545;
+        color: #fff !important;
+        font-weight: bold;
+        padding: 5px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 17px;
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-top: 8px;
+        box-shadow: 0 2px 8px rgba(220,53,69,0.15);
+        text-align: center;
+        line-height: 1.6;
+    }
+    
+    .p404-redirect-btn:hover {
+        background: #c82333;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(220,53,69,0.25);
+    }
+    
+    /* Prevent conflicts with other admin bar dropdowns */
+    #wpadminbar .ab-top-menu > li:hover > .ab-item,
+    #wpadminbar .ab-top-menu > li.hover > .ab-item {
+        z-index: auto;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover > .ab-item {
+        z-index: 999998 !important;
+    }
+    
+/*# sourceURL=admin-bar-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=7.0.3' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=7.0.3' media='all' />
+<link rel='stylesheet' id='walcf7-datepicker-css-css' href='https://movey.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/css/jquery.datetimepicker.min.css?ver=1.0.0' media='all' />
+<link data-minify="1" rel='stylesheet' id='wpcf7-redirect-script-frontend-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='cf7mls-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/cf7mls.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='cf7mls_progress_bar-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/css/progress_bar.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='cf7mls_animate-css' href='https://movey.ae/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/animate/animate.min.css?ver=2.7.5' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-color-scheme-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/css/ecs-color-scheme.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-container-layout-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/css/ecs-container-layout.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='swiper-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='e-swiper-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=4.1.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-mobile-menu-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-editorial-text-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/editorial-text/assets/css/ecs-editorial-text.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.1.4' media='all' />
+<style id="elementor-frontend-inline-css">
+@-webkit-keyframes ha_fadeIn{0%{opacity:0}to{opacity:1}}@keyframes ha_fadeIn{0%{opacity:0}to{opacity:1}}@-webkit-keyframes ha_zoomIn{0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}50%{opacity:1}}@keyframes ha_zoomIn{0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}50%{opacity:1}}@-webkit-keyframes ha_rollIn{0%{opacity:0;-webkit-transform:translate3d(-100%,0,0) rotate3d(0,0,1,-120deg);transform:translate3d(-100%,0,0) rotate3d(0,0,1,-120deg)}to{opacity:1}}@keyframes ha_rollIn{0%{opacity:0;-webkit-transform:translate3d(-100%,0,0) rotate3d(0,0,1,-120deg);transform:translate3d(-100%,0,0) rotate3d(0,0,1,-120deg)}to{opacity:1}}@-webkit-keyframes ha_bounce{0%,20%,53%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}40%,43%{-webkit-transform:translate3d(0,-30px,0) scaleY(1.1);transform:translate3d(0,-30px,0) scaleY(1.1);-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06)}70%{-webkit-transform:translate3d(0,-15px,0) scaleY(1.05);transform:translate3d(0,-15px,0) scaleY(1.05);-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06)}80%{-webkit-transition-timing-function:cubic-bezier(.215,.61,.355,1);transition-timing-function:cubic-bezier(.215,.61,.355,1);-webkit-transform:translate3d(0,0,0) scaleY(.95);transform:translate3d(0,0,0) scaleY(.95)}90%{-webkit-transform:translate3d(0,-4px,0) scaleY(1.02);transform:translate3d(0,-4px,0) scaleY(1.02)}}@keyframes ha_bounce{0%,20%,53%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}40%,43%{-webkit-transform:translate3d(0,-30px,0) scaleY(1.1);transform:translate3d(0,-30px,0) scaleY(1.1);-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06)}70%{-webkit-transform:translate3d(0,-15px,0) scaleY(1.05);transform:translate3d(0,-15px,0) scaleY(1.05);-webkit-animation-timing-function:cubic-bezier(.755,.05,.855,.06);animation-timing-function:cubic-bezier(.755,.05,.855,.06)}80%{-webkit-transition-timing-function:cubic-bezier(.215,.61,.355,1);transition-timing-function:cubic-bezier(.215,.61,.355,1);-webkit-transform:translate3d(0,0,0) scaleY(.95);transform:translate3d(0,0,0) scaleY(.95)}90%{-webkit-transform:translate3d(0,-4px,0) scaleY(1.02);transform:translate3d(0,-4px,0) scaleY(1.02)}}@-webkit-keyframes ha_bounceIn{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}20%{-webkit-transform:scale3d(1.1,1.1,1.1);transform:scale3d(1.1,1.1,1.1)}40%{-webkit-transform:scale3d(.9,.9,.9);transform:scale3d(.9,.9,.9)}60%{opacity:1;-webkit-transform:scale3d(1.03,1.03,1.03);transform:scale3d(1.03,1.03,1.03)}80%{-webkit-transform:scale3d(.97,.97,.97);transform:scale3d(.97,.97,.97)}to{opacity:1}}@keyframes ha_bounceIn{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}20%{-webkit-transform:scale3d(1.1,1.1,1.1);transform:scale3d(1.1,1.1,1.1)}40%{-webkit-transform:scale3d(.9,.9,.9);transform:scale3d(.9,.9,.9)}60%{opacity:1;-webkit-transform:scale3d(1.03,1.03,1.03);transform:scale3d(1.03,1.03,1.03)}80%{-webkit-transform:scale3d(.97,.97,.97);transform:scale3d(.97,.97,.97)}to{opacity:1}}@-webkit-keyframes ha_flipInX{0%{opacity:0;-webkit-transform:perspective(400px) rotate3d(1,0,0,90deg);transform:perspective(400px) rotate3d(1,0,0,90deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}40%{-webkit-transform:perspective(400px) rotate3d(1,0,0,-20deg);transform:perspective(400px) rotate3d(1,0,0,-20deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}60%{opacity:1;-webkit-transform:perspective(400px) rotate3d(1,0,0,10deg);transform:perspective(400px) rotate3d(1,0,0,10deg)}80%{-webkit-transform:perspective(400px) rotate3d(1,0,0,-5deg);transform:perspective(400px) rotate3d(1,0,0,-5deg)}}@keyframes ha_flipInX{0%{opacity:0;-webkit-transform:perspective(400px) rotate3d(1,0,0,90deg);transform:perspective(400px) rotate3d(1,0,0,90deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}40%{-webkit-transform:perspective(400px) rotate3d(1,0,0,-20deg);transform:perspective(400px) rotate3d(1,0,0,-20deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}60%{opacity:1;-webkit-transform:perspective(400px) rotate3d(1,0,0,10deg);transform:perspective(400px) rotate3d(1,0,0,10deg)}80%{-webkit-transform:perspective(400px) rotate3d(1,0,0,-5deg);transform:perspective(400px) rotate3d(1,0,0,-5deg)}}@-webkit-keyframes ha_flipInY{0%{opacity:0;-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}60%{opacity:1;-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg)}80%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-5deg);transform:perspective(400px) rotate3d(0,1,0,-5deg)}}@keyframes ha_flipInY{0%{opacity:0;-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-animation-timing-function:ease-in;animation-timing-function:ease-in}60%{opacity:1;-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg)}80%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-5deg);transform:perspective(400px) rotate3d(0,1,0,-5deg)}}@-webkit-keyframes ha_swing{20%{-webkit-transform:rotate3d(0,0,1,15deg);transform:rotate3d(0,0,1,15deg)}40%{-webkit-transform:rotate3d(0,0,1,-10deg);transform:rotate3d(0,0,1,-10deg)}60%{-webkit-transform:rotate3d(0,0,1,5deg);transform:rotate3d(0,0,1,5deg)}80%{-webkit-transform:rotate3d(0,0,1,-5deg);transform:rotate3d(0,0,1,-5deg)}}@keyframes ha_swing{20%{-webkit-transform:rotate3d(0,0,1,15deg);transform:rotate3d(0,0,1,15deg)}40%{-webkit-transform:rotate3d(0,0,1,-10deg);transform:rotate3d(0,0,1,-10deg)}60%{-webkit-transform:rotate3d(0,0,1,5deg);transform:rotate3d(0,0,1,5deg)}80%{-webkit-transform:rotate3d(0,0,1,-5deg);transform:rotate3d(0,0,1,-5deg)}}@-webkit-keyframes ha_slideInDown{0%{visibility:visible;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}}@keyframes ha_slideInDown{0%{visibility:visible;-webkit-transform:translate3d(0,-100%,0);transform:translate3d(0,-100%,0)}}@-webkit-keyframes ha_slideInUp{0%{visibility:visible;-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}}@keyframes ha_slideInUp{0%{visibility:visible;-webkit-transform:translate3d(0,100%,0);transform:translate3d(0,100%,0)}}@-webkit-keyframes ha_slideInLeft{0%{visibility:visible;-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@keyframes ha_slideInLeft{0%{visibility:visible;-webkit-transform:translate3d(-100%,0,0);transform:translate3d(-100%,0,0)}}@-webkit-keyframes ha_slideInRight{0%{visibility:visible;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}@keyframes ha_slideInRight{0%{visibility:visible;-webkit-transform:translate3d(100%,0,0);transform:translate3d(100%,0,0)}}.ha_fadeIn{-webkit-animation-name:ha_fadeIn;animation-name:ha_fadeIn}.ha_zoomIn{-webkit-animation-name:ha_zoomIn;animation-name:ha_zoomIn}.ha_rollIn{-webkit-animation-name:ha_rollIn;animation-name:ha_rollIn}.ha_bounce{-webkit-transform-origin:center bottom;-ms-transform-origin:center bottom;transform-origin:center bottom;-webkit-animation-name:ha_bounce;animation-name:ha_bounce}.ha_bounceIn{-webkit-animation-name:ha_bounceIn;animation-name:ha_bounceIn;-webkit-animation-duration:.75s;-webkit-animation-duration:calc(var(--animate-duration)*.75);animation-duration:.75s;animation-duration:calc(var(--animate-duration)*.75)}.ha_flipInX,.ha_flipInY{-webkit-animation-name:ha_flipInX;animation-name:ha_flipInX;-webkit-backface-visibility:visible!important;backface-visibility:visible!important}.ha_flipInY{-webkit-animation-name:ha_flipInY;animation-name:ha_flipInY}.ha_swing{-webkit-transform-origin:top center;-ms-transform-origin:top center;transform-origin:top center;-webkit-animation-name:ha_swing;animation-name:ha_swing}.ha_slideInDown{-webkit-animation-name:ha_slideInDown;animation-name:ha_slideInDown}.ha_slideInUp{-webkit-animation-name:ha_slideInUp;animation-name:ha_slideInUp}.ha_slideInLeft{-webkit-animation-name:ha_slideInLeft;animation-name:ha_slideInLeft}.ha_slideInRight{-webkit-animation-name:ha_slideInRight;animation-name:ha_slideInRight}.ha-css-transform-yes{-webkit-transition-duration:var(--ha-tfx-transition-duration, .2s);transition-duration:var(--ha-tfx-transition-duration, .2s);-webkit-transition-property:-webkit-transform;transition-property:transform;transition-property:transform,-webkit-transform;-webkit-transform:translate(var(--ha-tfx-translate-x, 0),var(--ha-tfx-translate-y, 0)) scale(var(--ha-tfx-scale-x, 1),var(--ha-tfx-scale-y, 1)) skew(var(--ha-tfx-skew-x, 0),var(--ha-tfx-skew-y, 0)) rotateX(var(--ha-tfx-rotate-x, 0)) rotateY(var(--ha-tfx-rotate-y, 0)) rotateZ(var(--ha-tfx-rotate-z, 0));transform:translate(var(--ha-tfx-translate-x, 0),var(--ha-tfx-translate-y, 0)) scale(var(--ha-tfx-scale-x, 1),var(--ha-tfx-scale-y, 1)) skew(var(--ha-tfx-skew-x, 0),var(--ha-tfx-skew-y, 0)) rotateX(var(--ha-tfx-rotate-x, 0)) rotateY(var(--ha-tfx-rotate-y, 0)) rotateZ(var(--ha-tfx-rotate-z, 0))}.ha-css-transform-yes:hover{-webkit-transform:translate(var(--ha-tfx-translate-x-hover, var(--ha-tfx-translate-x, 0)),var(--ha-tfx-translate-y-hover, var(--ha-tfx-translate-y, 0))) scale(var(--ha-tfx-scale-x-hover, var(--ha-tfx-scale-x, 1)),var(--ha-tfx-scale-y-hover, var(--ha-tfx-scale-y, 1))) skew(var(--ha-tfx-skew-x-hover, var(--ha-tfx-skew-x, 0)),var(--ha-tfx-skew-y-hover, var(--ha-tfx-skew-y, 0))) rotateX(var(--ha-tfx-rotate-x-hover, var(--ha-tfx-rotate-x, 0))) rotateY(var(--ha-tfx-rotate-y-hover, var(--ha-tfx-rotate-y, 0))) rotateZ(var(--ha-tfx-rotate-z-hover, var(--ha-tfx-rotate-z, 0)));transform:translate(var(--ha-tfx-translate-x-hover, var(--ha-tfx-translate-x, 0)),var(--ha-tfx-translate-y-hover, var(--ha-tfx-translate-y, 0))) scale(var(--ha-tfx-scale-x-hover, var(--ha-tfx-scale-x, 1)),var(--ha-tfx-scale-y-hover, var(--ha-tfx-scale-y, 1))) skew(var(--ha-tfx-skew-x-hover, var(--ha-tfx-skew-x, 0)),var(--ha-tfx-skew-y-hover, var(--ha-tfx-skew-y, 0))) rotateX(var(--ha-tfx-rotate-x-hover, var(--ha-tfx-rotate-x, 0))) rotateY(var(--ha-tfx-rotate-y-hover, var(--ha-tfx-rotate-y, 0))) rotateZ(var(--ha-tfx-rotate-z-hover, var(--ha-tfx-rotate-z, 0)))}.happy-addon>.elementor-widget-container{word-wrap:break-word;overflow-wrap:break-word}.happy-addon>.elementor-widget-container,.happy-addon>.elementor-widget-container *{-webkit-box-sizing:border-box;box-sizing:border-box}.happy-addon:not(:has(.elementor-widget-container)),.happy-addon:not(:has(.elementor-widget-container)) *{-webkit-box-sizing:border-box;box-sizing:border-box;word-wrap:break-word;overflow-wrap:break-word}.happy-addon p:empty{display:none}.happy-addon .elementor-inline-editing{min-height:auto!important}.happy-addon-pro img{max-width:100%;height:auto;-o-object-fit:cover;object-fit:cover}.ha-screen-reader-text{position:absolute;overflow:hidden;clip:rect(1px,1px,1px,1px);margin:-1px;padding:0;width:1px;height:1px;border:0;word-wrap:normal!important;-webkit-clip-path:inset(50%);clip-path:inset(50%)}.ha-has-bg-overlay>.elementor-widget-container{position:relative;z-index:1}.ha-has-bg-overlay>.elementor-widget-container:before{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;content:""}.ha-has-bg-overlay:not(:has(.elementor-widget-container)){position:relative;z-index:1}.ha-has-bg-overlay:not(:has(.elementor-widget-container)):before{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;content:""}.ha-popup--is-enabled .ha-js-popup,.ha-popup--is-enabled .ha-js-popup img{cursor:-webkit-zoom-in!important;cursor:zoom-in!important}.mfp-wrap .mfp-arrow,.mfp-wrap .mfp-close{background-color:transparent}.mfp-wrap .mfp-arrow:focus,.mfp-wrap .mfp-close:focus{outline-width:thin}.ha-advanced-tooltip-enable{position:relative;cursor:pointer;--ha-tooltip-arrow-color:black;--ha-tooltip-arrow-distance:0}.ha-advanced-tooltip-enable .ha-advanced-tooltip-content{position:absolute;z-index:999;display:none;padding:5px 0;width:120px;height:auto;border-radius:6px;background-color:#000;color:#fff;text-align:center;opacity:0}.ha-advanced-tooltip-enable .ha-advanced-tooltip-content::after{position:absolute;border-width:5px;border-style:solid;content:""}.ha-advanced-tooltip-enable .ha-advanced-tooltip-content.no-arrow::after{visibility:hidden}.ha-advanced-tooltip-enable .ha-advanced-tooltip-content.show{display:inline-block;opacity:1}.ha-advanced-tooltip-enable.ha-advanced-tooltip-top .ha-advanced-tooltip-content,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-top .ha-advanced-tooltip-content{top:unset;right:0;bottom:calc(101% + var(--ha-tooltip-arrow-distance));left:0;margin:0 auto}.ha-advanced-tooltip-enable.ha-advanced-tooltip-top .ha-advanced-tooltip-content::after,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-top .ha-advanced-tooltip-content::after{top:100%;right:unset;bottom:unset;left:50%;border-color:var(--ha-tooltip-arrow-color) transparent transparent transparent;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}.ha-advanced-tooltip-enable.ha-advanced-tooltip-bottom .ha-advanced-tooltip-content,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-bottom .ha-advanced-tooltip-content{top:calc(101% + var(--ha-tooltip-arrow-distance));right:0;bottom:unset;left:0;margin:0 auto}.ha-advanced-tooltip-enable.ha-advanced-tooltip-bottom .ha-advanced-tooltip-content::after,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-bottom .ha-advanced-tooltip-content::after{top:unset;right:unset;bottom:100%;left:50%;border-color:transparent transparent var(--ha-tooltip-arrow-color) transparent;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}.ha-advanced-tooltip-enable.ha-advanced-tooltip-left .ha-advanced-tooltip-content,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-left .ha-advanced-tooltip-content{top:50%;right:calc(101% + var(--ha-tooltip-arrow-distance));bottom:unset;left:unset;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}.ha-advanced-tooltip-enable.ha-advanced-tooltip-left .ha-advanced-tooltip-content::after,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-left .ha-advanced-tooltip-content::after{top:50%;right:unset;bottom:unset;left:100%;border-color:transparent transparent transparent var(--ha-tooltip-arrow-color);-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}.ha-advanced-tooltip-enable.ha-advanced-tooltip-right .ha-advanced-tooltip-content,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-right .ha-advanced-tooltip-content{top:50%;right:unset;bottom:unset;left:calc(101% + var(--ha-tooltip-arrow-distance));-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}.ha-advanced-tooltip-enable.ha-advanced-tooltip-right .ha-advanced-tooltip-content::after,body[data-elementor-device-mode=tablet] .ha-advanced-tooltip-enable.ha-advanced-tooltip-tablet-right .ha-advanced-tooltip-content::after{top:50%;right:100%;bottom:unset;left:unset;border-color:transparent var(--ha-tooltip-arrow-color) transparent transparent;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-top .ha-advanced-tooltip-content{top:unset;right:0;bottom:calc(101% + var(--ha-tooltip-arrow-distance));left:0;margin:0 auto}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-top .ha-advanced-tooltip-content::after{top:100%;right:unset;bottom:unset;left:50%;border-color:var(--ha-tooltip-arrow-color) transparent transparent transparent;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-bottom .ha-advanced-tooltip-content{top:calc(101% + var(--ha-tooltip-arrow-distance));right:0;bottom:unset;left:0;margin:0 auto}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-bottom .ha-advanced-tooltip-content::after{top:unset;right:unset;bottom:100%;left:50%;border-color:transparent transparent var(--ha-tooltip-arrow-color) transparent;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-left .ha-advanced-tooltip-content{top:50%;right:calc(101% + var(--ha-tooltip-arrow-distance));bottom:unset;left:unset;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-left .ha-advanced-tooltip-content::after{top:50%;right:unset;bottom:unset;left:100%;border-color:transparent transparent transparent var(--ha-tooltip-arrow-color);-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-right .ha-advanced-tooltip-content{top:50%;right:unset;bottom:unset;left:calc(101% + var(--ha-tooltip-arrow-distance));-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}body[data-elementor-device-mode=mobile] .ha-advanced-tooltip-enable.ha-advanced-tooltip-mobile-right .ha-advanced-tooltip-content::after{top:50%;right:100%;bottom:unset;left:unset;border-color:transparent var(--ha-tooltip-arrow-color) transparent transparent;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}body.elementor-editor-active .happy-addon.ha-gravityforms .gform_wrapper{display:block!important}.ha-scroll-to-top-wrap.ha-scroll-to-top-hide{display:none}.ha-scroll-to-top-wrap.edit-mode,.ha-scroll-to-top-wrap.single-page-off{display:none!important}.ha-scroll-to-top-button{position:fixed;right:15px;bottom:15px;z-index:9999;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-ms-flex-align:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;width:50px;height:50px;border-radius:50px;background-color:#5636d1;color:#fff;text-align:center;opacity:1;cursor:pointer;-webkit-transition:all .3s;transition:all .3s}.ha-scroll-to-top-button i{color:#fff;font-size:16px}.ha-scroll-to-top-button:hover{background-color:#e2498a}.ha-particle-wrapper{position:absolute;top:0;left:0;width:100%;height:100%}.ha-floating-element{position:fixed;z-index:999}.ha-floating-element-align-top-left .ha-floating-element{top:0;left:0}.ha-floating-element-align-top-right .ha-floating-element{top:0;right:0}.ha-floating-element-align-top-center .ha-floating-element{top:0;left:50%;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}.ha-floating-element-align-middle-left .ha-floating-element{top:50%;left:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}.ha-floating-element-align-middle-right .ha-floating-element{top:50%;right:0;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}.ha-floating-element-align-bottom-left .ha-floating-element{bottom:0;left:0}.ha-floating-element-align-bottom-right .ha-floating-element{right:0;bottom:0}.ha-floating-element-align-bottom-center .ha-floating-element{bottom:0;left:50%;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%)}.ha-editor-placeholder{padding:20px;border:5px double #f1f1f1;background:#f8f8f8;text-align:center;opacity:.5}.ha-editor-placeholder-title{margin-top:0;margin-bottom:8px;font-weight:700;font-size:16px}.ha-editor-placeholder-content{margin:0;font-size:12px}.ha-p-relative{position:relative}.ha-p-absolute{position:absolute}.ha-p-fixed{position:fixed}.ha-w-1{width:1%}.ha-h-1{height:1%}.ha-w-2{width:2%}.ha-h-2{height:2%}.ha-w-3{width:3%}.ha-h-3{height:3%}.ha-w-4{width:4%}.ha-h-4{height:4%}.ha-w-5{width:5%}.ha-h-5{height:5%}.ha-w-6{width:6%}.ha-h-6{height:6%}.ha-w-7{width:7%}.ha-h-7{height:7%}.ha-w-8{width:8%}.ha-h-8{height:8%}.ha-w-9{width:9%}.ha-h-9{height:9%}.ha-w-10{width:10%}.ha-h-10{height:10%}.ha-w-11{width:11%}.ha-h-11{height:11%}.ha-w-12{width:12%}.ha-h-12{height:12%}.ha-w-13{width:13%}.ha-h-13{height:13%}.ha-w-14{width:14%}.ha-h-14{height:14%}.ha-w-15{width:15%}.ha-h-15{height:15%}.ha-w-16{width:16%}.ha-h-16{height:16%}.ha-w-17{width:17%}.ha-h-17{height:17%}.ha-w-18{width:18%}.ha-h-18{height:18%}.ha-w-19{width:19%}.ha-h-19{height:19%}.ha-w-20{width:20%}.ha-h-20{height:20%}.ha-w-21{width:21%}.ha-h-21{height:21%}.ha-w-22{width:22%}.ha-h-22{height:22%}.ha-w-23{width:23%}.ha-h-23{height:23%}.ha-w-24{width:24%}.ha-h-24{height:24%}.ha-w-25{width:25%}.ha-h-25{height:25%}.ha-w-26{width:26%}.ha-h-26{height:26%}.ha-w-27{width:27%}.ha-h-27{height:27%}.ha-w-28{width:28%}.ha-h-28{height:28%}.ha-w-29{width:29%}.ha-h-29{height:29%}.ha-w-30{width:30%}.ha-h-30{height:30%}.ha-w-31{width:31%}.ha-h-31{height:31%}.ha-w-32{width:32%}.ha-h-32{height:32%}.ha-w-33{width:33%}.ha-h-33{height:33%}.ha-w-34{width:34%}.ha-h-34{height:34%}.ha-w-35{width:35%}.ha-h-35{height:35%}.ha-w-36{width:36%}.ha-h-36{height:36%}.ha-w-37{width:37%}.ha-h-37{height:37%}.ha-w-38{width:38%}.ha-h-38{height:38%}.ha-w-39{width:39%}.ha-h-39{height:39%}.ha-w-40{width:40%}.ha-h-40{height:40%}.ha-w-41{width:41%}.ha-h-41{height:41%}.ha-w-42{width:42%}.ha-h-42{height:42%}.ha-w-43{width:43%}.ha-h-43{height:43%}.ha-w-44{width:44%}.ha-h-44{height:44%}.ha-w-45{width:45%}.ha-h-45{height:45%}.ha-w-46{width:46%}.ha-h-46{height:46%}.ha-w-47{width:47%}.ha-h-47{height:47%}.ha-w-48{width:48%}.ha-h-48{height:48%}.ha-w-49{width:49%}.ha-h-49{height:49%}.ha-w-50{width:50%}.ha-h-50{height:50%}.ha-w-51{width:51%}.ha-h-51{height:51%}.ha-w-52{width:52%}.ha-h-52{height:52%}.ha-w-53{width:53%}.ha-h-53{height:53%}.ha-w-54{width:54%}.ha-h-54{height:54%}.ha-w-55{width:55%}.ha-h-55{height:55%}.ha-w-56{width:56%}.ha-h-56{height:56%}.ha-w-57{width:57%}.ha-h-57{height:57%}.ha-w-58{width:58%}.ha-h-58{height:58%}.ha-w-59{width:59%}.ha-h-59{height:59%}.ha-w-60{width:60%}.ha-h-60{height:60%}.ha-w-61{width:61%}.ha-h-61{height:61%}.ha-w-62{width:62%}.ha-h-62{height:62%}.ha-w-63{width:63%}.ha-h-63{height:63%}.ha-w-64{width:64%}.ha-h-64{height:64%}.ha-w-65{width:65%}.ha-h-65{height:65%}.ha-w-66{width:66%}.ha-h-66{height:66%}.ha-w-67{width:67%}.ha-h-67{height:67%}.ha-w-68{width:68%}.ha-h-68{height:68%}.ha-w-69{width:69%}.ha-h-69{height:69%}.ha-w-70{width:70%}.ha-h-70{height:70%}.ha-w-71{width:71%}.ha-h-71{height:71%}.ha-w-72{width:72%}.ha-h-72{height:72%}.ha-w-73{width:73%}.ha-h-73{height:73%}.ha-w-74{width:74%}.ha-h-74{height:74%}.ha-w-75{width:75%}.ha-h-75{height:75%}.ha-w-76{width:76%}.ha-h-76{height:76%}.ha-w-77{width:77%}.ha-h-77{height:77%}.ha-w-78{width:78%}.ha-h-78{height:78%}.ha-w-79{width:79%}.ha-h-79{height:79%}.ha-w-80{width:80%}.ha-h-80{height:80%}.ha-w-81{width:81%}.ha-h-81{height:81%}.ha-w-82{width:82%}.ha-h-82{height:82%}.ha-w-83{width:83%}.ha-h-83{height:83%}.ha-w-84{width:84%}.ha-h-84{height:84%}.ha-w-85{width:85%}.ha-h-85{height:85%}.ha-w-86{width:86%}.ha-h-86{height:86%}.ha-w-87{width:87%}.ha-h-87{height:87%}.ha-w-88{width:88%}.ha-h-88{height:88%}.ha-w-89{width:89%}.ha-h-89{height:89%}.ha-w-90{width:90%}.ha-h-90{height:90%}.ha-w-91{width:91%}.ha-h-91{height:91%}.ha-w-92{width:92%}.ha-h-92{height:92%}.ha-w-93{width:93%}.ha-h-93{height:93%}.ha-w-94{width:94%}.ha-h-94{height:94%}.ha-w-95{width:95%}.ha-h-95{height:95%}.ha-w-96{width:96%}.ha-h-96{height:96%}.ha-w-97{width:97%}.ha-h-97{height:97%}.ha-w-98{width:98%}.ha-h-98{height:98%}.ha-w-99{width:99%}.ha-h-99{height:99%}.ha-w-100{width:100%}.ha-h-100{height:100%}.ha-flex{display:-webkit-box!important;display:-webkit-flex!important;display:-ms-flexbox!important;display:flex!important}.ha-flex-inline{display:-webkit-inline-box!important;display:-webkit-inline-flex!important;display:-ms-inline-flexbox!important;display:inline-flex!important}.ha-flex-x-start{-webkit-box-pack:start;-ms-flex-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start}.ha-flex-x-end{-webkit-box-pack:end;-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end}.ha-flex-x-between{-webkit-box-pack:justify;-ms-flex-pack:justify;-webkit-justify-content:space-between;justify-content:space-between}.ha-flex-x-around{-ms-flex-pack:distribute;-webkit-justify-content:space-around;justify-content:space-around}.ha-flex-x-even{-webkit-box-pack:space-evenly;-ms-flex-pack:space-evenly;-webkit-justify-content:space-evenly;justify-content:space-evenly}.ha-flex-x-center{-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center}.ha-flex-y-top{-webkit-box-align:start;-webkit-align-items:flex-start;align-items:flex-start;-ms-flex-align:start}.ha-flex-y-center{-webkit-box-align:center;-webkit-align-items:center;align-items:center;-ms-flex-align:center}.ha-flex-y-bottom{-webkit-box-align:end;-webkit-align-items:flex-end;align-items:flex-end;-ms-flex-align:end}
+/*# sourceURL=elementor-frontend-inline-css */
+</style>
+<link rel='stylesheet' id='widget-image-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-nav-menu-css' href='https://movey.ae/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='e-animation-shrink-css' href='https://movey.ae/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='e-sticky-css' href='https://movey.ae/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='e-motion-fx-css' href='https://movey.ae/wp-content/plugins/elementor-pro/assets/css/modules/motion-fx.min.css?ver=4.1.2' media='all' />
+<link rel='stylesheet' id='e-animation-grow-css' href='https://movey.ae/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-social-icons-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='e-apple-webkit-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='widget-heading-css' href='https://movey.ae/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='elementor-post-11-css' href='https://movey.ae/wp-content/uploads/elementor/css/post-11.css?ver=1786044449' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-5-all-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='font-awesome-4-shim-css' href='https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='elementor-post-367-css' href='https://movey.ae/wp-content/uploads/elementor/css/post-367.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='happy-icons-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='font-awesome-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='elementor-post-370-css' href='https://movey.ae/wp-content/uploads/elementor/css/post-370.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementskit-parallax-style-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/css/style.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='us-style-css' href='https://movey.ae/wp-content/themes/Impreza/css/style.min.css?ver=8.17.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='theme-style-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='bsf-Defaults-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-widget-styles-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/widget-styles.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-widget-styles-pro-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/widgets/init/assets/css/widget-styles-pro.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-responsive-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/css/responsive.css?ver=1786044450' media='all' />
+<link rel='stylesheet' id='eael-general-css' href='https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css?ver=6.6.2' media='all' />
+
+<link rel='stylesheet' id='elementor-icons-shared-0-css' href='https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-solid-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=1786044450' media='all' />
+<!--n2css--><!--n2js--><script type="text/rocketlazyloadscript" data-rocket-type='text/javascript'>
+		var elementskit = {
+			resturl: 'https://movey.ae/wp-json/elementskit/v1/',
+		}
+
+		</script><script id="jquery-core-js" src="https://movey.ae/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="font-awesome-4-shim-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor/assets/lib/font-awesome/js/v4-shims.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="jarallax-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/jarallax.js?ver=1782886323" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="dom-purify-js" data-rocket-src="https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/dom-purify/purify.min.js?ver=3.1.6" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://movey.ae/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://movey.ae/wp-json/wp/v2/posts/1741" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://movey.ae/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0.3" />
+<link rel='shortlink' href='https://movey.ae/?p=1741' />
+<!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-SNFHTDS0Z7"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SNFHTDS0Z7');
+</script>
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "MovingCompany",
+	"name": "Movey",
+	"address": {
+		"@type": "PostalAddress",
+		"streetAddress": "Floor 8 and 9, City Tower 2, Sheikh Zayed Road",
+		"addressLocality": "Dubai",
+		"addressRegion": "UAE","addressCountry": "AE",
+		"postalCode": "26693 90346"
+	},
+	"image": "https://movey.ae/wp-content/uploads/2023/08/Logo-color.png",
+	"email": "contact@movey.com",
+	"telePhone": "+97143316688",
+	"url": "https://movey.ae",
+	"priceRange":"$"
+}
+</script><style type="text/css">div[id^="wpcf7-f489"] button.cf7mls_next {   }div[id^="wpcf7-f489"] button.cf7mls_back {   }div[id^="wpcf7-f484"] button.cf7mls_next { background-color: #d8d8d8;  }div[id^="wpcf7-f484"] button.cf7mls_back { background-color: #0c0c0c; color: #ffffff }div[id^="wpcf7-f287"] button.cf7mls_next {   }div[id^="wpcf7-f287"] button.cf7mls_back {   }</style>		<script type="text/rocketlazyloadscript">
+			if ( ! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent ) ) {
+				var root = document.getElementsByTagName( 'html' )[ 0 ]
+				root.className += " no-touch";
+			}
+		</script>
+		<meta name="generator" content="Elementor 4.1.4; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+
+			<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript">
+				var elementskit_module_parallax_url = "https://movey.ae/wp-content/plugins/elementskit/modules/parallax/"
+			</script>
+					<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+<link rel="icon" href="https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-180x180.png" />
+<meta name="msapplication-TileImage" content="https://movey.ae/wp-content/uploads/2023/08/cropped-Logo-color-270x270.png" />
+<style id="wp-custom-css">
+.social_icons {
+    margin-top: 2% !important;
+    margin-left: 0% !important;
+}
+.label_r2 .wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
+    border-radius: 0px 15px;
+    border: 1px solid #000;
+    background: #FFF;
+    padding: 12px 46px !important;
+    color: grey !important;
+}
+input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.inside_label {
+    padding-left: 5rem !important;
+}
+</style>
+<noscript><style> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript><meta name="generator" content="WP Rocket 3.22.0.3" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_minify_css wpr_cdn wpr_desktop" /></head>
+<body class="wp-singular post-template-default single single-post postid-1741 single-format-standard wp-theme-Impreza wp-child-theme-Impreza-child wpb-js-composer js-comp-ver-6.13.0 vc_responsive elementor-default elementor-kit-11">
+		<header data-elementor-type="header" data-elementor-id="367" class="elementor elementor-367 elementor-location-header" data-elementor-settings="{&quot;ha_cmc_init_switcher&quot;:&quot;no&quot;}" data-elementor-post-type="elementor_library">
+					<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-4a19a631 elementor-hidden-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="4a19a631" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;sticky&quot;:&quot;top&quot;,&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;,&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_offset&quot;:0,&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}">
+						<div data-rocket-location-hash="82f6c6a00e9a86a2eaa3cc6e8d136714" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-4511cd13" data-id="4511cd13" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-333e6dde elementor-widget elementor-widget-image" data-id="333e6dde" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://movey.ae/">
+							<img src="https://movey.ae/wp-content/uploads/2023/08/Logo-color.png" title="" alt="" loading="lazy" />								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-621a693f" data-id="621a693f" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d1ff594 e--pointer-none ecs-nav-layout-horizontal elementor-nav-menu--dropdown-tablet elementor-nav-menu--toggle elementor-nav-menu--burger ecs-toggle-align-center elementor-widget elementor-widget-nav-menu" data-id="d1ff594" data-element_type="widget" data-e-type="widget" data-settings="{&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;i class=\&quot;fas fa-caret-down\&quot; aria-hidden=\&quot;true\&quot;&gt;&lt;\/i&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+								<nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-none">
+				<ul id="menu-1-d1ff594" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-34"><a href="https://movey.ae/moving-services-in-dubai/" class="elementor-item">Moving</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2158"><a href="https://movey.ae/office-movers/" class="elementor-sub-item">Office Movers and Packers in Dubai, UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2173"><a href="https://movey.ae/furniture-movers-in-dubai/" class="elementor-sub-item">Furniture Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2253"><a href="https://movey.ae/house-movers-in-dubai/" class="elementor-sub-item">House Movers and Packers in Dubai, UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2242"><a href="https://movey.ae/apartment-movers-in-dubai/" class="elementor-sub-item">Apartment Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2273"><a href="https://movey.ae/villa-movers-in-dubai/" class="elementor-sub-item">Villa Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2290"><a href="https://movey.ae/junk-removal-services/" class="elementor-sub-item">Junk Removal Services</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2310"><a href="https://movey.ae/single-item-movers-in-dubai/" class="elementor-sub-item">Single Item Movers in Dubai</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a href="https://movey.ae/movey-faqs/" class="elementor-item">Moving FAQ&#8217;s</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a href="https://movey.ae/about-us/" class="elementor-item">About us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a href="https://movey.ae/contact-us/" class="elementor-item">Contact us</a></li>
+</ul>			</nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open eicon-menu-bar"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close eicon-close"></i>		</div>
+					<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true">
+				<ul id="menu-2-d1ff594" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-34"><a href="https://movey.ae/moving-services-in-dubai/" class="elementor-item" tabindex="-1">Moving</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2158"><a href="https://movey.ae/office-movers/" class="elementor-sub-item" tabindex="-1">Office Movers and Packers in Dubai, UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2173"><a href="https://movey.ae/furniture-movers-in-dubai/" class="elementor-sub-item" tabindex="-1">Furniture Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2253"><a href="https://movey.ae/house-movers-in-dubai/" class="elementor-sub-item" tabindex="-1">House Movers and Packers in Dubai, UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2242"><a href="https://movey.ae/apartment-movers-in-dubai/" class="elementor-sub-item" tabindex="-1">Apartment Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2273"><a href="https://movey.ae/villa-movers-in-dubai/" class="elementor-sub-item" tabindex="-1">Villa Movers in Dubai</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2290"><a href="https://movey.ae/junk-removal-services/" class="elementor-sub-item" tabindex="-1">Junk Removal Services</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2310"><a href="https://movey.ae/single-item-movers-in-dubai/" class="elementor-sub-item" tabindex="-1">Single Item Movers in Dubai</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a href="https://movey.ae/movey-faqs/" class="elementor-item" tabindex="-1">Moving FAQ&#8217;s</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a href="https://movey.ae/about-us/" class="elementor-item" tabindex="-1">About us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-36"><a href="https://movey.ae/contact-us/" class="elementor-item" tabindex="-1">Contact us</a></li>
+</ul>			</nav>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-4a37b94c" data-id="4a37b94c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-inner-section elementor-element elementor-element-3bd4d4fa elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="3bd4d4fa" data-element_type="section" data-e-type="section" data-settings="{&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+						<div data-rocket-location-hash="b3be091174dcd2d7573499587c59c9d9" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-29cf6ecf" data-id="29cf6ecf" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-74126926 elementor-align-right elementor-widget elementor-widget-button" data-id="74126926" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://movey.ae/booking/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Book Now!</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-449d6b0b" data-id="449d6b0b" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-63ba4075 elementor-widget elementor-widget-button" data-id="63ba4075" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="https://movey.ae/contact-us/">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+							</span>
+									<span class="elementor-button-text">Whatsapp</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-5aa82549 elementor-section-full_width elementor-hidden-desktop elementor-hidden-tablet elementor-section-height-default elementor-section-height-default" data-id="5aa82549" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;sticky&quot;:&quot;top&quot;,&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_offset&quot;:0,&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-39184cda" data-id="39184cda" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-17959696 elementor-widget elementor-widget-image" data-id="17959696" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="https://movey.ae/">
+							<img src="https://movey.ae/wp-content/uploads/2023/08/Logo-color.png" title="" alt="" loading="lazy" />								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-3a312ea9" data-id="3a312ea9" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-27ce3ce8 e--pointer-none ecs-toggle-align-right ecs-nav-layout-horizontal elementor-nav-menu--dropdown-tablet elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="27ce3ce8" data-element_type="widget" data-e-type="widget" data-settings="{&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;i class=\&quot;fas fa-caret-down\&quot; aria-hidden=\&quot;true\&quot;&gt;&lt;\/i&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;,&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+								<nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-none">
+				<ul id="menu-1-27ce3ce8" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-373"><a href="https://movey.ae/about-us/" class="elementor-item">About us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="https://movey.ae/moving/" class="elementor-item">Moving</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a href="https://movey.ae/movey-faqs/" class="elementor-item">Moving FAQ&#8217;s</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a href="https://movey.ae/contact-us/" class="elementor-item">Contact us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a href="https://movey.ae/contact-us/" class="elementor-item">Book Now</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a href="#" class="elementor-item elementor-item-anchor">Whatsapp</a></li>
+</ul>			</nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open eicon-menu-bar"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close eicon-close"></i>		</div>
+					<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true">
+				<ul id="menu-2-27ce3ce8" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-373"><a href="https://movey.ae/about-us/" class="elementor-item" tabindex="-1">About us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="https://movey.ae/moving/" class="elementor-item" tabindex="-1">Moving</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a href="https://movey.ae/movey-faqs/" class="elementor-item" tabindex="-1">Moving FAQ&#8217;s</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-30"><a href="https://movey.ae/contact-us/" class="elementor-item" tabindex="-1">Contact us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-31"><a href="https://movey.ae/contact-us/" class="elementor-item" tabindex="-1">Book Now</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a href="#" class="elementor-item elementor-item-anchor" tabindex="-1">Whatsapp</a></li>
+</ul>			</nav>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-1826f82c" data-id="1826f82c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+					</div>
+		</section>
+				</header>
+		<main data-rocket-location-hash="5febdc0bd52b4b2953915dabe8950551" id="page-content" class="l-main">
+	<section data-rocket-location-hash="ac30f7e7f1d3d3d7956efe72f76a5143" class="l-section height_medium"><div data-rocket-location-hash="75ea84520440c35b852e2bdb0ffb2a81" class="l-section-h i-cf"><p>Moving from one place to another can be a complex and exhausting process whether it is a residential or commercial move. This is why it is essential to have the support of a reliable and professional moving company. In the vibrant community of Al Barsha, in the heart of Dubai, movers and packers in Al Barsha play a crucial role in facilitating these moves.</p>
+<p>In this article, you will learn about the most important aspects that distinguish movers and packers in Al Barsha. Likewise, we will analyze the importance of a customer-centric approach, where understanding individual needs and personalizing services are essential. Additionally, you will learn the importance of having appropriate licenses, insurance, and accreditations to ensure reliability and security throughout <a href="https://movey.ae/moving-services-in-dubai/">the entire moving process</a>, among other important aspects offered by these companies in this area of ​​Dubai.</p>
+<h2>Importance of Movers and Packers in Al Barsha</h2>
+<p><img fetchpriority="high" decoding="async" class="size-full wp-image-1742 aligncenter" src="https://movey.ae/wp-content/uploads/2023/12/UAE-Movers-and-Packers-1.jpg" alt="movers and packers in al barsha " width="1920" height="1080" /></p>
+<p>Movers and packers in Al Barsha play a vital role when it comes to the mobility of goods. Al Barsha is a residential and commercial area in Dubai that boasts rapid growth and development. Likewise, in this dynamic environment, moving and packing companies are essential to facilitate relocation processes and ensure that personal and commercial items are moved safely and efficiently.</p>
+<p>One of the main reasons why movers and packers in Al Barsha are important is because they help reduce the stress and workload of the moving process. In this sense, moving from one location to another can be a daunting task, especially when it comes to packing and transporting all personal belongings and furniture. Likewise, professional moving and packing companies have the experience and resources necessary to face these logistical challenges, providing packaging, disassembly, transportation, and assembly services at the new destination.</p>
+<p>Additionally, these companies offer an additional layer of security and protection for goods during transportation. They carefully pack fragile and delicate items using appropriate packaging materials, ensuring that they are safe from damage during transport. They also have logistics experts and professional drivers who know the routes and procedures to ensure that objects reach their destination safely and on time.</p>
+<p>Movers and packers in Al Barsha 1 are also important because they contribute to the economic development of the region. By providing professional moving and <a href="https://movey.ae/packing-services-dubai/">packing services</a> they create employment and encourage business growth. Additionally, by facilitating the relocation of people and businesses, they contribute to the development and expansion of the community, encouraging investment and economic activity in the area.</p>
+<h2>Services Offered Movers and Packers in Al Barsha</h2>
+<p>Movers and packers in Al Barsha offer different quality services to make the moving process as good as possible. In this sense, these are some of the services provided by the best movers and packers in Al Barsha.</p>
+<h3>Comprehensive Packing Solutions</h3>
+<p>Movers and packers in Al Barsha offer comprehensive packaging solutions to ensure the protection of objects during the moving process. Likewise, these solutions are intended to simplify and streamline packaging, ensuring that all items are correctly protected before the move.</p>
+<p>One of the advantages of comprehensive <a href="https://movey.ae/packing-services-dubai/">packaging solutions is that movers provide</a> all the necessary materials to pack objects safely. In this sense, this includes boxes of different sizes, packaging paper, bubble wrap, tape, and other protective materials. By having these supplies, packaging experts can ensure that each item is protected, minimizing the risk of damage during transport.</p>
+<p>Additionally, moving companies typically have staff trained in efficient packing techniques. These professionals are experienced in packing a wide variety of objects, from small, fragile items to bulky furniture. In this sense, they know perfectly how to safely disassemble and pack furniture, protect delicate objects, and optimally use space in boxes.</p>
+<p>Another advantage of comprehensive packaging solutions is that moving companies can provide labeling and organization services. Therefore, each box can be clearly labeled with information about its contents and its location at the new destination. This makes the unpacking process easier and helps customers quickly locate the items they need.</p>
+<p>In addition to packing objects, some movers and packers in Al Barsha offer special packing services for fragile and valuable items, such as works of art, musical instruments, or sensitive electronic equipment. In this sense, these objects usually require additional packaging to guarantee their protection during transport. These companies have the knowledge and materials necessary to carry out this task safely.</p>
+<h3>Efficient Loading and Unloading Services</h3>
+<p>Movers in Al Barsha offer efficient loading and unloading services that are essential for the moving process. These services focus on the careful and safe handling of objects during loading into the transport vehicle and unloading at the new destination.</p>
+<p>For its part, one of the advantages of having the loading and unloading services of a professional moving company is that they have personnel trained in techniques for handling heavy and bulky objects. Additionally, these professionals know how to handle and lift objects safely, avoiding personal injury and property damage. They use appropriate equipment, such as forklifts, tie-down straps, and ramps to facilitate loading and unloading efficiently and smoothly.</p>
+<p>Furthermore, movers and packers in Al Barsha usually have suitable transport vehicles to carry out these tasks. These vehicles are equipped with special features such as loading ramps, adjustable suspension systems, and secure compartments to ensure the stability and safety of objects during transportation.</p>
+<p>Another advantage of the loading and unloading services is that they take care of the logistics during the process. Therefore, loading and unloading personnel work closely with packaging and transportation teams to ensure that objects are loaded and unloaded according to a previously established plan. This ensures efficient sequencing and proper distribution of objects at the new destination, making the unpacking and organization process easier.</p>
+<p>Movers may offer additional services, such as furniture assembly and disassembly, which are part of the loading and unloading process. These services ensure that the handling, assembly, and placement in the new location are appropriate according to the client&#8217;s preferences.</p>
+<h3>Safe Transportation Facilities</h3>
+<p>Movers and packers in Al Barsha offer a secure transportation facility service that is essential to ensure the protection and integrity of the objects during the transfer. This focuses on the proper packaging, securing, and transportation of goods from the place of origin to the final destination.</p>
+<p>Likewise, one of the advantages of having the service of secure transportation facilities is that professional moving companies have experience in planning and executing efficient and safe routes. They use their knowledge of roads, traffic regulations, and traffic conditions to select the best possible route, avoiding obstacles and minimizing travel times.</p>
+<p>For their part, moving companies use appropriate and equipped transport vehicles to guarantee the safety of objects during the trip. These vehicles are typically equipped with features such as adjustable suspension, restraint systems, and secure compartments to protect goods from sudden movement and damage during transport. Additionally, professional drivers are experienced in driving moving vehicles and know the best practices to ensure a smooth trip.</p>
+<p>Another advantage of the secure transportation facility service is that moving companies often offer cargo insurance to protect items in case of damage or loss during transportation. These insurances provide peace of mind to clients as they know that their assets are covered. Likewise, moving companies work closely with insurers to ensure that all requirements are met and adequate coverage is provided.</p>
+<p>On the other hand, movers and packers in Al Barsha can provide tracking and monitoring services during transportation. They use tracking and communication technology to keep customers informed about the progress of their items during the trip. This provides greater peace of mind and allows for effective communication between the moving company and the customer.</p>
+<h3>Storage Solutions and Warehousing Options</h3>
+<p>Movers and packers in Al Barsha offer flexible storage solutions and additional storage options for those who need to store their belongings safely for a specific period of time. Likewise, these solutions provide convenience and peace of mind to customers, especially when there is a need to store objects before, during, or after a move.</p>
+<p>Meanwhile, one of the storage options offered by moving companies is short-term storage. This option is ideal for those who need additional space during the transition phase of moving. For example, if there is a time gap between the date you leave the old residence and the date you move into the new one, short-term storage provides a safe place to store items until the move can be fully completed.</p>
+<p>In addition to short-term storage, moving companies also offer long-term storage options. This service is useful for those who need to store their belongings for an extended period of time whether due to an international move, a home remodel, or any other circumstance where long-term storage is necessary. These storage spaces guarantee the safety and protection of objects for as long as they need to be in storage.</p>
+<p>Storage solutions from moving companies in Al Barsha typically include secure, monitored facilities. These facilities have security measures, such as video surveillance systems, access control, and alarms, to protect stored items from damage. Additionally, some moving companies offer inventory and labeling services. This makes it easier to organize and keep track of stored objects.</p>
+<p>Likewise, moving companies can provide packaging and preparation services for objects before storage. This includes properly packaging items in secure boxes, using protective materials to prevent damage during storage, and efficiently organizing items within the storage space.</p>
+<h2>Qualities of a Dependable Movers Al Barsha</h2>
+<p>A reliable moving company in Al Barsha must have a number of important qualities to ensure customer satisfaction. These key qualities include the following:</p>
+<h3>Professionalism and Expertise</h3>
+<p>Professionalism and expertise are essential qualities that a reliable moving company in Al Barsha should have. These qualities ensure that the customer receives quality service and that the move is completed efficiently and safely.</p>
+<p>Now, professionalism refers to the behavior and attitude of the moving company&#8217;s employees. In this sense, professionals in this field must be respectful, courteous, and provide excellent customer service. Therefore, they must treat the client&#8217;s belongings with the utmost care and respect. In addition, they must be punctual, reliable, and fulfill commitments.</p>
+<p>For its part, expertise is another crucial aspect of a reliable moving company. A company with experience in the field of moving in Al Barsha is well aware of the specific challenges and considerations in this area. Therefore, they have faced a variety of situations and have acquired the knowledge necessary to deal with them effectively. Likewise, experience allows them to anticipate potential problems and take appropriate measures to avoid setbacks during the moving process.</p>
+<p>Expertise is also reflected in the ability to handle different types of moves, whether residential, commercial, or international. A company with experience has in-depth knowledge of the specific requirements and regulations for each type of move. In this sense, this allows them to adapt to the unique needs of each client and provide efficient solutions.</p>
+<p>In addition, expertise translates into the ability to handle delicate and valuable objects. Therefore, this type of company must have personnel with experience and training in packaging techniques and protection of fragile objects. Likewise, staff must know how to handle and transport items such as artwork, musical instruments, and antique furniture with the necessary care and attention.</p>
+<h3>Customer-Centric Approach</h3>
+<p>Customer-centric approach is a core value in reliable moving companies in Al Barsha as it plays a crucial role in customer satisfaction and quality of service. In this sense, by putting the customer at the center of all decisions and actions, these companies demonstrate their commitment to providing a positive and satisfactory experience throughout the entire moving process.</p>
+<p>The importance of customer focus lies in the ability to understand and address the individual needs of each customer. Each move is unique and may present specific challenges that must be addressed in a personalized way. Therefore, by actively listening to customers, understanding their requirements, and tailoring services accordingly, reliable moving companies can provide solutions that meet each customer&#8217;s unique needs.</p>
+<p>This approach also involves clear and effective communication with clients. Therefore, reliable moving companies in Al Barsha must keep customers informed about the progress of the move, respond to their questions and concerns in a timely manner, and provide additional assistance when necessary. Open and transparent communication fosters client confidence as they feel involved in each stage of the process.</p>
+<p>Likewise, customer focus implies providing a personalized service to the individual needs of each of them. Reliable moving companies should offer flexible options that fit each client&#8217;s specific requirements. This may include additional services such as packing and unpacking, furniture, disassembly and assembly, or even storage solutions. Therefore, by providing customized options, companies demonstrate their commitment to providing a convenient and satisfying moving experience.</p>
+<h3>Licensing, Insurance, and Accreditations</h3>
+<p>Licensing, insurance, and accreditations are extremely important aspects for movers and packers in Al Barsha. These certifications are essential to guarantee the reliability, protection, and quality of the service provided by these companies. Next, we will present the importance of each of these aspects:</p>
+<ul>
+<li>
+<h4><strong>Licenses and Permits:</strong></h4>
+</li>
+</ul>
+<p>Licenses and permits are legal requirements that a moving company must meet to operate legally in Al Barsha. Obtaining and maintaining the licenses and permits demonstrates that the company complies with the regulations of the competent authorities. This provides peace of mind to the client by ensuring that the company operates within legal limits and meets the standards required to carry out the removals properly.</p>
+<ul>
+<li>
+<h4><strong>Insurance:</strong></h4>
+</li>
+</ul>
+<p>Insurance is essential to protect clients&#8217; assets and interests during the moving process. A reliable moving company in Al Barsha should have liability insurance and cargo insurance.</p>
+<p>For its part, civil liability insurance covers any damage or accident that may occur during the move and provides additional protection in case of any eventuality. Now, cargo insurance, on the other hand, protects the customer&#8217;s assets in case of loss, theft, or damage during transportation.</p>
+<p>In this sense, these insurances provide the client with peace of mind knowing that in the event of any mishap, their belongings are safe and, if applicable, they will obtain adequate compensation.</p>
+<ul>
+<li>
+<h4><strong>Accreditations:</strong></h4>
+</li>
+</ul>
+<p>Accreditations are recognitions given to moving companies that meet certain standards of quality and professionalism. These accreditations can be local or international and are usually granted by organizations or associations in the sector. Therefore, by earning these accreditations, a company demonstrates its commitment to service excellence and adherence to industry best practices.</p>
+<h3>Testimonials and Reviews</h3>
+<p>Testimonials and reviews are of utmost importance in movers and packers in Al Barsha as they play a fundamental role in the decision-making of potential customers. These opinions and experiences from previous customers provide valuable information about service quality, reliability, and customer satisfaction.</p>
+<p>Next, we will present the importance of testimonials and reviews in movers and packers in Al Barsha:</p>
+<ul>
+<li>
+<h4><strong>Credibility and trust:</strong></h4>
+</li>
+</ul>
+<p>Authentic and positive testimonials and reviews build credibility and trust in the company. Potential clients often look for opinions from other clients to get an idea of ​​what to expect from the service. Therefore, by finding positive testimonials from people who have had a satisfactory experience with the moving company, customers feel more confident in choosing that company for their own moves.</p>
+<ul>
+<li>
+<h4><strong>Service Quality Evaluation:</strong></h4>
+</li>
+</ul>
+<p>Testimonials and reviews allow customers to evaluate the quality of the moving company&#8217;s service. They can obtain information on aspects such as punctuality, professionalism, efficiency in packaging, customer service, and attention to details. These reviews help customers make informed decisions and select a quality, <a href="https://movey.ae/movers-and-packers-in-al-ain/">reliable moving company.</a></p>
+<ul>
+<li><strong>Identification of Strengths and Weaknesses:</strong></li>
+</ul>
+<p>Likewise, testimonials and reviews also give moving companies the opportunity to identify their strengths and weaknesses. Therefore, by reading customer reviews, businesses can gain valuable insights into where they excel and where they can improve. This allows them to make adjustments and improvements to their services to further meet customer expectations.</p>
+<h2>Conclusion</h2>
+<p><img decoding="async" class="size-full wp-image-1743 aligncenter" src="https://movey.ae/wp-content/uploads/2023/12/Movers-and-Packers-in-Al-Barsha.jpg" alt="movers and packers in al barsha " width="1920" height="1080" /></p>
+<p>Movers and packers in Al Barsha play an essential role in the process of moving goods in this area. To ensure a successful and satisfying experience for customers, these companies must pay attention to several important aspects. Firstly, a customer-centric approach is essential. By understanding and addressing each client&#8217;s individual needs, these companies can offer customized solutions. Likewise, clear and effective communications, as well as the provision of flexible services are key factors to guarantee customer satisfaction.</p>
+<p>Additionally, licensing, insurance, and accreditations are crucial aspects that demonstrate the reliability and quality of a moving company. In this sense, complying with legal requirements, having adequate insurance, and obtaining recognized accreditations and certifications reinforces customer confidence and guarantees the protection of their assets during the moving process.</p>
+<p>Lastly, testimonials and reviews are an invaluable tool in evaluating the quality of a moving company. These reviews provide a real insight into other customers&#8217; experience. This allows potential clients to make decisions with more information, which makes them select a reliable and quality moving company.</p>
+<p>Altogether, when a potential client pays attention to these important aspects, movers and packers in Al Barsha can establish themselves as reliable and professional suppliers, and provide their clients with a satisfactory moving experience. Now, when a potential client chooses a company that is customer-focused, has the necessary licenses and insurance, has recognized accreditations, and has positive testimonials and reviews, they can trust that their move will be handled expertly and safely.</p>
+<p>By focusing on these aspects, moving companies can establish themselves as leaders in their industry.</p>
+<p>If you need to carry out a quality move in Al Barsha, <a href="https://movey.ae/contact-us/">contact us now</a>!</p>
+</div></section>				<section data-rocket-location-hash="305a50bce21b4003308332c41bc1d107" class="l-section height_medium for_comments">
+					<div data-rocket-location-hash="a659e270938cd112f7056a884ed85ddf" class="l-section-h i-cf"><div id="comments" class="w-comments">
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/movers-and-packers-in-al-barsha/#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://movey.ae/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><div class="w-form-row for_textarea required">
+		<div class="w-form-row-field">
+						<textarea aria-label="Comment" name="comment" placeholder="Comment *" data-required="true" aria-required="true"></textarea>
+			</div>
+		<div class="w-form-row-state">Fill out this field</div>
+</div>
+<div class="w-form-row for_text required">
+		<div class="w-form-row-field">
+						<input aria-label="Name" type="text" name="author" value placeholder="Name *" data-required="true" aria-required="true"/>
+			</div>
+		<div class="w-form-row-state">Fill out this field</div>
+</div>
+
+<div class="w-form-row for_email required">
+		<div class="w-form-row-field">
+						<input aria-label="Email" type="email" name="email" value placeholder="Email *" data-required="true" aria-required="true"/>
+			</div>
+		<div class="w-form-row-state">Please enter a valid email address.</div>
+</div>
+
+<div class="w-form-row for_agreement required">
+		<div class="w-form-row-field">
+				<label>
+			<input type="checkbox" value="1" data-required="true" aria-required="true" name="wp-comment-cookies-consent"/>
+			<span>Save my name, email, and website in this browser for the next time I comment.</span>
+		</label>
+			</div>
+		<div class="w-form-row-state">You need to agree with the terms to proceed</div>
+</div>
+
+<p class="form-submit"><button type="submit" class="w-btn us-btn-style_1"><span class="w-btn-label">Post Comment</span></button> <input type='hidden' name='comment_post_ID' value='1741' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p></form>	</div><!-- #respond -->
+	<div class="us-comments-json hidden" onclick='return {&quot;no_content_msg&quot;:&quot;Fill out this field&quot;,&quot;no_name_msg&quot;:&quot;Fill out this field&quot;,&quot;no_email_msg&quot;:&quot;Please enter a valid email address.&quot;}'></div></div>
+</div>
+					</section></main>
+
+		<footer data-elementor-type="footer" data-elementor-id="370" class="elementor elementor-370 elementor-location-footer" data-elementor-settings="{&quot;ha_cmc_init_switcher&quot;:&quot;no&quot;}" data-elementor-post-type="elementor_library">
+					<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-29ed4d40 elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="29ed4d40" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-682268aa" data-id="682268aa" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-inner-section elementor-element elementor-element-8425a68 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="8425a68" data-element_type="section" data-e-type="section" data-settings="{&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-b501a55" data-id="b501a55" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5e4d61e7 elementor-widget elementor-widget-image" data-id="5e4d61e7" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="/">
+							<img src="https://movey.ae/wp-content/uploads/2023/08/Logo-white.png" title="" alt="" loading="lazy" />								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-17e486f elementor-widget__width-auto elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button" data-id="17e486f" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xs elementor-animation-shrink" href="https://movey.ae/moving-services-in-dubai/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Moving</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-2962145 elementor-widget__width-auto elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button" data-id="2962145" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xs elementor-animation-shrink" href="https://movey.ae/movey-faqs/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Moving FAQ's</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-f8fa359 elementor-widget__width-auto elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button" data-id="f8fa359" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xs elementor-animation-shrink" href="https://movey.ae/about-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">About us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-5fb5347 elementor-widget__width-auto elementor-widget-mobile__width-inherit elementor-widget elementor-widget-button" data-id="5fb5347" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xs elementor-animation-shrink" href="https://movey.ae/contact-us/">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Contact us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-117d607 elementor-shape-circle e-grid-align-left social_icons elementor-grid-0 elementor-widget elementor-widget-social-icons" data-id="117d607" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="social-icons.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-social-icons-wrapper elementor-grid" role="list">
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-animation-grow elementor-repeater-item-6df00af" href="https://www.facebook.com/movey.uae" target="_blank">
+						<span class="elementor-screen-only"></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g id="Link"><path id="Vector" d="M13.9453 1.60156C14.8307 1.60156 15.5859 1.91406 16.2109 2.53906C16.8359 3.16406 17.1484 3.91927 17.1484 4.80469V15.5469C17.1484 16.4323 16.8359 17.1875 16.2109 17.8125C15.5859 18.4375 14.8307 18.75 13.9453 18.75H11.8359V12.1094H14.0625L14.375 9.53125H11.8359V7.85156C11.8359 7.4349 11.9271 7.1224 12.1094 6.91406C12.2656 6.70573 12.6042 6.60156 13.125 6.60156H14.4922V4.29688C14.0234 4.21875 13.3594 4.17969 12.5 4.17969C11.4844 4.17969 10.6771 4.47917 10.0781 5.07812C9.45312 5.67708 9.14062 6.52344 9.14062 7.61719V9.53125H6.91406V12.1094H9.14062V18.75H3.20312C2.31771 18.75 1.5625 18.4375 0.9375 17.8125C0.3125 17.1875 0 16.4323 0 15.5469V4.80469C0 3.91927 0.3125 3.16406 0.9375 2.53906C1.5625 1.91406 2.31771 1.60156 3.20312 1.60156H13.9453Z" fill="white" fill-opacity="0.9"></path></g></svg>					</a>
+				</span>
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-animation-grow elementor-repeater-item-cd171a3" href="https://www.linkedin.com/company/movey-uae/" target="_blank">
+						<span class="elementor-screen-only"></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g id="Link"><path id="Vector" d="M2.65625 15.9766H5.23438V8.20312H2.65625V15.9766ZM5.39062 5.82031C5.39062 5.42969 5.26042 5.11719 5 4.88281C4.73958 4.6224 4.38802 4.49219 3.94531 4.49219C3.52865 4.49219 3.17708 4.6224 2.89062 4.88281C2.63021 5.11719 2.5 5.42969 2.5 5.82031C2.5 6.21094 2.63021 6.53646 2.89062 6.79688C3.15104 7.03125 3.48958 7.14844 3.90625 7.14844H3.94531C4.36198 7.14844 4.71354 7.03125 5 6.79688C5.26042 6.53646 5.39062 6.21094 5.39062 5.82031ZM11.9141 15.9766H14.4922V11.5234C14.4922 10.3776 14.2188 9.50521 13.6719 8.90625C13.125 8.33333 12.4089 8.04688 11.5234 8.04688C10.5078 8.04688 9.72656 8.47656 9.17969 9.33594H9.21875V8.20312H6.64062C6.66667 8.69792 6.66667 11.2891 6.64062 15.9766H9.21875V11.6406C9.21875 11.3542 9.24479 11.1458 9.29688 11.0156C9.40104 10.7552 9.57031 10.5339 9.80469 10.3516C10.013 10.1693 10.2865 10.0781 10.625 10.0781C11.4844 10.0781 11.9141 10.6641 11.9141 11.8359V15.9766ZM17.1484 4.80469V15.5469C17.1484 16.4323 16.8359 17.1875 16.2109 17.8125C15.5859 18.4375 14.8307 18.75 13.9453 18.75H3.20312C2.31771 18.75 1.5625 18.4375 0.9375 17.8125C0.3125 17.1875 0 16.4323 0 15.5469V4.80469C0 3.91927 0.3125 3.16406 0.9375 2.53906C1.5625 1.91406 2.31771 1.60156 3.20312 1.60156H13.9453C14.8307 1.60156 15.5859 1.91406 16.2109 2.53906C16.8359 3.16406 17.1484 3.91927 17.1484 4.80469Z" fill="white" fill-opacity="0.9"></path></g></svg>					</a>
+				</span>
+							<span class="elementor-grid-item" role="listitem">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-animation-grow elementor-repeater-item-bdf1698" href="https://www.instagram.com/movey_uae/" target="_blank">
+						<span class="elementor-screen-only"></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><g id="Link"><path id="Vector" d="M15.1953 16.0938V8.86719H13.7109C13.8411 9.33594 13.9062 9.81771 13.9062 10.3125C13.9062 11.25 13.6719 12.1224 13.2031 12.9297C12.7344 13.7109 12.0833 14.3359 11.25 14.8047C10.4427 15.2734 9.55729 15.5078 8.59375 15.5078C7.10938 15.5078 5.84635 15 4.80469 13.9844C3.76302 12.9688 3.24219 11.7448 3.24219 10.3125C3.24219 9.81771 3.32031 9.33594 3.47656 8.86719H1.91406V16.0938C1.91406 16.276 1.97917 16.4323 2.10938 16.5625C2.23958 16.6927 2.39583 16.7578 2.57812 16.7578H14.5312C14.7135 16.7578 14.8698 16.6927 15 16.5625C15.1302 16.4323 15.1953 16.276 15.1953 16.0938ZM12.0312 10.1562C12.0312 9.21875 11.6927 8.42448 11.0156 7.77344C10.3385 7.1224 9.53125 6.79688 8.59375 6.79688C7.63021 6.79688 6.82292 7.1224 6.17188 7.77344C5.49479 8.42448 5.15625 9.21875 5.15625 10.1562C5.15625 11.0677 5.49479 11.849 6.17188 12.5C6.82292 13.151 7.63021 13.4766 8.59375 13.4766C9.53125 13.4766 10.3385 13.151 11.0156 12.5C11.6927 11.849 12.0312 11.0677 12.0312 10.1562ZM15.1953 6.13281V4.29688C15.1953 4.08854 15.1172 3.90625 14.9609 3.75C14.8307 3.59375 14.6484 3.51562 14.4141 3.51562H12.5C12.2656 3.51562 12.0833 3.59375 11.9531 3.75C11.7969 3.90625 11.7188 4.08854 11.7188 4.29688V6.13281C11.7188 6.34115 11.7969 6.52344 11.9531 6.67969C12.0833 6.83594 12.2656 6.91406 12.5 6.91406H14.4141C14.6484 6.91406 14.8307 6.83594 14.9609 6.67969C15.1172 6.52344 15.1953 6.34115 15.1953 6.13281ZM17.1484 3.78906V16.5625C17.1484 17.1615 16.9271 17.6693 16.4844 18.0859C16.0677 18.5286 15.5599 18.75 14.9609 18.75H2.1875C1.58854 18.75 1.08073 18.5286 0.664062 18.0859C0.221354 17.6693 0 17.1615 0 16.5625V3.78906C0 3.1901 0.221354 2.68229 0.664062 2.26562C1.08073 1.82292 1.58854 1.60156 2.1875 1.60156H14.9609C15.5599 1.60156 16.0677 1.82292 16.4844 2.26562C16.9271 2.68229 17.1484 3.1901 17.1484 3.78906Z" fill="white" fill-opacity="0.9"></path></g></svg>					</a>
+				</span>
+					</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-39101921" data-id="39101921" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap">
+							</div>
+		</div>
+					</div>
+		</section>
+				<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-inner-section elementor-element elementor-element-106c2764 elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="106c2764" data-element_type="section" data-e-type="section" data-settings="{&quot;_ha_eqh_enable&quot;:false,&quot;ekit_has_onepagescroll_dot&quot;:&quot;yes&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-50ed1b75" data-id="50ed1b75" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-3c10f635 elementor-widget__width-auto elementor-widget-mobile__width-initial elementor-widget elementor-widget-heading" data-id="3c10f635" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Privacy Policy</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-10ce143c elementor-widget__width-auto elementor-widget elementor-widget-heading" data-id="10ce143c" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Terms &amp; Conditions</h2>				</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-170afb62" data-id="170afb62" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-7f83fff9 elementor-widget elementor-widget-heading" data-id="7f83fff9" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">© 2023 Movey   Design by Connect Group</p>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+					</div>
+		</div>
+					</div>
+		</section>
+				</footer>
+		
+<script>if ( window.$us === undefined ) window.$us = {};$us.headerSettings = {"default":{"options":[],"layout":[]},"laptops":{"options":[],"layout":[]},"tablets":{"options":[],"layout":[]},"mobiles":{"options":[],"layout":[]},"is_hidden":true};</script><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/Impreza-child/*","/wp-content/themes/Impreza/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+        <div data-rocket-location-hash="17692aa262cb735dd7887d146e6c0d62" class="pac-container1" style="display: none;">
+            <div data-rocket-location-hash="c5afeddd71c660d9ead767b4fc9b2db1" class="pac-item1" onclick="">Loading...</div>
+        </div>
+        <script type="text/rocketlazyloadscript">
+  (function(ss,ex){
+    window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));};
+    (function(d,s){
+      fs=d.getElementsByTagName(s)[0];
+      function ce(src){
+        var cs=d.createElement(s);
+        cs.src=src;
+        cs.async=1;
+        fs.parentNode.insertBefore(cs,fs);
+      };
+      ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js');
+    })(document,'script');
+  })('p1e024BzvjZ4GB6d');
+</script>			<script type="text/rocketlazyloadscript">window.addEventListener('DOMContentLoaded', function() {
+				;
+				(function($, w) {
+					'use strict';
+					let $window = $(w);
+
+					$(document).ready(function() {
+
+						let isEnable = "";
+						let isEnableLazyMove = "";
+						let speed = isEnableLazyMove ? '0.7' : '0.2';
+
+						if( !isEnable ) {
+							return;
+						}
+
+						if (typeof haCursor == 'undefined' || haCursor == null) {
+							initiateHaCursorObject(speed);
+						}
+
+						setTimeout(function() {
+							let targetCursor = $('.ha-cursor');
+							if (targetCursor) {
+								if (!isEnable) {
+									$('body').removeClass('hm-init-default-cursor-none');
+									$('.ha-cursor').addClass('ha-init-hide');
+								} else {
+									$('body').addClass('hm-init-default-cursor-none');
+									$('.ha-cursor').removeClass('ha-init-hide');
+								}
+							}
+						}, 500);
+
+					});
+
+				}(jQuery, window));
+			});</script>
+		
+					<script type="text/rocketlazyloadscript">
+				const lazyloadRunObserver = () => {
+					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+						entries.forEach( ( entry ) => {
+							if ( entry.isIntersecting ) {
+								let lazyloadBackground = entry.target;
+								if( lazyloadBackground ) {
+									lazyloadBackground.classList.add( 'e-lazyloaded' );
+								}
+								lazyloadBackgroundObserver.unobserve( entry.target );
+							}
+						});
+					}, { rootMargin: '200px 0px 200px 0px' } );
+					lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+						lazyloadBackgroundObserver.observe( lazyloadBackground );
+					} );
+				};
+				const events = [
+					'DOMContentLoaded',
+					'elementor/lazyload/observe',
+				];
+				events.forEach( ( event ) => {
+					document.addEventListener( event, lazyloadRunObserver );
+				} );
+			</script>
+			<script type="text/rocketlazyloadscript">(function () {
+  // --- helpers ---
+  function getAllParams() {
+    // Merge query + hash params
+    var q = new URLSearchParams(window.location.search || "");
+    var h = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    return {
+      get: function (key) {
+        if (q.has(key)) return q.get(key);
+        if (h.has(key)) return h.get(key);
+        return "";
+      },
+      has: function (key) {
+        return q.has(key) || h.has(key);
+      }
+    };
+  }
+
+  function setCookie(name, value, days) {
+    if (!value) return;
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+  }
+
+  function setFieldValue(selectors, value) {
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) el.value = value || "";
+    }
+  }
+
+  function populateGclidFields(value) {
+    // populate both by id and by name (CF7 creates name="gclid")
+    setFieldValue(["#testgclid", 'textarea[name="gclid"]', 'input[name="gclid"]'], value || "");
+  }
+
+  function populateAll() {
+    populateGclidFields(getCookie("gclid"));
+
+    function set(idOrName, cookieName) {
+      setFieldValue(
+        ["#" + idOrName, 'textarea[name="' + idOrName + '"]', 'input[name="' + idOrName + '"]'],
+        getCookie(cookieName)
+      );
+    }
+
+    set("campaign_id", "campaign_id");
+    set("adgroup_id", "adgroup_id");
+    set("creative_id", "creative_id");
+    set("keyword", "keyword");
+    set("matchtype", "matchtype");
+    set("device", "device");
+    set("network", "network");
+    set("placement", "placement");
+    set("target_id", "target_id");
+    set("adposition", "adposition");
+    set("loc_interest_ms", "loc_interest_ms");
+    set("loc_physical_ms", "loc_physical_ms");
+    set("initial_url", "initialUrl");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var params = getAllParams();
+
+    // ✅ Always store landing URL once (first touch)
+    if (!getCookie("initialUrl")) {
+      setCookie("initialUrl", window.location.href, 30);
+    }
+
+    // Read from URL (query or hash) with priority
+    var url_gclid = params.get("gclid") || "";
+    var url_gbraid = params.get("gbraid") || "";
+    var url_wbraid = params.get("wbraid") || "";
+    var url_gclsrc = params.get("gclsrc") || ""; // optional / informational
+
+    // ✅ Decide final click id (gclid > gbraid > wbraid) + fallback to cookie
+    var final_gclid = url_gclid || url_gbraid || url_wbraid || getCookie("gclid") || "";
+
+    // If we got a value from URL (fresh), write cookie and populate immediately
+    if (url_gclid || url_gbraid || url_wbraid) {
+      if (final_gclid) {
+        setCookie("gclid", final_gclid, 30);
+        populateGclidFields(final_gclid); // immediate fill so you SEE it now
+      }
+      if (url_gbraid) setCookie("gbraid", url_gbraid, 30);
+      if (url_wbraid) setCookie("wbraid", url_wbraid, 30);
+
+      // (Optional) store gclsrc too if you want it later
+      if (url_gclsrc) setCookie("gclsrc", url_gclsrc, 30);
+    }
+
+    // Capture the rest (same behavior, cleaner)
+    var captureMap = {
+      campaign_id: ["campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroupid"],
+      creative_id: ["creative", "creativeid"],
+      keyword: ["keyword", "q", "kw"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target_id: ["targetid"],
+      adposition: ["adposition"],
+      loc_interest_ms: ["loc_interest_ms"],
+      loc_physical_ms: ["loc_physical_ms"]
+    };
+
+    Object.keys(captureMap).forEach(function (field) {
+      var val = "";
+      var keys = captureMap[field];
+
+      for (var i = 0; i < keys.length; i++) {
+        if (params.has(keys[i])) {
+          val = params.get(keys[i]);
+          break;
+        }
+      }
+
+      if (!val) val = getCookie(field);
+      if (val) setCookie(field, val, 30);
+    });
+
+    // Initial full populate (covers cookie-only cases)
+    populateAll();
+
+    // Re-populate on dynamically inserted forms (CF7/AJAX)
+    var mo = new MutationObserver(populateAll);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Debug (optional)
+    // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
+  });
+})();
+</script><script type="text/rocketlazyloadscript">// Function to get URL parameters
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Function to get a cookie
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Capture gclid, gbraid, or wbraid from URL and store in a cookie if present
+document.addEventListener('DOMContentLoaded', function () {
+    // Capture the initial landing URL
+    var initialUrl = getCookie('initialUrl');
+    if (!initialUrl) {
+        initialUrl = window.location.href;
+        setCookie('initialUrl', initialUrl, 30); // Store the initial URL in a cookie for 30 days
+        console.log("Initial URL stored in cookie:", initialUrl);
+    } else {
+        console.log("Initial URL retrieved from cookie:", initialUrl);
+    }
+
+    // Get URL parameters
+    var gclid = getUrlParameter('gclid');
+    var gbraid = getUrlParameter('gbraid');
+    var wbraid = getUrlParameter('wbraid');
+
+    console.log("gclid from URL:", gclid);
+    console.log("gbraid from URL:", gbraid);
+    console.log("wbraid from URL:", wbraid);
+
+    if (gclid) {
+        setCookie('gclid', gclid, 30); // Store gclid in a cookie for 30 days
+        console.log("gclid stored in cookie:", gclid);
+    } else {
+        gclid = getCookie('gclid'); // Retrieve gclid from cookie if not in URL
+        console.log("gclid retrieved from cookie:", gclid);
+    }
+
+    // If GCLID is not present, check for GBRAID or WBRAID
+    if (!gclid) {
+        if (gbraid) {
+            setCookie('gclid', gbraid, 30); // Store GBRAID in gclid cookie
+            gclid = gbraid;
+            console.log("GBRAID stored in cookie as gclid:", gbraid);
+        } else if (wbraid) {
+            setCookie('gclid', wbraid, 30); // Store WBRAID in gclid cookie
+            gclid = wbraid;
+            console.log("WBRAID stored in cookie as gclid:", wbraid);
+        } else {
+            console.warn("gclid, gbraid, and wbraid not found in URL or cookies.");
+        }
+    }
+
+    // Set gclid in textarea form field if available
+    if (gclid) {
+        var textAreaField = document.querySelector('textarea[name="gclid"]');
+        if (textAreaField) {
+            textAreaField.value = gclid;
+            console.log("gclid set in textarea field:", gclid);
+        } else {
+            console.error("Textarea field with name 'gclid' not found.");
+        }
+    }
+
+    // Set initial URL in a form field if available
+    var initialUrlField = document.querySelector('textarea[name="initial_url"]'); // Assuming an input field for the initial URL
+    if (initialUrlField) {
+        initialUrlField.value = initialUrl;
+        console.log("Initial URL set in input field:", initialUrl);
+    } else {
+        console.error("Input field with name 'initial_url' not found.");
+    }
+});
+</script><link data-minify="1" rel='stylesheet' id='elementor-icons-ekiticons-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/modules/elementskit-icon-pack/assets/css/ekiticons.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementskit-reset-button-for-pro-form-css-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/css/elementskit-reset-button.css?ver=1786044450' media='all' />
+<link data-minify="1" rel='stylesheet' id='ekit-particles-css' href='https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/css/particles.css?ver=1786044450' media='all' />
+<script type="text/rocketlazyloadscript" data-minify="1" id="ekit-widget-scripts-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit-lite/widgets/init/assets/js/widget-scripts.js?ver=1782886323" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7-pipedrive-theme-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js?ver=1782886323" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wp-hooks-js" data-rocket-src="https://movey.ae/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js" data-rocket-src="https://movey.ae/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="swv-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="contact-form-7-js-before">
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/movey.ae\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    },
+    "cached": 1
+};
+//# sourceURL=contact-form-7-js-before
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="contact-form-7-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-intlTelInput-script-js" data-rocket-src="https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https://movey.ae/wp-admin/admin-ajax.php"};
+//# sourceURL=nbcpf-countryFlag-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js" data-rocket-src="https://movey.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: true,
+						autoPlaceholder: true,
+						nationalMode: true,
+						separateDialCode: true,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+						
+					});$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					url: "https://ipinfo.io/json",
+					//url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country);
+						if( response.country !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: true,
+								autoPlaceholder: true,
+								nationalMode: true,
+								separateDialCode: true,
+								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+								
+							});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+//# sourceURL=nbcpf-countryFlag-script-js-after
+});</script>
+<script id="walcf7-datepicker-js-js" src="https://movey.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/jquery.datetimepicker.full.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="walcf7-datepicker-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/datetimepicker.js?ver=1782886324" data-rocket-defer defer></script>
+<script id="wpcf7-redirect-script-js-extra">
+var wpcf7r = {"ajax_url":"https://movey.ae/wp-admin/admin-ajax.php"};
+//# sourceURL=wpcf7-redirect-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="wpcf7-redirect-script-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/wpcf7-redirect/build/assets/frontend-script.js?ver=1782886324" data-rocket-defer defer></script>
+<script id="cf7mls-js-extra">
+var cf7mls_object = {"ajax_url":"https://movey.ae/wp-json/","is_rtl":"","disable_submit":"true","cf7mls_error_message":"","scroll_step":"true","disable_enter_key":"false","check_step_before_submit":"true"};
+//# sourceURL=cf7mls-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="cf7mls-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ninjateam-cf7-multi-step-pro/assets/frontend/js/cf7mls.js?ver=1782886324" data-rocket-defer defer></script>
+<script id="us-core-js" src="https://movey.ae/wp-content/themes/Impreza/js/us.core.min.js?ver=8.17.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-color-switcher-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="swiper-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-webpack-runtime-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-modules-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-core-js" data-rocket-src="https://movey.ae/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script id="elementor-frontend-js-extra">
+var EAELImageMaskingConfig = {"svg_dir_url":"https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/img/image-masking/svg-shapes/"};
+//# sourceURL=elementor-frontend-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.1.4","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"e_panel_promotions":true,"theme_builder_v2":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_opt_in_v4_page":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/movey.ae\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/movey.ae\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/movey.ae\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"0a9c5e3498","atomicFormsSendForm":"e1411e933e"},"swiperClass":"swiper","settings":{"page":{"ha_cmc_init_switcher":"no"},"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description","ha_rpb_enable":"no"},"post":{"id":1741,"title":"Get%20to%20know%20About%20Movers%20and%20Packers%20in%20Al%20Barsha%20-%20Movey","excerpt":"","featuredImage":"https:\/\/movey.ae\/wp-content\/uploads\/2024\/01\/Featured-Image-29-1-1024x576.png"}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.1.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-slider-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/container-layout/assets/js/ecs-slider.js?ver=1782886324" data-rocket-defer defer></script>
+<script id="smartmenus-js" src="https://movey.ae/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.2.1" data-rocket-defer defer></script>
+<script id="e-sticky-js" src="https://movey.ae/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script id="happy-elementor-addons-js-extra">
+var HappyLocalize = {"ajax_url":"https://movey.ae/wp-admin/admin-ajax.php","nonce":"b1ec3de5f7","pdf_js_lib":"https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/vendor/pdfjs/lib"};
+//# sourceURL=happy-elementor-addons-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="happy-elementor-addons-js" data-rocket-src="https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/js/happy-addons.min.js?ver=3.21.3" data-rocket-defer defer></script>
+<script id="happy-addons-pro-js-extra">
+var HappyProLocalize = {"ajax_url":"https://movey.ae/wp-admin/admin-ajax.php","nonce":"df696a720d"};
+//# sourceURL=happy-addons-pro-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="happy-addons-pro-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons-pro/assets/js/happy-addons-pro.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="animejs-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/anime.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" defer id="elementskit-parallax-frontend-defer-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-frontend-scripts.js?ver=1782886324"></script>
+<script type="text/rocketlazyloadscript" id="happy-reading-progress-bar-js" data-rocket-src="https://movey.ae/wp-content/plugins/happy-elementor-addons/assets/js/extension-reading-progress-bar.min.js?ver=3.21.3" data-rocket-defer defer></script>
+<script id="eael-general-js-extra">
+var localize = {"ajaxurl":"https://movey.ae/wp-admin/admin-ajax.php","nonce":"20aa558ad4","i18n":{"added":"Added ","compare":"Compare","loading":"Loading..."},"eael_translate_text":{"required_text":"is a required field","invalid_text":"Invalid","billing_text":"Billing","shipping_text":"Shipping","fg_mfp_counter_text":"of"},"page_permalink":"https://movey.ae/movers-and-packers-in-al-barsha/","cart_redirectition":"","cart_page_url":"","el_breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"ParticleThemesData":{"default":"{\"particles\":{\"number\":{\"value\":160,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":false,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":true,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":6,\"direction\":\"none\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"repulse\"},\"onclick\":{\"enable\":true,\"mode\":\"push\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","nasa":"{\"particles\":{\"number\":{\"value\":250,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":1,\"random\":true,\"anim\":{\"enable\":true,\"speed\":1,\"opacity_min\":0,\"sync\":false}},\"size\":{\"value\":3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":4,\"size_min\":0.3,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":1,\"direction\":\"none\",\"random\":true,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":600}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"bubble\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":250,\"size\":0,\"duration\":2,\"opacity\":0,\"speed\":3},\"repulse\":{\"distance\":400,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","bubble":"{\"particles\":{\"number\":{\"value\":15,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#1b1e34\"},\"shape\":{\"type\":\"polygon\",\"stroke\":{\"width\":0,\"color\":\"#000\"},\"polygon\":{\"nb_sides\":6},\"image\":{\"src\":\"img/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.3,\"random\":true,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":50,\"random\":false,\"anim\":{\"enable\":true,\"speed\":10,\"size_min\":40,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":200,\"color\":\"#ffffff\",\"opacity\":1,\"width\":2},\"move\":{\"enable\":true,\"speed\":8,\"direction\":\"none\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":false,\"mode\":\"grab\"},\"onclick\":{\"enable\":false,\"mode\":\"push\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","snow":"{\"particles\":{\"number\":{\"value\":450,\"density\":{\"enable\":true,\"value_area\":800}},\"color\":{\"value\":\"#fff\"},\"shape\":{\"type\":\"circle\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"img/github.svg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":true,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":5,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":500,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":2},\"move\":{\"enable\":true,\"speed\":6,\"direction\":\"bottom\",\"random\":false,\"straight\":false,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":true,\"mode\":\"bubble\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":400,\"line_linked\":{\"opacity\":0.5}},\"bubble\":{\"distance\":400,\"size\":4,\"duration\":0.3,\"opacity\":1,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}","nyan_cat":"{\"particles\":{\"number\":{\"value\":150,\"density\":{\"enable\":false,\"value_area\":800}},\"color\":{\"value\":\"#ffffff\"},\"shape\":{\"type\":\"star\",\"stroke\":{\"width\":0,\"color\":\"#000000\"},\"polygon\":{\"nb_sides\":5},\"image\":{\"src\":\"http://wiki.lexisnexis.com/academic/images/f/fb/Itunes_podcast_icon_300.jpg\",\"width\":100,\"height\":100}},\"opacity\":{\"value\":0.5,\"random\":false,\"anim\":{\"enable\":false,\"speed\":1,\"opacity_min\":0.1,\"sync\":false}},\"size\":{\"value\":4,\"random\":true,\"anim\":{\"enable\":false,\"speed\":40,\"size_min\":0.1,\"sync\":false}},\"line_linked\":{\"enable\":false,\"distance\":150,\"color\":\"#ffffff\",\"opacity\":0.4,\"width\":1},\"move\":{\"enable\":true,\"speed\":14,\"direction\":\"left\",\"random\":false,\"straight\":true,\"out_mode\":\"out\",\"bounce\":false,\"attract\":{\"enable\":false,\"rotateX\":600,\"rotateY\":1200}}},\"interactivity\":{\"detect_on\":\"canvas\",\"events\":{\"onhover\":{\"enable\":false,\"mode\":\"grab\"},\"onclick\":{\"enable\":true,\"mode\":\"repulse\"},\"resize\":true},\"modes\":{\"grab\":{\"distance\":200,\"line_linked\":{\"opacity\":1}},\"bubble\":{\"distance\":400,\"size\":40,\"duration\":2,\"opacity\":8,\"speed\":3},\"repulse\":{\"distance\":200,\"duration\":0.4},\"push\":{\"particles_nb\":4},\"remove\":{\"particles_nb\":2}}},\"retina_detect\":true}"},"eael_login_nonce":"ea8cd9c718","eael_register_nonce":"4a378a5189","eael_lostpassword_nonce":"edf1e9b304","eael_resetpassword_nonce":"fcc092f80b"};
+//# sourceURL=eael-general-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="eael-general-js" data-rocket-src="https://movey.ae/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/js/view/general.min.js?ver=6.6.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" async data-wp-strategy="async" fetchpriority="low" id="comment-reply-js" data-rocket-src="https://movey.ae/wp-includes/js/comment-reply.min.js?ver=7.0.3"></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-webpack-runtime-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/movey.ae\/wp-admin\/admin-ajax.php","nonce":"138e159467","urls":{"assets":"https:\/\/movey.ae\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/movey.ae\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"en_US","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/movey.ae\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="pro-elements-handlers-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.1.2" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" defer id="elementskit-sticky-content-script-init-defer-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/sticky-content/assets/js/elementskit-sticky-content.js?ver=1782886324"></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="elementskit-reset-button-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/pro-form-reset-button/assets/js/elementskit-reset-button.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="particles-js" data-rocket-src="https://movey.ae/wp-content/plugins/elementskit/modules/particles/assets/js/particles.min.js?ver=3.3.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ekit-particles-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/particles/assets/js/ekit-particles.js?ver=1782886324" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" defer id="elementskit-parallax-admin-defer-js" data-rocket-src="https://movey.ae/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/js/parallax-admin-scripts.js?ver=1782886324"></script>
+
+<script>var rocket_beacon_data = {"ajax_url":"https:\/\/movey.ae\/wp-admin\/admin-ajax.php","nonce":"6038908c08","url":"https:\/\/movey.ae\/movers-and-packers-in-al-barsha","is_mobile":false,"width_threshold":1600,"height_threshold":700,"delay":500,"debug":null,"status":{"atf":true,"lrc":true,"preconnect_external_domain":true},"elements":"img, video, picture, p, main, div, li, svg, section, header, span","lrc_threshold":1800,"preconnect_external_domain_elements":["link","script","iframe"],"preconnect_external_domain_exclusions":["static.cloudflareinsights.com","rel=\"profile\"","rel=\"preconnect\"","rel=\"dns-prefetch\"","rel=\"icon\""]}</script><script data-name="wpr-wpr-beacon" src='https://movey.ae/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js' async></script><script>(()=>{class RocketElementorPreload{constructor(){this.deviceMode=document.createElement("span"),this.deviceMode.id="elementor-device-mode-wpr",this.deviceMode.setAttribute("class","elementor-screen-only"),document.body.appendChild(this.deviceMode)}t(){let t=getComputedStyle(this.deviceMode,":after").content.replace(/"/g,"");this.animationSettingKeys=this.i(t),document.querySelectorAll(".elementor-invisible[data-settings]").forEach(t=>{const e=t.getBoundingClientRect();if(e.bottom>=0&&e.top<=window.innerHeight)try{this.o(t)}catch(t){}})}o(t){const e=JSON.parse(t.dataset.settings),i=e.m||e.animation_delay||0,n=e[this.animationSettingKeys.find(t=>e[t])];if("none"===n)return void t.classList.remove("elementor-invisible");t.classList.remove(n),this.currentAnimation&&t.classList.remove(this.currentAnimation),this.currentAnimation=n;let o=setTimeout(()=>{t.classList.remove("elementor-invisible"),t.classList.add("animated",n),this.l(t,e)},i);window.addEventListener("rocket-startLoading",function(){clearTimeout(o)})}i(t="mobile"){const e=[""];switch(t){case"mobile":e.unshift("_mobile");case"tablet":e.unshift("_tablet");case"desktop":e.unshift("_desktop")}const i=[];return["animation","_animation"].forEach(t=>{e.forEach(e=>{i.push(t+e)})}),i}l(t,e){this.i().forEach(t=>delete e[t]),t.dataset.settings=JSON.stringify(e)}static run(){const t=new RocketElementorPreload;requestAnimationFrame(t.t.bind(t))}}document.addEventListener("DOMContentLoaded",RocketElementorPreload.run)})();</script></body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1786065439 -->

@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://companyformationsaudi.com/taxes-in-saudi-arabia/ |
+| Live URL | /taxes-in-saudi-arabia/ |
 | Fetched | 2026-08-08T06:11:44.641Z |

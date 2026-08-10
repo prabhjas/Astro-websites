@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = "";
 
 async function main() {
   const live = await (await fetch(`${ORIGIN}/?nowprocket=1`)).text();

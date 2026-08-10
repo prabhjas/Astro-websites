@@ -14,12 +14,12 @@ import { Readable } from 'node:stream';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC = join(ROOT, 'public');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://companyformationsaudi.com',
-  'https://www.companyformationsaudi.com',
-  'http://companyformationsaudi.com',
-  'http://www.companyformationsaudi.com',
+  '',
+  '',
+  '',
+  '',
 ];
 const CONCURRENCY = 10;
 
@@ -53,7 +53,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?companyformationsaudi\.com/gi,
-    'https://companyformationsaudi.com',
+    '',
   );
 }
 

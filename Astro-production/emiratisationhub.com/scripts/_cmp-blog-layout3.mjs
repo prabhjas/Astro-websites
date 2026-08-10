@@ -1,5 +1,5 @@
 const local = await (await fetch('http://127.0.0.1:5107/blog/')).text();
-const live = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const live = await (await fetch('/blog/')).text();
 
 function titles(html, label) {
   const arts = [...html.matchAll(/<article\b[\s\S]*?<h2[^>]*>\s*<a[^>]*>([^<]+)/gi)].map((m) => m[1].trim());

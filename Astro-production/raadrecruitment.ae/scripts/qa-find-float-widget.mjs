@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import fs from "node:fs";
 
 const html = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 const $ = cheerio.load(html);
 

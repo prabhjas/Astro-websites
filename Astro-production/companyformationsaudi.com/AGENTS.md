@@ -1,6 +1,6 @@
 # Agent notes — Company Formation Saudi Astro
 
-WordPress → Astro Phase 1 static mirror of https://companyformationsaudi.com/
+WordPress → Astro Phase 1 static mirror of /
 
 Peer scaffold: `kinzahr.com` / `evolutionmiddleast.com` (FEATURES_FULL_CMS). Port **5114**.
 Brand sibling: `companyformationsaudi.com`.

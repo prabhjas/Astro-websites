@@ -110,7 +110,7 @@ node scripts/fleet-local.mjs up evolutionmiddleast,cbss,spheavyrental,iberiawork
 | Unknown URL | real **`404`** |
 | `GET /api/internal/leads/` without secret | **`403`** |
 | Same with `Authorization: Bearer local-fleet-test-secret` | **`200`** |
-| `POST /api/contact/` JSON + Origin | **`200`** + `success: true` (lead stored under `.data/leads`) |
+| `POST /api/contact/` JSON + Origin | **`200`** + `success: true` for **next/scaffold** sites. **Skipped** for `tier: live` (28 production sites) so smoke does not spam Pipedrive. After form changes on a live site: `FLEET_SMOKE_CONTACT=1 node scripts/fleet-local.mjs smoke <id>` |
 
 Logs: `local/logs/<site-id>.log` · PIDs: `local/pids/<site-id>.pid`
 

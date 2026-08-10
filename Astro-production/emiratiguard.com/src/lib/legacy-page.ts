@@ -3,7 +3,7 @@
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from "@connect/site-cms";
+import { absolutizeMirrorSeoHtml } from "@connect/site-cms";
 import { injectRuntimeGtmLoader } from "./gtm/inject";
 import { notFoundResponse } from "./not-found";
 
@@ -88,6 +88,8 @@ export function serveLegacyPage(slug: string): Response {
   html = injectRuntimeGtmLoader(html);
   html = absolutizeSeoUrls(html, slug);
   html = ensureStylesheet(html, "/css/form-mirror-fixes.css");
+  // VC plugin assets were never mirrored — backgrounds need this fallback.
+  html = ensureStylesheet(html, "/css/vc-background-fallback.css");
   html = ensureScript(html, "/scripts/cf7-bridge.js");
   html = ensureScript(html, "/js/astro-mirror-fixes.js");
 
@@ -95,7 +97,7 @@ export function serveLegacyPage(slug: string): Response {
 
   const path = !slug || slug === "homepage" ? "/" : `/${String(slug).replace(/^\/|\/$/g, "")}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
-  html = sanitizeMirrorHtml(html);
+  // Trusted WP/Elementor/VC mirrors — do not run sanitizeMirrorHtml (broke layouts).
 
   return new Response(html, {
     headers: {

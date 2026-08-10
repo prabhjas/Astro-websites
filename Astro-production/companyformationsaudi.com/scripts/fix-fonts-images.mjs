@@ -13,7 +13,7 @@ import { Readable } from 'node:stream';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LEGACY = join(ROOT, 'src/legacy');
 const PUBLIC = join(ROOT, 'public');
-const LIVE = 'https://companyformationsaudi.com';
+const LIVE = '';
 const BASE = process.env.CFS_BASE || 'http://127.0.0.1:5114';
 
 function walkHtml(dir, acc = []) {

@@ -1,4 +1,4 @@
-const live = await (await fetch('https://emiratisationhub.com/')).text();
+const live = await (await fetch('/')).text();
 const local = await (await fetch('http://127.0.0.1:5107/')).text();
 
 function menuItems(html) {
@@ -10,7 +10,7 @@ console.log('live menu', menuItems(live));
 console.log('local menu', menuItems(local));
 
 // Live article 1975 structure
-const blog = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const blog = await (await fetch('/blog/')).text();
 const art = blog.match(/<article[^>]*id="post-3951"[\s\S]*?<\/article>/);
 console.log('\n--- LIVE CARD 1975 ---');
 console.log(art?.[0]?.slice(0, 3500));

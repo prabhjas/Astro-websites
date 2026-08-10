@@ -42,7 +42,7 @@ console.log("Vector.png count", (home.match(/Vector\.png/g) || []).length);
 
 // Check live color of iconbox text via design CSS on live page
 const live = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
 ).text();
 const styleBlocks = [...live.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]);
 const joined = styleBlocks.join("\n");

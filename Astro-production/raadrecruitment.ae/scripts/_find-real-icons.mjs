@@ -34,16 +34,16 @@ try {
 
 // Check if live HTML uses different Vector or font icons now
 const live = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 const liveIcons = [...live.matchAll(/We are Govt[\s\S]{0,800}/)].map((m) => m[0].slice(0, 500));
 console.log("\nlive govt chunk", liveIcons[0]?.replace(/\s+/g, " "));
 
 // Try alternate Vector URLs
 for (const u of [
-  "https://ngmanpower.com/wp-content/uploads/2023/05/Vector.png",
-  "https://ngmanpower.com/wp-content/uploads/2023/05/Vector-1.png",
-  "https://ngmanpower.com/wp-content/uploads/2023/05/vector-icon.png",
+  "/wp-content/uploads/2023/05/Vector.png",
+  "/wp-content/uploads/2023/05/Vector-1.png",
+  "/wp-content/uploads/2023/05/vector-icon.png",
 ]) {
   try {
     const r = await fetch(u, { method: "HEAD", headers: { "User-Agent": "Mozilla/5.0" } });

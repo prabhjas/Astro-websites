@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "src", "data");
 const PUBLIC = path.join(ROOT, "public");
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 
 async function fetchBin(url) {
   const res = await fetch(url, { headers: { "User-Agent": "EOR-Astro/1.0" } });

@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 const SITEMAP_INDEX = `${ORIGIN}/sitemap_index.xml`;
 
 const args = process.argv.slice(2);

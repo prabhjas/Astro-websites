@@ -46,10 +46,10 @@ function walk(dir, out = []) {
 
 function transform(text) {
   let t = text;
-  t = t.replace(/https:\/\/www\.ngmanpower\.com/gi, "https://www.ngmanpower.com");
-  t = t.replace(/http:\/\/www\.ngmanpower\.com/gi, "http://www.ngmanpower.com");
-  t = t.replace(/https:\/\/ngmanpower\.com/gi, "https://ngmanpower.com");
-  t = t.replace(/http:\/\/ngmanpower\.com/gi, "http://ngmanpower.com");
+  t = t.replace(/https:\/\/www\.ngmanpower\.com/gi, "");
+  t = t.replace(/http:\/\/www\.ngmanpower\.com/gi, "");
+  t = t.replace(/https:\/\/ngmanpower\.com/gi, "");
+  t = t.replace(/http:\/\/ngmanpower\.com/gi, "");
   t = t.replace(/www\.ngmanpower\.com/gi, "www.ngmanpower.com");
   t = t.replace(/ngmanpower\.com/gi, "ngmanpower.com");
   t = t.replace(/NG Manpower Contact Form/g, "NG Manpower Contact Form");

@@ -1,6 +1,6 @@
 for (const url of [
-  'https://emiratisationhub.com/blog/page/2/',
-  'https://emiratisationhub.com/blog/page/2',
+  '/blog/page/2/',
+  '/blog/page/2',
   'http://127.0.0.1:5107/blog/page/2/',
 ]) {
   try {
