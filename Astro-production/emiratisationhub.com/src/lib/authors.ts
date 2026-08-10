@@ -256,7 +256,7 @@ export function buildAuthorPostCardHtml(post: BlogPost): string {
 }
 
 const AUTHOR_HEAD_ASSETS = `<link rel="stylesheet" href="/css/emiratisationhub-authors.css" id="emiratisationhub-authors-css" />
-<link rel="stylesheet" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css" media="all" />
+<link rel="stylesheet" href="/css/fontawesome-all.min.css" media="all" />
 <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css" media="all" />`;
 
 function wrapInAuthorShell(
@@ -384,9 +384,9 @@ export function serveAuthorArchive(data: AuthorPageData): Response {
 
 export function assembleAuthorDirectoryHtml(): string {
   const entries = getAuthorDirectoryEntries();
-  const title = 'Authors | KPMPRO';
+  const title = 'Authors | Emiratisation Hub';
   const description =
-    'Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.';
+    'Meet the Emiratisation Hub authors sharing practical UAE Emiratisation, recruitment, and compliance insights.';
   const main = buildAuthorDirectoryMain(entries);
   return wrapInAuthorShell(main, {
     title,

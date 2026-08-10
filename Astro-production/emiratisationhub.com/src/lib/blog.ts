@@ -511,7 +511,8 @@ export function serveBlogPost(post: BlogPost): Response {
 
 /** WordPress author archives use 50 posts per page. */
 export const AUTHOR_POSTS_PER_PAGE = 12;
-export const ARCHIVE_POSTS_PER_PAGE = 12;
+/** Live /blog/ shows 1 featured (loop 1975) + 4 grid cards (loop 1985). */
+export const ARCHIVE_POSTS_PER_PAGE = 5;
 export const TAG_POSTS_PER_PAGE = 50;
 
 const CATEGORY_SLUG_MAP: Record<string, string> = {
@@ -559,13 +560,58 @@ export function excerptFromContent(html: string, maxLength = 220): string {
 }
 
 export function getPostExcerpt(post: Pick<BlogPost, 'description' | 'contentHtml'>, maxLength = 220): string {
-  const fromMeta = stripHtml(post.description || '').trim();
-  if (fromMeta) {
-    return fromMeta.length <= maxLength
-      ? fromMeta
-      : `${fromMeta.slice(0, maxLength).replace(/\s+\S*$/, '').trim()}…`;
+  const fromDesc = stripHtml(post.description || '');
+  if (fromDesc) {
+    if (fromDesc.length <= maxLength) return fromDesc;
+    const sliced = fromDesc.slice(0, maxLength);
+    const lastSpace = sliced.lastIndexOf(' ');
+    return `${(lastSpace > 80 ? sliced.slice(0, lastSpace) : sliced).trim()}…`;
   }
   return excerptFromContent(post.contentHtml || '', maxLength);
+}
+
+function humanizeSlug(slug: string): string {
+  return String(slug || '')
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+/** Author exports often store an <img> avatar as `name` — resolve a real display name. */
+export function resolveAuthorDisplayName(post: Pick<BlogPost, 'author'>): string {
+  const raw = String(post.author?.name || '');
+  let name = raw
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (name && !/^picture of\s+/i.test(name)) return name;
+
+  const alt = raw.match(/\balt=["']([^"']+)["']/i)?.[1] || '';
+  name = alt.replace(/^Picture of\s+/i, '').trim();
+  if (name) return name;
+
+  const slug = String(post.author?.slug || '').trim();
+  if (slug) {
+    const authorPath = join(ROOT, 'src/content/authors', `${slug}.json`);
+    if (existsSync(authorPath)) {
+      try {
+        const author = JSON.parse(readFileSync(authorPath, 'utf8')) as { name?: string };
+        const fromFile = String(author.name || '')
+          .replace(/<[^>]+>/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        if (fromFile && !fromFile.startsWith('<') && !/^https?:\/\//i.test(fromFile)) {
+          return fromFile;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    return humanizeSlug(slug);
+  }
+
+  return 'Emiratisation Hub';
 }
 
 /** Elementor loop-grid card (template 5894) on /blog/. */
@@ -578,12 +624,7 @@ export function buildKpmproBlogLoopCardHtml(post: BlogPost): string {
   const excerpt = escapeHtml(getPostExcerpt(post, 120));
   const authorSlug = getAuthorSlugFromPost(post) || '';
   const authorUrl = authorSlug ? `/author/${authorSlug}/` : '#';
-  let authorName = post.author?.name || '';
-  if (authorName.includes('<img')) {
-    const alt = authorName.match(/alt=["']([^"']+)["']/i)?.[1] || '';
-    authorName = alt.replace(/^Picture of\s+/i, '').trim();
-  }
-  authorName = escapeHtml(authorName || 'Emiratisation Hub');
+  const authorName = escapeHtml(resolveAuthorDisplayName(post));
   const authorAvatarMatch = String(post.author?.name || '').match(/src=["']([^"']+)["']/i);
   const authorAvatar = authorAvatarMatch?.[1] || '/wp-content/uploads/2024/05/cropped-Group-39929-200x200.png';
   const imgTag = imgSrc
@@ -597,12 +638,12 @@ export function buildKpmproBlogLoopCardHtml(post: BlogPost): string {
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-5ee249c elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-widget_type="theme-post-featured-image.default">
 				<div class="elementor-widget-container">
-																<a href="${postUrl}" target="_blank">${imgTag}</a>
+																<a href="${postUrl}">${imgTag}</a>
 															</div>
 				</div>
 				<div class="elementor-element elementor-element-f1ba8fd elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-widget_type="theme-post-title.default">
 				<div class="elementor-widget-container">
-					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}" target="_blank">${title}</a></h2>				</div>
+					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
 				</div>
 				<div class="elementor-element elementor-element-bf5a7f6 elementor-widget elementor-widget-theme-post-excerpt" data-widget_type="theme-post-excerpt.default">
 				<div class="elementor-widget-container">
@@ -632,7 +673,7 @@ export function buildKpmproBlogLoopCardHtml(post: BlogPost): string {
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-7f62f2a elementor-widget elementor-widget-image" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																<a href="${postUrl}" target="_blank">
+																<a href="${postUrl}">
 							<img decoding="async" width="35" height="34" src="/wp-content/uploads/2024/10/iconoir_arrow-left.svg" class="attachment-large size-large wp-image-5904" alt="iconoir_arrow-left" />								</a>
 															</div>
 				</div>
@@ -647,97 +688,90 @@ export function buildKpmproBlogLoopCardHtml(post: BlogPost): string {
 				</div>`;
 }
 
-/** Build Evolution featured hero card (Elementor loop template 714). */
+/** Emiratisation Hub featured card — Elementor loop template 1975. */
 export function buildFeaturedPostCardHtml(post: BlogPost): string {
-  const category = post.categories[0];
-  const categoryName = category ? escapeHtml(category.name) : '';
+  const categoriesHtml = post.categories
+    .slice(0, 3)
+    .map((c) => `<span class="elementor-post-info__terms-list-item">${escapeHtml(c.name)}</span>`)
+    .join(', ');
   const img = post.featuredImage;
   const imgSrc = img?.src || '';
   const imgAlt = escapeHtml(img?.alt || post.title);
   const dateDisplay = formatDate(post.publishedAt);
   const postUrl = `/${post.slug}/`;
   const title = escapeHtml(post.title);
-  const catClass = category?.name
-    ? ` category-${(category.slug || category.name).toLowerCase().replace(/\s+/g, '-')}`
-    : '';
-  const classBits = `elementor-post elementor-grid-item ecs-post-loop post type-post status-publish format-standard has-post-thumbnail hentry${catClass}`;
-
+  const excerpt = escapeHtml(getPostExcerpt(post, 140));
+  const authorName = escapeHtml(resolveAuthorDisplayName(post));
+  const catClasses = post.categories
+    .map((c) => ` category-${(c.slug || getCategorySlug(c)).toLowerCase().replace(/\s+/g, '-')}`)
+    .join('');
+  const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
   const imgTag = imgSrc
-    ? `<img loading="eager" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" decoding="async" />`
+    ? `<img fetchpriority="high" decoding="async" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" />`
     : '';
 
-  return `<article class="${classBits}">
-<div class="elementor elementor-714" data-elementor-id="714" data-elementor-post-type="elementor_library" data-elementor-type="loop">
-<section class="elementor-section elementor-top-section elementor-element elementor-element-43b4a11 elementor-section-boxed elementor-section-height-default" data-element_type="section" data-id="43b4a11">
-<div class="elementor-container elementor-column-gap-default">
-<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-49362bf" data-element_type="column" data-id="49362bf">
-<div class="elementor-widget-wrap elementor-element-populated">
-<div class="elementor-element elementor-element-f8a3136 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-widget_type="theme-post-featured-image.default">
-<div class="elementor-widget-container">
-<a href="${postUrl}">${imgTag}</a>
-</div>
-</div>
-</div>
-</div>
-<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-a4b52c2" data-element_type="column" data-id="a4b52c2">
-<div class="elementor-widget-wrap elementor-element-populated">
-<div class="elementor-element elementor-element-421283d elementor-widget elementor-widget-post-info" data-widget_type="post-info.default">
-<div class="elementor-widget-container">
-<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-<li class="elementor-icon-list-item elementor-inline-item" itemprop="datePublished">
-<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-<time>${dateDisplay}</time>
-</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="elementor-element elementor-element-d7dcb89 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-widget_type="theme-post-title.default">
-<div class="elementor-widget-container">
-<h3 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h3>
-</div>
-</div>
-${
-  categoryName
-    ? `<div class="elementor-element elementor-element-3e46b85 elementor-widget elementor-widget-post-info" data-widget_type="post-info.default">
-<div class="elementor-widget-container">
-<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-<li class="elementor-icon-list-item elementor-inline-item" itemprop="about">
-<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
-<span class="elementor-post-info__terms-list">
-<span class="elementor-post-info__terms-list-item">${categoryName}</span>
-</span>
-</span>
-</li>
-</ul>
-</div>
-</div>`
-    : ''
-}
-<div class="elementor-element elementor-element-661e9c9 elementor-widget elementor-widget-button" data-widget_type="button.default">
-<div class="elementor-widget-container">
-<div class="elementor-button-wrapper">
-<a class="elementor-button elementor-button-link elementor-size-sm" href="${postUrl}">
-<span class="elementor-button-content-wrapper">
-<span class="elementor-button-text">Read Article Now</span>
-</span>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-</article>`;
+  return `<article id="${postDomId}" class="elementor-post elementor-grid-item ecs-post-loop ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}">
+				<div data-elementor-type="loop" data-elementor-id="1975" class="elementor elementor-1975 ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-f90b58e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f90b58e" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-0e21cd3" data-id="0e21cd3" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-f0ea16f elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="f0ea16f" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="${postUrl}">
+							${imgTag}								</a>
+															</div>
+				</div>
+				${
+          categoriesHtml
+            ? `<div class="elementor-element elementor-element-43efb39 elementor-widget__width-auto elementor-absolute elementor-widget elementor-widget-post-info" data-id="43efb39" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-1df0964 elementor-inline-item" itemprop="about">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+										<span class="elementor-post-info__terms-list">
+				${categoriesHtml}				</span>
+					</span>
+								</li>
+				</ul>
+						</div>
+				</div>`
+            : ''
+        }
+				<div class="elementor-element elementor-element-b993491 elementor-widget elementor-widget-post-info" data-id="b993491" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-f3d8c7f elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>${escapeHtml(dateDisplay)}</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-b4b5bd9 elementor-inline-item" itemprop="author">
+										<span class="elementor-icon-list-icon">
+								<i aria-hidden="true" class="fas fa-circle"></i>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+							<span class="elementor-post-info__item-prefix">&nbsp;&nbsp;by</span>
+										${authorName}					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-ad018c1 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="ad018c1" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-713cdb1 elementor-widget elementor-widget-theme-post-excerpt" data-id="713cdb1" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
+				<div class="elementor-widget-container">
+					<p>${excerpt}</p>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>`;
 }
 
-/**
- * Insights /blog/ Load More cards — Elementor loop template 124 (vertical grid).
- * Matches the static ECS grid in blog.cleaned.html (widget f2c45fb).
- * Do NOT use template 1176 here — that is a horizontal 50/50 skin.
- */
+/** Insights cards (legacy helper). */
 export function buildInsightsCardHtml(post: BlogPost): string {
   const categoriesHtml = post.categories
     .slice(0, 4)
@@ -804,90 +838,82 @@ export function buildInsightsCardHtml(post: BlogPost): string {
 				</article>`;
 }
 
-/** Build Evolution blog grid card (Elementor loop template 244). */
+/** Emiratisation Hub grid card — Elementor loop template 1985. */
 export function buildPostCardHtml(post: BlogPost): string {
-  const category = post.categories[0];
   const categoriesHtml = post.categories
     .slice(0, 3)
     .map((c) => `<span class="elementor-post-info__terms-list-item">${escapeHtml(c.name)}</span>`)
-    .join(' , ');
+    .join(', ');
   const img = post.featuredImage;
   const imgSrc = img?.src || '';
   const imgAlt = escapeHtml(img?.alt || post.title);
-  const excerpt = escapeHtml(getPostExcerpt(post, 160));
   const dateDisplay = formatDate(post.publishedAt);
   const postUrl = `/${post.slug}/`;
   const title = escapeHtml(post.title);
-  const catClass = category?.name
-    ? ` category-${(category.slug || category.name).toLowerCase().replace(/\s+/g, '-')}`
-    : '';
-  const classBits = `elementor-post elementor-grid-item ecs-post-loop post type-post status-publish format-standard has-post-thumbnail hentry${catClass}`;
-
+  const authorName = escapeHtml(resolveAuthorDisplayName(post));
+  const catClasses = post.categories
+    .map((c) => ` category-${(c.slug || getCategorySlug(c)).toLowerCase().replace(/\s+/g, '-')}`)
+    .join('');
+  const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
   const imgTag = imgSrc
-    ? `<img loading="lazy" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" decoding="async" />`
+    ? `<img decoding="async" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" loading="lazy" />`
     : '';
 
-  return `<article class="${classBits}">
-<div class="elementor elementor-244" data-elementor-id="244" data-elementor-post-type="elementor_library" data-elementor-type="loop">
-<section class="elementor-section elementor-top-section elementor-element elementor-element-825d9b8 elementor-section-boxed elementor-section-height-default" data-element_type="section" data-id="825d9b8">
-<div class="elementor-container elementor-column-gap-default">
-<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-05b42ae" data-element_type="column" data-id="05b42ae">
-<div class="elementor-widget-wrap elementor-element-populated">
-<div class="elementor-element elementor-element-2d3f2b8 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-widget_type="theme-post-featured-image.default">
-<div class="elementor-widget-container">
-<a href="${postUrl}">${imgTag}</a>
-</div>
-</div>
-<section class="elementor-section elementor-inner-section elementor-element elementor-element-ce7d76b elementor-section-boxed elementor-section-height-default" data-element_type="section" data-id="ce7d76b">
-<div class="elementor-container elementor-column-gap-default">
-<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-7cd3d5a" data-element_type="column" data-id="7cd3d5a">
-<div class="elementor-widget-wrap elementor-element-populated">
-<div class="elementor-element elementor-element-eb7d823 elementor-widget elementor-widget-post-info" data-widget_type="post-info.default">
-<div class="elementor-widget-container">
-<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-<li class="elementor-icon-list-item elementor-inline-item" itemprop="datePublished">
-<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
-<time>${dateDisplay}</time>
-</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="elementor-element elementor-element-a48d89a elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-widget_type="theme-post-title.default">
-<div class="elementor-widget-container">
-<h3 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h3>
-</div>
-</div>
-<div class="elementor-element elementor-element-ccf6e5a elementor-widget elementor-widget-theme-post-excerpt" data-widget_type="theme-post-excerpt.default">
-<div class="elementor-widget-container">
-<p>${excerpt}</p>
-</div>
-</div>
-${
-  categoriesHtml
-    ? `<div class="elementor-element elementor-element-ef8c7ce elementor-widget elementor-widget-post-info" data-widget_type="post-info.default">
-<div class="elementor-widget-container">
-<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-<li class="elementor-icon-list-item elementor-inline-item" itemprop="about">
-<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
-<span class="elementor-post-info__terms-list">${categoriesHtml}</span>
-</span>
-</li>
-</ul>
-</div>
-</div>`
-    : ''
-}
-</div>
-</div>
-</div>
-</section>
-</div>
-</div>
-</div>
-</section>
-</div>
-</article>`;
+  return `<article id="${postDomId}" class="elementor-post elementor-grid-item ecs-post-loop ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}">
+				<div data-elementor-type="loop" data-elementor-id="1985" class="elementor elementor-1985 ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-d3a6f07 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d3a6f07" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c251a4c" data-id="c251a4c" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-63667ce elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="63667ce" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="${postUrl}">
+							${imgTag}								</a>
+															</div>
+				</div>
+				${
+          categoriesHtml
+            ? `<div class="elementor-element elementor-element-32380b2 elementor-widget__width-auto elementor-absolute elementor-widget elementor-widget-post-info" data-id="32380b2" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_position&quot;:&quot;absolute&quot;}" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-1df0964 elementor-inline-item" itemprop="about">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+										<span class="elementor-post-info__terms-list">
+				${categoriesHtml}				</span>
+					</span>
+								</li>
+				</ul>
+						</div>
+				</div>`
+            : ''
+        }
+				<div class="elementor-element elementor-element-cddb253 elementor-widget elementor-widget-post-info" data-id="cddb253" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-f3d8c7f elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>${escapeHtml(dateDisplay)}</time>					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-b4b5bd9 elementor-inline-item" itemprop="author">
+										<span class="elementor-icon-list-icon">
+								<i aria-hidden="true" class="fas fa-circle"></i>							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+							<span class="elementor-post-info__item-prefix">&nbsp;&nbsp;by</span>
+										${authorName}					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-ad018c1 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="ad018c1" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>`;
 }
 
 /** Elementor archive_cards skin (template 24660) used on tag archives. */
