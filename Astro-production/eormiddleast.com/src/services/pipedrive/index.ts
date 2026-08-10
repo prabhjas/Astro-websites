@@ -53,18 +53,18 @@ async function pipedriveRequest<T>(
   }
   clearTimeout(timeout);
 
-  let parsed: PipedriveApiResponse<T> | null = null;
+  let parsed: PipedriveApiResponse<T>;
   try {
     parsed = (await response.json()) as PipedriveApiResponse<T>;
   } catch {
     return { ok: false, status: response.status, error: 'Invalid Pipedrive response' };
   }
 
-  if (!response.ok || !parsed?.success) {
+  if (!response.ok || !parsed.success) {
     return {
       ok: false,
       status: response.status,
-      error: parsed?.error || parsed?.error_info || `Pipedrive request failed (${response.status})`,
+      error: parsed.error || parsed.error_info || `Pipedrive request failed (${response.status})`,
     };
   }
 

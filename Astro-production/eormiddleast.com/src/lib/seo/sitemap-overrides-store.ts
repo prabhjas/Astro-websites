@@ -157,7 +157,8 @@ export async function deleteSitemapOverride(
   const path = normalizeOverridePath(pathInput);
   if (!path) throw new Error('Invalid sitemap path');
   const current = await readSitemapOverrides(rootDir);
-  const { [path]: _removed, ...rest } = current.entries;
+  const rest = { ...current.entries };
+  delete rest[path];
   return writeSitemapOverrides(rootDir, {
     updatedBy,
     entries: rest,

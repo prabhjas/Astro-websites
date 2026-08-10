@@ -90,16 +90,16 @@ const {
   import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
 
   document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById(formId);
+    const form = document.getElementById(formId);
     if (!(form instanceof HTMLFormElement)) return;
 
     function setHidden(name, value) {
-      var input = form.querySelector('[name="' + name + '"]');
+      const input = form.querySelector('[name="' + name + '"]');
       if (input) input.value = value || '';
     }
 
     function captureTracking() {
-      var captured = captureAttribution(formId, formName);
+      const captured = captureAttribution(formId, formName);
       populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
       setHidden('page_url', window.location.href);
       setHidden('submission_page_url', window.location.href);
