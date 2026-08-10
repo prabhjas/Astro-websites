@@ -1,0 +1,22 @@
+# Permanent redirects — SEO / migration
+# Live emiratiguard.com uses /blog/ (see page-sitemap.xml). Do not redirect to peer /insights/.
+# Old WP footer / CTA slugs → mirrored Astro paths
+redirects:
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /about
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contact
+    to: /contact-us/
+    status: 301
+  - from: /services-emirati-guard/
+    to: /security-services/
+    status: 301
+  - from: /services-emirati-guard
+    to: /security-services/
+    status: 301

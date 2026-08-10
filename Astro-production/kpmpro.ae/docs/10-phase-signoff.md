@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-05  
 **Branch:** `mushtaq-branch`  
-**Local:** http://127.0.0.1:5098/  
+**Local:** http://127.0.0.1:5124/  
 **Master:** `docs/00-NEW-SITE-MASTER.md`  
 **Verify:** `docs/10-GO-LIVE-VERIFY-CHECKLIST.md`
 
@@ -11,14 +11,14 @@
 | **Domain** | kpmpro.ae |
 | **Peer** | `royalvisa.ae` / `kinzahr.com` (Full CMS mirror patterns) |
 | **Mode** | Full CMS (`FEATURES_FULL_CMS`) |
-| **Port** | **5098** (fleet registry; not reused) |
+| **Port** | **5124** (fleet registry; not reused) |
 | **Unit** | `kpmpro` |
 
 | Phase | Result |
 |-------|--------|
 | 01 Security scan | **PASS** — `docs/01-malware-scan-report.md` + 2026-08-05 public re-scan: **0 PHP**; eval hits = vendor jQuery/min only |
 | 02 Convert / place | **PASS** — `Astro-production/kpmpro.ae/`; catalog `astro`; Node SSR |
-| 03 Fleet + CMS + FLOW | **PASS** — `scripts/fleet-sites.json` id `kpmpro` port **5098**; thin `/api/internal/*`; `cms.ts` `FEATURES_FULL_CMS` |
+| 03 Fleet + CMS + FLOW | **PASS** — `scripts/fleet-sites.json` id `kpmpro` port **5124**; thin `/api/internal/*`; `cms.ts` `FEATURES_FULL_CMS` |
 | 04 Forms / attribution | **PASS** — CF7 → `POST /api/contact/`; gclid/UTM/campaignId/device on lead store; Pipedrive website **862**; no SMTP / `FORM_NOTIFICATION_*` |
 | 05 Redirects / SEO / slash | **PASS** — KPM-only `redirects.yml` (Royal Visa leftovers removed); robots/sitemaps/llms 200; `trailingSlash: always` + middleware |
 | 06 Local run + smoke | **PASS** — `node scripts/fleet-local.mjs smoke kpmpro` all green |
@@ -62,7 +62,7 @@ Owner: run docs/OPS-OWNER-CADDY-CUTOVER.md (do not reload live Caddy from this b
 pnpm install
 node scripts/fleet-local.mjs up kpmpro
 node scripts/fleet-local.mjs smoke kpmpro
-# → http://127.0.0.1:5098/
+# → http://127.0.0.1:5124/
 ```
 
 ## Known non-blockers

@@ -1,0 +1,280 @@
+---
+/**
+ * Shared contact form with intl-tel-input (flags + IP-based country dial code).
+ * Submits to /api/contact (server-side Pipedrive + email notifications).
+ */
+interface Props {
+  formId?: string;
+  formName?: string;
+}
+
+const { formId = 'contact-lead', formName = 'Freelancer DXB Contact Form' } = Astro.props;
+---
+
+<form id={formId} class="cg-contact-form" method="post" action="/api/contact" novalidate>
+  <input type="text" name="website" class="cg-contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="form_name" value={formName} />
+  <input type="hidden" name="form_id" value={formId} />
+  <input type="hidden" name="submission_id" value="" />
+  <input type="hidden" name="page_url" value="" />
+  <input type="hidden" name="referrer_url" value="" />
+  <input type="hidden" name="initial_url" value="" />
+  <input type="hidden" name="landing_page_url" value="" />
+  <input type="hidden" name="submission_page_url" value="" />
+  <input type="hidden" name="utm_source" value="" />
+  <input type="hidden" name="utm_medium" value="" />
+  <input type="hidden" name="utm_campaign" value="" />
+  <input type="hidden" name="utm_term" value="" />
+  <input type="hidden" name="utm_content" value="" />
+  <input type="hidden" name="gclid" value="" />
+  <input type="hidden" name="gbraid" value="" />
+  <input type="hidden" name="wbraid" value="" />
+  <input type="hidden" name="fbclid" value="" />
+  <input type="hidden" name="msclkid" value="" />
+  <input type="hidden" name="campaign_id" value="" />
+  <input type="hidden" name="adgroup_id" value="" />
+  <input type="hidden" name="group_id" value="" />
+  <input type="hidden" name="creative_id" value="" />
+  <input type="hidden" name="keyword" value="" />
+  <input type="hidden" name="matchtype" value="" />
+  <input type="hidden" name="device" value="" />
+  <input type="hidden" name="network" value="" />
+  <input type="hidden" name="placement" value="" />
+  <input type="hidden" name="target" value="" />
+  <input type="hidden" name="adposition" value="" />
+  <input type="hidden" name="loc_physical_ms" value="" />
+  <input type="hidden" name="loc_interest_ms" value="" />
+  <input type="hidden" name="gad_source" value="" />
+  <input type="hidden" name="source" value="" />
+  <input type="hidden" name="first_touch_payload" value="" />
+  <input type="hidden" name="last_touch_payload" value="" />
+  <input type="hidden" name="first_visit_at" value="" />
+  <input type="hidden" name="latest_visit_at" value="" />
+  <input type="hidden" name="submitted_at" value="" />
+
+  <label>
+    Name
+    <input type="text" name="name" required autocomplete="name" />
+    <span class="cg-contact-form__error" data-error-for="name"></span>
+  </label>
+  <label>
+    Email
+    <input type="email" name="email" required autocomplete="email" />
+    <span class="cg-contact-form__error" data-error-for="email"></span>
+  </label>
+  <label>
+    Phone
+    <input
+      type="tel"
+      name="phone"
+      class="cg-phone-input wpcf7-phonetext"
+      autocomplete="tel"
+      required
+    />
+    <input type="hidden" name="phone-country-code" value="" />
+    <span class="cg-contact-form__error" data-error-for="phone"></span>
+  </label>
+  <label>
+    Message
+    <textarea name="message" rows="4" required></textarea>
+    <span class="cg-contact-form__error" data-error-for="message"></span>
+  </label>
+  <button type="submit">Submit</button>
+  <p class="cg-contact-form__status" hidden></p>
+</form>
+
+<link
+  rel="stylesheet"
+  href="/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
+/>
+<script src="/wp-includes/js/jquery/jquery.min.js" defer></script>
+<script
+  src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
+  defer
+></script>
+<script src="/js/astro-mirror-fixes.js" defer></script>
+<script define:vars={{ formId, formName }}>
+  import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById(formId);
+    if (!form) return;
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var status = form.querySelector('.cg-contact-form__status');
+    var submitting = false;
+
+    function setHidden(name, value) {
+      var input = form.querySelector('[name="' + name + '"]');
+      if (input) input.value = value || '';
+    }
+
+    function captureTracking() {
+      var captured = captureAttribution(formId, formName);
+      populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+      setHidden('page_url', window.location.href);
+      setHidden('submission_page_url', window.location.href);
+      setHidden('referrer_url', document.referrer || '');
+      if (!form.dataset.submissionId) {
+        form.dataset.submissionId = crypto.randomUUID();
+      }
+      setHidden('submission_id', form.dataset.submissionId);
+    }
+
+    captureTracking();
+
+    function clearErrors() {
+      form.querySelectorAll('.cg-contact-form__error').forEach(function (el) {
+        el.textContent = '';
+      });
+      if (status) {
+        status.hidden = true;
+        status.textContent = '';
+        status.classList.remove('cg-contact-form__status--error', 'cg-contact-form__status--success');
+      }
+    }
+
+    function showFieldErrors(errors) {
+      if (!errors) return;
+      Object.keys(errors).forEach(function (key) {
+        var el = form.querySelector('[data-error-for="' + key + '"]');
+        if (el) el.textContent = errors[key];
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (submitting) return;
+
+      clearErrors();
+      captureTracking();
+      setHidden('submitted_at', new Date().toISOString());
+
+      var phone = form.querySelector('.cg-phone-input');
+      var countryCodeInput = form.querySelector('[name="phone-country-code"]');
+      if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
+        try {
+          var full = window.jQuery(phone).intlTelInput('getNumber');
+          if (full) phone.value = full;
+          var dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
+          if (dial && countryCodeInput) countryCodeInput.value = '+' + dial.dialCode;
+        } catch (err) {}
+      }
+
+      submitting = true;
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      })
+        .then(function (response) {
+          return response.json().then(function (data) {
+            return { ok: response.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          if (status) status.hidden = false;
+          if (result.ok && result.data && result.data.success) {
+            if (status) {
+            status.textContent = result.data.message || 'Thank you. Your enquiry has been received.';
+              status.classList.add('cg-contact-form__status--success');
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              event: 'form_submission_lead',
+              email: (form.querySelector('[name="email"]') || {}).value || '',
+              phone_number: (form.querySelector('[name="phone"]') || {}).value || '',
+              submission_id: (result.data && result.data.submissionId) || form.dataset.submissionId || '',
+            });
+            form.reset();
+            form.dataset.submissionId = crypto.randomUUID();
+            captureTracking();
+            return;
+          }
+          if (status) {
+            status.textContent =
+              (result.data && result.data.message) ||
+              'We could not submit your enquiry at the moment. Please try again shortly.';
+            status.classList.add('cg-contact-form__status--error');
+          }
+          if (result.data && result.data.errors) showFieldErrors(result.data.errors);
+        })
+        .catch(function () {
+          if (status) {
+            status.hidden = false;
+            status.textContent = 'We could not submit your enquiry at the moment. Please try again shortly.';
+            status.classList.add('cg-contact-form__status--error');
+          }
+        })
+        .finally(function () {
+          submitting = false;
+          if (submitBtn) submitBtn.disabled = false;
+        });
+    });
+  });
+</script>
+
+<style>
+  .cg-contact-form {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 28rem;
+  }
+  .cg-contact-form label {
+    display: grid;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+  }
+  .cg-contact-form input,
+  .cg-contact-form textarea {
+    padding: 0.5rem 0.65rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font: inherit;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .cg-contact-form .intl-tel-input {
+    width: 100%;
+  }
+  .cg-contact-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .cg-contact-form__error {
+    color: #b91c1c;
+    font-size: 0.8rem;
+    min-height: 1rem;
+  }
+  .cg-contact-form__status {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #0f766e;
+  }
+  .cg-contact-form__status--success {
+    color: #0f766e;
+  }
+  .cg-contact-form__status--error {
+    color: #b91c1c;
+  }
+  .cg-contact-form button {
+    justify-self: start;
+    padding: 0.6rem 1.2rem;
+    border: 0;
+    border-radius: 6px;
+    background: #070c13;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+  }
+  .cg-contact-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+</style>

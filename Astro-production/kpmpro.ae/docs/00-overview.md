@@ -2,12 +2,12 @@
 
 | | |
 |--|--|
-| **Port** | **5098** |
+| **Port** | **5124** |
 | **Unit** | `kpmpro` |
 | **Peer** | Full CMS — `royalvisa.ae` / `kinzahr.com` |
 | **Features** | `FEATURES_FULL_CMS` |
 | **Live** | https://kpmpro.ae/ |
-| **Local** | http://127.0.0.1:5098/ |
+| **Local** | http://127.0.0.1:5124/ |
 
 ## Inventory (mirrored 2026-08-04+)
 
@@ -23,7 +23,7 @@
 |-------|--------|
 | 01 Malware scan | Done — SAFE (`docs/01-malware-scan-report.md`) |
 | 02 Convert / scaffold | Done |
-| 03 Fleet + CMS + FLOW | Done — port **5098**, thin `/api/internal/*` |
+| 03 Fleet + CMS + FLOW | Done — port **5124**, thin `/api/internal/*` |
 | 04 Forms / attribution | Done — CF7 → `/api/contact`; Pipedrive website **862** |
 | 05 Redirects / SEO | Done — imports + robots/sitemaps/llms; trailing slash always |
 | 06 Local smoke | `fleet-local smoke kpmpro` |
@@ -39,5 +39,5 @@
 pnpm install
 node scripts/fleet-local.mjs up kpmpro
 node scripts/fleet-local.mjs smoke kpmpro
-# → http://127.0.0.1:5098/
+# → http://127.0.0.1:5124/
 ```

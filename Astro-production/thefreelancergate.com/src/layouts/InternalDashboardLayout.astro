@@ -1,0 +1,194 @@
+---
+interface Props {
+  title: string;
+  active?:
+    | 'overview'
+    | 'leads'
+    | 'failures'
+    | 'uploads'
+    | 'php-files'
+    | 'gtm'
+    | 'redirects'
+    | 'seo'
+    | 'posts'
+    | 'posts-new'
+    | 'posts-categories'
+    | 'posts-tags';
+  sessionEmail: string;
+  sessionRole: string;
+  csrfToken: string;
+}
+
+const { title, active = 'overview', sessionEmail, sessionRole, csrfToken } = Astro.props;
+const seoOnly = sessionRole === 'seo';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <p class="eyebrow">Connect Group</p>
+        <h1>{seoOnly ? 'SEO Workspace' : 'Operations'}</h1>
+        <nav>
+          {seoOnly ? (
+            <>
+              <a class={active === 'seo' ? 'active' : ''} href="/internal/operations/seo/">SEO home</a>
+              <a href="/internal/operations/seo/robots/">robots.txt</a>
+              <a href="/internal/operations/seo/llm/">llms.txt</a>
+              <a href="/internal/operations/seo/sitemap/">Sitemap</a>
+              <a class={active === 'redirects' ? 'active' : ''} href="/internal/operations/redirects/">Redirects</a>
+            </>
+          ) : (
+            <>
+              <a class={active === 'overview' ? 'active' : ''} href="/internal/operations/">Overview</a>
+              <a class={active === 'leads' ? 'active' : ''} href="/internal/operations/leads/">Leads</a>
+              <a class={active === 'failures' ? 'active' : ''} href="/internal/operations/failures/">Failures</a>
+              <a class={active === 'php-files' ? 'active' : ''} href="/internal/operations/php-files/">Enhanced PHP</a>
+              <a class={active === 'gtm' ? 'active' : ''} href="/internal/operations/gtm/">Global GTM</a>
+              <a class={active === 'redirects' ? 'active' : ''} href="/internal/operations/redirects/">Redirects</a>
+              <a class={active === 'seo' ? 'active' : ''} href="/internal/operations/seo/">SEO</a>
+              <a class={active === 'uploads' ? 'active' : ''} href="/internal/operations/uploads/">Uploads</a>
+              <div class="postsMenu">
+                <a
+                  class={
+                    active === 'posts' || active === 'posts-new' || active === 'posts-categories' || active === 'posts-tags'
+                      ? 'active'
+                      : ''
+                  }
+                  href="/internal/operations/posts/"
+                >
+                  Posts
+                </a>
+                <div class="postsSub">
+                  <a class={active === 'posts' ? 'active' : ''} href="/internal/operations/posts/">All Posts</a>
+                  <a class={active === 'posts-new' ? 'active' : ''} href="/internal/operations/posts/new/">Add Post</a>
+                  <a
+                    class={active === 'posts-categories' ? 'active' : ''}
+                    href="/internal/operations/posts/categories/"
+                  >
+                    Categories
+                  </a>
+                  <a class={active === 'posts-tags' ? 'active' : ''} href="/internal/operations/posts/tags/">Tags</a>
+                </div>
+              </div>
+            </>
+          )}
+        </nav>
+        <div class="session">
+          <p>{sessionEmail}</p>
+          <p>{sessionRole}</p>
+        </div>
+        <form method="post" action="/api/internal/logout/">
+          <input type="hidden" name="csrfToken" value={csrfToken} />
+          <button type="submit">Sign out</button>
+        </form>
+      </aside>
+      <main class="content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  :root {
+    color-scheme: light;
+    font-family: Inter, "Segoe UI", system-ui, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+  }
+  body {
+    margin: 0;
+    background: #f8fafc;
+  }
+  .shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+  }
+  .sidebar {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .eyebrow,
+  .session p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+  }
+  .sidebar h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: white;
+  }
+  nav {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .postsMenu {
+    display: flex;
+    flex-direction: column;
+  }
+  .postsSub {
+    display: grid;
+    gap: 0.25rem;
+    padding-left: 1.0rem;
+    margin-top: 0.25rem;
+  }
+  .postsSub a {
+    padding: 0.55rem 0.65rem;
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  nav a,
+  button {
+    border-radius: 10px;
+    font: inherit;
+  }
+  nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 0.75rem 0.85rem;
+  }
+  nav a.active,
+  nav a:hover {
+    background: #1e293b;
+    color: #fff;
+  }
+  .session {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #334155;
+  }
+  button {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    border: 0;
+    background: #334155;
+    color: white;
+    cursor: pointer;
+  }
+  .content {
+    padding: 2rem;
+  }
+  @media (max-width: 900px) {
+    .shell {
+      grid-template-columns: 1fr;
+    }
+    .content {
+      padding: 1rem;
+    }
+  }
+</style>

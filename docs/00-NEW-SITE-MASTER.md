@@ -6,7 +6,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 44 domains, ports **5080–5123**, next free **5124**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
+| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 45 domains, ports **5080–5124**, next free **5125**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
 | **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |
@@ -129,13 +129,20 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 ## Phase 05 — Redirects & SEO (interim)
 
 **When:** Old URLs and SEO files must work before FLOW UI owns them.  
-**Detail:** [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md) · peer go-live handoff for sitemap/robots paths
+**Detail:** [CURSOR-IMPORT-REDIRECTS.md](CURSOR-IMPORT-REDIRECTS.md) · peer go-live handoff for sitemap/robots paths  
+**Fleet SEO/AI crawler tracker:** [SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md](SEO-AI-CRAWLER-AUDIT-REMEDIATION-2026-08-06.md) (PDF audit expanded to all 15 live sites)
 
 - [ ] Redirect CSV/JSON imported under `imports/redirects/` (or peer path)
 - [ ] Sample old URLs 301 to new targets locally
 - [ ] `/robots.txt`, sitemap(s), `/llms.txt` (+ `/llm.txt` alias) return 200 from Node
 - [ ] `PUBLIC_SITE_URL` in local `.env` = **`https://<canonical-host>`** (never `127.0.0.1` — Astro inlines `PUBLIC_*` at build time)
 - [ ] Absolute `<link rel="canonical">` on pages (not relative; matches live host)
+- [ ] Homepage: absolute `og:url` + **`og:image`** (+ Twitter card/image)
+- [ ] Mirror pages: `absolutizeMirrorSeoHtml` (`@connect/site-cms`) so Rank Math `@id` / `url` / images are absolute HTTPS
+- [ ] Do not invent sitemap `lastmod`; only emit when a real modified date exists
+- [ ] Multilingual: reciprocal page-level hreflang (Iberia Workforce is the reference)
+- [ ] Unknown routes → real **404** (never soft-404 homepage)
+- [ ] CF bot policy: if AI search visibility matters, verify SearchBot access (CBSS P0) — not UA string alone
 - [ ] **Trailing slash:** bare paths redirect to `…/` (see below)
 
 ### Trailing slash (fleet standard)
@@ -269,6 +276,18 @@ Elementor kits often ship high-specificity globals such as `.elementor-kit-N a {
 
 **Reference:** `kinzahr.com/public/css/kinza-licence.css` (comment block above `.kz-licence__btn--primary`).
 
+### Elementor / WP mirror HTML — do not over-sanitize
+
+Full-page mirrors (`legacy-page.js` / `[...slug].astro`) are **trusted exports**, not CMS fields.
+
+| Do | Don’t |
+|----|--------|
+| `sanitizeCmsHtml` on FLOW/CMS **post bodies** | Strip inline `<script>` / `on*` from mirrors |
+| `sanitizeMirrorHtml` = hygiene only (`javascript:`, `<base>`, meta refresh) | Treat mirrors like untrusted CMS HTML |
+| Keep `elementorFrontendConfig`, Swiper init, ScrollSequence `ssqInput`, mega-menu jQuery | Enable CSP **enforce** or full SRI on go-live |
+
+Lesson (2026-08-07): aggressive mirror sanitization broke Kinza mega-menu, Connect Group ScrollSequence, and slider arrows. Tracked in [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md).
+
 **Next → Phase 06**
 
 ---
@@ -301,16 +320,22 @@ node scripts/fleet-local.mjs smoke <site-id>
 ## Phase 07 — Security & harden gates
 
 **When:** Before “ready for deploy templates / server”.  
-**Detail:** FLOW onboarding §5 Harden gates + §8 What not to do
+**Detail:** FLOW onboarding §5 Harden gates + §8 What not to do  
+**Fleet audit tracker:** [SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)
 
-- [ ] Unique `INTERNAL_JOB_SECRET` per domain (`openssl rand -hex 32`)
+- [ ] Unique `INTERNAL_JOB_SECRET` per domain (`openssl rand -hex 32`) — never share across sites
+- [ ] Machine auth uses Bearer / `x-internal-job-secret` only (`?secret=` rejected)
 - [ ] No CMS cookie login / old dashboard routes
 - [ ] Internal APIs reject missing/wrong bearer
 - [ ] Contact API rejects garbage / oversized payloads (peer behaviour)
+- [ ] CMS / post HTML sanitized (`sanitizeCmsHtml`); no SVG executable uploads
+- [ ] **Mirror pages:** use `sanitizeMirrorHtml` hygiene only (`javascript:` / `<base>` / meta refresh). **Never** strip inline `<script>` or `on*` on Elementor/WP mirrors — breaks mega-menus, sliders, ScrollSequence (see [SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md) §2)
+- [ ] Do **not** enable CSP **enforce**, fleet-wide prerender, or full WP SRI on go-live — keep CSP Report-Only; those break GTM/Elementor
+- [ ] No PHP execution on origin (enhanced conversions = Node if needed)
+- [ ] `security.checkOrigin: true` + `allowedDomains` for intended hosts only
 - [ ] No secrets in client bundles / `PUBLIC_*` misuse
 - [ ] WP malware scan from Phase 01 still clean after late asset copies
 - [ ] Attribution gate (G13): Ads params land on lead store
-- [ ] `allowedDomains` includes only intended hosts
 
 **Next → Phase 08**
 

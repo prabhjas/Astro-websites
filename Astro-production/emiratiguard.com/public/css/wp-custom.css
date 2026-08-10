@@ -1,0 +1,360 @@
+.cntct-form fieldset{
+	display:none;
+}
+
+
+.page-id-8216 .footer_raj {
+    display: none !important;
+}
+
+/* Multi Step Form css — beat global .wpcf7 / Bebas Neue from live-inline.css */
+.form-main {
+    background:#FFFEFC;
+    padding:20px;
+    border-radius:16px;
+    position: relative;
+    font-family: Manrope, sans-serif !important;
+}
+
+.form-main,
+.form-main p,
+.form-main label,
+.form-main input,
+.form-main button,
+.form-main textarea,
+.form-main .wpcf7-list-item-label,
+.form-main .step-count,
+.form-main .step-count p,
+.form-main .wpcf7-submit {
+    font-family: Manrope, sans-serif !important;
+}
+
+.form-main label{
+    color:#1F1A4B !important;
+    font-family: Manrope, sans-serif !important;
+    font-size: 22px !important;
+    font-style: normal;
+    font-weight: 700 !important;
+    line-height: 30.8px !important;
+}
+
+.form-main .next-btn,
+.form-main .prev-btn,
+.form-main input[type="submit"],
+.form-main .wpcf7-submit {
+  padding: 10px 22px !important;
+  border: 1px solid #3D1457 !important;
+  opacity: 0.8;
+  background: #3D1457 !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  margin-top: auto;
+  align-self: flex-start;
+  width: auto !important;
+  font-family: Manrope, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  cursor: pointer;
+}
+
+/* Arrange the radio buttons horizontally with spacing */
+.form-main .wpcf7-form-control.wpcf7-radio,
+.wpcf7-form-control.wpcf7-radio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+	padding-top: 24px;
+}
+.wpcf7-form-control .wpcf7-list-item {
+  margin:0px;
+}
+/* Hide the native radio inputs */
+.wpcf7-form-control.wpcf7-radio label.selected {
+  border: 2px solid #3D1457;
+  background-color: #3D1457;
+  color: #fff;
+}
+.wpcf7-form-control input[type="radio"] {
+  display: none;
+}
+
+/* Style the labels to look like buttons */
+.form-main .wpcf7-form-control.wpcf7-radio label,
+.wpcf7-form-control.wpcf7-radio label {
+  padding: 8px 12px;
+  background-color: #F4EBFC;
+  border-radius: 8px;
+  color: #1F1A4B !important;
+  font-family: Manrope, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 160% !important; /* 25.6px */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  border: 2px solid transparent;
+  display: inline-block;
+}
+
+/* Hover effect */
+.wpcf7-form-control.wpcf7-radio label:hover {
+ border-color: #3D1457;
+}
+
+/* CF7 wraps input inside label — use :has, not adjacent sibling */
+.form-main .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked),
+.form-main .wpcf7-form-control.wpcf7-radio label.selected,
+.wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked),
+.wpcf7-form-control.wpcf7-radio label.selected {
+  background-color: #3D1457 !important;
+  color: #fff !important;
+  border-color: #3D1457;
+}
+
+.form-main .wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked) .wpcf7-list-item-label,
+.form-main .wpcf7-form-control.wpcf7-radio label.selected .wpcf7-list-item-label,
+.wpcf7-form-control.wpcf7-radio label:has(input[type="radio"]:checked) .wpcf7-list-item-label,
+.wpcf7-form-control.wpcf7-radio label.selected .wpcf7-list-item-label {
+  color: #fff !important;
+}
+
+.form-main .back-next-btn p,
+.back-next-btn p {
+    display: inline-flex !important;
+    gap: 6px;
+    align-items: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.form-main .back-next-btn br,
+.back-next-btn br {
+    display: none !important;
+}
+button.next-btn i {
+    position: relative;
+    left: 10px;
+}
+
+.form-main .back-next-btn .prev-btn,
+.back-next-btn .prev-btn{
+    background: none !important;
+    color: #3D1457 !important;
+    border: 1px solid var(--Color-Scale-Grape-100, #3D1457) !important;
+}
+
+/* Email + phone side-by-side (CF7 inserts <br> between wraps) */
+.form-main .info-data p,
+.info-data p {
+    display: flex !important;
+    gap: 6px;
+    width: 100%;
+    align-items: stretch;
+}
+.form-main .info-data br,
+.info-data br {
+    display: none !important;
+}
+.form-main .info-data .wpcf7-form-control-wrap {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto !important;
+    display: block;
+}
+.form-main .info-data .intl-tel-input {
+    width: 100% !important;
+}
+
+.form-main input[type=text],
+.form-main input[type=email],
+.form-main input[type=tel],
+.form-main textarea {
+    border-radius: 8px !important;
+    background: #FAF6FE !important;
+    border: 0 !important;
+    padding: 13px 24px !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    color: #1F1A4B !important;
+    font-family: Manrope, sans-serif !important;
+    font-size: 16px !important;
+    outline: none !important;
+}
+.form-main .info-data input {
+    margin-bottom: 0 !important;
+}
+.form-main input:focus,
+.form-main textarea:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.form-main .step-count,
+.step-count {
+	position: absolute;
+    right: 30px;
+  top: 20px;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #1F1A4B !important;
+  line-height: 21px !important;
+  font-family: Manrope, sans-serif !important;
+}
+.form-main .step-count p {
+    margin: 0;
+    font-family: Manrope, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.form-main .next-btn:disabled,
+.next-btn:disabled {
+  cursor: not-allowed;
+	background: #644378 !important;
+  opacity: 0.6;
+}
+
+
+.cf7-step.step-6 label {
+    color: #6F3495;
+}
+.cf7-step.step-6 p {
+    color:#1F1A4B;
+    font-size:18px;
+    margin:5px;
+}
+.cf7-step.step-6 div p {
+    color:#1F1A4B;
+    font-size:16px;
+    font-weight:700;
+}
+
+.cf7-step.step-6 ul li p {
+    font-size:14px;
+    font-weight:400;
+    margin:0px;
+    
+}
+
+.cf7-step.step-6 .call-btn p{
+    font-size:14px;
+    font-weight:500;
+     padding-top:10px;
+}
+
+.cf7-step.step-6 .call-btn p button{
+    margin-top:10px;
+    color:#fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--Gradient-Coral-Grapes, #833AB4);
+    background: var(--Gradient-Coral-Grapes, linear-gradient(135deg, #833AB4 0%, #F63C41 100%));
+}
+
+
+@media (max-width: 767px) {
+    .form-main .step-count,
+    .step-count{
+        position:unset;
+    }
+    .form-main .info-data p,
+    .info-data p {
+        flex-direction: column;
+    }
+}
+
+/* End */
+
+
+
+
+
+
+
+
+
+
+.selected-flag {
+    min-width: 100px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+}
+
+div#transaction_hide {
+    display: none !important;
+}
+.heading-linear{
+	background: var(--Gradient-Coral-Grapes, linear-gradient(135deg, #833AB4 0%, #F63C41 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+a{
+	text-decoration:none !important;
+}
+.numbers h4.elementor-image-box-title {
+    margin-top:-3px
+}
+
+.landing-banner .opt{
+    display:none;
+}
+.bar label {
+    line-height: 20px !important;
+}
+input[type="checkbox"] {
+    margin: 5px;
+}
+
+
+
+.btn-linear a {
+  display: inline-block;
+  text-decoration: none;
+  color: transparent; 
+  background: linear-gradient(135deg, #833AB4, #F63C41);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  border-radius: inherit; 
+}
+
+
+ .hover-heading h4.elementor-image-box-title a:hover{
+    background: var(--Gradient-Coral-Grapes, linear-gradient(135deg, #833AB4 0%, #F63C41 100%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ct-num p {
+    margin-bottom: 2px;
+}
+
+.blog-form input,
+.blog-form select{
+    padding: 12px 24px;
+}
+
+.blog-form textarea {
+    height: 100px;
+}
+
+
+
+
+/* Media 767 */
+
+@media only screen and (max-width: 767px) {
+	.elementor-top-section{
+    padding-top:40px !important;
+}
+	
+.elementor-1494 .elementor-element.elementor-element-eee9449 {
+    margin-top: 0px;
+}	
+	
+}

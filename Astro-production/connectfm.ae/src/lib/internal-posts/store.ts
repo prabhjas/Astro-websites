@@ -1,3 +1,4 @@
+import { sanitizeCmsHtml } from '@connect/site-cms';
 /**
  * Dashboard posts store — backed by src/data/posts.json (Connect UAE WP export shape).
  * Exposes Connect-style InternalPost for the existing editor UI.
@@ -407,7 +408,7 @@ export function createOrUpdatePost(args: {
   post.metaTitle = args.metaTitle || "";
   post.metaDescription = args.metaDescription || "";
   post.canonical = `/${targetSlug}/`;
-  post.contentHtml = args.contentHtml || "";
+  post.contentHtml = sanitizeCmsHtml(args.contentHtml || "");
   post.categories = categoriesToBlogCategory(args.category);
   post.tags = tagsToBlogTags(tagList);
   post.status = args.status;
@@ -440,7 +441,7 @@ export function createOrUpdatePost(args: {
 
   const isElementorHtml = /data-elementor-type|class=["'][^"']*elementor/i.test(post.contentHtml || "");
   if (!isElementorHtml) {
-    const processed = processContentHeadings(post.contentHtml || "");
+    const processed = processContentHeadings(sanitizeCmsHtml(post.contentHtml || ""));
     post.contentHtml = processed.html;
     post.toc = processed.toc;
     post.headings = processed.headings;

@@ -1,0 +1,37 @@
+{
+  "siteTitle": "The Freelancer Gate",
+  "summary": "The Freelancer Gate helps freelancers and businesses with freelance setup, visas, and related services in the UAE.",
+  "details": "Resources and services for freelancers covering setup, compliance, and business support pathways in Dubai and the UAE.",
+  "blogHome": "/insights/",
+  "groupOrder": [
+    "Company Pages",
+    "Services",
+    "Blog & Insights",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Articles cover freelancing, visas, and business setup topics in the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "The Freelancer Gate — freelance and business support in the UAE."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About The Freelancer Gate."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact The Freelancer Gate for freelancing and setup enquiries."
+    },
+    "/insights/": {
+      "group": "Blog & Insights",
+      "title": "Insights",
+      "description": "Latest insights from The Freelancer Gate."
+    }
+  }
+}

@@ -2,6 +2,7 @@
  * Blog post types, TOC builder, shell assembly, and content loading.
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
@@ -416,7 +417,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
       '<!--ASTRO_BLOG:TITLE-->',
       `<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(post.title)}</h1>`,
     )
-    .replace('<!--ASTRO_BLOG:CONTENT-->', post.contentHtml)
+    .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || ''))
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 

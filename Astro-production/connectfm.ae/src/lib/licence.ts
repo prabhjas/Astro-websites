@@ -1,6 +1,6 @@
 /**
  * Trade licence facts (DET Dubai Unified Licence) — single source of truth for
- * the footer licence strip, the JSON-LD block and the llms.txt licence section.
+ * the footer licence strip and the llms.txt licence section.
  *
  * Values come from the DET licence document itself. Anything still blank is
  * omitted from the strip, and the strip stays hidden entirely until the licence
@@ -15,9 +15,10 @@ export type Licence = typeof licence;
 
 export { licence };
 
-/** Field order used by the footer strip, the PDF and llms.txt alike. */
+/** Field order used by the footer strip and llms.txt alike — mirrors the DET document. */
 export const licenceRows: Array<{ label: string; value: string }> = [
   { label: "License Status", value: licence.status },
+  { label: "Unified License", value: licence.unifiedNumber },
   { label: "License Number", value: licence.number },
   { label: "Business Name", value: licence.businessName },
   { label: "License Type", value: licence.type },
@@ -61,6 +62,45 @@ export function hasLicencePdf(): boolean {
   return pdfPresent;
 }
 
+/**
+ * Licence half of the Organization JSON-LD — the machine-readable claim that
+ * search engines and AI crawlers actually read. Spread into organizationSchema().
+ * Returns {} while the licence is incomplete so we never publish a partial claim.
+ *
+ * @param pdfAbsoluteUrl absolute URL of the scanned licence, when published.
+ */
+export function licenceSchemaFragment(pdfAbsoluteUrl?: string) {
+  if (!isLicenceComplete()) return {};
+  return {
+    legalName: licence.businessName,
+    identifier: {
+      "@type": "PropertyValue",
+      name: "DET Trade Licence Number",
+      value: licence.number,
+      ...(licence.unifiedNumber ? { description: `Dubai Unified Licence ${licence.unifiedNumber}` } : {}),
+    },
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      name: `${licence.type || "Trade"} Trade Licence ${licence.number}`,
+      ...(licence.type ? { credentialCategory: licence.type } : {}),
+      identifier: licence.number,
+      ...(licence.issueDate ? { dateCreated: licence.issueDate } : {}),
+      url: licence.verifyUrl,
+      recognizedBy: {
+        "@type": "GovernmentOrganization",
+        name: licence.issuingAuthority,
+        url: "https://www.dubaided.gov.ae/",
+      },
+      ...(pdfAbsoluteUrl && hasLicencePdf()
+        ? { subjectOf: { "@type": "DigitalDocument", url: pdfAbsoluteUrl } }
+        : {}),
+    },
+    // Licensed activities, verbatim from the DET record — tells search engines
+    // what this company is actually permitted to do.
+    ...(licence.activities.length ? { knowsAbout: licence.activities } : {}),
+  };
+}
+
 /** Heading of the llms.txt licence block — also the "already present" marker. */
 export const LICENCE_HEADING = "## Licence & Verification";
 
@@ -80,13 +120,7 @@ export function licenceLlmsSection(siteOrigin: string): string {
     lines.push(`- Licence document (PDF): ${origin}${licence.pdfPath}`);
   }
   if (licence.activities.length) {
-    lines.push(
-      "",
-      "Licensed activities:",
-      "",
-      ...licence.activities.map((activity) => `- ${activity} (Active)`),
-      "",
-    );
+    lines.push("", "Licensed activities:", "", ...licence.activities.map((a) => `- ${a} (Active)`), "");
   }
   return lines.join("\n");
 }
