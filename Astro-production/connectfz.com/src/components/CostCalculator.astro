@@ -1,0 +1,399 @@
+---
+/**
+ * Multi-step Cost Calculator popup (Popup Maker #31475 parity).
+ * Steps match the March 2025 live site: details → nationality → residency → …
+ */
+const industries = [
+  "Agriculture",
+  "Apparel",
+  "Banking",
+  "Biotechnology",
+  "Business Accelerator",
+  "Construction",
+  "Education",
+  "Engineering",
+  "Entertainment",
+  "Finance",
+  "Food and Beverage",
+  "Government",
+  "Health Care",
+  "Hospitality",
+  "Insurance",
+  "IT",
+  "Manufacturing",
+  "Marketing",
+  "Publishing",
+  "Recruitment",
+  "Retail",
+  "Shipping",
+  "Sports Management Services",
+  "Technology",
+  "Telecommunications",
+  "Transportation",
+];
+const nums = Array.from({ length: 11 }, (_, i) => String(i));
+---
+
+<div
+  class="cfz-cost-calc pum pum-overlay"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cfz-cost-calc-title"
+>
+  <div id="popmake-31475" class="cfz-cost-calc__panel custom_modal_popup_form pum-container">
+    <button type="button" class="cfz-cost-calc__close" data-cfz-calc-close aria-label="Close">×</button>
+    <h3 id="cfz-cost-calc-title">Please provide us with your name so that we can assist you in estimating the cost of company formation</h3>
+    <p class="cfz-cost-calc__progress"><span data-cfz-calc-step-label>Step 1 of 11</span></p>
+
+    <form id="cfz-cost-calc-form" class="multisteps_main_wrapper" novalidate>
+      <input type="hidden" name="formName" value="Connect FZ Cost Calculator" />
+      <input type="hidden" name="formId" value="cost-calculator" />
+      <input type="text" name="website" class="cfz-cost-calc__hp" tabindex="-1" autocomplete="off" />
+
+      <div class="cfz-cost-calc__step main_steps" data-step="0">
+        <div class="field_group">
+          <label>First Name <em>*</em></label>
+          <input type="text" name="firstName" required autocomplete="given-name" />
+        </div>
+        <div class="field_group">
+          <label>Last Name <em>*</em></label>
+          <input type="text" name="lastName" required autocomplete="family-name" />
+        </div>
+        <div class="field_group">
+          <label>Phone Number <em>*</em></label>
+          <input type="tel" name="phone" required autocomplete="tel" />
+        </div>
+        <div class="field_group">
+          <label>Email <em>*</em></label>
+          <input type="email" name="email" required autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="1" hidden>
+        <div class="field_group">
+          <label>What is your Nationality? <em>*</em></label>
+          <input type="text" name="nationality" required placeholder="Country" />
+        </div>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="2" hidden>
+        <p class="cfz-cost-calc__q">Do you currently reside in the UAE?</p>
+        <label class="wpcf7-list-item"><input type="radio" name="resideUae" value="Yes" required /> <span>Yes</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="resideUae" value="No" /> <span>No</span></label>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="3" hidden>
+        <div class="field_group">
+          <label>In which industry do you intend to operate your company in the UAE? <em>*</em></label>
+          <select name="professionSector" required>
+            <option value="">Industry</option>
+            {industries.map((i) => <option value={i}>{i}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="4" hidden>
+        <p class="cfz-cost-calc__q">What specific action or objective are you seeking to achieve?</p>
+        <label class="wpcf7-list-item"><input type="radio" name="objective" value="Establishing a new company" required /> <span>Establishing a new company</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="objective" value="Open a new franchise" /> <span>Open a new franchise</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="objective" value="Relocating an existing company to UAE" /> <span>Relocating an existing company to UAE</span></label>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="5" hidden>
+        <p class="cfz-cost-calc__q">Please select the option that best describes the current state of your business preparations</p>
+        <label class="wpcf7-list-item"><input type="radio" name="preparations" value="Business name, website, and logo" required /> <span>Business name, website, and logo</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="preparations" value="Business name and logo" /> <span>Business name and logo</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="preparations" value="Business Name Only" /> <span>Business Name Only</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="preparations" value="Not Yet Started" /> <span>Not Yet Started</span></label>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="6" hidden>
+        <p class="cfz-cost-calc__q">Do you have a business plan prepared for your venture?</p>
+        <label class="wpcf7-list-item"><input type="radio" name="businessPlan" value="Yes" required /> <span>Yes</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="businessPlan" value="No" /> <span>No</span></label>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="7" hidden>
+        <p class="cfz-cost-calc__q">Do you require visas for your dependents?</p>
+        <label class="wpcf7-list-item"><input type="radio" name="dependentVisas" value="Yes" required /> <span>Yes</span></label>
+        <label class="wpcf7-list-item"><input type="radio" name="dependentVisas" value="No" /> <span>No</span></label>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="8" hidden>
+        <div class="field_group">
+          <label>How many residence visas will be required for your business setup?</label>
+          <select name="residenceVisas">
+            {nums.map((n) => <option value={n}>{n}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="9" hidden>
+        <div class="field_group">
+          <label>How many shareholders are involved in the business?</label>
+          <p class="cfz-cost-calc__hint">Tell us how many shareholders you will have so that we can figure out the accurate cost for your venture.</p>
+          <select name="shareholders">
+            {nums.map((n) => <option value={n}>{n}</option>)}
+          </select>
+        </div>
+      </div>
+
+      <div class="cfz-cost-calc__step main_steps" data-step="10" hidden>
+        <div class="field_group">
+          <label>Have you already received a quote?</label>
+          <p class="cfz-cost-calc__hint">Please inform us if you have already made inquiries. We have a policy to beat any equivalent offer.</p>
+          <textarea name="message" rows="3" placeholder="Optional notes / existing quote"></textarea>
+        </div>
+      </div>
+
+      <p class="cfz-cost-calc__status" data-cfz-calc-status hidden></p>
+      <div class="stepper_buttons">
+        <p>
+          <button type="button" class="prev_button" data-cfz-calc-prev hidden>Previous</button>
+          <button type="button" class="next_button" data-cfz-calc-next>Next</button>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style is:global>
+  .cfz-cost-calc {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+    background: rgba(13, 63, 134, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .cfz-cost-calc[hidden] {
+    display: none !important;
+  }
+  .cfz-cost-calc__panel {
+    position: relative;
+    width: min(640px, 100%);
+    max-height: min(90vh, 820px);
+    overflow: auto;
+  }
+  .cfz-cost-calc .prev_button {
+    background: #fff;
+    padding: 15px 28px;
+    color: #0d3f86 !important;
+    -webkit-text-fill-color: #0d3f86 !important;
+    font-weight: 600;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    font-family: Poppins, sans-serif;
+    white-space: nowrap;
+  }
+  .cfz-cost-calc .next_button {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    white-space: nowrap;
+  }
+  .cfz-cost-calc__close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    color: #0d3f86;
+  }
+  .cfz-cost-calc__progress {
+    color: #00b7fb;
+    font-weight: 600;
+    margin: 0 0 16px;
+    font-family: Poppins, sans-serif;
+  }
+  .cfz-cost-calc__q,
+  .cfz-cost-calc__hint {
+    font-family: Poppins, sans-serif;
+    color: #0d3f86;
+    margin: 0 0 12px;
+  }
+  .cfz-cost-calc__hint {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .cfz-cost-calc__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+  }
+  .cfz-cost-calc__status {
+    font-family: Poppins, sans-serif;
+    margin: 8px 0;
+    color: #0d3f86;
+    font-weight: 600;
+  }
+  .cfz-cost-calc__status.is-error {
+    color: #c0392b;
+  }
+  .cfz-cost-calc__status.is-ok {
+    color: #1e7f3a;
+  }
+  .cfz-cost-calc textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(48, 77, 159, 0.78);
+    font-size: 18px;
+    color: #0d3f86;
+    -webkit-text-fill-color: #0d3f86;
+    font-family: Poppins, sans-serif;
+    padding: 8px 0;
+    background: transparent;
+  }
+  .cfz-cost-calc textarea::placeholder {
+    color: #6b82a8;
+    -webkit-text-fill-color: #6b82a8;
+    opacity: 1;
+  }
+  .cfz-cost-calc .wpcf7-list-item span {
+    color: #0d3f86;
+  }
+  @media (max-width: 640px) {
+    .cfz-cost-calc__panel {
+      padding: 36px 14px 12px;
+    }
+    .stepper_buttons button {
+      width: 46%;
+      min-width: 0;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var overlay = document.querySelector(".cfz-cost-calc");
+    var form = document.getElementById("cfz-cost-calc-form");
+    if (!overlay || !form) return;
+    var steps = Array.prototype.slice.call(form.querySelectorAll("[data-step]"));
+    var i = 0;
+    var statusEl = form.querySelector("[data-cfz-calc-status]");
+    var labelEl = overlay.querySelector("[data-cfz-calc-step-label]");
+    var prevBtn = form.querySelector("[data-cfz-calc-prev]");
+    var nextBtn = form.querySelector("[data-cfz-calc-next]");
+
+    function show(idx) {
+      i = idx;
+      steps.forEach(function (el, n) {
+        el.hidden = n !== i;
+      });
+      if (labelEl) labelEl.textContent = "Step " + (i + 1) + " of " + steps.length;
+      if (prevBtn) prevBtn.hidden = i === 0;
+      if (nextBtn) nextBtn.textContent = i === steps.length - 1 ? "Send Message" : "Next";
+    }
+
+    function openCalc(e) {
+      if (e) e.preventDefault();
+      overlay.hidden = false;
+      document.body.style.overflow = "hidden";
+      show(0);
+    }
+    function closeCalc() {
+      overlay.hidden = true;
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      if (t.closest("[data-cfz-calc-close]") || t === overlay) {
+        closeCalc();
+        return;
+      }
+      if (t.closest(".cfz-cost-calc__panel")) return;
+      if (t.closest(".popmake-31475, [data-cfz-calc-open], a[href='#cost-calculator']")) {
+        openCalc(e);
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !overlay.hidden) closeCalc();
+    });
+
+    function validStep() {
+      var step = steps[i];
+      var fields = step.querySelectorAll("input, select, textarea");
+      for (var n = 0; n < fields.length; n++) {
+        var f = fields[n];
+        if (!f.checkValidity()) {
+          f.reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    prevBtn &&
+      prevBtn.addEventListener("click", function () {
+        if (i > 0) show(i - 1);
+      });
+    nextBtn &&
+      nextBtn.addEventListener("click", async function () {
+        if (!validStep()) return;
+        if (i < steps.length - 1) {
+          show(i + 1);
+          return;
+        }
+        var fd = new FormData(form);
+        var extra = [
+          "Reside in UAE: " + (fd.get("resideUae") || ""),
+          "Objective: " + (fd.get("objective") || ""),
+          "Preparations: " + (fd.get("preparations") || ""),
+          "Business plan: " + (fd.get("businessPlan") || ""),
+          "Dependent visas: " + (fd.get("dependentVisas") || ""),
+          "Residence visas: " + (fd.get("residenceVisas") || ""),
+          "Shareholders: " + (fd.get("shareholders") || ""),
+          fd.get("message") ? "Notes: " + fd.get("message") : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        fd.set("message", extra);
+        fd.set("name", String(fd.get("firstName") || "") + " " + String(fd.get("lastName") || ""));
+        fd.set("pageUrl", location.href);
+        if (statusEl) {
+          statusEl.hidden = false;
+          statusEl.classList.remove("is-error", "is-ok");
+          statusEl.textContent = "Sending…";
+        }
+        try {
+          var payload = {};
+          fd.forEach(function (value, key) {
+            if (typeof value === "string") payload[key] = value;
+          });
+          var res = await fetch("/api/contact/", {
+            method: "POST",
+            headers: { Accept: "application/json", "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          var data = {};
+          try {
+            data = await res.json();
+          } catch (parseErr) {}
+          if (!res.ok || !data.success) {
+            throw new Error((data && data.message) || "failed");
+          }
+          if (statusEl) {
+            statusEl.classList.add("is-ok");
+            statusEl.textContent = data.message || "Thank you. Our team will contact you shortly.";
+          }
+          form.reset();
+          setTimeout(closeCalc, 1600);
+        } catch (err) {
+          if (statusEl) {
+            statusEl.classList.add("is-error");
+            statusEl.textContent =
+              (err && err.message && err.message !== "failed" ? err.message + " " : "") +
+              "Please try again or call +971 4331 6688.";
+          }
+        }
+      });
+  })();
+</script>

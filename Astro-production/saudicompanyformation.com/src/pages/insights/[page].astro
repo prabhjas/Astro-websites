@@ -1,0 +1,20 @@
+---
+import { getBlogPageData, serveArchivePage, getInsightsTotalPages } from '../../lib/archives.ts';
+
+export const prerender = false;
+
+const raw = Astro.params.page;
+const page = Number.parseInt(String(raw || '1'), 10);
+if (!Number.isFinite(page) || page < 1) {
+  return Astro.redirect('/insights/');
+}
+if (page === 1) {
+  return Astro.redirect('/insights/');
+}
+const total = getInsightsTotalPages();
+if (page > total) {
+  return Astro.redirect('/insights/');
+}
+
+return serveArchivePage(getBlogPageData(page));
+---

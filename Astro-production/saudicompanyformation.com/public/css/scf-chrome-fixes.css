@@ -1,0 +1,85 @@
+/* Saudi Company Formation — chrome / footer responsive fixes (Astro mirror) */
+
+/*
+ * Live WP custom CSS paints BOTH the grid-row AND every .site-footer-section,
+ * which creates four stacked/clipped rounded panels. Match the intended look:
+ * one soft panel wrapping all four columns.
+ */
+.site-primary-footer-wrap[data-section="section-primary-footer-builder"] .ast-builder-grid-row-container-inner {
+  background-color: #f3f7f5;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.site-primary-footer-wrap[data-section="section-primary-footer-builder"] .ast-builder-grid-row,
+.site-primary-footer-wrap[data-section="section-primary-footer-builder"] .site-footer-section {
+  align-items: flex-start !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.site-primary-footer-wrap .footer-widget-area a,
+.site-primary-footer-wrap .wp-block-list a {
+  color: #f94d1c;
+  text-decoration: none;
+}
+
+.site-primary-footer-wrap .footer-widget-area a:hover,
+.site-primary-footer-wrap .wp-block-list a:hover {
+  color: #c53a12;
+}
+
+.site-primary-footer-wrap .wp-block-image img,
+.site-primary-footer-wrap .widget_media_image img {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+}
+
+.site-primary-footer-wrap h2.widget-title {
+  font-weight: 800;
+  font-size: 18pt;
+  color: #111;
+  margin: 0 0 0.75rem;
+}
+
+/* Tablet: 2×2 instead of cramped 4-up */
+@media (max-width: 921px) {
+  .site-primary-footer-wrap[data-section="section-primary-footer-builder"].ast-builder-grid-row-tablet-4-equal .ast-builder-grid-row,
+  .ast-builder-grid-row-container.ast-builder-grid-row-tablet-4-equal .ast-builder-grid-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.25rem !important;
+  }
+  .site-primary-footer-wrap .site-footer-section {
+    margin-bottom: 0.5rem;
+  }
+  .site-below-footer-wrap .ast-builder-grid-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.75rem;
+    text-align: center;
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 544px) {
+  .site-primary-footer-wrap[data-section="section-primary-footer-builder"] .ast-builder-grid-row,
+  .ast-builder-grid-row-container.ast-builder-grid-row-mobile-full .ast-builder-grid-row {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .site-primary-footer-wrap .wp-block-image img,
+  .site-primary-footer-wrap .widget_media_image img {
+    max-width: 180px;
+  }
+  .site-below-footer-wrap .ast-builder-grid-row {
+    grid-template-columns: minmax(0, 1fr) !important;
+    text-align: center;
+    row-gap: 0.75rem;
+  }
+}
+
+/* FAQ toggle affordance */
+.elementor-widget-toggle .elementor-tab-title {
+  cursor: pointer;
+}

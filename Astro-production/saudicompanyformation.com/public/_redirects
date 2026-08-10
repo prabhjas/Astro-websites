@@ -1,0 +1,11 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/category/visa/  /category/visa-services/  301
+/blog/page/  /insights/  301
+/index.php/  /  301
+/index.php  /  301
+/wp-admin/  /  301
+/wp-login.php/  /  301
+/feed/  /insights/  301
+/comments/feed/  /insights/  301

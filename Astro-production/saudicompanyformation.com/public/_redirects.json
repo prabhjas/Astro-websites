@@ -1,0 +1,42 @@
+[
+  {
+    "from": "/category/visa/",
+    "to": "/category/visa-services/",
+    "status": 301
+  },
+  {
+    "from": "/blog/page/",
+    "to": "/insights/",
+    "status": 301
+  },
+  {
+    "from": "/index.php/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/wp-admin/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/wp-login.php/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/feed/",
+    "to": "/insights/",
+    "status": 301
+  },
+  {
+    "from": "/comments/feed/",
+    "to": "/insights/",
+    "status": 301
+  }
+]

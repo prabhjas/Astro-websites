@@ -1,0 +1,12 @@
+---
+import type { BlogPost } from '../../lib/blog.ts';
+import { buildAuthorBlogCardHtml } from '../../lib/author-blog-card.ts';
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+---
+
+<Fragment set:html={buildAuthorBlogCardHtml(post)} />
