@@ -43,7 +43,7 @@ for (const u of urls) {
     fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
     got++;
     console.log("got", rel);
-  } catch (e) {
+  } catch {
     miss++;
   }
 }

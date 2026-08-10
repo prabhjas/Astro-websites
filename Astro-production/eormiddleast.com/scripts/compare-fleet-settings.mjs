@@ -1,5 +1,4 @@
 import { chromium } from "playwright";
-import fs from "node:fs";
 
 const browser = await chromium.launch({ headless: true });
 

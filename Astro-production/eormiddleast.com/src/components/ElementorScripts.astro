@@ -106,8 +106,6 @@
   document.querySelectorAll(".elementor-element-populated").forEach((el) => {
     const parent = el.parentElement;
     if (!parent || !parent.classList.contains("elementor-column")) return;
-    // column background via widget-wrap motion layer
-    const styleSheet = [...document.styleSheets];
     // ensure container exists for column wrap backgrounds
     if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
     // Only inject if Elementor CSS targets this wrap's motion layer — heuristic: has background settings class on column

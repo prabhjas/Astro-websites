@@ -1,4 +1,9 @@
 import type { APIRoute } from 'astro';
+import {
+  isRequestBodyTooLargeError,
+  requestWithLimitedBody,
+} from '@connect/site-cms/http/request-body';
+import { isValidPublicId } from '@connect/site-cms/leads/public-id';
 import { deriveAttributionFromRequest, mergeAttributionIntoContactForm, normaliseAttribution } from '../../lib/attribution/server';
 import { FileLeadStore } from '../../lib/leads/file-store';
 import { deliverStoredLead } from '../../lib/leads/service';
@@ -10,16 +15,16 @@ import { maskSensitiveValue } from '../../utils/form/mask';
 import { parseContactFormBody } from '../../utils/form/parse-contact-body';
 import {
   collectFilesFromFormData,
-  persistBase64Attachments,
   persistContactAttachments,
-  type IncomingBase64Attachment,
 } from '../../utils/form/persist-attachments';
 import { validateContactForm, type ContactFormInput } from '../../utils/form/validate';
 
 export const prerender = false;
 
-const MAX_JSON_BODY_BYTES = 40 * 1024 * 1024; // includes base64 wizard uploads
-const MAX_MULTIPART_BODY_BYTES = 40 * 1024 * 1024;
+// Keep parser + attachment decoding below redo.service's 256 MiB MemoryMax.
+// Large multi-file uploads need a future streaming-to-disk implementation.
+const MAX_JSON_BODY_BYTES = 1 * 1024 * 1024;
+const MAX_MULTIPART_BODY_BYTES = 10 * 1024 * 1024;
 
 function jsonResponse(body: Record<string, unknown>, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -44,7 +49,8 @@ export const POST: APIRoute = async ({ request }) => {
   let env;
 
   const contentType = request.headers.get('content-type') || '';
-  const isMultipart = contentType.includes('multipart/form-data');
+  const mediaType = contentType.split(';', 1)[0].trim().toLowerCase();
+  const isMultipart = mediaType === 'multipart/form-data';
   const maxBody = isMultipart ? MAX_MULTIPART_BODY_BYTES : MAX_JSON_BODY_BYTES;
   const contentLength = Number(request.headers.get('content-length') || 0);
   if (contentLength > maxBody) {
@@ -91,14 +97,24 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   let input: ContactFormInput;
+  let pendingFileAttachments: File[] = [];
   try {
-    const contentTypeHeader = request.headers.get('content-type') || '';
-    if (contentTypeHeader.includes('application/json')) {
-      const json = (await request.json()) as Record<string, unknown>;
+    const parsedRequest = requestWithLimitedBody(request, maxBody);
+    if (mediaType === 'application/json') {
+      const json = (await parsedRequest.json()) as Record<string, unknown>;
+      if (!json || typeof json !== 'object' || Array.isArray(json)) throw new Error('Invalid JSON shape');
+      const entries = Object.entries(json);
+      if (entries.length > 100 || Object.hasOwn(json, 'attachments_b64')) {
+        throw new Error('Oversized JSON shape or unsupported JSON attachments');
+      }
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
-      for (const [key, value] of Object.entries(json || {})) {
+      for (const [key, value] of entries) {
+        if (key.length > 128) throw new Error('Oversized JSON key');
         if (Array.isArray(value)) {
+          if (value.length > 50 || value.some((item) => item != null && typeof item === 'object')) {
+            throw new Error('Oversized or nested JSON array');
+          }
           arrays[key] = value.map((v) => String(v));
         } else if (value != null && typeof value !== 'object') {
           raw[key] = String(value);
@@ -106,43 +122,44 @@ export const POST: APIRoute = async ({ request }) => {
       }
       input = parseContactFormBody(raw, arrays);
       if (!input.submissionId) input.submissionId = crypto.randomUUID();
-      const b64 = Array.isArray((json as { attachments_b64?: unknown }).attachments_b64)
-        ? ((json as { attachments_b64: IncomingBase64Attachment[] }).attachments_b64 || [])
-        : [];
-      if (b64.length) {
-        const saved = await persistBase64Attachments(env.leadStoreDir, input.submissionId, b64);
-        if (saved.error) {
-          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
-        }
-        input.attachments = saved.attachments;
-      }
-    } else {
-      const formData = await request.formData();
+    } else if (mediaType === 'multipart/form-data' || mediaType === 'application/x-www-form-urlencoded') {
+      const formData = await parsedRequest.formData();
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
-      formData.forEach((value, key) => {
-        if (value instanceof File) return;
+      let fieldCount = 0;
+      for (const [key, value] of formData.entries()) {
+        fieldCount += 1;
+        if (fieldCount > 200 || key.length > 128) throw new Error('Oversized multipart shape');
+        if (value instanceof File) continue;
         if (key.endsWith('[]')) {
           const arrayKey = key.slice(0, -2);
           if (!arrays[arrayKey]) arrays[arrayKey] = [];
+          if (arrays[arrayKey].length >= 50) throw new Error('Oversized multipart array');
           arrays[arrayKey].push(String(value));
-          return;
+          continue;
         }
         raw[key] = value;
-      });
+      }
       input = parseContactFormBody(raw, arrays);
 
       if (!input.submissionId) input.submissionId = crypto.randomUUID();
-      const files = collectFilesFromFormData(formData);
-      if (files.length) {
-        const saved = await persistContactAttachments(env.leadStoreDir, input.submissionId, files);
-        if (saved.error) {
-          return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
-        }
-        input.attachments = saved.attachments;
-      }
+      pendingFileAttachments = collectFilesFromFormData(formData);
+    } else {
+      throw new Error('Unsupported request media type');
     }
-  } catch {
+  } catch (error) {
+    if (isRequestBodyTooLargeError(error)) {
+      logFormFailure({
+        requestId,
+        timestamp,
+        errorMessage: 'Request body too large',
+        errorCode: 'payload_too_large',
+      });
+      return jsonResponse(
+        { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+        413,
+      );
+    }
     logFormFailure({
       requestId,
       timestamp,
@@ -188,6 +205,20 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const form = validation.data;
+  if (!isValidPublicId(form.submissionId)) {
+    logFormFailure({
+      requestId,
+      timestamp,
+      websiteId: env.websiteId,
+      formName: form.formName || env.formName,
+      errorMessage: 'Invalid submission ID',
+      errorCode: 'validation_error',
+    });
+    return jsonResponse(
+      { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+      422,
+    );
+  }
 
   const requestAttribution = deriveAttributionFromRequest(request);
   const attributionPayload = normaliseAttribution({ ...requestAttribution, ...input });
@@ -207,6 +238,14 @@ export const POST: APIRoute = async ({ request }) => {
       submissionId: existing.publicId,
       message: 'Thank you. Your enquiry has been received.',
     });
+  }
+
+  if (pendingFileAttachments.length) {
+    const saved = await persistContactAttachments(env.leadStoreDir, form.submissionId, pendingFileAttachments);
+    if (saved.error) {
+      return jsonResponse({ success: false, message: saved.error, errors: { file: saved.error } }, 422);
+    }
+    form.attachments = saved.attachments;
   }
 
   const record: LeadSubmissionRecord = {

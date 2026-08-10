@@ -1,0 +1,24 @@
+{
+  "name": "connectresourcesint-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Connect Resources International simple Astro website",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "catalog:",
+    "astro": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}
