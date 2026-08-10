@@ -1,7 +1,14 @@
 # connectresourcesint.com -> 127.0.0.1:5098 (systemd: connectresourcesint.service)
 
 connectresourcesint.com, www.connectresourcesint.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresourcesint.com/connectresourcesint.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresourcesint.com/connectresourcesint.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresourcesint.com/www.connectresourcesint.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresourcesint.com/www.connectresourcesint.com.key
 	encode zstd gzip
 
 	@noncanonical host connectresourcesint.com

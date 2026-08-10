@@ -90,9 +90,10 @@ reflection of the request or a `200` response.
       intended canonical-host relationship; do not leave either name on legacy.
 - [ ] Enable Cloudflare proxying for both hostnames.
 - [ ] Keep Cloudflare SSL/TLS mode compatible with the reviewed origin setup.
-      The repository currently documents `Full` with Caddy `tls internal`; do not
-      select Flexible. Do not select Full (strict) until a trusted Origin CA/public
-      certificate is deliberately installed and tested.
+      Production currently uses **Full** with the isolated named CA
+      `payroll_origin_isolated_2026` and paired manual certificate loaders. Do not
+      select Flexible. Full (strict) remains deferred until a separately approved
+      trusted Origin CA/public certificate is deliberately installed and tested.
 - [ ] Set Minimum TLS Version to TLS 1.2 or newer.
 - [ ] Ensure no rule forwards either Payroll hostname back to the legacy host.
 - [ ] Save one change at a time and record the timestamp/operator.

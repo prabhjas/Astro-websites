@@ -14,7 +14,7 @@ Related: [server-side-work.md](server-side-work.md) · [local-fleet-test.md](loc
 |-------|------------|
 | Unit `User=` | `site-*` (non-root) on all 4 |
 | `MemoryMax` | `256M` + `ProtectSystem=strict` |
-| Caddy | `/etc/caddy/sites.d/*.caddy` (`http://`+`https://`+`tls internal`) — live config; keep **repo** templates matching this |
+| Caddy | Single `/etc/caddy/Caddyfile`, mirrored by `caddy/Caddyfile.production`; bare-host blocks use named CA `astro_origin_2026` and paired manual loaders |
 | Iberia | Port **5083**, full reverse proxy |
 | All 4 sites | Active on host (`:5080`–`:5083` `/api/health` 200) |
 | Backups | **Live:** `restic-astro-fleet.timer` daily; templates in `Astro-production/deploy-host/` |
@@ -39,10 +39,11 @@ Ops write-up on host: `/root/ROOT-OPS-20260731.md` · backup: `/root/ops-backup-
 
 Copying templates **verbatim** caused (or would cause) outages. Repo templates now match live:
 
-1. **Caddy** — never use bare `example.com { … }` behind Cloudflare Flexible (auto-HTTPS 301 `:80→:443` loop). Use:
-   `http://…, https://… { tls internal … }`
+1. **Caddy** — never use Cloudflare Flexible and never restore the default local
+   CA. Copy the complete checked-in site block: named `astro_origin_2026`
+   automation plus its apex and `www` manual certificate loaders.
 2. **systemd** — `EnvironmentFile=/path/.env.prod` **without** a leading `-`. Optional file boots the site with empty Pipedrive/SMTP and **silently drops leads**. Create `.env.prod` first, then enable the unit.
-3. Cloudflare origin SSL: **Full**, not Full strict, while origin uses `tls internal`.
+3. Cloudflare origin SSL: **Full**, not Full strict, while origin uses named CA `astro_origin_2026` with paired manual cert/key loaders.
 4. Keep `/etc/caddy/Caddyfile` readable by the `caddy` group — `root:root` 0600 made `reload` fail while old config stayed live.
 
 ---
@@ -77,7 +78,7 @@ curl -sS http://127.0.0.1:<PORT>/api/health/
 
 | Item | Notes |
 |------|-------|
-| Repo deploy templates | Prefer this branch’s `*.caddy` (`tls internal`) + required `EnvironmentFile=` (no `-`) so a future copy from git does not recreate CF redirect loops or silent empty secrets |
+| Repo deploy templates | Prefer this branch’s `*.caddy` (named CA `astro_origin_2026` with paired manual cert/key loaders) + required `EnvironmentFile=` (no `-`) so a future copy from git does not recreate CF redirect loops or silent empty secrets |
 | Restic | Already installed from `Astro-production/deploy-host/`; keep password in vault; optional restore drill / off-box `restic copy` later |
 | Stale `astro dev`/`preview` | Kill if still listed in `/root/ROOT-OPS-20260731.md` |
 
@@ -92,4 +93,3 @@ curl -sS "$BASE/api/health/"
 curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/this-should-404-fleet-test"
 # Forms: POST /api/contact/ (Iberia also /api/lead/)
 ```
-

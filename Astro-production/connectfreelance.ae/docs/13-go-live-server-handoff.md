@@ -6,7 +6,7 @@
 **Unix user:** `site-connectfreelance`  
 **Canonical:** `https://connectfreelance.ae` (www → apex)  
 **Package filter:** `connectfreelance-ae-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5094`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA `astro_origin_2026` with paired manual cert/key loaders) → `127.0.0.1:5094`
 **Node:** `>=22.12.0` (see `package.json` `engines`)  
 **Peer scaffold:** `royalvisa.ae` (full CMS WP Elementor mirror)
 
@@ -31,7 +31,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Insights/blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).
+**SSL/TLS:** **Full** (not Flexible; not Full strict alone with named CA `astro_origin_2026` with paired manual cert/key loaders).
 
 ---
 

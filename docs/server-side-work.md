@@ -52,11 +52,11 @@ For **each** of the 4 sites (use repo `deploy/*.service` as source; Evolution: `
 - [ ] `daemon-reload` → restart → `systemctl show … -p User,MemoryMax`
 - [ ] Smoke `/api/health` (or homepage)
 
-### P0.3 Split Caddyfile
+### P0.3 Canonical production Caddyfile
 
-- [ ] Create `/etc/caddy/sites.d/`
-- [ ] One `.caddy` file per site (see each repo’s `deploy/Caddyfile.snippet`)
-- [ ] Main Caddyfile: `import /etc/caddy/sites.d/*.caddy`
+- [ ] Keep one reviewed `/etc/caddy/Caddyfile`; do not create or import `sites.d`
+- [ ] Merge each checked-in deploy block into `caddy/Caddyfile.production`
+- [ ] Preserve named-CA automation and both manual loaders for every hostname pair
 - [ ] Access logs per site (JSON) under `/var/log/caddy/`
 - [ ] Pre-reload: `caddy validate --config /etc/caddy/Caddyfile`
 - [ ] `systemctl reload caddy`

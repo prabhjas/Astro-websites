@@ -159,7 +159,7 @@ node scripts/fleet-local.mjs stop evolutionmiddleast,cbss,spheavyrental
 | Item | Why |
 |------|-----|
 | systemd `User=` / `MemoryMax` / `ProtectSystem` | Linux units only |
-| Caddy TLS + `sites.d` split | Needs Caddy on host (optional later on Mac) |
+| Canonical Caddy TLS integration | Needs Caddy on host (optional later on Mac) |
 | Off-box backups / restic | Server P0.4 |
 | Real prod `.env.prod` secrets | Stay on server; never copy into git |
 | `site-ctl` allowlist | Server `/usr/local/sbin/site-ctl` |
