@@ -1,0 +1,76 @@
+# Canonical interim redirects for emiratisationnafis.org
+# Sources: common aliases + imports/redirects/2026-08-06-redirection-log.csv (unique source→target).
+# Drop future Rank Math / Redirection rules exports under imports/redirects/
+# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# FLOW will own day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  # Common aliases → real pages
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+  - from: /insights/
+    to: /blog/
+    status: 301
+
+  # From redirection plugin hit log (unique pairs)
+  - from: /emiratisation-in-the-uae-private-sector/
+    to: /emiratisation-recruitment/
+    status: 301
+  - from: /emiratisation-in-uae-2024/
+    to: /emiratisation-recruitment/
+    status: 301
+  - from: /emiratisation-program/
+    to: /emiratisation-recruitment/
+    status: 301
+  - from: /emiratisation/
+    to: /emiratisation-recruitment/
+    status: 301
+  - from: /nafis-benefits/
+    to: /nafis-benefits-program/
+    status: 301
+  - from: /outsourcing-staffing-company/
+    to: /staff-outsourcing/
+    status: 301
+  - from: /recruitment-agency-in-uae/ncies/
+    to: /recruitment-agency-in-uae/
+    status: 301
+  - from: /recruitment-process-outsourcing/
+    to: /recruitment-agency-in-uae/
+    status: 301
+  - from: /staff-outsourcing-solutions-in-uae/
+    to: /staff-outsourcing/
+    status: 301
+  - from: /talent-program/
+    to: /mazaya-program-for-emiratis/
+    status: 301
+  - from: /what-are-the-different-types-of-leaves-in-the-uae/
+    to: /types-of-leaves-in-the-uae/
+    status: 301

@@ -17,7 +17,8 @@
 # C-UAE 5092, KinzaHR 5093, Connect Freelance 5094, Redo 5095, Connect FZ 5096,
 # Royal Visa 5097, Connect Resources Int 5098, The Freelancer Gate 5100, NG Manpower 5102,
 # Emirati Guard 5103, Emiratisation Gate 5105, Emiratisation Gateway 5106, Freelancer DXB 5109,
-# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124.
+# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124,
+# IZI Rent a Car 5121 (git template; owner cutover).
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -45,7 +46,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.lladesigners.com, http://www.izi.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -132,6 +133,11 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@kpmpro host www.kpmpro.ae
 	redir @kpmpro https://kpmpro.ae{uri} permanent
+
+	@lladesigners host www.lladesigners.com
+	redir @lladesigners https://lladesigners.com{uri} permanent
+	@izi host www.izi.ae
+	redir @izi https://izi.ae{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -1058,6 +1064,75 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 	log {
 		output file /var/log/caddy/kpmpro.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# lladesigners.com -> lladesigners.service (PORT 5112) â€” git template; owner cutover
+# lladesigners.com -> 127.0.0.1:5112 (systemd: lladesigners.service)
+#
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile â€” see caddy/Caddyfile.production).
+# Local laptop: do NOT run this Caddy block â€” use fleet-local on :5112 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+lladesigners.com, www.lladesigners.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.lladesigners.com
+	redir @noncanonical https://lladesigners.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5112
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/lladesigners.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# izi.ae -> izi.service (PORT 5121) — git template; owner cutover
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5121 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+izi.ae, www.izi.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.izi.ae
+	redir @noncanonical https://izi.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5121
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/izi.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
