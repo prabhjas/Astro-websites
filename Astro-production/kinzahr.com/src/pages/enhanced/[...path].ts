@@ -1,54 +1,33 @@
 import type { APIRoute } from 'astro';
-import { spawn } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { basename, join, resolve } from 'node:path';
+import { basename } from 'node:path';
+import { formatEnhancedHtml, runEnhancedJob } from '../../lib/enhanced/run-job.js';
+import { getEnhancedJob } from '../../lib/enhanced/jobs.js';
+import { classifyEnhancedFailure, sendEnhancedFailureAlert } from '../../lib/enhanced/alert.js';
 
 export const prerender = false;
 
 function safePhpBasename(raw: string): string | null {
   const name = basename(String(raw || '').replace(/\\/g, '/'));
   if (!/^[a-zA-Z0-9._-]+\.php$/.test(name)) return null;
-  return name;
+  return name.toLowerCase();
 }
 
-function isLoopbackHost(hostname: string): boolean {
-  const host = hostname.trim().toLowerCase().replace(/^\[|\]$/g, '');
-  return host === '127.0.0.1' || host === 'localhost' || host === '::1';
-}
-
+/**
+ * Auth: Authorization Bearer or x-enhanced-key / x-internal-job-secret.
+ * Query ?key= / ?secret= are rejected (security audit P0-2).
+ */
 function authorised(request: Request, secret: string): boolean {
-  const url = new URL(request.url);
-  // Local manual hits (old WordPress workflow): no key needed on loopback.
-  if (isLoopbackHost(url.hostname)) return true;
   if (!secret) return false;
-  const key = url.searchParams.get('key') || request.headers.get('x-enhanced-key') || '';
-  return key === secret;
+  const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim();
+  const enhanced = request.headers.get('x-enhanced-key')?.trim();
+  const internal = request.headers.get('x-internal-job-secret')?.trim();
+  return bearer === secret || enhanced === secret || internal === secret;
 }
 
-function runPhp(scriptPath: string, env: NodeJS.ProcessEnv): Promise<{ code: number; stdout: string; stderr: string }> {
-  return new Promise((resolvePromise) => {
-    const child = spawn('php', [scriptPath], {
-      env,
-      cwd: process.cwd(),
-    });
-    let stdout = '';
-    let stderr = '';
-    child.stdout.on('data', (chunk) => {
-      stdout += String(chunk);
-    });
-    child.stderr.on('data', (chunk) => {
-      stderr += String(chunk);
-    });
-    child.on('error', (err) => {
-      resolvePromise({ code: 127, stdout, stderr: `${stderr}\n${err.message}`.trim() });
-    });
-    child.on('close', (code) => {
-      resolvePromise({ code: code ?? 1, stdout, stderr });
-    });
-  });
-}
-
-/** Run a live Enhanced conversion PHP script (Pipedrive → Google Ads offline conversions). */
+/**
+ * Node port of enhanced/*.php — Pipedrive → Google Ads offline conversions.
+ * Same URL paths: GET /enhanced/kinzahr.php (etc). No PHP execution.
+ */
 export const GET: APIRoute = async ({ params, request }) => {
   const secret =
     process.env.ENHANCED_RUN_SECRET?.trim() ||
@@ -56,38 +35,49 @@ export const GET: APIRoute = async ({ params, request }) => {
     '';
 
   if (!authorised(request, secret)) {
-    return new Response('Unauthorized', { status: 401, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    return new Response('Unauthorized', {
+      status: 401,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+    });
   }
 
   const rawPath = Array.isArray(params.path) ? params.path.join('/') : String(params.path || '');
   const fileName = safePhpBasename(rawPath);
-  if (!fileName) {
-    return new Response('Not found', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
-  }
-
-  const liveRoot = resolve(process.cwd(), process.env.INTERNAL_ENHANCED_LIVE_DIR?.trim() || '.data/enhanced-live');
-  const trackedRoot = resolve(process.cwd(), 'enhanced');
-  const livePath = join(liveRoot, fileName);
-  const trackedPath = join(trackedRoot, fileName);
-  const scriptPath = existsSync(livePath) ? livePath : trackedPath;
-
-  if (
-    !existsSync(scriptPath) ||
-    (!scriptPath.startsWith(`${liveRoot}/`) &&
-      scriptPath !== liveRoot &&
-      !scriptPath.startsWith(`${trackedRoot}/`) &&
-      scriptPath !== trackedRoot)
-  ) {
-    return new Response(`Enhanced script not found: ${fileName}`, {
+  if (!fileName || !getEnhancedJob(fileName)) {
+    return new Response(`Enhanced script not found: ${fileName || rawPath}`, {
       status: 404,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
     });
   }
 
-  const result = await runPhp(scriptPath, process.env);
-  const body = [result.stdout, result.stderr ? `\n<!-- stderr -->\n${result.stderr}` : ''].join('');
-  return new Response(body || '(no output)', {
-    status: result.code === 0 ? 200 : 500,
-    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  const result = await runEnhancedJob(fileName);
+
+  // Hard failures only (not Ads partial warnings that still return HTTP 200).
+  if (!result.ok) {
+    const { category, reason } = classifyEnhancedFailure(result.log, result.error);
+    const detail =
+      typeof result.error === 'string'
+        ? result.error
+        : result.error
+          ? JSON.stringify(result.error, null, 2)
+          : result.log.filter((l) => /error|missing|fail/i.test(l)).slice(-5).join('\n') || '(no detail)';
+    await sendEnhancedFailureAlert({
+      jobId: fileName,
+      status: result.status,
+      category,
+      reason,
+      detail: detail.slice(0, 4000),
+      logTail: result.log.slice(-40).join('\n\n').slice(0, 8000),
+      at: new Date().toISOString(),
+    });
+  }
+
+  return new Response(formatEnhancedHtml(result), {
+    status: result.status,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'X-Robots-Tag': 'noindex, nofollow',
+    },
   });
 };

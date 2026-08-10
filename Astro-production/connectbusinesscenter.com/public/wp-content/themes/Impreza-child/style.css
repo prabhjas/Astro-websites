@@ -1,0 +1,52 @@
+/*
+Theme Name: Impreza Child
+Template: Impreza
+Version: 1.0
+Author:	UpSolution
+Theme URI: http://impreza.us-themes.com/
+Author URI: http://us-themes.com/
+*/
+
+/*Add your own styles here:*/
+.page-id-12093 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13219 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13228 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13232 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13212 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13216 .l-subheader-cell.at_right {
+    display: none !important;
+}
+.page-id-13216 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}
+.page-id-13212 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}
+.page-id-12093 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}
+.page-id-13232 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}
+.page-id-13228 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}
+.page-id-13219 .l-header.shadow_thin .l-subheader.at_middle {
+       box-shadow: 0 0px !important;
+        background: #f9f1f3;
+}

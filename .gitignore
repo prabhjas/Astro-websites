@@ -64,3 +64,6 @@ Astro-production/**/_quarantine-html-masquerade/
 # Per-site runtime data / env (never commit)
 Astro-production/**/.data/
 Astro-production/**/.env
+
+# Local audit / handoff PDFs at repo root (keep findings in docs/)
+/*.pdf

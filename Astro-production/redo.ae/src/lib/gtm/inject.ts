@@ -16,23 +16,28 @@ export function injectRuntimeGtmLoader(html: string): string {
 }
 
 export function stripLegacyAnalytics(html: string): string {
-  return html
-    // Classic GTM container
-    .replace(/<!--\s*Google Tag Manager\s*\(noscript\)\s*-->[\s\S]*?<!--\s*End Google Tag Manager\s*\(noscript\)\s*-->/gi, '')
-    .replace(/<!--\s*Google Tag Manager\s*-->[\s\S]*?<!--\s*End Google Tag Manager\s*-->/gi, '')
-    .replace(/<noscript>\s*<iframe[^>]+googletagmanager\.com\/ns\.html[\s\S]*?<\/iframe>\s*<\/noscript>/gi, '')
-    .replace(/<iframe[^>]+googletagmanager\.com\/ns\.html[\s\S]*?<\/iframe>/gi, '')
-    .replace(/<script[^>]*>[\s\S]*?googletagmanager\.com\/gtm\.js[\s\S]*?<\/script>/gi, '')
-    .replace(/<script[^>]+googletagmanager\.com\/gtm\.js[^>]*>\s*<\/script>/gi, '')
-    // GA4 gtag.js (often mislabeled as GTM in WP exports)
-    .replace(/<!--\s*Google tag\s*\(gtag\.js\)\s*-->\s*/gi, '')
-    .replace(/<script[^>]+googletagmanager\.com\/gtag\/js[^>]*>\s*<\/script>\s*/gi, '')
-    .replace(
-      /<script[^>]*>\s*window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\];[\s\S]*?gtag\(\s*['"]config['"][\s\S]*?<\/script>\s*/gi,
-      '',
-    )
-    .replace(
-      /<script[^>]*>\s*function gtag\(\)[\s\S]*?gtag\(\s*['"]config['"][\s\S]*?<\/script>\s*/gi,
-      '',
-    );
+  // Match one tag pair at a time and decide per block. A greedy pattern that spans
+  // from one <script> to a later </script> can swallow </head>, canonical and most
+  // of the document — do not reintroduce cross-boundary regexes here.
+  let out = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (block) => {
+    if (/googletagmanager\.com\/(?:gtm\.js|ns\.html|gtag\/js)/i.test(block)) return '';
+    if (/['"]GTM-[A-Z0-9]+['"]/.test(block) && /dataLayer|gtm\.js|googletagmanager/i.test(block)) return '';
+    if (/window\.dataLayer\s*=\s*window\.dataLayer\s*\|\|\s*\[\]/i.test(block) && /gtag\(\s*['"]config['"]/i.test(block)) {
+      return '';
+    }
+    if (/function\s+gtag\s*\(/i.test(block) && /gtag\(\s*['"]config['"]/i.test(block)) return '';
+    return block;
+  });
+
+  out = out.replace(/<noscript\b[^>]*>[\s\S]*?<\/noscript>/gi, (block) =>
+    /googletagmanager/i.test(block) ? '' : block,
+  );
+
+  out = out
+    .replace(/<iframe\b[^>]*googletagmanager\.com\/ns\.html[^>]*>[\s\S]*?<\/iframe>/gi, '')
+    .replace(/<!--\s*Google Tag Manager\s*(?:\(noscript\))?\s*-->/gi, '')
+    .replace(/<!--\s*End Google Tag Manager\s*(?:\(noscript\))?\s*-->/gi, '')
+    .replace(/<!--\s*Google tag\s*\(gtag\.js\)\s*-->/gi, '');
+
+  return out;
 }

@@ -1,0 +1,63 @@
+{
+  "name": "The Freelancer Gate",
+  "shortName": "The Freelancer Gate",
+  "url": "https://thefreelancergate.com",
+  "description": "Get Your Freelance Visa Dubai Today! Secure your freelance work permit effortlessly. Work in Dubai with our Freelance Visa Service .",
+  "email": "info@thefreelancergate.com",
+  "phone": "",
+  "phoneTel": "",
+  "whatsapp": "",
+  "whatsappUrl": "",
+  "logo": "/wp-content/uploads/2023/06/logo-the-FreelancerGate-white.png",
+  "logoSvg": "",
+  "ogImage": "",
+  "favicon": "/wp-content/uploads/2023/05/cropped-The-Freelancer-Gate-3-32x32.png",
+  "appleTouchIcon": "/wp-content/uploads/2023/05/cropped-The-Freelancer-Gate-3-32x32.png",
+  "colors": {
+    "primary": "#0B1F3A",
+    "secondary": "#1B4F72",
+    "text": "#333333",
+    "accent": "#C9A227",
+    "white": "#FFFFFF"
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact-us/"
+    }
+  ],
+  "footerServices": [],
+  "footerQuickLinks": [
+    {
+      "label": "About us",
+      "href": "/about-us/"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact-us/"
+    }
+  ],
+  "cssFiles": [
+    "/wp-includes/css/dashicons.min.css",
+    "/wp-includes/css/admin-bar.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+    "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+    "/wp-content/plugins/honeypot/includes/css/wpa.css",
+    "/wp-content/themes/Impreza/css/style.min.css",
+    "/wp-content/themes/Impreza-child/style.css",
+    "/wp-content/uploads/smile_fonts/Defaults/Defaults.css",
+    "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/style.min.css",
+    "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider.min.css",
+    "/wp-content/plugins/contact-form-7/includes/css/styles.css"
+  ],
+  "headerHtml": "",
+  "footerHtml": ""
+}

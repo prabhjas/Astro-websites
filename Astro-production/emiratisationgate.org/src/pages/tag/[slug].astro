@@ -1,0 +1,12 @@
+---
+import { getTagPageData, serveArchivePage } from '../../lib/archives.ts';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+const data = getTagPageData(slug, 1);
+if (!data) {
+  return new Response('Not found', { status: 404 });
+}
+return serveArchivePage(data);
+---

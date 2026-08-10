@@ -1,0 +1,22 @@
+# Generated from src/data/redirects.yml — do not edit by hand
+# Run: npm run redirects:generate
+
+/about/  /about-us/  301
+/aboutus/  /about-us/  301
+/contact/  /contact-us/  301
+/contactus/  /contact-us/  301
+/emiratisation-hub/  /  301
+/feed/  /  301
+/get-in-touch/  /contact-us/  301
+/hello-world/  /  301
+/home/  /  301
+/index.php  /  301
+/our-services/  /emiratisation/  301
+/privacy-policy/  /  301
+/sample-page/  /  301
+/services/  /emiratisation/  301
+/services/emiratisation/  /emiratisation/  301
+/sitemap.xml  /sitemap_index.xml  301
+/sitemap/  /  301
+/terms-and-conditions/  /  301
+/terms/  /  301

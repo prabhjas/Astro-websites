@@ -1,0 +1,109 @@
+/* Emirati Guard — CF7 / mirror form chrome fixes (all pages) */
+
+/* CF7 wraps hidden inputs in a <fieldset>; browsers paint a default border box */
+.wpcf7 form fieldset.hidden-fields-container,
+.wpcf7 form .hidden-fields-container,
+form.wpcf7-form > fieldset.hidden-fields-container {
+  display: none !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+}
+
+/* Hidden tracking + country helper (countrySelect paints an empty white box) */
+#transaction_hide,
+.gclid_tag,
+.wpcf7 .gclid_tag,
+form.wpcf7-form #transaction_hide,
+input[name="gclid"],
+input[name="gclid_field"],
+input[name^="countrytext-"],
+textarea[name="gclid"],
+textarea[name="initial_url"],
+.wpcf7-form-control-wrap[data-name^="countrytext-"],
+.wpcf7-form-control-wrap[data-name="gclid"],
+.wpcf7-form-control-wrap[data-name="gclid_field"],
+.wpcf7-form-control-wrap[data-name="initial_url"] {
+  display: none !important;
+}
+
+/* countrySelect UI only — keep intl-tel-input flag chrome */
+.country-select,
+.wpcf7-form .country-select,
+.country-select-input {
+  display: none !important;
+}
+
+.country-select + .country-list,
+body > ul.country-list.country-select-list {
+  display: none !important;
+}
+
+/* Empty CF7 response box must not show a white border until there is a message */
+.wpcf7-response-output,
+.wpcf7 form .wpcf7-response-output,
+div.wpcf7-response-output,
+[data-sp-form-status] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.wpcf7-response-output.sp-status-visible,
+.wpcf7 form .wpcf7-response-output.sp-status-visible,
+div.wpcf7-response-output.sp-status-visible,
+[data-sp-form-status].sp-status-visible,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.sent .wpcf7-response-output,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  margin: 1rem 0 0 !important;
+  padding: 0.65rem 0 !important;
+  border: none !important;
+  background: transparent !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-ok,
+.wpcf7-response-output.wpcf7-mail-sent-ok,
+.wpcf7 form.sent .wpcf7-response-output {
+  color: #46b450 !important;
+}
+
+.wpcf7-response-output.sp-status-visible.sp-status-err,
+.wpcf7-response-output.wpcf7-mail-sent-ng,
+.wpcf7 form.failed .wpcf7-response-output,
+.wpcf7 form.invalid .wpcf7-response-output {
+  color: #ff3b30 !important;
+}
+
+/* Field-level validation — force red on dark forms */
+.sp-field-error,
+.wpcf7-not-valid-tip,
+.wpcf7-form-control-wrap .wpcf7-not-valid-tip,
+span.wpcf7-not-valid-tip {
+  display: block !important;
+  margin-top: 0.35rem !important;
+  color: #ff3b30 !important;
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+}
+
+.sp-field-invalid,
+.wpcf7-form-control.sp-field-invalid,
+.wpcf7-not-valid {
+  outline: 2px solid #ff3b30 !important;
+  outline-offset: 1px;
+}

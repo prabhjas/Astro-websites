@@ -1,0 +1,666 @@
+@charset "utf-8";
+/*-- CSS style --*/
+.wpex.horizontal-timeline{ font-size:13px;}
+.wpex.horizontal-timeline .hor-container{position:relative;}
+.wpex.horizontal-timeline:not(.no-arr-top) .hor-container{ padding:0 35px;}
+.wpex.horizontal-timeline .horizontal-nav .ex_s_lick-list{ min-height:100px;}
+.wpex.horizontal-timeline .timeline-hr{
+	border-bottom: 3px solid #EEEEEE;
+    top: 49px;
+    position: absolute;
+    width: calc(100% - 70px);
+	content: "";
+	height:0;
+}
+.wpex.horizontal-timeline.no-arr-top .timeline-hr{ width:100%;}
+.wpex.horizontal-timeline .timeline-hr:before {
+    position: absolute;
+    content: "";
+    right: 0;
+    height: 3px;
+    width: 20px;
+    background-image: -webkit-linear-gradient( left , #EEEEEE, rgba(255, 255, 255, .8));
+    background-image: linear-gradient(to right, #EEEEEE, rgba(255, 255, 255, .8));
+}
+.wpex.horizontal-timeline .timeline-pos-select {
+    border-bottom: 3px solid #00BCD4;
+    top: 49px;
+    position: absolute;
+	width:calc(50% - 35px);
+}
+.wpex.horizontal-timeline.no-arr-top .timeline-pos-select{ width:50%;}
+.wpex.horizontal-timeline.no-arr-top.tlhl-full .timeline-pos-select{ width:100%;}
+.wpex.horizontal-timeline .timeline-pos-select:before {
+    content: "";
+    height: 3px;
+    width: 20px;
+    position: absolute;
+    left: 0;
+    background-image: -webkit-linear-gradient( left , #fff, rgba(238, 238, 238, 0));
+    background-image: linear-gradient(to right, #fff, rgba(238, 238, 238, 0));
+}
+
+.wpex.horizontal-timeline .horizontal-nav li{ position:relative; list-style: none; display: inline-block; padding:0;}
+.wpex.wpex-horizontal-3.ex-multi-item .horizontal-nav h2 a,
+.wpex.horizontal-timeline .horizontal-nav li span.tl-point{
+	line-height: 38px;
+    padding-bottom: 0;
+    cursor: pointer;
+    box-shadow: none;
+    color: #7d7d7d;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: visible;
+    display: block;
+	text-align:center;
+}
+.wpex.horizontal-timeline:not(.ex-multi-item) .horizontal-nav li.ex_s_lick-current span.tl-point{
+	font-size: 15px;
+    font-weight: bold;
+}
+.wpex.horizontal-timeline .horizontal-nav li.ex_s_lick-current + li.prev_item span.tl-point:before,
+.wpex.horizontal-timeline .horizontal-nav li span.tl-point i,
+.wpex.horizontal-timeline .horizontal-nav li span.tl-point:before{
+    content: "";
+    height: 17px;
+    width: 17px;
+    border: 3px solid #EEEEEE;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -21px;
+    left: 50%;
+    margin-left: -6px;
+    transition: all .25s;
+    box-sizing: border-box;
+}
+.wpex.horizontal-timeline .horizontal-nav li.ex_s_lick-current span.tl-point:before{
+	font-size: 17px;
+    background-color: #00BCD4;
+    border-color: #00BCD4;
+}
+.wpex.horizontal-timeline .ex_s_lick-prev:before, .wpex.horizontal-timeline .ex_s_lick-next:before{ display:none;}
+.wpex.horizontal-timeline .ex_s_lick-prev, .wpex.horizontal-timeline .ex_s_lick-next{
+	line-height: 29px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 1);
+    border: 3px solid #00BCD4;
+    color: #00BCD4;
+    font-size: 19px;
+    height: 35px;
+    width: 35px;
+	z-index:3;
+}
+.wpex.horizontal-timeline .horizontal-nav .ex_s_lick-prev{ left:-35px}
+.wpex.horizontal-timeline .horizontal-nav .ex_s_lick-next{ right:-35px;}
+.wpex.horizontal-timeline:not(.ex-multi-item) .horizontal-nav .ex_s_lick-arrow.ex_s_lick-disabled{ border-color: #EEEEEE; color: #EEEEEE; background:transparent;}
+.wpex.horizontal-timeline .horizontal-nav li.prev_item span.tl-point:before { border-color: #00BCD4;}
+.wpex.horizontal-timeline .wpex-timeline-label{ text-align:center;}
+.wpex.horizontal-timeline .wpex-timeline-label .timeline-media{ margin-bottom:30px;}
+.wpex.horizontal-timeline .wpex-timeline-label .timeline-media img{ max-height: 300px; width: auto; margin: 0 auto;}
+.wpex.horizontal-timeline .extl-hoz-sbs h2,
+.wpex.horizontal-timeline .wpex-timeline-label h2{margin-top: 0px; margin-bottom: 15px; font-weight: normal; text-transform: uppercase;}
+.wpex.horizontal-timeline .extl-hoz-sbs h2 a,
+.wpex.horizontal-timeline .wpex-timeline-label h2 a{
+    text-decoration: none;
+    box-shadow: none;
+    color: #101010;
+}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-next,
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-prev{
+	font-size: 26px;
+    box-shadow: none;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    text-align: center;
+    line-height: 39px;
+    border-radius: 0;
+    background: rgba(0,0,0,.6);
+    color: #fff;
+    z-index: 9999;
+    transition: all .3s;
+}
+.wpex.horizontal-timeline .ex_s_lick-prev:hover, .wpex.horizontal-timeline .ex_s_lick-next:hover,
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-next:hover,
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-prev:hover{
+	color: #FFFFFF;
+    border-color: #00BCD4;
+    background-color: #00BCD4;
+	transition:all .2s;
+}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-prev{ left: 20px;
+	opacity: 0;
+	transition: all .3s ease;
+    transform: translateX(-40px);
+    -webkit-transform: translateX(-40px);
+}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-next{ right: 20px;
+	opacity: 0;
+    transform: translateX(40px);
+    -webkit-transform: translateX(40px);
+    transition: all .3s ease;
+}
+.wpex.horizontal-timeline .horizontal-content:hover .ex_s_lick-prev,
+.wpex.horizontal-timeline .horizontal-content:hover .ex_s_lick-next{
+	transform: translateX(0);
+    -webkit-transform: translateX(0);
+    opacity: 1;
+}
+.wpex.horizontal-timeline .wptl-readmore a{ border-radius:20px;}
+.wpex.horizontal-timeline .horizontal-nav li span.tl-point i{ display:none;
+	width:40px;
+	height:40px;
+	font-size:19px;
+	line-height:35px;
+	bottom:-43px; margin-left:-20px;
+}
+.wpex.horizontal-timeline.tl-hozsteps .horizontal-nav li span.tl-point:before{ display:none;}
+.wpex.horizontal-timeline.tl-hozsteps .horizontal-nav li span.tl-point i{ display: block;}
+.wpex.horizontal-timeline.tl-hozsteps .ex_s_lick-arrow{ border-radius:0}
+.wpex.horizontal-timeline.tl-hozsteps .horizontal-nav li.prev_item span.tl-point i{border-color: #00BCD4; color:#00BCD4}
+.wpex.horizontal-timeline.tl-hozsteps .horizontal-nav li.ex_s_lick-current span.tl-point i{
+	background: #00BCD4;
+	border-color: #00BCD4;
+    color: #fff;
+}
+.wpex.horizontal-timeline.tl-hozsteps .timeline-hr,
+.wpex.horizontal-timeline.tl-hozsteps .timeline-pos-select{ top:60px; border-color: #00BCD4;}
+.wpex.horizontal-timeline.tl-hozsteps  .horizontal-nav .ex_s_lick-list{ min-height:120px;}
+.wpex.horizontal-timeline.tl-hozsteps .timeline-hr:before{background-image: -webkit-linear-gradient( right , #fff, rgba(238, 238, 238, 0)); background-image: linear-gradient(to left, #fff, rgba(238, 238, 238, 0));}
+.wpex.horizontal-timeline .ex_s_lick-slide:focus{ outline:none}
+.wpex.horizontal-timeline.wpex-horizontal-left .wpex-timeline-label{ display: table; width: 100% }
+.wpex.horizontal-timeline.wpex-horizontal-left .timeline-media {
+    width: 40%;
+    display: table-cell;
+    float: none;
+    padding-left: 1px;
+    padding-right: 15px;
+    vertical-align: middle;
+}
+.wpex.horizontal-timeline.wpex-horizontal-left .timeline-media + div {
+    width: 60%;
+    display: table-cell;
+    float: none;
+    border:1px solid #eee;
+    border-right-width: 1px;
+    padding: 25px;
+    vertical-align: middle;
+}
+@media(max-width:767px){
+    .wpex.horizontal-timeline.wpex-horizontal-left .timeline-media{ padding-right: 0; }
+    .wpex.horizontal-timeline.wpex-horizontal-left .timeline-media,
+    .wpex.horizontal-timeline.wpex-horizontal-left .timeline-media + div,
+    .wpex.horizontal-timeline.wpex-horizontal-left .wpex-timeline-label{ display: block;width: 100%; }
+}
+.wpex.horizontal-timeline .wpex-timeline-label .wptl-more-meta i {
+    margin-right: 8px;
+}
+.wpex.horizontal-timeline.show-all-items .timeline-pos-select{width: calc(100% - 70px);}
+.wpex.horizontal-timeline.no-arr-top.show-all-items .timeline-pos-select{ width:100%}
+.wpex.horizontal-timeline.show-all-items .timeline-pos-select:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    height: 3px;
+    width: 20px;
+	background-image: -webkit-linear-gradient( right , #fff, rgba(238, 238, 238, 0));
+    background-image: linear-gradient(to left, #fff, rgba(238, 238, 238, 0));
+}
+.wpex.horizontal-timeline:not(.tl-hozsteps) .horizontal-content + .hor-container ul.horizontal-nav li.ex_s_lick-slide{ margin-top:61px;} 
+.wpex.horizontal-timeline .horizontal-content + .hor-container ul.horizontal-nav li.ex_s_lick-slide span.tl-point:before{ top:-20px; bottom: auto;}
+/*.wpex.horizontal-timeline.wpex-horizontal-left .horizontal-content + .hor-container{ margin-top:-30px;}*/
+.wpex.horizontal-timeline.show-all-items.dark-style .timeline-pos-select:after {
+	background-image: -webkit-linear-gradient( right , #484848, rgba(238, 238, 238, 0));
+    background-image: linear-gradient(to left, #484848, rgba(238, 238, 238, 0));
+
+}
+/* Multi*/
+
+.wpex.horizontal-timeline.ex-multi-item:not(.wpex-horizontal-3) .wptl-embed > :first-child {
+	margin-bottom: 0;
+}
+.wpex.horizontal-timeline.ex-multi-item .hor-container .ex_s_lick-list { padding-top:130px;}
+.wpex.horizontal-timeline.ex-multi-item .timeline-hr{ top:79px;}
+.wpex.horizontal-timeline.ex-multi-item:not(.wpex-horizontal-4) .horizontal-nav li span.wpex_point{ margin:0 7px; margin-top:-129px; position:relative; text-align:left; font-size:20px; background:#00BCD4; color:#FFFFFF;}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li span.wpex_point i{position: relative; border-radius:0;
+	display:inline-block;
+    left: auto;
+    right: auto;
+    text-align: center;
+    top: 0;
+    margin: 0; line-height:45px;
+    margin-right: 5px; width: 50px;
+    height: 50px;
+	color: #00BCD4;
+	border-color: #00BCD4;
+}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li span.wpex_point i.no-icon{ width:1px; visibility: hidden;}
+.wpex.horizontal-timeline.ex-multi-item:not(.wpex-horizontal-4) .horizontal-nav li span.wpex_point:after{
+	border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top-color: #00BCD4;
+    border-width: 10px;
+    left: 29px;
+    bottom:-18px;
+}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav{ margin:0 -10px; list-style:none}
+.wpextt_templates{ margin-top:60px; padding:5px 7px;}
+.wpextt_templates > div {background:#fff;background-size: cover; background-position: center center;}
+.wpex.horizontal-timeline.ex-multi-item .timeline-pos-select{ width:100%;}
+.wpex.horizontal-timeline.ex-multi-item .extl-sbd-details .wptl-readmore,
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li  .wptl-readmore{ display:inline-block; float:none; position: relative;}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav  .wpextt_templates .timeline-details a{
+	line-height: 1.6; white-space: normal; text-align:left; position:relative;
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-sbd-details .wptl-readmore a,
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav .wpextt_templates .wptl-readmore a{
+	border: 0;
+	padding: 0 0 0 25px; font-weight:100; text-transform:capitalize;
+    background: transparent;
+    color: #101010;
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-sbd-details .wptl-readmore a:after,
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav .wptl-readmore a:after{
+	content: '';
+    position: absolute;
+    background: #7a7272;
+    width: 18px;
+    height: 1px;
+    left: 0;
+    top: 45%;
+}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li .info-cat{ white-space:normal;}
+.wpex.horizontal-timeline.ex-multi-item .wptl-more-meta{ margin-top:-5px;}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li .info-cat a{ display:inline-block; overflow:visible;}
+.wpex.horizontal-timeline.ex-multi-item .wptl-excerpt{ margin:0 0 15px 0; padding:0; border:0; float:none;}
+.wpex.horizontal-timeline.ex-multi-item .wpex-timeline-label .timeline-media{ margin:0;}
+.wpex.horizontal-timeline.ex-multi-item .wpex-timeline-label .timeline-details{
+	padding: 25px 20px;
+    text-align: left;
+	border:2px solid #eee;
+}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li  .wpextt_templates a:before{ display:none;}
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li .wpex_point:before,
+.wpex.horizontal-timeline.ex-multi-item .horizontal-nav li.ex_s_lick-current .wpex_point:before{
+	border: 0;
+    background-color: #00BCD4;
+	bottom:-37px; left:35px;
+}
+.wpex.horizontal-timeline.ex-multi-item .timeline-hr{ border-bottom:3px solid #cccccc}
+.wpex.horizontal-timeline.ex-multi-item .timeline-hr:before {
+    background-image: -webkit-linear-gradient( left , #cccccc, rgba(255, 255, 255, .8));
+    background-image: linear-gradient(to right, #cccccc, rgba(255, 255, 255, .8));
+}
+.wpex.horizontal-timeline.ex-multi-item .timeline-hr:after {
+	position: absolute; content: ""; left: 0; height: 3px; width: 20px;
+    background-image: -webkit-linear-gradient( left , rgba(255, 255, 255, .8), #cccccc);
+    background-image: linear-gradient(to right, rgba(255, 255, 255, .8), #cccccc);
+}
+.wpex.wpex-horizontal-2.ex-multi-item .wpex-timeline-label .timeline-details{ padding:15px}
+.wpex-horizontal-2.ex-multi-item .timeline-media + .timeline-details h2{
+	padding:10px 15px 0 15px;
+	margin-top:-50px; background:#fff;
+}
+.wpex-horizontal-2.ex-multi-item .timeline-media + .timeline-details > div,
+.wpex-horizontal-2.ex-multi-item .timeline-media + .timeline-details .wptl-readmore{ padding-left:15px; padding-right:15px;}
+.wpex-horizontal-3.ex-multi-item .wpex-timeline-label{text-align:center;
+	background:rgba(0,0,0,.6);
+}
+.wpex.wpex-horizontal-3.ex-multi-item .horizontal-nav .wpextt_templates .wptl-readmore a:after{ display:none;}
+.wpex.wpex-horizontal-3.ex-multi-item .horizontal-nav .wpextt_templates .wptl-readmore a{
+	display: inline-block;
+    padding: 7px 15px;
+    border: 1px solid #00BCD4; border-radius:0;
+}
+.wpex.wpex-horizontal-3.ex-multi-item .horizontal-nav .wpextt_templates .wptl-readmore a,
+.wpex.wpex-horizontal-3.ex-multi-item .wpex-timeline-label h2 a{ color:#FFFFFF;}
+.wpex-horizontal-3.ex-multi-item .horizontal-nav li .info-cat *,
+.wpex.wpex-horizontal-3.ex-multi-item .wptl-excerpt{ color:#EEEEEE}
+.wpex.wpex-horizontal-3.ex-multi-item .wpex-timeline-label .timeline-details{ padding:25px 30px; border:0;}
+.wpex.wpex-horizontal-3.ex-multi-item .horizontal-nav  h2 a{
+	margin: -25px -30px;
+    margin-bottom: 30px;
+    padding: 10px 30px;
+	background: #00BCD4;
+}
+.wpex.wpex-horizontal-3.ex-multi-item .wpex-timeline-label .timeline-details:after{
+	border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #00BCD4;
+    border-width: 10px;
+    left: 28px;
+    top: -18px;
+}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav li span.wpex_point{ margin:0 7px; margin-top:-125px; position:relative; font-size:20px; height:50px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav li .wpex_point:before, .wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav li.ex_s_lick-current .wpex_point:before{ left:50%;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .wpextt_templates .wptl-readmore a,
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav  .wpextt_templates .timeline-details a,
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .wpex-timeline-label .timeline-details{ text-align:center}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .wpextt_templates .wptl-readmore a{ padding-left:0;
+	border: 1px solid #00BCD4;
+    padding: 7px 15px;
+	display:inline-block; border-radius:0;
+}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav .wptl-readmore a:after{ display:none;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4 .horizontal-nav li span.wpex_point i{
+	position:absolute;
+	left:50%;
+	margin-left:-25px;
+	top:50px;
+}
+.wpex.horizontal-timeline.ex-multi-item .ex_s_lick-prev, .wpex.horizontal-timeline.ex-multi-item .ex_s_lick-next{
+	background: rgba(0,0,0,.3);
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    margin: 0; border:0;
+    line-height: 36px;
+    border-radius: 0px;
+    font-size: 22px;
+	opacity: 0;
+    transform: translateX(-30px);
+    -webkit-transform: translateX(-30px);
+    transition: all .3s ease;
+	color:#FFFFFF;
+}
+.wpex.horizontal-timeline.ex-multi-item .ex_s_lick-next{
+	transform: translateX(30px);
+    -webkit-transform: translateX(30px);
+}
+.wpex.horizontal-timeline.ex-multi-item:hover .ex_s_lick-prev, .wpex.horizontal-timeline.ex-multi-item:hover .ex_s_lick-next{
+	background:rgba(0,0,0,.6);
+	transform: translateX(0);
+    -webkit-transform: translateX(0);
+    opacity: 1;
+}
+/*----*/
+.wpex.horizontal-timeline.tl-ct-left .timeline-details{ text-align:left;}
+.wpex.horizontal-timeline.tl-ct-left .wptl-readmore a{ border-radius:0;}
+.wpex.horizontal-timeline.tl-ct-left .wpex-timeline-label .timeline-media img{ max-height:100%;}
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-slide{ padding-left:1px;}
+.wpex.horizontal-timeline .ex_s_lick-list{ box-sizing:content-box; padding-bottom:1px;}
+@media(min-width:1024px){
+	.show-all-items .ex_s_lick-track,
+	.tlhl-full .ex_s_lick-track{ transform:none !important}
+}
+/*-- new style mult--*/
+.wpex.horizontal-timeline.tlml-arrow-top .timeline-hr:after,
+.wpex.horizontal-timeline.tlml-arrow-top .timeline-hr:before{
+	height: 10px;width: 10px; 
+	border-radius:50%; top:5px;top: -4px;
+    background-image: none;
+    background-color: #ccc;
+}
+.wpex.horizontal-timeline.tlml-arrow-top .ex_s_lick-prev, .wpex.horizontal-timeline.tlml-arrow-top .ex_s_lick-next{
+	top:56px;
+	opacity:1; transform: none; -webkit-transform: none;
+	background:transparent !important;
+    color: #ccc;
+    font-size: 39px;
+}
+/*---- style 5----*/
+.wpex.horizontal-timeline.wpex-horizontal-5 .horizontal-nav li .wpex_point i:after {
+    content: "";
+    height: 36px;
+    display: block;
+    width: 2px;
+    background: #ccc;
+    margin-left: 22px;
+	margin-top:20px;
+}
+.wpex.horizontal-timeline.wpex-horizontal-5 .wpex-timeline-label .timeline-details{ border:0}
+.wpex.horizontal-timeline.wpex-horizontal-5 .wpextt_templates{ margin-top:100px;}
+.wpex.horizontal-timeline.wpex-horizontal-5 .horizontal-nav li span.wpex_point i{ border-radius:50%}
+.wpex.horizontal-timeline.wpex-horizontal-5 .horizontal-nav li span.wpex_point i.no-icon:not(.icn-img){
+	visibility: visible;
+    border: 0;
+    width: 0;
+    font-size: 0;
+}
+.wpex.horizontal-timeline.wpex-horizontal-5 .horizontal-nav li .wpex_point:before{ margin-left:-10px;}
+/* loading effect*/
+.wpex.ld-screen{ max-height:500px; overflow:hidden; position: relative;}
+.wpex.ld-screen.at-childdiv{ max-height:inherit; overflow:visible; position:relative;}
+.wpex.ld-screen.at-childdiv > .wpextl-loadcont{ opacity:0; transition:all .3s; z-index:-999}
+.wpex.ld-screen > *:not(.wpextl-loadcont){ opacity:0; transition:all .3s;}
+.wpex.ld-screen.at-childdiv > *:not(.wpextl-loadcont){ opacity:1;}
+.wpextl-loadcont{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+	opacity:0;
+	transition:all ease-out 7s;
+}
+.ld-screen > .wpextl-loadcont{ opacity:1; z-index:99999}
+.wpextl-loadicon,
+.wpextl-loadicon::before,
+.wpextl-loadicon::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border: 1px solid rgb(204,204,204);
+	border-left-color: rgb(0,189,151);
+	border-radius: 974px;
+		-o-border-radius: 974px;
+		-ms-border-radius: 974px;
+		-webkit-border-radius: 974px;
+		-moz-border-radius: 974px;
+}
+.wpextl-loadicon {
+	margin: -24px 0 0 -24px;
+	height: 49px;
+	width: 49px;
+	animation: wptl_load-rotate 1150ms linear infinite;
+		-o-animation: wptl_load-rotate 1150ms linear infinite;
+		-ms-animation: wptl_load-rotate 1150ms linear infinite;
+		-webkit-animation: wptl_load-rotate 1150ms linear infinite;
+		-moz-animation: wptl_load-rotate 1150ms linear infinite;
+}
+.wpextl-loadicon::before {
+	content: "";
+	margin: -22px 0 0 -22px;
+	height: 43px;
+	width: 43px;
+	animation: wptl_load-rotate 1150ms linear infinite;
+		-o-animation: wptl_load-rotate 1150ms linear infinite;
+		-ms-animation: wptl_load-rotate 1150ms linear infinite;
+		-webkit-animation: wptl_load-rotate 1150ms linear infinite;
+		-moz-animation: wptl_load-rotate 1150ms linear infinite;
+}
+.wpextl-loadicon::after {
+	content: "";
+	margin: -28px 0 0 -28px;
+	height: 55px;
+	width: 55px;
+	animation: wptl_load-rotate 2300ms linear infinite;
+		-o-animation: wptl_load-rotate 2300ms linear infinite;
+		-ms-animation: wptl_load-rotate 2300ms linear infinite;
+		-webkit-animation: wptl_load-rotate 2300ms linear infinite;
+		-moz-animation: wptl_load-rotate 2300ms linear infinite;
+}
+@keyframes wptl_load-rotate {
+	100% {transform: rotate(360deg);}
+}
+
+@-o-keyframes wptl_load-rotate {
+	100% {-o-transform: rotate(360deg);}
+}
+@-ms-keyframes wptl_load-rotate {
+	100% {-ms-transform: rotate(360deg);}
+}
+@-webkit-keyframes wptl_load-rotate {
+	100% {-webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes wptl_load-rotate {
+	100% {-moz-transform: rotate(360deg);}
+}
+.wpex.horizontal-timeline .horizontal-content > li,
+.wpex.horizontal-timeline .horizontal-content .ex_s_lick-slide {list-style: none;}
+/*-Horizontal side by side-*/
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul li.ex_s_lick-slide{ padding: 3px; box-sizing: content-box; }
+.wpex.horizontal-timeline.ex-multi-item.slcol-lag .extl-hoz-sbs ul li.ex_s_lick-slide{ padding: 5px; }
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul{ margin:0; z-index: 9;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs{ padding:20px 0;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .ex_s_lick-list { padding:0}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .horizontal-nav .ex_s_lick-track {display: table; padding-bottom: 95px; table-layout: fixed;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .horizontal-nav .ex_s_lick-track > li {display: table-cell;vertical-align: bottom;float: none;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .sbs-line {
+    display: block;
+    width: 100%;
+    margin: 49px 0;
+    margin-top: -40px;
+    border-bottom: 2px solid #ddd;
+    position: relative;
+}
+.wpex.horizontal-timeline.tlml-arrow-top .extl-hoz-sbs .ex_s_lick-prev, 
+.wpex.horizontal-timeline.tlml-arrow-top .extl-hoz-sbs .ex_s_lick-next{top: auto; bottom: 18px;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .extl-sbd-details {
+    padding: 20px;
+    border: 2px solid #eee;
+    margin: 1px;
+}
+.wpex.horizontal-timeline .extl-hoz-sbs .horizontal-nav li span.tl-point i{ display: block; bottom: -75px; }
+.wpex.horizontal-timeline .extl-hoz-sbs .horizontal-nav li span.tl-point:before{bottom: -64px;}
+.wpex.horizontal-timeline .extl-hoz-sbs .tl-ifdate{ text-align: center; }
+.wpex.horizontal-timeline .extl-hoz-sbs .tl-ifdate span{ font-weight: bold; }
+.wpex.horizontal-timeline .extl-hoz-sbs h2 a{ color: inherit; box-shadow: none; }
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .sbs-line:before,
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .sbs-line:after {
+    content:"";
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    top: -4px;
+    background-color: #ccc;
+    position: absolute;
+    left: 0;
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .sbs-line:after{ right: 0; left: auto; }
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs button.ex_s_lick-disabled{ pointer-events: none; opacity: .5 }
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs .timeline-media {margin: -20px -20px 20px -20px;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-sl-2 .extl-sbd-details{ margin-top: 7px; }
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-nav .extl-sbd-details:after,
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-sl-2 .extl-sbd-details:before {
+    border: solid transparent;
+    content: " ";
+    height: 0; width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #eee;
+    border-width: 10px;
+    left: 50%;
+    margin-left: -10px;
+    top: -20px;
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-nav .extl-sbd-details:after{ top: auto; bottom: -21px; border-bottom-color: transparent; border-top-color: #eee; }
+.wpex.horizontal-timeline .extl-hoz-sbs .horizontal-nav li span.tl-point i{color: #00BCD4; border-color: #00BCD4;}
+.wpex.horizontal-timeline.ex-multi-item .extl-sbd-details .wptl-readmore{ margin-top: 15px; }
+.wpex.horizontal-timeline .extl-hoz-sbs .horizontal-nav li span.tl-point i.no-icon.no-ic-img{ opacity: 0; }
+.wpex.horizontal-timeline .extl-hoz-sbs .horizontal-nav li.ex_s_lick-current span.tl-point:before{ background: #fff; border-color:#ddd; }
+/*-style 7-*/
+.wpex.horizontal-timeline .extl-hoz-sbs.style-7{
+
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs.style-7 .extl-sbd-details{
+    border: 0;
+    border-left: 10px solid #00BCD4;
+    background: #f7f3eb;
+}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-nav .extl-sbd-details:after{border-top-color: #f7f3eb;bottom: -20px;}
+.wpex.horizontal-timeline.ex-multi-item .extl-hoz-sbs ul.horizontal-sl-2 .extl-sbd-details:before{border-bottom-color: #f7f3eb;}
+/*--Style 8--*/
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpextt_templates >div { border: 3px solid #2cbdd3; }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpex-timeline-label .timeline-details{ border: 0; padding: 20px 15px 3px}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpex-timeline-label > h2{padding: 10px 15px; line-height: 1; margin: 0 }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpex-timeline-label > h2 + .timeline-details{ margin-top: -15px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-4.wpex-horizontal-8 .horizontal-nav li span.wpex_point i{ border-radius: 50% }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .hoz-tldate { border-bottom: 1px solid; position: relative; background: #3fbed2; color: #fff; padding: 5px 15px; }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .hoz-tldate:before { border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-bottom-color: #00BCD4; border-width: 10px; left: 50%; margin-left: -10px; top: -20px; }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .horizontal-nav li .wpex_point:before{margin-left: -8px; margin-bottom: 3px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .horizontal-nav .wpextt_templates .wptl-readmore a{border: 0; font-weight: 100; text-transform: capitalize; background: transparent;} 
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .horizontal-nav .wpextt_templates .wptl-readmore{border-top: 2px solid #2cbdd3;}
+.wpex.horizontal-timeline.tlml-arrow-top.wpex-horizontal-8 .ex_s_lick-prev, 
+.wpex.horizontal-timeline.tlml-arrow-top.wpex-horizontal-8 .ex_s_lick-next{top: 27px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .timeline-hr{ top: 50px }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .hor-container .ex_s_lick-list{ padding-top: 100px }
+/***--Style 9--**/
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-9 .wpex-timeline-label .timeline-media {padding: 0 15px 15px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-9 .wpex-timeline-label .timeline-media + .hoz-tldate:before {opacity: 0;margin-bottom: -5px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpex-timeline-label .wptl-embed > * {max-height: 250px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wpex-timeline-label .timeline-details{ padding-top: 15px;  }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-9 .wpex-timeline-label:before {
+    border: solid transparent;
+    content: " ";
+    position: absolute;
+    pointer-events: none;
+    background: #00BCD4;
+    border:0;
+    height: 30px;
+    left: 50%;
+    margin-left: -2px;
+    top: -40px;
+    z-index: -1;
+    width: 3px;
+}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-8 .wptl-more-meta span{ margin-right: 0 }
+/*--Style left morden--*/
+.wpex.horizontal-timeline .wpex-timeline-label .timeline-media .exwptl-left-bg {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-position: center center;
+    background-size: cover;
+    border: 3px solid #2cbdd3;
+
+}
+.wpex.horizontal-timeline.wpex-horizontal-left-mod .wpex-timeline-label{ display: flex; align-items: center;padding: 0 15px; }
+.wpex.horizontal-timeline.wpex-horizontal-left-mod .timeline-media {width: 250px;margin: 17px 0;}
+.wpex.horizontal-timeline.wpex-horizontal-left-mod .timeline-details {
+    width: calc( 100% - 250px);
+    border: 0;
+    border-right-width: 1px;
+    padding: 25px;
+}
+.wpex.horizontal-timeline.wpex-horizontal-left-mod.no-arr-top .horizontal-content .ex_s_lick-next,
+.wpex.horizontal-timeline.wpex-horizontal-left-mod.no-arr-top .horizontal-content .ex_s_lick-prev{ margin-top: -20px }
+.wpex.horizontal-timeline.wpex-horizontal-left-mod.no-arr-top .horizontal-content .ex_s_lick-next, 
+.wpex.horizontal-timeline.wpex-horizontal-left-mod.no-arr-top .horizontal-content .ex_s_lick-prev{
+    opacity: 1; background: none;font-size: 50px;color: #101010; transform: none; width: auto;
+}
+.wpex.horizontal-timeline.wpex-horizontal-left-mod .horizontal-content .ex_s_lick-next{ right: 0 } 
+.wpex.horizontal-timeline.wpex-horizontal-left-mod .horizontal-content .ex_s_lick-prev{ left: 0 }
+.wpex-horizontal-left-mod.no-arr-top .wptl-embed > iframe, .wpex-horizontal-left-mod.no-arr-top .wptl-embed > embed, 
+.wpex-horizontal-left-mod.no-arr-top .wptl-embed > source, 
+.wpex-horizontal-left-mod.no-arr-top .wptl-embed > object {
+    max-height: 250px;
+    padding: 10px;
+}
+.wpex.horizontal-timeline.wpex-horizontal-left-mod.no-arr-top .horizontal-content .ex_s_lick-disabled{ opacity:.3}
+/*--Style 10--*/
+.wpex.horizontal-timeline.wpex-horizontal-10 .timeline-hr:after,
+.wpex.horizontal-timeline.wpex-horizontal-10 .timeline-hr:before{ opacity: 0 }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-9.wpex-horizontal-10 .hoz-tldate{ background: none; padding: 0 15px 15px; line-height: 1; color: #3fbed2; border: 0 }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .hoz-tldate:before{ opacity: 0 }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .wpextt_templates >div{ border-width: 1px; border-radius: 5px; }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .horizontal-nav .wpextt_templates .wptl-readmore,
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .timeline-hr,
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .horizontal-nav li span.wpex_point i{ border-width: 1px; }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .wpex-timeline-label:before{ width: 1px; margin-left: 0 }
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-10 .wpex-timeline-label .timeline-details{ padding-top: 0 }
+/*--Style 11--*/
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-11 .wpextt_templates >div { border-radius: 10px;}
+.wpex.horizontal-timeline.ex-multi-item.wpex-horizontal-11 .wpex-timeline-label .timeline-media { padding: 15px;}

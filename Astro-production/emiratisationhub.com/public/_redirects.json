@@ -1,0 +1,97 @@
+[
+  {
+    "from": "/about/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/aboutus/",
+    "to": "/about-us/",
+    "status": 301
+  },
+  {
+    "from": "/contact/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/contactus/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/emiratisation-hub/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/feed/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/get-in-touch/",
+    "to": "/contact-us/",
+    "status": 301
+  },
+  {
+    "from": "/hello-world/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/home/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/index.php",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/our-services/",
+    "to": "/emiratisation/",
+    "status": 301
+  },
+  {
+    "from": "/privacy-policy/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/sample-page/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/services/",
+    "to": "/emiratisation/",
+    "status": 301
+  },
+  {
+    "from": "/services/emiratisation/",
+    "to": "/emiratisation/",
+    "status": 301
+  },
+  {
+    "from": "/sitemap.xml",
+    "to": "/sitemap_index.xml",
+    "status": 301
+  },
+  {
+    "from": "/sitemap/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/terms-and-conditions/",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/terms/",
+    "to": "/",
+    "status": 301
+  }
+]

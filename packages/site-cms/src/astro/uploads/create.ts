@@ -25,6 +25,11 @@ export const POST: APIRoute = async ({ request }) => {
 
   const updatedBy = String(formData.get('updatedBy') || 'internal-job');
   const store = new InternalUploadStore({ rootDir: env.internalUploadDir });
-  const record = await store.save(file, updatedBy);
-  return internalJson({ success: true, uploadId: record.id, originalName: record.originalName });
+  try {
+    const record = await store.save(file, updatedBy);
+    return internalJson({ success: true, uploadId: record.id, originalName: record.originalName });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Upload rejected';
+    return internalJson({ success: false, message }, 400);
+  }
 };

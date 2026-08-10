@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, writeFileSync, existsSync, unlinkSync, mkdir
 import { join, dirname } from 'node:path';
 import { processContentHeadings, type BlogPost } from '../blog';
 import { getActiveCategoryOptions as getActiveCategoryTerms, getActiveTagOptions as getActiveTagTerms } from './taxonomy-store';
+import { sanitizeCmsHtml } from '@connect/site-cms';
 
 const ROOT_DIR = process.cwd();
 const BLOG_DIR = join(ROOT_DIR, 'src/content/blog');
@@ -44,7 +45,7 @@ function ensureBasePost(template: InternalPost, slug: string): InternalPost {
   base.publishedAt = base.publishedAt || now;
   base.modifiedAt = now;
   base.contentHtml = base.contentHtml || '';
-  const processed = processContentHeadings(base.contentHtml || '');
+  const processed = processContentHeadings(sanitizeCmsHtml(base.contentHtml || ''));
   base.contentHtml = processed.html;
   base.toc = processed.toc;
   base.headings = processed.headings;
@@ -291,7 +292,7 @@ export function createOrUpdatePost(args: {
   post.metaTitle = args.metaTitle || '';
   post.metaDescription = args.metaDescription || '';
   post.canonical = `/${targetSlug}/`;
-  post.contentHtml = args.contentHtml || '';
+  post.contentHtml = sanitizeCmsHtml(args.contentHtml || '');
 
   post.categories = categoriesToBlogCategory(args.category);
   const tagList = normalizeTagsCsv(args.tagsCsv);
@@ -330,7 +331,7 @@ export function createOrUpdatePost(args: {
   }
 
   // Rebuild toc/headings from current content.
-  const processed = processContentHeadings(post.contentHtml || '');
+  const processed = processContentHeadings(sanitizeCmsHtml(post.contentHtml || ''));
   post.contentHtml = processed.html;
   post.toc = processed.toc;
   post.headings = processed.headings;
