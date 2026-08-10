@@ -1,0 +1,162 @@
+---
+import SEOHead from "../components/SEOHead.astro";
+import ElementorHeader from "../components/ElementorHeader.astro";
+import ElementorFooter from "../components/ElementorFooter.astro";
+import LicenceStrip from "../components/LicenceStrip.astro";
+import ElementorScripts from "../components/ElementorScripts.astro";
+import type { SeoInput } from "../lib/seo";
+import type { SeoData } from "../lib/content";
+import liveCssOrder from "../data/live-css-order.json";
+import { resolveInternalAdminDir } from "../env/server";
+import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
+import "../styles/global.css";
+
+interface Props {
+  seo?: SeoInput;
+  fallback?: SeoData;
+  extraCss?: string[];
+  currentPath?: string;
+  /** Force header nav active item (e.g. "/insights/" on single posts) */
+  menuActivePath?: string;
+  bodyClass?: string;
+  /** Impreza posts: skip peer Elementor/TwentyTwenty CSS and avoid nested <main>. */
+  theme?: "default" | "impreza";
+}
+
+const {
+  seo = {},
+  fallback,
+  extraCss = [],
+  currentPath = Astro.url.pathname,
+  menuActivePath,
+  bodyClass = "",
+  theme = "default",
+} = Astro.props;
+
+const isImpreza = theme === "impreza";
+
+/** Peer leftover kits — never load foreign Elementor CSS on this site. */
+const FOREIGN_KIT_BLOCKLIST = new Set([
+  "/wp-content/uploads/elementor/css/post-8.css",
+  "/wp-content/uploads/elementor/css/post-10.css",
+  "/wp-content/uploads/elementor/css/post-19.css",
+  "/wp-content/uploads/elementor/google-fonts/css/bebasneue.css",
+]);
+
+const PEER_CSS_SKIP =
+  /twentytwenty|hello-elementor|ele-custom-skin|elementor\/|visualcomposer|blog-designer|advanced-post-block|wp-blog-post-layouts|nunito|block-library/i;
+
+function normalizeStylesheetHref(href: string) {
+  return href;
+}
+
+const liveCss = isImpreza
+  ? []
+  : (liveCssOrder as string[]).filter(
+      (href) =>
+        !FOREIGN_KIT_BLOCKLIST.has(href) &&
+        !href.includes("/themes/hello-elementor/") &&
+        !href.includes("/hello-elementor-child") &&
+        !PEER_CSS_SKIP.test(href),
+    );
+
+const imprezaBaseCss = isImpreza
+  ? [
+      "https://fonts.googleapis.com/css?family=Kumbh+Sans:400,500,700&display=swap",
+      "/wp-content/plugins/contact-form-7/includes/css/styles.css",
+      "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
+      "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
+      "/wp-content/plugins/honeypot/includes/css/wpa.css",
+      "/wp-content/plugins/easy-table-of-contents/assets/css/screen.min.css",
+      "/wp-content/themes/Impreza/css/style.min.css",
+      "/wp-content/themes/Impreza-child/style.css",
+      "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/style.min.css",
+      "/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/content-box.min.css",
+      "/css/impreza-chrome.css",
+      "/css/post-design-options.css",
+      "/css/form-mirror-fixes.css",
+      "/css/single-post.css",
+    ]
+  : [];
+
+const stylesheets = [
+  ...new Set([
+    ...imprezaBaseCss,
+    ...liveCss.map(normalizeStylesheetHref),
+    ...extraCss
+      .map(normalizeStylesheetHref)
+      .filter((href) => !isImpreza || !PEER_CSS_SKIP.test(href)),
+    ...(isImpreza ? [] : ["/css/wp-custom.css", "/css/migration-overrides.css"]),
+  ]),
+].filter((href) => !FOREIGN_KIT_BLOCKLIST.has(href));
+
+let gtmHead = "";
+let gtmBody = "";
+let gtmFooter = "";
+try {
+  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
+  gtmHead = gtm.headScript;
+  gtmBody = gtm.bodyHtml;
+  gtmFooter = gtm.footerScript;
+} catch {
+  /* keep public pages resilient */
+}
+const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
+
+const bodyClasses = isImpreza
+  ? ["l-body", bodyClass]
+  : [
+      "wp-custom-logo",
+      "wp-embed-responsive",
+      "wp-theme-twentytwenty",
+      "vcwb",
+      "elementor-default",
+      bodyClass,
+    ];
+---
+
+<!doctype html>
+<html lang="en-AE" class:list={[isImpreza ? "no-touch" : undefined]}>
+  <head>
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <meta
+      name="sp-contact-endpoint"
+      content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
+    />
+    <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
+      window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
+    </script>
+    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
+    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
+    {!hasGtm ? (
+      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    ) : (
+      <script is:inline>
+        window.__runtimeGtmLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+      </script>
+    )}
+  </head>
+  <body class:list={bodyClasses}>
+    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    {
+      isImpreza ? (
+        <div id="content" class="sp-impreza-content">
+          <slot />
+        </div>
+      ) : (
+        <main id="content" class="site-main">
+          <div class="page-content">
+            <slot />
+          </div>
+        </main>
+      )
+    }
+    <ElementorFooter />
+    {!isImpreza ? <LicenceStrip /> : null}
+    <ElementorScripts />
+    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
+  </body>
+</html>

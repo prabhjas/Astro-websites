@@ -1,0 +1,14 @@
+---
+import { getBlogPageData, serveArchivePage } from '../../../lib/archives.ts';
+
+export const prerender = false;
+
+const page = Number(Astro.params.page || '1');
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect('/blog/');
+}
+
+// Live WordPress serves /blog/page/N/ with the same top featured/grid posts
+// and no pagination UI — keep that behavior for parity.
+return serveArchivePage(getBlogPageData(page));
+---

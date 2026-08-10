@@ -1,0 +1,104 @@
+---
+import headerHtml from "../data/header.html?raw";
+
+interface Props {
+  currentPath?: string;
+  /** Force a nav href active (e.g. "/blog/" for single posts) */
+  menuActivePath?: string;
+}
+
+const { currentPath = "/", menuActivePath } = Astro.props;
+
+function normalize(path: string) {
+  if (!path || path === "/") return "/";
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+const path = normalize(menuActivePath || currentPath);
+
+function pickActiveHref(current: string, hrefs: string[]) {
+  const matches = hrefs
+    .map(normalize)
+    .filter((h) => {
+      if (h === "/") return current === "/";
+      return current === h || current.startsWith(h);
+    })
+    .sort((a, b) => b.length - a.length);
+  return matches[0] || "";
+}
+
+/** Impreza + WP header active-state helper */
+function withActiveState(html: string, current: string) {
+  let out = html
+    .replace(/\s*current-menu-item/g, "")
+    .replace(/\s*current_page_item/g, "")
+    .replace(/\s*current-menu-ancestor/g, "")
+    .replace(/\s*current-menu-parent/g, "")
+    .replace(/\s*aria-current="page"/g, "");
+
+  const allHrefs = [...out.matchAll(/\bhref="(\/[^"#]*)"/g)].map((m) => m[1]);
+  const activeDeep = pickActiveHref(current, allHrefs);
+  if (!activeDeep) return out;
+
+  const markDeep = normalize(activeDeep);
+
+  out = out.replace(/<a\s+([^>]*?)>/gi, (full, attrs: string) => {
+    const hrefMatch = attrs.match(/\bhref="([^"]+)"/i);
+    if (!hrefMatch) return full;
+    const h = normalize(hrefMatch[1]);
+    if (h !== markDeep) return full;
+    let next = attrs;
+    if (!/\baria-current=/i.test(next)) next += ` aria-current="page"`;
+    return `<a ${next}>`;
+  });
+
+  out = out.replace(
+    /<li\b([^>]*class=")([^"]*)("[\s\S]*?<a\b[^>]*aria-current="page")/gi,
+    (full, pre, cls, rest) => {
+      const beforeNested = rest.split(/<li\b/i)[0];
+      if (!/aria-current="page"/.test(beforeNested)) {
+        if (!/\bcurrent-menu-ancestor\b/.test(cls)) {
+          return `<li${pre}${cls} current-menu-ancestor${rest}`;
+        }
+        return full;
+      }
+      let c = cls;
+      if (!/\bcurrent-menu-item\b/.test(c)) c += " current-menu-item";
+      if (!/\bcurrent_page_item\b/.test(c)) c += " current_page_item";
+      return `<li${pre}${c}${rest}`;
+    },
+  );
+
+  const topNeedles = ["/", "/about-us/", "/insights/", "/contact-us/", "/industries/"];
+  let activeTop = markDeep;
+  if (!topNeedles.includes(markDeep)) {
+    for (const t of topNeedles) {
+      if (t !== "/" && markDeep.startsWith(t)) {
+        activeTop = t;
+        break;
+      }
+    }
+  }
+  if (activeTop && activeTop !== markDeep) {
+    out = out.replace(
+      new RegExp(
+        `<li\\b([^>]*class=")([^"]*)("\\s*>\\s*<a\\s+[^>]*href="${activeTop.replace(/\//g, "\\/")}"[^>]*>)`,
+        "i",
+      ),
+      (_m, pre, cls, rest) => {
+        let c = cls;
+        if (!/\bcurrent-menu-ancestor\b/.test(c)) c += " current-menu-ancestor";
+        if (!/\bcurrent-menu-parent\b/.test(c)) c += " current-menu-parent";
+        return `<li${pre}${c}${rest}`;
+      },
+    );
+  }
+
+  return out;
+}
+
+const html = withActiveState(headerHtml, path);
+---
+
+<div class="sp-impreza-header" data-sp-elementor-header set:html={html} />
+<script is:inline src="/scripts/raadrecruitment-mobile-nav.js"></script>

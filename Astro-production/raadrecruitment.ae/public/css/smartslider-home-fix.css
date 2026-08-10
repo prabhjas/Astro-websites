@@ -1,0 +1,22 @@
+/**
+ * Ensure Smart Slider #n2-ss-2 shows first slide content even if init is delayed,
+ * and keep quote/testimonial layout readable.
+ */
+#n2-ss-2 {
+  min-height: 220px;
+}
+#n2-ss-2:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-2:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active {
+  transform: none !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 22 !important;
+}
+#n2-ss-2 .n2-ss-layer,
+#n2-ss-2 .n2-ss-layer * {
+  color: inherit;
+}
+/* Fight global p { color:#000 } inside slider layers that should be dark gray */
+#n2-ss-2 p {
+  color: #333333 !important;
+}

@@ -1,0 +1,11 @@
+---
+/**
+ * Phase 1: static mirror of the WordPress + Elementor homepage.
+ * Live: https://companyformationsaudi.com/
+ * Must SSR so cleaned HTML updates apply without a full static rebuild.
+ */
+export const prerender = false;
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+return serveLegacyPage('homepage');
+---

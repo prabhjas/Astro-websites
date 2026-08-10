@@ -1,0 +1,181 @@
+---
+/**
+ * Blog index — Elementor ECS posts mirror (src/legacy/blog.cleaned.html).
+ * "More Articles" uses /api/blog/load-more/ (Astro), not WP admin-ajax.
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
+import { applySharedChrome } from '../lib/shared-chrome.js';
+import { resolveSiteOrigin } from '../lib/seo/site-url';
+
+export const prerender = false;
+
+function absolutizeBlogSeo(html: string): string {
+  let origin = 'https://emiratisationgateway.com';
+  try {
+    origin = resolveSiteOrigin();
+  } catch {
+    /* keep default */
+  }
+  const absolutePage = `${origin}/blog/`;
+  let out = html;
+  if (/rel=["']canonical["']/i.test(out)) {
+    out = out.replace(
+      /<link\s+rel=["']canonical["']\s+href=["'][^"']*["']\s*\/?>/i,
+      `<link rel="canonical" href="${absolutePage}" />`,
+    );
+  }
+  out = out.replace(
+    /<meta\s+[^>]*property=["']og:url["'][^>]*>/gi,
+    `<meta property="og:url" content="${absolutePage}" />`,
+  );
+  out = out.replace(
+    /(<meta\s+(?:property|name)=["'](?:og:image|twitter:image)["']\s+content=["'])(\/[^"']+)(["'])/gi,
+    `$1${origin}$2$3`,
+  );
+  return out;
+}
+
+function decorateBlogPage(html: string): string {
+  let out = html;
+
+  out = out.replace(
+    /<script[^>]*id="custom-blog-listing-script-js"[^>]*><\/script>/i,
+    '<!-- WP custom-blog-listing removed -->',
+  );
+  out = out.replace(
+    /<script[^>]*src="[^"]*emiratisationgateway-blog-listing\.js[^"]*"[^>]*><\/script>/gi,
+    '<!-- emiratisationgateway-blog-listing removed -->',
+  );
+
+  // Strip ECS WP admin-ajax — it rewrites the Load More button to a no-op on Astro.
+  out = out.replace(
+    /<script[^>]*src="[^"]*ecs_ajax_pagination\.js[^"]*"[^>]*><\/script>/gi,
+    '<!-- ecs_ajax_pagination removed (Astro /api/blog/load-more) -->',
+  );
+  out = out.replace(
+    /<script[^>]*>\s*var\s+ecs_ajax_params\s*=[\s\S]*?<\/script>/gi,
+    '<!-- ecs_ajax_params removed -->',
+  );
+
+  // Wire Astro More Articles (replaces ECS admin-ajax).
+  out = out.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    '<nav$1 data-cs-blog-load-more data-next-page="2" data-per-page="9" data-offset="9" data-loading-text="Loading...">',
+  );
+  // Neutralize WP ajax href until our script binds.
+  out = out.replace(
+    /(<nav[^>]*ecs-load-more-button[\s\S]*?<a[^>]*href=")[^"]*(")/i,
+    '$1javascript:void(0)$2',
+  );
+
+  if (!out.includes('blog-load-more.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/blog-load-more.js?v=20260806-3" defer></script>\n</body>`,
+    );
+  } else {
+    out = out.replace(
+      /\/js\/blog-load-more\.js(?:\?[^"']*)?/g,
+      '/js/blog-load-more.js?v=20260806-3',
+    );
+  }
+
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/astro-mirror-fixes.js?v=20260806-qa1" defer></script>\n</body>`,
+    );
+  } else {
+    out = out.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260806-qa1',
+    );
+  }
+
+  // Blog category dropdown — match Elementor .cuscat (#000 text) + hide unused Uncategorized
+  if (!out.includes('data-astro-blog-cat-css')) {
+    const blogCatCss = `<style data-astro-blog-cat-css="1">
+.cuscat #categories-2 > .widget-title,.cuscat #categories-2 h2{display:none!important}
+.cuscat #categories-2,.cuscat #categories-2 form,.cuscat .astro-cat-select{width:100%}
+.cuscat #categories-2 select#cat,.cuscat #categories-2 select.postform{
+  color:#000!important;background:#fff!important;border:1px solid #111!important;
+  width:100%!important;padding:10px 12px;border-radius:4px;accent-color:#111
+}
+.cuscat #categories-2 select#cat option,.cuscat #categories-2 select.postform option{
+  color:#000!important;background:#fff!important
+}
+.cuscat .astro-cat-select>select{position:absolute!important;left:0!important;top:0!important;width:1px!important;height:1px!important;margin:0!important;padding:0!important;opacity:0!important;pointer-events:none!important;border:0!important}
+.cuscat .astro-cat-select__btn{
+  width:100%!important;box-sizing:border-box;color:#000!important;background:#fff!important;
+  border:1px solid #111!important;border-radius:4px;padding:10px 12px;font:inherit;text-align:left
+}
+.cuscat .astro-cat-select__btn::after{color:#000}
+.cuscat .astro-cat-select__list{
+  left:0!important;right:0!important;margin:0!important;padding:4px 0!important;padding-left:0!important;padding-inline-start:0!important;
+  list-style:none!important;max-height:none;overflow:visible;border:1px solid #111;background:#fff;z-index:100;box-sizing:border-box
+}
+.cuscat .astro-cat-select__option{
+  display:block;margin:0!important;padding:10px 12px!important;padding-left:12px!important;text-indent:0!important;list-style:none!important;
+  color:#000!important;background:#fff!important;box-sizing:border-box
+}
+.cuscat .astro-cat-select__option:hover,.cuscat .astro-cat-select__option.is-selected{
+  color:#000!important;background:#e8efe8!important
+}
+.cuscat .astro-cat-select__option[data-value="1"]{display:none!important}
+/* Load More — match Elementor post-285 widget 217b60e */
+nav.ecs-load-more-button,.elementor-pagination.ecs-load-more-button{text-align:center!important;margin:24px 0!important}
+nav.ecs-load-more-button .elementor-button,
+.ecs-load-more-button a.elementor-button,
+.elementor-element-217b60e .ecs-load-more-button .elementor-button{
+  display:inline-block!important;
+  background-color:#1E293B!important;
+  color:#ffffff!important;
+  font-family:"Roboto",sans-serif!important;
+  font-size:16px!important;
+  font-weight:500!important;
+  border-radius:4px!important;
+  padding:15px 25px!important;
+  border:0!important;
+  text-decoration:none!important;
+  line-height:1.2!important;
+  box-shadow:none!important;
+}
+nav.ecs-load-more-button .elementor-button span,
+.ecs-load-more-button a.elementor-button span{color:#ffffff!important}
+nav.ecs-load-more-button .elementor-button:hover,
+.ecs-load-more-button a.elementor-button:hover,
+.elementor-element-217b60e .ecs-load-more-button .elementor-button:hover{
+  background-color:#527652!important;
+  color:#ffffff!important;
+}
+</style>`;
+    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${blogCatCss}\n</head>`) : blogCatCss + out;
+  }
+
+  if (!out.includes('cf-email-decode.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/cf-email-decode.js" defer></script>\n</body>`,
+    );
+  }
+
+  return out;
+}
+
+const cleanedPath = join(process.cwd(), 'src/legacy/blog.cleaned.html');
+if (!existsSync(cleanedPath)) {
+  return new Response('Blog page not prepared', { status: 404 });
+}
+
+let html = readFileSync(cleanedPath, 'utf8');
+html = absolutizeBlogSeo(decorateBlogPage(injectRuntimeGtmLoader(applySharedChrome(html, 'blog'))));
+
+return new Response(html, {
+  headers: {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Cache-Control': 'public, max-age=0',
+  },
+});
+---

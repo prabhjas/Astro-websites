@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Pagination from "../../../components/Pagination.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import {
+  getCategoryBySlug,
+  getPostsByCategory,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+  normalizePath,
+} from "../../../lib/content";
+import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
+
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const category = getCategoryBySlug(slug);
+if (!category) {
+  return notFoundResponse();
+}
+const sorted = getPostsByCategory(category.id);
+const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+
+function listingDate(date: string) {
+  return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+---
+
+<BaseLayout
+  currentPath={category.path}
+  menuActivePath="/insights/"
+  bodyClass={`archive category category-${category.slug} wp-theme-Impreza wp-child-theme-Impreza-child l-body`}
+  seo={{
+    title: `${stripHtml(category.name)} Archives | MBS Consultancy`,
+    description: category.description || `Articles in ${category.name} from MBS Consultancy.`,
+    canonical: category.path,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+        { name: category.name, url: category.path },
+      ]),
+    ],
+  }}
+>
+  <main id="page-content" class="l-main">
+    <section class="l-section height_small">
+      <div class="l-section-h i-cf">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Insights", href: "/insights/" },
+            { name: category.name },
+          ]}
+        />
+        <h1 set:html={category.name} />
+        {category.description && <p set:html={category.description} />}
+      </div>
+    </section>
+    <section class="l-section">
+      <div class="l-section-h i-cf">
+        <div id="blog-list" class="mbs-archive-list">
+          {
+            items.map((post) => {
+              const href = normalizePath(post.path);
+              const link = href.endsWith("/") ? href : `${href}/`;
+              const excerpt = stripHtml(post.excerpt || "").slice(0, 160);
+              return (
+                <div class="post">
+                  <a href={link}>
+                    <div class="articlepostthumbnailurl">
+                      {post.featuredImage ? (
+                        <img src={post.featuredImage} alt="" loading="lazy" />
+                      ) : null}
+                      <div class="category_and_date_wrapper">
+                        <div class="datewrap">{listingDate(post.date)}</div>
+                        <div class="categorywrap">{stripHtml(category.name)}</div>
+                      </div>
+                    </div>
+                  </a>
+                  <div class="innerpost_wrapper">
+                    <div class="postlistingwrap">
+                      <a href={link}>
+                        <h2 set:html={post.title} />
+                      </a>
+                      <p>{excerpt}{excerpt.length >= 160 ? "…" : ""}</p>
+                    </div>
+                    <div class="bloglistingfooterwrap">
+                      <div class="link">
+                        <a href={link}>
+                          Read Article
+                          <img src="/wp-content/uploads/2023/07/readarticleicon.svg" alt="" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
+        {!items.length && <p>No posts in this category yet.</p>}
+        <Pagination basePath={category.path} page={page} totalPages={totalPages} />
+      </div>
+    </section>
+  </main>
+</BaseLayout>

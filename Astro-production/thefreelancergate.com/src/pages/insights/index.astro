@@ -1,0 +1,60 @@
+---
+/**
+ * Prefer Impreza HTML mirror (hybrid). Fall back to JSON listing if mirror missing.
+ */
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPageByPath, getPosts, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+import { serveLegacyPage } from "../../lib/legacy-page";
+
+export const prerender = false;
+
+const mirror = join(process.cwd(), "src/legacy/insights.cleaned.html");
+if (existsSync(mirror)) {
+  return serveLegacyPage("insights");
+}
+
+const page = getPageByPath("/insights/");
+const posts = getPosts();
+const title = page?.seo?.title || "Insights | The Freelancer Gate";
+const description =
+  page?.seo?.description ||
+  "Freelance visa insights and guides from The Freelancer Gate.";
+---
+
+<BaseLayout
+  currentPath="/insights/"
+  bodyClass="archive insights"
+  fallback={page?.seo}
+  seo={{
+    title,
+    description,
+    canonical: "/insights/",
+    ogImage: page?.seo?.ogImage,
+    schemas: [
+      ...(page?.seo?.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Insights", url: "/insights/" },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-insights" style="max-width:72rem;margin:2rem auto;padding:0 1.25rem;">
+    <h1 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Insights</h1>
+    <p style="margin-bottom:2rem;opacity:0.8;">{description}</p>
+    <div style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));">
+      {posts.slice(0, 24).map((post) => <PostCard post={post} />)}
+    </div>
+    {
+      posts.length > 24 && (
+        <p style="margin-top:2rem;">
+          <a href="/insights/page/2/">More articles →</a>
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>

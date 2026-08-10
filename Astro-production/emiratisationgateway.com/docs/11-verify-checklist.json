@@ -1,0 +1,105 @@
+{
+  "base": "http://127.0.0.1:5106",
+  "at": "2026-08-07T05:58:24.284Z",
+  "checks": {
+    "forms": {
+      "contactPageOk": true,
+      "hasCf7Form": true,
+      "hasMirrorFixes": true,
+      "apiStatus": 200,
+      "apiSuccess": true,
+      "submissionId": "b469cd05-97f7-4dcc-86e3-4eae5971d8a0"
+    },
+    "images": {
+      "uploadRefsInContent": 279,
+      "presentOnDisk": 279,
+      "missingOnDisk": 0,
+      "missingSample": [],
+      "externalRemoteCount": 0,
+      "externalRemoteSample": [],
+      "absoluteSameDomainUploadRefs": 0,
+      "homepageImgChecked": 48,
+      "homepageHttpMissing": [],
+      "samplePost": "advantages-of-outsourcing-hr-administration",
+      "postHttpMissing": []
+    },
+    "redirects": {
+      "configured": 24,
+      "ok": 24,
+      "sample": [
+        {
+          "from": "/about/",
+          "status": 301,
+          "location": "/about-us/"
+        },
+        {
+          "from": "/aboutus/",
+          "status": 301,
+          "location": "/about-us/"
+        },
+        {
+          "from": "/contact/",
+          "status": 301,
+          "location": "/contact-us/"
+        },
+        {
+          "from": "/contactus/",
+          "status": 301,
+          "location": "/contact-us/"
+        },
+        {
+          "from": "/get-in-touch/",
+          "status": 301,
+          "location": "/contact-us/"
+        },
+        {
+          "from": "/home/",
+          "status": 301,
+          "location": "/"
+        },
+        {
+          "from": "/home-new/",
+          "status": 301,
+          "location": "/"
+        },
+        {
+          "from": "/index.php",
+          "status": 301,
+          "location": "/"
+        }
+      ]
+    },
+    "gtm": {
+      "publicGtmId": "GTM-5T7TC5MF",
+      "publicGa4Id": "G-R094N8S15D",
+      "runtimeGtmHttp": 200,
+      "runtimeJsBytes": 3006,
+      "runtimeContainsContainerId": true,
+      "homepageHasRuntimeLoader": true,
+      "homepageHasHardcodedGtm": false,
+      "runtimeSnippet": "(() => {\n  if (window.__runtimeGtmLoaded) return;\n  window.__runtimeGtmLoaded = true;\n  window.dataLayer = window.dataLayer || [];\n\n  const headScript = \"<!-- Google Tag Manager -->\\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\\nnew Date().getTime(),event:'g"
+    },
+    "sitemap": {
+      "indexLocs": 2,
+      "indexSample": [
+        "https://emiratisationgateway.com/page-sitemap.xml",
+        "https://emiratisationgateway.com/post-sitemap.xml"
+      ],
+      "pageLocs": 11,
+      "pageSample": [
+        "https://emiratisationgateway.com/",
+        "https://emiratisationgateway.com/about-us/",
+        "https://emiratisationgateway.com/blog/",
+        "https://emiratisationgateway.com/career-opportunities/",
+        "https://emiratisationgateway.com/contact-us/"
+      ],
+      "postLocs": 75,
+      "blogJsonCount": 75,
+      "postsMissingFromSitemap": 0,
+      "postsMissingSample": [],
+      "robotsHasSitemap": true
+    }
+  },
+  "fails": [],
+  "ok": true
+}

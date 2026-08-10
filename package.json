@@ -18,6 +18,11 @@
     "fleet:build:trio": "pnpm --filter evolutionmiddleast-astro --filter astro-cbss --filter spheavy-rental run build"
   },
   "devDependencies": {
-    "playwright": "1.49.0"
+    "playwright": "1.62.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml": "4.3.1"
+    }
   }
 }

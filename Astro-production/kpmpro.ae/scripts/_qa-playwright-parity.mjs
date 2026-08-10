@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const LOCAL = process.env.QA_LOCAL || 'http://127.0.0.1:5098';
+const LOCAL = process.env.QA_LOCAL || 'http://127.0.0.1:5124';
 const LIVE = process.env.QA_LIVE || 'https://kpmpro.ae';
 const OUT = path.resolve('_crawl/ui-qa');
 fs.mkdirSync(OUT, { recursive: true });
