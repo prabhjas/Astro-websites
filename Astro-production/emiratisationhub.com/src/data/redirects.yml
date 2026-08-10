@@ -1,0 +1,7 @@
+# Redirects for emiratisationhub.com
+# Format:
+#   redirects:
+#     - from: /old-path/
+#       to: /new-path/
+#       status: 301   # optional, defaults to 301
+redirects: []
