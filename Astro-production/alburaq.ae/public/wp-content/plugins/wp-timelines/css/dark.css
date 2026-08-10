@@ -1,0 +1,37 @@
+@charset "utf-8";
+/*-- CSS Dark --*/
+.wpex.horizontal-timeline.dark-style{ color:#b7b7b7;}
+.dark-style .timeline-details .wptl-readmore > a,
+.dark-style .wpex-timeline > li .wpex-timeline-label h2 a,
+.dark-style li .wptl-readmore-center > a,
+.wpex-timeline-list.dark-style .wpex-taxonomy-filter li a:not(.active):not(:hover),
+.wpex.horizontal-timeline.dark-style .wpex-timeline-label h2 a{ color:#dedede;}
+.wpex.horizontal-timeline.dark-style .horizontal-nav .ex_s_lick-arrow{ background-color:transparent;}
+.wpex.horizontal-timeline.dark-style .horizontal-content .ex_s_lick-arrow{ background:rgba(255,255,255,.25)}
+.wpex.horizontal-timeline.dark-style .timeline-hr:before{
+	background-image: -webkit-linear-gradient( left , #EEEEEE, rgba(0, 0, 0, 0.8));
+    background-image: linear-gradient(to right, #EEEEEE, rgba(0, 0, 0, 0.8));
+}
+.wpex.horizontal-timeline.dark-style.tl-hozsteps .timeline-hr:before{
+	background-image: -webkit-linear-gradient( left , rgba(0, 0, 0, 0), rgba(72, 72, 72, 1));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(72, 72, 72, 1));
+}
+.wpex.horizontal-timeline.dark-style .timeline-pos-select:before{
+	background-image: -webkit-linear-gradient( left , #484848, rgba(238, 238, 238, 0));
+    background-image: linear-gradient(to right, #484848, rgba(238, 238, 238, 0));
+}
+.wpex.dark-style .wptl-excerpt{ border-color:rgba(255,255,255,0.15)}
+.wpex-timeline-list.dark-style .wpex-timeline > li .wpex-timeline-label{background: #232323; color:#b7b7b7;}
+.wpex-timeline-list.flat-style.show-icon.dark-style .style-center > li .wpex-timeline-label{background: #232323;}
+.wpex-timeline-list.dark-style .wpex-taxonomy-filter li{ border-color:rgba(255,255,255,.15)}
+.wpex-timeline-list.show-icon.dark-style li .wpex-timeline-icon .fa{box-shadow: 0 0 0 2px #232323;}
+.dark-style .wpex-timeline > li:after,
+.dark-style .wpex-timeline > li:first-child:before{background: #232323;}
+.dark-style .wpex-timeline > li .wpex-timeline-icon .fa{box-shadow: 0 0 0 4px #232323;}
+.dark-style.flat-style:not(.show-icon) .wpex-timeline > li .wpex-timeline-icon .fa,
+.dark-style .wpex-timeline > li .wpex-timeline-time .info-img{ border-color:#232323;}
+.dark-style.flat-style:not(.show-icon) .wpex-timeline > li .wpex-timeline-icon .fa{box-shadow: none;}
+.dark-style.wpex-timeline-list.left-tl:not(.show-icon) .wptl-feature-name,
+.dark-style.wpex-timeline-list:not(.show-icon) .wptl-feature-name span{ border-color:#232323;}
+.dark-style.wpex-timeline-list.center-tl.show-icon .wptl-feature-name span,
+.dark-style.wpex-timeline-list.left-tl.show-icon .wptl-feature-name{ background: #232323; color:#FFFFFF}
