@@ -122,5 +122,5 @@ async function check(url, label) {
 }
 
 await check('http://127.0.0.1:5120/contact-us/', 'LOCAL');
-await check('https://alburaq.ae/contact-us/', 'LIVE');
+await check('/contact-us/', 'LIVE');
 await browser.close();

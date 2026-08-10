@@ -385,3 +385,115 @@ body.l-body {
     margin-bottom: 0 !important;
   }
 }
+
+/*
+ * Fallback if pageCss/us-design-options fail to load: live uses
+ * .us_custom_daf733d3 { font-size:1.8rem; font-weight:700 } on post titles.
+ * Without it, theme h1 (~64px) + embedded line-height:50px overlaps.
+ */
+h1.single_wp_heading.us_custom_daf733d3,
+h1.w-post-elm.post_title.us_custom_daf733d3 {
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+  margin-top: 1rem !important;
+  line-height: 1.35 !important;
+}
+
+.singlesidebarareaheadingwrap p strong {
+  line-height: 1.3 !important;
+}
+
+/*
+ * Header: do NOT force position/flex — Impreza us-header.css owns pos_fixed +
+ * .l-subheader-h flex (live). Earlier relative/flex overrides collapsed the bar
+ * on inner pages (home looked fine because body classes / first-section pad differed).
+ */
+.mbs-site-header {
+  /* static: do not create a containing block that traps position:fixed */
+  position: static;
+  z-index: 101;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+  /* reserve space when header is fixed (Impreza placeholder) */
+  min-height: var(--header-height, 80px);
+}
+.mbs-site-header #page-header.l-header,
+.mbs-site-header #page-header.l-header.pos_fixed,
+.mbs-site-header #page-header.l-header.pos_static {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  z-index: 111 !important;
+  transform: none !important;
+}
+/* page-design mobile rules crush logo to 50×50 — keep live ~60px desktop size */
+.mbs-site-header #page-header .w-image.ush_image_1,
+.mbs-site-header #page-header .w-image.ush_image_1 a {
+  display: flex;
+  align-items: center;
+}
+.mbs-site-header #page-header .w-image.ush_image_1 img {
+  width: auto !important;
+  height: 60px !important;
+  max-height: 60px !important;
+  max-width: none !important;
+  top: 0 !important;
+  position: static !important;
+}
+.mbs-site-header .l-subheader-cell.at_right .w-image.ush_image_2 a {
+  display: flex;
+  align-items: center;
+}
+
+/* Phone dial code: beat inline post CSS 50px / page-design 110px floors */
+.wpcf7 .intl-tel-input.separate-dial-code,
+.wpcf7 .iti--separate-dial-code,
+.intl-tel-input.separate-dial-code,
+.customsinglepagetemplate .intl-tel-input.separate-dial-code {
+  width: 100% !important;
+  display: block !important;
+  position: relative !important;
+}
+.wpcf7 .intl-tel-input.separate-dial-code .selected-flag,
+.intl-tel-input.separate-dial-code .selected-flag,
+.customsinglepagetemplate .intl-tel-input.separate-dial-code .selected-flag {
+  width: auto !important;
+  min-width: 108px !important;
+  max-width: none !important;
+  padding-left: 8px !important;
+  padding-right: 10px !important;
+  background: #fff !important;
+  border-right: 1px solid #ddd !important;
+  z-index: 3 !important;
+}
+.wpcf7 .intl-tel-input.separate-dial-code .selected-dial-code,
+.intl-tel-input.separate-dial-code .selected-dial-code,
+.customsinglepagetemplate .intl-tel-input.separate-dial-code .selected-dial-code {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #1a1a1a !important;
+  font-size: 16px !important;
+  line-height: 1.2 !important;
+  padding-left: 6px !important;
+  white-space: nowrap !important;
+}
+.wpcf7 .intl-tel-input .iti-flag,
+.intl-tel-input .iti-flag,
+.country-select .flag {
+  background-image: url("/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png") !important;
+  background-repeat: no-repeat !important;
+}
+/* Post sidebar forms ship padding-left:50px — dial (+971) needs ~150px */
+.customsinglepagetemplate .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label,
+.customsinglepagetemplate .intl-tel-input.separate-dial-code input.wpcf7-phonetext,
+.customsinglepagetemplate .intl-tel-input.separate-dial-code input[type="text"],
+.customsinglepagetemplate .intl-tel-input.separate-dial-code input[type="tel"] {
+  padding-left: 150px !important;
+}

@@ -1,6 +1,6 @@
 # Blog post shell (Impreza)
 
-Source: https://companyformationsaudi.com/advantages-of-the-uae-golden-visa/
+Source: /advantages-of-the-uae-golden-visa/
 Generated: 2026-08-04T09:56:54.669Z
 
 Live Company Formation Saudi singles use the Impreza theme (`w-post-elm`), not Elementor theme-post widgets.

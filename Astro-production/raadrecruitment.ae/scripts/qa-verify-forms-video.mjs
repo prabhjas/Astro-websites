@@ -72,7 +72,7 @@ const contact = await submitForm(page, "/contact/");
 await page.setViewportSize({ width: 1440, height: 900 });
 await page.goto(LOCAL + "/", { waitUntil: "networkidle" });
 await page.screenshot({ path: "_crawl/parity-local-home-1440.png", fullPage: false });
-await page.goto("https://ngmanpower.com/?nowprocket=1", { waitUntil: "networkidle", timeout: 90000 });
+await page.goto("/?nowprocket=1", { waitUntil: "networkidle", timeout: 90000 });
 await page.screenshot({ path: "_crawl/parity-live-home-1440.png", fullPage: false });
 
 await page.setViewportSize({ width: 390, height: 844 });
@@ -80,7 +80,7 @@ await page.goto(LOCAL + "/", { waitUntil: "domcontentloaded" });
 await page.locator(".navbar-toggle").click();
 await page.waitForTimeout(500);
 await page.screenshot({ path: "_crawl/parity-local-home-390-nav.png", fullPage: false });
-await page.goto("https://ngmanpower.com/?nowprocket=1", { waitUntil: "domcontentloaded" });
+await page.goto("/?nowprocket=1", { waitUntil: "domcontentloaded" });
 await page.locator(".navbar-toggle").click();
 await page.waitForTimeout(500);
 await page.screenshot({ path: "_crawl/parity-live-home-390-nav.png", fullPage: false });

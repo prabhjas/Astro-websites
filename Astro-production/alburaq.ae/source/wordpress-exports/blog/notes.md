@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | page |
-| Live URL | https://alburaq.ae/blog/ |
+| Live URL | /blog/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

@@ -8,7 +8,7 @@ Checklist of enhancements and fixes proven on **Connect Group Astro** (reference
 |---------|------------|
 | Connect Group (source pattern) | `~/Desktop/astro` |
 | Company Formation Saudi (this repo) | `~/Projects/astro-companyformationsaudi.com` |
-| Live Evolution | https://companyformationsaudi.com/ |
+| Live Evolution | / |
 
 ---
 

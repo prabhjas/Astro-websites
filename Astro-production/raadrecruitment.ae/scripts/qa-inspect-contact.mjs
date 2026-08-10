@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import fs from "node:fs";
 
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 const html = await (
   await fetch(`${ORIGIN}/contact/?nowprocket=1`, {
     headers: { "User-Agent": "Mozilla/5.0" },

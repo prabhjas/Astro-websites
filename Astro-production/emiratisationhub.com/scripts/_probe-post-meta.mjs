@@ -1,4 +1,4 @@
-﻿const html = await (await fetch("https://emiratisationhub.com/recruitment-mistakes/")).text();
+﻿const html = await (await fetch("/recruitment-mistakes/")).text();
 for (const k of ["og:image","article:published_time","article:modified_time","og:title"]) {
   const m = html.match(new RegExp(`(?:property|name)="${k}"[^>]*content="([^"]+)"|content="([^"]+)"[^>]*(?:property|name)="${k}"`));
   console.log(k, m?.[1]||m?.[2]||"MISSING");

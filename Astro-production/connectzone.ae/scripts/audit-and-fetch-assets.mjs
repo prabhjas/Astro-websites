@@ -6,7 +6,7 @@
  *    pages.json, posts.json, authors.json, public/css, and layout snippets.
  * 2. Report refs that are missing on disk under public/.
  * 3. Optionally download missing files from the live origin (--fix).
- * 4. Optionally rewrite absolute https://connectzone.ae URLs in JSON to root-relative (--rewrite).
+ * 4. Optionally rewrite absolute  URLs in JSON to root-relative (--rewrite).
  * 5. Exit 1 if any referenced local asset is still missing (use before deploy).
  *
  * Usage:
@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const PUBLIC = path.join(root, "public");
-const ORIGIN = process.env.ASSET_ORIGIN || "https://connectzone.ae";
+const ORIGIN = process.env.ASSET_ORIGIN || "";
 const LIVE_HOSTS = new Set(["connectzone.ae", "www.connectzone.ae"]);
 
 const FIX = process.argv.includes("--fix");
@@ -241,10 +241,10 @@ function rewriteAbsoluteInFile(filePath) {
   let text = fs.readFileSync(filePath, "utf8");
   const before = text;
   text = text
-    .replaceAll("https://www.connectzone.ae", "")
-    .replaceAll("http://www.connectzone.ae", "")
-    .replaceAll("https://connectzone.ae", "")
-    .replaceAll("http://connectzone.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//www.connectzone.ae", "")
     .replaceAll("//connectzone.ae", "");
   text = rewriteEncodedFilenamesInText(text);

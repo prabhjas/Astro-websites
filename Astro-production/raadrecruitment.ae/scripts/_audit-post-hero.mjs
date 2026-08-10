@@ -7,7 +7,7 @@ const pages = JSON.parse(readFileSync(join(ROOT, "src/data/pages.json"), "utf8")
 const html = pages.find((p) => p.path === "/manufacturing/").bodyHtml;
 
 const live = await (
-  await fetch("https://ngmanpower.com/manufacturing/?nowprocket=1", {
+  await fetch("/manufacturing/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

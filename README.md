@@ -84,7 +84,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 ## Production / fleet sites
 
 **Canonical port + status list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
-**45 domains** · ports **5080–5124** · next free **5125** · **21 scaffolded** / **24 placeholders**
+**45 domains** · ports **5080–5124** · next free **5125** · **36 scaffolded** / **9 placeholders**
 
 | Domain | Port | Unit | Status | CMS shape |
 |--------|------|------|--------|-----------|
@@ -106,8 +106,16 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 | connectfz.com | **5096** | `connectfz` | scaffolded | Full |
 | royalvisa.ae | **5097** | `royalvisa` | scaffolded | Full |
 | connectresourcesint.com | **5098** | `connectresourcesint` | scaffolded | Full |
+| mbs-consultancy.com | **5099** | `mbs-consultancy` | scaffolded | Full |
+| connectzone.ae | **5101** | `connectzone` | scaffolded | Full |
 | ngmanpower.com | **5102** | `ngmanpower` | scaffolded | Full |
+| movey.ae | **5104** | `movey` | scaffolded | Full |
+| emiratisationhub.com | **5107** | `emiratisationhub` | scaffolded | Full |
+| raadrecruitment.ae | **5113** | `raadrecruitment` | scaffolded | Full |
+| companyformationsaudi.com | **5114** | `companyformationsaudi` | scaffolded | Full |
+| connectbusinesscenter.com | **5116** | `connectbusinesscenter` | scaffolded | Full |
 | peomiddleast.com | **5118** | `peomiddleeast` | scaffolded | Full |
+| alburaq.ae | **5120** | `alburaq` | scaffolded | Full |
 | kpmpro.ae | **5124** | `kpmpro` | scaffolded | Full |
 
 All other reserved domains (placeholders) are listed in the port registry.

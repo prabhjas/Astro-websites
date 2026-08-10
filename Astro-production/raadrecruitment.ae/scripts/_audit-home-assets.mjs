@@ -65,7 +65,7 @@ for (const c of candidates) {
 
 // Live: extract design CSS for consultation + counter
 const live = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 const styles = [...live.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join("\n");
 for (const cls of ["us_custom_54e80159", "us_custom_e11ab399", "us_custom_943b4079", "us_custom_86abb748", "us_custom_6b85a8c6", "counter_r", "us_custom_0665d8c8"]) {

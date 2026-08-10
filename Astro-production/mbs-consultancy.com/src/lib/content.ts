@@ -167,7 +167,7 @@ export function formatDate(date: string): string {
   });
 }
 
-/** True when a public/ asset exists and is not an HTML soft-404. */
+/** True when a public/ asset exists and is not an HTML soft-404 / invalid media stub. */
 export function isRealPublicAsset(href: string): boolean {
   if (!href || !href.startsWith("/")) return false;
   try {
@@ -180,8 +180,28 @@ export function isRealPublicAsset(href: string): boolean {
     for (const file of candidates) {
       if (!fs.existsSync(file) || !fs.statSync(file).isFile()) continue;
       if (fs.statSync(file).size < 50) continue;
-      const head = fs.readFileSync(file).subarray(0, 64).toString("utf8").trimStart().toLowerCase();
+      const buf = fs.readFileSync(file).subarray(0, 64);
+      const head = buf.toString("utf8").trimStart().toLowerCase();
       if (head.startsWith("<!doctype") || head.startsWith("<html")) continue;
+      const ext = path.extname(file).toLowerCase();
+      if (/\.(jpe?g|png|gif|webp|avif|ico)$/i.test(ext)) {
+        const isJpeg = buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff;
+        const isPng =
+          buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;
+        const isGif =
+          buf[0] === 0x47 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x38;
+        const isWebp =
+          buf[0] === 0x52 &&
+          buf[1] === 0x49 &&
+          buf[2] === 0x46 &&
+          buf[3] === 0x46 &&
+          buf.length >= 12 &&
+          buf[8] === 0x57 &&
+          buf[9] === 0x45 &&
+          buf[10] === 0x42 &&
+          buf[11] === 0x50;
+        if (!(isJpeg || isPng || isGif || isWebp)) continue;
+      }
       return true;
     }
     return false;

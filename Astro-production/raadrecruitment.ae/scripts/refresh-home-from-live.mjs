@@ -9,14 +9,14 @@ import * as cheerio from "cheerio";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DATA = path.join(ROOT, "src", "data");
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://www.ngmanpower.com", "")
-    .replaceAll("http://www.ngmanpower.com", "")
-    .replaceAll("https://ngmanpower.com", "")
-    .replaceAll("http://ngmanpower.com", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//ngmanpower.com", "")
     .replaceAll("//www.ngmanpower.com", "");
 }

@@ -15,7 +15,7 @@ import { pipeline } from 'node:stream/promises';
 import { Readable } from 'node:stream';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 const EXPORT_ROOT = join(ROOT, 'source', 'wordpress-exports');
 const PUBLIC_ROOT = join(ROOT, 'public');
 const SITEMAP_DIR = join(ROOT, 'source', 'sitemaps');

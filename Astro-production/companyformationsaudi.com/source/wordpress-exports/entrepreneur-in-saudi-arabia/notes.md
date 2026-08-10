@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://companyformationsaudi.com/entrepreneur-in-saudi-arabia/ |
+| Live URL | /entrepreneur-in-saudi-arabia/ |
 | Fetched | 2026-08-08T06:10:57.466Z |

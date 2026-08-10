@@ -14,7 +14,24 @@ function isSoft404Buf(buf, dest = "") {
   const ext = path.extname(dest).toLowerCase();
   if ([".svg", ".css", ".js", ".html", ".json"].includes(ext)) return false;
   const head = buf.subarray(0, 200).toString("utf8");
-  return buf[0] === 0x3c && /<!DOCTYPE|<html\b/i.test(head);
+  if (buf[0] === 0x3c && /<!DOCTYPE|<html\b/i.test(head)) return true;
+  if (/\.(jpe?g|png|gif|webp|avif|ico)$/i.test(ext)) {
+    const isJpeg = buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff;
+    const isPng = buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;
+    const isGif = buf[0] === 0x47 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x38;
+    const isWebp =
+      buf[0] === 0x52 &&
+      buf[1] === 0x49 &&
+      buf[2] === 0x46 &&
+      buf[3] === 0x46 &&
+      buf.length >= 12 &&
+      buf[8] === 0x57 &&
+      buf[9] === 0x45 &&
+      buf[10] === 0x42 &&
+      buf[11] === 0x50;
+    if (!(isJpeg || isPng || isGif || isWebp)) return true;
+  }
+  return false;
 }
 
 function isSoft404File(dest) {

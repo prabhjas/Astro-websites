@@ -6,7 +6,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const localHtml = await (await fetch("http://127.0.0.1:5102/manufacturing/")).text();
 const liveHtml = await (
-  await fetch("https://ngmanpower.com/manufacturing/?nowprocket=1", {
+  await fetch("/manufacturing/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

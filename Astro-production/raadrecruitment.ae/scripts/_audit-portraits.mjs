@@ -26,7 +26,7 @@ for (let n = 0; n < 5; n++) {
 
 // Check live for social proof circles after hero on manufacturing
 const live = await (
-  await fetch("https://ngmanpower.com/manufacturing/?nowprocket=1", {
+  await fetch("/manufacturing/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

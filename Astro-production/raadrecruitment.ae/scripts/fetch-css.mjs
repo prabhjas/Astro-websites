@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = "";
 const html = fs.readFileSync("_crawl/homepage.html", "utf8");
 
 // WP Rocket patterns

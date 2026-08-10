@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 const AUTHORS = [
   'nakul',

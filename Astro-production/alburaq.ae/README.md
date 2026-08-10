@@ -4,7 +4,7 @@ HR & Payroll software site for Saudi Arabia — WordPress/Elementor HTML mirror 
 
 | | |
 |--|--|
-| **Live** | https://alburaq.ae/ |
+| **Live** | / |
 | **Local** | http://127.0.0.1:5120 |
 | **Peer** | `redo.ae` (`FEATURES_FULL_CMS`) |
 | **Unit** | `alburaq.service` |

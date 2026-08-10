@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs';
 
 const local = await (await fetch('http://127.0.0.1:5107/blog/')).text();
-const live = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const live = await (await fetch('/blog/')).text();
 
 function extractBetween(html, startRe, endRe) {
   const sm = html.match(startRe);

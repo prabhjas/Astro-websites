@@ -26,7 +26,7 @@ if (ind >= 0) console.log(html.slice(ind, ind + 1200).replace(/\s+/g, " ").slice
 
 // Extract full SS init from live and save
 const live = await (
-  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
+  await fetch("/?nowprocket=1", { headers: { "User-Agent": "NG/1.0" } })
 ).text();
 const m = live.match(
   /<script>_N2\.r\('documentReady',function\(\)\{n2const\.prefersReducedMotion=false;_N2\.r\(\["documentReady","smartslider-frontend","SmartSliderWidgetArrowImage","ss-simple"\],function\(\)\{new _N2\.SmartSliderSimple\('n2-ss-2',[\s\S]*?\}\);?\}\);?<\/script>/

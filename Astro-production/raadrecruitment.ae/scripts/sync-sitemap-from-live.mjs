@@ -8,7 +8,7 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const LIVE_INDEX =
-  process.env.LIVE_SITEMAP_INDEX || "https://ngmanpower.com/sitemap_index.xml";
+  process.env.LIVE_SITEMAP_INDEX || "/sitemap_index.xml";
 const OUT = join(process.cwd(), "src/data/sitemap-urls.json");
 
 async function fetchText(url) {

@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | page |
-| Live URL | https://companyformationsaudi.com/about-us/ |
+| Live URL | /about-us/ |
 | Fetched | 2026-08-08T06:10:29.707Z |

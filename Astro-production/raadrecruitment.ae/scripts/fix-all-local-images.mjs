@@ -2,7 +2,7 @@
 /**
  * Audit + fix missing local images for ALL ngmanpower pages/posts.
  * - Collects every /wp-content image reference from pages, posts, header, footer, CSS
- * - Downloads missing files from https://ngmanpower.com
+ * - Downloads missing files from 
  * - Rewrites absolute live image URLs → root-relative
  *
  *   node scripts/fix-all-local-images.mjs
@@ -24,7 +24,7 @@ import { Readable } from "node:stream";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "src/data");
 const PUBLIC = join(ROOT, "public");
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 

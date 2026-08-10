@@ -1,5 +1,5 @@
-const live2 = await (await fetch('https://emiratisationhub.com/blog/page/2/')).text();
-const live1 = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const live2 = await (await fetch('/blog/page/2/')).text();
+const live1 = await (await fetch('/blog/')).text();
 function titles(html) {
   return [...html.matchAll(/elementor-(?:1975|1985)[\s\S]*?<h2[^>]*>\s*<a[^>]*>([^<]+)/gi)].map((m) =>
     m[1].replace(/&#038;/g, '&').trim(),

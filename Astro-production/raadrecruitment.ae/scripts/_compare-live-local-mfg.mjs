@@ -122,7 +122,7 @@ async function measure(url, label) {
 }
 
 const local = await measure("http://127.0.0.1:5102/manufacturing/", "local");
-const live = await measure("https://ngmanpower.com/manufacturing/", "live");
+const live = await measure("/manufacturing/", "live");
 
 console.log("\n==== DIFF SUMMARY ====");
 const fields = [

@@ -24,7 +24,7 @@ export { getPostsByAuthorSlug };
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 export { LIVE_AUTHOR_ORDER, LIVE_AUTHOR_OVERRIDES } from './author-display.ts';
 

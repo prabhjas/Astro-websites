@@ -52,12 +52,12 @@ Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Every
 
 ```bash
 curl -sS http://127.0.0.1:5120/api/health/
-curl -sSI https://www.alburaq.ae/ | head -15   # → 301 https://alburaq.ae/
-curl -sSI https://alburaq.ae/ | head -10
-curl -sSI https://alburaq.ae/robots.txt
-curl -sSI https://alburaq.ae/sitemap_index.xml
-curl -sSI https://alburaq.ae/llms.txt
-curl -sSI https://alburaq.ae/about-us   # → 301 /about-us/
+curl -sSI / | head -15   # → 301 /
+curl -sSI / | head -10
+curl -sSI /robots.txt
+curl -sSI /sitemap_index.xml
+curl -sSI /llms.txt
+curl -sSI /about-us   # → 301 /about-us/
 ```
 
 **Git already has** the production Caddy site block + one-hop `http://www.alburaq.ae` line in `caddy/Caddyfile.production` — owner copies that into live `/etc/caddy/Caddyfile` (do not reload from a developer laptop).

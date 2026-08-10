@@ -6,7 +6,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dest = join(ROOT, 'public/wp-content/uploads/2024/10/iconoir_arrow-left.svg');
 
 const urls = [
-  'https://emiratisationhub.com/wp-content/uploads/2024/10/iconoir_arrow-left.svg',
+  '/wp-content/uploads/2024/10/iconoir_arrow-left.svg',
 ];
 
 for (const u of urls) {

@@ -11,7 +11,7 @@ import { Readable } from 'node:stream';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.CFS_BASE || 'http://127.0.0.1:5114';
-const LIVE = 'https://companyformationsaudi.com';
+const LIVE = '';
 const PUBLIC = join(ROOT, 'public');
 const shouldDownload = process.argv.includes('--download');
 

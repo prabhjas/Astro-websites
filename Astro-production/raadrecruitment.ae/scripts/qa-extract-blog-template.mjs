@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as cheerio from "cheerio";
 
-const ORIGIN = "https://ngmanpower.com";
+const ORIGIN = "";
 const SAMPLE = "/how-to-get-media-license-in-dubai/";
 
 const html = await (

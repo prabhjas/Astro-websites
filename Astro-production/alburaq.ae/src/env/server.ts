@@ -201,12 +201,13 @@ export function getServerEnv(): ServerEnv {
     internalUploadDir: env.INTERNAL_UPLOAD_DIR?.trim() || '.data/internal-uploads',
     internalUploadMaxFileBytes: optionalInt(env.INTERNAL_UPLOAD_MAX_FILE_BYTES) ?? 10 * 1024 * 1024,
     dashboardUsers: parseDashboardUsers(env.DASHBOARD_USERS_JSON),
-    pipedriveApiToken: required('PIPEDRIVE_API_TOKEN', env.PIPEDRIVE_API_TOKEN),
+    // Token optional locally — empty means file-store only (no Pipedrive push).
+    pipedriveApiToken: env.PIPEDRIVE_API_TOKEN?.trim() || '',
     pipedriveCompanyDomain: required(
       'PIPEDRIVE_COMPANY_DOMAIN',
       env.PIPEDRIVE_COMPANY_DOMAIN ?? env.PIPEDRIVE_API_URL,
     ),
-    pipedriveOwnerId: requiredInt('PIPEDRIVE_OWNER_ID', env.PIPEDRIVE_OWNER_ID),
+    pipedriveOwnerId: optionalInt(env.PIPEDRIVE_OWNER_ID) ?? 0,
     pipedriveStageId: optionalInt(env.PIPEDRIVE_STAGE_ID),
     pipedrivePipelineId: optionalInt(env.PIPEDRIVE_PIPELINE_ID),
     pipedrivePersonLabelIds: parseIntList(env.PIPEDRIVE_PERSON_LABEL_IDS, [5]),

@@ -16,7 +16,7 @@ const ROOT = join(__dirname, "..");
 const DATA = join(ROOT, "src", "data");
 const PUBLIC = join(ROOT, "public");
 
-const ORIGIN = "https://raadrecruitment.ae";
+const ORIGIN = "";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 

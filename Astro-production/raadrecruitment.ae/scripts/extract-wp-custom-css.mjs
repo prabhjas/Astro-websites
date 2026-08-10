@@ -11,8 +11,8 @@ const custom = customMatch
       .find((css) => css.includes(".wpcf7") && css.includes(".yellow")) || "";
 
 const cleaned = custom
-  .replaceAll("https://spheavyrental.ae", "")
-  .replaceAll("http://spheavyrental.ae", "")
+  .replaceAll("", "")
+  .replaceAll("", "")
   .trim();
 
 fs.mkdirSync("public/css", { recursive: true });

@@ -14,12 +14,12 @@ import { Readable } from 'node:stream';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC = join(ROOT, 'public');
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://alburaq.ae',
-  'https://alburaq.ae',
-  'http://alburaq.ae',
-  'http://alburaq.ae',
+  '',
+  '',
+  '',
+  '',
 ];
 const CONCURRENCY = 10;
 
@@ -53,7 +53,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?alburaq\.ae/gi,
-    'https://alburaq.ae',
+    '',
   );
 }
 

@@ -33,7 +33,7 @@ async function stickyProbe(url, label) {
 }
 
 await stickyProbe(
-  'https://companyformationsaudi.com/blog/employer-of-record-saudi-arabia/',
+  '/blog/employer-of-record-saudi-arabia/',
   'LIVE',
 );
 await stickyProbe(
@@ -42,7 +42,7 @@ await stickyProbe(
 );
 
 // Menu: check Elementor custom CSS for caret on live homepage
-await p.goto('https://companyformationsaudi.com/', { waitUntil: 'networkidle' });
+await p.goto('/', { waitUntil: 'networkidle' });
 const menuCss = await p.evaluate(() => {
   const styles = [...document.querySelectorAll('style')]
     .map((s) => s.textContent)

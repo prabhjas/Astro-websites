@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = 'http://127.0.0.1:5120';
-const LIVE = 'https://alburaq.ae';
+const LIVE = '';
 const rows = [];
 
 function envSecret() {
@@ -77,7 +77,7 @@ async function main() {
       utm_source: 'verify',
       campaignId: '1',
       device: 'm',
-      pageUrl: 'https://alburaq.ae/?gclid=test-gclid-phase10&campaignid=1&device=m',
+      pageUrl: '/?gclid=test-gclid-phase10&campaignid=1&device=m',
     }),
   });
   let contactOk = false;

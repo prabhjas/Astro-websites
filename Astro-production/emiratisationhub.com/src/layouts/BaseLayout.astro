@@ -47,7 +47,7 @@ const twitterCard = twitter.card ?? 'summary_large_image';
 const twitterTitle = twitter.title ?? title;
 const twitterDescription = twitter.description ?? description;
 
-const siteUrl = Astro.site?.href?.replace(/\/$/, '') ?? 'https://emiratisationhub.com';
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') ?? '';
 const orgName = schema.organizationName ?? 'Emiratisation Hub';
 const pageUrl = (canonical ?? siteUrl).replace(/\/$/, '') || siteUrl;
 

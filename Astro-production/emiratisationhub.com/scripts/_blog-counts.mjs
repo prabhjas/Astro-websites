@@ -1,4 +1,4 @@
-const html = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const html = await (await fetch('/blog/')).text();
 console.log({
   articles: (html.match(/<article\b/g) || []).length,
   t1975: (html.match(/elementor-1975/g) || []).length,

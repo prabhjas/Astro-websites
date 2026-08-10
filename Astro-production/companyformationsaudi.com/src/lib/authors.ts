@@ -14,7 +14,7 @@ import {
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 
 export interface AuthorSocial {
   type: string;

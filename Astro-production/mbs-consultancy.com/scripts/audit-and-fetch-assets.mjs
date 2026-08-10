@@ -7,14 +7,17 @@
  * go-live when browsers actually decode them as images.
  *
  * 1. Collect asset refs from pages/posts/CSS/src
- * 2. Treat missing OR HTML soft-404 stubs as broken
- * 3. --fix: re-download from live (reject HTML), then sibling/basename heal
+ * 2. Treat missing OR invalid stubs (HTML soft-404 / wrong magic) as broken
+ * 3. --fix: sibling/basename heal (no fuzzy-prefix unless --fuzzy-heal), then live download
  * 4. --rewrite: strip absolute mbs-consultancy.com hosts → root-relative
- * 5. Exit 1 if any referenced non-optional asset is still broken
+ * 5. --check-dist: require every referenced asset also present under dist/client
+ * 6. --active: only enforce refs from pages/posts + CSS those pages actually link
+ * 7. Exit 1 if any referenced non-optional asset is still broken
  *
  * Usage:
- *   node scripts/audit-and-fetch-assets.mjs
- *   node scripts/audit-and-fetch-assets.mjs --fix --rewrite
+ *   node scripts/audit-and-fetch-assets.mjs --active
+ *   node scripts/audit-and-fetch-assets.mjs --active --fix --rewrite --check-dist
+ *   pnpm run audit:assets:predeploy
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -23,11 +26,16 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const PUBLIC = path.join(root, "public");
+const DIST_CLIENT = path.join(root, "dist", "client");
 const ORIGIN = process.env.ASSET_ORIGIN || "https://mbs-consultancy.com";
 const LIVE_HOSTS = new Set(["mbs-consultancy.com", "www.mbs-consultancy.com"]);
 
 const FIX = process.argv.includes("--fix");
 const REWRITE = process.argv.includes("--rewrite");
+const CHECK_DIST = process.argv.includes("--check-dist");
+const FUZZY_HEAL = process.argv.includes("--fuzzy-heal");
+/** Only enforce refs from pages/posts JSON + CSS files actually linked by those pages. */
+const ACTIVE = process.argv.includes("--active");
 const STRICT = !process.argv.includes("--no-strict");
 
 const UA =
@@ -50,15 +58,60 @@ const TEXT_EXTS = new Set([
   ".csv",
 ]);
 
+/** Recognise real media by magic bytes (extension may be wrong; HTML stubs never pass). */
+function hasValidMediaMagic(buf, ext = "") {
+  if (!buf || buf.length < 12) return false;
+  const e = ext.toLowerCase();
+  if (TEXT_EXTS.has(e)) return true;
+
+  const head = buf.subarray(0, Math.min(64, buf.length));
+  const asText = head.toString("utf8");
+  if (/^\s*<(!DOCTYPE|html|head|body|script)\b/i.test(asText)) return false;
+  if (/Page Not Found/i.test(asText) && buf[0] === 0x3c) return false;
+
+  const isJpeg = buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff;
+  const isPng =
+    buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;
+  const isGif = buf[0] === 0x47 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x38;
+  const isWebp =
+    buf[0] === 0x52 &&
+    buf[1] === 0x49 &&
+    buf[2] === 0x46 &&
+    buf[3] === 0x46 &&
+    buf.length >= 12 &&
+    buf[8] === 0x57 &&
+    buf[9] === 0x45 &&
+    buf[10] === 0x42 &&
+    buf[11] === 0x50;
+  const isIco =
+    (buf[0] === 0x00 && buf[1] === 0x00 && (buf[2] === 0x01 || buf[2] === 0x02) && buf[3] === 0x00) ||
+    isPng;
+  const isAvifOrMp4 =
+    buf.length >= 12 && buf.subarray(4, 8).toString("ascii") === "ftyp";
+  const isPdf = buf[0] === 0x25 && buf[1] === 0x50 && buf[2] === 0x44 && buf[3] === 0x46; // %PDF
+  const isWoff = buf[0] === 0x77 && buf[1] === 0x4f && buf[2] === 0x46 && buf[3] === 0x46; // wOFF
+  const isWoff2 = buf[0] === 0x77 && buf[1] === 0x4f && buf[2] === 0x46 && buf[3] === 0x32; // wOF2
+  const isTtf =
+    (buf[0] === 0x00 && buf[1] === 0x01 && buf[2] === 0x00 && buf[3] === 0x00) ||
+    (buf[0] === 0x74 && buf[1] === 0x72 && buf[2] === 0x75 && buf[3] === 0x65); // true
+  const isOtf = buf[0] === 0x4f && buf[1] === 0x54 && buf[2] === 0x54 && buf[3] === 0x4f; // OTTO
+  const isAnyImage = isJpeg || isPng || isGif || isWebp || isIco || isAvifOrMp4;
+
+  if (/\.(jpe?g|png|gif|webp|avif|ico)$/i.test(e)) return isAnyImage;
+  if (/\.(woff2?)$/i.test(e)) return isWoff || isWoff2;
+  if (/\.(ttf)$/i.test(e)) return isTtf || isOtf;
+  if (/\.(otf)$/i.test(e)) return isOtf || isTtf;
+  if (/\.(eot)$/i.test(e)) return buf.length > 40; // legacy; size check mainly
+  if (/\.(mp4|webm)$/i.test(e)) return isAvifOrMp4 || buf.length > 100;
+  if (/\.(pdf)$/i.test(e)) return isPdf;
+  // Non-media / unknown: reject obvious HTML only
+  return !/^\s*</.test(asText);
+}
+
 function isHtmlSoft404Buffer(buf, ext = "") {
   if (!buf || buf.length < 15) return true;
   if (TEXT_EXTS.has(ext.toLowerCase())) return false;
-  const head = buf.subarray(0, 200).toString("utf8");
-  if (buf[0] === 0x3c && /<!DOCTYPE|<html\b|Page Not Found/i.test(head)) return true;
-  // Image/font extensions must look like binary, not HTML
-  if (/\.(jpe?g|png|gif|webp|avif|ico|woff2?|ttf|otf|eot|mp4|webm)$/i.test(ext)) {
-    if (/^\s*<(!DOCTYPE|html|head|body|script)/i.test(head)) return true;
-  }
+  if (!hasValidMediaMagic(buf, ext)) return true;
   return false;
 }
 
@@ -68,7 +121,7 @@ function isSoft404File(filePath) {
     const st = fs.statSync(filePath);
     if (st.size < 40) return true;
     const ext = path.extname(filePath);
-    const n = Math.min(200, st.size);
+    const n = Math.min(64, st.size);
     const buf = Buffer.alloc(n);
     const fd = fs.openSync(filePath, "r");
     fs.readSync(fd, buf, 0, n, 0);
@@ -308,23 +361,23 @@ function healFromLocal(pathname, realIndex) {
     }
   }
 
-  // Fuzzy: home-banner-section-13.jpg → any real home-banner-section-*-min.jpg with same N, else any
-  const fuzzy = base.match(
-    /^(home-banner-section|section-image|Benefits-section-image|Rectangle|Ellipse)[-_]?(\d+)?/i,
-  );
-  if (fuzzy) {
-    const prefix = fuzzy[1];
-    const num = fuzzy[2];
-    const all = [...realIndex.entries()].filter(([name]) =>
-      name.startsWith(prefix.toLowerCase()),
+  // Fuzzy heals copy unrelated sibling photos (Connect FZ / wrong-hero failure mode).
+  // Only enabled with --fuzzy-heal, and never the open-ended "any prefix" match.
+  if (FUZZY_HEAL) {
+    const fuzzy = base.match(
+      /^(home-banner-section|section-image|Benefits-section-image|Rectangle|Ellipse)[-_]?(\d+)/i,
     );
-    if (num) {
+    if (fuzzy) {
+      const prefix = fuzzy[1];
+      const num = fuzzy[2];
+      const all = [...realIndex.entries()].filter(([name]) =>
+        name.startsWith(prefix.toLowerCase()),
+      );
       const sameNum = all.find(([name]) =>
         new RegExp(`^${prefix.toLowerCase()}[-_]?${num}(?:-min|-1|-op)?`, "i").test(name),
       );
       if (sameNum) return copy(sameNum[1], "fuzzy-same-num", path.relative(PUBLIC, sameNum[1]));
     }
-    if (all.length) return copy(all[0][1], "fuzzy-prefix", path.relative(PUBLIC, all[0][1]));
   }
   return { ok: false };
 }
@@ -346,8 +399,13 @@ async function download(pathname) {
       if (!res.ok) continue;
       const ct = res.headers.get("content-type") || "";
       const buf = Buffer.from(await res.arrayBuffer());
-      if (ct.includes("text/html") || isHtmlSoft404Buffer(buf, path.extname(pathname))) {
-        continue; // live soft-404 — do not write
+      const ext = path.extname(pathname);
+      if (
+        ct.includes("text/html") ||
+        isHtmlSoft404Buffer(buf, ext) ||
+        !hasValidMediaMagic(buf, ext)
+      ) {
+        continue; // live soft-404 / wrong bytes — do not write
       }
       if (buf.length < 20) continue;
       fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -372,7 +430,12 @@ async function download(pathname) {
         const wbRes = await fetch(wbUrl, { headers: { "User-Agent": UA }, redirect: "follow" });
         if (wbRes.ok) {
           const buf = Buffer.from(await wbRes.arrayBuffer());
-          if (buf.length >= 20 && !isHtmlSoft404Buffer(buf, path.extname(pathname))) {
+          const ext = path.extname(pathname);
+          if (
+            buf.length >= 20 &&
+            !isHtmlSoft404Buffer(buf, ext) &&
+            hasValidMediaMagic(buf, ext)
+          ) {
             fs.mkdirSync(path.dirname(dest), { recursive: true });
             fs.writeFileSync(dest, buf);
             return { ok: true, bytes: buf.length, pathname, url: wbUrl, via: "wayback" };
@@ -404,6 +467,71 @@ walkDir(path.join(root, "src"), (n) => /\.(astro|ts|js|css|html)$/i.test(n), "sr
 for (const name of ["header.html", "footer.html"]) {
   const fp = path.join(root, "src/data", name);
   if (fs.existsSync(fp)) collectFromText(fs.readFileSync(fp, "utf8"), `data/${name}`);
+}
+
+/** CSS paths linked by pages/posts (and global theme CSS always considered active). */
+function collectActiveCssHrefs() {
+  const linked = new Set([
+    "css/impreza-global.css",
+    "css/impreza-inline-home.css",
+    "css/fontawesome.min.css",
+    "css/solid.min.css",
+  ]);
+  const add = (href) => {
+    if (!href || typeof href !== "string") return;
+    let p = href.split("?")[0].replace(/^\//, "");
+    if (p.startsWith("css/") || p.includes("/page-design/")) linked.add(p);
+  };
+  for (const name of ["pages.json", "posts.json"]) {
+    const fp = path.join(root, "src/data", name);
+    if (!fs.existsSync(fp)) continue;
+    const data = JSON.parse(fs.readFileSync(fp, "utf8"));
+    for (const item of data) {
+      for (const c of item.pageCss || []) add(c);
+      const html = `${item.bodyHtml || ""}${item.content || ""}`;
+      for (const m of html.matchAll(/\/css\/[^"'\\\s)]+\.css/g)) add(m[0]);
+    }
+  }
+  return linked;
+}
+
+if (ACTIVE) {
+  const linkedCss = collectActiveCssHrefs();
+  // Elementor / EAEL CSS for pages & posts that actually ship
+  const ids = new Set();
+  for (const name of ["pages.json", "posts.json"]) {
+    const fp = path.join(root, "src/data", name);
+    if (!fs.existsSync(fp)) continue;
+    for (const item of JSON.parse(fs.readFileSync(fp, "utf8"))) {
+      if (item.id != null) ids.add(String(item.id));
+      const html = `${item.bodyHtml || ""}${item.content || ""}`;
+      const m = html.match(/data-elementor-id=["'](\d+)["']/);
+      if (m) ids.add(m[1]);
+    }
+  }
+  for (const id of ids) {
+    linkedCss.add(`wp-content/uploads/elementor/css/post-${id}.css`);
+    linkedCss.add(`wp-content/uploads/essential-addons-elementor/eael-${id}.css`);
+  }
+
+  for (const [pathname, sources] of [...refs.entries()]) {
+    const keep = [...sources].some((s) => {
+      if (s.startsWith("data/pages.json") || s.startsWith("data/posts.json")) return true;
+      if (s.startsWith("data/header.html") || s.startsWith("data/footer.html")) return true;
+      if (s.startsWith("data/authors.json") || s.startsWith("data/site.json") || s.startsWith("data/menus.json"))
+        return true;
+      if (s.startsWith("src:")) return true;
+      if (s.startsWith("css:") || s.startsWith("elementor-css:")) {
+        const rel = s.split(":").slice(1).join(":").replace(/\\/g, "/").replace(/^public\//, "");
+        return [...linkedCss].some((l) => rel === l || rel.endsWith(l) || rel.includes(`/${l}`));
+      }
+      return false;
+    });
+    if (!keep) refs.delete(pathname);
+  }
+  console.log(
+    JSON.stringify({ activeMode: true, activeRefs: refs.size, linkedCss: linkedCss.size, pageIds: ids.size }, null, 2),
+  );
 }
 
 const missing = [];
@@ -505,11 +633,50 @@ if (REWRITE) {
   console.log({ rewrittenFiles: rewritten });
 }
 
-// Final re-check
+// Final re-check (public/)
 const finalBroken = [];
 for (const pathname of refs.keys()) {
   if (isOptionalAsset(pathname)) continue;
   if (!resolveLocal(pathname).exists) finalBroken.push(pathname);
+}
+
+/** Ensure dist/client has the same non-soft404 bytes (deploy serves dist, not public alone). */
+const distMissing = [];
+const distSoft404 = [];
+if (CHECK_DIST) {
+  if (!fs.existsSync(DIST_CLIENT)) {
+    console.error("ASSET AUDIT FAILED: dist/client missing — run build before --check-dist");
+    process.exit(1);
+  }
+  for (const pathname of refs.keys()) {
+    if (isOptionalAsset(pathname)) continue;
+    let found = false;
+    let soft = false;
+    for (const candidate of pathCandidates(pathname)) {
+      const dest = path.join(DIST_CLIENT, candidate.replace(/^\//, ""));
+      if (fs.existsSync(dest) && fs.statSync(dest).size > 0 && !isSoft404File(dest)) {
+        found = true;
+        break;
+      }
+      if (fs.existsSync(dest) && isSoft404File(dest)) soft = true;
+    }
+    if (!found) {
+      if (soft) distSoft404.push(pathname);
+      else distMissing.push(pathname);
+    }
+  }
+  console.log(
+    JSON.stringify(
+      {
+        distCheck: true,
+        distMissing: distMissing.length,
+        distSoft404: distSoft404.length,
+        sampleDistMissing: distMissing.slice(0, 20),
+      },
+      null,
+      2,
+    ),
+  );
 }
 
 fs.writeFileSync(
@@ -527,6 +694,10 @@ fs.writeFileSync(
       failed,
       stillBroken: finalBroken,
       optionalMissing,
+      distMissing,
+      distSoft404,
+      checkDist: CHECK_DIST,
+      fuzzyHeal: FUZZY_HEAL,
     },
     null,
     2,
@@ -535,7 +706,11 @@ fs.writeFileSync(
 console.log("wrote", reportPath);
 console.log({ finalBroken: finalBroken.length, sample: finalBroken.slice(0, 25) });
 
-if (STRICT && finalBroken.length > 0) {
-  console.error(`\nASSET AUDIT FAILED: ${finalBroken.length} referenced asset(s) missing or soft-404 under public/`);
+const distBroken = [...distMissing, ...distSoft404];
+if (STRICT && (finalBroken.length > 0 || (CHECK_DIST && distBroken.length > 0))) {
+  console.error(
+    `\nASSET AUDIT FAILED: publicBroken=${finalBroken.length} distBroken=${distBroken.length}` +
+      ` (missing/soft-404/invalid magic)`,
+  );
   process.exit(1);
 }

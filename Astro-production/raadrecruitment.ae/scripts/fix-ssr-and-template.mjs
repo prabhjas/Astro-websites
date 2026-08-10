@@ -1,14 +1,14 @@
 import fs from "node:fs";
 import * as cheerio from "cheerio";
 
-const ORIGIN = "https://spheavyrental.ae";
+const ORIGIN = "";
 const paths = ["/about-us/", "/heavy-machinery-rental/"];
 const pages = JSON.parse(fs.readFileSync("src/data/pages.json", "utf8"));
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://spheavyrental.ae", "")
-    .replaceAll("http://spheavyrental.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//spheavyrental.ae", "");
 }
 
