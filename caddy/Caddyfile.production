@@ -55,7 +55,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://connectresourcesint.com, http://www.connectresources.ae, http://www.connectfreelance.ae, http://www.redo.ae, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.movey.ae, http://www.emiratisationhub.com, http://www.companyformationsaudi.com, http://www.alburaq.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://connectresourcesint.com, http://www.connectresources.ae, http://www.connectfreelance.ae, http://www.redo.ae, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.movey.ae, http://www.emiratisationhub.com, http://www.companyformationsaudi.com, http://www.alburaq.ae, http://www.saudicompanyformation.com, http://www.snapsale.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -161,8 +161,11 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@alburaq host www.alburaq.ae
 	redir @alburaq https://alburaq.ae{uri} permanent
 
+	@saudicompanyformation host www.saudicompanyformation.com
+	redir @saudicompanyformation https://saudicompanyformation.com{uri} permanent
 
-
+	@snapsale host www.snapsale.ae
+	redir @snapsale https://snapsale.ae{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -1319,6 +1322,76 @@ emiratisationhub.com, www.emiratisationhub.com {
 	}
 	log {
 		output file /var/log/caddy/emiratisationhub.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# saudicompanyformation.com -> saudicompanyformation.service (PORT 5115)
+saudicompanyformation.com, www.saudicompanyformation.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.key
+	encode zstd gzip
+
+	@noncanonical host www.saudicompanyformation.com
+	redir @noncanonical https://saudicompanyformation.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5115
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/saudicompanyformation.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# snapsale.ae -> snapsale.service (PORT 5122)
+snapsale.ae, www.snapsale.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/snapsale.ae/snapsale.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/snapsale.ae/snapsale.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.snapsale.ae/www.snapsale.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.snapsale.ae/www.snapsale.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.snapsale.ae
+	redir @noncanonical https://snapsale.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5122
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/snapsale.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

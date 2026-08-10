@@ -10,7 +10,86 @@ redirects:
   - from: /index.php/
     to: /
     status: 301
+  - from: /index.php
+    to: /
+    status: 301
 
   - from: /contact-us/
     to: /contact/
+    status: 301
+  - from: /blog/
+    to: /insights/
+    status: 301
+  - from: /value-added-services/
+    to: /pro-services/
+    status: 301
+  - from: /pro-services/open-company-bank-account/
+    to: /pro-services/open-company-bank-account-2/
+    status: 301
+  - from: /pro-services/visa-services/uae-green-visa/
+    to: /pro-services/visa-services/
+    status: 301
+
+  # Pre-migration free-zone permalinks (no /free-zones/ prefix)
+  - from: /set-up-business-in-kizad-freezone-abu-dhabi/
+    to: /free-zones/kizad-free-zone-business-setup/
+    status: 301
+  - from: /amcfz-freezone-company-formation/
+    to: /free-zones/amcfz-freezone-business-setup/
+    status: 301
+  - from: /jebel-ali-freezone-business-setup/
+    to: /free-zones/jebel-ali-freezone-business-setup/
+    status: 301
+  - from: /duqe-freezone/
+    to: /free-zones/duqe-freezone/
+    status: 301
+  - from: /ifza-business-setup/
+    to: /free-zones/ifza-business-setup/
+    status: 301
+  - from: /dubai-silicon-oasis-business-setup/
+    to: /free-zones/dubai-silicon-oasis-business-setup/
+    status: 301
+  - from: /dwc-dubai-south-free-zone-business-setup/
+    to: /free-zones/business-setup-dubai-south-free-zone/
+    status: 301
+  - from: /dmcc-company-setup/
+    to: /free-zones/dmcc-company-setup/
+    status: 301
+  - from: /rak-freezone-business-setup/
+    to: /free-zones/rak-freezone-business-setup/
+    status: 301
+  - from: /shams-sharjah-media-city-business-setup-offices/
+    to: /free-zones/business-setup-sharjah-media-city/
+    status: 301
+  - from: /sharjah-publishing-city-spc/
+    to: /free-zones/sharjah-publishing-city-spc/
+    status: 301
+  - from: /sharjah-airport-freezone/
+    to: /free-zones/sharjah-airport-freezone/
+    status: 301
+  - from: /hamriyah-free-zone-company-formation/
+    to: /free-zones/hamriyah-free-zone-company-formation/
+    status: 301
+  - from: /umm-al-quwain-business-setup/
+    to: /free-zones/umm-al-quwain-business-setup/
+    status: 301
+  - from: /listing/rak-freezone-business-setup/
+    to: /free-zones/rak-freezone-business-setup/
+    status: 301
+
+  # Old insight slugs still linked from posts
+  - from: /what-is-freezone-in-dubai/
+    to: /what-is-a-freezone-in-dubai-and-why-is-it-important/
+    status: 301
+  - from: /trade-license-in-dubai-all-you-must-know-about-it/
+    to: /trade-licence-dubai/
+    status: 301
+  - from: /overstay-fine-in-the-uae/
+    to: /avoid-overstay-fines-in-uae/
+    status: 301
+  - from: /what-are-exactly-pro-services-in-dubai/
+    to: /know-everything-about-pro-services-dubai-uae/
+    status: 301
+  - from: /cheapest-residence-visas-in-uae/
+    to: /pro-services/visa-services/
     status: 301

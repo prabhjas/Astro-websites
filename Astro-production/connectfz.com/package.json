@@ -17,6 +17,8 @@
     "extract": "node scripts/extract-wp.mjs",
     "extract:bodies": "node scripts/refresh-bodies-cheerio.mjs",
     "fetch-assets": "node scripts/fetch-assets.mjs",
+    "assets:verify": "node scripts/verify-local-assets.mjs",
+    "prebuild": "node scripts/verify-local-assets.mjs",
     "blog:images": "node scripts/sync-blog-images.mjs",
     "admin:hash": "node scripts/hash-admin-password.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",

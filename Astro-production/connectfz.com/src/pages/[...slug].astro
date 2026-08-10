@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
+import { injectProcessTimeline } from "../lib/process-timeline";
 
 export const prerender = false;
 
@@ -25,7 +25,8 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const html = page ? injectProcessTimeline(String(rawHtml || ""), path) : String(rawHtml || "");
 
 const pageCrumbs = page
   ? (() => {
