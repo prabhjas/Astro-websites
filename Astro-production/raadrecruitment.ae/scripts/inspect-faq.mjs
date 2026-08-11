@@ -1,4 +1,4 @@
-const html = await (await fetch("/generator-rental/?nowprocket=1")).text();
+const html = await (await fetch("https://spheavyrental.ae/generator-rental/?nowprocket=1")).text();
 const keys = ["e-n-accordion", "elementor-accordion", "Frequently", "faq", "nested-accordion", "toggle", "elementor-tab"];
 for (const k of keys) console.log(k, (html.match(new RegExp(k, "gi")) || []).length);
 const i = html.toLowerCase().indexOf("frequently");

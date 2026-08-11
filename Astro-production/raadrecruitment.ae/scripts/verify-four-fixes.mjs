@@ -3,7 +3,7 @@ import fs from "node:fs";
 
 fs.mkdirSync("_crawl/compare", { recursive: true });
 const LOCAL = "http://127.0.0.1:4321";
-const LIVE = "";
+const LIVE = "https://spheavyrental.ae";
 const browser = await chromium.launch({ headless: true });
 
 async function shot(path, sel, name) {

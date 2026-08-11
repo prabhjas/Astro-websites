@@ -1,0 +1,131 @@
+.selected-flag {
+    min-width: 100px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+}
+
+footer.site-footer {
+    z-index:99 !important;
+}
+
+
+/** footer**/
+i.fab.fa-linkedin {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+.ast-builder-footer-grid-columns.site-above-footer-inner-wrap.ast-builder-grid-row {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+a.contact_foot {
+    font-size: 18px !important;
+    line-height: 1.8em !important;
+}
+.footer-widget-area[data-section="sidebar-widgets-footer-widget-2"].footer-widget-area-inner {
+    text-align: left !important;
+}
+p.title_foot {
+    margin: 0px !important;
+ font-size: 22px !important;
+    font-weight: 600 !important;
+}
+h2.title_foot {
+    font-size: 22px !important;
+    margin-bottom: 0px !important;
+}
+a.pages_foot {
+    font-size: 18px !important;
+    line-height: 1.8em !important;
+}
+
+/** end**/
+
+.prabhjas,
+.prabhjas1 {
+    top: 90px;
+    position: sticky;
+}
+header#masthead {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+@media only screen and (min-width: 768px) and (max-width: 2560px){
+
+li#menu-item-2568 {
+    display: none;
+}
+}
+.widget_nav_menu li{
+	display: inline-block;
+	padding: 10px;
+}
+
+.wpcf7 input:not([type=submit]), .wpcf7 select, .wpcf7 textarea {
+	padding: 10px
+}
+
+
+.select2-container--default .select2-selection--multiple {
+    color: #666 !important;
+    padding: 5px 6px !important;
+    height: 3rem !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #e2e8f0 !important;
+    border-radius: 2px;
+    background: #f9fafb !important;
+}
+
+span.select2.select2-container.select2-container--default {
+    width: 100% !important;
+}
+
+
+
+
+/* ---- */
+#onclik-popup{
+    width:70%;
+    margin:0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+	  display:none;
+}
+
+#onclik-popup input.select2-search__field{
+	width:100% !important;
+}
+
+
+
+#overlay {
+  position: fixed; 
+  display:none;
+  width: 100%; 
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); 
+  z-index: 99; 
+  cursor: pointer; 
+}
+
+:not(#\20):not(#\20):not(#\20).buttonizer-group-0-0-1{
+    left:5% !important;
+    bottom:3% !important;
+    right:unset !important;
+}
+
+@media only screen and (max-width: 991px) {
+	#onclik-popup{
+		width:90% !important;
+	}
+}

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const html = await (
   await fetch(`${ORIGIN}/?nowprocket=1`, { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();

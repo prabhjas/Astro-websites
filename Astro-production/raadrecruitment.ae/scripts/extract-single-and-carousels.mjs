@@ -7,7 +7,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 import * as cheerio from "cheerio";
 
-const LIVE = "";
+const LIVE = "https://spheavyrental.ae";
 const OUT = "src/data";
 
 function absolutize($, base = LIVE) {

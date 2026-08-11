@@ -8,13 +8,14 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const LIVE_INDEX =
-  process.env.LIVE_SITEMAP_INDEX || "/sitemap_index.xml";
+  process.env.LIVE_SITEMAP_INDEX ||
+  "https://raadrecruitment.ae/sitemap_index.xml";
 const OUT = join(process.cwd(), "src/data/sitemap-urls.json");
 
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "EORMiddleEastSitemapSync/1.0",
+      "User-Agent": "RaadRecruitmentSitemapSync/1.0",
       Accept: "application/xml,text/xml,*/*",
     },
   });
@@ -39,7 +40,9 @@ function parseUrlset(xml, type) {
     } catch {
       continue;
     }
-    if (path !== "/" && !path.endsWith("/")) path += "/";
+    if (path !== "/" && !path.endsWith("/") && !/\.[a-z0-9]+$/i.test(path)) {
+      path += "/";
+    }
     entries.push({
       path,
       type,
@@ -56,6 +59,7 @@ const posts = [];
 const guides = [];
 const country = [];
 const eor = [];
+const local = [];
 
 for (const child of childLocs) {
   if (/page-sitemap/i.test(child)) {
@@ -68,7 +72,19 @@ for (const child of childLocs) {
     country.push(...parseUrlset(await fetchText(child), "country"));
   } else if (/eor-sitemap/i.test(child)) {
     eor.push(...parseUrlset(await fetchText(child), "eor"));
+  } else if (/local-sitemap/i.test(child)) {
+    local.push(...parseUrlset(await fetchText(child), "local"));
   }
+}
+
+// Rank Math may list local-sitemap even if missing from index children for some sites
+try {
+  const localUrl = new URL("/local-sitemap.xml", LIVE_INDEX).toString();
+  if (!childLocs.some((u) => /local-sitemap/i.test(u))) {
+    local.push(...parseUrlset(await fetchText(localUrl), "local"));
+  }
+} catch {
+  /* optional */
 }
 
 const payload = {
@@ -79,10 +95,11 @@ const payload = {
   guides,
   country,
   eor,
+  local,
 };
 
 writeFileSync(OUT, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 console.log(`Wrote ${OUT}`);
 console.log(
-  `pages=${pages.length} posts=${posts.length} guides=${guides.length} country=${country.length} eor=${eor.length}`,
+  `pages=${pages.length} posts=${posts.length} guides=${guides.length} country=${country.length} eor=${eor.length} local=${local.length}`,
 );

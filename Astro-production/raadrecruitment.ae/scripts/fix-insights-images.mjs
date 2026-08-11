@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "src", "data");
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const PUBLIC = path.join(ROOT, "public");
 
 async function fetchBin(url) {

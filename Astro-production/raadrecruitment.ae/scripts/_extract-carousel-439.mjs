@@ -7,7 +7,7 @@ const pages = JSON.parse(readFileSync(join(ROOT, "src/data/pages.json"), "utf8")
 const home = pages.find((p) => p.path === "/").bodyHtml;
 
 const live = await (
-  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 
 // Find carousel 439 markup + data-swiper

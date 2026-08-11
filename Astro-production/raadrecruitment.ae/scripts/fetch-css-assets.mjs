@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 const files = [
   "public/wp-content/uploads/elementor/css/post-10.css",
   "public/wp-content/uploads/elementor/css/post-153.css",

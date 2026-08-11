@@ -1,0 +1,129 @@
+{
+  "hero": {
+    "sel": ".us_custom_0b7e9c85",
+    "margin-top": "0px",
+    "padding-top": "72px",
+    "padding-bottom": "360px",
+    "background-image": "url(\"http://127.0.0.1:5102/wp-content/uploads/2023/07/1-4.png\")",
+    "background-size": "auto 100%",
+    "background-position": "0% 100%",
+    "top": 80,
+    "height": 1041,
+    "bottom": 1121,
+    "left": 0,
+    "width": 1440
+  },
+  "contact": {
+    "sel": ".us_custom_7bf0190b",
+    "margin-top": "-288px",
+    "margin-left": "288px",
+    "top": 833,
+    "height": 101,
+    "bottom": 934,
+    "left": 288,
+    "width": 1152
+  },
+  "social": {
+    "sel": ".us_custom_2cb867d0",
+    "margin-top": "0px",
+    "padding-top": "72px",
+    "padding-bottom": "72px",
+    "top": 933,
+    "height": 899,
+    "bottom": 1832,
+    "left": 0,
+    "width": 1440
+  },
+  "clients": {
+    "sel": ".us_custom_6a99ad11",
+    "padding-top": "144px",
+    "padding-bottom": "72px",
+    "top": 1832,
+    "height": 572,
+    "bottom": 2404,
+    "left": 0,
+    "width": 1440
+  },
+  "circle": {
+    "sel": ".us_custom_8b78c63d",
+    "margin-top": "-432px",
+    "padding-bottom": "126px",
+    "top": 1972,
+    "height": 739,
+    "bottom": 2711,
+    "left": 0,
+    "width": 1440
+  },
+  "circleImg": {
+    "sel": ".us_custom_8b78c63d .w-image",
+    "top": 1972,
+    "height": 613,
+    "bottom": 2585,
+    "left": 80,
+    "width": 613
+  },
+  "badges": {
+    "sel": ".us_custom_0493f734",
+    "margin-top": "-351px",
+    "padding-bottom": "108px",
+    "top": 2360,
+    "height": 257,
+    "bottom": 2617,
+    "left": 0,
+    "width": 1440
+  },
+  "badgeImages": [
+    {
+      "top": 2360,
+      "left": 747,
+      "width": 168,
+      "height": 149
+    },
+    {
+      "top": 2360,
+      "left": 969,
+      "width": 168,
+      "height": 149
+    },
+    {
+      "top": 2360,
+      "left": 1192,
+      "width": 168,
+      "height": 135
+    }
+  ],
+  "body": {
+    "sel": ".us_custom_6a99ad11 .us_custom_42622947",
+    "margin-top": "18px",
+    "top": 2193,
+    "height": 112,
+    "bottom": 2305,
+    "left": 747,
+    "width": 613
+  },
+  "heading": {
+    "sel": ".us_custom_6a99ad11 .us_custom_d3f933e5",
+    "top": 1976,
+    "height": 199,
+    "bottom": 2175,
+    "left": 747,
+    "width": 613
+  },
+  "revo": {
+    "sel": ".us_custom_8549a734",
+    "padding-top": "0px",
+    "padding-bottom": "54px",
+    "top": 2617,
+    "height": 399,
+    "bottom": 3016,
+    "left": 0,
+    "width": 1440
+  },
+  "gapHeroSocial": -188,
+  "layoutCheck": {
+    "badgesBelowBody": true,
+    "badgesOverlapHeading": false,
+    "circleLeftOfText": true,
+    "revoBelowClients": true
+  }
+}

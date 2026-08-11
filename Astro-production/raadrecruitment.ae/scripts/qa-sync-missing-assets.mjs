@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const LOCAL = "http://127.0.0.1:5102";
 const ROOT = process.cwd();
 

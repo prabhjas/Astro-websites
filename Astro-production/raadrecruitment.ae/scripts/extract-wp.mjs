@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname, "..");
 const CRAWL = path.join(ROOT, "_crawl");
 const DATA = path.join(ROOT, "src", "data");
 const PUBLIC = path.join(ROOT, "public");
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const UA = "EOR-Astro-Migration/1.0";
 
 const SKIP_MEDIA = process.env.EOR_SKIP_MEDIA === "1";
@@ -84,19 +84,19 @@ function rewriteUrl(url) {
   if (!url) return url;
   return String(url)
     .replaceAll(ORIGIN, "")
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "");
+    .replaceAll("https://ngmanpower.com", "")
+    .replaceAll("http://ngmanpower.com", "")
+    .replaceAll("https://www.ngmanpower.com", "")
+    .replaceAll("http://www.ngmanpower.com", "");
 }
 
 function stripDomainInHtml(html) {
   if (!html) return html;
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://www.ngmanpower.com", "")
+    .replaceAll("http://www.ngmanpower.com", "")
+    .replaceAll("https://ngmanpower.com", "")
+    .replaceAll("http://ngmanpower.com", "")
     .replaceAll("//ngmanpower.com", "")
     .replaceAll("//www.ngmanpower.com", "");
 }

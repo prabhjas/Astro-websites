@@ -1,0 +1,29 @@
+/**
+ * Astra header builder — ensure mobile menu toggle works without full WP stack.
+ */
+
+.ast-button-wrap .menu-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+@media (max-width: 921px) {
+  .ast-button-wrap .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Only the mobile header nav — never the desktop duplicate in #ast-desktop-header */
+  #ast-mobile-header .main-header-bar-navigation {
+    display: none;
+  }
+
+  #ast-mobile-header .main-header-bar-navigation.toggle-on {
+    display: block;
+    width: 100%;
+  }
+}

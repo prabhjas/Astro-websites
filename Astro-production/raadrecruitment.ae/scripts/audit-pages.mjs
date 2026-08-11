@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import { chromium } from "playwright";
 
-const LIVE = "";
+const LIVE = "https://spheavyrental.ae";
 const LOCAL = "http://127.0.0.1:4321";
 const paths = [
   "/",

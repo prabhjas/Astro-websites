@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const live = await (
-  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 
 // WPCP carousel JSON / init
@@ -20,9 +20,9 @@ console.log("\ncarousel attrs", car?.[0]?.slice(0, 1500));
 
 // Download missing WPCP JS if needed
 const jsUrls = [
-  "/wp-content/plugins/wp-carousel-free/public/js/preloader.min.js?ver=2.7.12",
-  "/wp-content/plugins/wp-carousel-free/public/js/swiper-bundle.min.js?ver=2.7.12",
-  "/wp-content/plugins/wp-carousel-free/public/js/wp-carousel-free-public.min.js?ver=2.7.12",
+  "https://ngmanpower.com/wp-content/plugins/wp-carousel-free/public/js/preloader.min.js?ver=2.7.12",
+  "https://ngmanpower.com/wp-content/plugins/wp-carousel-free/public/js/swiper-bundle.min.js?ver=2.7.12",
+  "https://ngmanpower.com/wp-content/plugins/wp-carousel-free/public/js/wp-carousel-free-public.min.js?ver=2.7.12",
 ];
 
 const outDir = join(ROOT, "public/wp-content/plugins/wp-carousel-free/public/js");

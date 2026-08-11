@@ -8,7 +8,7 @@ import * as cheerio from "cheerio";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = path.join(ROOT, "src", "data");
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const PATH = "/contact/";
 
 function decodeCfEmail(encoded) {
@@ -31,10 +31,10 @@ function fixEmails(html) {
 
 function stripDomain(html) {
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://www.ngmanpower.com", "")
+    .replaceAll("http://www.ngmanpower.com", "")
+    .replaceAll("https://ngmanpower.com", "")
+    .replaceAll("http://ngmanpower.com", "")
     .replaceAll("//ngmanpower.com", "")
     .replaceAll("//www.ngmanpower.com", "");
 }

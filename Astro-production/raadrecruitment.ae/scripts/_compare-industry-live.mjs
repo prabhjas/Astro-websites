@@ -9,7 +9,7 @@ async function fetchText(url) {
   return res.text();
 }
 
-const live = await fetchText("/construction/?nowprocket=1");
+const live = await fetchText("https://ngmanpower.com/construction/?nowprocket=1");
 const pages = JSON.parse(readFileSync(join(ROOT, "src/data/pages.json"), "utf8"));
 const local = pages.find((p) => p.path === "/construction/");
 const localHtml = local.bodyHtml || local.content;

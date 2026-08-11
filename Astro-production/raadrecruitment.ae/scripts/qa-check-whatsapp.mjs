@@ -1,5 +1,5 @@
 const live = await (
-  await fetch("/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
+  await fetch("https://ngmanpower.com/?nowprocket=1", { headers: { "User-Agent": "Mozilla/5.0" } })
 ).text();
 const local = await (await fetch("http://127.0.0.1:5102/")).text();
 for (const [label, html] of [

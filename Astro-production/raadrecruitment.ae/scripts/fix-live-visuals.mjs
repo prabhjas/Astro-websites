@@ -26,16 +26,16 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = join(ROOT, "src/data");
 const PUBLIC = join(ROOT, "public");
 const CSS_OUT = join(PUBLIC, "css");
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
 
 function stripDomain(html) {
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://www.ngmanpower.com", "")
+    .replaceAll("http://www.ngmanpower.com", "")
+    .replaceAll("https://ngmanpower.com", "")
+    .replaceAll("http://ngmanpower.com", "")
     .replaceAll("//www.ngmanpower.com", "")
     .replaceAll("//ngmanpower.com", "");
 }

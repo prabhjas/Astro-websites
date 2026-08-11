@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 
-const LIVE = "";
+const LIVE = "https://spheavyrental.ae";
 const LOCAL = "http://127.0.0.1:4321";
 
 const browser = await chromium.launch({ headless: true });

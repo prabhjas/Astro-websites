@@ -8,8 +8,10 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
 | **Paste into Claude (34-site queue)** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-03 memory note. **FQ-04 source review already done — do not redo.** |
 | **Fleet status (Aug 2026)** | **34 live/cutover** on branch [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (28 live + next 6). Working branch: `work/astro-sites`. Ports **5080–5124**. Also on live Caddy: `connectresourcesint.com` (**5098**). |
+| **Aaron rules (security / deploy / copy)** | **[AARON-RULES.md](AARON-RULES.md)** — immutable release, FQ-00–04, source-review four findings, canary `:5999`. |
 | **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — **not** `tls internal`. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
 | **34-site queue** | **[§ Fleet work queue](#fleet-work-queue--34-sites)** — geo, nanoid, memory, source-review leftovers, owner APPLY. Do these on every keep site, then follow for new sites. |
+| **Pre-switch canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** — private `:5999`, one site, real env; then `switch`. |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
 | **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |
@@ -462,7 +464,7 @@ Do **not** run `/home/webdev/staging/signatures/APPLY.sh` or `…/fleet-cutover-
 
 #### FQ-01 — RA-01 `nanoid` 3.3.16 → 3.3.18
 
-**Not done.** Lockfile still pins `nanoid@3.3.16` (transitive via Vite/PostCSS). Advisory is a dependency DoS.
+**Done in git** (11 Aug 2026) and included in live release `7155cbbb2`. Root override `nanoid: 3.3.18`; lockfile has 0× 3.3.16. Do not bump again unless the catalog moves.
 
 | Step | Who |
 |------|-----|
@@ -518,11 +520,11 @@ Pages are static; the **process** is still Node standalone (`output: "static"` +
 
 | Check | Our status | Action |
 |-------|------------|--------|
-| A — Blank canonicals | `.env.example` OK | Re-check `astro.config` `site` + runtime SEO after any peer rsync |
-| B — Stale peer host in **runtime** SEO | **mbs** `text-files-store.ts` still seeds `connectgroup.co` | This domain |
-| B — Operator docs / `13-go-live-server-handoff.md` | Still SP Heavy on several next-6 trees | Rewrite or delete |
-| C — Unsafe deploy guidance | Copied `ROOT_SETUP.md` may sed `site-ctl` / in-tree build / `tls internal` | Point at [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) only |
-| D — Three dormant hooks | (1) ScrollSequence `eval` (2) inline-script rehydrate in `astro-mirror-fixes.js` (3) likely `runtime-redirects/regen.ts` `execFile` | 1–2 **keep** if chrome needs them. 3: disable if no bearer-gated caller |
+| A — Blank canonicals | **Followed** — `.env.example` + `astro.config` `site` are this domain | Re-check after any peer rsync |
+| B — Stale peer host in **runtime** SEO | **Followed** — mbs no longer seeds `connectgroup.co` (tests may still use peer fixtures) | Peer-grep new copies only |
+| B — Operator docs / `13-go-live-server-handoff.md` | Some next-6 trees still titled SP Heavy | Ignore; use [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
+| C — Unsafe deploy guidance | **Do not run** copied `ROOT_SETUP.md` (`tls internal` / in-tree build still in some trees) | Live path = immutable release. Point at [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) only |
+| D — Three hooks | **Required chrome** — (1) ScrollSequence `eval` (2) Elementor rehydrate **must stay** or the site breaks; (3) `regen.ts` `execFile` FLOW-only | Never strip 1–2. No unauthenticated caller for 3 |
 
 **Clone rule (future sites):** after rsync from a peer, grep the new domain vs the peer in `src/`, `deploy/`, `docs/`, `.env.example`. Peer hits in `scripts/` one-shots are OK only if clearly named extract/import tools.
 

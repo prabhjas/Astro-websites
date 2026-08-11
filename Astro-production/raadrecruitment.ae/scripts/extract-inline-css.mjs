@@ -17,8 +17,8 @@ const custom = [...live.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)]
   .join("\n\n/* ---- */\n\n");
 
 const cleaned = custom
-  .replaceAll("", "")
-  .replaceAll("", "");
+  .replaceAll("https://spheavyrental.ae", "")
+  .replaceAll("http://spheavyrental.ae", "");
 
 fs.mkdirSync("public/css", { recursive: true });
 fs.writeFileSync("public/css/live-inline.css", cleaned);

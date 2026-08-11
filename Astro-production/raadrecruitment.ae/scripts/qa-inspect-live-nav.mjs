@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import fs from "node:fs";
 
-const LIVE = "/?nowprocket=1";
+const LIVE = "https://ngmanpower.com/?nowprocket=1";
 const html = await (await fetch(LIVE, { headers: { "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)" } })).text();
 const $ = cheerio.load(html);
 const header = $("header.header1").first();

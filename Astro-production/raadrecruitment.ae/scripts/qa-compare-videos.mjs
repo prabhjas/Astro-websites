@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import fs from "node:fs";
 
-const LIVE = "";
+const LIVE = "https://ngmanpower.com";
 const LOCAL = "http://127.0.0.1:5102";
 
 async function get(url) {

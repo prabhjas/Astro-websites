@@ -5,13 +5,13 @@ import fs from "node:fs";
 import path from "node:path";
 import * as cheerio from "cheerio";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 const posts = JSON.parse(fs.readFileSync("src/data/posts.json", "utf8"));
 
 function stripDomain(html) {
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://spheavyrental.ae", "")
+    .replaceAll("http://spheavyrental.ae", "")
     .replaceAll("//spheavyrental.ae", "");
 }
 

@@ -55,7 +55,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://connectresourcesint.com, http://www.connectresources.ae, http://www.connectfreelance.ae, http://www.redo.ae, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.movey.ae, http://www.emiratisationhub.com, http://www.companyformationsaudi.com, http://www.alburaq.ae, http://www.saudicompanyformation.com, http://www.snapsale.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://connectresourcesint.com, http://www.connectresources.ae, http://www.connectfreelance.ae, http://www.redo.ae, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.movey.ae, http://www.emiratisationhub.com, http://www.companyformationsaudi.com, http://www.alburaq.ae, http://www.saudicompanyformation.com, http://www.snapsale.ae, http://www.connectbusinesscenter.com, http://www.theuaegate.com, http://www.raadrecruitment.ae, http://www.lladesigners.com, http://www.izi.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -166,6 +166,21 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 
 	@snapsale host www.snapsale.ae
 	redir @snapsale https://snapsale.ae{uri} permanent
+
+	@connectbusinesscenter host www.connectbusinesscenter.com
+	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
+
+	@theuaegate host www.theuaegate.com
+	redir @theuaegate https://theuaegate.com{uri} permanent
+
+	@raadrecruitment host www.raadrecruitment.ae
+	redir @raadrecruitment https://raadrecruitment.ae{uri} permanent
+
+	@lladesigners host www.lladesigners.com
+	redir @lladesigners https://lladesigners.com{uri} permanent
+
+	@izi host www.izi.ae
+	redir @izi https://izi.ae{uri} permanent
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
@@ -1462,6 +1477,181 @@ alburaq.ae, www.alburaq.ae {
 	}
 	log {
 		output file /var/log/caddy/alburaq.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectbusinesscenter.com -> connectbusinesscenter.service (PORT 5116)
+connectbusinesscenter.com, www.connectbusinesscenter.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectbusinesscenter.com/connectbusinesscenter.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectbusinesscenter.com/connectbusinesscenter.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectbusinesscenter.com/www.connectbusinesscenter.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectbusinesscenter.com/www.connectbusinesscenter.com.key
+	encode zstd gzip
+
+	@noncanonical host www.connectbusinesscenter.com
+	redir @noncanonical https://connectbusinesscenter.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5116
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/connectbusinesscenter.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# theuaegate.com -> theuaegate.service (PORT 5117)
+theuaegate.com, www.theuaegate.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/theuaegate.com/theuaegate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/theuaegate.com/theuaegate.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.theuaegate.com/www.theuaegate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.theuaegate.com/www.theuaegate.com.key
+	encode zstd gzip
+
+	@noncanonical host www.theuaegate.com
+	redir @noncanonical https://theuaegate.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5117
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/theuaegate.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# raadrecruitment.ae -> raadrecruitment.service (PORT 5113)
+raadrecruitment.ae, www.raadrecruitment.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/raadrecruitment.ae/raadrecruitment.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/raadrecruitment.ae/raadrecruitment.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.raadrecruitment.ae/www.raadrecruitment.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.raadrecruitment.ae/www.raadrecruitment.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.raadrecruitment.ae
+	redir @noncanonical https://raadrecruitment.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5113
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/raadrecruitment.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# lladesigners.com -> lladesigners.service (PORT 5112)
+lladesigners.com, www.lladesigners.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/lladesigners.com/lladesigners.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/lladesigners.com/lladesigners.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.lladesigners.com/www.lladesigners.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.lladesigners.com/www.lladesigners.com.key
+	encode zstd gzip
+
+	@noncanonical host www.lladesigners.com
+	redir @noncanonical https://lladesigners.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5112
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/lladesigners.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# izi.ae -> izi.service (PORT 5121)
+izi.ae, www.izi.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/izi.ae/izi.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/izi.ae/izi.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.izi.ae/www.izi.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.izi.ae/www.izi.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.izi.ae
+	redir @noncanonical https://izi.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5121
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/izi.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}

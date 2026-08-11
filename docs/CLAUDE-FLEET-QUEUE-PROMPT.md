@@ -30,7 +30,7 @@ YOUR JOB (developer, in this order):
   FQ-02  Replace browser ipinfo.io with Cloudflare Cf-Ipcountry (Aaron's exact geo write-up)
   FQ-03  DO NOT change live systemd. Write the Aaron memory note only.
 
-FQ-04 (mechanical copy / blank canonicals / stale peers / unsafe deploy docs / three hooks) is ALREADY DONE at our end — do not redo. See § Already done.
+FQ-04 (mechanical copy / blank canonicals / stale peers / unsafe deploy docs / three hooks) is ALREADY DONE at our end — do not redo. See § Already done. Scorecard: docs/AARON-RULES.md. Canary before switch: docs/AARON-CANARY-RELEASE.md (Aaron runs :5999; we do not start it).
 
 Aaron's script veto (FQ-00) and geo write-up (FQ-02) are still requirements. The source-review quote is historical — already handled.
 
@@ -61,7 +61,7 @@ Ignore / do not revive dropped scaffolds (`raadrecruitment`, `connectbusinesscen
 3. **No SMTP / form-email env vars.** Lead store + Pipedrive only.
 4. **Do not reload live Caddy, edit `/etc/caddy`, or rewrite `site-ctl`.** Owner (Aaron) only.
 5. **Do not run** `/home/webdev/staging/signatures/APPLY.sh` or `/home/webdev/staging/fleet-cutover-20260810/APPLY-NEXT6.sh` (or copies). Aaron vetoed them — see **FQ-00**.
-6. **Do not strip** Elementor/ScrollSequence `eval` / inline-script rehydrate in `astro-mirror-fixes.js` unless you have proven that page does not use them. Inventory the three hooks (FQ-04); do not blindly delete.
+6. **Do not strip** Elementor/ScrollSequence `eval` / inline-script rehydrate in `astro-mirror-fixes.js`. Those two are **required chrome** — removing them breaks menus, sliders, and ScrollSequence. The third hook (`regen.ts` `execFile`) is FLOW-only, not public chrome.
 7. **Do not enable CSP enforce, fleet-wide prerender, or full WP SRI.**
 8. **Do not convert sites to `output: "server"`** just to inject geo. Most sites are `output: "static"` + Node adapter for `/api/*`. Country must be resolved **at request time**, not baked into prerendered HTML.
 9. **Do not invent** a second forms/CMS/Caddy pattern. Copy a keep-list peer.
@@ -321,7 +321,7 @@ Known candidates (confirm + classify in the REPORT):
 
 | # | Likely hook | Typical path | Action |
 |---|-------------|--------------|--------|
-| 1 | `eval(scrollsequence config)` | `public/js/astro-mirror-fixes.js` → `ensureScrollsequence` | **Keep** if the site has ScrollSequence (Connect Group / peers). Comment that it is intentional chrome, not a shell. |
+| 1 | `eval(scrollsequence config)` | `public/js/astro-mirror-fixes.js` → `ensureScrollsequence` | **Required.** Without it ScrollSequence (Connect Group / peers) does not run. Intentional chrome, not a shell. |
 | 2 | Inline `<script>` rehydrate (`textContent` → `replaceChild`) | same file, Rocket LazyLoad unblock | **Keep** — required for Elementor. Same lesson as Phase 05 (do not over-sanitize mirrors). |
 | 3 | Server `child_process.execFile` | `src/lib/runtime-redirects/regen.ts` (`node scripts/generate-redirects.mjs`) | **Review.** If the old `/internal/operations/redirects` UI is gone (thin mounts), this is a dormant spawn. Do not leave an unauthenticated path that can trigger it. If unused, stop calling it from APIs; do not delete generate-redirects if FLOW still needs it behind bearer. |
 

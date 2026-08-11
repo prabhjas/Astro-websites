@@ -2,7 +2,7 @@ import { chromium } from "playwright";
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
-await page.goto("/?nowprocket=1", { waitUntil: "networkidle", timeout: 90000 });
+await page.goto("https://ngmanpower.com/?nowprocket=1", { waitUntil: "networkidle", timeout: 90000 });
 await page.waitForTimeout(3000);
 const found = await page.evaluate(() => {
   const links = [...document.querySelectorAll("a")].filter((a) =>

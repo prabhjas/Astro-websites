@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ORIGIN = "";
+const ORIGIN = "https://ngmanpower.com";
 
 const res = await fetch(ORIGIN + "/wp-content/uploads/2023/05/Vector.png", {
   headers: {

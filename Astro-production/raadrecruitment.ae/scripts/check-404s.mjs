@@ -22,7 +22,7 @@ await p.evaluate(() => window.scrollTo(0, 800));
 await p.screenshot({ path: "_crawl/compare/heavy-local-mid.png" });
 
 const live = await b.newPage();
-await live.goto("/heavy-machinery-rental/?nowprocket=1", {
+await live.goto("https://spheavyrental.ae/heavy-machinery-rental/?nowprocket=1", {
   waitUntil: "domcontentloaded",
   timeout: 60000,
 });

@@ -5,7 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 const PUBLIC = "public";
 const DATA = "src/data";
 const CRAWL = "_crawl";
@@ -33,8 +33,8 @@ function localFromUrl(url) {
 
 function stripDomain(html) {
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://spheavyrental.ae", "")
+    .replaceAll("http://spheavyrental.ae", "")
     .replaceAll("//spheavyrental.ae", "");
 }
 

@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const postsPath = path.join(root, "src/data/posts.json");
 const publicDir = path.join(root, "public");
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 
 const SKIP_RE =
   /logo|favicon|picsart-backgroundchanger|output-onlinepngtools|gravatar|emoji|svg/i;

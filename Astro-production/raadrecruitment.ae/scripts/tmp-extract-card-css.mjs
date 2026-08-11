@@ -6,7 +6,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const pages = JSON.parse(fs.readFileSync(path.join(ROOT, "src/data/pages.json"), "utf8"));
 const localBody = pages.find((p) => p.path === "/insights/")?.bodyHtml || "";
 const liveHtml = await (
-  await fetch("/insights/?nowprocket=1", {
+  await fetch("https://ngmanpower.com/insights/?nowprocket=1", {
     headers: { "User-Agent": "EOR/1.0" },
   })
 ).text();

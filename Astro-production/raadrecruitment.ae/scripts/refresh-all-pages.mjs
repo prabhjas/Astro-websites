@@ -5,14 +5,14 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 const DATA = "src/data";
 const PUBLIC = "public";
 
 function stripDomain(html) {
   return html
-    .replaceAll("", "")
-    .replaceAll("", "")
+    .replaceAll("https://spheavyrental.ae", "")
+    .replaceAll("http://spheavyrental.ae", "")
     .replaceAll("//spheavyrental.ae", "");
 }
 

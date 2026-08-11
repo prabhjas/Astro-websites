@@ -5,7 +5,7 @@ Canonical list of domains, loopback ports, folders, and completion status.
 
 | | |
 |--|--|
-| **Updated** | 2026-08-07 |
+| **Updated** | 2026-08-11 |
 | **Machine registry** | `scripts/fleet-sites.json` (same ports / ids) |
 | **Site folders** | `Astro-production/<domain>/` |
 | **How to build a site** | [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) |
@@ -45,35 +45,35 @@ Canonical list of domains, loopback ports, folders, and completion status.
 | **5095** | redo.ae | `redo.ae` | scaffolded (Phases 01–10 local PASS; Caddy template in site deploy/) |
 | **5096** | connectfz.com | `connectfz.com` | scaffolded |
 | **5097** | royalvisa.ae | `royalvisa.ae` | scaffolded (local Phase 01–08/10 green; Caddy in git) |
-| **5098** | connectresourcesint.com | `connectresourcesint.com` | placeholder|
+| **5098** | connectresourcesint.com | `connectresourcesint.com` | scaffolded |
 | **5099** | mbs-consultancy.com | `mbs-consultancy.com` | scaffolded |
 | **5100** | thefreelancergate.com | `thefreelancergate.com` | scaffolded |
 | **5101** | connectzone.ae | `connectzone.ae` | scaffolded |
 | **5102** | ngmanpower.com | `ngmanpower.com` | scaffolded (local Phase 01–10; Caddy template in site deploy/) |
 | **5103** | emiratiguard.com | `emiratiguard.com` | scaffolded |
-| **5104** | movey.ae | `movey.ae` | placeholder |
+| **5104** | movey.ae | `movey.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
 | **5105** | emiratisationgate.org | `emiratisationgate.org` | scaffolded |
 | **5106** | emiratisationgateway.com | `emiratisationgateway.com` | scaffolded |
-| **5107** | emiratisationhub.com | `emiratisationhub.com` | placeholder |
-| **5108** | emiratisationnafis.org | `emiratisationnafis.org` | placeholder |
+| **5107** | emiratisationhub.com | `emiratisationhub.com` | scaffolded |
+| **5108** | emiratisationnafis.org | `emiratisationnafis.org` | scaffolded |
 | **5109** | freelancerdxb.com | `freelancerdxb.com` | scaffolded |
 | **5110** | payrollmiddleast.org | `payrollmiddleast.org` | scaffolded |
 | **5111** | pittant.com | `pittant.com` | scaffolded |
-| **5112** | lladesigners.com | `lladesigners.com` | placeholder |
-| **5113** | raadrecruitment.ae | `raadrecruitment.ae` | placeholder |
+| **5112** | lladesigners.com | `lladesigners.com` | scaffolded |
+| **5113** | raadrecruitment.ae | `raadrecruitment.ae` | scaffolded (Phases 01–10 local; Caddy template in git) |
 | **5114** | companyformationsaudi.com | `companyformationsaudi.com` | scaffolded (Phases 01–10 local; Caddy template in git) |
 | **5115** | saudicompanyformation.com | `saudicompanyformation.com` | scaffolded (local Phase 01–10; Caddy in git) |
 | **5116** | connectbusinesscenter.com | `connectbusinesscenter.com` | scaffolded (Phases 01–10 local; Caddy template in git) |
-| **5117** | theuaegate.com | `theuaegate.com` | placeholder |
+| **5117** | theuaegate.com | `theuaegate.com` | scaffolded (Phases 01–08/10 local PASS; Caddy template in git) |
 | **5118** | peomiddleast.com | `peomiddleast.com` | scaffolded |
 | **5119** | interlibya.com | `interlibya.com` | placeholder |
-| **5120** | alburaq.ae | `alburaq.ae` | placeholder |
-| **5121** | izi.ae | `izi.ae` | placeholder |
+| **5120** | alburaq.ae | `alburaq.ae` | scaffolded |
+| **5121** | izi.ae | `izi.ae` | scaffolded |
 | **5122** | snapsale.ae | `snapsale.ae` | scaffolded (Phases 01–10 local; Caddy in git) |
 | **5123** | connectresources.info | `connectresources.info` | placeholder |
 | **5124** | kpmpro.ae | `kpmpro.ae` | scaffolded (moved from 5098 — port taken by live connectresourcesint; Caddy in git) |
 
-**Totals:** 45 sites · **36 scaffolded** · **9 placeholders** · next free **5125**
+**Totals:** 45 sites · **43 scaffolded** · **2 placeholders** · next free **5125**
 
 ---
 

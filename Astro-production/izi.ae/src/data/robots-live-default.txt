@@ -1,0 +1,28 @@
+# IZI Rent a Car - robots.txt defaults matching live (2026-08-10)
+# FLOW can override via managed text file.
+
+User-agent: *
+Disallow:/hello-world/*
+Disallow:/index/*
+Disallow: /cgi-bin/
+Disallow: /wp-login.*
+Disallow: /author/*
+Disallow: /wp-json/*
+Disallow: /wp-login/*
+Disallow: /wp-admin/
+Disallow: /author/admin_mqbvt9xr/
+Disallow: /cdn-cgi/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://izi.ae/sitemap_index.xml

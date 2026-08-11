@@ -3,7 +3,8 @@ html,
 body {
   margin: 0 !important;
   padding: 0;
-  overflow-x: hidden;
+  /* clip avoids breaking position:sticky (hidden coerces overflow-y:auto) */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -132,7 +133,7 @@ div.stats-desc > div.counter_suffix {
   opacity: 1;
 }
 
-/* Consultation CTA — match live  screenshot */
+/* Consultation CTA — match live https://ngmanpower.com screenshot */
 .us_custom_b03640aa {
   padding-top: 0 !important;
   padding-bottom: 2.5rem !important;

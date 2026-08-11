@@ -23,7 +23,7 @@ import {
 
 const ROOT_DIR = process.cwd();
 const PUBLIC_UPLOADS_DIR = join(ROOT_DIR, "public/wp-content/uploads/internal-posts");
-const SITE_ORIGIN = process.env.PUBLIC_SITE_URL?.replace(/\/$/, "") || "";
+const SITE_ORIGIN = process.env.PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://raadrecruitment.ae";
 
 export type PostStatus = "draft" | "published" | "trash";
 

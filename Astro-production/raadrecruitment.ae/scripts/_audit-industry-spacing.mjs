@@ -8,7 +8,7 @@ const local = pages.find((p) => p.path === "/manufacturing/");
 const html = local.bodyHtml || local.content;
 
 const live = await (
-  await fetch("/manufacturing/?nowprocket=1", {
+  await fetch("https://ngmanpower.com/manufacturing/?nowprocket=1", {
     headers: { "User-Agent": "NG/1.0" },
   })
 ).text();

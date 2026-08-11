@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 
 const files = [
   "/wp-content/plugins/elementor/assets/js/section-frontend-handlers.d85ab872da118940910d.bundle.min.js",

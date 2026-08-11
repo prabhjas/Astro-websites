@@ -7,7 +7,7 @@ console.log("bg-fallback", html.includes("elementor-bg-fallback"));
 console.log("migration", html.includes("migration-overrides"));
 
 // Check live site section - fetch used CSS snippet for body
-const live = await (await fetch("/")).text();
+const live = await (await fetch("https://spheavyrental.ae/")).text();
 const bodyStyle = live.match(/body\{[^}]+\}/i);
 console.log("live rocket body", bodyStyle?.[0]?.slice(0, 200));
 console.log("live has b1aa184", live.includes("b1aa184"));

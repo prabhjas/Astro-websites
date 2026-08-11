@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "";
+const ORIGIN = "https://spheavyrental.ae";
 
 async function download(rel) {
   const dest = path.join("public", rel.replace(/^\//, ""));

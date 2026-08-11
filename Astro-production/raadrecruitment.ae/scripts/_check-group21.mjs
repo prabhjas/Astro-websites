@@ -8,7 +8,7 @@ const localPath = join(ROOT, "public/wp-content/uploads/2023/05/Group-21.png");
 const local = readFileSync(localPath);
 console.log("local", local.length, createHash("sha1").update(local).digest("hex").slice(0, 12), "colorType", local[25]);
 
-const r = await fetch("/wp-content/uploads/2023/05/Group-21.png", {
+const r = await fetch("https://ngmanpower.com/wp-content/uploads/2023/05/Group-21.png", {
   headers: { "User-Agent": "Mozilla/5.0" },
 });
 const buf = Buffer.from(await r.arrayBuffer());

@@ -1,0 +1,146 @@
+/* IZI Rent a Car — CF7 / contact form skin (live parity) */
+
+/* Landing (dark) form */
+.landing-form input,
+.landing-form textarea {
+  border-radius: 0 !important;
+  border: 0 !important;
+  background: rgb(236, 242, 250) !important;
+  color: #1e1e1e;
+}
+.landing-form input::placeholder,
+.landing-form textarea::placeholder {
+  color: #888 !important;
+}
+.landing-form .contactform input[type='submit'] {
+  background: #00adee !important;
+  color: #fff !important;
+}
+
+/* WPArmor honeypot — never style as a real field */
+#altEmail_container,
+.altEmail_container,
+.wpa_hidden_field,
+.contactform input[name='alt_s'],
+form.wpcf7-form input[name='alt_s'] {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+/* Standard contactform (contact page + sidebar) — match live IZI soft blue fields */
+.contactform {
+  display: block;
+  width: 100%;
+}
+.contactform label {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.contactform p {
+  margin: 0 0 12px;
+}
+.contactform input[type='text'],
+.contactform input[type='email'],
+.contactform input[type='tel'],
+.contactform input.wpcf7-form-control:not([type='submit']):not([type='checkbox']):not([type='hidden']):not([name='alt_s']),
+.contactform textarea {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 0;
+  border: 0;
+  background: rgb(236, 242, 250);
+  padding: 10px;
+  margin: 0;
+}
+/* Keep first/last name side-by-side like live (half width, inline-block) */
+.contactform input[name='first-name'],
+.contactform input[name='last-name'],
+.contactform .wpcf7-form-control-wrap[data-name='first-name'] input,
+.contactform .wpcf7-form-control-wrap[data-name='last-name'] input {
+  width: auto !important;
+  display: inline-block !important;
+}
+.contactform input[name='your-email'],
+.contactform input[name^='phonetext'],
+.contactform input[type='email'],
+.contactform input[type='tel'],
+.contactform textarea {
+  width: 100% !important;
+  display: inline-block;
+}
+.contactform textarea {
+  height: 95px;
+  min-height: 90px;
+  resize: vertical;
+}
+.contactform .wpcf7-form-control-wrap,
+.contactform .intl-tel-input,
+.contactform .iti {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0;
+}
+.contactform .wpcf7-form-control-wrap[data-name='your-email'],
+.contactform .wpcf7-form-control-wrap[data-name^='phonetext'],
+.contactform .wpcf7-form-control-wrap[data-name='your-message'],
+.contactform .intl-tel-input,
+.contactform .iti {
+  width: 100% !important;
+  display: block;
+}
+.contactform .intl-tel-input input,
+.contactform .iti input,
+.contactform .iti__tel-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+.contactform label:has(.iti),
+.contactform label:has(.intl-tel-input),
+.contactform label:has(.wpcf7-phonetext) {
+  margin-bottom: 12px;
+}
+.contactform input[type='submit'],
+.contactform .wpcf7-submit {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #00adee !important;
+  border: 0 !important;
+  font-size: 18px;
+  color: #fff !important;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 10px !important;
+  border-radius: 0;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.contactform input[type='submit']:hover,
+.contactform .wpcf7-submit:hover {
+  filter: brightness(0.96);
+}
+
+/* Sticky sidebar form under sticky header */
+.elementor-location-header .elementor-sticky--active,
+.elementor-element-6f7aa16.elementor-sticky--active {
+  z-index: 1000 !important;
+}
+.elementor-element-f006bfc.elementor-sticky--active,
+.elementor-element-f31ba19.elementor-sticky--active {
+  z-index: 10 !important;
+}
+.elementor-element-f006bfc .contactform label,
+.elementor-element-f31ba19 .contactform label {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+}
