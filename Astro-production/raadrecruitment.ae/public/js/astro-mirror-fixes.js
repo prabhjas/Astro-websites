@@ -1045,15 +1045,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
-      // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
+      // Same-origin only (FQ-02). No third-party geo.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {
@@ -1426,15 +1427,6 @@
         input.type = 'hidden';
         input.name = name;
         form.appendChild(input);
-      } else if (input.tagName === 'TEXTAREA' || (input.tagName === 'INPUT' && input.type !== 'hidden')) {
-        // CF7 often mirrors tracking fields as textareas; keep value but treat as hidden meta.
-        var hidden = document.createElement('input');
-        hidden.type = 'hidden';
-        hidden.name = name;
-        hidden.value = value !== undefined ? value || '' : input.value || '';
-        input.insertAdjacentElement('afterend', hidden);
-        input.remove();
-        input = hidden;
       }
       if (value !== undefined) input.value = value || '';
       return input;
@@ -1449,7 +1441,7 @@
       }
       var pageUrl = window.location.href;
       var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
-      ensureHiddenField(form, 'form_name', 'RAAD Recruitment Contact Form');
+      ensureHiddenField(form, 'form_name', 'Evolution Middle East Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
       ensureHiddenField(form, 'submission_page_url', pageUrl);
@@ -1531,10 +1523,10 @@
     function fieldContainsLink(value) {
       var text = String(value || '');
       if (!text) return false;
-      // Real URLs / markdown links only — do NOT treat email domains (name@gmail.com) as spam.
       return (
         /https?:\/\//i.test(text) ||
-        /(?:^|[\s<(])www\./i.test(text) ||
+        /www\./i.test(text) ||
+        /\b[a-z0-9.-]+\.(com|net|org|io|co|info|biz|xyz|online|site|ru|cn)\b/i.test(text) ||
         /\[[^\]]+\]\([^)]+\)/.test(text) ||
         /<a\s/i.test(text)
       );
@@ -1542,22 +1534,6 @@
 
     function fieldContainsHtml(value) {
       return /<\s*\/?\s*[a-z][^>]*>/i.test(String(value || ''));
-    }
-
-    function isTrackingOrMetaField(el) {
-      if (!el) return true;
-      var name = String(el.getAttribute('name') || '').toLowerCase();
-      if (!name) return false;
-      if (name.charAt(0) === '_') return true; // CF7 internals (_wpcf7, …)
-      if (
-        /^(gclid|gbraid|wbraid|fbclid|msclkid|initial_url|landing_page_url|page_url|submission_page_url|referrer_url|form_name|form_id|submission_id|submitted_at|first_touch_payload|last_touch_payload)$/i.test(
-          name,
-        )
-      ) {
-        return true;
-      }
-      if (/(_payload|_url|utm_|gad_)/i.test(name)) return true;
-      return false;
     }
 
     function syncPhoneNumbers(form) {
@@ -1796,22 +1772,10 @@
         }
       }
 
-      // Reject links / HTML in user-entered text only (skip tracking textareas like initial_url).
-      form.querySelectorAll('input[type="text"], input[type="search"], input[type="email"], textarea').forEach(function (el) {
+      // Reject links / HTML in any other visible text inputs.
+      form.querySelectorAll('input[type="text"], input[type="search"], textarea').forEach(function (el) {
         if (!el || el.disabled || el.readOnly) return;
-        if (el.type === 'hidden' || isTrackingOrMetaField(el)) return;
         if (el.classList.contains('wpcf7-phonetext') || el.classList.contains('cg-phone-input')) return;
-        if (el.name === 'your-email' || el.name === 'email' || el.type === 'email') {
-          // Emails contain ".com" etc.; only reject HTML / URL schemes inside the local-part.
-          var emailVal = String(el.value || '');
-          if (!emailVal.trim()) return;
-          if (fieldContainsHtml(emailVal) || /(^|\+)[^@]*https?/i.test(emailVal)) {
-            spamHit = true;
-            markFieldError(el);
-            if (errors.indexOf('spam') === -1) errors.push('spam');
-          }
-          return;
-        }
         var val = String(el.value || '');
         if (!val.trim()) return;
         if (fieldContainsLink(val) || fieldContainsHtml(val)) {
@@ -1930,7 +1894,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact/', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(buildContactFormPayload(form)),

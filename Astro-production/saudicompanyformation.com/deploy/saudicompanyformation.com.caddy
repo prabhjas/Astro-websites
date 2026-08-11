@@ -7,14 +7,21 @@
 #   1. Ensure the shared one-hop HTTP alt-host block lists http://www.saudicompanyformation.com
 #      and redirects to https://saudicompanyformation.com{uri}
 #   2. Match PUBLIC_SITE_URL=https://saudicompanyformation.com
-#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   3. Cloudflare SSL = Full (not Flexible; named CA astro_origin_2026 on origin)
 #   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 #
 # Local laptop: do NOT run this Caddy block — use fleet-local on :5115 only.
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 saudicompanyformation.com, www.saudicompanyformation.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.key
 	encode zstd gzip
 
 	@noncanonical host www.saudicompanyformation.com

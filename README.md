@@ -50,7 +50,7 @@ Astro-websites/                          ← git monorepo (this repo)
 ├── Astro-production/                    ← one folder per domain
 │   ├── evolutionmiddleast.com/          ← live cutover (full CMS)
 │   ├── cbss.ae/                         ← live cutover (leads)
-│   ├── …                                ← 34 live / go-live sites (see table below)
+│   ├── …                                ← 42 reserved domains (all scaffolded)
 │   └── deploy-host/                     ← restic backup units
 ├── packages/
 │   └── site-cms/                        ← @connect/site-cms (shared CMS APIs)
@@ -82,10 +82,20 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 
 ---
 
+## Fleet inventory (`work/astro-sites`)
+
+| | |
+|--|--|
+| **Reserved domains** | **42** (ports **5080–5124**, next free **5125**) |
+| **Scaffolded** | **42** — Astro app tree in `Astro-production/<domain>/` |
+| **Placeholders** | **none** |
+| **Canonical list** | [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json` |
+
+The **34-site live cutover** below is the go-live set (28 already live + next 6). The other scaffolded sites sit on `work/astro-sites` and are **not** in that cut-off until Aaron bakes them.
+
 ## Production / fleet sites (34 live cutover)
 
 **Cut-off branch:** [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (same tree on personal) · working branch: `work/astro-sites`  
-**Canonical port list:** [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`  
 **34 domains** going live · ports **5080–5124** · **28 already live** + **6 next cutover**
 
 ### Already live (28)
@@ -134,7 +144,7 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 
 **Also on live Caddy (Aaron):** `connectresourcesint.com` (**5098**) — kept in the production Caddy/PKI set; not counted in the 34-site cut-off branch.
 
-Other reserved domains / placeholders remain in the port registry and on `work/astro-sites`; they are **not** part of this 34-site live set.
+Other reserved scaffolded domains stay in the port registry and are **not** part of this 34-site live set. Retired (removed): `emiratisationnafis.org`, `interlibya.com`, `connectresources.info`.
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 

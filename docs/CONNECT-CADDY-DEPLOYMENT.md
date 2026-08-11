@@ -34,7 +34,7 @@ Keep Caddy snippets in git for deploy day; do not try to mirror production Caddy
 
 ## 1. Inventory — do we have everything?
 
-**Full fleet ports (44 domains, 5080–5123):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
+**Full fleet ports (42 domains, 5080–5124):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
 
 Your live production Caddyfile is in git as:
 
