@@ -1,0 +1,45 @@
+/* MBS — EZ TOC title + hierarchy counters (live WP injects this inline) */
+div#ez-toc-container .ez-toc-title { font-size: 120%; font-weight: 500; }
+div#ez-toc-container ul li,
+div#ez-toc-container ul li a { font-size: 95%; font-weight: 500; }
+div#ez-toc-container nav ul ul li { font-size: 90%; }
+div#ez-toc-container { width: 100%; }
+
+.ez-toc-container-direction { direction: ltr; }
+.ez-toc-widget-direction { direction: ltr; }
+
+/* Numbered TOC — match live Easy TOC counter-hierarchy */
+#ez-toc-container.ez-toc-counter ul,
+.ez-toc-counter ul,
+.ez-toc-widget-container ul {
+  counter-reset: item;
+  list-style: none !important;
+  list-style-type: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+#ez-toc-container.ez-toc-counter ul li,
+.ez-toc-counter ul li,
+.ez-toc-widget-container ul li {
+  list-style: none !important;
+  list-style-type: none !important;
+}
+#ez-toc-container.ez-toc-counter nav ul li a,
+.ez-toc-counter nav ul li a,
+.ez-toc-widget-container nav ul li a {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.25em;
+}
+#ez-toc-container.ez-toc-counter nav ul li a::before,
+.ez-toc-counter nav ul li a::before,
+.ez-toc-widget-container nav ul li a::before {
+  content: counters(item, ".", decimal) ". " !important;
+  display: inline-block !important;
+  counter-increment: item;
+  flex: 0 0 auto;
+  float: none !important;
+  margin-right: 0.15em;
+  color: inherit;
+  font-weight: inherit;
+}

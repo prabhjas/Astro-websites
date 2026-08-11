@@ -88,48 +88,57 @@ export const POST: APIRoute = async ({ request }) => {
   let input: ContactFormInput;
   try {
 
-    const limited = await readRequestBodyLimited(request, MAX_BODY_BYTES);
-    if (!limited.ok) {
-      logFormFailure({
-        requestId,
-        timestamp,
-        errorMessage: 'Request body too large',
-        errorCode: 'payload_too_large',
-      });
-      return jsonResponse(
-        { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
-        413,
-      );
-    }
-    const bodyText = new TextDecoder('utf-8').decode(limited.bytes);
     const contentType = request.headers.get('content-type') || '';
-    if (contentType.includes('application/json')) {
-      // Browser posts CF7 field names (first-name, your-email, phonetext-*).
-      // Always run through parseContactFormBody — do not cast JSON as ContactFormInput.
-      const json = (bodyText ? JSON.parse(bodyText) : {}) as Record<string, unknown>;
-      const raw: Record<string, FormDataEntryValue> = {};
-      const arrays: Record<string, string[]> = {};
-      for (const [key, value] of Object.entries(json || {})) {
-        if (Array.isArray(value)) {
-          arrays[key] = value.map((v) => String(v));
-        } else if (value != null && typeof value !== 'object') {
-          raw[key] = String(value);
+    const raw: Record<string, FormDataEntryValue> = {};
+    const arrays: Record<string, string[]> = {};
+
+    if (contentType.includes('multipart/form-data') || contentType.includes('application/x-www-form-urlencoded')) {
+      const fd = await request.formData();
+      for (const key of new Set(fd.keys())) {
+        const values = fd.getAll(key).map((v) => String(v));
+        if (key.endsWith('[]')) {
+          arrays[key.slice(0, -2)] = values;
+          continue;
         }
+        if (values.length > 1) arrays[key] = values;
+        raw[key] = values[0] ?? '';
       }
       input = parseContactFormBody(raw, arrays);
     } else {
-      const params = new URLSearchParams(bodyText);
-      const raw: Record<string, FormDataEntryValue> = {};
-      const arrays: Record<string, string[]> = {};
-      for (const key of new Set(params.keys())) {
-        const values = params.getAll(key);
-        if (key.endsWith('[]')) {
-          const arrayKey = key.slice(0, -2);
-          arrays[arrayKey] = values.map(String);
-          continue;
+      const limited = await readRequestBodyLimited(request, MAX_BODY_BYTES);
+      if (!limited.ok) {
+        logFormFailure({
+          requestId,
+          timestamp,
+          errorMessage: 'Request body too large',
+          errorCode: 'payload_too_large',
+        });
+        return jsonResponse(
+          { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+          413,
+        );
+      }
+      const bodyText = new TextDecoder('utf-8').decode(limited.bytes);
+      if (contentType.includes('application/json') || bodyText.trim().startsWith('{')) {
+        const json = (bodyText ? JSON.parse(bodyText) : {}) as Record<string, unknown>;
+        for (const [key, value] of Object.entries(json || {})) {
+          if (Array.isArray(value)) {
+            arrays[key] = value.map((v) => String(v));
+          } else if (value != null && typeof value !== 'object') {
+            raw[key] = String(value);
+          }
         }
-        if (values.length > 1) arrays[key] = values.map(String);
-        raw[key] = values[0] ?? '';
+      } else {
+        const params = new URLSearchParams(bodyText);
+        for (const key of new Set(params.keys())) {
+          const values = params.getAll(key);
+          if (key.endsWith('[]')) {
+            arrays[key.slice(0, -2)] = values.map(String);
+            continue;
+          }
+          if (values.length > 1) arrays[key] = values.map(String);
+          raw[key] = values[0] ?? '';
+        }
       }
       input = parseContactFormBody(raw, arrays);
     }

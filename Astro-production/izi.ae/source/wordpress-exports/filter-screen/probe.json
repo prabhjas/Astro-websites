@@ -1,0 +1,38 @@
+{
+  "m": {
+    "title": "Filter Screen - car",
+    "h1": "Choose your perfect ride today!",
+    "vehicleTypeVal": "",
+    "vehicleTypeSelected": "Vehicle type",
+    "resultCount": 0,
+    "visibleCount": 0,
+    "cards": [],
+    "hasFilterJs": true,
+    "filterScriptSrcs": [
+      "https://izi.ae/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+      "https://izi.ae/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+      "https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js?ver=7.0.3",
+      "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js?ver=7.0.3",
+      "https://izi.ae/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js?ver=4.3.4",
+      "https://izi.ae/wp-content/plugins/ele-custom-skin/assets/js/ecs.js?ver=4.3.4",
+      "https://izi.ae/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js?id=1dc194e3c5334b505e74",
+      "https://izi.ae/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d",
+      "https://izi.ae/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec",
+      "https://izi.ae/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=6.1.6",
+      "https://izi.ae/wp-content/plugins/contact-form-7/includes/js/index.js?ver=6.1.6",
+      "https://izi.ae/wp-content/plugins/contact-form-7-honeypot/legacy-honeypot/includes/js/honeypot-refill.js?ver=3.6.1",
+      "https://izi.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=7.0.3",
+      "https://izi.ae/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=7.0.3",
+      "https://izi.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/jquery.datetimepicker.full.min.js?ver=7.0.3",
+      "https://izi.ae/wp-content/plugins/date-time-picker-for-contact-form-7/assets/js/datetimepicker.js?ver=1.0.0",
+      "https://izi.ae/wp-content/plugins/honeypot/includes/js/wpa.js?ver=2.4",
+      "https://izi.ae/wp-content/themes/hello-elementor/assets/js/hello-frontend.min.js?ver=3.0.1",
+      "https://izi.ae/wp-content/plugins/ele-custom-skin/modules/color-scheme/assets/js/ecs-color-switcher.js?ver=4.3.4",
+      "https://izi.ae/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js?ver=8.4.5"
+    ]
+  },
+  "reqs": [
+    "GET /filter-screen/?vehicle_type=SUV",
+    "POST https://www.google-analytics.com/g/collect?v=2&tid=G-6FB28YLPSD&gtm=45je6852v9185576422za200zd9185576422&_p=1786361487810&gcd=13l3l3l3l1l1&npa=0&dma=0&are=1&cid=1916972874.1786361489&frm=0&ngs=1&pscdl"
+  ]
+}

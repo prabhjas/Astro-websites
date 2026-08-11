@@ -1,0 +1,57 @@
+{
+  "siteTitle": "IZI Rent a Car",
+  "summary": "IZI Rent a Car is a car rental company in Dubai and across the UAE, offering short-term and long-term rentals from economy to premium vehicles.",
+  "details": "Based in the UAE, IZI Rent a Car covers Dubai, Abu Dhabi, Sharjah, Ajman, Umm Al Quwain, and Fujairah with sedans, SUVs, and specialty vehicles for personal and corporate use.",
+  "groupOrder": [
+    "Fleet",
+    "Locations",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover UAE driving, traffic rules, airport rentals, and vehicle guides.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "izi.ae homepage — rent a car in Dubai and the UAE."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About IZI Rent a Car."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact IZI Rent a Car."
+    },
+    "/vehicles/": {
+      "group": "Fleet",
+      "title": "Vehicles",
+      "description": "Browse the IZI rental fleet by brand."
+    },
+    "/car-listing/": {
+      "group": "Fleet",
+      "title": "Car listing",
+      "description": "Full car listing for IZI Rent a Car."
+    },
+    "/rent-a-car-uae/": {
+      "group": "Locations",
+      "title": "Rent a car UAE",
+      "description": "Car rental across UAE emirates."
+    },
+    "/blog/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "IZI Rent a Car blog and guides."
+    },
+    "/faqs/": {
+      "group": "Company Pages",
+      "title": "FAQs",
+      "description": "Frequently asked questions about renting with IZI."
+    }
+  }
+}

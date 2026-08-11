@@ -84,7 +84,19 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-      input = (await request.json()) as ContactFormInput;
+      // Browser posts CF7 field names (your-name, phonetext-383, …) as JSON —
+      // always map through parseContactFormBody (same as peer fleet sites).
+      const json = (await request.json()) as Record<string, unknown>;
+      const raw: Record<string, FormDataEntryValue> = {};
+      const arrays: Record<string, string[]> = {};
+      for (const [key, value] of Object.entries(json || {})) {
+        if (Array.isArray(value)) {
+          arrays[key] = value.map((v) => String(v));
+        } else if (value != null && typeof value !== 'object') {
+          raw[key] = String(value);
+        }
+      }
+      input = parseContactFormBody(raw, arrays);
     } else {
       const formData = await request.formData();
       const raw: Record<string, FormDataEntryValue> = {};
@@ -122,10 +134,12 @@ export const POST: APIRoute = async ({ request }) => {
   if (!input.submissionId) input.submissionId = crypto.randomUUID();
 
   // Honeypot: return fake success so bots learn nothing (don't log / don't 422)
-  // JSON path doesn't go through parseContactFormBody, so check `website` field directly too.
-  const rawInput = input as unknown as Record<string, unknown>;
-  if (input.honeypot || rawInput['website']) {
-    return jsonResponse({ success: true, submissionId: input.submissionId ?? crypto.randomUUID(), message: 'Thank you. Your enquiry has been received.' });
+  if (input.honeypot) {
+    return jsonResponse({
+      success: true,
+      submissionId: input.submissionId ?? crypto.randomUUID(),
+      message: 'Thank you. Your enquiry has been received.',
+    });
   }
 
   const validation = validateContactForm(input);

@@ -14,7 +14,7 @@
   window.elementorFrontendConfig = window.elementorFrontendConfig || {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
     i18n: { shareOnFacebook: "Share on Facebook", shareOnTwitter: "Share on Twitter", pinIt: "Pin it", download: "Download", downloadImage: "Download image", fullscreen: "Fullscreen", zoom: "Zoom", share: "Share", playVideo: "Play Video", previous: "Previous", next: "Next", close: "Close" },
-    is_rtl: false,
+    is_rtl: document.documentElement.dir === "rtl",
     breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
     responsive: {
       breakpoints: {

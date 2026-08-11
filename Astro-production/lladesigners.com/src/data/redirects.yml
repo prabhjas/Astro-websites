@@ -1,0 +1,115 @@
+# Canonical redirects for lladesigners.com
+# Sources: Redirection plugin export imports/redirects/2026-08-10-redirection-export.json
+# Merge per docs/CURSOR-IMPORT-REDIRECTS.md. FLOW will own day-to-day edits via /api/internal/redirects/*.
+redirects:
+  - from: /?trk=organization_guest_main-feed-card-text
+    to: /
+    status: 301
+  - from: /?trk=public_post_main-feed-card-text
+    to: /
+    status: 301
+  - from: /3d-wall-panels-in-the-uae-everything-you-need-to-know/
+    to: /3d-wall-panels-in-uae/
+    status: 301
+  - from: /aboutusnew/
+    to: /about-us/
+    status: 301
+  - from: /best-dubai-lighting-desing-2023/
+    to: /best-dubai-lighting-desing/
+    status: 301
+  - from: /best-dubai-lighting-desing/
+    to: /best-dubai-lighting-design/
+    status: 301
+  - from: /blog-new/
+    to: /our-blogs/
+    status: 301
+  - from: /construction-companies-in-abu-dubai/
+    to: /construction-companies-in-abu-dhabi/
+    status: 301
+  - from: /construction-companies-in-dubai/
+    to: /construction-companies-in-abu-dubai/
+    status: 301
+  - from: /construction-companies-near-me/
+    to: /construction-companies-in-uae/
+    status: 301
+  - from: /construction-services-in-uae-2/
+    to: /construction-services-in-uae/
+    status: 301
+  - from: /construction/
+    to: /construction-services-in-uae/
+    status: 301
+  - from: /contactnew/
+    to: /contact-us/
+    status: 301
+  - from: /customized-furniture-dubai/
+    to: /customized-furniture/
+    status: 301
+  - from: /dressing-room-design/
+    to: /modern-small-dressing-room-design/
+    status: 301
+  - from: /explore-the-top-interior-design-companies-in-dubai/
+    to: /top-interior-design-companies-in-dubai/
+    status: 301
+  - from: /flooring-design-ideas/
+    to: /modern-living-room-floor-tiles/
+    status: 301
+  - from: /homenew/
+    to: /home/
+    status: 301
+  - from: /how-can-interior-architecture-solve-space-planning-issues/
+    to: /space-planning/
+    status: 301
+  - from: /importance-of-lighting-in-interior-design-role-benefits-types/
+    to: /importance-of-lighting-in-interior-design/
+    status: 301
+  - from: /indoor-outdoor-wall-lights-guide-uae/
+    to: /indoor-outdoor-wall-lights-uae/
+    status: 301
+  - from: /install-indoor-outdoor-wall-lights-uae-step-by-step-guide/
+    to: /indoor-outdoor-wall-lights-guide-uae/
+    status: 301
+  - from: /interior-architecture-design-services-in-dubai/
+    to: /interior-architecture-services-in-dubai/
+    status: 301
+  - from: /interior-architecture-services-in-dubai/
+    to: /interior-architecture-services-in-uae/
+    status: 301
+  - from: /interior-design-copy/
+    to: /interior-architecture-design-services-in-dubai/
+    status: 301
+  - from: /kitchen-interior-design-dubai/
+    to: /kitchen-design-dubai/
+    status: 301
+  - from: /lighting-design-dubai-ten-christmas-light-ideas/
+    to: /ten-christmas-lighting-design-ideas-dubai/
+    status: 301
+  - from: /lighting-design-services-in-uae/
+    to: /lighting-design/
+    status: 301
+  - from: /lighting-desing/
+    to: /lighting-design/
+    status: 301
+  - from: /multifamily-interior-design-key-concepts-ideas-best-practices/
+    to: /multifamily-interior-design/
+    status: 301
+  - from: /office-design-dubai/
+    to: /office-interior-design-ideas/
+    status: 301
+  - from: /office-lighting-in-uae-everything-you-need-to-know/
+    to: /office-lighting/
+    status: 301
+  - from: /portfolio-new/
+    to: /portfolio/
+    status: 301
+  - from: /salon-reception-design/
+    to: /small-salon-interior-design/
+    status: 301
+  - from: /service-new-2/
+    to: /services/
+    status: 301
+  - from: /service-new/
+    to: /interior-design/
+    status: 301
+  - from: /top-bespoke-furniture-trends-for-modern-homes-in-uae/
+    to: /bespoke-furniture-trends/
+    status: 301
