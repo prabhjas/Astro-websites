@@ -1,0 +1,23 @@
+# Emiratisation Nafis — robots.txt defaults matching live (2026-08-05)
+# FLOW can override via managed text file.
+
+User-agent: *
+Disallow:
+Disallow: /cgi-bin/
+Disallow: /cdn-cgi/
+Disallow: /wp-admin/
+Disallow: /ar/wp-json/elementskit/v1/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://emiratisationnafis.org/sitemap_index.xml

@@ -1,0 +1,66 @@
+{
+  "siteTitle": "LLA Designers",
+  "summary": "LLA Designers is an interior design company in Dubai, UAE - residential, commercial, hotels, and villas.",
+  "details": "Based in Dubai, UAE, LLA Designers delivers interior design, landscape, architecture, lighting, furniture, AV automation, construction, and procurement services led by Andrey Solncev.",
+  "groupOrder": [
+    "Services",
+    "Company Pages",
+    "Blog",
+    "Other Pages"
+  ],
+  "postsCount": 20,
+  "blogNote": "Blog articles cover interior design, architecture, lighting, and construction trends in the UAE.",
+  "categoryMarkdown": "",
+  "entries": {
+    "/": {
+      "group": "Company Pages",
+      "title": "Home",
+      "description": "lladesigners.com homepage � interior design company in Dubai."
+    },
+    "/about-us/": {
+      "group": "Company Pages",
+      "title": "About Us",
+      "description": "About LLA Designers and Andrey Solncev."
+    },
+    "/services/": {
+      "group": "Services",
+      "title": "Services",
+      "description": "Interior design and related services."
+    },
+    "/portfolio/": {
+      "group": "Company Pages",
+      "title": "Portfolio",
+      "description": "LLA Designers project portfolio."
+    },
+    "/contact-us/": {
+      "group": "Company Pages",
+      "title": "Contact Us",
+      "description": "Contact LLA Designers in Dubai."
+    },
+    "/our-blogs/": {
+      "group": "Blog",
+      "title": "Blog",
+      "description": "Design journal � trends and insights."
+    },
+    "/interior-design/": {
+      "group": "Services",
+      "title": "Interior Design",
+      "description": "Interior designer services in Dubai, UAE."
+    },
+    "/architecture-design-services/": {
+      "group": "Services",
+      "title": "Architectural Design",
+      "description": "Architectural designer services in the UAE."
+    },
+    "/lighting-design/": {
+      "group": "Services",
+      "title": "Lighting Design",
+      "description": "Lighting design services in Dubai, UAE."
+    },
+    "/procurement/": {
+      "group": "Services",
+      "title": "Procurement",
+      "description": "Procurement services in the UAE."
+    }
+  }
+}

@@ -1,0 +1,34 @@
+﻿# lladesigners.com -> 127.0.0.1:5112 (systemd: lladesigners.service)
+#
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile — see caddy/Caddyfile.production).
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5112 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+lladesigners.com, www.lladesigners.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.lladesigners.com
+	redir @noncanonical https://lladesigners.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5112
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/lladesigners.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
