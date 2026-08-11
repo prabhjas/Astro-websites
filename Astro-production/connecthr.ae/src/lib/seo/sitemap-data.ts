@@ -13,6 +13,7 @@ import { parse } from 'yaml';
 import { getPages, getPosts } from '../content.ts';
 import {
   EXCLUDED_PAGE_SLUGS,
+  isNoIndexNoFollowPath,
   SITEMAP_ENTRY_LIMIT,
   type SitemapEntry,
 } from './sitemap-config.ts';
@@ -126,6 +127,7 @@ function entriesFromLiveRows(
     if (redirectSources.has(path)) continue;
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
     if (type === 'page' && EXCLUDED_PAGE_SLUGS.has(slug.split('/')[0] || '')) continue;
+    if (isNoIndexNoFollowPath(path)) continue;
 
     const url = resolveSitemapLoc(path, path, siteOrigin);
     if (!url) continue;
@@ -149,6 +151,7 @@ function entriesFromContentPages(
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
     const topSlug = slug.split('/')[0] || '';
     if (EXCLUDED_PAGE_SLUGS.has(topSlug)) continue;
+    if (isNoIndexNoFollowPath(path)) continue;
     if (redirectSources.has(path)) continue;
     if (!isIndexableRobots(robotsString(page.seo?.robots))) continue;
 

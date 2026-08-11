@@ -229,6 +229,9 @@ describe('project sitemap dataset (integration)', () => {
     assert.ok(data.posts.every((e) => e.url.startsWith('https://example.com/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/demo/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/status/')));
+    assert.ok(!data.pages.some((e) => e.url.includes('/dummmy/')));
+    assert.ok(!data.pages.some((e) => e.url.includes('/test-form/')));
+    assert.ok(!data.pages.some((e) => e.url.includes('/test/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/tag/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/category/')));
     // Unpublished (not Done in spreadsheet)

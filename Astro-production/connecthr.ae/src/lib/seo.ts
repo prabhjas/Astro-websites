@@ -1,4 +1,4 @@
-import { absoluteUrl, site, type SeoData } from "./content";
+import { absoluteUrl, decodeHtmlEntities, site, type SeoData } from "./content";
 
 export type SeoInput = {
   title?: string;
@@ -8,23 +8,43 @@ export type SeoInput = {
   ogType?: "website" | "article";
   schemas?: unknown[];
   noindex?: boolean;
+  nofollow?: boolean;
   publishedTime?: string;
   modifiedTime?: string;
   authorName?: string;
 };
 
+function decodeDeep(value: unknown): unknown {
+  if (typeof value === "string") return decodeHtmlEntities(value);
+  if (Array.isArray(value)) return value.map(decodeDeep);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([k, v]) => [k, decodeDeep(v)]),
+    );
+  }
+  return value;
+}
+
 export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
-  const title = input.title || fallback?.title || `${site.shortName} | HR & Payroll Software UAE`;
-  const description =
-    input.description || fallback?.description || site.description;
+  const title = decodeHtmlEntities(
+    input.title || fallback?.title || `${site.shortName} | HR & Payroll Software UAE`,
+  );
+  const description = decodeHtmlEntities(
+    input.description || fallback?.description || site.description,
+  );
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
   const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
   const ogType = input.ogType || "website";
-  const robots = input.noindex ? "noindex, follow" : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
+  const robots =
+    input.noindex && input.nofollow
+      ? "noindex, nofollow"
+      : input.noindex
+        ? "noindex, follow"
+        : "index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large";
 
-  const schemas = [
+  const schemas = decodeDeep([
     ...(input.schemas || fallback?.schemas || []),
-  ].filter(Boolean);
+  ].filter(Boolean)) as unknown[];
 
   return {
     title,
