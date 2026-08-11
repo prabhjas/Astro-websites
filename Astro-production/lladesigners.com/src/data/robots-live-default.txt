@@ -1,0 +1,17 @@
+User-Agent: *
+Disallow: /template*
+Disallow: /*.html
+Disallow: /?author=*
+Disallow: /author/*
+Disallow: /?page_id=*
+Disallow: /hello-world-*
+Disallow: /category/*
+Disallow: /wp-admin/
+Disallow: /page/*
+Disallow: /feed*
+Disallow: /wp-json/*
+Disallow: /wp-content/*
+Disallow: /tag/
+Disallow: /?page=*
+Disallow: /2024/*
+Sitemap: https://lladesigners.com/sitemap_index.xml

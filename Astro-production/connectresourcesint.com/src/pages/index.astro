@@ -1,0 +1,665 @@
+---
+const siteName = 'Connect Help Center';
+const siteUrl = 'https://www.connectresourcesint.com';
+const description =
+  'Get all the help you want via Connect Help Center, and get all your business queries answered by our experts.';
+const phone = '+971 4 331 6688';
+const email = 'info@connectresources.ae';
+const whatsappUrl = 'https://wa.me/97143316688?text=Hello%20Connect%20Help%20Center';
+const services = [
+  {
+    title: 'Business setup guidance',
+    text: 'Choose the right mainland, free zone, or expansion route with practical advice from UAE business specialists.'
+  },
+  {
+    title: 'HR and staffing support',
+    text: 'Get help with staff outsourcing, HR administration, payroll coordination, and compliant workforce planning.'
+  },
+  {
+    title: 'Visa and PRO assistance',
+    text: 'Understand government paperwork, employee visas, renewals, documentation, and ongoing corporate support.'
+  }
+];
+const steps = [
+  'Tell us what you need',
+  'Get routed to the right specialist',
+  'Receive clear next steps'
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connect Help Center | Business Support in the UAE</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={siteUrl + '/'} />
+    <link rel="icon" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Connect Help Center" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl + '/'} />
+    <meta property="og:image" content={siteUrl + '/business-help.webp'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: siteName,
+      url: siteUrl,
+      email,
+      telephone: phone,
+      areaServed: 'United Arab Emirates',
+      description
+    })} />
+    <style>
+      :root {
+        --red: #c8102e;
+        --ink: #151515;
+        --muted: #616161;
+        --paper: #f7f7f4;
+        --white: #ffffff;
+        --line: #e5e1d8;
+        --yellow: #ffdd04;
+        --shadow: 0 24px 70px rgba(18, 18, 18, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .site-shell {
+        min-height: 100vh;
+        background:
+          linear-gradient(90deg, rgba(200, 16, 46, 0.08), rgba(255, 221, 4, 0.06) 52%, transparent),
+          var(--paper);
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(247, 247, 244, 0.93);
+        border-bottom: 1px solid rgba(21, 21, 21, 0.08);
+        backdrop-filter: blur(16px);
+      }
+
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 150px;
+        height: auto;
+      }
+
+      .brand span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: #383838;
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      .nav-links a {
+        padding: 8px 0;
+      }
+
+      .nav-links a:hover {
+        color: var(--red);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 800;
+        transition:
+          transform 160ms ease,
+          background 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: var(--red);
+        color: var(--white);
+        box-shadow: 0 12px 28px rgba(200, 16, 46, 0.24);
+      }
+
+      .btn-secondary {
+        background: var(--white);
+        border-color: var(--line);
+        color: var(--ink);
+      }
+
+      .hero {
+        min-height: 690px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+        align-items: center;
+        gap: 54px;
+        padding: 78px 0 66px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        color: var(--red);
+        font-size: 0.88rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 34px;
+        height: 3px;
+        background: var(--yellow);
+        border-radius: 8px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 720px;
+        margin-bottom: 22px;
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 630px;
+        margin-bottom: 30px;
+        color: #383838;
+        font-size: 1.24rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-bottom: 34px;
+      }
+
+      .quick-proof {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        max-width: 700px;
+      }
+
+      .quick-proof div {
+        border-left: 3px solid var(--red);
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.56);
+        color: #303030;
+        font-weight: 800;
+      }
+
+      .hero-media {
+        position: relative;
+        min-height: 500px;
+      }
+
+      .photo-frame {
+        position: absolute;
+        inset: 16px 0 0 24px;
+        overflow: hidden;
+        border-radius: 8px;
+        background: #1f1f1f;
+        box-shadow: var(--shadow);
+      }
+
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 74% center;
+      }
+
+      .support-panel {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: min(86%, 420px);
+        padding: 24px;
+        border-radius: 8px;
+        background: var(--white);
+        box-shadow: var(--shadow);
+      }
+
+      .support-panel strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--red);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+      }
+
+      .support-panel p {
+        margin-bottom: 0;
+        color: #333;
+        font-weight: 750;
+      }
+
+      section {
+        padding: 70px 0;
+      }
+
+      .section-heading {
+        max-width: 760px;
+        margin-bottom: 34px;
+      }
+
+      .section-heading h2 {
+        margin-bottom: 14px;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .service-card {
+        min-height: 250px;
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--white);
+        box-shadow: 0 10px 30px rgba(18, 18, 18, 0.05);
+      }
+
+      .service-card span {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 26px;
+        border-radius: 8px;
+        background: #151515;
+        color: var(--yellow);
+        font-size: 1.25rem;
+        font-weight: 900;
+      }
+
+      .service-card h3 {
+        margin-bottom: 12px;
+        font-size: 1.25rem;
+        letter-spacing: 0;
+      }
+
+      .service-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      .process {
+        background: #151515;
+        color: var(--white);
+      }
+
+      .process .section-heading p {
+        color: #d0d0d0;
+      }
+
+      .process-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .process-item {
+        min-height: 180px;
+        padding: 28px;
+        background: #1f1f1f;
+      }
+
+      .process-item span {
+        color: var(--yellow);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .process-item h3 {
+        margin: 16px 0 0;
+        font-size: 1.4rem;
+      }
+
+      .contact-band {
+        padding: 74px 0;
+        background: var(--white);
+      }
+
+      .contact-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 30px;
+        padding: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(90deg, rgba(255, 221, 4, 0.14), rgba(200, 16, 46, 0.08)),
+          #fff;
+      }
+
+      .contact-inner h2 {
+        margin-bottom: 10px;
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        line-height: 1.05;
+      }
+
+      .contact-inner p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .contact-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+
+      footer {
+        padding: 28px 0;
+        color: #777;
+        font-size: 0.94rem;
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 16px 0;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: space-between;
+          overflow-x: auto;
+          padding-bottom: 2px;
+        }
+
+        .hero {
+          min-height: auto;
+          grid-template-columns: 1fr;
+          gap: 36px;
+          padding: 54px 0 48px;
+        }
+
+        .hero-media {
+          min-height: 430px;
+        }
+
+        .services-grid,
+        .process-list,
+        .quick-proof,
+        .contact-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-actions {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .container {
+          width: min(100% - 28px, 1120px);
+        }
+
+        .brand img {
+          width: 132px;
+        }
+
+        .brand span {
+          font-size: 0.75rem;
+        }
+
+        .nav-links {
+          gap: 14px;
+          font-size: 0.88rem;
+        }
+
+        h1 {
+          font-size: 2.65rem;
+        }
+
+        .lead {
+          font-size: 1.08rem;
+        }
+
+        .hero-actions,
+        .contact-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .hero-media {
+          min-height: 370px;
+        }
+
+        .photo-frame {
+          inset: 0;
+        }
+
+        .support-panel {
+          width: calc(100% - 24px);
+          left: 12px;
+          padding: 20px;
+        }
+
+        section,
+        .contact-band {
+          padding: 52px 0;
+        }
+
+        .service-card,
+        .process-item,
+        .contact-inner {
+          padding: 22px;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <nav class="container nav" aria-label="Primary navigation">
+          <a class="brand" href="/" aria-label="Connect Help Center home">
+            <img src="/connect-logo.png" width="1239" height="387" alt="Connect Group" />
+            <span>Help Center</span>
+          </a>
+          <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#process">How it works</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <section class="container hero" aria-labelledby="hero-title">
+          <div>
+            <p class="eyebrow">Business support in the UAE</p>
+            <h1 id="hero-title">Connect Help Center</h1>
+            <p class="lead">{description}</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href={whatsappUrl}>Talk to an expert</a>
+              <a class="btn btn-secondary" href={`mailto:${email}`}>Email the team</a>
+            </div>
+            <div class="quick-proof" aria-label="Service highlights">
+              <div>Business setup</div>
+              <div>HR and payroll</div>
+              <div>Visa support</div>
+            </div>
+          </div>
+
+          <div class="hero-media" aria-label="Connect business advisors">
+            <div class="photo-frame">
+              <img src="/business-help.webp" width="1024" height="576" alt="Business advisors reviewing UAE company support options" />
+            </div>
+            <div class="support-panel">
+              <strong>Fast routing</strong>
+              <p>Share your query and we will guide you to the right Connect specialist.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" class="container" aria-labelledby="services-title">
+          <div class="section-heading">
+            <h2 id="services-title">One place for business questions</h2>
+            <p>
+              From company formation to day-to-day workforce operations, the help center gives
+              business owners a direct path to clear answers.
+            </p>
+          </div>
+          <div class="services-grid">
+            {services.map((service, index) => (
+              <article class="service-card">
+                <span>{index + 1}</span>
+                <h3>{service.title}</h3>
+                <p>{service.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="process" class="process" aria-labelledby="process-title">
+          <div class="container">
+            <div class="section-heading">
+              <h2 id="process-title">Simple, direct, and practical</h2>
+              <p>
+                No long forms or confusing service menus. Start with your question and we will
+                help you find the correct route.
+              </p>
+            </div>
+            <div class="process-list">
+              {steps.map((step, index) => (
+                <div class="process-item">
+                  <span>Step {index + 1}</span>
+                  <h3>{step}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" class="contact-band" aria-labelledby="contact-title">
+          <div class="container contact-inner">
+            <div>
+              <h2 id="contact-title">Need business help today?</h2>
+              <p>
+                Join now and get exclusive updates about business, or speak with a Connect expert
+                for support in Dubai and across the UAE.
+              </p>
+            </div>
+            <div class="contact-actions">
+              <a class="btn btn-primary" href={whatsappUrl}>WhatsApp</a>
+              <a class="btn btn-secondary" href={`tel:${phone.replaceAll(' ', '')}`}>{phone}</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="container footer-inner">
+          <span>Connect Help Center by Connect Resources International</span>
+          <span>By contacting us, you agree to our Privacy Policy.</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

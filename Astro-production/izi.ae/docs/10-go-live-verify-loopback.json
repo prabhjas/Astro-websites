@@ -1,0 +1,158 @@
+{
+  "base": "http://127.0.0.1:5121",
+  "at": "2026-08-10T09:32:55.998Z",
+  "passed": 30,
+  "failed": 0,
+  "rows": [
+    {
+      "name": "slash-bare",
+      "pass": true,
+      "detail": "HTTP 301 Location=/about-us/"
+    },
+    {
+      "name": "slash-ok",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "slash-asset",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "canonical",
+      "pass": true,
+      "detail": "canonical=https://izi.ae/"
+    },
+    {
+      "name": "org-jsonld",
+      "pass": true,
+      "detail": "Organization in homepage"
+    },
+    {
+      "name": "gtm-loader",
+      "pass": true,
+      "detail": "loader marker"
+    },
+    {
+      "name": "seo/robots.txt",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/sitemap_index.xml",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/page-sitemap.xml",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/post-sitemap.xml",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/car-sitemap.xml",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/llms.txt",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "seo/llm.txt",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "robots-domain",
+      "pass": true,
+      "detail": "# IZI Rent a Car — robots.txt defaults matching live (2026-08-10) # FLOW can override via managed text file. User-agent"
+    },
+    {
+      "name": "gtm-recreate",
+      "pass": true,
+      "detail": "recreateScript"
+    },
+    {
+      "name": "gtm-ids",
+      "pass": true,
+      "detail": "ids=G-6FB28YLPSD"
+    },
+    {
+      "name": "contact-empty",
+      "pass": true,
+      "detail": "HTTP 422"
+    },
+    {
+      "name": "contact-attr",
+      "pass": true,
+      "detail": "HTTP 200 {\"success\":true,\"submissionId\":\"f770a4de-2d92-48c4-aa8e-1c434254f9af\",\"message\":"
+    },
+    {
+      "name": "attr-g13",
+      "pass": true,
+      "detail": "gclid on lead JSON"
+    },
+    {
+      "name": "internal-deny",
+      "pass": true,
+      "detail": "HTTP 403"
+    },
+    {
+      "name": "404-status",
+      "pass": true,
+      "detail": "HTTP 404"
+    },
+    {
+      "name": "404-brand",
+      "pass": true,
+      "detail": "brand+logo"
+    },
+    {
+      "name": "page:/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "page:/contact-us/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "page:/blog/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "page:/car/toyota-yaris-2024/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "page:/vehicles/toyota/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "page:/faqs/",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "redir-contact-slash",
+      "pass": true,
+      "detail": "HTTP 301 /contact/"
+    },
+    {
+      "name": "redir-contact-alias",
+      "pass": true,
+      "detail": "HTTP 301 /contact-us/"
+    }
+  ]
+}

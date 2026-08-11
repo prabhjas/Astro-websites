@@ -207,10 +207,6 @@
     setOpen(false);
   }
 
-  function openMenu() {
-    setOpen(true);
-  }
-
   function boot() {
     const root = headerRoot();
     if (!root) return;

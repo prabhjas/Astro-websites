@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/types-of-payroll-outsourcing/ |
+| Live URL | /types-of-payroll-outsourcing/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

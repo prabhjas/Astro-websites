@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/it-support-outsourcing-guide-uae/ |
+| Live URL | /it-support-outsourcing-guide-uae/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

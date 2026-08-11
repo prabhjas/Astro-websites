@@ -11,7 +11,7 @@ for (const p of pages) {
 
 // Compare blog card count local vs live
 const localBlog = await (await fetch('http://127.0.0.1:5107/blog/')).text();
-const liveBlog = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const liveBlog = await (await fetch('/blog/')).text();
 console.log('\nblog cards local', (localBlog.match(/e-loop-item|elementor-post\b/g) || []).length);
 console.log('blog cards live', (liveBlog.match(/e-loop-item|elementor-post\b/g) || []).length);
 console.log('local pagination', [...localBlog.matchAll(/\/blog\/page\/(\d+)\//g)].map((m) => m[1]));

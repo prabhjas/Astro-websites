@@ -1,0 +1,154 @@
+# Fixture: deliberately not byte-identical to the tracked production file.
+# DRIFT-MARKER: this comment and the custom header must survive every transform.
+{
+	skip_install_trust
+	servers {
+		protocols h1 h2
+	}
+}
+
+c-uae.com, www.c-uae.com {
+	tls internal
+	header X-Fixture-Drift "preserve-this-exactly"
+	respond 204
+}
+
+cbss.ae, www.cbss.ae {
+	tls internal
+	respond 204
+}
+
+connectfm.ae, www.connectfm.ae {
+	tls internal
+	respond 204
+}
+
+connectfreelance.ae, www.connectfreelance.ae {
+	tls internal
+	respond 204
+}
+
+connectfz.com, www.connectfz.com {
+	tls internal
+	respond 204
+}
+
+connectgroup.co, www.connectgroup.co {
+	tls internal
+	respond 204
+}
+
+connecthr.ae, www.connecthr.ae {
+	tls internal
+	respond 204
+}
+
+connectresources.ae, www.connectresources.ae {
+	tls internal
+	respond 204
+}
+
+connectresources.sa, www.connectresources.sa {
+	tls internal
+	respond 204
+}
+
+connectresourcesint.com, www.connectresourcesint.com {
+	tls internal
+	respond 204
+}
+
+connectstaff.ae, www.connectstaff.ae {
+	tls internal
+	respond 204
+}
+
+emiratiguard.com, www.emiratiguard.com {
+	tls internal
+	respond 204
+}
+
+emiratisationgate.org, www.emiratisationgate.org {
+	tls internal
+	respond 204
+}
+
+emiratisationgateway.com, www.emiratisationgateway.com {
+	tls internal
+	respond 204
+}
+
+eormiddleast.com, www.eormiddleast.com {
+	tls internal
+	respond 204
+}
+
+evolutionmiddleast.com, www.evolutionmiddleast.com {
+	tls internal
+	respond 204
+}
+
+freelancerdxb.com, www.freelancerdxb.com {
+	tls internal
+	respond 204
+}
+
+iberiaeor.com, www.iberiaeor.com {
+	tls internal
+	respond 204
+}
+
+iberiaworkforce.com, www.iberiaworkforce.com {
+	tls internal
+	respond 204
+}
+
+kinzahr.com, www.kinzahr.com {
+	tls internal
+	respond 204
+}
+
+kpmpro.ae, www.kpmpro.ae {
+	tls internal
+	respond 204
+}
+
+ngmanpower.com, www.ngmanpower.com {
+	tls internal
+	respond 204
+}
+
+peomiddleast.com, www.peomiddleast.com {
+	tls internal
+	respond 204
+}
+
+pittant.com, www.pittant.com {
+	tls internal
+	respond 204
+}
+
+redo.ae, www.redo.ae {
+	tls internal
+	respond 204
+}
+
+royalvisa.ae, www.royalvisa.ae {
+	tls internal
+	respond 204
+}
+
+spheavyrental.ae, www.spheavyrental.ae {
+	tls internal
+	respond 204
+}
+
+thefreelancergate.com, www.thefreelancergate.com {
+	tls internal
+	respond 204
+}
+
+payrollmiddleast.org, www.payrollmiddleast.org {
+	tls internal
+	respond 204
+}

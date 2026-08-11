@@ -27,7 +27,7 @@
 | Prod process | `astro build` → `node ./dist/server/entry.mjs` | `astro dev` in production |
 | `.env.prod` | Secrets only; **no** `HOST`/`PORT`; **LF** line endings only | CRLF; bind address in env file |
 | Process isolation (ops) | Per-site unix user + `MemoryMax` | All units as `root` with no memory caps |
-| Caddy | One file per site under `sites.d/` + validate before reload | One giant Caddyfile as the long-term model |
+| Caddy | One guarded canonical Caddyfile + validation before graceful reload | Split-file or staged Caddyfile installs |
 | Backups | Off-box restic/borg + restore drill | Disk scrub only |
 
 ---
@@ -250,7 +250,7 @@ ReadWritePaths=/opt/Astro-production/<domain>/.data
 
 ### 6.3 Caddy
 
-- Prefer `import /etc/caddy/sites.d/*.caddy` — **one site per file**.
+- Production uses the single reviewed `/etc/caddy/Caddyfile`, mirrored by `caddy/Caddyfile.production`; never add a `sites.d` import.
 - Always `caddy validate` before `reload`.
 - Proxy to `127.0.0.1:<PORT>` for SSR sites; use `file_server` for pure static brochure sites.
 

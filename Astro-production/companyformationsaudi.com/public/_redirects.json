@@ -1,0 +1,507 @@
+[
+  {
+    "from": "/services/pro-services/",
+    "to": "/pro-services/",
+    "status": 301
+  },
+  {
+    "from": "/pro-services-saudi-arabia/",
+    "to": "/pro-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/payroll-services/",
+    "to": "/payroll-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/accountant-services/",
+    "to": "/accountant-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/immigration-services/",
+    "to": "/immigration-services/",
+    "status": 301
+  },
+  {
+    "from": "/immigration-to-saudi-arabia/",
+    "to": "/immigration-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-consultancy/",
+    "to": "/business-consultancy/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/visa-services/",
+    "to": "/services/visa-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/open-branch/",
+    "to": "/open-branch/",
+    "status": 301
+  },
+  {
+    "from": "/open-a-branch/",
+    "to": "/open-branch/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/open-company-saudi-arabia/",
+    "to": "/open-company-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/open-a-company-in-saudi-arabia/",
+    "to": "/open-company-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/virtual-office/",
+    "to": "/virtual-office/",
+    "status": 301
+  },
+  {
+    "from": "/virtual-office-in-saudi-arabia/",
+    "to": "/virtual-office/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/tourism-license/",
+    "to": "/tourism-license/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/commercial-license/",
+    "to": "/commercial-license/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/trade-license/",
+    "to": "/trade-license/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/ecommerce-license/",
+    "to": "/ecommerce-license/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/food-establishment/",
+    "to": "/food-establishment/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/visa-services/saudi-business-visa/",
+    "to": "/saudi-business-visa/",
+    "status": 301
+  },
+  {
+    "from": "/saudi-business-visa-multiple-entry/",
+    "to": "/saudi-business-visa/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/open-a-branch/",
+    "to": "/services/pro-services/franchise-service/",
+    "status": 301
+  },
+  {
+    "from": "/services/pro-services/business-license/",
+    "to": "/business-license/",
+    "status": 301
+  },
+  {
+    "from": "/pro-services/franchise-service/",
+    "to": "/services/franchise-service/",
+    "status": 301
+  },
+  {
+    "from": "/pro-services/virtual-office/",
+    "to": "/services/virtual-office/",
+    "status": 301
+  },
+  {
+    "from": "/pro-services/open-company-saudi-arabia/",
+    "to": "/services/open-company-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/pro-services/open-branch/",
+    "to": "/services/open-branch/",
+    "status": 301
+  },
+  {
+    "from": "/services/franchise-service/",
+    "to": "/franchise-service/",
+    "status": 301
+  },
+  {
+    "from": "/services/virtual-office/",
+    "to": "/virtual-office/",
+    "status": 301
+  },
+  {
+    "from": "/services/open-company-saudi-arabia/",
+    "to": "/open-company-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/services/open-branch/",
+    "to": "/open-branch/",
+    "status": 301
+  },
+  {
+    "from": "/services/legal-services/",
+    "to": "/legal-services/",
+    "status": 301
+  },
+  {
+    "from": "/services/visa-services/",
+    "to": "/visa-services/",
+    "status": 301
+  },
+  {
+    "from": "/business-license/tourism-license/",
+    "to": "/tourism-license/",
+    "status": 301
+  },
+  {
+    "from": "/business-license/commercial-license/",
+    "to": "/commercial-license/",
+    "status": 301
+  },
+  {
+    "from": "/business-license/trade-license/",
+    "to": "/trade-license/",
+    "status": 301
+  },
+  {
+    "from": "/business-license/ecommerce-license/",
+    "to": "/ecommerce-license/",
+    "status": 301
+  },
+  {
+    "from": "/business-license/food-establishment/",
+    "to": "/food-establishment/",
+    "status": 301
+  },
+  {
+    "from": "/visa-services/saudi-business-visa/",
+    "to": "/saudi-business-visa/",
+    "status": 301
+  },
+  {
+    "from": "/visa-services/investor-visa/",
+    "to": "/investor-visa/",
+    "status": 301
+  },
+  {
+    "from": "/saudi-visit-visa/",
+    "to": "/visit-visa-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/consultants-trade-license-saudi-arabia/",
+    "to": "/trade-license-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/investment-in-saudi-arabia/",
+    "to": "/leap-23-riyadh-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/setting-up-company-in-saudi-arabia/",
+    "to": "/how-to-open-company-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/ecommerce-license/",
+    "to": "/ecommerce-license-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/on-time-ksa/",
+    "to": "/open-new-branch-on-time-ksa/",
+    "status": 301
+  },
+  {
+    "from": "/transfer-sponsorship-saudi-arabia-2021/",
+    "to": "/transfer-sponsorship-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/how-to-get-sagia-license-for-business-setup-in-saudi-arabia/",
+    "to": "/sagia-license-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/home-new-2/",
+    "to": "/home-2/",
+    "status": 301
+  },
+  {
+    "from": "/home-new/",
+    "to": "/home/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/",
+    "to": "/ar/%d9%82%d8%a7%d9%86%d9%88%d9%86/",
+    "status": 301
+  },
+  {
+    "from": "/ar/open-company-saudi-arabia/",
+    "to": "/ar/%d8%b4%d8%b1%d9%83%d8%a9-%d9%85%d9%81%d8%aa%d9%88%d8%ad%d8%a9/",
+    "status": 301
+  },
+  {
+    "from": "/ar/services/",
+    "to": "/ar/%d8%ae%d8%af%d9%85%d8%a7%d8%aa/",
+    "status": 301
+  },
+  {
+    "from": "/ar/blogs/",
+    "to": "/ar/%d8%a7%d9%84%d9%85%d8%af%d9%88%d9%86%d8%a7%d8%aa/",
+    "status": 301
+  },
+  {
+    "from": "/ar/about-us/",
+    "to": "/ar/%d9%85%d8%b9%d9%84%d9%88%d9%85%d8%a7%d8%aa-%d8%b9%d9%86%d8%a7/",
+    "status": 301
+  },
+  {
+    "from": "/ar/pro-services/",
+    "to": "/ar/pro-%d8%ae%d8%af%d9%85%d8%a9/",
+    "status": 301
+  },
+  {
+    "from": "/فترة-التجربة-في-نظام-العمل-السعودي-مدت/",
+    "to": "/the-probation-period-in-the-saudi-labor-system-its-duration-and-conditions/",
+    "status": 301
+  },
+  {
+    "from": "/33667/",
+    "to": "/hajj-and-umrah-leave-in-saudi-labor-system/",
+    "status": 301
+  },
+  {
+    "from": "/ar/virtual-office/",
+    "to": "/ar/%d8%a7%d9%84%d9%85%d9%83%d8%aa%d8%a8-%d8%a7%d9%84%d8%a7%d9%81%d8%aa%d8%b1%d8%a7%d8%b6%d9%8a/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-vacation-leave/3/",
+    "to": "/law/saudi-labor-law-vacation-leave/",
+    "status": 301
+  },
+  {
+    "from": "/law/online-complaint-to-labour-court-saudi-arabia/3/",
+    "to": "/law/online-complaint-to-labour-court-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/logistics-company-setup-in-riyadh/?nowprocket=1/",
+    "to": "/logistics-company-setup-in-riyadh/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-vacation-leave/2/",
+    "to": "/law/saudi-labor-law-vacation-leave/",
+    "status": 301
+  },
+  {
+    "from": "/law/notice-period-in-saudi-labor-law/3/",
+    "to": "/law/notice-period-in-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-77-saudi-labor-law/3/",
+    "to": "/law/article-77-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-81-saudi-labor-law/3/",
+    "to": "/law/article-81-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-termination-of-contract/2/",
+    "to": "/law/saudi-labor-law-termination-of-contract/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-81-saudi-labor-law/2/",
+    "to": "/law/article-81-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-termination-of-contract/3/",
+    "to": "/law/saudi-labor-law-termination-of-contract/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-37-rights-of-employment/2/",
+    "to": "/law/article-37-rights-of-employment/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-37-rights-of-employment/3/",
+    "to": "/law/article-37-rights-of-employment/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-end-of-service-calculator/3/",
+    "to": "/law/saudi-labor-law-end-of-service-calculator/",
+    "status": 301
+  },
+  {
+    "from": "/law/notice-period-in-saudi-labor-law/2/",
+    "to": "/law/notice-period-in-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-end-of-service-calculator/2/",
+    "to": "/law/saudi-labor-law-end-of-service-calculator/",
+    "status": 301
+  },
+  {
+    "from": "/law/online-complaint-to-labour-court-saudi-arabia/2/",
+    "to": "/law/online-complaint-to-labour-court-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-40-saudi-labor-law/3/",
+    "to": "/law/article-40-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/rules-for-salary-increment-in-the-law/2/",
+    "to": "/law/rules-for-salary-increment-in-the-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/rules-for-salary-increment-in-the-law/3/",
+    "to": "/law/rules-for-salary-increment-in-the-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-77-saudi-labor-law/2/",
+    "to": "/law/article-77-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/article-40-saudi-labor-law/2/",
+    "to": "/law/article-40-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-end-of-service/3/",
+    "to": "/law/saudi-labor-law-end-of-service/",
+    "status": 301
+  },
+  {
+    "from": "/law/new-saudi-labor-law-for-expatriates/2/",
+    "to": "/law/new-saudi-labor-law-for-expatriates/",
+    "status": 301
+  },
+  {
+    "from": "/law/new-saudi-labor-law-for-expatriates/3/",
+    "to": "/law/new-saudi-labor-law-for-expatriates/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-end-of-service/2/",
+    "to": "/law/saudi-labor-law-end-of-service/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-arabia-labor-law/2/",
+    "to": "/law/saudi-arabia-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-arabia-labor-law/3/",
+    "to": "/law/saudi-arabia-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-article-75/3/",
+    "to": "/law/saudi-labor-law-article-75/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-labor-law-article-75/2/",
+    "to": "/law/saudi-labor-law-article-75/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-arabia-labor-law-for-final-exit/2/",
+    "to": "/law/saudi-arabia-labor-law-for-final-exit/",
+    "status": 301
+  },
+  {
+    "from": "/law/resigning-without-finishing-contract/2/",
+    "to": "/law/resigning-without-finishing-contract/",
+    "status": 301
+  },
+  {
+    "from": "/law/saudi-arabia-labor-law-for-final-exit/3/",
+    "to": "/law/saudi-arabia-labor-law-for-final-exit/",
+    "status": 301
+  },
+  {
+    "from": "/law/resigning-without-finishing-contract/3/",
+    "to": "/law/resigning-without-finishing-contract/",
+    "status": 301
+  },
+  {
+    "from": "/company-formation-in-saudi-arabia/",
+    "to": "/process-of-company-formation-in-saudi-arabia/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/المادة-81-نظام-العمل-السعودي/?page=4/",
+    "to": "/ar/law/المادة-81-نظام-العمل-السعودي/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/المادة-81-نظام-العمل-السعودي/?page=3/",
+    "to": "/ar/law/المادة-81-نظام-العمل-السعودي/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/نظام-العمل-السعودي-المادة-75/?page=4/",
+    "to": "/ar/law/نظام-العمل-السعودي-المادة-75/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/المادة-40-نظام-العمل-السعودي/?page=2/",
+    "to": "/ar/law/المادة-40-نظام-العمل-السعودي/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/المادة-40-نظام-العمل-السعودي/?page=3/",
+    "to": "/ar/law/المادة-40-نظام-العمل-السعودي/",
+    "status": 301
+  },
+  {
+    "from": "/ar/law/المادة-81-نظام-العمل-السعودي/?page=2/",
+    "to": "/ar/law/المادة-81-نظام-العمل-السعودي/",
+    "status": 301
+  },
+  {
+    "from": "/law/notice-period-in-saudi-labor-law/?page=2/",
+    "to": "/law/notice-period-in-saudi-labor-law/",
+    "status": 301
+  },
+  {
+    "from": "/law/?page=2/",
+    "to": "/law/",
+    "status": 301
+  }
+]

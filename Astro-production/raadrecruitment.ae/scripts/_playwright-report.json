@@ -1,0 +1,128 @@
+{
+  "failed": [
+    {
+      "type": "requestfailed",
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-BBBB",
+      "error": "net::ERR_BLOCKED_BY_ORB"
+    },
+    {
+      "type": "requestfailed",
+      "url": "https://www.googletagmanager.com/gtm.js?id=GTM-AAAA",
+      "error": "net::ERR_BLOCKED_BY_ORB"
+    }
+  ],
+  "failedCount": 2,
+  "fontResponses": [
+    {
+      "status": 200,
+      "url": "/wp-content/uploads/elementor/google-fonts/fonts/kumbhsans-c4mw1n92asfhucq6tvsaoix1lqick0bonoq0shnpvo0.woff2",
+      "ct": "font/woff2"
+    },
+    {
+      "status": 200,
+      "url": "/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-regular-400.woff2",
+      "ct": "font/woff2"
+    },
+    {
+      "status": 200,
+      "url": "/wp-content/plugins/elementor/assets/lib/eicons/fonts/eicons.woff2?5.50.0",
+      "ct": "font/woff2"
+    },
+    {
+      "status": 200,
+      "url": "/wp-content/uploads/elementor/google-fonts/fonts/roboto-kfo7cnqeu92fr1me7ksn66agldtyluama3yuba.woff2",
+      "ct": "font/woff2"
+    },
+    {
+      "status": 200,
+      "url": "/wp-content/uploads/elementor/google-fonts/fonts/inter-ucc73fwrk3iltehus_nvmrmxcp50sjia1zl7.woff2",
+      "ct": "font/woff2"
+    },
+    {
+      "status": 200,
+      "url": "/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.woff2",
+      "ct": "font/woff2"
+    }
+  ],
+  "imageFailCount": 0,
+  "imageOkCount": 15,
+  "computed": {
+    "bodyFont": "\"Kumbh Sans\", sans-serif",
+    "h1Font": "Roboto, sans-serif",
+    "h1Text": "RAAD Recruitment",
+    "firstImg": {
+      "src": "http://127.0.0.1:5113/wp-content/uploads/2023/10/logo-RAAD-Recruitment-UAE-normal-150x54.png",
+      "w": 150,
+      "h": 54
+    },
+    "zeroSizeImages": [
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Ellipse-36.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Stars.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Ellipse-41.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Stars.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Ellipse-4.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/Stars.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/07/persons-a2.png",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Banking-Finance.jpg",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/IT-Technology.jpg",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      },
+      {
+        "src": "http://127.0.0.1:5113/wp-content/uploads/2023/08/Health-Care.jpg",
+        "naturalWidth": 0,
+        "complete": false,
+        "display": "inline-block"
+      }
+    ],
+    "logoOk": true
+  }
+}

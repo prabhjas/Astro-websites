@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/documents-required-for-business-license-dubai/ |
+| Live URL | /documents-required-for-business-license-dubai/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

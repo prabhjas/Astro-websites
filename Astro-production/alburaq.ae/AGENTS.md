@@ -1,6 +1,6 @@
 # Agent notes — Al Buraq Astro
 
-WordPress → Astro HTML mirror of https://alburaq.ae/
+WordPress → Astro HTML mirror of /
 
 Peer scaffold: `pittant.com` (FEATURES_FULL_CMS). Port **5120**.
 

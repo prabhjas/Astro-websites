@@ -1,4 +1,4 @@
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 const dirHtml = await (await fetch(`${ORIGIN}/author/`)).text();
 const slugs = [...new Set([...dirHtml.matchAll(/\/author\/([^/"'#?\s]+)\/?/g)].map((m) => m[1]))]

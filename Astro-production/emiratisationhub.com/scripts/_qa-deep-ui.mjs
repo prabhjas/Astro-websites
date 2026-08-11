@@ -3,7 +3,7 @@
  * Deep UI parity probe for emiratisationhub local vs live.
  */
 const LOCAL = process.env.LOCAL_BASE || 'http://127.0.0.1:5107';
-const LIVE = 'https://emiratisationhub.com';
+const LIVE = '';
 
 async function get(base, path) {
   const res = await fetch(`${base}${path}`, {

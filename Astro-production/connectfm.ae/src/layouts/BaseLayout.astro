@@ -85,15 +85,21 @@ const baseCss = [
   ...(liveCssOrder as string[]).filter((href) => !globalCss.includes(href) && allowStylesheet(href)),
 ];
 
+// Figma page-design overlays must load AFTER Elementor + migration-overrides
+// so hero/layout !important rules win (e.g. smart-homes-sec2-4.css).
+const pageDesignCss = extraCss.filter((href) => href.startsWith("/css/page-design/"));
+const otherExtraCss = extraCss.filter((href) => !href.startsWith("/css/page-design/"));
+
 const stylesheets = [
   ...new Set([
     ...baseCss,
-    ...extraCss,
+    ...otherExtraCss,
     "/css/wp-custom.css",
     "/css/connectfm-typography.css",
     "/css/elementor-bg-fallback.css",
     "/css/simplePagination.min.css",
     "/css/migration-overrides.css",
+    ...pageDesignCss,
   ]),
 ].filter(allowStylesheet);
 /** Dashboard Global GTM — SSR into HTML so it appears in View Source */

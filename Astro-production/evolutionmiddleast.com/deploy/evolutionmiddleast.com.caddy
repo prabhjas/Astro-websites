@@ -7,14 +7,21 @@
 #   1. Ensure the shared one-hop HTTP alt-host block lists http://evolutionmiddleast.com
 #      and redirects to https://www.evolutionmiddleast.com{uri}
 #   2. Match PUBLIC_SITE_URL=https://www.evolutionmiddleast.com
-#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   3. Cloudflare SSL = Full (not Flexible); Full (strict) is intentionally deferred for this named internal CA.
 #   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 #
 # Local laptop: do NOT run this Caddy block — use fleet-local on :5080 only.
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 evolutionmiddleast.com, www.evolutionmiddleast.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.key
 	encode zstd gzip
 
 	# Canonical host follows PUBLIC_SITE_URL for consistent SEO signals.

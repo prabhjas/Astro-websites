@@ -6,7 +6,7 @@
 | **Unit** | `companyformationsaudi` |
 | **Peer** | Full CMS — `connectresources.sa` |
 | **Features** | `FEATURES_FULL_CMS` |
-| **Live** | https://companyformationsaudi.com/ |
+| **Live** | / |
 | **Local** | http://127.0.0.1:5114/ |
 
 ## Inventory (mirrored 2026-08-04)

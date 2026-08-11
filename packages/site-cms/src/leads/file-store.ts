@@ -1,6 +1,9 @@
-import { mkdir, readdir, readFile, stat, appendFile, rename, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { constants } from 'node:fs';
+import { mkdir, open, readdir, lstat, rename, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { dirname, join, resolve } from 'node:path';
 import type { LeadDeliveryAttemptRecord, LeadStoreEvent, LeadSubmissionRecord } from './types';
+import { assertValidPublicId, isValidPublicId, resolveContainedPath } from './public-id';
 
 type StoreKind = 'submissions' | 'attempts';
 
@@ -10,14 +13,40 @@ type FileLeadStoreOptions = {
 };
 
 async function ensureDir(path: string): Promise<void> {
-  await mkdir(path, { recursive: true });
+  // Lead records contain PII. Explicit modes keep newly-created paths private
+  // even when a service inherits the host's permissive default umask.
+  await mkdir(path, { recursive: true, mode: 0o750 });
+}
+
+function assertCanonicalTimestamp(value: string, fieldName: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) {
+    throw new TypeError(`Invalid ${fieldName}`);
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString() !== value) {
+    throw new TypeError(`Invalid ${fieldName}`);
+  }
+  return value;
 }
 
 async function writeJsonAtomic(path: string, value: unknown): Promise<void> {
   await ensureDir(dirname(path));
-  const tmpPath = `${path}.${process.pid}.${Date.now()}.tmp`;
-  await writeFile(tmpPath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+  const tmpPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
+  await writeFile(tmpPath, `${JSON.stringify(value, null, 2)}\n`, {
+    encoding: 'utf8',
+    mode: 0o640,
+    flag: 'wx',
+  });
   await rename(tmpPath, path);
+}
+
+async function readUtf8NoFollow(path: string): Promise<string> {
+  const handle = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+  try {
+    return await handle.readFile('utf8');
+  } finally {
+    await handle.close();
+  }
 }
 
 function getPeriodKey(dateIso: string): string {
@@ -29,7 +58,9 @@ function getDateKey(dateIso: string): string {
 }
 
 async function resolveWritableFile(baseDir: string, kind: StoreKind, dateIso: string, maxFileBytes: number): Promise<string> {
-  const monthDir = join(baseDir, kind, getPeriodKey(dateIso));
+  assertCanonicalTimestamp(dateIso, `${kind} timestamp`);
+  const kindDir = resolveContainedPath(baseDir, kind);
+  const monthDir = resolveContainedPath(kindDir, getPeriodKey(dateIso));
   await ensureDir(monthDir);
 
   const prefix = `${kind}-${getDateKey(dateIso)}-`;
@@ -38,18 +69,27 @@ async function resolveWritableFile(baseDir: string, kind: StoreKind, dateIso: st
     .sort();
 
   if (files.length > 0) {
-    const latest = join(monthDir, files[files.length - 1]);
-    const latestStat = await stat(latest).catch(() => null);
-    if (latestStat && latestStat.size < maxFileBytes) return latest;
+    const latest = resolveContainedPath(monthDir, files[files.length - 1]);
+    const latestStat = await lstat(latest).catch(() => null);
+    if (latestStat?.isFile() && latestStat.size < maxFileBytes) return latest;
   }
 
   const nextIndex = files.length + 1;
-  return join(monthDir, `${prefix}${String(nextIndex).padStart(3, '0')}.ndjson`);
+  return resolveContainedPath(monthDir, `${prefix}${String(nextIndex).padStart(3, '0')}.ndjson`);
 }
 
 async function appendEvent(path: string, event: LeadStoreEvent): Promise<void> {
   await ensureDir(dirname(path));
-  await appendFile(path, `${JSON.stringify(event)}\n`, 'utf8');
+  const handle = await open(
+    path,
+    constants.O_APPEND | constants.O_CREAT | constants.O_WRONLY | constants.O_NOFOLLOW,
+    0o640,
+  );
+  try {
+    await handle.writeFile(`${JSON.stringify(event)}\n`, 'utf8');
+  } finally {
+    await handle.close();
+  }
 }
 
 async function listFilesRecursive(dir: string, extension: string): Promise<string[]> {
@@ -57,8 +97,9 @@ async function listFilesRecursive(dir: string, extension: string): Promise<strin
   const nested = await Promise.all(
     entries.map(async (entry) => {
       const fullPath = join(dir, entry.name);
+      if (entry.isSymbolicLink()) return [];
       if (entry.isDirectory()) return listFilesRecursive(fullPath, extension);
-      return entry.name.endsWith(extension) ? [fullPath] : [];
+      return entry.isFile() && entry.name.endsWith(extension) ? [fullPath] : [];
     }),
   );
   return nested.flat();
@@ -69,18 +110,21 @@ export class FileLeadStore {
   private readonly maxFileBytes: number;
 
   constructor(options: FileLeadStoreOptions) {
-    this.rootDir = options.rootDir;
+    this.rootDir = resolve(options.rootDir);
     this.maxFileBytes = options.maxFileBytes;
   }
 
   private statePath(publicId: string): string {
-    return join(this.rootDir, 'state', `${publicId}.json`);
+    assertValidPublicId(publicId);
+    const stateDir = resolveContainedPath(this.rootDir, 'state');
+    return resolveContainedPath(stateDir, `${publicId}.json`);
   }
 
   async getSubmission(publicId: string): Promise<LeadSubmissionRecord | null> {
+    if (!isValidPublicId(publicId)) return null;
     const path = this.statePath(publicId);
     try {
-      const raw = await readFile(path, 'utf8');
+      const raw = await readUtf8NoFollow(path);
       return JSON.parse(raw) as LeadSubmissionRecord;
     } catch {
       return null;
@@ -89,14 +133,15 @@ export class FileLeadStore {
 
   async listSubmissions(): Promise<LeadSubmissionRecord[]> {
     const stateDir = join(this.rootDir, 'state');
-    const names = await readdir(stateDir).catch(() => []);
+    const entries = await readdir(stateDir, { withFileTypes: true }).catch(() => []);
     const records = await Promise.all(
-      names
-        .filter((name) => name.endsWith('.json'))
-        .map(async (name) => {
+      entries
+        .filter((entry) => entry.isFile() && !entry.isSymbolicLink() && entry.name.endsWith('.json'))
+        .map(async (entry) => {
           try {
-            const raw = await readFile(join(stateDir, name), 'utf8');
-            return JSON.parse(raw) as LeadSubmissionRecord;
+            const raw = await readUtf8NoFollow(resolveContainedPath(stateDir, entry.name));
+            const record = JSON.parse(raw) as LeadSubmissionRecord;
+            return isValidPublicId(record.publicId) ? record : null;
           } catch {
             return null;
           }
@@ -109,11 +154,12 @@ export class FileLeadStore {
   }
 
   async listAttempts(publicId?: string): Promise<LeadDeliveryAttemptRecord[]> {
+    if (publicId !== undefined && !isValidPublicId(publicId)) return [];
     const attemptsDir = join(this.rootDir, 'attempts');
     const files = await listFilesRecursive(attemptsDir, '.ndjson');
     const records: LeadDeliveryAttemptRecord[] = [];
     for (const file of files) {
-      const raw = await readFile(file, 'utf8').catch(() => '');
+      const raw = await readUtf8NoFollow(file).catch(() => '');
       for (const line of raw.split('\n')) {
         if (!line.trim()) continue;
         try {
@@ -140,7 +186,8 @@ export class FileLeadStore {
   }
 
   async storeSubmission(record: LeadSubmissionRecord): Promise<void> {
-    const createdAt = record.createdAt || new Date().toISOString();
+    assertValidPublicId(record.publicId);
+    const createdAt = assertCanonicalTimestamp(record.createdAt || new Date().toISOString(), 'createdAt');
     const submissionsFile = await resolveWritableFile(this.rootDir, 'submissions', createdAt, this.maxFileBytes);
     await appendEvent(submissionsFile, {
       type: 'lead_submission_stored',
@@ -151,7 +198,8 @@ export class FileLeadStore {
   }
 
   async updateSubmission(record: LeadSubmissionRecord): Promise<void> {
-    const updatedAt = record.updatedAt || new Date().toISOString();
+    assertValidPublicId(record.publicId);
+    const updatedAt = assertCanonicalTimestamp(record.updatedAt || new Date().toISOString(), 'updatedAt');
     const submissionsFile = await resolveWritableFile(this.rootDir, 'submissions', updatedAt, this.maxFileBytes);
     await appendEvent(submissionsFile, {
       type: 'lead_delivery_updated',
@@ -162,7 +210,9 @@ export class FileLeadStore {
   }
 
   async storeAttempt(record: LeadDeliveryAttemptRecord): Promise<void> {
-    const attemptsFile = await resolveWritableFile(this.rootDir, 'attempts', record.createdAt, this.maxFileBytes);
+    assertValidPublicId(record.publicId);
+    const createdAt = assertCanonicalTimestamp(record.createdAt, 'createdAt');
+    const attemptsFile = await resolveWritableFile(this.rootDir, 'attempts', createdAt, this.maxFileBytes);
     await appendEvent(attemptsFile, {
       type: 'lead_delivery_attempt',
       record,

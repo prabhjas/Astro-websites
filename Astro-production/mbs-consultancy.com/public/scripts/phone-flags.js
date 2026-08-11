@@ -18,6 +18,13 @@
       FLAG_PNG +
       '")!important;background-repeat:no-repeat!important;}' +
       ".intl-tel-input .iti-flag{height:15px;box-shadow:0 0 1px 0 #888;}" +
+      /* Live intlTelInput: flag is absolute; dial code clears it with 28px pad */
+      ".intl-tel-input.separate-dial-code .selected-dial-code{padding-left:28px!important;display:table-cell;vertical-align:middle;white-space:nowrap;}" +
+      /* Beat post us_custom-css padding-left:50px so placeholder clears flag+code */
+      ".customsinglepagetemplate .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label," +
+      ".wpcf7 .intl-tel-input.separate-dial-code input," +
+      ".row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext," +
+      "#custom-form .wpcf7-phonetext.inside_label{padding-left:110px!important;box-sizing:border-box!important;}" +
       "@media only screen and (-webkit-min-device-pixel-ratio:2)," +
       "only screen and (min-resolution:192dpi)," +
       "only screen and (min-resolution:2dppx){" +
@@ -94,12 +101,50 @@
     }
   }
 
+  function isPluginInited($el) {
+    return Boolean($el.data("plugin_intlTelInput") || $el.data("intlTelInput"));
+  }
+
+  /**
+   * WP mirror HTML sometimes ships a static .intl-tel-input shell (often +1/US)
+   * without a jQuery plugin instance. Unwrap so we can init cleanly with geo.
+   */
+  function unwrapStaticShell(el) {
+    const wrap = el?.closest?.(".intl-tel-input");
+    if (!wrap || !el) return el;
+    const $ = window.jQuery;
+    if ($ && isPluginInited($(el))) return el;
+
+    const parent = wrap.parentNode;
+    if (!parent) return el;
+
+    const keep = [];
+    wrap.querySelectorAll("input, select, textarea").forEach((node) => keep.push(node));
+    keep.forEach((node) => parent.insertBefore(node, wrap));
+
+    // orphaned country-code hidden may sit after wrap
+    const next = wrap.nextElementSibling;
+    if (
+      next &&
+      next.matches?.("input.wpcf7-phonetext-country-code, input[name$='-country-code']")
+    ) {
+      /* leave it — still useful once plugin writes dial */
+    }
+    wrap.remove();
+    return el;
+  }
+
   function applyCountry($el, country) {
     try {
-      if ($el.data("plugin_intlTelInput") || $el.data("intlTelInput")) {
+      if (isPluginInited($el)) {
         $el.intlTelInput("setCountry", country);
         rememberCountry(country);
         syncPhonePadding($el.get(0));
+        const dial = $el.intlTelInput("getSelectedCountryData")?.dialCode;
+        const hidden = $el
+          .closest("form")
+          ?.querySelector("input.wpcf7-phonetext-country-code, input[name$='-country-code']");
+        if (hidden && dial) hidden.value = "+" + dial;
       }
     } catch {
       /* ignore */
@@ -107,29 +152,46 @@
   }
 
   function initField($, $el, geoCountry) {
-    const el = $el.get(0);
-    if ($el.data("plugin_intlTelInput") || $el.data("intlTelInput")) {
-      // Already inited — never force geo over the user's current selection
+    let el = $el.get(0);
+    el = unwrapStaticShell(el);
+    $el = $(el);
+
+    if (isPluginInited($el)) {
+      // Already inited — sync geo once if still on default US and geo differs
       const current = getSelectedCountry($el);
-      if (current) rememberCountry(current);
-      syncPhonePadding(el);
+      if (current && current !== geoCountry && !$el.data("mbsGeoApplied")) {
+        applyCountry($el, geoCountry);
+        $el.data("mbsGeoApplied", 1);
+      } else if (current) {
+        rememberCountry(current);
+        syncPhonePadding(el);
+      }
       return;
     }
     try {
       $el.intlTelInput({
-        initialCountry: geoCountry,
-        preferredCountries: ["in", "ae", "pk", "sa", "gb", "us"],
+        initialCountry: geoCountry || "ae",
+        preferredCountries: ["ae", "in", "pk", "sa", "gb", "us"],
         separateDialCode: true,
         autoPlaceholder: "off",
+        nationalMode: true,
         utilsScript: UTILS_JS,
       });
-      rememberCountry(geoCountry);
+      $el.data("mbsGeoApplied", 1);
+      rememberCountry(geoCountry || "ae");
+      applyCountry($el, geoCountry || "ae");
       if (el) {
         el.addEventListener("countrychange", () => {
           rememberCountry(getSelectedCountry($el));
           syncPhonePadding(el);
+          const dial = getSelectedCountry($el)
+            ? $el.intlTelInput("getSelectedCountryData")?.dialCode
+            : "";
+          const hidden = el
+            .closest("form")
+            ?.querySelector("input.wpcf7-phonetext-country-code, input[name$='-country-code']");
+          if (hidden && dial) hidden.value = "+" + dial;
         });
-        // Layout may settle after fonts/flag sprite load
         syncPhonePadding(el);
         requestAnimationFrame(() => syncPhonePadding(el));
         setTimeout(() => syncPhonePadding(el), 50);
@@ -144,7 +206,7 @@
   window.__MBS_SET_PHONE_COUNTRY__ = function setPhoneCountry(input, iso2) {
     if (!input || !window.jQuery) return;
     const $el = window.jQuery(input);
-    if (!($el.data("plugin_intlTelInput") || $el.data("intlTelInput"))) return;
+    if (!isPluginInited($el)) return;
     applyCountry($el, iso2 || window.__MBS_PHONE_COUNTRY__ || "ae");
   };
 

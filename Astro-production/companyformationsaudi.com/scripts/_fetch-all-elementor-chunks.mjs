@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = join(ROOT, 'public');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 
 async function download(rel) {
   const dest = join(PUBLIC, ...rel.split('/').filter(Boolean));

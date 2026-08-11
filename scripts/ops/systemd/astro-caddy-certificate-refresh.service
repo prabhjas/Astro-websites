@@ -1,0 +1,43 @@
+[Unit]
+Description=Validate and gracefully refresh Caddy's reviewed named-CA certificate loaders
+Requisite=caddy.service
+After=network-online.target caddy.service
+Wants=network-online.target
+ConditionPathExists=/etc/caddy/c01-manual-cert-refresh.expected-sha256
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+ExecStart=/usr/local/sbin/astro-caddy-certificate-refresh --reload --confirm-reload RELOAD-VALIDATED-C01-CERTIFICATES
+TimeoutStartSec=30min
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+RuntimeDirectory=astro-caddy-certificate-refresh
+RuntimeDirectoryMode=0700
+StateDirectory=astro-caddy-certificate-refresh
+StateDirectoryMode=0700
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+ReadOnlyPaths=/usr/bin/caddy /etc/caddy /var/lib/caddy/.local/share/caddy /etc/ssl/certs
+ReadWritePaths=/run/astro-caddy-certificate-refresh /var/lib/astro-caddy-certificate-refresh

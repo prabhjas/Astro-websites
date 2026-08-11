@@ -4,9 +4,9 @@
 import type { Author } from './authors.ts';
 
 export const AUTHORS_BASE_PATH = '/author';
-export const AUTHORS_ORIGIN = 'https://emiratisationhub.com';
+export const AUTHORS_ORIGIN = '';
 
-/** Featured authors on live https://emiratisationhub.com/author/ */
+/** Featured authors on live /author/ */
 export const LIVE_AUTHOR_ORDER = [
   'nakul',
   'binju-t-r',

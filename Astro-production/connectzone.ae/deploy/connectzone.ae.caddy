@@ -1,15 +1,41 @@
-# /etc/caddy/sites.d/connectzone.ae.caddy
-# Behind Cloudflare: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
-# Origin SSL mode must be Full (not Full strict) — origin uses tls internal.
-# Cloudflare DNS must point apex (+ www) at this host before traffic reaches Astro.
-# Validate before reload: caddy validate --config /etc/caddy/Caddyfile
+# connectzone.ae -> 127.0.0.1:5101 (systemd: connectzone.service)
+#
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile — see caddy/Caddyfile.production).
+# This file is the site block to keep in sync with the live fleet Caddyfile.
+#
+# When deploying / adding this site on the server you MUST also:
+#   1. Ensure the shared one-hop HTTP alt-host block lists http://www.connectzone.ae
+#      and redirects to https://connectzone.ae{uri}
+#   2. Match PUBLIC_SITE_URL=https://connectzone.ae
+#   3. Cloudflare SSL = Full (not Flexible; named CA astro_origin_2026 on origin — not Full strict until certs match)
+#   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5101 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
-http://connectzone.ae, http://www.connectzone.ae, https://connectzone.ae, https://www.connectzone.ae {
-	tls internal
-	encode gzip zstd
+connectzone.ae, www.connectzone.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.connectzone.ae
+	redir @noncanonical https://connectzone.ae{uri} permanent
+
 	reverse_proxy 127.0.0.1:5101
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
 	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {

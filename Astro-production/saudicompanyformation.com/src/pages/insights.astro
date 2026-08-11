@@ -1,0 +1,7 @@
+---
+import { getBlogPageData, serveArchivePage } from '../lib/archives.ts';
+
+export const prerender = false;
+
+return serveArchivePage(getBlogPageData(1));
+---

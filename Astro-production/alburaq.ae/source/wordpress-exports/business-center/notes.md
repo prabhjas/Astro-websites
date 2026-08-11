@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | page |
-| Live URL | https://alburaq.ae/business-center/ |
+| Live URL | /business-center/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

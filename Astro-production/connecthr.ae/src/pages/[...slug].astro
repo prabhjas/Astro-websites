@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
   getPageByPath,
@@ -11,6 +10,7 @@ import {
 import { renderSinglePostShell } from "../lib/blog-shell";
 import singlePostCss from "../data/single-post-css.json";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { isNoIndexNoFollowPath } from "../lib/seo/sitemap-config";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -49,6 +49,8 @@ const seo =
         description: entry.seo.description,
         canonical: path,
         ogImage: entry.seo.ogImage,
+        noindex: isNoIndexNoFollowPath(path),
+        nofollow: isNoIndexNoFollowPath(path),
         schemas: [
           ...(entry.seo.schemas || []),
           breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -63,6 +65,8 @@ const seo =
         publishedTime: post!.date,
         modifiedTime: post!.modified,
         authorName: post!.authorName,
+        noindex: isNoIndexNoFollowPath(path),
+        nofollow: isNoIndexNoFollowPath(path),
         schemas: [
           ...(post!.seo.schemas || []),
           breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),

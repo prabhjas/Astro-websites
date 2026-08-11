@@ -1,0 +1,2562 @@
+{
+    "plugin": {
+        "version": "5.9.0",
+        "date": "Mon, 10 Aug 2026 08:44:39 +0000"
+    },
+    "groups": [
+        {
+            "id": 1,
+            "name": "Redirections",
+            "module_id": 1,
+            "status": "enabled"
+        },
+        {
+            "id": 2,
+            "name": "Modified Posts",
+            "module_id": 1,
+            "status": "enabled"
+        }
+    ],
+    "redirects": [
+        {
+            "id": 1,
+            "url": "/lighting-desing/",
+            "match_url": "/lighting-desing",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/lighting-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1252,
+            "regex": false,
+            "group_id": 1,
+            "position": 0,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 2,
+            "url": "/best-dubai-lighting-desing-2023/",
+            "match_url": "/best-dubai-lighting-desing-2023",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/best-dubai-lighting-desing/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 464,
+            "regex": false,
+            "group_id": 1,
+            "position": 1,
+            "last_access": "August 7, 2026",
+            "enabled": true
+        },
+        {
+            "id": 3,
+            "url": "/best-dubai-lighting-desing/",
+            "match_url": "/best-dubai-lighting-desing",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/best-dubai-lighting-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 471,
+            "regex": false,
+            "group_id": 1,
+            "position": 2,
+            "last_access": "August 7, 2026",
+            "enabled": true
+        },
+        {
+            "id": 4,
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "match_url": "/explore-the-top-interior-design-companies-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/top-interior-design-companies-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1615,
+            "regex": false,
+            "group_id": 1,
+            "position": 3,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 5,
+            "url": "/construction-companies-near-me/",
+            "match_url": "/construction-companies-near-me",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/construction-companies-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1266,
+            "regex": false,
+            "group_id": 1,
+            "position": 4,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 6,
+            "url": "/construction-companies-in-dubai/",
+            "match_url": "/construction-companies-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/construction-companies-in-abu-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1348,
+            "regex": false,
+            "group_id": 1,
+            "position": 5,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 7,
+            "url": "/homenew/",
+            "match_url": "/homenew",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/home/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1,
+            "regex": false,
+            "group_id": 1,
+            "position": 6,
+            "last_access": "January 30, 2024",
+            "enabled": false
+        },
+        {
+            "id": 8,
+            "url": "/home/",
+            "match_url": "/home",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/homenew/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1,
+            "regex": false,
+            "group_id": 1,
+            "position": 7,
+            "last_access": "January 30, 2024",
+            "enabled": false
+        },
+        {
+            "id": 9,
+            "url": "/aboutusnew/",
+            "match_url": "/aboutusnew",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/about-us/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 9,
+            "regex": false,
+            "group_id": 1,
+            "position": 8,
+            "last_access": "April 26, 2024",
+            "enabled": true
+        },
+        {
+            "id": 10,
+            "url": "/contactnew/",
+            "match_url": "/contactnew",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/contact-us/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 9,
+            "regex": false,
+            "group_id": 1,
+            "position": 9,
+            "last_access": "April 26, 2024",
+            "enabled": true
+        },
+        {
+            "id": 11,
+            "url": "/portfolio-new/",
+            "match_url": "/portfolio-new",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/portfolio/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 20,
+            "regex": false,
+            "group_id": 1,
+            "position": 10,
+            "last_access": "April 6, 2026",
+            "enabled": true
+        },
+        {
+            "id": 12,
+            "url": "/blog-new/",
+            "match_url": "/blog-new",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/our-blogs/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 29,
+            "regex": false,
+            "group_id": 1,
+            "position": 11,
+            "last_access": "April 6, 2026",
+            "enabled": true
+        },
+        {
+            "id": 13,
+            "url": "/homenew/",
+            "match_url": "/homenew",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/home/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 13,
+            "regex": false,
+            "group_id": 1,
+            "position": 12,
+            "last_access": "April 26, 2024",
+            "enabled": true
+        },
+        {
+            "id": 14,
+            "url": "/service-new-2/",
+            "match_url": "/service-new-2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/services/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 25,
+            "regex": false,
+            "group_id": 1,
+            "position": 13,
+            "last_access": "April 6, 2026",
+            "enabled": true
+        },
+        {
+            "id": 15,
+            "url": "/service-new/",
+            "match_url": "/service-new",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/interior-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 22,
+            "regex": false,
+            "group_id": 1,
+            "position": 14,
+            "last_access": "May 3, 2026",
+            "enabled": true
+        },
+        {
+            "id": 16,
+            "url": "/interior-design-copy/",
+            "match_url": "/interior-design-copy",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/interior-architecture-design-services-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 1,
+            "position": 15,
+            "last_access": "-",
+            "enabled": true
+        },
+        {
+            "id": 17,
+            "url": "/interior-architecture-design-services-in-dubai/",
+            "match_url": "/interior-architecture-design-services-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/interior-architecture-services-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 1,
+            "position": 16,
+            "last_access": "-",
+            "enabled": true
+        },
+        {
+            "id": 18,
+            "url": "/interior-architecture-services-in-dubai/",
+            "match_url": "/interior-architecture-services-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/interior-architecture-services-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 5,
+            "regex": false,
+            "group_id": 1,
+            "position": 17,
+            "last_access": "March 22, 2025",
+            "enabled": true
+        },
+        {
+            "id": 19,
+            "url": "/construction/",
+            "match_url": "/construction",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/construction-services-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 136,
+            "regex": false,
+            "group_id": 1,
+            "position": 18,
+            "last_access": "May 9, 2024",
+            "enabled": true
+        },
+        {
+            "id": 20,
+            "url": "/lighting-design-services-in-uae/",
+            "match_url": "/lighting-design-services-in-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/lighting-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1907,
+            "regex": false,
+            "group_id": 1,
+            "position": 19,
+            "last_access": "August 6, 2026",
+            "enabled": true
+        },
+        {
+            "id": 21,
+            "url": "/construction-services-in-uae-2/",
+            "match_url": "/construction-services-in-uae-2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/construction-services-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 1,
+            "position": 20,
+            "last_access": "-",
+            "enabled": true
+        },
+        {
+            "id": 22,
+            "url": "/office-lighting-in-uae-everything-you-need-to-know/",
+            "match_url": "/office-lighting-in-uae-everything-you-need-to-know",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/office-lighting/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 41,
+            "regex": false,
+            "group_id": 1,
+            "position": 21,
+            "last_access": "June 28, 2024",
+            "enabled": true
+        },
+        {
+            "id": 23,
+            "url": "/3d-wall-panels-in-the-uae-everything-you-need-to-know/",
+            "match_url": "/3d-wall-panels-in-the-uae-everything-you-need-to-know",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/3d-wall-panels-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 43,
+            "regex": false,
+            "group_id": 1,
+            "position": 22,
+            "last_access": "July 16, 2025",
+            "enabled": true
+        },
+        {
+            "id": 24,
+            "url": "/lighting-design-dubai-ten-christmas-light-ideas/",
+            "match_url": "/lighting-design-dubai-ten-christmas-light-ideas",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/ten-christmas-lighting-design-ideas-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 72,
+            "regex": false,
+            "group_id": 1,
+            "position": 23,
+            "last_access": "February 16, 2026",
+            "enabled": true
+        },
+        {
+            "id": 25,
+            "url": "/construction-companies-in-abu-dubai/",
+            "match_url": "/construction-companies-in-abu-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/construction-companies-in-abu-dhabi/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1560,
+            "regex": false,
+            "group_id": 1,
+            "position": 24,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 26,
+            "url": "/top-bespoke-furniture-trends-for-modern-homes-in-uae/",
+            "match_url": "/top-bespoke-furniture-trends-for-modern-homes-in-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/bespoke-furniture-trends/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 55,
+            "regex": false,
+            "group_id": 1,
+            "position": 25,
+            "last_access": "March 26, 2025",
+            "enabled": true
+        },
+        {
+            "id": 27,
+            "url": "/how-can-interior-architecture-solve-space-planning-issues/",
+            "match_url": "/how-can-interior-architecture-solve-space-planning-issues",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/space-planning/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 1,
+            "position": 26,
+            "last_access": "-",
+            "enabled": true
+        },
+        {
+            "id": 28,
+            "url": "/customized-furniture-dubai/",
+            "match_url": "/customized-furniture-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/customized-furniture/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 636,
+            "regex": false,
+            "group_id": 1,
+            "position": 27,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 29,
+            "url": "/flooring-design-ideas/",
+            "match_url": "/flooring-design-ideas",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/modern-living-room-floor-tiles/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 563,
+            "regex": false,
+            "group_id": 1,
+            "position": 28,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 30,
+            "url": "/dressing-room-design/",
+            "match_url": "/dressing-room-design",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/modern-small-dressing-room-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 443,
+            "regex": false,
+            "group_id": 1,
+            "position": 29,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 31,
+            "url": "/office-design-dubai/",
+            "match_url": "/office-design-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/office-interior-design-ideas/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 439,
+            "regex": false,
+            "group_id": 1,
+            "position": 30,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 32,
+            "url": "/salon-reception-design/",
+            "match_url": "/salon-reception-design",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/small-salon-interior-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 461,
+            "regex": false,
+            "group_id": 1,
+            "position": 31,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 33,
+            "url": "/install-indoor-outdoor-wall-lights-uae-step-by-step-guide/",
+            "match_url": "/install-indoor-outdoor-wall-lights-uae-step-by-step-guide",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/indoor-outdoor-wall-lights-guide-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1,
+            "regex": false,
+            "group_id": 1,
+            "position": 32,
+            "last_access": "July 24, 2025",
+            "enabled": true
+        },
+        {
+            "id": 34,
+            "url": "/indoor-outdoor-wall-lights-guide-uae/",
+            "match_url": "/indoor-outdoor-wall-lights-guide-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/indoor-outdoor-wall-lights-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 1,
+            "position": 33,
+            "last_access": "July 24, 2025",
+            "enabled": true
+        },
+        {
+            "id": 35,
+            "url": "/?trk=organization_guest_main-feed-card-text",
+            "match_url": "/",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 15,
+            "regex": false,
+            "group_id": 1,
+            "position": 34,
+            "last_access": "June 1, 2026",
+            "enabled": true
+        },
+        {
+            "id": 36,
+            "url": "/?trk=public_post_main-feed-card-text",
+            "match_url": "/",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://lladesigners.com/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 10,
+            "regex": false,
+            "group_id": 1,
+            "position": 35,
+            "last_access": "July 11, 2026",
+            "enabled": true
+        },
+        {
+            "id": 37,
+            "url": "/kitchen-interior-design-dubai/",
+            "match_url": "/kitchen-interior-design-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/kitchen-design-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 553,
+            "regex": false,
+            "group_id": 1,
+            "position": 36,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 38,
+            "url": "/multifamily-interior-design-key-concepts-ideas-best-practices/",
+            "match_url": "/multifamily-interior-design-key-concepts-ideas-best-practices",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/multifamily-interior-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 2,
+            "regex": false,
+            "group_id": 1,
+            "position": 37,
+            "last_access": "August 27, 2025",
+            "enabled": true
+        },
+        {
+            "id": 39,
+            "url": "/importance-of-lighting-in-interior-design-role-benefits-types/",
+            "match_url": "/importance-of-lighting-in-interior-design-role-benefits-types",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/importance-of-lighting-in-interior-design/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 1,
+            "position": 38,
+            "last_access": "-",
+            "enabled": true
+        }
+    ],
+    "logs": [
+        {
+            "id": "13406",
+            "created": "2026-08-03 18:24:27",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:135.0) Gecko/20100101 Firefox/135.0",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "24.50.80.248"
+        },
+        {
+            "id": "13407",
+            "created": "2026-08-03 18:24:27",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:135.0) Gecko/20100101 Firefox/135.0",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "24.50.80.248"
+        },
+        {
+            "id": "13408",
+            "created": "2026-08-03 18:58:33",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.4643.1106 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "88.247.160.109"
+        },
+        {
+            "id": "13409",
+            "created": "2026-08-04 02:47:15",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "206.206.122.200"
+        },
+        {
+            "id": "13410",
+            "created": "2026-08-04 04:40:44",
+            "url": "/flooring-design-ideas",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/office-interior-design-ideas",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "114.119.142.12"
+        },
+        {
+            "id": "13411",
+            "created": "2026-08-04 05:25:47",
+            "url": "/explore-the-top-interior-design-companies-in-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/lighting-design-companies-uae",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "114.119.153.161"
+        },
+        {
+            "id": "13415",
+            "created": "2026-08-04 23:28:02",
+            "url": "/dressing-room-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "85.208.96.203"
+        },
+        {
+            "id": "13418",
+            "created": "2026-08-05 09:33:43",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0",
+            "referrer": "https://lladesigners.com/construction-companies-in-dubai/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "47.154.208.232"
+        },
+        {
+            "id": "13416",
+            "created": "2026-08-05 07:49:20",
+            "url": "/lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/lighting-design/",
+            "agent": "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "1",
+            "ip": "185.191.171.16"
+        },
+        {
+            "id": "13417",
+            "created": "2026-08-05 09:33:42",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36 Edg/150.0.0.0",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "47.154.208.232"
+        },
+        {
+            "id": "13430",
+            "created": "2026-08-06 19:31:45",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.7586.1560 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "170.81.202.204"
+        },
+        {
+            "id": "13419",
+            "created": "2026-08-05 11:59:40",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "98.97.79.77"
+        },
+        {
+            "id": "13420",
+            "created": "2026-08-05 11:59:40",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "98.97.79.77"
+        },
+        {
+            "id": "13421",
+            "created": "2026-08-05 13:16:41",
+            "url": "/kitchen-interior-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/interior-designers-architects-work-together-uae/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "114.119.159.37"
+        },
+        {
+            "id": "13422",
+            "created": "2026-08-05 21:36:25",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (compatible; SeznamBot/4.0; +https://o-seznam.cz/napoveda/vyhledavani/en/seznambot-crawler/)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "77.75.79.32"
+        },
+        {
+            "id": "13423",
+            "created": "2026-08-05 22:45:17",
+            "url": "/construction-companies-in-abu-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/building-construction",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "114.119.153.161"
+        },
+        {
+            "id": "13424",
+            "created": "2026-08-06 03:45:08",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2463.1917 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "138.186.173.147"
+        },
+        {
+            "id": "13425",
+            "created": "2026-08-06 03:49:05",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.8471.1028 Mobile Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "122.162.188.25"
+        },
+        {
+            "id": "13429",
+            "created": "2026-08-06 16:42:55",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/building-construction",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "114.119.153.161"
+        },
+        {
+            "id": "13396",
+            "created": "2026-08-02 19:21:06",
+            "url": "/best-dubai-lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/best-dubai-lighting-design/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.4080.1048 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "3",
+            "ip": "190.111.128.19"
+        },
+        {
+            "id": "13397",
+            "created": "2026-08-02 23:50:34",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/office-design-dubai/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13398",
+            "created": "2026-08-03 07:22:42",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; YouBot/1.0; +https://docs.you.com/youbot; env:prod) Chrome/142.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "68.67.112.74"
+        },
+        {
+            "id": "13405",
+            "created": "2026-08-03 17:12:24",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/140.0.7339.16 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "68.67.112.124"
+        },
+        {
+            "id": "13404",
+            "created": "2026-08-03 17:12:23",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; YouBot/1.0; +https://docs.you.com/youbot; env:prod) Chrome/142.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "68.67.112.124"
+        },
+        {
+            "id": "13403",
+            "created": "2026-08-03 16:44:31",
+            "url": "/construction-companies-near-me",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/construction-and-building-engineering",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "114.119.145.68"
+        },
+        {
+            "id": "13402",
+            "created": "2026-08-03 15:57:11",
+            "url": "/kitchen-interior-design-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/small-salon-interior-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "114.119.142.12"
+        },
+        {
+            "id": "13400",
+            "created": "2026-08-03 12:29:28",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_7_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.88 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "213.230.92.167"
+        },
+        {
+            "id": "13401",
+            "created": "2026-08-03 14:28:38",
+            "url": "/lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/lighting-design/",
+            "agent": "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "1",
+            "ip": "51.195.215.161"
+        },
+        {
+            "id": "13399",
+            "created": "2026-08-03 12:29:27",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_7_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.6998.88 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "213.230.92.167"
+        },
+        {
+            "id": "13414",
+            "created": "2026-08-04 16:04:46",
+            "url": "/kitchen-interior-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/small-salon-interior-design/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13444",
+            "created": "2026-08-07 05:40:35",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "157.100.41.107"
+        },
+        {
+            "id": "13443",
+            "created": "2026-08-07 05:40:35",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "201.32.59.222"
+        },
+        {
+            "id": "13431",
+            "created": "2026-08-06 19:31:46",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.7586.1560 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "170.81.202.204"
+        },
+        {
+            "id": "13432",
+            "created": "2026-08-06 22:57:07",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "191.107.20.155"
+        },
+        {
+            "id": "13433",
+            "created": "2026-08-06 22:57:07",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "45.7.139.25"
+        },
+        {
+            "id": "13434",
+            "created": "2026-08-07 01:58:30",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "107.175.208.130"
+        },
+        {
+            "id": "13435",
+            "created": "2026-08-07 02:08:27",
+            "url": "/construction-companies-in-abu-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (compatible; DotBot/1.2; +https://opensiteexplorer.org/dotbot; help@moz.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "216.244.66.199"
+        },
+        {
+            "id": "13436",
+            "created": "2026-08-07 02:31:39",
+            "url": "/lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/lighting-design/",
+            "agent": "Mozilla/5.0 (compatible; AwarioBot/1.0; +https://awario.com/bots.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "1",
+            "ip": "65.21.113.241"
+        },
+        {
+            "id": "13437",
+            "created": "2026-08-07 03:08:14",
+            "url": "/customized-furniture-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/customized-furniture-dubai",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "114.119.143.177"
+        },
+        {
+            "id": "13438",
+            "created": "2026-08-07 05:21:57",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "46.63.125.171"
+        },
+        {
+            "id": "13439",
+            "created": "2026-08-07 05:21:57",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "45.164.32.57"
+        },
+        {
+            "id": "13440",
+            "created": "2026-08-07 05:40:35",
+            "url": "/kitchen-interior-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "91.222.61.206"
+        },
+        {
+            "id": "13441",
+            "created": "2026-08-07 05:40:35",
+            "url": "/lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/lighting-design/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "1",
+            "ip": "157.100.41.107"
+        },
+        {
+            "id": "13442",
+            "created": "2026-08-07 05:40:35",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "189.38.40.241"
+        },
+        {
+            "id": "13464",
+            "created": "2026-08-08 09:05:33",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/office-interior-design-ideas",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13463",
+            "created": "2026-08-08 09:02:46",
+            "url": "/salon-reception-design",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/small-salon-interior-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/mall-interior-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "32",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13462",
+            "created": "2026-08-08 08:45:30",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/construction-companies-in-abu-dubai/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "114.119.153.161"
+        },
+        {
+            "id": "13461",
+            "created": "2026-08-08 01:54:32",
+            "url": "/office-design-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/interior-biophilic-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "114.119.157.124"
+        },
+        {
+            "id": "13459",
+            "created": "2026-08-08 01:47:44",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "173.252.69.25"
+        },
+        {
+            "id": "13460",
+            "created": "2026-08-08 01:47:44",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "173.252.69.36"
+        },
+        {
+            "id": "13458",
+            "created": "2026-08-08 01:47:44",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "173.252.69.39"
+        },
+        {
+            "id": "13457",
+            "created": "2026-08-08 01:47:44",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "173.252.69.13"
+        },
+        {
+            "id": "13456",
+            "created": "2026-08-07 22:01:39",
+            "url": "/dressing-room-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/elements-of-interior-design/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "114.119.157.124"
+        },
+        {
+            "id": "13453",
+            "created": "2026-08-07 14:04:32",
+            "url": "/salon-reception-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/small-salon-interior-design/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "32",
+            "ip": "109.184.229.130"
+        },
+        {
+            "id": "13454",
+            "created": "2026-08-07 18:55:09",
+            "url": "/best-dubai-lighting-desing-2023/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/best-dubai-lighting-desing/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.6095.1174 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "2",
+            "ip": "170.239.36.89"
+        },
+        {
+            "id": "13455",
+            "created": "2026-08-07 18:55:10",
+            "url": "/best-dubai-lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/best-dubai-lighting-design/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.6095.1174 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "3",
+            "ip": "170.239.36.89"
+        },
+        {
+            "id": "13428",
+            "created": "2026-08-06 16:34:33",
+            "url": "/lighting-design-services-in-uae",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/lighting-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/av-home-automation",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "20",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13452",
+            "created": "2026-08-07 14:00:12",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "109.164.55.110"
+        },
+        {
+            "id": "13451",
+            "created": "2026-08-07 13:09:50",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/interior-design-companies-in-uae/",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "114.119.145.68"
+        },
+        {
+            "id": "13479",
+            "created": "2026-08-09 02:02:54",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "85.208.96.201"
+        },
+        {
+            "id": "13478",
+            "created": "2026-08-08 14:53:01",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/construction-companies-in-dubai",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "114.119.135.96"
+        },
+        {
+            "id": "13477",
+            "created": "2026-08-08 14:53:00",
+            "url": "/construction-companies-in-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/construction-companies-in-dubai",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "114.119.135.96"
+        },
+        {
+            "id": "13475",
+            "created": "2026-08-08 14:51:06",
+            "url": "/dressing-room-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13476",
+            "created": "2026-08-08 14:51:26",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13474",
+            "created": "2026-08-08 14:50:46",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13473",
+            "created": "2026-08-08 14:50:27",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13472",
+            "created": "2026-08-08 14:49:58",
+            "url": "/kitchen-interior-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13471",
+            "created": "2026-08-08 14:48:57",
+            "url": "/salon-reception-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/small-salon-interior-design/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "32",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13470",
+            "created": "2026-08-08 14:48:36",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13469",
+            "created": "2026-08-08 14:47:52",
+            "url": "/lighting-desing/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/lighting-design/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "1",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13468",
+            "created": "2026-08-08 14:47:41",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13467",
+            "created": "2026-08-08 14:47:19",
+            "url": "/construction-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13466",
+            "created": "2026-08-08 14:47:08",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "serpstatbot/2.1 (advanced backlink tracking bot; https://serpstatbot.com/; abuse@serpstatbot.com)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "144.76.67.25"
+        },
+        {
+            "id": "13465",
+            "created": "2026-08-08 13:26:19",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.1396.1227 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "106.215.178.50"
+        },
+        {
+            "id": "13483",
+            "created": "2026-08-09 11:21:57",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "85.208.96.197"
+        },
+        {
+            "id": "13482",
+            "created": "2026-08-09 06:17:54",
+            "url": "/customized-furniture-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "45.153.33.12"
+        },
+        {
+            "id": "13481",
+            "created": "2026-08-09 06:17:54",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "45.153.33.12"
+        },
+        {
+            "id": "13480",
+            "created": "2026-08-09 05:05:34",
+            "url": "/flooring-design-ideas",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/office-interior-design-ideas",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "114.119.153.161"
+        },
+        {
+            "id": "13445",
+            "created": "2026-08-07 09:11:00",
+            "url": "/kitchen-interior-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "101.53.255.10"
+        },
+        {
+            "id": "13446",
+            "created": "2026-08-07 09:14:37",
+            "url": "/construction-companies-in-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Sogou web spider/4.0",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "43.134.74.12"
+        },
+        {
+            "id": "13447",
+            "created": "2026-08-07 09:14:38",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Sogou web spider/4.0",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "43.134.74.12"
+        },
+        {
+            "id": "13448",
+            "created": "2026-08-07 09:15:44",
+            "url": "/construction-companies-in-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dubai/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "6",
+            "ip": "43.172.195.18"
+        },
+        {
+            "id": "13449",
+            "created": "2026-08-07 09:15:45",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+            "referrer": "https://lladesigners.com/construction-companies-in-dubai",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "43.172.195.18"
+        },
+        {
+            "id": "13450",
+            "created": "2026-08-07 11:29:35",
+            "url": "/kitchen-interior-design-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; YouBot/1.0; +https://docs.you.com/youbot; env:prod) Chrome/142.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "68.67.112.181"
+        },
+        {
+            "id": "13488",
+            "created": "2026-08-10 01:10:13",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2501.1158 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "46.55.98.229"
+        },
+        {
+            "id": "13489",
+            "created": "2026-08-10 07:15:12",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.8377.1384 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "203.17.85.166"
+        },
+        {
+            "id": "13487",
+            "created": "2026-08-09 21:52:33",
+            "url": "/office-design-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/office-interior-design-ideas/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/interior-biophilic-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "31",
+            "ip": "114.119.130.240"
+        },
+        {
+            "id": "13486",
+            "created": "2026-08-09 16:33:26",
+            "url": "/kitchen-interior-design-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/kitchen-design-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/small-salon-interior-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "37",
+            "ip": "114.119.159.37"
+        },
+        {
+            "id": "13484",
+            "created": "2026-08-09 13:50:32",
+            "url": "/customized-furniture-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/customized-furniture/",
+            "agent": "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.7871.186 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "28",
+            "ip": "66.249.70.4"
+        },
+        {
+            "id": "13485",
+            "created": "2026-08-09 16:12:45",
+            "url": "/explore-the-top-interior-design-companies-in-dubai",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/lighting-design-companies-uae",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "114.119.157.124"
+        },
+        {
+            "id": "13395",
+            "created": "2026-08-02 19:21:04",
+            "url": "/best-dubai-lighting-desing-2023/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/best-dubai-lighting-desing/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.4080.1048 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "2",
+            "ip": "190.111.128.19"
+        },
+        {
+            "id": "13394",
+            "created": "2026-08-02 18:26:06",
+            "url": "/flooring-design-ideas/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-living-room-floor-tiles/",
+            "agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm) Chrome/116.0.1938.76 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "29",
+            "ip": "40.77.167.4"
+        },
+        {
+            "id": "13393",
+            "created": "2026-08-02 16:04:04",
+            "url": "/construction-companies-near-me/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-uae/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.9768.1474 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "5",
+            "ip": "168.194.223.56"
+        },
+        {
+            "id": "13392",
+            "created": "2026-08-02 13:29:32",
+            "url": "/construction-companies-in-abu-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/construction-companies-in-abu-dhabi/",
+            "agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2597.1004 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "25",
+            "ip": "187.4.85.147"
+        },
+        {
+            "id": "13413",
+            "created": "2026-08-04 12:19:46",
+            "url": "/lighting-design-services-in-uae/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/lighting-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/construction-services-in-uae",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "20",
+            "ip": "114.119.143.177"
+        },
+        {
+            "id": "13412",
+            "created": "2026-08-04 11:58:54",
+            "url": "/salon-reception-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/small-salon-interior-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/mall-interior-design",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "32",
+            "ip": "114.119.145.68"
+        },
+        {
+            "id": "13427",
+            "created": "2026-08-06 08:16:19",
+            "url": "/dressing-room-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "173.0.10.220"
+        },
+        {
+            "id": "13426",
+            "created": "2026-08-06 05:48:55",
+            "url": "/dressing-room-design",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "Mozilla/5.0 (Linux; Android 7.0;) AppleWebKit/537.36 (HTML, like Gecko) Mobile Safari/537.36 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)",
+            "referrer": "https://lladesigners.com/explore-the-top-interior-design-companies-in-dubai",
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "114.119.142.12"
+        },
+        {
+            "id": "13390",
+            "created": "2026-08-02 09:21:38",
+            "url": "/explore-the-top-interior-design-companies-in-dubai/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "/top-interior-design-companies-in-dubai/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.4828.1833 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "4",
+            "ip": "200.158.175.249"
+        },
+        {
+            "id": "13391",
+            "created": "2026-08-02 10:23:15",
+            "url": "/dressing-room-design/",
+            "domain": "https://lladesigners.com",
+            "sent_to": "https://lladesigners.com/modern-small-dressing-room-design/",
+            "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            "referrer": null,
+            "http_code": "301",
+            "request_method": "GET",
+            "request_data": null,
+            "redirect_by": "redirection",
+            "redirection_id": "30",
+            "ip": "151.77.212.87"
+        }
+    ],
+    "errors_404": [],
+    "settings": {
+        "support": false,
+        "monitor_types": [
+            "post",
+            "page"
+        ],
+        "auto_target": "",
+        "expire_redirect": 7,
+        "expire_404": 7,
+        "log_external": false,
+        "log_header": false,
+        "track_hits": true,
+        "redirect_cache": 1,
+        "ip_logging": 1,
+        "https": false,
+        "headers": [],
+        "permalinks": [],
+        "plugin_update": "prompt",
+        "flag_query": "exact",
+        "flag_case": true,
+        "flag_trailing": true,
+        "flag_regex": false
+    }
+}

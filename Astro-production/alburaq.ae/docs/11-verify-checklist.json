@@ -13,7 +13,7 @@
     {
       "name": "sitemap_index has locs",
       "ok": true,
-      "detail": "count=2 sample=https://alburaq.ae/page-sitemap.xml, https://alburaq.ae/post-sitemap.xml"
+      "detail": "count=2 sample=/page-sitemap.xml, /post-sitemap.xml"
     },
     {
       "name": "sitemap chunks ok",
@@ -43,7 +43,7 @@
     {
       "name": "redirect structure documented",
       "ok": true,
-      "detail": "[\"/about/: live=301 https://alburaq.ae | local=301 /about-us/\",\"/aboutus/: live=301 https://alburaq.ae | local=301 /about-us/\",\"/contact/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/contactus/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/get-in-touch/: live=301 https://alburaq.ae | local=301 /contact-us/\",\"/home/: live=301 https://alburaq.ae/ | local=301 /\",\"/home-new/: li"
+      "detail": "[\"/about/: live=301  | local=301 /about-us/\",\"/aboutus/: live=301  | local=301 /about-us/\",\"/contact/: live=301  | local=301 /contact-us/\",\"/contactus/: live=301  | local=301 /contact-us/\",\"/get-in-touch/: live=301  | local=301 /contact-us/\",\"/home/: live=301 / | local=301 /\",\"/home-new/: li"
     },
     {
       "name": "runtime-gtm.js 200",
@@ -113,7 +113,7 @@
     {
       "name": "robots sitemap reachable",
       "ok": true,
-      "detail": "https://alburaq.ae/sitemap_index.xml"
+      "detail": "/sitemap_index.xml"
     },
     {
       "name": "contact API success",

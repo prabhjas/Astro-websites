@@ -4,7 +4,7 @@
 **Site:** `https://iberiaeor.com`  
 **Unit:** `iberiaeor` · **Port:** `5089` · **User:** `site-iberiaeor`  
 **App path:** `/opt/Astro-production/iberiaeor.com`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → loopback Node.  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA `astro_origin_2026` with paired manual cert/key loaders) → loopback Node.
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Primary ops checklist: [`deploy/ROOT_SETUP.md`](../deploy/ROOT_SETUP.md) · fleet Caddy: `caddy/Caddyfile.production` · docs: `docs/CONNECT-CADDY-DEPLOYMENT.md`, `docs/server-ops-only.md`.
@@ -29,7 +29,7 @@ Also allow marketing HTML, `/api/contact/`, `/api/geo/`, `/api/health/`, and bea
 
 ### Cloudflare checklist
 
-1. **SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).
+1. **SSL/TLS:** **Full** (not Flexible; not Full strict alone with named CA `astro_origin_2026` with paired manual cert/key loaders).
 2. Orange-cloud apex + `www` to origin `178.105.150.67`.
 3. WAF / Bot Fight: **Allow / Skip** for the SEO paths above.
 4. Cache: bypass `/robots.txt`, `/llms.txt`, `/sitemap*.xml`; never cache `/runtime-gtm.js`.

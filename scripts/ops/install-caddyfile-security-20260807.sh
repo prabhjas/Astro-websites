@@ -1,29 +1,12 @@
 #!/usr/bin/env bash
-# Install staged security Caddyfile and reload (ROOT on Astro host).
-#
-# Staging file (already uploaded by engineering):
-#   /opt/Astro-production/_incoming/Caddyfile.production.20260807-security
-#
-# Usage:
-#   sudo bash install-caddyfile-security-20260807.sh
+# RETIRED: the 2026-08-07 staged file predates the C-01 CA replacement and can
+# restore the compromised default local hierarchy. This file is deliberately
+# fail-closed so an old runbook or shell history cannot overwrite production.
 
 set -euo pipefail
-[[ $EUID -eq 0 ]] || { echo "must run as root"; exit 1; }
 
-SRC=/opt/Astro-production/_incoming/Caddyfile.production.20260807-security
-DST=/etc/caddy/Caddyfile
-STAGING=/opt/Astro-production/caddy/Caddyfile.production
-BAK="/opt/Astro-production/caddy/Caddyfile.production.bak-$(date +%Y%m%d%H%M%S)"
-
-[[ -f "$SRC" ]] || { echo "missing $SRC"; exit 1; }
-
-cp -a "$STAGING" "$BAK" 2>/dev/null || true
-cp -a "$SRC" "$STAGING"
-cp -a "$SRC" "$DST"
-
-caddy validate --config "$DST"
-systemctl reload caddy
-systemctl is-active caddy
-
-echo "Caddy reloaded. Spot-check headers:"
-echo "  curl -sSI https://connectgroup.co/ | grep -iE 'content-security-policy|permissions-policy|strict-transport'"
+printf '%s\n' \
+  'DISABLED: this installer predates the C-01 named-CA rotation.' \
+  'Use caddy/Caddyfile.production and docs/CONNECT-CADDY-DEPLOYMENT.md.' \
+  'Do not install _incoming/Caddyfile.production.20260807-security.' >&2
+exit 64

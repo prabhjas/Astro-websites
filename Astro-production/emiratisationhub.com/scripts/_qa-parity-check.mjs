@@ -3,7 +3,7 @@ import { existsSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const L = 'http://127.0.0.1:5107';
-const V = 'https://emiratisationhub.com';
+const V = '';
 
 const home = await (await fetch(L + '/')).text();
 const live = await (await fetch(V + '/')).text();

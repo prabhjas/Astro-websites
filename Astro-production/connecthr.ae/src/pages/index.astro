@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageByPath } from "../lib/content";
-import { breadcrumbSchema } from "../lib/seo";
 
 export const prerender = false;
 
@@ -26,10 +25,7 @@ const extraCss = [
     description: page.seo.description,
     canonical: "/",
     ogImage: page.seo.ogImage,
-    schemas: [
-      ...(page.seo.schemas || []),
-      breadcrumbSchema([{ name: "Home", url: "/" }]),
-    ],
+    schemas: [...(page.seo.schemas || [])],
   }}
 >
   <div class="sp-page-content" set:html={html} />

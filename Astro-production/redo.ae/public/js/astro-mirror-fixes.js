@@ -1806,15 +1806,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
       // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {
@@ -2634,8 +2635,8 @@
       snapshots.forEach(function (snap) {
         snap.el.value = snap.value;
       });
-      // JSON body — Astro checkOrigin only blocks cross-site *form* POSTs (FormData /
-      // urlencoded). Behind Caddy TLS that check misfires unless allowedDomains is set.
+      // JSON remains the compact no-file transport. File uploads use multipart
+      // below; Astro's reviewed allowedDomains permits same-site form POSTs.
       var payload = {};
       var arrays = {};
       body.forEach(function (value, key) {
@@ -3044,21 +3045,6 @@
       if (stepCount) stepCount.style.display = 'none';
     }
 
-    function readFileAsBase64(file) {
-      return new Promise(function (resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function () {
-          var result = String(reader.result || '');
-          var comma = result.indexOf(',');
-          resolve(comma >= 0 ? result.slice(comma + 1) : result);
-        };
-        reader.onerror = function () {
-          reject(reader.error || new Error('Failed to read file'));
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
     function collectUploadFiles(form) {
       var files = [];
       form.querySelectorAll('input[type="file"]').forEach(function (input) {
@@ -3089,27 +3075,35 @@
       showCf7Message(form, 'Sending…', false);
 
       var uploadFiles = collectUploadFiles(form);
-      var payloadPromise =
-        uploadFiles.length === 0
-          ? Promise.resolve(buildContactFormPayload(form))
-          : Promise.all(uploadFiles.map(readFileAsBase64)).then(function (encoded) {
-              var payload = buildContactFormPayload(form);
-              payload.attachments_b64 = uploadFiles.map(function (file, index) {
-                return {
-                  name: file.name,
-                  type: file.type || 'application/octet-stream',
-                  data: encoded[index],
-                };
-              });
-              return payload;
+      var payload = buildContactFormPayload(form);
+      var requestHeaders = { Accept: 'application/json' };
+      var requestBody;
+      if (uploadFiles.length) {
+        requestBody = new FormData();
+        Object.keys(payload).forEach(function (key) {
+          var value = payload[key];
+          if (Array.isArray(value)) {
+            value.forEach(function (item) {
+              requestBody.append(key + '[]', String(item));
             });
+          } else if (value != null && typeof value !== 'object') {
+            requestBody.append(key, String(value));
+          }
+        });
+        uploadFiles.forEach(function (file) {
+          requestBody.append('attachments[]', file, file.name);
+        });
+      } else {
+        requestHeaders['Content-Type'] = 'application/json';
+        requestBody = JSON.stringify(payload);
+      }
 
-      payloadPromise
-        .then(function (payload) {
+      Promise.resolve()
+        .then(function () {
           return fetch('/api/contact/', {
             method: 'POST',
-            headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            headers: requestHeaders,
+            body: requestBody,
           });
         })
         .then(function (response) {

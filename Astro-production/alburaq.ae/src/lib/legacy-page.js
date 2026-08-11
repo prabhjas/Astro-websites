@@ -4,6 +4,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
@@ -20,7 +21,7 @@ function absolutizeSeoUrls(html, slug) {
   try {
     origin = resolveSiteOrigin();
   } catch {
-    origin = 'https://alburaq.ae';
+    origin = '';
   }
 
   const path = slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/+|\/+$/g, '')}/`;
@@ -62,9 +63,17 @@ export function serveLegacyPage(slug) {
     return notFoundResponse();
   }
 
+  const path = slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/+|\/+$/g, '')}/`;
+  let origin = '';
+  try {
+    origin = resolveSiteOrigin();
+  } catch {
+    origin = (process.env.PUBLIC_SITE_URL || 'https://alburaq.ae').replace(/\/$/, '');
+  }
   const raw = readFileSync(cleanedPath, 'utf-8');
   let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
   html = absolutizeSeoUrls(html, slug);
+  html = absolutizeMirrorSeoHtml(html, { siteOrigin: origin, path });
 
   // Impreza blog pagination active/current styling (us-nav-style_6).
   if ((slug === 'blog' || slug.startsWith('blog/')) && !html.includes('data-alburaq-blog-pagination-css')) {
@@ -108,6 +117,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

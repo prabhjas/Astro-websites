@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-const LIVE = process.env.ASSET_ORIGIN || "https://connectzone.ae";
+const LIVE = process.env.ASSET_ORIGIN || "";
 const LOCAL = process.env.LOCAL_ORIGIN || "http://127.0.0.1:5101";
 const paths = [
   "/",

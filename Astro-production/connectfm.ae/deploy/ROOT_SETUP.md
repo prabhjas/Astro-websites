@@ -1,7 +1,7 @@
-# Root setup for c-uae.com (CONNECT-ASTRO-FLEET-STANDARD)
+# Root setup for connectfm.ae (CONNECT-ASTRO-FLEET-STANDARD)
 
-App path: `/opt/Astro-production/c-uae.com`  
-Unit name: `cuae` · Port: **5092** · Unix user: **`site-cuae`**
+App path: `/opt/Astro-production/connectfm.ae`
+Unit name: `connectfm` · Port: **5087** · Unix user: **`site-connectfm`**
 
 Full host checklist: repo `docs/server-ops-only.md`.
 
@@ -10,53 +10,54 @@ Full host checklist: repo `docs/server-ops-only.md`.
 ## 1. Create site user + dirs (root)
 
 ```bash
-useradd --system --home /opt/Astro-production/c-uae.com --shell /usr/sbin/nologin site-cuae
-mkdir -p /opt/Astro-production/c-uae.com/.data
-chown -R site-cuae:site-cuae /opt/Astro-production/c-uae.com/.data
+useradd --system --home /opt/Astro-production/connectfm.ae --shell /usr/sbin/nologin site-connectfm
+mkdir -p /opt/Astro-production/connectfm.ae/.data
+chown -R site-connectfm:site-connectfm /opt/Astro-production/connectfm.ae/.data
 ```
 
 ## 2. Env (two files)
 
 | File | Mode / owner | Contents |
 |------|----------------|----------|
-| `.env.prod` | `root:site-cuae` **0640** | Runtime secrets. **Required** (`EnvironmentFile=` no `-`). |
+| `.env.prod` | `root:site-connectfm` **0640** | Runtime secrets. **Required** (`EnvironmentFile=` no `-`). |
 | `.env` | `root:webdev` **0644** | Build-only `PUBLIC_SITE_URL` (no secrets). |
 
 ## 3. Systemd (Tier 1)
 
 ```bash
-cp /opt/Astro-production/c-uae.com/deploy/cuae.service /etc/systemd/system/
+cp /opt/Astro-production/connectfm.ae/deploy/connectfm.service /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable --now cuae
-systemctl show cuae -p User,MemoryMax,EnvironmentFiles,ExecStart
+systemctl enable --now connectfm
+systemctl show connectfm -p User,MemoryMax,EnvironmentFiles,ExecStart
 ```
 
 ## 4. site-ctl allowlist
 
 ```bash
-ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental eormiddleast cuae"
+ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental eormiddleast connectfm"
 ```
 
 ## 5. Caddy
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
-# Prefer merging deploy/c-uae.com.caddy into the fleet Caddyfile.production
-# (one-hop HTTP + hardened site block). Or copy to sites.d if that layout is used.
-cp /opt/Astro-production/c-uae.com/deploy/c-uae.com.caddy /etc/caddy/sites.d/
+mkdir -p /var/log/caddy
+# Prefer merging deploy/connectfm.ae.caddy into the fleet Caddyfile.production
+# (one-hop HTTP + hardened site block). production has no sites.d import.
+# Merge this deploy block into caddy/Caddyfile.production and the reviewed
+# single /etc/caddy/Caddyfile; do not install files under sites.d.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use the hardened bare-host + `tls internal` template (`@noncanonical` www→apex, HSTS, static cache) — **not** mixed http+https in one block (CF Flexible redirect loop).
-Match `PUBLIC_SITE_URL=https://c-uae.com`. Cloudflare SSL = **Full**.
+Use the complete bare-host production block with named CA `astro_origin_2026` and both manual certificate loaders. Cloudflare SSL must remain **Full**; do not use Flexible.
+Match `PUBLIC_SITE_URL=https://connectfm.ae`. Cloudflare SSL = **Full**.
 
 ## 6. Deploy loop
 
 ```bash
 cd /opt/Astro-production
-pnpm --filter cuae-astro run build
-sudo site-ctl restart cuae
-curl -sS http://127.0.0.1:5092/api/health/
+pnpm --filter connectfm-astro run build
+sudo site-ctl restart connectfm
+curl -sS http://127.0.0.1:5087/api/health/
 ```
 
 Preserve on rsync: `.env.prod`, `.data/`.  

@@ -159,7 +159,7 @@ div.wpcf7-response-output,
   min-height: 0 !important;
   height: 0 !important;
   overflow: hidden !important;
-  color: #ffffff !important;
+  color: #0d3f86 !important;
 }
 
 /* Visible thank-you / error (CF7 classes used on other sites + sp-status fallback) */
@@ -182,9 +182,9 @@ div.wpcf7-response-output.sp-status-visible,
   border-radius: 8px !important;
   font-size: 0.95rem !important;
   font-weight: 600 !important;
-  color: #ffffff !important;
-  background: transparent !important;
-  border: 1px solid #ffffff !important;
+  color: #0d3f86 !important;
+  background: #f4f8ff !important;
+  border: 1px solid #0d3f86 !important;
   box-shadow: none !important;
 }
 
@@ -411,6 +411,22 @@ body.single-post .sp-breadcrumbs span {
   }
 }
 
+
+/* Footer brand logo: keep native aspect (theme max-width:100% + HTML height stretches it) */
+footer #block-2 .wp-block-image,
+footer .cfz-footer-logo {
+  margin: 0 0 10px;
+  max-width: 240px;
+}
+
+footer #block-2 img,
+footer .cfz-footer-logo img {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  height: auto !important;
+  object-fit: contain;
+}
 
 /* —— Footer certification logos: always one horizontal row —— */
 footer .sidebar-1 #block-10 {
@@ -660,4 +676,41 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 
 .elementor-33086 .elementor-element-344f358 {
   text-align: center;
+}
+
+/*
+  Hero banners: Elementor keeps navy (#163E87 / #2E3135) headings on blue/photo
+  backgrounds (KIZAD + other free-zone / PRO / visa / consultant pages).
+*/
+.elementor-element-da35e5d .elementor-heading-title,
+.elementor-element-da35e5d .elementor-heading-title a,
+.elementor-element-fb28a94 .elementor-heading-title,
+.elementor-element-e5beba9 .elementor-heading-title,
+.elementor-element-e5beba9 .elementor-heading-title a,
+.elementor-element-d5f190c .elementor-heading-title,
+.elementor-element-d5f190c .elementor-heading-title a,
+.elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-element-d5f190c .elementor-widget-text-editor a,
+.elementor-element-2677d887 .elementor-heading-title,
+.elementor-element-2677d887 .elementor-heading-title a,
+.elementor-element-2677d887 .elementor-widget-text-editor,
+.elementor-element-2677d887 .elementor-widget-text-editor p,
+.elementor-element-2677d887 .elementor-widget-text-editor a,
+.elementor-element-4ded758c .elementor-heading-title,
+.elementor-element-4ded758c .elementor-heading-title a,
+.elementor-element-4ded758c .elementor-widget-text-editor,
+.elementor-element-4ded758c .elementor-widget-text-editor p,
+.elementor-element-4ded758c .elementor-widget-text-editor a,
+.elementor-element-ab0da16 .elementor-heading-title,
+.elementor-element-25897e69 .elementor-heading-title,
+.elementor-element-63ddfeef .elementor-heading-title,
+.elementor-element-7f45487d .elementor-heading-title,
+.elementor-element-7f45487d .elementor-heading-title a,
+.elementor-element-7f45487d .elementor-widget-text-editor,
+.elementor-element-7f45487d .elementor-widget-text-editor p,
+.elementor-element-7f45487d .elementor-widget-text-editor a,
+.elementor-element-26a5d654 .elementor-heading-title {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff;
 }

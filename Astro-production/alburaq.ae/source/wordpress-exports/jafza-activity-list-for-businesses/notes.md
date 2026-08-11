@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/jafza-activity-list-for-businesses/ |
+| Live URL | /jafza-activity-list-for-businesses/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

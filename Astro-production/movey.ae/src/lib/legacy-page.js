@@ -4,6 +4,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
@@ -14,9 +15,10 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
 
 function normalizeLegacyDocumentUrls(html) {
   return html
-    .replace(/https:\/\/kpmpro\.ae\//g, '/')
-    .replace(/http:\/\/kpmpro\.ae\//g, '/')
-    .replace(/https:\/\/www\.kpmpro\.ae\//g, '/')
+    .replace(/https:\/\/(?:www\.)?movey\.ae\//g, '/')
+    .replace(/http:\/\/(?:www\.)?movey\.ae\//g, '/')
+    .replace(/https:\/\/(?:www\.)?kpmpro\.ae\//g, '/')
+    .replace(/http:\/\/(?:www\.)?kpmpro\.ae\//g, '/')
     .replace(/(href|src|data-lazy-src)=(["'])\/\//g, '$1=$2/')
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
 }
@@ -55,8 +57,10 @@ export function serveLegacyPage(slug) {
     return notFoundResponse();
   }
 
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, 'utf-8'));
   let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
+  html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -74,6 +78,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

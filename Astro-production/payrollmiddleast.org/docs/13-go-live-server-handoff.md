@@ -6,7 +6,7 @@
 **Unix user:** `site-royalvisa`  
 **Canonical:** `https://payrollmiddleast.org` (www → apex)  
 **Package filter:** `payrollmiddleast-org-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5097`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA `payroll_origin_isolated_2026` with paired manual cert/key loaders) → `127.0.0.1:5097`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/royalvisa.service`, `deploy/payrollmiddleast.org.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full** (not Flexible; not Full strict alone with named CA `payroll_origin_isolated_2026` with paired manual cert/key loaders).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---

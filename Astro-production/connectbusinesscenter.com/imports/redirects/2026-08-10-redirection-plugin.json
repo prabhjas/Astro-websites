@@ -1,0 +1,572 @@
+{
+    "plugin": {
+        "version": "5.7.5",
+        "date": "Mon, 10 Aug 2026 07:07:31 +0000"
+    },
+    "groups": [
+        {
+            "id": 1,
+            "name": "Redirections",
+            "redirects": 21,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 2,
+            "name": "Modified Posts",
+            "redirects": 0,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        }
+    ],
+    "redirects": [
+        {
+            "id": 1,
+            "url": "/flexi-desk-dubai/",
+            "match_url": "/flexi-desk-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/flexi-desk/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 350,
+            "regex": false,
+            "group_id": 1,
+            "position": 0,
+            "last_access": "August 7, 2026",
+            "enabled": true
+        },
+        {
+            "id": 2,
+            "url": "/business-setup-in-ras-al-khaimah-2/",
+            "match_url": "/business-setup-in-ras-al-khaimah-2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/business-setup-in-ras-al-khaimah/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 400,
+            "regex": false,
+            "group_id": 1,
+            "position": 1,
+            "last_access": "July 30, 2026",
+            "enabled": true
+        },
+        {
+            "id": 3,
+            "url": "/golden-visa-benefits-uae/",
+            "match_url": "/golden-visa-benefits-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/golden-visa-benefits-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 419,
+            "regex": false,
+            "group_id": 1,
+            "position": 2,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 4,
+            "url": "/golden-visa-in-the-uae/",
+            "match_url": "/golden-visa-in-the-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/golden-visa-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 704,
+            "regex": false,
+            "group_id": 1,
+            "position": 3,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 5,
+            "url": "/small-business-ideas-in-uae/",
+            "match_url": "/small-business-ideas-in-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/top-business-ideas-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 764,
+            "regex": false,
+            "group_id": 1,
+            "position": 4,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 6,
+            "url": "/best-coworking-spaces-in-dubai/",
+            "match_url": "/best-coworking-spaces-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/coworking-space-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 613,
+            "regex": false,
+            "group_id": 1,
+            "position": 5,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 7,
+            "url": "/start-an-it-company-in-dubai/",
+            "match_url": "/start-an-it-company-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/start-software-company-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 715,
+            "regex": false,
+            "group_id": 1,
+            "position": 6,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 8,
+            "url": "/ejari-registration-dubai/",
+            "match_url": "/ejari-registration-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/everything-you-need-know-about-ejari-registration/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 632,
+            "regex": false,
+            "group_id": 1,
+            "position": 7,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 9,
+            "url": "/how-can-you-get-an-employment-visa-in-dubai-and-the-uae/",
+            "match_url": "/how-can-you-get-an-employment-visa-in-dubai-and-the-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/know-about-empolyment-visa-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 899,
+            "regex": false,
+            "group_id": 1,
+            "position": 8,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 10,
+            "url": "/how-to-get-a-uae-residence-visa/",
+            "match_url": "/how-to-get-a-uae-residence-visa",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/everything-you-need-to-know-about-residence-visa-services/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 714,
+            "regex": false,
+            "group_id": 1,
+            "position": 9,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 11,
+            "url": "/everything-about-the-residence-visa-service/",
+            "match_url": "/everything-about-the-residence-visa-service",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/everything-you-need-to-know-about-residence-visa-services/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 697,
+            "regex": false,
+            "group_id": 1,
+            "position": 10,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 12,
+            "url": "/serviced-offices-and-coworking-spaces-in-dubai/",
+            "match_url": "/serviced-offices-and-coworking-spaces-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/serviced-office-for-rent-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 1091,
+            "regex": false,
+            "group_id": 1,
+            "position": 11,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 13,
+            "url": "/shared-office-space-is-it-a-good-choice-for-your-new-business/",
+            "match_url": "/shared-office-space-is-it-a-good-choice-for-your-new-business",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/know-about-shared-office-space-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 498,
+            "regex": false,
+            "group_id": 1,
+            "position": 12,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 14,
+            "url": "/a-good-shared-office-space-the-5-things-to-look-for/",
+            "match_url": "/a-good-shared-office-space-the-5-things-to-look-for",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/know-about-shared-office-space-in-dubai/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 771,
+            "regex": false,
+            "group_id": 1,
+            "position": 13,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 15,
+            "url": "/how-virtual-offices-help-your-business-operate-effectively-during-the-covid-19-crisis/",
+            "match_url": "/how-virtual-offices-help-your-business-operate-effectively-during-the-covid-19-crisis",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://connectbusinesscenter.com/virtual-offices/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 718,
+            "regex": false,
+            "group_id": 1,
+            "position": 14,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 16,
+            "url": "/dropshipping-in-uae/",
+            "match_url": "/dropshipping-in-uae",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/dropshipping-in-the-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 708,
+            "regex": false,
+            "group_id": 1,
+            "position": 15,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 17,
+            "url": "/starting-a-business-in-dubai-as-a-foreigner/",
+            "match_url": "/starting-a-business-in-dubai-as-a-foreigner",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/how-to-start-a-business-in-dubai-as-a-foreigner/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 594,
+            "regex": false,
+            "group_id": 1,
+            "position": 16,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 18,
+            "url": "/business-center-in-dubai/",
+            "match_url": "/business-center-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/the-best-business-center-in-dubai-you-need-to-start-your-business/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 484,
+            "regex": false,
+            "group_id": 1,
+            "position": 17,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 19,
+            "url": "/business-centers-2025/",
+            "match_url": "/business-centers-2025",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/the-best-business-center-in-dubai-you-need-to-start-your-business/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 291,
+            "regex": false,
+            "group_id": 1,
+            "position": 18,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 21,
+            "url": "/five-things-to-notice-while-choosing-a-business-center/",
+            "match_url": "/five-things-to-notice-while-choosing-a-business-center",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/business-centers-top-5-reasons-why-your-business-needs-one/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 491,
+            "regex": false,
+            "group_id": 1,
+            "position": 19,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        },
+        {
+            "id": 22,
+            "url": "/start-a-business-in-dubai-without-money/",
+            "match_url": "/start-a-business-in-dubai-without-money",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/how-to-start-a-business-in-dubai-without-money/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 589,
+            "regex": false,
+            "group_id": 1,
+            "position": 20,
+            "last_access": "August 10, 2026",
+            "enabled": true
+        }
+    ]
+}

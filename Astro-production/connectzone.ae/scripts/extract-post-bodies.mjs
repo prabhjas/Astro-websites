@@ -5,13 +5,13 @@ import fs from "node:fs";
 import path from "node:path";
 import * as cheerio from "cheerio";
 
-const ORIGIN = "https://connectzone.ae";
+const ORIGIN = "";
 const posts = JSON.parse(fs.readFileSync("src/data/posts.json", "utf8"));
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://connectzone.ae", "")
-    .replaceAll("https://connectzone.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//connectzone.ae", "");
 }
 

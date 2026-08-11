@@ -1,0 +1,51 @@
+# Canonical interim redirects for izi.ae
+# Common aliases only until a live Redirection / Rank Math export is imported.
+# Drop exports under imports/redirects/ and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# FLOW owns day-to-day edits via /api/internal/redirects/*.
+
+redirects:
+  - from: /about/
+    to: /about-us/
+    status: 301
+  - from: /aboutus/
+    to: /about-us/
+    status: 301
+  - from: /contact/
+    to: /contact-us/
+    status: 301
+  - from: /contactus/
+    to: /contact-us/
+    status: 301
+  - from: /get-in-touch/
+    to: /contact-us/
+    status: 301
+  - from: /home/
+    to: /
+    status: 301
+  - from: /home-new/
+    to: /
+    status: 301
+  - from: /index.php
+    to: /
+    status: 301
+  - from: /feed/
+    to: /
+    status: 301
+  - from: /sample-page/
+    to: /
+    status: 301
+  - from: /insights/
+    to: /blog/
+    status: 301
+  - from: /cars/
+    to: /car-listing/
+    status: 301
+  - from: /fleet/
+    to: /vehicles/
+    status: 301
+  - from: /faq/
+    to: /faqs/
+    status: 301
+  - from: /faqs.html
+    to: /faqs/
+    status: 301

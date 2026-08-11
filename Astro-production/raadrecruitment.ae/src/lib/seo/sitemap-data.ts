@@ -54,6 +54,7 @@ type LiveSitemapFile = {
   guides?: LiveSitemapRow[];
   country?: LiveSitemapRow[];
   eor?: LiveSitemapRow[];
+  local?: LiveSitemapRow[];
 };
 
 function loadRedirectSources(): Set<string> {
@@ -283,6 +284,7 @@ export type SitemapDataset = {
   guides: SitemapEntry[];
   country: SitemapEntry[];
   eor: SitemapEntry[];
+  local: SitemapEntry[];
   pageChunks: SitemapEntry[][];
   postChunks: SitemapEntry[][];
   indexItems: SitemapIndexItem[];
@@ -291,12 +293,17 @@ export type SitemapDataset = {
 
 function collectTypedLiveEntries(
   live: LiveSitemapFile | null,
-  key: 'guides' | 'country' | 'eor',
+  key: 'guides' | 'country' | 'eor' | 'local',
   siteOrigin: string,
   overrides: Record<string, SitemapOverride>,
 ): SitemapEntry[] {
   const redirectSources = loadRedirectSources();
-  const entries = entriesFromLiveRows(live?.[key], key, siteOrigin, redirectSources);
+  // "local" rows (e.g. /locations.kml) are stored with type local in the JSON file
+  // but SitemapEntry only knows guides|country|eor|page|post — map local → country slot
+  // is wrong; keep as 'page' for XML lastmod typing while preserving the path.
+  const type: SitemapEntry['type'] =
+    key === 'local' ? 'page' : (key as SitemapEntry['type']);
+  const entries = entriesFromLiveRows(live?.[key], type, siteOrigin, redirectSources);
   return sortEntries(dedupeEntries(applyOverrides(entries, siteOrigin, overrides)));
 }
 
@@ -312,6 +319,7 @@ export function buildSitemapDataset(options: SitemapDataOptions = {}): SitemapDa
   const guides = collectTypedLiveEntries(live, 'guides', siteOrigin, overrides);
   const country = collectTypedLiveEntries(live, 'country', siteOrigin, overrides);
   const eor = collectTypedLiveEntries(live, 'eor', siteOrigin, overrides);
+  const local = collectTypedLiveEntries(live, 'local', siteOrigin, overrides);
   const pageChunks = chunkEntries(pages, entryLimit);
   const postChunks = chunkEntries(posts, entryLimit);
   const origin = siteOrigin.replace(/\/$/, '');
@@ -328,6 +336,9 @@ export function buildSitemapDataset(options: SitemapDataOptions = {}): SitemapDa
   if (eor.length) {
     indexItems.push({ loc: `${origin}/eor-sitemap.xml`, lastmod: eor[0]?.lastmod });
   }
+  if (local.length) {
+    indexItems.push({ loc: `${origin}/local-sitemap.xml`, lastmod: local[0]?.lastmod });
+  }
 
   return {
     siteOrigin,
@@ -337,6 +348,7 @@ export function buildSitemapDataset(options: SitemapDataOptions = {}): SitemapDa
     guides,
     country,
     eor,
+    local,
     pageChunks,
     postChunks,
     indexItems,

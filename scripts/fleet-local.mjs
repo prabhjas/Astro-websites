@@ -217,9 +217,35 @@ function ensureEnv(site) {
 /** Windows: Node execFileSync does not resolve .cmd shims without the extension. */
 const PNPM = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 
+function readDotEnvValue(dir, key) {
+  const envPath = join(dir, '.env');
+  if (!existsSync(envPath)) return '';
+  try {
+    for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eq = trimmed.indexOf('=');
+      if (eq <= 0) continue;
+      if (trimmed.slice(0, eq) !== key) continue;
+      return trimmed.slice(eq + 1).trim().replace(/^['"]|['"]$/g, '');
+    }
+  } catch {
+    /* ignore */
+  }
+  return '';
+}
+
 function runPnpm(site, args, label) {
   console.log(`\n▸ ${site.id}: ${label}`);
-  execFileSync(PNPM, args, { cwd: sitePath(site), stdio: 'inherit', env: process.env, shell: process.platform === 'win32' });
+  const dir = sitePath(site);
+  const env = { ...process.env };
+  // Astro `site:` requires an absolute URL; ensure builds see PUBLIC_SITE_URL from the site .env.
+  if (!env.PUBLIC_SITE_URL) {
+    const fromFile = readDotEnvValue(dir, 'PUBLIC_SITE_URL');
+    if (fromFile) env.PUBLIC_SITE_URL = fromFile;
+    else env.PUBLIC_SITE_URL = `https://${site.domain}`;
+  }
+  execFileSync(PNPM, args, { cwd: dir, stdio: 'inherit', env, shell: process.platform === 'win32' });
 }
 
 function runPnpmRoot(args, label) {
@@ -301,6 +327,21 @@ async function fetchStatus(url, opts = {}) {
   }
 }
 
+/**
+ * Contact/form smoke posts real leads (file store → Pipedrive when configured).
+ * Live fleet sites skip contact by default. Opt in with:
+ *   FLEET_SMOKE_CONTACT=1  or  site.smokeContact === true
+ * Force off: FLEET_SMOKE_CONTACT=0
+ */
+function shouldSmokeContact(site) {
+  const env = process.env.FLEET_SMOKE_CONTACT;
+  if (env === '0' || env === 'false') return false;
+  if (env === '1' || env === 'true') return true;
+  if (typeof site.smokeContact === 'boolean') return site.smokeContact;
+  // Default: skip for live tier (avoid Pipedrive spam)
+  return site.tier !== 'live';
+}
+
 async function smokeSite(site) {
   const base = `http://127.0.0.1:${site.port}`;
   const rows = [];
@@ -350,7 +391,7 @@ async function smokeSite(site) {
     });
   }
 
-  {
+  if (shouldSmokeContact(site)) {
     const r = await fetchStatus(`${base}/api/contact/`, {
       method: 'POST',
       headers: {
@@ -376,6 +417,12 @@ async function smokeSite(site) {
       name: 'contact',
       pass: r.status === 200 && success,
       detail: `HTTP ${r.status} ${r.body.slice(0, 100)}`,
+    });
+  } else {
+    rows.push({
+      name: 'contact',
+      pass: true,
+      detail: 'SKIPPED (live site — set FLEET_SMOKE_CONTACT=1 after form changes)',
     });
   }
 

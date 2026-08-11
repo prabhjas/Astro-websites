@@ -1,0 +1,24 @@
+{
+  "expectedOwner": 13601147,
+  "previousBrowserLead": {
+    "publicId": "0b27ea28-d66b-44c9-ae42-0b21781a4dbc",
+    "deliveryStatus": "delivered",
+    "personId": 726269,
+    "leadId": "69c0b4a0-9499-11f1-a645-9db2eea8aeb1",
+    "personOwner": 13601147,
+    "leadOwner": 13601147,
+    "ownerMatch": true
+  },
+  "newApiSubmit": {
+    "httpStatus": 200,
+    "success": true,
+    "submissionId": "qa-owner-1786352270866",
+    "deliveryStatus": "delivered",
+    "personId": 726281,
+    "leadId": "90bdeff0-9499-11f1-bf08-09c50242b9ca",
+    "summary": "Lead created in Pipedrive",
+    "personOwner": 13601147,
+    "leadOwner": 13601147,
+    "ownerMatch": true
+  }
+}

@@ -84,7 +84,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
 <!doctype html>
 <html lang={htmlLang} dir={isRtl ? "rtl" : "ltr"}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} currentPath={currentPath} />
     <style is:inline set:html={headInlineCss}></style>
     <meta
       name="sp-contact-endpoint"

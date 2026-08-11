@@ -6,7 +6,7 @@
 **Unix user:** `site-emiratisationgate`  
 **Canonical:** `https://emiratisationgate.org` (www → apex)  
 **Package filter:** `emiratisationgate-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5105`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA `astro_origin_2026` with paired manual cert/key loaders) → `127.0.0.1:5105`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/emiratisationgate.service`, `deploy/emiratisationgate.org.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full** (not Flexible; not Full strict alone with named CA `astro_origin_2026` with paired manual cert/key loaders).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---

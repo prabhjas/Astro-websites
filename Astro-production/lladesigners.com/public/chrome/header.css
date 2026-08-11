@@ -1,0 +1,13 @@
+/* LLA Designers shared header — Elementor post-2780/2849 CSS is primary.
+   Safety net only: never force width:auto (that fights theme-builder sizes). */
+.elementor-location-header .elementor-widget-image img,
+.elementor-location-header .elementor-widget-theme-site-logo img,
+#stick-header .elementor-widget-image img {
+  max-width: 90px;
+  height: auto;
+}
+
+/* Keep header social icons in the nav row, not floating into content */
+.elementor-location-header .elementor-widget-social-icons {
+  align-self: center;
+}

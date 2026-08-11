@@ -1,0 +1,16 @@
+# tourist-guide export notes
+
+| Field | Value |
+|-------|-------|
+| Kind | post |
+| Live URL | https://izi.ae/tourist-guide/ |
+| File | `index-https.html` |
+| Source | Live fetch via import-from-sitemap.mjs |
+| Added | 2026-08-10 |
+| Astro route | /tourist-guide/ |
+
+## Prepare
+
+```bash
+npm run prepare:page -- tourist-guide --download
+```
