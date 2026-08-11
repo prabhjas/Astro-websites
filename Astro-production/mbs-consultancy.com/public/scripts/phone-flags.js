@@ -18,6 +18,13 @@
       FLAG_PNG +
       '")!important;background-repeat:no-repeat!important;}' +
       ".intl-tel-input .iti-flag{height:15px;box-shadow:0 0 1px 0 #888;}" +
+      /* Live intlTelInput: flag is absolute; dial code clears it with 28px pad */
+      ".intl-tel-input.separate-dial-code .selected-dial-code{padding-left:28px!important;display:table-cell;vertical-align:middle;white-space:nowrap;}" +
+      /* Beat post us_custom-css padding-left:50px so placeholder clears flag+code */
+      ".customsinglepagetemplate .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label," +
+      ".wpcf7 .intl-tel-input.separate-dial-code input," +
+      ".row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext," +
+      "#custom-form .wpcf7-phonetext.inside_label{padding-left:110px!important;box-sizing:border-box!important;}" +
       "@media only screen and (-webkit-min-device-pixel-ratio:2)," +
       "only screen and (min-resolution:192dpi)," +
       "only screen and (min-resolution:2dppx){" +

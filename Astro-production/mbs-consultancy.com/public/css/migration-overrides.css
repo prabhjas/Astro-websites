@@ -95,11 +95,11 @@ body.l-body {
   margin-bottom: 2rem;
 }
 
-/* Insights / blog listing — fill fixed-height thumbs like live (wp-custom-mbs.css) */
+/* Insights / blog listing — fill fixed-height thumbs; meta sits below image (live translate) */
 #blog-list .articlepostthumbnailurl,
 .mbs-archive-list .articlepostthumbnailurl {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: #1a1a1a;
 }
 #blog-list .articlepostthumbnailurl img,
@@ -111,8 +111,10 @@ body.l-body {
   object-position: center center;
 }
 #blog-list .articlepostthumbnailurl .category_and_date_wrapper,
-.mbs-archive-list .articlepostthumbnailurl .category_and_date_wrapper {
-  transform: none;
+.mbs-archive-list .articlepostthumbnailurl .category_and_date_wrapper,
+#blog-list .post .category_and_date_wrapper,
+.mbs-archive-list .post .category_and_date_wrapper {
+  transform: translate(0px, 48px);
   bottom: 0;
   z-index: 2;
 }
@@ -184,21 +186,19 @@ body.l-body {
   background-image: url("/wp-content/plugins/country-phone-field-contact-form-7/assets/img/flags.png") !important;
   background-repeat: no-repeat !important;
 }
+/* Match live intlTelInput: flag is absolute; dial code needs ~28px left pad */
 .wpcf7 .intl-tel-input.separate-dial-code .selected-flag,
 .wpcf7 .iti--separate-dial-code .iti__selected-country {
-  /* Allow +971 / longer dial codes — do not clip into placeholder */
-  min-width: 108px !important;
-  max-width: none !important;
-  width: auto !important;
-  padding-right: 10px !important;
   background: #fff !important;
   border-right: 1px solid #ddd !important;
   box-sizing: border-box;
 }
 .wpcf7 .intl-tel-input.separate-dial-code .selected-dial-code,
 .wpcf7 .iti--separate-dial-code .iti__selected-dial-code {
-  padding-left: 6px !important;
+  padding-left: 28px !important;
   white-space: nowrap !important;
+  display: table-cell;
+  vertical-align: middle;
 }
 .wpcf7 .row_r.contactpageform .intl-tel-input,
 .wpcf7 .row_r.contactpageform .iti {
@@ -216,13 +216,11 @@ body.l-body {
 .wpcf7 .intl-tel-input.separate-dial-code input[type="text"],
 .row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext,
 .separate-dial-code input.wpcf7-validates-as-phonetext,
-#custom-form .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label {
-  padding-left: 150px !important;
+#custom-form .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label,
+.customsinglepagetemplate .wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-validates-as-phonetext.inside_label {
+  padding-left: 110px !important;
   box-sizing: border-box !important;
   width: 100% !important;
-}
-.wpcf7 .selected-flag {
-  min-width: 108px !important;
 }
 
 /*
@@ -392,7 +390,9 @@ body.l-body {
  * Without it, theme h1 (~64px) + embedded line-height:50px overlaps.
  */
 h1.single_wp_heading.us_custom_daf733d3,
-h1.w-post-elm.post_title.us_custom_daf733d3 {
+h1.w-post-elm.post_title.us_custom_daf733d3,
+h1.single_wp_heading.entry-title,
+h1.single_wp_heading {
   font-size: 1.8rem !important;
   font-weight: 700 !important;
   margin-top: 1rem !important;
