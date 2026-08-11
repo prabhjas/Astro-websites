@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /?cat=
+Disallow: /single-blog-page/
+Disallow: /testimonials-v-3/
+Disallow: /category/
+Disallow: /feed/
+Disallow: /team/
+Disallow: /tag/
+Disallow: /author/
+Disallow: /wp-admin/
+Disallow: /testimonials/
+Sitemap: https://saudicompanyformation.com/sitemap_index.xml

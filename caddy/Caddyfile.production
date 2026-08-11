@@ -17,8 +17,7 @@
 # C-UAE 5092, KinzaHR 5093, Connect Freelance 5094, Redo 5095, Connect FZ 5096,
 # Royal Visa 5097, Connect Resources Int 5098, The Freelancer Gate 5100, NG Manpower 5102,
 # Emirati Guard 5103, Emiratisation Gate 5105, Emiratisation Gateway 5106, Freelancer DXB 5109,
-# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124,
-# IZI Rent a Car 5121 (git template; owner cutover).
+# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124.
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
@@ -46,7 +45,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.lladesigners.com, http://www.izi.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae, http://www.saudicompanyformation.com, http://www.snapsale.ae, http://www.lladesigners.com, http://www.izi.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -134,8 +133,24 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@kpmpro host www.kpmpro.ae
 	redir @kpmpro https://kpmpro.ae{uri} permanent
 
+	@companyformationsaudi host www.companyformationsaudi.com
+	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
+
+	@connectbusinesscenter host www.connectbusinesscenter.com
+	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
+
+	@movey host www.movey.ae
+	redir @movey https://movey.ae{uri} permanent
+
+	@saudicompanyformation host www.saudicompanyformation.com
+	redir @saudicompanyformation https://saudicompanyformation.com{uri} permanent
+
+	@snapsale host www.snapsale.ae
+	redir @snapsale https://snapsale.ae{uri} permanent
+
 	@lladesigners host www.lladesigners.com
 	redir @lladesigners https://lladesigners.com{uri} permanent
+
 	@izi host www.izi.ae
 	redir @izi https://izi.ae{uri} permanent
 }
@@ -1071,6 +1086,154 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 }
 
+# companyformationsaudi.com -> companyformationsaudi.service (PORT 5114) — git template only until owner cutover
+companyformationsaudi.com, www.companyformationsaudi.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.companyformationsaudi.com
+	redir @noncanonical https://companyformationsaudi.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5114
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/companyformationsaudi.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# connectbusinesscenter.com -> connectbusinesscenter.service (PORT 5116) — git template only until owner cutover
+connectbusinesscenter.com, www.connectbusinesscenter.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.connectbusinesscenter.com
+	redir @noncanonical https://connectbusinesscenter.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5116
+
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/connectbusinesscenter.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# movey.ae -> movey.service (PORT 5104) — git template only until owner cutover
+movey.ae, www.movey.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.movey.ae
+	redir @noncanonical https://movey.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5104
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/movey.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# saudicompanyformation.com -> saudicompanyformation.service (PORT 5115) — git template only until owner cutover
+saudicompanyformation.com, www.saudicompanyformation.com {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.saudicompanyformation.com
+	redir @noncanonical https://saudicompanyformation.com{uri} permanent
+
+	reverse_proxy 127.0.0.1:5115
+
+	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
+	@hashed path /_astro/*
+	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
+		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+	}
+	log {
+		output file /var/log/caddy/saudicompanyformation.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# snapsale.ae -> snapsale.service (PORT 5122) — git template only until owner cutover
+snapsale.ae, www.snapsale.ae {
+	tls internal
+	encode zstd gzip
+
+	@noncanonical host www.snapsale.ae
+	redir @noncanonical https://snapsale.ae{uri} permanent
+
+	reverse_proxy 127.0.0.1:5122
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	log {
+		output file /var/log/caddy/snapsale.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
 # lladesigners.com -> lladesigners.service (PORT 5112) — git template; owner cutover
 # lladesigners.com -> 127.0.0.1:5112 (systemd: lladesigners.service)
 #
@@ -1107,8 +1270,8 @@ lladesigners.com, www.lladesigners.com {
 	}
 }
 
-# izi.ae -> izi.service (PORT 5121) � git template; owner cutover
-# Local laptop: do NOT run this Caddy block � use fleet-local on :5121 only.
+# izi.ae -> izi.service (PORT 5121) � git template; owner cutover
+# Local laptop: do NOT run this Caddy block � use fleet-local on :5121 only.
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 izi.ae, www.izi.ae {

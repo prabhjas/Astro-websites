@@ -201,6 +201,80 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
 
+  Astro-production/companyformationsaudi.com:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      '@connect/site-cms':
+        specifier: workspace:*
+        version: link:../../packages/site-cms
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      cheerio:
+        specifier: 'catalog:'
+        version: 1.2.0
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.4
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.30
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
+  Astro-production/connectbusinesscenter.com:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      '@connect/site-cms':
+        specifier: workspace:*
+        version: link:../../packages/site-cms
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      cheerio:
+        specifier: 'catalog:'
+        version: 1.2.0
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.4
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.30
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
   Astro-production/connectfm.ae:
     dependencies:
       '@astrojs/node':
@@ -1335,6 +1409,43 @@ importers:
         specifier: 8.65.0
         version: 8.65.0(eslint@10.8.0(jiti@2.7.0))(typescript@5.9.2)
 
+  Astro-production/movey.ae:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      '@connect/site-cms':
+        specifier: workspace:*
+        version: link:../../packages/site-cms
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      cheerio:
+        specifier: 'catalog:'
+        version: 1.2.0
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.4
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.30
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
   Astro-production/ngmanpower.com:
     dependencies:
       '@astrojs/node':
@@ -1612,6 +1723,80 @@ importers:
         version: 5.9.2
 
   Astro-production/royalvisa.ae:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      '@connect/site-cms':
+        specifier: workspace:*
+        version: link:../../packages/site-cms
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      cheerio:
+        specifier: 'catalog:'
+        version: 1.2.0
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.4
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.30
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
+  Astro-production/saudicompanyformation.com:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      '@connect/site-cms':
+        specifier: workspace:*
+        version: link:../../packages/site-cms
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      cheerio:
+        specifier: 'catalog:'
+        version: 1.2.0
+      nodemailer:
+        specifier: 'catalog:'
+        version: 9.0.4
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.30
+      '@types/nodemailer':
+        specifier: 'catalog:'
+        version: 8.0.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
+  Astro-production/snapsale.ae:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'

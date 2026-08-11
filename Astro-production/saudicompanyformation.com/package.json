@@ -1,0 +1,51 @@
+{
+  "name": "saudicompanyformation-com-astro",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/sync-public-to-dist.mjs",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
+    "astro": "astro",
+    "check": "astro check",
+    "prepare:page": "node scripts/prepare-page.mjs",
+    "prepare:homepage": "node scripts/prepare-page.mjs homepage",
+    "prepare:homepage:download": "node scripts/prepare-page.mjs homepage --download",
+    "import:sitemap": "node scripts/import-from-sitemap.mjs",
+    "import:sitemap:download": "node scripts/import-from-sitemap.mjs --download --prepare",
+    "assets:download-all": "node scripts/download-all-assets.mjs",
+    "assets:icon-fonts": "node scripts/download-icon-fonts.mjs",
+    "prepare:author-shell": "node scripts/prepare-author-shell.mjs",
+    "prepare:author-directory": "node scripts/prepare-author-directory.mjs",
+    "prepare:authors": "npm run prepare:author-shell && npm run prepare:author-directory",
+    "validate:sitemap": "node scripts/validate-sitemap.mjs",
+    "migrate:posts": "node scripts/migrate-posts-from-legacy.mjs",
+    "sync:blog-order": "node scripts/sync-wp-blog-order.mjs",
+    "prepare:blog-shell": "node scripts/prepare-blog-shell.mjs",
+    "redirects:generate": "node scripts/generate-redirects.mjs",
+    "chrome:extract": "node scripts/extract-chrome.mjs",
+    "qa:final": "node scripts/final-qa.mjs",
+    "qa:final:ui": "node scripts/final-qa-ui.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "catalog:",
+    "astro": "catalog:",
+    "cheerio": "catalog:",
+    "nodemailer": "catalog:",
+    "yaml": "catalog:",
+    "@connect/site-cms": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "catalog:",
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

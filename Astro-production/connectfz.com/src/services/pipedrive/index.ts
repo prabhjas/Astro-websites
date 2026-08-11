@@ -181,6 +181,14 @@ async function createLead(
 }
 
 export async function createPipedriveLead(env: ServerEnv, form: NormalisedContactForm): Promise<PipedriveResult> {
+  if (!env.pipedriveApiToken) {
+    return {
+      success: false,
+      error: 'Pipedrive is not configured; lead stored locally.',
+      retryable: false,
+      errorCode: 'pipedrive_not_configured',
+    };
+  }
   const personResult = await createPerson(env, form);
   if (!personResult.ok || !personResult.id) {
     const classified = classifyPipedriveError(

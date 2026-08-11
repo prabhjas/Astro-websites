@@ -4,6 +4,7 @@ import ElementorHeader from "../components/ElementorHeader.astro";
 import ElementorFooter from "../components/ElementorFooter.astro";
 import ElementorScripts from "../components/ElementorScripts.astro";
 import FloatContacts from "../components/FloatContacts.astro";
+import CostCalculator from "../components/CostCalculator.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
@@ -75,6 +76,7 @@ const stylesheets = [
     "/css/simplePagination.min.css",
     "/css/migration-overrides.css",
     "/css/connectfz-mobile-nav.css",
+    "/css/cfz-process-timeline.css",
   ]),
 ].filter((href) => !SP_KIT_BLOCKLIST.has(href) && !href.includes("/elementor/css/post-19.css"));
 
@@ -139,6 +141,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     </main>
     <ElementorFooter />
     <FloatContacts />
+    <CostCalculator />
     <ElementorScripts />
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>

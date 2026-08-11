@@ -1,0 +1,291 @@
+---
+/**
+ * Multi-step Movey booking / quote wizard (design mockups steps 1–5).
+ */
+export const prerender = true;
+
+const phoneDisplay = '+971 43 316 688';
+const phoneTel = '+97143316688';
+const wa = 'https://wa.me/97143316688';
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-AE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book a Move | Get a Quote | Movey</title>
+    <meta
+      name="description"
+      content="Get an instant moving quote with Movey UAE. Tell us your locations, space needs, and preferred date — we’ll take it from there."
+    />
+    <link rel="canonical" href="https://movey.ae/booking/" />
+    <link rel="icon" href="/wp-content/uploads/2023/08/cropped-Logo-color-32x32.png" sizes="32x32" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/movey-booking.css" />
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+  </head>
+  <body>
+    <div class="movey-booking" id="movey-booking">
+      <header class="mb-header">
+        <a class="mb-header__logo" href="/" aria-label="Movey home">
+          <img src="/wp-content/uploads/2023/08/Logo-color.png" width="180" height="38" alt="Movey" />
+        </a>
+        <ul class="mb-header__nav">
+          <li><a href="/about-us/">About us</a></li>
+          <li><a class="is-active" href="/house-movers-in-dubai/">Moving</a></li>
+          <li><a href="/movey-faqs/">Movey FAQ’s</a></li>
+          <li><a href="/contact-us/">Contact us</a></li>
+        </ul>
+        <div class="mb-header__actions">
+          <a class="mb-btn mb-btn--primary" href="/booking/">Book Now!</a>
+          <a class="mb-btn mb-btn--ghost" href={wa} target="_blank" rel="noopener noreferrer">Whatsapp</a>
+        </div>
+      </header>
+
+      <nav class="mb-steps" aria-label="Booking progress">
+        <div class="mb-steps__item is-active" data-mb-step="1">
+          <span class="mb-steps__num">1</span> Moving location
+        </div>
+        <div class="mb-steps__item" data-mb-step="2">
+          <span class="mb-steps__num">2</span> Required space
+        </div>
+        <div class="mb-steps__item" data-mb-step="3">
+          <span class="mb-steps__num">3</span> Moving date
+        </div>
+        <div class="mb-steps__item" data-mb-step="4">
+          <span class="mb-steps__num">4</span> Get a Quote
+        </div>
+      </nav>
+
+      <div data-mb-success hidden>
+        <div class="mb-success">
+          <div class="mb-success__icon" aria-hidden="true">✓</div>
+          <h1>Request Quote Sent</h1>
+          <p>
+            Thanks — your moving quote request is on its way to the Movey team. We’ll review your
+            details and get back to you shortly by your preferred contact method.
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-layout" data-mb-main>
+        <main>
+          <!-- Step 1 -->
+          <section class="mb-panel" data-mb-panel="1">
+            <p class="mb-kicker">Setup</p>
+            <h1 class="mb-title">Moving location</h1>
+            <div class="mb-field">
+              <label for="mb-phone">What is your phone number?</label>
+              <div class="mb-phone">
+                <span class="mb-phone__code" aria-hidden="true">🇦🇪 +971</span>
+                <input id="mb-phone" name="phone" type="tel" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" />
+              </div>
+            </div>
+            <div class="mb-field">
+              <label for="mb-from">Where are you moving from?</label>
+              <input id="mb-from" name="from" type="text" placeholder="Enter Address" autocomplete="street-address" />
+              <p class="mb-hint"><a href="/contact-us/">Couldn't find your address?</a></p>
+            </div>
+            <div class="mb-field">
+              <label for="mb-to">Where are you moving to?</label>
+              <input id="mb-to" name="to" type="text" placeholder="Enter Address" autocomplete="street-address" />
+              <p class="mb-hint"><a href="/contact-us/">Couldn't find your address?</a></p>
+            </div>
+            <div class="mb-nav mb-nav--end">
+              <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
+            </div>
+          </section>
+
+          <!-- Step 2 -->
+          <section class="mb-panel" data-mb-panel="2" hidden>
+            <p class="mb-kicker">Quote</p>
+            <h1 class="mb-title">How much space?</h1>
+            <p class="mb-lead">
+              Ease your worries and entrust the heavy lifting to Movey in Dubai — choose the property
+              type and how furnished your home is so we can estimate truck space.
+            </p>
+
+            <h2 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">What is your property?</h2>
+            <div class="mb-cards" role="group" aria-label="Property type">
+              <button type="button" class="mb-card is-selected" data-mb-select="property" data-value="Apartment">
+                <svg class="mb-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg>
+                <span class="mb-card__label">Apartment</span>
+              </button>
+              <button type="button" class="mb-card" data-mb-select="property" data-value="Townhouse">
+                <svg class="mb-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21V10l6-5 6 5v11"/><path d="M15 21V8l6-3v16"/></svg>
+                <span class="mb-card__label">Townhouse</span>
+              </button>
+              <button type="button" class="mb-card" data-mb-select="property" data-value="Villa">
+                <svg class="mb-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg>
+                <span class="mb-card__label">Villa</span>
+              </button>
+            </div>
+
+            <h2 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">How many bedrooms do you have?</h2>
+            <div class="mb-pills" role="group" aria-label="Bedrooms">
+              {['1', '2', '3', '4', '5+'].map((n) => (
+                <button
+                  type="button"
+                  class:list={['mb-pill', n === '2' && 'is-selected']}
+                  data-mb-select="bedrooms"
+                  data-value={n}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+
+            <h2 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">How furnished is your home?</h2>
+            <div class="mb-cards" role="group" aria-label="Furnishing">
+              <button type="button" class="mb-card is-selected" data-mb-select="furnished" data-value="Lightly (A few items)">
+                <span class="mb-card__label">Lightly (A few items)</span>
+              </button>
+              <button type="button" class="mb-card" data-mb-select="furnished" data-value="Moderately (2-3 items / room)">
+                <span class="mb-card__label">Moderately (2-3 items / room)</span>
+              </button>
+              <button type="button" class="mb-card" data-mb-select="furnished" data-value="Heavily (5+ items / room)">
+                <span class="mb-card__label">Heavily (5+ items / room)</span>
+              </button>
+            </div>
+
+            <div class="mb-nav">
+              <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
+              <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
+            </div>
+          </section>
+
+          <!-- Step 3 trucks -->
+          <section class="mb-panel" data-mb-panel="3" hidden>
+            <p class="mb-kicker">Quote</p>
+            <h1 class="mb-title">How much space?</h1>
+            <p class="mb-lead">
+              This is an estimate — you only pay for the truck space you need. Adjust the number of
+              truckloads below.
+            </p>
+            <div class="mb-field" style="max-width:14rem">
+              <label for="mb-trucks">Estimated number of truckloads you need:</label>
+              <input id="mb-trucks" name="trucks" type="number" min="1" max="10" value="2" data-mb-trucks-input />
+            </div>
+            <img
+              class="mb-truck"
+              src="/wp-content/uploads/2024/03/AdobeStock_609972065-transformed-2.png"
+              width="611"
+              height="421"
+              alt="Movey moving truck"
+              loading="lazy"
+            />
+            <div class="mb-nav">
+              <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
+              <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
+            </div>
+          </section>
+
+          <!-- Step 4 date -->
+          <section class="mb-panel" data-mb-panel="4" hidden>
+            <p class="mb-kicker">Quote</p>
+            <h1 class="mb-title">Your Quote</h1>
+            <p class="mb-kicker" style="margin-bottom:0.75rem">Moving details</p>
+            <div class="mb-calendar" aria-label="Moving date calendar">
+              <div class="mb-calendar__head">
+                <button type="button" data-mb-cal-nav="-1" aria-label="Previous month">‹</button>
+                <span data-mb-cal-label></span>
+                <button type="button" data-mb-cal-nav="1" aria-label="Next month">›</button>
+              </div>
+              <div class="mb-calendar__grid" data-mb-cal-grid></div>
+            </div>
+            <div class="mb-nav">
+              <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
+              <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
+            </div>
+          </section>
+
+          <!-- Step 5 details -->
+          <section class="mb-panel" data-mb-panel="5" hidden>
+            <p class="mb-kicker">Quote</p>
+            <h1 class="mb-title">Your Quote</h1>
+            <div class="mb-row-2">
+              <div class="mb-field">
+                <label for="mb-first">First Name</label>
+                <input id="mb-first" name="firstName" type="text" autocomplete="given-name" />
+              </div>
+              <div class="mb-field">
+                <label for="mb-last">Last Name</label>
+                <input id="mb-last" name="lastName" type="text" autocomplete="family-name" />
+              </div>
+            </div>
+            <div class="mb-field">
+              <label for="mb-email">Email</label>
+              <input id="mb-email" name="email" type="email" autocomplete="email" />
+            </div>
+            <div class="mb-field">
+              <span style="font-weight:600;display:block;margin-bottom:0.45rem">Preferred Contact Method</span>
+              <div class="mb-radios">
+                <label><input type="radio" name="contactMethod" value="Phone" checked /> Phone</label>
+                <label><input type="radio" name="contactMethod" value="Email" /> Email</label>
+              </div>
+            </div>
+            <div class="mb-nav">
+              <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
+              <button type="button" class="mb-btn mb-btn--primary" data-mb-action="submit">Get Quotation ↓</button>
+            </div>
+          </section>
+
+          <p class="mb-error" data-mb-error role="alert"></p>
+        </main>
+
+        <aside class="mb-summary" aria-label="Quote summary">
+          <h2>Quote Summary</h2>
+          <ul class="mb-summary__list" data-mb-summary></ul>
+          <div class="mb-support">
+            <h3>Do you need Support?</h3>
+            <div class="mb-support__actions">
+              <a class="mb-btn mb-btn--pink" href={`tel:${phoneTel}`}>Call NOW</a>
+              <a class="mb-btn mb-btn--ghost" href={wa} target="_blank" rel="noopener noreferrer">Whatsapp</a>
+            </div>
+            <p style="margin:0.75rem 0 0;font-size:0.85rem;color:#666">{phoneDisplay}</p>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="mb-footer mb-footer--brand">
+        <div class="mb-footer__logo">
+          <img src="/wp-content/uploads/2023/08/Logo-white.png" width="200" height="42" alt="Movey" />
+        </div>
+        <div class="mb-footer__bar">
+          <div>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <a href="/terms-and-conditions/">Terms &amp; conditions</a>
+          </div>
+          <div>© {year} Movey. Design by Connect group · Built by Rajpalsingh.</div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function () {
+        var input = document.querySelector('[data-mb-trucks-input]');
+        if (!input) return;
+        input.addEventListener('change', function () {
+          var n = Math.max(1, Math.min(10, Number(input.value) || 1));
+          input.value = String(n);
+          // sync into wizard state via custom event consumed by movey-booking.js
+          var btn = document.createElement('button');
+          btn.setAttribute('data-mb-select', 'trucks');
+          btn.setAttribute('data-value', String(n));
+          btn.hidden = true;
+          document.getElementById('movey-booking').appendChild(btn);
+          btn.click();
+          btn.remove();
+        });
+      });
+    </script>
+    <script src="/js/movey-booking.js" defer></script>
+  </body>
+</html>
