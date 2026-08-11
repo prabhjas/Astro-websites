@@ -112,3 +112,27 @@ body:not(:has([data-cf-insights-layout]))
   pointer-events: auto;
   opacity: 1;
 }
+
+/* Aug 2026 campaign banners (Golden Visa + E-Trade) */
+.cf-promo-banners {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1100px;
+  margin: 24px auto 40px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.cf-promo-banners__card {
+  display: block;
+  line-height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cf-promo-banners__card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
