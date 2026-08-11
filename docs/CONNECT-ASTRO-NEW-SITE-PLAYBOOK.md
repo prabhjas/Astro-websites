@@ -33,7 +33,7 @@ All four production sites live under `Astro-production/<domain>/` in this monore
 - Per-site `deploy/*.service`, `*.caddy`, `ROOT_SETUP.md`
 - Docs 16–18 for server / local / root-only work
 
-**Still host/root (not finished on the box — see doc 18):** Tier 1 `User=site-*` + MemoryMax, Caddy `sites.d` split, off-box backups, Iberia port 5075→5083, SP Heavy unit install.
+**Still host/root (not finished on the box — see doc 18):** Tier 1 `User=site-*` + MemoryMax, guarded canonical Caddy integration, off-box backups, Iberia port 5075→5083, SP Heavy unit install.
 
 **Principle:** Fix shared fate and version drift at **4** sites, not at **40**. Do not invent a second dashboard or a second auth scheme.
 
@@ -64,7 +64,7 @@ Budget **~110–120 MB RSS** per SSR process. Only run Node when you need forms/
 | Env | Secrets in `.env` / `.env.prod`; **no** `HOST`/`PORT`; **LF** only | CRLF; bind address in env file |
 | Lead notify | File store + **Pipedrive** | Configuring `FORM_NOTIFICATION_*` / `SMTP_*` |
 | Isolation (ops) | `User=site-<name>` + `MemoryMax=256M` | All units as `root`, no caps |
-| Caddy | One file per site under `sites.d/` | One giant Caddyfile long-term |
+| Caddy | One guarded canonical production file | Split-file or staged installs |
 | Backups | Off-box restic/borg + restore drill | Disk scrub only |
 
 ---
@@ -182,7 +182,7 @@ Fill `deploy/<unit>.service` (`User=site-…`, `PORT=…`, MemoryMax/CPUQuota/Pr
 
 ### F. Server (root) — doc 18
 
-Create unix user → `.env.prod` owned by site user → install unit → Caddy `sites.d` → `caddy validate` → reload → smoke public hostname. Preserve `.data/` and secrets on sync.
+Create unix user → `.env.prod` owned by site user → install unit → merge the complete block into the guarded canonical Caddyfile → validate → graceful reload → smoke public hostname. Preserve `.data/` and secrets on sync.
 
 ---
 
@@ -240,11 +240,12 @@ New sites with serious phone capture: copy **CBSS** intl-tel + `/api/geo`.
 
 `GET /api/geo` (CBSS/Iberia) or `GET /api/geo/country` (Evolution/SP):
 
-1. Edge headers first: `cf-ipcountry`, `x-vercel-ip-country`, `cloudfront-viewer-country` (skip `XX`)
-2. Else client IP from `x-forwarded-for` / `x-real-ip` → public geo API (ipwho.is / ipapi.co)
-3. Response: `{ country, source: 'header'|'ip'|'unknown' }` (cache ~5 min)
+1. Edge headers first: `cf-ipcountry`, `x-vercel-ip-country`, `cloudfront-viewer-country` (skip `XX` / `T1`)
+2. Else fallback **`ae`** (local/dev has no CF header). Do **not** call `ipinfo.io` from the browser
+3. Prefer SSR `window.__GEO_COUNTRY__` into countrySelect; otherwise same-origin `GET /api/geo` or `/api/geo/country` only
+4. Response: `{ country, source: 'header'|'ip'|'unknown' }` (cache ~5 min)
 
-Used to preselect phone country — not as a hard security boundary.
+Used to preselect phone country — not as a hard security boundary. Fleet queue: [00-NEW-SITE-MASTER § FQ-02](00-NEW-SITE-MASTER.md#fq-02--geo--stop-ipinfoio-use-cloudflare).
 
 ### 6.5 Attribution (required)
 

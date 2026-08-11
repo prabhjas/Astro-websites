@@ -1,4 +1,10 @@
-P0-1 (2026-08-06 security audit): private keys previously stored under this tree were
-removed from the working copy. Rotate the Caddy local CA / origin certs on the host,
-and purge keys from git history (filter-repo / BFG) as a separate ops step — do not
-restore these keys into the repository.
+C-01 security state (updated 2026-08-10):
+
+- Private keys and generated Caddy credential state are forbidden in Git.
+- Production no longer uses the compromised default `local` hierarchy. The 28
+  Cloudflare origins use `astro_origin_2026`; Payroll uses the independently
+  rooted `payroll_origin_isolated_2026` hierarchy.
+- This directory is historical metadata only. Never deploy or restore anything
+  from it, and never add certificate/private-key material back to this tree.
+- Repository history publication and provider-side cache/hidden-ref cleanup are
+  tracked separately; a clean working tree alone does not erase old Git objects.

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const LOCAL = 'http://127.0.0.1:5107';
-const LIVE = 'https://emiratisationhub.com';
+const LIVE = '';
 
 async function html(base, path) {
   return (await fetch(base + path)).text();

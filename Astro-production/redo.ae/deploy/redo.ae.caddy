@@ -7,14 +7,21 @@
 #   1. Ensure the shared one-hop HTTP alt-host block lists http://www.redo.ae
 #      and redirects to https://redo.ae{uri}
 #   2. Match PUBLIC_SITE_URL=https://redo.ae
-#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   3. Cloudflare SSL = Full (not Flexible); Full (strict) is intentionally deferred for this named internal CA.
 #   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 #
 # Local laptop: do NOT run this Caddy block — use fleet-local on :5095 only.
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 redo.ae, www.redo.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/redo.ae/redo.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/redo.ae/redo.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.redo.ae/www.redo.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.redo.ae/www.redo.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.redo.ae

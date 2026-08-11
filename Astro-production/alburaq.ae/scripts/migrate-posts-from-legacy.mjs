@@ -19,7 +19,7 @@ const BLOG_DIR = join(ROOT, 'src/content/blog');
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const TAX_DIR = join(ROOT, 'src/content/taxonomies');
 const INVENTORY = join(ROOT, 'src/data/sitemap-inventory.json');
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 
 const args = process.argv.slice(2);
 const onlySlug = args.includes('--slug') ? args[args.indexOf('--slug') + 1] : null;

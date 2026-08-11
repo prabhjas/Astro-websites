@@ -22,7 +22,7 @@ const pairs = [
 ];
 
 for (const [path, label] of pairs) {
-  const live = await get('https://emiratisationhub.com' + path);
+  const live = await get('' + path);
   const local = await get('http://127.0.0.1:5107' + path);
   console.log(`\n=== ${label} ${path} ===`);
   console.log('status', { live: live.status, local: local.status });

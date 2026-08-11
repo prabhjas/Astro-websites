@@ -21,12 +21,12 @@ const ROOT = join(__dirname, '..');
 const PUBLIC_ASSETS = join(ROOT, 'public');
 const OUT_DIR = join(ROOT, 'src/legacy');
 
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://alburaq.ae',
-  'https://www.alburaq.ae',
-  'http://alburaq.ae',
-  'http://www.alburaq.ae',
+  '',
+  '',
+  '',
+  '',
 ];
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
@@ -97,7 +97,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?alburaq\.ae/gi,
-    'https://alburaq.ae',
+    '',
   );
 }
 
@@ -262,7 +262,7 @@ function cleanHtml(html) {
 function rewriteOriginUrls(text) {
   let out = text.replace(/https?:\\\/\\\/(?:www\.)?alburaq\.ae/gi, '');
   // Absolute origins FIRST. A bare //domain pass before this turns
-  // https://alburaq.ae/x into https:/x (broken — CSS/JS never load).
+  // /x into https:/x (broken — CSS/JS never load).
   out = out.replace(/https?:\/\/(?:www\.)?alburaq\.ae(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );

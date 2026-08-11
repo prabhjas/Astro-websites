@@ -4,7 +4,7 @@ App tree: `/opt/Astro-production/evolutionmiddleast.com`
 Unit name: `evolutionmiddleast` · PORT **5080** · Unix user: **`site-evolutionmiddleast`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates here match **live Tier 1** (2026-07-31): non-root unit, required `.env.prod`, Caddy `http://`+`https://`+`tls internal`.
+Use the complete bare-host production block with named CA `astro_origin_2026` and both manual certificate loaders. Cloudflare SSL must remain **Full**; do not use Flexible.
 
 ## 1. Site unix user
 
@@ -46,13 +46,14 @@ Expect `User=site-evolutionmiddleast`, `MemoryMax=268435456`, `EnvironmentFiles=
 ## 4. Caddy
 
 ```bash
-cp deploy/evolutionmiddleast.com.caddy /etc/caddy/sites.d/
-# Main Caddyfile: import /etc/caddy/sites.d/*.caddy
+# Merge this deploy block into caddy/Caddyfile.production and the reviewed
+# single /etc/caddy/Caddyfile; do not install files under sites.d.
+# Production uses one reviewed /etc/caddy/Caddyfile; do not add a sites.d import.
 # Keep Caddyfile readable by the caddy user/group (reload failed quietly when root:root dropped the group).
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+Cloudflare SSL: **Full** (not Full strict) when origin uses named CA `astro_origin_2026` with its paired manual cert/key loaders.
 
 ## 5. Deploy / build (webdev)
 

@@ -1,6 +1,6 @@
 ﻿#!/usr/bin/env node
 const L = 'http://127.0.0.1:5107';
-const V = 'https://emiratisationhub.com';
+const V = '';
 
 async function titles(base) {
   const h = await (await fetch(base + '/blog/')).text();

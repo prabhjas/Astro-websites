@@ -173,8 +173,6 @@ async function main() {
   // Fetch body HTML for each page from live site
   const bodies = {};
   for (const p of [...pages, ...posts]) {
-    const url = ORIGIN + p.path + (p.path.includes("?") ? "&" : "?") + "nowprocket=1";
-    // fix query
     const fetchUrl = `${ORIGIN}${p.path}?nowprocket=1`;
     try {
       console.log("body", p.path);

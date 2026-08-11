@@ -13,7 +13,7 @@ Related: [14-multi-site-platform-review.md](14-multi-site-platform-review.md), [
 | Layer | Where | Examples |
 |-------|--------|----------|
 | **This git repo** | Evolution codebase | Exact dep pins, harden gates in app code, `deploy/*.service` templates, docs |
-| **Fleet / host (runbook below)** | Shared server + all 4 trees | `User=`/MemoryMax on live units, Caddy `sites.d`, restic, pnpm workspace, extract `@connect/site-cms` |
+| **Fleet / host (runbook below)** | Shared server + all 4 trees | `User=`/MemoryMax on live units, guarded canonical Caddyfile, restic, pnpm workspace, extract `@connect/site-cms` |
 
 ---
 
@@ -73,7 +73,7 @@ Related: [14-multi-site-platform-review.md](14-multi-site-platform-review.md), [
 |---|------|-----|-----------|
 | P0.1 | Confirm Iberia unit: if `astro dev`, switch to `astro build` + `node ./dist/server/entry.mjs` | Half the RAM of peers; unoptimized / unsafe for prod | `systemctl show` ExecStart correct; RSS ~peer; smoke homepage + API |
 | P0.2 | **Tier 1 unit template** for all 4: `User=site-<name>`, `MemoryMax=256M`, `MemoryHigh=200M`, `CPUQuota=50%`, `NoNewPrivileges`, `PrivateTmp`, `ProtectSystem=strict`, `ProtectHome`, `ReadWritePaths=…/data` (and `.data` / env paths as needed) | Root RCE / one leak OOM = whole box today | Units generated from template; services run as site users; MemoryMax visible in `systemctl show` |
-| P0.3 | Split Caddy: `import /etc/caddy/sites.d/*.caddy` + `caddy validate` before reload | One typo currently fails entire edge | One file per site; validate hook; reload succeeds |
+| P0.3 | **Superseded:** retain the guarded single `caddy/Caddyfile.production` mirror | Split-file installs bypass the C-01 named-CA controls | Canonical validates; guarded graceful reload succeeds |
 | P0.4 | Backups: restic (or borg) **off-box**, nightly; schedule a monthly restore test | No real backup today = permanent loss | First successful backup + documented restore drill |
 
 *Aaron estimate: ~1 day for Tier 1 on current 4. Needs root for users/units/Caddy/restic.*
@@ -121,7 +121,7 @@ Per-site differences = **config / env**, not forked handlers.
 1. **Read this doc + confirm root access** with Aaron for Tier 1 (users, systemd, Caddy, backups).
 2. **P0.1 Iberia prod ExecStart** — quick win, measure RSS before/after.
 3. **P0.2 Unit template** — generate 4 units; migrate one canary (Evolution or SP Heavy) then the rest.
-4. **P0.3 Caddy split** — extract current blocks to `sites.d/`; validate; reload.
+4. **P0.3 Caddy canonical guard** — review the single canonical file; validate; graceful reload.
 5. **P0.4 Backups** — at least kick off restic target + first snapshot of `/opt/Astro-production` + `/etc/caddy` + unit files.
 6. If time: **P1.2 pin Evolution + SP Heavy**; sketch `packages/site-cms` boundaries (P2.1 design only).
 

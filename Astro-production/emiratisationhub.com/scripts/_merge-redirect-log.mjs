@@ -14,7 +14,7 @@ import { parse as parseYaml } from 'yaml';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const IMPORT_DIR = join(ROOT, 'imports/redirects');
 const YAML_PATH = join(ROOT, 'src/data/redirects.yml');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 const SITE_HOST = 'emiratisationhub.com';
 
 mkdirSync(IMPORT_DIR, { recursive: true });

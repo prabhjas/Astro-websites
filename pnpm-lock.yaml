@@ -60,6 +60,7 @@ catalogs:
 
 overrides:
   js-yaml: 4.3.1
+  nanoid: 3.3.18
 
 importers:
 
@@ -73,13 +74,13 @@ importers:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+        version: 11.0.3(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
       '@connect/site-cms':
         specifier: workspace:*
         version: link:../../packages/site-cms
       astro:
         specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+        version: 7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
@@ -639,6 +640,19 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
 
+  Astro-production/connectresourcesint.com:
+    dependencies:
+      '@astrojs/node':
+        specifier: 'catalog:'
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+      astro:
+        specifier: 'catalog:'
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+    devDependencies:
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.2
+
   Astro-production/connectstaff.ae:
     dependencies:
       '@astrojs/node':
@@ -912,43 +926,6 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
 
-  Astro-production/emiratisationnafis.org:
-    dependencies:
-      '@astrojs/node':
-        specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
-      '@connect/site-cms':
-        specifier: workspace:*
-        version: link:../../packages/site-cms
-      astro:
-        specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
-      cheerio:
-        specifier: 'catalog:'
-        version: 1.2.0
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.4
-      yaml:
-        specifier: 'catalog:'
-        version: 2.9.0
-    devDependencies:
-      '@astrojs/check':
-        specifier: 'catalog:'
-        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.15.30
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
-      tsx:
-        specifier: 'catalog:'
-        version: 4.20.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.2
-
   Astro-production/eormiddleast.com:
     dependencies:
       '@astrojs/node':
@@ -1197,43 +1174,6 @@ importers:
         specifier: 'catalog:'
         version: 5.9.2
 
-  Astro-production/izi.ae:
-    dependencies:
-      '@astrojs/node':
-        specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
-      '@connect/site-cms':
-        specifier: workspace:*
-        version: link:../../packages/site-cms
-      astro:
-        specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
-      cheerio:
-        specifier: 'catalog:'
-        version: 1.2.0
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.4
-      yaml:
-        specifier: 'catalog:'
-        version: 2.9.0
-    devDependencies:
-      '@astrojs/check':
-        specifier: 'catalog:'
-        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.15.30
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
-      tsx:
-        specifier: 'catalog:'
-        version: 4.20.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.2
-
   Astro-production/kinzahr.com:
     dependencies:
       '@astrojs/node':
@@ -1272,43 +1212,6 @@ importers:
         version: 5.9.2
 
   Astro-production/kpmpro.ae:
-    dependencies:
-      '@astrojs/node':
-        specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
-      '@connect/site-cms':
-        specifier: workspace:*
-        version: link:../../packages/site-cms
-      astro:
-        specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
-      cheerio:
-        specifier: 'catalog:'
-        version: 1.2.0
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.4
-      yaml:
-        specifier: 'catalog:'
-        version: 2.9.0
-    devDependencies:
-      '@astrojs/check':
-        specifier: 'catalog:'
-        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.15.30
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
-      tsx:
-        specifier: 'catalog:'
-        version: 4.20.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.2
-
-  Astro-production/lladesigners.com:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'
@@ -1763,13 +1666,13 @@ importers:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
+        version: 11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
       '@connect/site-cms':
         specifier: workspace:*
         version: link:../../packages/site-cms
       astro:
         specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+        version: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
       cheerio:
         specifier: 'catalog:'
         version: 1.2.0
@@ -1961,43 +1864,6 @@ importers:
         specifier: 8.65.0
         version: 8.65.0(eslint@10.8.0(jiti@2.7.0))(typescript@5.9.2)
 
-  Astro-production/theuaegate.com:
-    dependencies:
-      '@astrojs/node':
-        specifier: 'catalog:'
-        version: 11.0.3(astro@7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))
-      '@connect/site-cms':
-        specifier: workspace:*
-        version: link:../../packages/site-cms
-      astro:
-        specifier: 'catalog:'
-        version: 7.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
-      cheerio:
-        specifier: 'catalog:'
-        version: 1.2.0
-      nodemailer:
-        specifier: 'catalog:'
-        version: 9.0.4
-      yaml:
-        specifier: 'catalog:'
-        version: 2.9.0
-    devDependencies:
-      '@astrojs/check':
-        specifier: 'catalog:'
-        version: 0.9.10(prettier-plugin-astro@0.14.1)(prettier@3.9.6)(typescript@5.9.2)
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.15.30
-      '@types/nodemailer':
-        specifier: 'catalog:'
-        version: 8.0.1
-      tsx:
-        specifier: 'catalog:'
-        version: 4.20.3
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.2
-
   packages/site-cms:
     dependencies:
       astro:
@@ -2013,6 +1879,9 @@ importers:
       '@types/sanitize-html':
         specifier: 'catalog:'
         version: 2.16.1
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
 
 packages:
 
@@ -3953,8 +3822,8 @@ packages:
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
 
-  nanoid@3.3.16:
-    resolution: {integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==}
+  nanoid@3.3.18:
+    resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -4842,6 +4711,15 @@ snapshots:
     dependencies:
       '@astrojs/internal-helpers': 0.10.2
       astro: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@22.15.30)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
+      send: 1.2.1
+      server-destroy: 1.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@astrojs/node@11.0.3(astro@7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0))':
+    dependencies:
+      '@astrojs/internal-helpers': 0.10.2
+      astro: 7.1.6(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@24.13.3)(jiti@2.7.0)(tsx@4.20.3)(yaml@2.9.0)
       send: 1.2.1
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -6794,7 +6672,7 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
-  nanoid@3.3.16: {}
+  nanoid@3.3.18: {}
 
   natural-compare@1.4.0: {}
 
@@ -6925,7 +6803,7 @@ snapshots:
 
   postcss@8.5.25:
     dependencies:
-      nanoid: 3.3.16
+      nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
 

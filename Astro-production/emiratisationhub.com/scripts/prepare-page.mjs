@@ -21,12 +21,12 @@ const ROOT = join(__dirname, '..');
 const PUBLIC_ASSETS = join(ROOT, 'public');
 const OUT_DIR = join(ROOT, 'src/legacy');
 
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://emiratisationhub.com',
-  'https://www.emiratisationhub.com',
-  'http://emiratisationhub.com',
-  'http://www.emiratisationhub.com',
+  '',
+  '',
+  '',
+  '',
 ];
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
@@ -103,7 +103,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?pittant\.com/gi,
-    'https://emiratisationhub.com',
+    '',
   );
 }
 
@@ -268,7 +268,7 @@ function cleanHtml(html) {
 function rewriteOriginUrls(text) {
   let out = text.replace(/https?:\\\/\\\/(?:www\.)?pittant\.com/gi, '');
   // Absolute origins FIRST. A bare //domain pass before this turns
-  // https://emiratisationhub.com/x into https:/x (broken — CSS/JS never load).
+  // /x into https:/x (broken — CSS/JS never load).
   out = out.replace(/https?:\/\/(?:www\.)?pittant\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );

@@ -124,5 +124,5 @@ The live site runs Elementor + WP Rocket. To reproduce the look without WordPres
 - Trailing slash always (`trailingSlash: "always"`); unknown URLs → real 404.
 - Do **not** put `HOST`/`PORT` in env files — systemd sets them (`deploy/connecthr.service`, port 5084).
 - Deploy templates in `deploy/`: `connecthr.service`, `connecthr.ae.caddy`
-  (`http://`+`https://`+`tls internal`), `ROOT_SETUP.md`.
+  (bare-host block + named CA `astro_origin_2026` + paired manual loaders), `ROOT_SETUP.md`.
 - **Production deploy + Cloudflare cutover are out of scope** until a follow-up is assigned (root/Aaron).

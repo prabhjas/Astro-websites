@@ -11,7 +11,7 @@ import * as cheerio from 'cheerio';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SHELL_DIR = join(ROOT, 'src/legacy/blog-shell');
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 const REF_URL = process.argv[2] || `${ORIGIN}/kitchen-renovation-dubai/`;
 
 const MARKERS = {
@@ -27,10 +27,10 @@ const MARKERS = {
 
 function rewriteUrls(html) {
   return html
-    .replaceAll('https://alburaq.ae/', '/')
-    .replaceAll('https://alburaq.ae/', '/')
-    .replaceAll('https://alburaq.ae/', '/')
-    .replaceAll('http://alburaq.ae/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
+    .replaceAll('/', '/')
     .replace(/\/\/alburaq\.ae\//g, '/');
 }
 

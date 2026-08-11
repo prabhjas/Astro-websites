@@ -12,7 +12,7 @@ import { resolveSiteOrigin } from '../lib/seo/site-url';
 export const prerender = false;
 
 function absolutizeBlogSeo(html: string): string {
-  let origin = 'https://alburaq.ae';
+  let origin = '';
   try {
     origin = resolveSiteOrigin();
   } catch {

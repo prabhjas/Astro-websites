@@ -38,12 +38,12 @@ async function detail(url, label) {
   await p.close();
 }
 
-await detail('https://companyformationsaudi.com/', 'LIVE');
+await detail('/', 'LIVE');
 await detail('http://127.0.0.1:5114/', 'LOCAL');
 
 // Also check sticky form on live post
 const p = await b.newPage();
-await p.goto('https://companyformationsaudi.com/blog/employer-of-record-saudi-arabia/', {
+await p.goto('/blog/employer-of-record-saudi-arabia/', {
   waitUntil: 'networkidle',
   timeout: 90000,
 });

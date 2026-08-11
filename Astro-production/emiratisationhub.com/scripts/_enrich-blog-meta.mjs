@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG = join(ROOT, 'src/content/blog');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 const files = readdirSync(BLOG).filter((f) => f.endsWith('.json'));
 let ok = 0;

@@ -4,7 +4,7 @@ App tree: `/opt/Astro-production/payrollmiddleast.org`
 Unit name: `payrollmiddleast` · PORT **5110** · Unix user: **`site-payrollmiddleast`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (`tls internal`, canonical www redirect, HSTS).
+Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (named CA `payroll_origin_isolated_2026` with its paired manual cert/key loaders, canonical www redirect, HSTS).
 
 ## 1. Site unix user
 
@@ -48,13 +48,13 @@ Expect `User=site-payrollmiddleast`, `MemoryMax=268435456`, `EnvironmentFiles=�
 Owner-only: [docs/OPS-OWNER-CADDY-CUTOVER.md](../../../docs/OPS-OWNER-CADDY-CUTOVER.md).
 
 ```bash
-# Merge deploy/payrollmiddleast.org.caddy into /etc/caddy/Caddyfile (or sites.d)
+# Merge only into the reviewed canonical Caddyfile; there is no split-file alternative.
 # Also add http://payrollmiddleast.org to the shared one-hop HTTP alt-host block
 # (redirect apex → https://www.payrollmiddleast.org — live WP canonical is www)
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+Cloudflare SSL: **Full** (not Full strict) when origin uses named CA `payroll_origin_isolated_2026` with its paired manual cert/key loaders.
 `PUBLIC_SITE_URL=https://www.payrollmiddleast.org`
 
 ## 5. Deploy / build (webdev)

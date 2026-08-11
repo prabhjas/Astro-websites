@@ -3,6 +3,7 @@ import { getLeadEnv } from '../context.js';
 import { requireInternalJobAuth, internalJson } from '../auth/internal-job.js';
 import { FileLeadStore } from '../leads/file-store.js';
 import { deliverStoredLead } from '../leads/service.js';
+import { isValidPublicId } from '../leads/public-id.js';
 
 export const prerender = false;
 
@@ -22,6 +23,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!publicId) {
     return internalJson({ success: false, message: 'Missing publicId' }, 400);
+  }
+  if (!isValidPublicId(publicId)) {
+    return internalJson({ success: false, message: 'Invalid publicId' }, 400);
   }
 
   const env = getLeadEnv();

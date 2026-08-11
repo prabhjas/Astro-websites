@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://companyformationsaudi.com/business-setup-lawyers-in-saudi-arabia/ |
+| Live URL | /business-setup-lawyers-in-saudi-arabia/ |
 | Fetched | 2026-08-08T06:10:49.266Z |

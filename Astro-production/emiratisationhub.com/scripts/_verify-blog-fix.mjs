@@ -1,5 +1,5 @@
 const local = await (await fetch('http://127.0.0.1:5107/blog/')).text();
-const live = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const live = await (await fetch('/blog/')).text();
 
 const localNav = (local.match(/<nav[^>]*elementor-pagination/gi) || []).length;
 const liveNav = (live.match(/<nav[^>]*elementor-pagination/gi) || []).length;

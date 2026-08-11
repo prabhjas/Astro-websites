@@ -40,14 +40,15 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental eormiddleast emir
 ## 5. Caddy
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
+mkdir -p /var/log/caddy
 # Prefer merging deploy/emiratiguard.com.caddy into the fleet Caddyfile.production
-# (one-hop HTTP + hardened site block). Or copy to sites.d if that layout is used.
-cp /opt/Astro-production/emiratiguard.com/deploy/emiratiguard.com.caddy /etc/caddy/sites.d/
+# Merge only into the reviewed canonical Caddyfile; there is no split-file alternative.
+# Merge this deploy block into caddy/Caddyfile.production and the reviewed
+# single /etc/caddy/Caddyfile; do not install files under sites.d.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use the hardened bare-host + `tls internal` template (`@noncanonical` www→apex, HSTS, static cache) — **not** mixed http+https in one block (CF Flexible redirect loop).
+Use the complete bare-host production block with named CA `astro_origin_2026` and both manual certificate loaders. Cloudflare SSL must remain **Full**; do not use Flexible.
 Match `PUBLIC_SITE_URL=https://emiratiguard.com`. Cloudflare SSL = **Full**.
 
 ## 6. Deploy loop

@@ -63,11 +63,6 @@ const names = [
 ].map((m) => m[1]);
 console.log("bundle refs", [...new Set(names)].length);
 for (const name of [...new Set(names)]) {
-  const base = name.includes("nav-menu") || name.includes("carousel") || name.includes("form") || name.includes("video") || name.includes("sticky") || name.includes("shared")
-    ? name.includes("nav-menu") || name.startsWith("ajax") // guess path
-      ? null
-      : null
-    : null;
   // Try elementor path then elementor-pro path
   for (const prefix of [
     "/wp-content/plugins/elementor/assets/js/",

@@ -12,10 +12,10 @@ const TEXT_EXT = new Set([
 
 function transform(text) {
   return text
-    .replaceAll('https://www.companyformationsaudi.com', 'https://www.companyformationsaudi.com')
-    .replaceAll('http://www.companyformationsaudi.com', 'http://www.companyformationsaudi.com')
-    .replaceAll('https://companyformationsaudi.com', 'https://companyformationsaudi.com')
-    .replaceAll('http://companyformationsaudi.com', 'http://companyformationsaudi.com')
+    .replaceAll('', '')
+    .replaceAll('', '')
+    .replaceAll('', '')
+    .replaceAll('', '')
     .replaceAll('www.companyformationsaudi.com', 'www.companyformationsaudi.com')
     .replaceAll('companyformationsaudi.com', 'companyformationsaudi.com')
     .replaceAll('Company Formation Saudi', 'Company Formation Saudi')

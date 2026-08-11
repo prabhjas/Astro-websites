@@ -1,0 +1,99 @@
+/**
+ * Visual Composer background / layout fallback.
+ * Live mirrors reference /wp-content/plugins/visualcomposer/... which was never
+ * mirrored into public/. Without these rules, rows stay white (white copy on white).
+ */
+
+.vce-row,
+.vce-col,
+.vce-col-inner {
+  position: relative;
+}
+
+.vce-row-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.vce-asset-background-simple-container,
+.vce-asset-background-color-container,
+.vce-asset-background-gradient-container,
+.vce-asset-parallax-container {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vce-asset-background-simple,
+.vce-asset-background-simple-item {
+  position: absolute;
+  inset: 0;
+}
+
+.vce-asset-background-simple-item {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.vce-asset-background-simple--style-cover .vce-asset-background-simple-item {
+  background-size: cover;
+}
+
+.vce-asset-background-simple--style-contain .vce-asset-background-simple-item {
+  background-size: contain;
+}
+
+.vce-asset-background-simple--position-center-center .vce-asset-background-simple-item {
+  background-position: center center;
+}
+
+/* Breakpoint visibility used on per-device background layers */
+.vce-visible-xl-only,
+.vce-visible-lg-only,
+.vce-visible-md-only,
+.vce-visible-sm-only,
+.vce-visible-xs-only {
+  display: none !important;
+}
+
+@media (min-width: 1200px) {
+  .vce-visible-xl-only {
+    display: block !important;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .vce-visible-lg-only {
+    display: block !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .vce-visible-md-only {
+    display: block !important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .vce-visible-sm-only {
+    display: block !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .vce-visible-xs-only {
+    display: block !important;
+  }
+}
+
+/* Full-width stretch without VC fullWidth.js */
+.vce-row[data-vce-full-width="true"] {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}

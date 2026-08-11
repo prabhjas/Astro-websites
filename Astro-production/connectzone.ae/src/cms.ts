@@ -39,7 +39,7 @@ const taxonomy: TaxonomyAdapter = {
 };
 
 configureSiteCms({
-  siteId: 'spheavyrental',
+  siteId: 'connectzone',
   features: FEATURES_FULL_CMS,
   getLeadEnv: () => getServerEnv() as unknown as LeadEnv,
   createPipedriveLead: (env, payload) =>

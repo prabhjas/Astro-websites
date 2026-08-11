@@ -1,4 +1,4 @@
-const live = await (await fetch('https://emiratisationhub.com/')).text();
+const live = await (await fetch('/')).text();
 const i = live.indexOf('Frequently Asked Questions');
 const chunk = live.slice(i, i + 3000);
 console.log('live has accordion-icon?', /accordion-icon/.test(chunk));

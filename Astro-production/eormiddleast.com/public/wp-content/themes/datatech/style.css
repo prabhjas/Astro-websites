@@ -4934,7 +4934,7 @@ background:#090218;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(http://webitkurigram.com/wp/datatech/wp-content/uploads/2020/06/cyber-security-slider.png);
+    background-image: none;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -6589,4 +6589,3 @@ display:none;
 .update-message.notice.inline.notice-warning.notice-alt {
     display: none !important;
 }
-

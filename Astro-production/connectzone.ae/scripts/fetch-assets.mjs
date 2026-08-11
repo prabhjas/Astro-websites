@@ -5,7 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = process.env.ASSET_ORIGIN || "https://connectzone.ae";
+const ORIGIN = process.env.ASSET_ORIGIN || "";
 const PUBLIC = "public";
 const DATA = "src/data";
 const CRAWL = "_crawl";
@@ -33,10 +33,10 @@ function localFromUrl(url) {
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://connectzone.ae", "")
-    .replaceAll("http://connectzone.ae", "")
-    .replaceAll("https://www.connectzone.ae", "")
-    .replaceAll("http://www.connectzone.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//connectzone.ae", "")
     .replaceAll("//www.connectzone.ae", "");
 }

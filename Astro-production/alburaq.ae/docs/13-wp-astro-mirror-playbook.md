@@ -8,7 +8,7 @@ Checklist of enhancements and fixes proven on **Connect Group Astro** (reference
 |---------|------------|
 | Connect Group (source pattern) | `~/Desktop/astro` |
 | Al Buraq (this repo) | `~/Projects/astro-alburaq.ae` |
-| Live Evolution | https://alburaq.ae/ |
+| Live Evolution | / |
 
 ---
 

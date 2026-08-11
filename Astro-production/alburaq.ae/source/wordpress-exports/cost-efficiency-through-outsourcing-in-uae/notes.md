@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/cost-efficiency-through-outsourcing-in-uae/ |
+| Live URL | /cost-efficiency-through-outsourcing-in-uae/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

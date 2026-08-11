@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://alburaq.ae/abu-dhabi-executive-office-roles-and-policies/ |
+| Live URL | /abu-dhabi-executive-office-roles-and-policies/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

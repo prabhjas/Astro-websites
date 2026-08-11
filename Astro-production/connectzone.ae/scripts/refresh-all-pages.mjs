@@ -5,14 +5,14 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://connectzone.ae";
+const ORIGIN = "";
 const DATA = "src/data";
 const PUBLIC = "public";
 
 function stripDomain(html) {
   return html
-    .replaceAll("https://connectzone.ae", "")
-    .replaceAll("https://connectzone.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//connectzone.ae", "");
 }
 

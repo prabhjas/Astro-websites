@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { readRequestBodyLimited, replayRequestWithBody } from '@connect/site-cms/http/request-body';
 import { deriveAttributionFromRequest, mergeAttributionIntoContactForm, normaliseAttribution } from '../../lib/attribution/server';
 import { FileLeadStore } from '../../lib/leads/file-store';
 import { deliverStoredLead } from '../../lib/leads/service';
@@ -82,9 +83,23 @@ export const POST: APIRoute = async ({ request }) => {
 
   let input: ContactFormInput;
   try {
+    const limitedBody = await readRequestBodyLimited(request, MAX_BODY_BYTES);
+    if (!limitedBody.ok) {
+      logFormFailure({
+        requestId,
+        timestamp,
+        errorMessage: 'Request body too large',
+        errorCode: 'payload_too_large',
+      });
+      return jsonResponse(
+        { success: false, message: 'We could not submit your enquiry at the moment. Please try again shortly.' },
+        413,
+      );
+    }
+    const parsedRequest = replayRequestWithBody(request, limitedBody.bytes);
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-      const json = (await request.json()) as Record<string, unknown>;
+      const json = (await parsedRequest.json()) as Record<string, unknown>;
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
       for (const [key, value] of Object.entries(json || {})) {
@@ -96,7 +111,7 @@ export const POST: APIRoute = async ({ request }) => {
       }
       input = parseContactFormBody(raw, arrays);
     } else {
-      const formData = await request.formData();
+      const formData = await parsedRequest.formData();
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
       formData.forEach((value, key) => {

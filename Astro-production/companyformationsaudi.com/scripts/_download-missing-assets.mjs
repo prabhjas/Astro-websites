@@ -68,7 +68,7 @@ for (const u of missing) {
   mkdirSync(dirname(dest), { recursive: true });
   try {
     const res = await fetch(`https://companyformationsaudi.com${u}`, {
-      headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://companyformationsaudi.com/' },
+      headers: { 'User-Agent': 'Mozilla/5.0', Referer: '/' },
       redirect: 'follow',
     });
     if (!res.ok) {

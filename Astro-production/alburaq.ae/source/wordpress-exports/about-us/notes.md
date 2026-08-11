@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | page |
-| Live URL | https://alburaq.ae/about-us/ |
+| Live URL | /about-us/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

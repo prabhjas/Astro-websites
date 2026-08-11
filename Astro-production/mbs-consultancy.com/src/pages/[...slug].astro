@@ -86,13 +86,20 @@ const seo = page
       ],
     };
 
+const rawPageCss = (("pageCss" in entry && entry.pageCss) || []) as string[];
+/** impreza-global dumps conflicting header rules (hides/misplaces l-header cells). Keep page-design only. */
+const pageDesignCss = rawPageCss.filter(
+  (href) => href.includes("/css/page-design/") || href.includes("/css/ez-toc"),
+);
+
 const extraCss = [
+  ...pageDesignCss,
   ...smartSliderCssForHtml(html),
   ...elementorCssForId(entry.id),
   ...((entry.pageCss as string[] | undefined) || []).filter(
     (href) => href !== "/css/impreza-global.css",
   ),
-];
+].filter(Boolean) as string[];
 
 const isElementorHtml =
   /data-elementor-type=["'](?:wp-page|wp-post|page)["']/.test(html) ||

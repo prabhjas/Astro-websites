@@ -228,14 +228,15 @@ export function validateContactForm(input: ContactFormInput): ValidationResult {
   const data = normaliseFormData(input);
   const errors: Record<string, string> = {};
 
-  // Prefer a single full name (CF7 `your-name`). If only first/last are sent,
-  // require at least first name — do not hard-require last name.
-  if (!isMeaningfulValue(data.fullName) && !isMeaningfulValue(data.firstName)) {
-    errors.name = 'Name is required.';
-  } else {
-    const nameToCheck = data.fullName || [data.firstName, data.lastName].filter(Boolean).join(' ');
-    const err = nameFieldError(nameToCheck, 'Name');
+  const hasCombinedName = isMeaningfulValue(input.name);
+  if (hasCombinedName) {
+    const err = nameFieldError(data.fullName, 'Name');
     if (err) errors.name = err;
+  } else {
+    const firstErr = nameFieldError(data.firstName, 'First name');
+    if (firstErr) errors.name = firstErr;
+    const lastErr = nameFieldError(data.lastName, 'Last name');
+    if (lastErr) errors.lastName = lastErr;
   }
 
   if (!isMeaningfulValue(data.email)) {
