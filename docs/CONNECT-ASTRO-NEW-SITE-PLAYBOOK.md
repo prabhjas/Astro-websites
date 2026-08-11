@@ -240,11 +240,12 @@ New sites with serious phone capture: copy **CBSS** intl-tel + `/api/geo`.
 
 `GET /api/geo` (CBSS/Iberia) or `GET /api/geo/country` (Evolution/SP):
 
-1. Edge headers first: `cf-ipcountry`, `x-vercel-ip-country`, `cloudfront-viewer-country` (skip `XX`)
-2. Else client IP from `x-forwarded-for` / `x-real-ip` → public geo API (ipwho.is / ipapi.co)
-3. Response: `{ country, source: 'header'|'ip'|'unknown' }` (cache ~5 min)
+1. Edge headers first: `cf-ipcountry`, `x-vercel-ip-country`, `cloudfront-viewer-country` (skip `XX` / `T1`)
+2. Else fallback **`ae`** (local/dev has no CF header). Do **not** call `ipinfo.io` from the browser
+3. Prefer SSR `window.__GEO_COUNTRY__` into countrySelect; otherwise same-origin `GET /api/geo` or `/api/geo/country` only
+4. Response: `{ country, source: 'header'|'ip'|'unknown' }` (cache ~5 min)
 
-Used to preselect phone country — not as a hard security boundary.
+Used to preselect phone country — not as a hard security boundary. Fleet queue: [00-NEW-SITE-MASTER § FQ-02](00-NEW-SITE-MASTER.md#fq-02--geo--stop-ipinfoio-use-cloudflare).
 
 ### 6.5 Attribution (required)
 

@@ -1017,12 +1017,13 @@
     }
 
     function lookupCountryByIp() {
-      // Prefer reliable free endpoints first (ipwho.is often rate-limits)
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
+      // Same-origin only (cf-ipcountry server-side + AE fallback). No third-party geo (FQ-02).
       var endpoints = [
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipapi.co/json/',
-        'https://ipwho.is/',
-        'https://ipinfo.io/json',
+        '/api/geo/country',
       ];
       var i = 0;
       var lookup = new Promise(function (resolve) {

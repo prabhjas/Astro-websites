@@ -1,5 +1,11 @@
 # Aaron cutover note — 2026-08-10 (fleet + signatures + CF purge)
 
+> **WARNING (11 Aug 2026) — do not run the staged root scripts as written.**  
+> Aaron: the **signature** `APPLY.sh` mutates the attested immutable release from a user-writable staging directory. **APPLY-NEXT6.sh** has no transactional rollback, tolerates failed health checks, starts mutable in-tree builds, and edits `site-ctl` with brittle text substitution.  
+> Do **not** run `/home/webdev/staging/signatures/APPLY.sh` or `/home/webdev/staging/fleet-cutover-20260810/APPLY-NEXT6.sh` until rewritten. Safe shape: new immutable release for signature PNGs; transactional next-6 with health-check abort. See [CLAUDE-FLEET-QUEUE-PROMPT § FQ-00](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-00--do-not-run-staged-signature--next-6-apply-scripts).
+
+---
+
 **From:** engineering (webdev)  
 **Host:** `Astro` / `178.105.150.67`  
 **Live app root today:** immutable release  
@@ -51,6 +57,8 @@ Staged under `/home/webdev/staging/signatures/` (FM + SA + **Connect HR Falak** 
 Live Node only reads the **immutable release** — mutable `/opt/.../dist` alone does not fix public URLs.
 
 ```bash
+# ⛔ VETOED 11 Aug 2026 — DO NOT RUN as written (see WARNING at top). Owner must rewrite:
+# signatures belong in a NEW immutable release, not patched into the attested tree from staging.
 sudo /home/webdev/staging/signatures/APPLY.sh
 ```
 
@@ -110,6 +118,8 @@ Staging pack (~2G):
 - `connectfm-delta/` (duct webp sizes)
 
 ```bash
+# ⛔ VETOED 11 Aug 2026 — DO NOT RUN as written (see WARNING at top). Owner must rewrite:
+# no transactional rollback, tolerates failed health checks, in-tree builds, brittle site-ctl sed.
 sudo /home/webdev/staging/fleet-cutover-20260810/APPLY-NEXT6.sh
 # then install/reload Caddy from staged Caddyfile.production
 ```
@@ -123,12 +133,13 @@ Prefer also folding these trees into a **new immutable security release** (same 
 ### 1. Quick wins (today, minutes)
 
 1. CF purge Connect Resources Smart Slider paths (section A)  
-2. `sudo /home/webdev/staging/signatures/APPLY.sh` (section B)  
+2. `sudo /home/webdev/staging/signatures/APPLY.sh` (section B) — ⛔ **VETOED, do not run** (rewrite as new immutable release)  
 3. CF purge the two signature URLs  
 
 ### 2. Next 6 first enable + Caddy
 
 ```bash
+# ⛔ VETOED 11 Aug 2026 — DO NOT RUN APPLY-NEXT6.sh as written (see WARNING at top). Owner rewrite required.
 sudo /home/webdev/staging/fleet-cutover-20260810/APPLY-NEXT6.sh
 # Install staged Caddyfile into live layout, then:
 sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && sudo systemctl reload caddy

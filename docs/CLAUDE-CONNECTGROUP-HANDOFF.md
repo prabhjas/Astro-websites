@@ -2,7 +2,9 @@
 
 Paste this into Claude (or Cursor) when assigning work on this project.
 
-**Updated:** 2026-08-03
+**Updated:** 2026-08-11
+
+**Current assignment (paste this):** [CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md) — 34-site queue FQ-01 nanoid · FQ-02 geo · FQ-04 peer-copy · FQ-03 memory note.
 
 ---
 
@@ -15,7 +17,7 @@ Paste this into Claude (or Cursor) when assigning work on this project.
 | **Org** | `Connect-Group-Tech` |
 | **Default work branch** | `work/astro-sites` (also sync with `main` regularly) |
 | **Package manager** | **pnpm** only (`pnpm@9.15.9`, Node `>=22.12.0`) |
-| **Live sites** | evolutionmiddleast.com · cbss.ae · spheavyrental.ae · iberiaworkforce.com |
+| **Live / cutover** | **34 sites** (28 live + next 6). Ports 5080–5124. List: [00-NEW-SITE-MASTER § Fleet work queue](00-NEW-SITE-MASTER.md#fleet-work-queue--34-sites) |
 
 Personal mirror (optional, not primary): `https://github.com/prabhjas/Astro-websites` (remote name `personal`).  
 **Day-to-day push/PR target = Connect Group `origin`.**
@@ -140,10 +142,10 @@ Ports: http://127.0.0.1:5080 … :5083
 
 ## Current known state (Aug 2026)
 
-- All four sites **live** on the Astro host.
-- Fleet CMS / pnpm workspace / restic templates are in git.
-- Deploy templates should use Caddy named CA `astro_origin_2026` with paired manual cert/key loaders + required `EnvironmentFile=` (branch `work/astro-sites` may still have unmerged template fixes vs `main` — check before PR).
-- SP Heavy Pipedrive: server `.env.prod` had bad/placeholder token; temporary webdev override `.env.webdev` + ACL was used. Prefer Aaron fixing `.env.prod` properly.
+- **34 keep sites** on `work/astro-sites` / `work/live-fleet-34` (28 live + next 6). Live 28 often run from an **immutable release**, not a fresh `/opt` tree.
+- Next-6 Caddy in git uses named CA `astro_origin_2026` (not `tls internal`). Staging pack: `/home/webdev/staging/fleet-cutover-20260810/`.
+- **Do not run** staged `APPLY-NEXT6.sh` / signature scripts — Aaron rejected them (mutate attested release, no rollback).
+- Active developer queue: [CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md).
 - `Astro-staging/` was removed from `main` — production only under `Astro-production/`.
 
 ---
@@ -163,6 +165,10 @@ Ports: http://127.0.0.1:5080 … :5083
 
 ## Starter prompt (copy to Claude)
 
+**34-site queue (use this):** copy the fence in [CLAUDE-FLEET-QUEUE-PROMPT.md § Starter prompt](CLAUDE-FLEET-QUEUE-PROMPT.md#starter-prompt-copy-everything-in-the-fence).
+
+Generic / other task:
+
 ```text
 You are working on the Connect Group Astro websites fleet.
 
@@ -172,7 +178,7 @@ Branch: work/astro-sites
 Commits: author prabhjass-afk <prabhjass-afk@users.noreply.github.com> (repo-local -c only)
 Server: webdev@178.105.150.67 via ssh -i ~/.ssh/id_ed25519_connectgroup ; deploy /opt/Astro-production/ ; sudo site-ctl only
 
-Read docs/CURSOR-RUN-FLEET.md and README.md first.
+Read docs/00-NEW-SITE-MASTER.md and docs/CLAUDE-FLEET-QUEUE-PROMPT.md first.
 Follow fleet conventions: pnpm workspace, @connect/site-cms, per-site processes, .env vs .env.prod, no secrets in chat/git.
 
 Task: <DESCRIBE THE TASK HERE>
