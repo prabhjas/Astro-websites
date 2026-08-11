@@ -3,4 +3,22 @@ Allow: /
 Disallow: /api/
 Disallow: /search/
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: OAI-AdsBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://connecthr.ae/sitemap_index.xml

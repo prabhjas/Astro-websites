@@ -89,6 +89,9 @@ const seo = page
 const extraCss = [
   ...smartSliderCssForHtml(html),
   ...elementorCssForId(entry.id),
+  ...((entry.pageCss as string[] | undefined) || []).filter(
+    (href) => href !== "/css/impreza-global.css",
+  ),
 ];
 
 const isElementorHtml =

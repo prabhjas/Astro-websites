@@ -19,6 +19,9 @@ const html = sanitizeMirrorHtml(page.bodyHtml || page.content);
 const extraCss = [
   ...smartSliderCssForHtml(html),
   ...elementorCssForId(page.id),
+  ...((page.pageCss as string[] | undefined) || []).filter(
+    (href) => href !== "/css/impreza-global.css",
+  ),
 ];
 ---
 

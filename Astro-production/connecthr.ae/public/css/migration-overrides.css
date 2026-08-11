@@ -655,3 +655,134 @@ div.wpcf7-response-output.sp-status-visible,
   }
 }
 
+/* Asset Management — collapse gap between branches / reporting / FAQ */
+.elementor-271 .elementor-element-d4f31e5 {
+  padding-bottom: 20px !important;
+}
+.elementor-271 .elementor-element-1fb2d08 {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: hidden;
+  position: relative;
+  padding-top: 0 !important;
+  padding-bottom: 24px !important;
+}
+.elementor-271 .elementor-element-1fb2d08 > .elementor-container {
+  position: relative;
+  z-index: 1;
+}
+.elementor-271 .elementor-element-1fb2d08 .elementor-background-video-container {
+  display: none !important;
+}
+.elementor-271 .elementor-element-1fb2d08 video.elementor-background-video-hosted {
+  display: none !important;
+}
+/* Reporting block was styled for dark video bg — use readable text on white */
+.elementor-271 .elementor-element.elementor-element-c6f8add .elementor-heading-title,
+.elementor-271 .elementor-element.elementor-element-6004f4a,
+.elementor-271 .elementor-element.elementor-element-6004f4a p,
+.elementor-271 .elementor-element.elementor-element-6004f4a .elementor-widget-container {
+  color: #2c2b2c !important;
+  -webkit-text-fill-color: #2c2b2c !important;
+}
+.elementor-271 .elementor-element.elementor-element-eb7d9fc {
+  border-color: #e7e6e7 !important;
+}
+
+/* Hide breadcrumbs if any legacy markup remains */
+.sp-breadcrumbs {
+  display: none !important;
+}
+
+/* Asset Management FAQ — tighten gap between heading + toggle sections */
+.elementor-271 .elementor-element-68f0134 {
+  padding-bottom: 0 !important;
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+.elementor-271 .elementor-element-8fd194e {
+  padding-top: 0 !important;
+}
+
+/* Asset Management — bottom CTA (mirrored from performance-management be95242) */
+.elementor-271 .elementor-element-be95242:not(.elementor-motion-effects-element-type-background),
+.elementor-271 .elementor-element-be95242 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #021340;
+  background-image: url("/wp-content/uploads/2025/07/CTA-Img.png");
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.elementor-271 .elementor-element-be95242 > .elementor-container {
+  max-width: 1200px;
+}
+.elementor-271 .elementor-element-be95242 {
+  padding: 30px 10px;
+}
+.elementor-bc-flex-widget .elementor-271 .elementor-element-b5e3fe1.elementor-column .elementor-widget-wrap {
+  align-items: center;
+}
+.elementor-271 .elementor-element-b5e3fe1.elementor-column.elementor-element[data-element_type="column"] > .elementor-widget-wrap.elementor-element-populated {
+  align-content: center;
+  align-items: center;
+}
+.elementor-271 .elementor-element-0eefc34 .elementor-heading-title {
+  font-family: "General Sans", Sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  color: #7ac5ff;
+}
+.elementor-271 .elementor-element-1287211 .elementor-heading-title {
+  font-family: "General Sans", Sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 57px;
+  letter-spacing: -0.96px;
+  color: #fff;
+}
+.elementor-271 .elementor-element-bc8c46c .elementor-button {
+  font-family: "General Sans", Sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+.elementor-271 .elementor-element-05420c6 {
+  --spacer-size: 400px;
+}
+@media (max-width: 1024px) {
+  .elementor-271 .elementor-element-be95242:not(.elementor-motion-effects-element-type-background),
+  .elementor-271 .elementor-element-be95242 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-position: bottom right;
+  }
+  .elementor-271 .elementor-element-05420c6 {
+    --spacer-size: 200px;
+  }
+  .elementor-271 .elementor-element-1287211 .elementor-heading-title {
+    font-size: 45px;
+    line-height: 50px;
+  }
+}
+@media (max-width: 767px) {
+  .elementor-271 .elementor-element-0eefc34 .elementor-heading-title {
+    font-size: 17px;
+    line-height: 24px;
+  }
+  .elementor-271 .elementor-element-1287211 {
+    text-align: center;
+  }
+  .elementor-271 .elementor-element-1287211 .elementor-heading-title {
+    font-size: 26px;
+    line-height: 38px;
+  }
+  .elementor-271 .elementor-element-bc8c46c {
+    width: 100%;
+    max-width: 100%;
+  }
+  .elementor-271 .elementor-element-bc8c46c .elementor-button .elementor-button-content-wrapper {
+    justify-content: center;
+  }
+}
+
