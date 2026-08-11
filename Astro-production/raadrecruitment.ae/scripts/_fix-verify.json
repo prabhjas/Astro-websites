@@ -1,0 +1,82 @@
+{
+  "/emiratisation/": {
+    "ssLoaded": true,
+    "sliderId": "n2-ss-4",
+    "sliderH": 300,
+    "quoteVisible": {
+      "text": "Are you looking for Emiratisation recruitment services in the UAE? Look no furth",
+      "w": 580,
+      "h": 79.21875,
+      "opacity": "1",
+      "color": "rgb(122, 122, 122)",
+      "x": 110
+    },
+    "hasSs4Css": true
+  },
+  "/staff-outsourcing-in-uae/": {
+    "ssLoaded": true,
+    "sliderId": "n2-ss-5",
+    "sliderH": 300,
+    "quoteVisible": {
+      "text": "RAAD Recruitment is a top-tier staff outsourcing agency in UAE that provides val",
+      "w": 580,
+      "h": 52.8125,
+      "opacity": "1",
+      "color": "rgb(122, 122, 122)",
+      "x": 110
+    },
+    "hasSs4Css": true
+  },
+  "/recruitment/": {
+    "ssLoaded": true,
+    "sliderId": "n2-ss-6",
+    "sliderH": 300,
+    "quoteVisible": {
+      "text": "In Dubai’s vibrant and dynamic city, where innovation meets tradition, RAAD Recr",
+      "w": 580,
+      "h": 105.625,
+      "opacity": "1",
+      "color": "rgb(122, 122, 122)",
+      "x": 110
+    },
+    "hasSs4Css": true
+  },
+  "sticky": {
+    "before": {
+      "top": 474,
+      "pos": "sticky",
+      "cssTop": "90px"
+    },
+    "after": {
+      "top": 90,
+      "pos": "sticky",
+      "cssTop": "90px"
+    },
+    "stuck": true
+  },
+  "postSticky": {
+    "path": "/emiratisation/",
+    "after": null
+  },
+  "favicon": {
+    "headIcons": [
+      {
+        "rel": "icon",
+        "href": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-32x32.png"
+      },
+      {
+        "rel": "icon",
+        "href": "/favicon.ico"
+      },
+      {
+        "rel": "icon",
+        "href": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-192x192.png"
+      },
+      {
+        "rel": "apple-touch-icon",
+        "href": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-180x180.png"
+      }
+    ],
+    "icons": []
+  }
+}

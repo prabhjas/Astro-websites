@@ -1,0 +1,21 @@
+# Permanent redirects - SEO / migration
+# Imported from imports/redirects/2026-08-10-redirection-plugin.json (merge).
+redirects:
+  - from: /business-license-in-dubai/
+    to: /business-license-uae/
+    status: 301
+  - from: /freelancer-visa-costs-in-dubai-what-to-expect-in-the-year-2026/
+    to: /freelancer-visa-costs-in-dubai/
+    status: 301
+  - from: /home-new/
+    to: /home/
+    status: 301
+  - from: /how-to-cancel-visa-in-uae/
+    to: /visa-cancellation-and-final-settlement/
+    status: 301
+  - from: /how-to-start-freelancing-in-dubai-10-easy-steps/
+    to: /uae-labour-law/
+    status: 301
+  - from: /uae-residence-visa-free-countries/
+    to: /uae-residents-visa-free-countries/
+    status: 301

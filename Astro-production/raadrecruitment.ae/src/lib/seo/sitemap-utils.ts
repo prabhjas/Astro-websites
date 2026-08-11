@@ -42,6 +42,8 @@ export function normaliseCanonicalPath(input: string): string | null {
   if (!pathname || pathname === '/') return '/';
 
   const cleaned = pathname.replace(/\/{2,}/g, '/');
+  // Keep file-like sitemap locs as-is (e.g. /locations.kml)
+  if (/\.[a-z0-9]{2,8}$/i.test(cleaned)) return cleaned;
   return cleaned.endsWith('/') ? cleaned : `${cleaned}/`;
 }
 

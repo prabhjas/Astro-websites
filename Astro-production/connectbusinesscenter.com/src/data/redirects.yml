@@ -1,9 +1,71 @@
 # Canonical interim redirects for connectbusinesscenter.com
-# Drop Rank Math / Redirection rule exports under imports/redirects/
-# and merge per docs/CURSOR-IMPORT-REDIRECTS.md.
+# Imported from imports/redirects/2026-08-10-redirection-plugin.json (replace-all)
+# Source file: redirection-connectbusinesscenter-com-august-10-2026.json
 # FLOW owns day-to-day edits via /api/internal/redirects/*.
+# See docs/CURSOR-IMPORT-REDIRECTS.md
 
 redirects:
-  - from: /home/
-    to: /
+  - from: /flexi-desk-dubai/
+    to: /flexi-desk/
     status: 301
+  - from: /business-setup-in-ras-al-khaimah-2/
+    to: /business-setup-in-ras-al-khaimah/
+    status: 301
+  - from: /golden-visa-benefits-uae/
+    to: /golden-visa-benefits-in-uae/
+    status: 301
+  - from: /golden-visa-in-the-uae/
+    to: /golden-visa-in-dubai/
+    status: 301
+  - from: /small-business-ideas-in-uae/
+    to: /top-business-ideas-in-dubai/
+    status: 301
+  - from: /best-coworking-spaces-in-dubai/
+    to: /coworking-space-dubai/
+    status: 301
+  - from: /start-an-it-company-in-dubai/
+    to: /start-software-company-in-dubai/
+    status: 301
+  - from: /ejari-registration-dubai/
+    to: /everything-you-need-know-about-ejari-registration/
+    status: 301
+  - from: /how-can-you-get-an-employment-visa-in-dubai-and-the-uae/
+    to: /know-about-empolyment-visa-uae/
+    status: 301
+  - from: /how-to-get-a-uae-residence-visa/
+    to: /everything-you-need-to-know-about-residence-visa-services/
+    status: 301
+  - from: /everything-about-the-residence-visa-service/
+    to: /everything-you-need-to-know-about-residence-visa-services/
+    status: 301
+  - from: /serviced-offices-and-coworking-spaces-in-dubai/
+    to: /serviced-office-for-rent-in-dubai/
+    status: 301
+  - from: /shared-office-space-is-it-a-good-choice-for-your-new-business/
+    to: /know-about-shared-office-space-in-dubai/
+    status: 301
+  - from: /a-good-shared-office-space-the-5-things-to-look-for/
+    to: /know-about-shared-office-space-in-dubai/
+    status: 301
+  - from: /how-virtual-offices-help-your-business-operate-effectively-during-the-covid-19-crisis/
+    to: /virtual-offices/
+    status: 301
+  - from: /dropshipping-in-uae/
+    to: /dropshipping-in-the-uae/
+    status: 301
+  - from: /starting-a-business-in-dubai-as-a-foreigner/
+    to: /how-to-start-a-business-in-dubai-as-a-foreigner/
+    status: 301
+  - from: /business-center-in-dubai/
+    to: /the-best-business-center-in-dubai-you-need-to-start-your-business/
+    status: 301
+  - from: /business-centers-2025/
+    to: /the-best-business-center-in-dubai-you-need-to-start-your-business/
+    status: 301
+  - from: /five-things-to-notice-while-choosing-a-business-center/
+    to: /business-centers-top-5-reasons-why-your-business-needs-one/
+    status: 301
+  - from: /start-a-business-in-dubai-without-money/
+    to: /how-to-start-a-business-in-dubai-without-money/
+    status: 301
+

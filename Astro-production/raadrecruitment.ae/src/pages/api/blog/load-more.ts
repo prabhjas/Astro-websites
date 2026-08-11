@@ -11,13 +11,36 @@ import { getPosts, paginate } from "../../../lib/content";
 
 export const prerender = false;
 
-function parseExclude(raw: string | null): Set<number> {
+function normalizePath(pathname: string): string {
+  let p = (pathname || "").trim();
+  if (!p) return "";
+  try {
+    if (/^https?:\/\//i.test(p)) p = new URL(p).pathname;
+  } catch {
+    /* keep raw */
+  }
+  if (!p.startsWith("/")) p = `/${p}`;
+  if (!p.endsWith("/")) p = `${p}/`;
+  return p.toLowerCase();
+}
+
+function parseExcludeIds(raw: string | null): Set<number> {
   if (!raw) return new Set();
   return new Set(
     raw
       .split(",")
       .map((s) => Number(s.trim()))
       .filter((n) => Number.isFinite(n) && n > 0),
+  );
+}
+
+function parseExcludePaths(raw: string | null): Set<string> {
+  if (!raw) return new Set();
+  return new Set(
+    raw
+      .split(",")
+      .map((s) => normalizePath(decodeURIComponent(s.trim())))
+      .filter(Boolean),
   );
 }
 
@@ -31,7 +54,10 @@ export const GET: APIRoute = async ({ url }) => {
   );
 
   const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  const exclude = parseExclude(url.searchParams.get("exclude"));
+  const excludeIds = parseExcludeIds(url.searchParams.get("exclude"));
+  const excludePaths = parseExcludePaths(
+    url.searchParams.get("excludePaths") || url.searchParams.get("paths"),
+  );
 
   let items: typeof sorted;
   let page: number;
@@ -41,10 +67,19 @@ export const GET: APIRoute = async ({ url }) => {
   let nextOffset: number | null;
   const total = sorted.length;
 
-  if (isImpreza) {
-    const remaining = exclude.size
-      ? sorted.filter((p) => !exclude.has(p.id))
-      : sorted.slice(Math.max(0, Number(url.searchParams.get("offset") || "0") || 0));
+  const useExclude = isImpreza || excludeIds.size > 0 || excludePaths.size > 0;
+
+  if (useExclude) {
+    /**
+     * Blog page HTML is mirrored from live (WP post IDs in the DOM), while
+     * posts.json uses local CMS ids. Always prefer path-based exclusion so
+     * Load More continues from the posts already on screen.
+     */
+    const remaining = sorted.filter((p) => {
+      if (excludeIds.has(p.id)) return false;
+      if (excludePaths.has(normalizePath(p.path))) return false;
+      return true;
+    });
     items = remaining.slice(0, perPage);
     hasMore = remaining.length > items.length;
     nextOffset = null;
@@ -76,6 +111,8 @@ export const GET: APIRoute = async ({ url }) => {
       nextPage,
       nextOffset,
       html,
+      ids: items.map((p) => p.id),
+      paths: items.map((p) => normalizePath(p.path)),
     }),
     {
       status: 200,

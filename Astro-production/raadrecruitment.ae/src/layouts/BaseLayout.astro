@@ -6,7 +6,8 @@ import ElementorScripts from "../components/ElementorScripts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
-import imprezaInlineCss from "../data/impreza-inline-css.json";
+import liveInlineCss from "../data/live-inline-css.json";
+import smartSliderCss from "../data/smart-slider-css.json";
 import { resolveInternalAdminDir } from "../env/server";
 import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 import "../styles/global.css";
@@ -31,37 +32,20 @@ const {
 } = Astro.props;
 
 /**
- * RAAD Recruitment uses Impreza theme. Load live stylesheet order, then Impreza
- * inline CSS extracted from live (theme-options / header / design / icons).
+ * Live site = Astra + Elementor. Stylesheet order mirrors production homepage
+ * (`src/data/live-css-order.json` via `scripts/sync-live-css-order.mjs`).
  */
-const globalCss = [
-  "/wp-content/plugins/contact-form-7/includes/css/styles.css",
-  "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css",
-  "/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css",
-];
-
-const baseCss = [
-  ...(liveCssOrder as string[]),
-  ...globalCss.filter((href) => !(liveCssOrder as string[]).includes(href)),
-];
+const skipInline = new Set([
+  "/css/live-inline/admin-bar-inline-css.css",
+]);
 
 const stylesheets = [
   ...new Set([
-    ...baseCss,
-    ...(imprezaInlineCss as string[]),
+    ...(liveCssOrder as string[]),
+    ...(liveInlineCss as string[]).filter((href) => !skipInline.has(href)),
+    ...(smartSliderCss as string[]),
     ...extraCss,
-    "/css/wp-custom.css",
-    "/css/wp-global-styles.css",
-    "/css/wp-carousel-free-inline.css",
-    "/css/wp-carousel-439-inline.css",
-    "/css/live-additional-home.css",
-    "/css/smartslider-home-fix.css",
-    "/css/smartslider-n2-ss-3-inline.css",
-    "/css/smartslider-industry-fix.css",
-    "/css/industry-images-fix.css",
-    "/css/industry-layout-fix.css",
-    "/css/about-us-layout-fix.css",
-    "/css/migration-overrides.css",
+    "/css/raadrecruitment-astra-fixes.css",
     "/css/raadrecruitment-mobile-nav.css",
   ]),
 ];
@@ -92,6 +76,8 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
+    {/* Early _N2 queue so any mid-body slider markup can register before footer scripts */}
+    <script is:inline src="/scripts/smart-slider/bootstrap.js"></script>
     {gtmHead ? <Fragment set:html={gtmHead} /> : null}
     {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
     {!hasGtm ? (
@@ -106,26 +92,37 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
   <body
     class:list={[
       "wp-custom-logo",
-      "wp-theme-Impreza",
-      "wp-child-theme-Impreza-child",
-      "l-body",
-      "wpb-js-composer",
-      "header_hor",
-      "header_top_show",
-      "headerinpos_top",
-      "btn_hov_slide",
+      "wp-embed-responsive",
+      "wp-theme-astra",
+      "wp-child-theme-astra-child-theme",
+      "ast-desktop",
+      "ast-plain-container",
+      "ast-no-sidebar",
+      "astra-4.13.1",
+      "group-blog",
+      "ast-inherit-site-logo-transparent",
+      "ast-theme-transparent-header",
+      "ast-hfb-header",
+      "elementor-default",
+      "elementor-kit-30",
       bodyClass,
     ]}
   >
     {gtmBody ? <Fragment set:html={gtmBody} /> : null}
-    <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
-    <div class="l-canvas type_wide">
+    <div id="page" class="hfeed site">
+      <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
       <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
-      <main id="page-content" class="l-main">
-        <slot />
-      </main>
+      <div id="content" class="site-content">
+        <div class="ast-container">
+          <div id="primary" class="content-area primary">
+            <main id="main" class="site-main">
+              <slot />
+            </main>
+          </div>
+        </div>
+      </div>
+      <ElementorFooter />
     </div>
-    <ElementorFooter />
     <ElementorScripts />
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>

@@ -181,7 +181,7 @@ const { formId = 'raadrecruitment-contact-lead', formName = 'RAAD Recruitment Co
         payload[k] = arrays[k];
       });
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

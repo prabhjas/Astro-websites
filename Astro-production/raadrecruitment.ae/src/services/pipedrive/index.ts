@@ -95,6 +95,7 @@ function buildFormMessage(form: NormalisedContactForm): string {
     `Phone: ${form.phone}`,
   ];
   if (form.message) lines.push('', `Message: ${form.message}`);
+  if (form.professionSector) lines.push(`Service: ${form.professionSector}`);
   if (form.company) lines.push(`Company: ${form.company}`);
   if (form.location) lines.push(`Location: ${form.location}`);
   if (form.campaign) lines.push(`Campaign: ${form.campaign}`);
@@ -186,7 +187,7 @@ export async function createPipedriveLead(env: ServerEnv, form: NormalisedContac
       success: false,
       statusCode: 503,
       error: 'PIPEDRIVE_API_TOKEN is not configured',
-      retryable: true,
+      retryable: false,
       errorCode: 'config_error',
     };
   }

@@ -1,0 +1,129 @@
+{
+  "hero": {
+    "sel": ".us_custom_0b7e9c85",
+    "margin-top": "72px",
+    "padding-top": "72px",
+    "padding-bottom": "360px",
+    "background-image": "url(\"https://ngmanpower.com/wp-content/uploads/2023/07/1-4.png\")",
+    "background-size": "cover",
+    "background-position": "50% 50%",
+    "top": 72,
+    "height": 1121,
+    "bottom": 1193,
+    "left": 0,
+    "width": 1440
+  },
+  "contact": {
+    "sel": ".us_custom_7bf0190b",
+    "margin-top": "-288px",
+    "margin-left": "288px",
+    "top": 905,
+    "height": 101,
+    "bottom": 1006,
+    "left": 288,
+    "width": 1152
+  },
+  "social": {
+    "sel": ".us_custom_2cb867d0",
+    "margin-top": "0px",
+    "padding-top": "72px",
+    "padding-bottom": "72px",
+    "top": 1005,
+    "height": 905,
+    "bottom": 1910,
+    "left": 0,
+    "width": 1440
+  },
+  "clients": {
+    "sel": ".us_custom_6a99ad11",
+    "padding-top": "144px",
+    "padding-bottom": "72px",
+    "top": 1911,
+    "height": 572,
+    "bottom": 2483,
+    "left": 0,
+    "width": 1440
+  },
+  "circle": {
+    "sel": ".us_custom_8b78c63d",
+    "margin-top": "-432px",
+    "padding-bottom": "126px",
+    "top": 2051,
+    "height": 739,
+    "bottom": 2790,
+    "left": 0,
+    "width": 1440
+  },
+  "circleImg": {
+    "sel": ".us_custom_8b78c63d .w-image",
+    "top": 2051,
+    "height": 613,
+    "bottom": 2664,
+    "left": 80,
+    "width": 613
+  },
+  "badges": {
+    "sel": ".us_custom_0493f734",
+    "margin-top": "-351px",
+    "padding-bottom": "108px",
+    "top": 2439,
+    "height": 156,
+    "bottom": 2595,
+    "left": 0,
+    "width": 1440
+  },
+  "badgeImages": [
+    {
+      "top": 2439,
+      "left": 747,
+      "width": 20,
+      "height": 48
+    },
+    {
+      "top": 2439,
+      "left": 821,
+      "width": 20,
+      "height": 48
+    },
+    {
+      "top": 2439,
+      "left": 895,
+      "width": 0,
+      "height": 28
+    }
+  ],
+  "body": {
+    "sel": ".us_custom_6a99ad11 .us_custom_42622947",
+    "margin-top": "18px",
+    "top": 2272,
+    "height": 112,
+    "bottom": 2384,
+    "left": 747,
+    "width": 613
+  },
+  "heading": {
+    "sel": ".us_custom_6a99ad11 .us_custom_d3f933e5",
+    "top": 2055,
+    "height": 199,
+    "bottom": 2254,
+    "left": 747,
+    "width": 613
+  },
+  "revo": {
+    "sel": ".us_custom_8549a734",
+    "padding-top": "0px",
+    "padding-bottom": "54px",
+    "top": 2595,
+    "height": 1586,
+    "bottom": 4181,
+    "left": 0,
+    "width": 1440
+  },
+  "gapHeroSocial": -188,
+  "layoutCheck": {
+    "badgesBelowBody": true,
+    "badgesOverlapHeading": false,
+    "circleLeftOfText": true,
+    "revoBelowClients": true
+  }
+}

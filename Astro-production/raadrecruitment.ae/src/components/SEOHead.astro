@@ -46,15 +46,22 @@ const poppinsHrefs = ((googleFonts as { hrefs?: string[] }).hrefs || []).map((h)
 <meta name="twitter:image" content={meta.ogImage} />
 
 <link rel="icon" href={site.favicon} sizes="32x32" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" href={site.favicon192} sizes="192x192" />
 <link rel="apple-touch-icon" href={site.appleTouchIcon} />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 {
-  poppinsHrefs.map((href) => (
-    <link rel="stylesheet" href={href} />
-  ))
+  poppinsHrefs.map((href) =>
+    href.startsWith("http") ? (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href={href} />
+      </>
+    ) : (
+      <link rel="stylesheet" href={href} />
+    ),
+  )
 }
 
 {

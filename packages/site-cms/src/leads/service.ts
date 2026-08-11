@@ -13,6 +13,39 @@ export async function deliverStoredLead(
   const cms = getSiteCms();
   const startedAt = Date.now();
   const startedAtIso = new Date(startedAt).toISOString();
+  const pipedriveToken = String(env.pipedriveApiToken ?? '').trim();
+
+  // Local / file-only mode: blank token means store the lead and do not schedule Pipedrive retries.
+  if (!pipedriveToken) {
+    const completedAt = new Date().toISOString();
+    const updatedRecord: LeadSubmissionRecord = {
+      ...record,
+      deliveryStatus: 'skipped',
+      deliveryAttemptCount: record.deliveryAttemptCount,
+      lastAttemptAt: completedAt,
+      updatedAt: completedAt,
+      nextRetryAt: undefined,
+      pipedriveResponseSummary: 'Pipedrive skipped (PIPEDRIVE_API_TOKEN not configured) — stored locally',
+      lastErrorCode: undefined,
+      lastErrorMessage: undefined,
+    };
+    await store.updateSubmission(updatedRecord);
+
+    const emailResult = await cms.sendFormNotification(env, record.payload);
+    cms.logFormSuccess({
+      requestId,
+      timestamp: completedAt,
+      submissionId: updatedRecord.publicId,
+      websiteId: env.websiteId,
+      formName: updatedRecord.formName,
+      deliveryStatus: updatedRecord.deliveryStatus,
+      emailNotificationSent: emailResult.sent,
+      emailNotificationSkipped: emailResult.skipped,
+      triggerType,
+    });
+    return updatedRecord;
+  }
+
   const pipedriveResult = await cms.createPipedriveLead(env, record.payload);
   const attemptNumber = record.deliveryAttemptCount + 1;
   const completedAt = new Date().toISOString();

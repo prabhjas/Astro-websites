@@ -1,0 +1,116 @@
+/**
+ * Lightweight Astra + Elementor fixes for the Astro mirror (spacing / overflow).
+ * Keep intentional — do not reintroduce Impreza rules.
+ */
+
+html {
+  margin: 0;
+  padding: 0;
+  /* Prefer clip over hidden so `position: sticky` (blog sidebar) still works */
+  overflow-x: clip !important;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  /* Override Impreza/migration `overflow-x: hidden` which breaks sticky */
+  overflow-x: clip !important;
+}
+
+#wpadminbar {
+  display: none !important;
+}
+
+/* Elementor full-width pages under Astra plain container */
+body.ast-plain-container .site-content > .ast-container {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+body.ast-plain-container .site-main {
+  margin: 0;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+img[data-lazy-src],
+img.lazyload,
+img.lazyloading {
+  opacity: 1 !important;
+}
+
+.wpcf7 input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Avoid double vertical gaps when Elementor sections sit under theme chrome */
+#content.site-content {
+  margin-top: 0;
+}
+
+/* Sticky transparent header: keep content readable under overlay if needed */
+body.ast-theme-transparent-header .site-content {
+  position: relative;
+}
+
+/**
+ * Blog / post sidebar contact form — match live sticky behavior.
+ * Blog listing uses `.prabhjas`; single posts use `.prabhjas1`.
+ * Elementor sticky settings: desktop + tablet (not mobile).
+ */
+@media (min-width: 768px) {
+  .prabhjas,
+  .prabhjas1,
+  .elementor-element.prabhjas,
+  .elementor-element.prabhjas1 {
+    position: sticky !important;
+    top: 90px !important;
+    align-self: flex-start;
+    z-index: 5;
+  }
+
+  /* Ensure sticky ancestors don't clip (Astra containers) */
+  .elementor-558 .elementor-column.elementor-col-33,
+  .elementor-909 .elementor-column.elementor-col-33,
+  .elementor-558 .elementor-widget-wrap,
+  .elementor-909 .elementor-widget-wrap {
+    overflow: visible !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .prabhjas,
+  .prabhjas1,
+  .elementor-element.prabhjas,
+  .elementor-element.prabhjas1 {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+/* Blog card missing-image fallback (Load More / API cards).
+   Elementor sets `.elementor-widget-image a img[src$=".svg"] { width: 48px }` —
+   override for our blog placeholder only (other Elementor SVGs stay 48px). */
+.elementor-widget-image a:has(> img[src*="blog-placeholder"]),
+.elementor-widget-image a:has(> img.sp-blog-card-placeholder-img) {
+  display: block !important;
+  width: 100% !important;
+}
+.elementor-widget-image a img[src*="blog-placeholder.svg"],
+.elementor-widget-image a img.sp-blog-card-placeholder-img[src$=".svg"],
+.ecs-posts img[src*="blog-placeholder.svg"],
+img.sp-blog-card-placeholder-img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #1a3c6e;
+}

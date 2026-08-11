@@ -7,6 +7,7 @@ export type DeliveryStatus =
   | 'pending'
   | 'processing'
   | 'delivered'
+  | 'skipped'
   | 'retry_scheduled'
   | 'failed'
   | 'dead_letter'
