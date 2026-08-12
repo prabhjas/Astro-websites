@@ -1,0 +1,120 @@
+name: Fleet validation
+
+on:
+  push:
+    branches: [astro-fleet-development]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Full base SHA; defaults to the first parent
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fleet-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+      base: ${{ steps.plan.outputs.base }}
+      head: ${{ steps.plan.outputs.head }}
+    steps:
+      - name: Check out exact triggering revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: plan
+        name: Resolve affected sites under the protected fleet policy
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+          MANUAL_BASE: ${{ inputs.base }}
+        run: |
+          set -euo pipefail
+          base="$EVENT_BEFORE"
+          if [[ -n "$MANUAL_BASE" ]]; then base="$MANUAL_BASE"; fi
+          if [[ ! "$base" =~ ^[0-9a-f]{40}$ || "$base" == 0000000000000000000000000000000000000000 ]]; then base="$(git rev-parse HEAD^)"; fi
+          node scripts/ci/fleet-plan.mjs --base "$base" --head "$GITHUB_SHA" --github-output "$GITHUB_OUTPUT"
+
+  shared-security:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.1
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Reject credentials and private-key material
+        run: bash scripts/ci/reject-private-key-material.sh
+      - name: Production dependency audit
+        run: pnpm audit --prod --audit-level=high
+
+  validate-site:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.22.1
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check, build, render and inspect ${{ matrix.domain }}
+        run: node scripts/ci/fleet-validate-site.mjs --site '${{ matrix.id }}' --base '${{ needs.plan.outputs.base }}' --head '${{ needs.plan.outputs.head }}'
+      - name: Preserve validation evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: fleet-evidence-${{ matrix.id }}-${{ github.sha }}
+          path: fleet-evidence/${{ matrix.id }}.json
+          if-no-files-found: error
+          retention-days: 90
+
+  fleet-result:
+    needs: [plan, shared-security, validate-site]
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every applicable gate
+        env:
+          COUNT: ${{ needs.plan.outputs.count }}
+          PLAN: ${{ needs.plan.result }}
+          SHARED: ${{ needs.shared-security.result }}
+          SITES: ${{ needs.validate-site.result }}
+        run: |
+          set -euo pipefail
+          [[ "$PLAN" == success ]]
+          if [[ "$COUNT" != 0 ]]; then
+            [[ "$SHARED" == success ]]
+            [[ "$SITES" == success ]]
+          fi
+          printf 'Fleet validation passed for %s changed site(s).\n' "$COUNT"
