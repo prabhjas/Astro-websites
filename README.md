@@ -1,16 +1,20 @@
 # Connect Group — Astro websites fleet
 
-Monorepo for Connect Group production Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
+Monorepo for **42** Connect Group production Astro websites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
 
 | | |
 |--|--|
 | **GitHub** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Branch (fleet work)** | `work/astro-sites` |
 | **Branch (34-site cut-off)** | `work/live-fleet-34` |
+| **Fleet size** | **42 scaffolded sites** (ports **5080–5124**, next free **5125**) |
 | **Node** | `>=22.12.0` |
 | **Package manager** | **pnpm** `>=9.15.0` (see `packageManager` in root `package.json`) |
+| **Updated** | 2026-08-12 |
 
 **New website / developer workflow:** start at **[docs/00-NEW-SITE-MASTER.md](docs/00-NEW-SITE-MASTER.md)** (numbered phases → final deploy checks).
+
+**Fleet status (Aug 2026):** all **42** sites are scaffolded in `Astro-production/`, standardized on catalog pins, deploy templates, `.env.example`, health/contact APIs, and `CONNECT-ASTRO-FLEET-STANDARD.md`. Canonical ports: [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`.
 
 ---
 ## What this repo is for
@@ -47,16 +51,11 @@ Astro-websites/                          ← git monorepo (this repo)
 │   ├── CONNECT-CADDY-DEPLOYMENT.md
 │   └── …
 ├── caddy/                               ← production Caddyfile mirror + ops archive
-├── Astro-production/                    ← one folder per domain
-│   ├── evolutionmiddleast.com/          ← live cutover (full CMS)
-│   ├── cbss.ae/                         ← live cutover (leads)
-│   ├── …                                ← 42 reserved domains (all scaffolded)
+├── Astro-production/                    ← one folder per domain (42 sites)
+│   ├── evolutionmiddleast.com/          ← :5080
+│   ├── cbss.ae/                         ← :5081
+│   ├── …                                ← see full table below (5080–5124)
 │   └── deploy-host/                     ← restic backup units
-├── packages/
-│   └── site-cms/                        ← @connect/site-cms (shared CMS APIs)
-├── scripts/
-│   ├── fleet-sites.json                 ← ports / dirs / unit names / status
-│   └── fleet-local.mjs                  ← local prod-like runner + smoke
 ```
 
 ### Runtime model (production)
@@ -82,16 +81,65 @@ Each domain = **its own Node process**. Shared = **code + lockfile + package**, 
 
 ---
 
-## Fleet inventory (`work/astro-sites`)
+## Fleet inventory — all 42 sites (`work/astro-sites`)
 
 | | |
 |--|--|
-| **Reserved domains** | **42** (ports **5080–5124**, next free **5125**) |
-| **Scaffolded** | **42** — Astro app tree in `Astro-production/<domain>/` |
-| **Placeholders** | **none** |
-| **Canonical list** | [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json` |
+| **Total** | **42 scaffolded** · **0 placeholders** |
+| **Port range** | **5080–5124** (next free **5125**) |
+| **Machine registry** | [`scripts/fleet-sites.json`](scripts/fleet-sites.json) |
+| **Human registry** | [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md) |
 
-The **34-site live cutover** below is the go-live set (28 already live + next 6). The other scaffolded sites sit on `work/astro-sites` and are **not** in that cut-off until Aaron bakes them.
+### Full list (port order)
+
+| Port | Domain | Unit |
+|------|--------|------|
+| **5080** | evolutionmiddleast.com | `evolutionmiddleast` |
+| **5081** | cbss.ae | `cbss` |
+| **5082** | spheavyrental.ae | `spheavyrental` |
+| **5083** | iberiaworkforce.com | `iberiaworkforce` |
+| **5084** | connecthr.ae | `connecthr` |
+| **5085** | connectgroup.co | `connectgroup` |
+| **5086** | connectresources.ae | `connectresources` |
+| **5087** | connectfm.ae | `connectfm` |
+| **5088** | connectresources.sa | `connectresources-sa` |
+| **5089** | iberiaeor.com | `iberiaeor` |
+| **5090** | eormiddleast.com | `eormiddleast` |
+| **5091** | connectstaff.ae | `connectstaff` |
+| **5092** | c-uae.com | `cuae` |
+| **5093** | kinzahr.com | `kinzahr` |
+| **5094** | connectfreelance.ae | `connectfreelance` |
+| **5095** | redo.ae | `redo` |
+| **5096** | connectfz.com | `connectfz` |
+| **5097** | royalvisa.ae | `royalvisa` |
+| **5098** | connectresourcesint.com | `connectresourcesint` |
+| **5099** | mbs-consultancy.com | `mbs-consultancy` |
+| **5100** | thefreelancergate.com | `thefreelancergate` |
+| **5101** | connectzone.ae | `connectzone` |
+| **5102** | ngmanpower.com | `ngmanpower` |
+| **5103** | emiratiguard.com | `emiratiguard` |
+| **5104** | movey.ae | `movey` |
+| **5105** | emiratisationgate.org | `emiratisationgate` |
+| **5106** | emiratisationgateway.com | `emiratisationgateway` |
+| **5107** | emiratisationhub.com | `emiratisationhub` |
+| **5109** | freelancerdxb.com | `freelancerdxb` |
+| **5110** | payrollmiddleast.org | `payrollmiddleast` |
+| **5111** | pittant.com | `pittant` |
+| **5112** | lladesigners.com | `lladesigners` |
+| **5113** | raadrecruitment.ae | `raadrecruitment` |
+| **5114** | companyformationsaudi.com | `companyformationsaudi` |
+| **5115** | saudicompanyformation.com | `saudicompanyformation` |
+| **5116** | connectbusinesscenter.com | `connectbusinesscenter` |
+| **5117** | theuaegate.com | `theuaegate` |
+| **5118** | peomiddleast.com | `peomiddleeast` |
+| **5120** | alburaq.ae | `alburaq` |
+| **5121** | izi.ae | `izi` |
+| **5122** | snapsale.ae | `snapsale` |
+| **5124** | kpmpro.ae | `kpmpro` |
+
+Retired (removed from repo): `emiratisationnafis.org`, `interlibya.com`, `connectresources.info`.
+
+The **34-site live cutover** below is Aaron’s go-live set (28 already live + next 6). The other scaffolded sites (including the eight **5112–5122** additions and **5098** connectresourcesint) stay on `work/astro-sites` until baked and switched.
 
 ## Production / fleet sites (34 live cutover)
 
@@ -142,9 +190,7 @@ The **34-site live cutover** below is the go-live set (28 already live + next 6)
 | companyformationsaudi.com | **5114** | `companyformationsaudi` | Full |
 | alburaq.ae | **5120** | `alburaq` | Full |
 
-**Also on live Caddy (Aaron):** `connectresourcesint.com` (**5098**) — kept in the production Caddy/PKI set; not counted in the 34-site cut-off branch.
-
-Other reserved scaffolded domains stay in the port registry and are **not** part of this 34-site live set. Retired (removed): `emiratisationnafis.org`, `interlibya.com`, `connectresources.info`.
+**Also on live Caddy (Aaron):** `connectresourcesint.com` (**5098**) — live stub; counted in the **42** fleet, not in the 34-site cut-off branch.
 
 Fleet version pin (catalog): **Astro `7.1.6`** · **`@astrojs/node` `11.0.3`** · **TypeScript `5.9.2`**.
 
@@ -243,28 +289,22 @@ pnpm install
 
 ### 3. Env files (gitignored)
 
-Copy each site’s `.env.example` → `.env` and fill secrets (Pipedrive, `INTERNAL_JOB_SECRET`, …).
-
-```bash
-# examples
-cp Astro-production/cbss.ae/.env.example Astro-production/cbss.ae/.env
-cp Astro-production/iberiaworkforce.com/.env.example Astro-production/iberiaworkforce.com/.env
-# … same for evolution / spheavy
-```
-
-For local fleet, set `PUBLIC_SITE_URL=http://127.0.0.1:<PORT>` (ports in the table above).  
-**Never commit** `.env` / `.env.prod` / `.data/`.
+Copy each site’s `.env.example` → `.env` and fill secrets (Pipedrive, `INTERNAL_JOB_SECRET`, …).  
+**Never commit** `.env` / `.env.prod` / `.data/` or local `*.code-workspace` files (gitignored).
 
 ### 4. Build & run (fleet runner — recommended)
 
 Same ports as production; process model matches prod (`node dist/server/entry.mjs`):
 
 ```bash
-# All four (or subset)
-node scripts/fleet-local.mjs up evolutionmiddleast,cbss,spheavyrental,iberiaworkforce
+# All scaffolded sites (or comma-separated subset)
+node scripts/fleet-local.mjs up all
 node scripts/fleet-local.mjs status all
-node scripts/fleet-local.mjs smoke evolutionmiddleast,cbss,spheavyrental,iberiaworkforce
+node scripts/fleet-local.mjs smoke all
 node scripts/fleet-local.mjs stop all
+
+# Example subset
+node scripts/fleet-local.mjs up evolutionmiddleast,cbss,spheavyrental,iberiaworkforce
 ```
 
 Or use root scripts (default trio without Iberia):
@@ -280,8 +320,12 @@ Open:
 - http://127.0.0.1:5080/ — Evolution  
 - http://127.0.0.1:5081/ — CBSS  
 - http://127.0.0.1:5082/ — SP Heavy  
-- http://127.0.0.1:5083/ — Iberia  
-- http://127.0.0.1:5084/ — Connect Resources  
+- http://127.0.0.1:5083/ — Iberia Workforce  
+- http://127.0.0.1:5084/ — Connect HR  
+- http://127.0.0.1:5116/ — Connect Business Center  
+- http://127.0.0.1:5121/ — IZI Rent a Car  
+
+Full port list: table above or [`docs/FLEET-PORT-REGISTRY.md`](docs/FLEET-PORT-REGISTRY.md).
 
 ### 5. Single-site (optional)
 
@@ -297,12 +341,12 @@ pnpm --filter iberiaworkforce-astro run start   # needs HOST/PORT in env or use 
 Each production site has `deploy/`:
 
 - `*.service` — systemd unit (`User=site-*`, `MemoryMax`, **required** `EnvironmentFile=…/.env.prod` with **no** leading `-`)
-- `*.caddy` — `http://` + `https://` + `tls internal` (not bare hostnames — Cloudflare Flexible redirect loop)
+- `*.caddy` — bare hosts, named CA `astro_origin_2026`, paired manual loaders and canonical redirects
 - `ROOT_SETUP.md` — host notes
 
 **Authoritative host checklist:** [docs/server-ops-only.md](docs/server-ops-only.md)
 
-Tier 1 is live (all four units + Caddy `sites.d`). Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` on this branch match the live footguns (tls internal; required `.env.prod`).
+Tier 1 is live with the root-owned single Caddyfile. Restic timer is live; templates live under [Astro-production/deploy-host/](Astro-production/deploy-host/). Repo `deploy/*.caddy` / `*.service` use named CAs, paired loaders and required `.env.prod`.
 
 Preserve on deploy: `.env.prod`, `.data/`, and the non-secret `.env` (`PUBLIC_SITE_URL`). Do not overwrite with empty laptop files.
 

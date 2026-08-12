@@ -6,7 +6,7 @@
 **Unix user:** `site-lladesigners`  
 **Canonical:** `https://lladesigners.com` (www → apex)  
 **Package filter:** `lladesigners-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5112`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA + paired manual loaders) → `127.0.0.1:5112`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/lladesigners.service`, `deploy/lladesigners.com.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full**, backed by named CA `astro_origin_2026` and paired manual loaders (never Flexible).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---

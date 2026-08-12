@@ -7,7 +7,7 @@
 | **Per-site snippets** | `Astro-production/<domain>/deploy/<domain>.caddy` |
 | Historical pre-rotation snapshot | [`Caddyfile.canonical-host-redirects.pending`](Caddyfile.canonical-host-redirects.pending) — never deploy |
 | Pre-consolidation `sites.d` | [`archive-before-single-file-20260803/`](archive-before-single-file-20260803/) |
-| Retired rollback metadata | [`upgrade-rollback-20260803/`](upgrade-rollback-20260803/) — never deploy; private keys are forbidden |
+| Retired rollback metadata | Removed from the current tree; retained only in Git history for the documented security cleanup |
 
 Other `Caddyfile.*.pending` / `before-*` files are iteration history only.
 
@@ -17,7 +17,7 @@ Other `Caddyfile.*.pending` / `before-*` files are iteration history only.
 
 ## Origin TLS standard (C-01, 10 Aug 2026)
 
-- `astro_origin_2026` serves the 28 Cloudflare origins; Payroll uses the isolated
+- `astro_origin_2026` serves every registered non-Payroll origin; Payroll uses the isolated
   `payroll_origin_isolated_2026` hierarchy.
 - Every site block has a 120-hour named-CA automation policy and synchronously
   loads its apex and `www` certificate/key pairs. The default `local` CA and a

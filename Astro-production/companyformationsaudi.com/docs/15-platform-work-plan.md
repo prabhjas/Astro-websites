@@ -73,7 +73,7 @@ Related: [14-multi-site-platform-review.md](14-multi-site-platform-review.md), [
 |---|------|-----|-----------|
 | P0.1 | Confirm Iberia unit: if `astro dev`, switch to `astro build` + `node ./dist/server/entry.mjs` | Half the RAM of peers; unoptimized / unsafe for prod | `systemctl show` ExecStart correct; RSS ~peer; smoke homepage + API |
 | P0.2 | **Tier 1 unit template** for all 4: `User=site-<name>`, `MemoryMax=256M`, `MemoryHigh=200M`, `CPUQuota=50%`, `NoNewPrivileges`, `PrivateTmp`, `ProtectSystem=strict`, `ProtectHome`, `ReadWritePaths=…/data` (and `.data` / env paths as needed) | Root RCE / one leak OOM = whole box today | Units generated from template; services run as site users; MemoryMax visible in `systemctl show` |
-| P0.3 | Split Caddy: `import /etc/caddy/sites.d/*.caddy` + `caddy validate` before reload | One typo currently fails entire edge | One file per site; validate hook; reload succeeds |
+| P0.3 | Keep the root-owned single Caddyfile + `caddy validate` before reload | One typo can affect the edge | Canonical source; validate hook; reload succeeds |
 | P0.4 | Backups: restic (or borg) **off-box**, nightly; schedule a monthly restore test | No real backup today = permanent loss | First successful backup + documented restore drill |
 
 *Aaron estimate: ~1 day for Tier 1 on current 4. Needs root for users/units/Caddy/restic.*

@@ -9,7 +9,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | **Paste into Claude (34-site queue)** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-03 memory note. **FQ-04 source review already done — do not redo.** |
 | **Fleet status (Aug 2026)** | **34 live/cutover** on branch [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (28 live + next 6). Working branch: `work/astro-sites`. Ports **5080–5124**. Also on live Caddy: `connectresourcesint.com` (**5098**). |
 | **Aaron rules (security / deploy / copy)** | **[AARON-RULES.md](AARON-RULES.md)** — immutable release, FQ-00–04, source-review four findings, canary `:5999`. |
-| **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — **not** `tls internal`. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
+| **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — never the retired default local-CA directive. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
 | **34-site queue** | **[§ Fleet work queue](#fleet-work-queue--34-sites)** — geo, nanoid, memory, source-review leftovers, owner APPLY. Do these on every keep site, then follow for new sites. |
 | **Pre-switch canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** — private `:5999`, one site, real env; then `switch`. |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
@@ -356,12 +356,12 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] `deploy/<domain>.caddy` — **Aaron production pattern** (copy a live peer such as `connectfm.ae`):
   - named CA `astro_origin_2026` via `tls force_automate { issuer internal { ca … } }`
   - paired manual loaders for apex **and** `www` under `/var/lib/caddy/.../certificates/astro_origin_2026/`
-  - **never** ship new sites with bare `tls internal`
+  - **never** ship new sites with the retired default local-CA directive
   - HSTS, `@noncanonical`, static cache headers
 - [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production` (include `http://www.<domain>`)
 - [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`; Cloudflare **Full** (not Flexible)
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`
-- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned — match the peer CA block, not an old `tls internal` scaffold
+- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned — match the peer named-CA block, never an old local-CA scaffold
 - [ ] Contact `POST /api/contact` bounds body with `readRequestBodyLimited` (Aaron contact hardening) + rate limit
 - [ ] GTM wiring complete per **Phase 05 § Dynamic GTM / GA4** (`resolveEffectiveGtmConfig`, `recreateScript`, `inject.ts`, `.env.example` IDs blank — live IDs only on server / FLOW)
 - [ ] Private keys / Caddy PEM material must never be committed — CI `private-key-guard` must stay green
@@ -446,7 +446,7 @@ Audit date: **11 Aug 2026**. Tick when the change is in git **and** rebuilt into
 
 | Item | Status |
 |------|--------|
-| Next-6 Caddy = named CA `astro_origin_2026` (0× `tls internal`) | Done in git + staging pack |
+| Next-6 Caddy = named CA `astro_origin_2026` (zero retired local-CA directives) | Done in git + staging pack |
 | Contact `readRequestBodyLimited` (incl. mbs / movey) | Done |
 | `.env.example` `PUBLIC_SITE_URL=https://<this-domain>` (not blank) | Done on keep sites |
 | Server geo prefers `cf-ipcountry` | Done on almost all 34 (`/api/geo/country` or cbss/iberia `/api/geo.ts`) |
@@ -523,7 +523,7 @@ Pages are static; the **process** is still Node standalone (`output: "static"` +
 | A — Blank canonicals | **Followed** — `.env.example` + `astro.config` `site` are this domain | Re-check after any peer rsync |
 | B — Stale peer host in **runtime** SEO | **Followed** — mbs no longer seeds `connectgroup.co` (tests may still use peer fixtures) | Peer-grep new copies only |
 | B — Operator docs / `13-go-live-server-handoff.md` | Some next-6 trees still titled SP Heavy | Ignore; use [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
-| C — Unsafe deploy guidance | **Do not run** copied `ROOT_SETUP.md` (`tls internal` / in-tree build still in some trees) | Live path = immutable release. Point at [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) only |
+| C — Unsafe deploy guidance | **Do not run** copied legacy `ROOT_SETUP.md` or in-tree build instructions | Live path = immutable release. Point at [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) only |
 | D — Three hooks | **Required chrome** — (1) ScrollSequence `eval` (2) Elementor rehydrate **must stay** or the site breaks; (3) `regen.ts` `execFile` FLOW-only | Never strip 1–2. No unauthenticated caller for 3 |
 
 **Clone rule (future sites):** after rsync from a peer, grep the new domain vs the peer in `src/`, `deploy/`, `docs/`, `.env.example`. Peer hits in `scripts/` one-shots are OK only if clearly named extract/import tools.
@@ -535,7 +535,7 @@ Full spec: [CLAUDE-FLEET-QUEUE-PROMPT § FQ-04](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-
 | Item | Notes |
 |------|-------|
 | **Do not run** current `APPLY-NEXT6.sh` or `signatures/APPLY.sh` | Aaron veto (FQ-00). Rewrite: transactional, health-check abort, no in-tree build, no `site-ctl` sed, signatures only via **new** immutable release |
-| Install refreshed staging Caddy (105× `astro_origin_2026`) | Not the morning `tls internal` pack |
+| Install refreshed staging Caddy (105× `astro_origin_2026`) | Never use the retired local-CA pack |
 | New immutable release after FQ-01 / FQ-02 | Live 28 still run the current release |
 | Memory bump + optional Caddy static | FQ-03 |
 | `connectresources` | Memory first; then confirm Smart Slider CSS/JS 200 on loopback |

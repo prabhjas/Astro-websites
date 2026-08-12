@@ -6,7 +6,7 @@
 **Unix user:** `site-connectbusinesscenter`  
 **Canonical:** `https://connectbusinesscenter.com` (www → apex)  
 **Package filter:** `connectbusinesscenter-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5116`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA + paired manual loaders) → `127.0.0.1:5116`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/connectbusinesscenter.service`, `deploy/connectbusinesscenter.com.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full**, backed by named CA `astro_origin_2026` and paired manual loaders (never Flexible).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---
