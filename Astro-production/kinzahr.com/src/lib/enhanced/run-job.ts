@@ -339,7 +339,39 @@ async function uploadClickConversions(args: {
   return { ok: true, httpCode: res.status, body };
 }
 
-export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResult> {
+export type EnhancedDateOverride = {
+  start: string;
+  end: string;
+};
+
+function parseIsoDate(value: string): string | null {
+  const s = String(value || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
+  const d = new Date(`${s}T00:00:00Z`);
+  if (Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) return null;
+  return s;
+}
+
+/** Optional YYYY-MM-DD override (query ?start=&end= or env ENHANCED_WINDOW_START/END). */
+export function resolveEnhancedDateRange(
+  job: EnhancedJobConfig,
+  override?: EnhancedDateOverride,
+): { start: string; end: string } {
+  const envStart = parseIsoDate(env('ENHANCED_WINDOW_START'));
+  const envEnd = parseIsoDate(env('ENHANCED_WINDOW_END'));
+  const start = parseIsoDate(override?.start || '') || envStart;
+  const end = parseIsoDate(override?.end || '') || envEnd;
+  if (start && end) {
+    if (start > end) return { start: end, end: start };
+    return { start, end };
+  }
+  return resolveDateWindow(job.dateWindow);
+}
+
+export async function runEnhancedJob(
+  fileName: string,
+  dateOverride?: EnhancedDateOverride,
+): Promise<EnhancedRunResult> {
   const log: string[] = [];
   const job = getEnhancedJob(fileName);
   if (!job) {
@@ -376,7 +408,10 @@ export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResul
   }
 
   logLine(log, `Job: ${job.label} (${job.id})`);
-  const { start, end } = resolveDateWindow(job.dateWindow);
+  const { start, end } = resolveEnhancedDateRange(job, dateOverride);
+  if (dateOverride?.start || dateOverride?.end || env('ENHANCED_WINDOW_START') || env('ENHANCED_WINDOW_END')) {
+    logLine(log, `[BACKFILL] Using explicit window override: ${start} to ${end}`);
+  }
 
   try {
     const leads = await fetchPipedriveDeals({

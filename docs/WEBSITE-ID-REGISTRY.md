@@ -46,6 +46,7 @@
 | 5158 | `spheavyrental.ae` |
 | 5214 | `connectfm.ae` |
 | 5248 | `cbss.ae` |
+| — | `connectresourcesint.com` (stub — no contact/Pipedrive WEBSITE_ID yet) |
 
 ## Full name → WEBSITE_ID
 

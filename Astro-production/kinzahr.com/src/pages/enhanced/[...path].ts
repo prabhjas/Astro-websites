@@ -50,7 +50,15 @@ export const GET: APIRoute = async ({ params, request }) => {
     });
   }
 
-  const result = await runEnhancedJob(fileName);
+  const url = new URL(request.url);
+  const start = url.searchParams.get('start')?.trim() || '';
+  const end = url.searchParams.get('end')?.trim() || '';
+  const dateOverride =
+    start || end
+      ? { start, end: end || new Date().toISOString().slice(0, 10) }
+      : undefined;
+
+  const result = await runEnhancedJob(fileName, dateOverride);
 
   // Hard failures only (not Ads partial warnings that still return HTTP 200).
   if (!result.ok) {
