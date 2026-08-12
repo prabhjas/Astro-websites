@@ -20,7 +20,9 @@ concurrency:
 jobs:
   plan:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    # A full-history cold checkout may exceed ten minutes on GitHub-hosted
+    # runners; the plan remains bounded but must reach the policy step.
+    timeout-minutes: 20
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
       count: ${{ steps.plan.outputs.count }}
