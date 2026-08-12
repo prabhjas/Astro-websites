@@ -143,7 +143,7 @@ Ports: http://127.0.0.1:5080 … :5083
 ## Current known state (Aug 2026)
 
 - **34 keep sites** on `work/astro-sites` / `work/live-fleet-34` (28 live + next 6). Live 28 often run from an **immutable release**, not a fresh `/opt` tree.
-- Next-6 Caddy in git uses named CA `astro_origin_2026` (not `tls internal`). Staging pack: `/home/webdev/staging/fleet-cutover-20260810/`.
+- Next-6 Caddy in git uses named CA `astro_origin_2026` and no retired local-CA directive. Staging pack: `/home/webdev/staging/fleet-cutover-20260810/`.
 - **Do not run** staged `APPLY-NEXT6.sh` / signature scripts — Aaron rejected them (mutate attested release, no rollback).
 - Active developer queue: [CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md).
 - `Astro-staging/` was removed from `main` — production only under `Astro-production/`.

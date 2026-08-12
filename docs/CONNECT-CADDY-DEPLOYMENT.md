@@ -73,7 +73,7 @@ Internet → Cloudflare (public TLS, SSL mode Full)
 
 1. **Full reverse proxy to Node** — never `file_server` for Astro SSR; never proxy only `/api/*`.
 2. **Cloudflare SSL = Full** — Flexible causes redirect loops with origin HTTPS. Full (strict) is intentionally deferred while the origins use private named CAs.
-3. **Every production site uses its assigned named CA plus two manual loaders** — `astro_origin_2026` for the 28 Cloudflare sites and `payroll_origin_isolated_2026` for Payroll. Never restore the default `local` CA or a bare internal TLS directive.
+3. **Every production site uses its assigned named CA plus two manual loaders** — `astro_origin_2026` for every registered non-Payroll site and `payroll_origin_isolated_2026` for Payroll. Never restore the default `local` CA or a bare internal TLS directive.
 4. **One-hop canonical redirects** — alternate HTTP hosts jump straight to `https://<canonical>{uri}`; HTTPS non-canonical host also redirects. Avoid HTTP → HTTPS → canonical double hops.
 5. **`HOST` / `PORT` in systemd** (or fleet-local), not `.env.prod`.
 6. **`PUBLIC_SITE_URL` must equal the Caddy canonical host** (table above).

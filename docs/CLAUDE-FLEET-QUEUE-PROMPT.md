@@ -81,7 +81,7 @@ Ignore / do not revive dropped scaffolds (`raadrecruitment`, `connectbusinesscen
 
 > The source review uncovered that the branch had been mechanically copied from older peer sites: blank canonical origins, stale peer domains, unsafe deployment guidance, and three dormant code-execution hooks.
 
-**Our end (done):** keep-site `.env.example` / `astro.config` `site` are this domain (not blank). Live Caddy + next-6 `deploy/*.caddy` use `astro_origin_2026` (not the copied `tls internal` scaffold). Contact body limits on. The three “hooks” are classified: ScrollSequence `eval` + Elementor script rehydrate **stay** (chrome); `regen.ts` `execFile` is peer FLOW regen behind existing patterns — do not strip as malware. Do **not** start a fleet-wide rewrite of copied `ROOT_SETUP.md` / one-shot import scripts / llms seed fixtures.
+**Our end (done):** keep-site `.env.example` / `astro.config` `site` are this domain (not blank). Live Caddy + next-6 `deploy/*.caddy` use `astro_origin_2026` and no retired local-CA scaffold. Contact body limits on. The three “hooks” are classified: ScrollSequence `eval` + Elementor script rehydrate **stay** (chrome); `regen.ts` `execFile` is peer FLOW regen behind existing patterns — do not strip as malware. Do **not** start a fleet-wide rewrite of copied `ROOT_SETUP.md` / one-shot import scripts / llms seed fixtures.
 
 ### 3) ipinfo.io is causing the dial-code bug (FQ-02)
 
@@ -119,7 +119,7 @@ Ignore / do not revive dropped scaffolds (`raadrecruitment`, `connectbusinesscen
 
 ## Already done — do not redo
 
-- Next-6 Caddy snippets + `caddy/Caddyfile.production` use named CA `astro_origin_2026` (not `tls internal`).
+- Next-6 Caddy snippets + `caddy/Caddyfile.production` use named CA `astro_origin_2026` and no retired local-CA directive.
 - Contact `readRequestBodyLimited` on next-6 (incl. mbs / movey).
 - `.env.example` `PUBLIC_SITE_URL=https://<this-domain>` on keep sites (Aaron “blank canonical origins”).
 - **FQ-04 source review** — mechanical copy findings are handled at our end (canonicals, CA Caddy, hooks classified). Do not reopen.
@@ -309,7 +309,7 @@ Delete / rewrite any copied `deploy/ROOT_SETUP.md` (or site doc) that tells webd
 - `sed` / text-substitute `site-ctl` ALLOWED lists
 - run `astro build` in the live tree
 - run staging `APPLY-NEXT6.sh` or `signatures/APPLY.sh`
-- use `tls internal` for production
+- use the retired default local-CA directive for production
 
 Point at fleet `docs/OPS-OWNER-CADDY-CUTOVER.md` only.
 
