@@ -1,0 +1,57 @@
+{
+  "format": "astro-fleet-policy-v1",
+  "deploymentBranch": "astro-fleet-development",
+  "productionRoot": "Astro-production",
+  "minimumFleetSites": 30,
+  "maximumChangedFiles": 5000,
+  "maximumChangedBytes": 536870912,
+  "maximumSourceFileBytes": 104857600,
+  "maximumSiteArtifactFiles": 75000,
+  "maximumSiteArtifactBytes": 2147483648,
+  "blockedRepositoryPrefixes": [
+    ".github/",
+    "caddy/",
+    "ops/",
+    "packages/",
+    "scripts/ci/",
+    "scripts/ops/"
+  ],
+  "allowedSharedFiles": [
+    "package.json",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ],
+  "blockedSiteSegments": [
+    "/.env",
+    "/.git/",
+    "/.github/",
+    "/.ssh/",
+    "/.data/",
+    "/deploy/",
+    "/node_modules/",
+    "/dist/",
+    "/src/env/",
+    "/src/lib/leads/",
+    "/src/pages/api/",
+    "/src/services/email",
+    "/src/services/pipedrive",
+    "/src/utils/auth"
+  ],
+  "blockedSiteNames": [
+    "AGENTS.md",
+    "package-lock.json"
+  ],
+  "blockedSiteSuffixes": [
+    ".key",
+    ".p12",
+    ".pfx"
+  ],
+  "allowedBuildScripts": [
+    "astro build",
+    "astro build && node scripts/sync-public-to-dist.mjs"
+  ],
+  "requiredPublicPaths": [
+    "/",
+    "/robots.txt"
+  ]
+}

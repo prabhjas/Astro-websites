@@ -48,9 +48,9 @@ For **each** of the 4 sites (use repo `deploy/*.service` as source; Evolution: `
 
 ### P0.3 Split Caddyfile
 
-- [ ] Create `/etc/caddy/sites.d/`
+- [ ] Merge the reviewed block into the root-owned single `/etc/caddy/Caddyfile`
 - [ ] One `.caddy` file per site (see each repo’s `deploy/Caddyfile.snippet`)
-- [ ] Main Caddyfile: `import /etc/caddy/sites.d/*.caddy`
+- [ ] Validate the complete Caddyfile before its graceful reload
 - [ ] Access logs per site (JSON) under `/var/log/caddy/`
 - [ ] Pre-reload: `caddy validate --config /etc/caddy/Caddyfile`
 - [ ] `systemctl reload caddy`

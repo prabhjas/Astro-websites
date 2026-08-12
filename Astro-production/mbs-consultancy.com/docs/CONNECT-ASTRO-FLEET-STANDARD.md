@@ -250,7 +250,7 @@ ReadWritePaths=/opt/Astro-production/<domain>/.data
 
 ### 6.3 Caddy
 
-- Prefer `import /etc/caddy/sites.d/*.caddy` — **one site per file**.
+- Use the reviewed root-owned single `/etc/caddy/Caddyfile`; never install fragment imports.
 - Always `caddy validate` before `reload`.
 - Proxy to `127.0.0.1:<PORT>` for SSR sites; use `file_server` for pure static brochure sites.
 

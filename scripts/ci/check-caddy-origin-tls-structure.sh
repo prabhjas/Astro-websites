@@ -8,8 +8,8 @@ export LC_ALL=C
 cd -- "$(git rev-parse --show-toplevel)"
 
 canonical=caddy/Caddyfile.production
+registry=scripts/fleet-sites.json
 legacy_evolution=Astro-production/evolutionmiddleast.com/deploy/Caddyfile.snippet
-expected_site_count=29
 astro_ca=astro_origin_2026
 payroll_ca=payroll_origin_isolated_2026
 
@@ -25,10 +25,36 @@ count_ere() {
 }
 
 [[ -f "$canonical" ]] || fail "missing canonical production Caddyfile: $canonical"
+[[ -f "$registry" ]] || fail "missing fleet registry: $registry"
 [[ -f "$legacy_evolution" ]] || fail "missing tracked Evolution deploy source: $legacy_evolution"
-mapfile -d '' snippets < <(git ls-files -z 'Astro-production/*/deploy/*.caddy')
+mapfile -t registry_domains < <(jq -er '
+  .sites
+  | map(.domain)
+  | if length > 0 and length == (unique | length)
+    then sort[]
+    else error("fleet registry domains must be nonempty and unique")
+    end
+' "$registry")
+expected_site_count=${#registry_domains[@]}
+expected_astro_site_count=$((expected_site_count - 1))
+expected_loader_count=$((expected_site_count * 2))
+
+declare -A expected_snippets=()
+for domain in "${registry_domains[@]}"; do
+  expected_snippets["Astro-production/$domain/deploy/$domain.caddy"]=1
+done
+mapfile -d '' snippets < <(git ls-files -z 'Astro-production/*/deploy/*.caddy' | sort -z)
 ((${#snippets[@]} == expected_site_count)) ||
   fail "expected $expected_site_count tracked active deploy snippets, found ${#snippets[@]}"
+for snippet in "${snippets[@]}"; do
+  [[ ${expected_snippets[$snippet]+present} ]] ||
+    fail "tracked deploy snippet is not represented exactly by the fleet registry: $snippet"
+done
+for snippet in "${!expected_snippets[@]}"; do
+  [[ -f $snippet ]] || fail "fleet registry is missing its exact deploy snippet: $snippet"
+done
+cmp -s -- "$legacy_evolution" Astro-production/evolutionmiddleast.com/deploy/evolutionmiddleast.com.caddy ||
+  fail "Evolution legacy and canonical deploy snippets differ"
 
 active_sources=("$canonical" "$legacy_evolution" "${snippets[@]}")
 if grep -EnH -- '^[[:space:]]*tls[[:space:]]+internal([[:space:]]|$)' "${active_sources[@]}"; then
@@ -64,12 +90,12 @@ fi
   fail "canonical config must define $payroll_ca exactly once"
 [[ $(count_ere '^[[:space:]]*tls[[:space:]]+force_automate[[:space:]]*\{' "$canonical") == "$expected_site_count" ]] ||
   fail "canonical config must contain $expected_site_count force_automate policies"
-[[ $(count_ere '^[[:space:]]*ca[[:space:]]+astro_origin_2026[[:space:]]*$' "$canonical") == 28 ]] ||
-  fail "canonical config must assign $astro_ca to exactly 28 sites"
+[[ $(count_ere '^[[:space:]]*ca[[:space:]]+astro_origin_2026[[:space:]]*$' "$canonical") == "$expected_astro_site_count" ]] ||
+  fail "canonical config must assign $astro_ca to exactly $expected_astro_site_count sites"
 [[ $(count_ere '^[[:space:]]*ca[[:space:]]+payroll_origin_isolated_2026[[:space:]]*$' "$canonical") == 1 ]] ||
   fail "canonical config must assign $payroll_ca to Payroll exactly once"
-[[ $(count_ere '^[[:space:]]*tls[[:space:]]+/var/lib/caddy/\.local/share/caddy/certificates/' "$canonical") == 58 ]] ||
-  fail "canonical config must synchronously load exactly 58 origin certificate/key pairs"
+[[ $(count_ere '^[[:space:]]*tls[[:space:]]+/var/lib/caddy/\.local/share/caddy/certificates/' "$canonical") == "$expected_loader_count" ]] ||
+  fail "canonical config must synchronously load exactly $expected_loader_count origin certificate/key pairs"
 
 check_site_source() {
   local snippet=$1 domain=$2 ca=$3 apex_loader www_loader loader

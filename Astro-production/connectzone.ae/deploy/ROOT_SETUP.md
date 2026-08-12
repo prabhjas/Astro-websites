@@ -40,12 +40,13 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental"
 ## 5. Caddy
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
-cp /opt/Astro-production/spheavyrental.ae/deploy/spheavyrental.ae.caddy /etc/caddy/sites.d/
+# Merge connectzone.ae.caddy into caddy/Caddyfile.production and the reviewed
+# root-owned single /etc/caddy/Caddyfile. Never install fragment imports.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use `http://`+`https://`+`tls internal` template — **not** bare hostnames (CF Flexible redirect loop).
+Use bare hosts, named CA `astro_origin_2026`, both manual certificate loaders
+and the canonical redirect. Cloudflare SSL remains **Full**; never use Flexible.
 
 ## 6. Deploy loop
 

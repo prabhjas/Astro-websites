@@ -17,7 +17,7 @@ Aaron’s source-review quote (FQ-04):
 | Ship via **new release** (rebuild), never patch attested `dist/` | **Yes** — we stage; Aaron bakes (`7155cbbb2` 11 Aug) | [AARON-RELEASE-SIGNATURES-SCHEDULER](AARON-RELEASE-SIGNATURES-SCHEDULER-2026-08-11.md) |
 | **Do not run** `signatures/APPLY.sh` or `APPLY-NEXT6.sh` | **Yes** (FQ-00 veto) | [CLAUDE-FLEET-QUEUE-PROMPT § FQ-00](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-00--do-not-run-staged-signature--next-6-apply-scripts) |
 | Canary on **`127.0.0.1:5999`**, one site, real `.env.prod`, then `switch` | **Documented.** We cannot start it (no `site-*` / `.env.prod`). Aaron runs it until `release-ctl canary` exists | [AARON-CANARY-RELEASE](AARON-CANARY-RELEASE.md) |
-| Caddy named CA **`astro_origin_2026`**, not `tls internal` | **Yes** in `caddy/Caddyfile.production` + next-6 snippets | [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
+| Caddy named CA **`astro_origin_2026`**, never the retired default local CA | **Yes** in `caddy/Caddyfile.production` + next-6 snippets | [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
 | No SMTP / form email for new sites | **Yes** | Cursor rule `no-form-smtp` |
 | webdev sudo = `site-ctl restart\|status\|logs` only | **Yes** | host fact |
 
@@ -43,7 +43,7 @@ Asked, not granted: `release-ctl bake/switch/canary` + CF `purge-cf`.
 |---------|------------|----------|
 | **A. Blank canonical origins** | Yes | **Yes** — keep-site `.env.example` `PUBLIC_SITE_URL=https://<this-domain>`; `astro.config` `site` set. Re-check after any peer rsync |
 | **B. Stale peer domains** | Yes | **Runtime SEO fixed** (mbs no longer seeds `connectgroup.co`). Test fixtures / one-shot `scripts/` may still name peers — allowed. Operator `13-go-live-server-handoff.md` on some next-6 trees can still say “SP Heavy” — ignore; use [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
-| **C. Unsafe deployment guidance** | Yes | **Followed for live.** Real path = new immutable release + owner Caddy. Leftover: some site `deploy/ROOT_SETUP.md` still say `tls internal` / in-tree build — **do not run those**. Do not fleet-rewrite them unless touching that site |
+| **C. Unsafe deployment guidance** | Yes | **Followed for live.** Real path = new immutable release + owner Caddy. Copied legacy root/in-tree instructions are not authoritative and must not be run. |
 | **D. Three “hooks”** | Yes | **Required chrome — do not strip.** (1) ScrollSequence `eval` and (2) Elementor script rehydrate in `astro-mirror-fixes.js` **must stay** or menus/sliders/ScrollSequence break. (3) `regen.ts` `execFile` is FLOW redirect regen only — not public chrome; no unauthenticated trigger. Vendor `underscore.min.js` is not “our” hook |
 
 **Clone rule:** after copying a peer, grep the new domain vs the peer in `src/`, `deploy/`, `docs/`, `.env.example`.

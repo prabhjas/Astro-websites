@@ -239,7 +239,7 @@ Contact client **must** send `Content-Type: application/json` (not multipart For
 Under `Astro-production/<domain>/deploy/`:
 
 1. **`<unit>.service`** — `User=site-<name>`, `EnvironmentFile=…/.env.prod` (no `-`), `HOST=127.0.0.1` + `PORT=<n>` on `ExecStart`, `MemoryMax=256M`, `ProtectSystem=strict`, `ReadWritePaths=…/.data`
-2. **`<domain>.caddy`** — `http://` + `https://` + `tls internal` → `reverse_proxy 127.0.0.1:<PORT>`
+2. **`<domain>.caddy`** — bare hosts + named CA + paired manual loaders → `reverse_proxy 127.0.0.1:<PORT>`
 3. **`ROOT_SETUP.md`** — short host notes
 
 ### Step K — Prove locally
@@ -410,7 +410,7 @@ Next free: **5124** (see repo `docs/FLEET-PORT-REGISTRY.md`).
 
 ### Deploy / FLOW
 
-- [ ] `deploy/*.service` + `*.caddy` (`tls internal`) + `ROOT_SETUP.md`
+- [ ] `deploy/*.service` + named-CA `*.caddy` + `ROOT_SETUP.md`
 - [ ] Host unit + Caddy + health 200
 - [ ] Domain + `INTERNAL_JOB_SECRET` registered in FLOW
 - [ ] FLOW can list posts / redirects / leads for this site

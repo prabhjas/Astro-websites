@@ -15,10 +15,15 @@
     "fleet:stop": "node scripts/fleet-local.mjs stop evolutionmiddleast,cbss,spheavyrental",
     "fleet:install": "pnpm install",
     "fleet:build": "pnpm -r --filter './Astro-production/*' run build",
-    "fleet:build:trio": "pnpm --filter evolutionmiddleast-astro --filter astro-cbss --filter spheavy-rental run build"
+    "fleet:build:trio": "pnpm --filter evolutionmiddleast-astro --filter astro-cbss --filter spheavy-rental run build",
+    "fleet:plan": "node scripts/ci/fleet-plan.mjs",
+    "fleet:validate": "node scripts/ci/fleet-validate-site.mjs"
   },
   "devDependencies": {
-    "playwright": "1.62.1"
+    "@astrojs/check": "catalog:",
+    "astro": "catalog:",
+    "playwright": "1.62.1",
+    "typescript": "catalog:"
   },
   "pnpm": {
     "overrides": {
