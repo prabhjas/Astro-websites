@@ -284,7 +284,7 @@ grep -R "127.0.0.1" Astro-production/<domain>/dist/server/entry.mjs && echo FAIL
 | **Live production target** | `caddy/Caddyfile.production` |
 | Same as historical pending name | `caddy/Caddyfile.canonical-host-redirects.pending` |
 | Pre-consolidation `sites.d` | `caddy/archive-before-single-file-20260803/` |
-| Rollback binary/certs | `caddy/upgrade-rollback-20260803/` (ops only; private keys) |
+| Retired rollback binary/certs | Removed from the current tree; never restore from Git history |
 
 ---
 
