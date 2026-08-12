@@ -1727,15 +1727,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
-      // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
+      // Same-origin only (FQ-02). No third-party geo.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {

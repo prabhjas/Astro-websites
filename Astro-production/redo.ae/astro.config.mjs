@@ -25,6 +25,7 @@ export default defineConfig({
   // request URL as http://, and checkOrigin rejects HTTPS visitors' form
   // POSTs with "Cross-site POST form submissions are forbidden" (403).
   security: {
+    checkOrigin: true,
     allowedDomains: [
       { hostname: 'redo.ae', protocol: 'https' },
       { hostname: 'www.redo.ae', protocol: 'https' },

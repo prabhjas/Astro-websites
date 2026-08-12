@@ -45,6 +45,7 @@ pnpm-debug.log*
 
 # Editor
 .idea/
+*.code-workspace
 
 # Claude Code local settings
 .claude/settings.local.json
@@ -82,6 +83,7 @@ Astro-production/connectresourcesint.com/.astro/
 Astro-production/connectresourcesint.com/.data/
 Astro-production/connectresourcesint.com/.env
 Astro-production/connectresourcesint.com/.env.*
+!Astro-production/connectresourcesint.com/.env.example
 Astro-production/connectresourcesint.com/dist/
 Astro-production/connectresourcesint.com/dist.*/
 Astro-production/connectresourcesint.com/node_modules/

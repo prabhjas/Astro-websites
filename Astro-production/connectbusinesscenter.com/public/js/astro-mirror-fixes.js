@@ -208,28 +208,6 @@
     return '<svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg>';
   }
 
-  /** Inject SVG carets on every parent link in a burger dropdown (all nesting levels). */
-  function ensureMobileDropdownCarets(dropdown) {
-    if (!dropdown) return;
-    // Hardcoded SVG — widget settings often point at FA glyphs that never paint on mirrors.
-    var iconHtml =
-      '<svg aria-hidden="true" class="e-font-icon-svg e-fas-caret-down" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg"><path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path></svg>';
-    dropdown.querySelectorAll('.menu-item-has-children').forEach(function (li) {
-      var anchor = li.querySelector(':scope > a');
-      if (!anchor) return;
-      var arrow = anchor.querySelector(':scope > .sub-arrow');
-      if (!arrow) {
-        arrow = document.createElement('span');
-        arrow.className = 'sub-arrow';
-        arrow.setAttribute('aria-hidden', 'true');
-        anchor.appendChild(arrow);
-      }
-      // Always paint an inline SVG caret (overwrite empty FA / Elementor placeholders).
-      arrow.innerHTML = iconHtml;
-    });
-    dedupeSubmenuIcons();
-  }
-
   function dedupeSubmenuIcons() {
     document.querySelectorAll('.elementor-widget-nav-menu .menu-item-has-children > a').forEach(function (anchor) {
       var arrows = anchor.querySelectorAll(':scope > .sub-arrow');
@@ -241,44 +219,11 @@
 
   function initSmartMenusFallback() {
     var $ = window.jQuery;
-
-    // Always clear burger-panel submenu inline styles (SmartMenus / older inits hide them).
-    document
-      .querySelectorAll('.elementor-nav-menu--dropdown .elementor-nav-menu .sub-menu')
-      .forEach(function (sub) {
-        sub.style.removeProperty('display');
-        sub.style.removeProperty('visibility');
-        sub.style.removeProperty('height');
-        sub.style.removeProperty('overflow');
-        sub.style.removeProperty('position');
-        sub.style.removeProperty('top');
-        sub.style.removeProperty('left');
-        sub.style.removeProperty('width');
-        sub.style.removeProperty('z-index');
-        sub.style.removeProperty('max-height');
-        sub.style.removeProperty('min-height');
-      });
-
-    if ($ && $.fn && typeof $.fn.smartmenus === 'function') {
-      document
-        .querySelectorAll('.elementor-nav-menu--dropdown > .elementor-nav-menu')
-        .forEach(function (ul) {
-          var $ul = $(ul);
-          if ($ul.data('smartmenus')) {
-            try {
-              $ul.smartmenus('destroy');
-            } catch (e) {}
-          }
-        });
-    }
-
     if (!$ || !$.fn || !$.fn.smartmenus) return;
 
     document
       .querySelectorAll(
-        // Desktop/main only — do NOT init SmartMenus on the burger dropdown panel
-        // (it hides .sub-menu and breaks tap-to-expand on mobile).
-        '.elementor-nav-menu--main > .elementor-nav-menu',
+        '.elementor-nav-menu--main > .elementor-nav-menu, .elementor-nav-menu--dropdown > .elementor-nav-menu',
       )
       .forEach(function (ul) {
         var $ul = $(ul);
@@ -330,7 +275,6 @@
       });
 
     dedupeSubmenuIcons();
-    ensureMenuToggles();
 
     // Give Elementor nav-menu chunk time to init SmartMenus with the real SVG caret.
     // Only fallback if it never attached (missing chunk / race).
@@ -341,194 +285,9 @@
     setTimeout(function () {
       initSmartMenusFallback();
       dedupeSubmenuIcons();
-      ensureMenuToggles();
     }, 700);
     setTimeout(dedupeSubmenuIcons, 1500);
     setTimeout(dedupeSubmenuIcons, 3000);
-  }
-
-  /**
-   * Burger / mobile nav toggle. Elementor Pro normally binds this via the
-   * lazy nav-menu webpack chunk; mirrors often 404 that chunk (or it races).
-   * Own the click in capture so Elementor cannot immediately re-toggle closed.
-   */
-  function ensureMenuToggles() {
-    function headerBottomPx() {
-      var header =
-        document.querySelector('.elementor-location-header .elementor-sticky--active') ||
-        document.querySelector('.elementor-location-header') ||
-        document.querySelector('header');
-      if (!header) return 0;
-      return Math.max(0, Math.round(header.getBoundingClientRect().bottom));
-    }
-
-    function placeDropdown(dropdown, open) {
-      if (!dropdown) return;
-      if (!open) {
-        dropdown.style.position = '';
-        dropdown.style.top = '';
-        dropdown.style.left = '';
-        dropdown.style.right = '';
-        dropdown.style.width = '';
-        dropdown.style.maxHeight = '';
-        dropdown.style.overflowY = '';
-        dropdown.style.zIndex = '';
-        dropdown.style.marginTop = '';
-        dropdown.style.transform = '';
-        dropdown.style.removeProperty('min-height');
-        dropdown.style.removeProperty('background');
-        dropdown.style.removeProperty('background-color');
-        return;
-      }
-      var top = headerBottomPx();
-      var maxH = Math.max(160, window.innerHeight - top);
-      dropdown.style.position = 'fixed';
-      dropdown.style.top = top + 'px';
-      dropdown.style.left = '0px';
-      dropdown.style.right = 'auto';
-      dropdown.style.width = document.documentElement.clientWidth + 'px';
-      dropdown.style.zIndex = '9997';
-      dropdown.style.marginTop = '0';
-      dropdown.style.transform = 'none';
-      dropdown.style.overflowY = 'auto';
-      dropdown.style.maxHeight = maxH + 'px';
-      // Fill remaining viewport with solid white so hero copy never shows through.
-      dropdown.style.setProperty('min-height', maxH + 'px', 'important');
-      dropdown.style.setProperty('background', '#fff', 'important');
-      dropdown.style.setProperty('background-color', '#fff', 'important');
-      dropdown.style.setProperty('--menu-height', maxH + 'px');
-    }
-
-    document.querySelectorAll('.elementor-widget-nav-menu .elementor-menu-toggle').forEach(function (toggle) {
-      if (toggle.dataset.astroMenuToggle === '1') return;
-      toggle.dataset.astroMenuToggle = '1';
-
-      var widget = toggle.closest('.elementor-widget-nav-menu');
-      var dropdown =
-        (toggle.nextElementSibling &&
-          toggle.nextElementSibling.classList.contains('elementor-nav-menu--dropdown') &&
-          toggle.nextElementSibling) ||
-        (widget && widget.querySelector('.elementor-nav-menu--dropdown.elementor-nav-menu__container'));
-
-      function setOpen(open) {
-        toggle.classList.toggle('elementor-active', open);
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        if (dropdown) {
-          dropdown.classList.toggle('elementor-active', open);
-          dropdown.setAttribute('aria-hidden', open ? 'false' : 'true');
-          if (open) {
-            ensureMobileDropdownCarets(dropdown);
-            placeDropdown(dropdown, true);
-            requestAnimationFrame(function () {
-              ensureMobileDropdownCarets(dropdown);
-              placeDropdown(dropdown, true);
-            });
-            dropdown.querySelectorAll('a').forEach(function (a) {
-              a.removeAttribute('tabindex');
-            });
-          } else {
-            dropdown.style.setProperty('--menu-height', '0px');
-            placeDropdown(dropdown, false);
-            dropdown.querySelectorAll('a').forEach(function (a) {
-              a.setAttribute('tabindex', '-1');
-            });
-          }
-        }
-      }
-
-      function onToggle(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        setOpen(!toggle.classList.contains('elementor-active'));
-      }
-
-      toggle.addEventListener('click', onToggle, true);
-      toggle.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onToggle(e);
-        }
-      });
-
-      if (dropdown && !dropdown.dataset.astroSubToggle) {
-        dropdown.dataset.astroSubToggle = '1';
-        ensureMobileDropdownCarets(dropdown);
-
-        dropdown.addEventListener('click', function (e) {
-          var link = e.target.closest('a');
-          if (!link || !dropdown.contains(link)) return;
-          var li = link.parentElement;
-          if (!li || !li.classList.contains('menu-item-has-children')) return;
-
-          e.preventDefault();
-          e.stopPropagation();
-
-          var willOpen = !li.classList.contains('astro-sub-open');
-          var parentUl = li.parentElement;
-          if (parentUl) {
-            parentUl.querySelectorAll(':scope > .menu-item-has-children.astro-sub-open').forEach(function (sib) {
-              if (sib !== li) {
-                sib.classList.remove('astro-sub-open', 'highlighted');
-              }
-            });
-          }
-          li.classList.toggle('astro-sub-open', willOpen);
-          li.classList.toggle('highlighted', willOpen);
-
-          var sub = li.querySelector(':scope > .sub-menu');
-          if (sub) {
-            sub.style.removeProperty('display');
-            sub.style.removeProperty('visibility');
-            sub.style.removeProperty('height');
-          }
-
-          // Nested parents appear when a branch opens — give them carets too.
-          ensureMobileDropdownCarets(dropdown);
-
-          if (toggle.classList.contains('elementor-active')) {
-            requestAnimationFrame(function () {
-              placeDropdown(dropdown, true);
-            });
-          }
-        });
-      } else if (dropdown) {
-        ensureMobileDropdownCarets(dropdown);
-      }
-    });
-
-    if (!window.__astroMenuOutsideCloseBound) {
-      window.__astroMenuOutsideCloseBound = true;
-      document.addEventListener('click', function (e) {
-        if (e.target.closest('.elementor-widget-nav-menu')) return;
-        document
-          .querySelectorAll('.elementor-widget-nav-menu .elementor-menu-toggle.elementor-active')
-          .forEach(function (activeToggle) {
-            activeToggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-          });
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key !== 'Escape') return;
-        document
-          .querySelectorAll('.elementor-widget-nav-menu .elementor-menu-toggle.elementor-active')
-          .forEach(function (activeToggle) {
-            activeToggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-          });
-      });
-      function repositionOpenMenus() {
-        document
-          .querySelectorAll('.elementor-widget-nav-menu .elementor-menu-toggle.elementor-active')
-          .forEach(function (activeToggle) {
-            var openDrop =
-              activeToggle.nextElementSibling &&
-              activeToggle.nextElementSibling.classList.contains('elementor-nav-menu--dropdown')
-                ? activeToggle.nextElementSibling
-                : null;
-            if (openDrop) placeDropdown(openDrop, true);
-          });
-      }
-      window.addEventListener('resize', repositionOpenMenus);
-      window.addEventListener('scroll', repositionOpenMenus, { passive: true });
-    }
   }
 
   /** Ensure FA + Swiper stylesheets exist (live often inlines SVG; cards still use .fas). */
@@ -1907,15 +1666,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
-      // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
+      // Same-origin only (FQ-02). No third-party geo.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {
@@ -2246,40 +2006,6 @@
       '.elementor-menu-toggle__icon--close.eicon-close:after{transform:rotate(-45deg);}',
       '.elementor-menu-toggle:not(.elementor-active) .elementor-menu-toggle__icon--close{display:none;}',
       '.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open{display:none;}',
-      /* Mobile menu panel under sticky header — solid white so it never overlaps hero text */
-      '.elementor-location-header{position:relative;z-index:10000;}',
-      '.elementor-location-header .elementor-sticky--active{z-index:10000!important;}',
-      '.elementor-nav-menu--dropdown.elementor-nav-menu__container.elementor-active{',
-      'background:#fff!important;background-color:#fff!important;',
-      'box-shadow:none;',
-      'border-top:1px solid rgba(0,0,0,.06);',
-      'padding:8px 0 24px!important;',
-      '}',
-      '.elementor-nav-menu--dropdown.elementor-nav-menu__container.elementor-active .elementor-nav-menu{',
-      'background:#fff!important;',
-      '}',
-      '.elementor-nav-menu--dropdown.elementor-nav-menu__container.elementor-active a.elementor-item,',
-      '.elementor-nav-menu--dropdown.elementor-nav-menu__container.elementor-active a.elementor-sub-item{',
-      'background:transparent;',
-      '}',
-      /* Mobile nested submenus (tap parent to expand) */
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .sub-menu{display:none!important;position:static!important;width:100%!important;min-width:0!important;left:auto!important;top:auto!important;float:none!important;box-shadow:none!important;background:transparent!important;margin:0!important;padding:0 0 4px!important;transform:none!important;visibility:visible!important;height:auto!important;overflow:visible!important;z-index:auto!important;}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children.astro-sub-open > .sub-menu,.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children.highlighted > .sub-menu{display:block!important;}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children > a{display:flex!important;align-items:center;justify-content:space-between;gap:8px;}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children > a .sub-arrow{',
-      'display:inline-flex!important;align-items:center;justify-content:center;',
-      'flex:0 0 auto;margin-inline-start:auto;padding:8px 12px;',
-      'color:inherit;opacity:.85;transition:transform .2s ease;',
-      '}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children > a .sub-arrow svg,',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children > a .sub-arrow .e-font-icon-svg{',
-      'width:12px!important;height:12px!important;fill:currentColor;display:block;',
-      '}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children.astro-sub-open > a .sub-arrow,',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .menu-item-has-children.highlighted > a .sub-arrow{transform:rotate(180deg);}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .sub-menu .elementor-sub-item{padding-inline-start:28px!important;}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .sub-menu .sub-menu .elementor-sub-item{padding-inline-start:44px!important;}',
-      '.elementor-nav-menu--dropdown .elementor-nav-menu .sub-menu .sub-menu .sub-menu .elementor-sub-item{padding-inline-start:60px!important;}',
       /* Submenu caret: match Elementor live (1em SVG + padded flex hit area) */
       '.elementor-nav-menu .sub-arrow{align-items:center;display:inline-flex;line-height:1;margin-block:-10px;margin-inline-start:.15em;padding:10px;padding-inline-end:0;vertical-align:middle;}',
       '.elementor-nav-menu .sub-arrow .e-font-icon-svg,.elementor-nav-menu .sub-arrow svg{width:1em!important;height:1em!important;fill:currentColor;display:block;}',
