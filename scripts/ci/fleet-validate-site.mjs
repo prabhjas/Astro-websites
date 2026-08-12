@@ -34,6 +34,26 @@ function run(command, values, timeout = 20 * 60 * 1000, cwd = root) {
   return completed.stdout;
 }
 
+function runAstroCheck(site, sitePath, baselineErrors) {
+  const command = path.join(root, 'node_modules/.bin/astro');
+  const completed = spawnSync(command, ['check', '--minimumSeverity', 'error', '--root', sitePath], {
+    cwd: root, encoding: 'utf8', timeout: 15 * 60 * 1000, maxBuffer: 32 * 1024 * 1024,
+    env: {
+      PATH: process.env.PATH ?? '/usr/bin:/bin', HOME: process.env.HOME ?? '/tmp', LANG: 'C.UTF-8',
+      LC_ALL: 'C.UTF-8', CI: '1', NODE_ENV: 'production', PUBLIC_SITE_URL: `https://${site.domain}`,
+    },
+  });
+  if (completed.error || ![0, 1].includes(completed.status)) {
+    fail(`Astro check could not complete for ${site.id}: ${completed.error?.message ?? completed.stderr.slice(-8192)}`);
+  }
+  const output = `${completed.stdout}\n${completed.stderr}`.replace(/\u001b\[[0-9;]*[mK]/g, '');
+  const matches = [...output.matchAll(/^- ([0-9]+) errors?$/gm)];
+  if (matches.length !== 1) fail(`Astro check summary is missing or ambiguous for ${site.id}:\n${output.slice(-8192)}`);
+  const errors = Number(matches[0][1]);
+  if (errors > baselineErrors) fail(`Astro check added errors for ${site.id}: baseline=${baselineErrors} candidate=${errors}`);
+  return { baselineErrors, candidateErrors: errors, improved: errors < baselineErrors };
+}
+
 function changedPaths(base, head, prefix) {
   const output = run('/usr/bin/git', ['diff', '--name-only', '-z', base, head, '--', prefix], 60_000);
   return output.split('\0').filter(Boolean);
@@ -119,18 +139,22 @@ async function probe(site, sitePath) {
 const args = argumentsValue(process.argv.slice(2));
 const policy = JSON.parse(readFileSync(path.join(root, 'scripts/ci/fleet-policy.json'), 'utf8'));
 const registry = JSON.parse(readFileSync(path.join(root, 'scripts/fleet-sites.json'), 'utf8'));
+const checkBaseline = JSON.parse(readFileSync(path.join(root, 'scripts/ci/fleet-check-baseline.json'), 'utf8'));
 const site = registry.sites.find((candidate) => candidate.id === args.site);
 if (!site) fail(`unknown site: ${args.site}`);
+if (checkBaseline.format !== 'astro-fleet-check-baseline-v1' || !Number.isInteger(checkBaseline.errors?.[site.id]) || checkBaseline.errors[site.id] < 0) {
+  fail(`missing check baseline for ${site.id}`);
+}
 const sitePath = path.join(root, policy.productionRoot, site.dir);
 const packageValue = JSON.parse(readFileSync(path.join(sitePath, 'package.json'), 'utf8'));
 if (!policy.allowedBuildScripts.includes(packageValue.scripts?.build)) fail(`unapproved build script for ${site.id}: ${packageValue.scripts?.build}`);
 const changed = changedPaths(args.base, args.head, `${policy.productionRoot}/${site.dir}`);
 scanChangedFiles(changed);
-run(path.join(root, 'node_modules/.bin/astro'), ['check'], 15 * 60 * 1000, sitePath);
+const check = runAstroCheck(site, sitePath, checkBaseline.errors[site.id]);
 run('/usr/bin/pnpm', ['--filter', packageValue.name, 'run', 'build'], 30 * 60 * 1000);
 const artifact = artifactInventory(path.join(sitePath, 'dist'), policy);
 const probes = await probe(site, sitePath);
 mkdirSync(path.join(root, 'fleet-evidence'), { recursive: true });
-const evidence = { format: 'astro-fleet-ci-evidence-v1', site: site.id, domain: site.domain, packageName: packageValue.name, base: args.base, head: args.head, changedPaths: changed.sort(), artifact, probes };
+const evidence = { format: 'astro-fleet-ci-evidence-v1', site: site.id, domain: site.domain, packageName: packageValue.name, base: args.base, head: args.head, changedPaths: changed.sort(), check, artifact, probes };
 writeFileSync(path.join(root, 'fleet-evidence', `${site.id}.json`), `${JSON.stringify(evidence, null, 2)}\n`, { encoding: 'utf8', mode: 0o600 });
 console.log(`FLEET VALIDATION PASS: ${site.id} files=${artifact.objects} bytes=${artifact.bytes}`);
