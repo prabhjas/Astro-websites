@@ -1,6 +1,11 @@
 import type { APIRoute } from 'astro';
 import { basename } from 'node:path';
-import { formatEnhancedHtml, runEnhancedJob } from '../../lib/enhanced/run-job.js';
+import { parseEnhancedDateQuery } from '../../lib/enhanced/dates.js';
+import {
+  enhancedNoIndexHeaders,
+  formatEnhancedHtml,
+  runEnhancedJob,
+} from '../../lib/enhanced/run-job.js';
 import { getEnhancedJob } from '../../lib/enhanced/jobs.js';
 import { classifyEnhancedFailure, sendEnhancedFailureAlert } from '../../lib/enhanced/alert.js';
 
@@ -37,7 +42,7 @@ export const GET: APIRoute = async ({ params, request }) => {
   if (!authorised(request, secret)) {
     return new Response('Unauthorized', {
       status: 401,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+      headers: enhancedNoIndexHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
     });
   }
 
@@ -46,22 +51,18 @@ export const GET: APIRoute = async ({ params, request }) => {
   if (!fileName || !getEnhancedJob(fileName)) {
     return new Response(`Enhanced script not found: ${fileName || rawPath}`, {
       status: 404,
-      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+      headers: enhancedNoIndexHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }),
     });
   }
 
   const url = new URL(request.url);
-  const start = url.searchParams.get('start')?.trim() || '';
-  const end = url.searchParams.get('end')?.trim() || '';
-  const dateOverride =
-    start || end
-      ? { start, end: end || new Date().toISOString().slice(0, 10) }
-      : undefined;
+  const dateOverride = parseEnhancedDateQuery(url.searchParams);
 
   const result = await runEnhancedJob(fileName, dateOverride);
 
-  // Hard failures only (not Ads partial warnings that still return HTTP 200).
-  if (!result.ok) {
+  // Hard failures only (not Ads partial warnings that still return HTTP 200,
+  // and not 400 bad date query — those are caller errors).
+  if (!result.ok && result.status >= 500) {
     const { category, reason } = classifyEnhancedFailure(result.log, result.error);
     const detail =
       typeof result.error === 'string'
@@ -80,12 +81,16 @@ export const GET: APIRoute = async ({ params, request }) => {
     });
   }
 
+  const headers = enhancedNoIndexHeaders({
+    'Content-Type': 'text/html; charset=utf-8',
+  });
+  if (result.window) {
+    headers['X-Enhanced-Window'] = `${result.window.start}/${result.window.end}`;
+    headers['X-Enhanced-Window-Source'] = result.window.source;
+  }
+
   return new Response(formatEnhancedHtml(result), {
     status: result.status,
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'no-store',
-      'X-Robots-Tag': 'noindex, nofollow',
-    },
+    headers,
   });
 };

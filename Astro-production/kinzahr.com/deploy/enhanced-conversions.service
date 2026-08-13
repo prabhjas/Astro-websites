@@ -8,6 +8,9 @@ Type=oneshot
 User=webdev
 # Secret must live in an EnvironmentFile readable by webdev (mode 640), not in this unit.
 EnvironmentFile=-/opt/Astro-production/kinzahr.com/.env.prod
-Environment=BASE_URL=https://kinzahr.com
+# Public https://kinzahr.com/enhanced returns 401 (frontend split). Hit the trusted backend.
+Environment=BASE_URL=http://127.0.0.1:15093
+Environment=HOST_HEADER=kinzahr.com
+# No DATE / FROM_DATE / TO_DATE — jobs use the default last-2-days window.
 ExecStart=/opt/Astro-production/kinzahr.com/scripts/run-enhanced-jobs.sh
 Nice=10

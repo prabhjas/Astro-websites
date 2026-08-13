@@ -4,8 +4,9 @@
 
 | Priority | Doc | Use |
 |----------|-----|-----|
+| **Publish (live)** | **[DEVELOPER-HANDOFF.md](DEVELOPER-HANDOFF.md)** · **[ASTRO-FLEET-AUTONOMOUS-RELEASE.md](ASTRO-FLEET-AUTONOMOUS-RELEASE.md)** | **Only deploy path:** `/opt/Astro-development` → signed commit → `sudo astro-fleet-release publish` |
 | **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** + **[34-site work queue](00-NEW-SITE-MASTER.md#fleet-work-queue--34-sites)** (geo, nanoid, memory, peer-copy) |
-| **Aaron rules** | **[AARON-RULES.md](AARON-RULES.md)** | Security + deploy + FQ-04 source-review four findings + canary — what we follow |
+| **Aaron rules** | **[AARON-RULES.md](AARON-RULES.md)** | Security + deploy + FQ-04 — what we follow (updated for autonomous release) |
 | **Claude** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** | **Paste-ready prompt** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-04 source review · FQ-03 memory |
 | **canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** | Private `:5999` test of a new release before `switch` |
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **42 domains + ports · all scaffolded · 0 placeholders** |

@@ -52,19 +52,6 @@ const stylesheets = [
   ]),
 ];
 
-/** Dashboard Global GTM — SSR into HTML so it appears in View Source */
-let gtmHead = "";
-let gtmBody = "";
-let gtmFooter = "";
-try {
-  const gtm = await readGlobalGtmConfig(resolveInternalAdminDir());
-  gtmHead = sanitiseGtmSnippet(gtm?.headScript || "");
-  gtmBody = sanitiseGtmSnippet(gtm?.bodyHtml || "");
-  gtmFooter = sanitiseGtmSnippet(gtm?.footerScript || "");
-} catch {
-  /* keep public pages resilient */
-}
-const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
 ---
 
 <!doctype html>
@@ -78,16 +65,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
-    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
-    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
-    {!hasGtm ? (
-      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
-    ) : (
-      <script is:inline>
-        window.__runtimeGtmLoaded = true;
-        window.dataLayer = window.dataLayer || [];
-      </script>
-    )}
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     {/* Live WP uses gtag GA4 directly (no GTM container found on crawl). */}
     {import.meta.env.PUBLIC_GA4_ID ? (
       <>
@@ -123,7 +101,6 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <script is:inline src="/wp-content/plugins/marquee-image-crawler/js/marquee-image-crawler.js"></script>
   </head>
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
-    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
     <div class="l-canvas type_wide">
       <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
@@ -133,6 +110,5 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     {licence.number ? <LicenceStrip /> : null}
     <FloatContacts />
     <ElementorScripts />
-    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>
 </html>
