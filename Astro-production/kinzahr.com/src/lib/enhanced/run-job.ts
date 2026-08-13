@@ -1,4 +1,5 @@
 import { hashEmail, hashNamePart, hashPhone, splitName } from './hash.js';
+import { resolveEnhancedDateRange, type EnhancedDateOverride } from './dates.js';
 import {
   FIELD_DOMAIN_ID,
   FIELD_GCLID,
@@ -7,6 +8,8 @@ import {
   resolveDateWindow,
   type EnhancedJobConfig,
 } from './jobs.js';
+
+export type { EnhancedDateOverride } from './dates.js';
 
 export type EnhancedLead = {
   deal_id: number | string;
@@ -23,6 +26,7 @@ export type EnhancedRunResult = {
   status: number;
   log: string[];
   leadsQueued: number;
+  window?: { start: string; end: string; source: 'default' | 'override' };
   upload?: unknown;
   error?: unknown;
 };
@@ -339,7 +343,10 @@ async function uploadClickConversions(args: {
   return { ok: true, httpCode: res.status, body };
 }
 
-export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResult> {
+export async function runEnhancedJob(
+  fileName: string,
+  dateOverride?: EnhancedDateOverride,
+): Promise<EnhancedRunResult> {
   const log: string[] = [];
   const job = getEnhancedJob(fileName);
   if (!job) {
@@ -376,7 +383,27 @@ export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResul
   }
 
   logLine(log, `Job: ${job.label} (${job.id})`);
-  const { start, end } = resolveDateWindow(job.dateWindow);
+  const window = resolveEnhancedDateRange(
+    resolveDateWindow(job.dateWindow),
+    dateOverride,
+    env('ENHANCED_WINDOW_START'),
+    env('ENHANCED_WINDOW_END'),
+  );
+  if (window.error) {
+    logLine(log, `[BACKFILL] ${window.error}`);
+    return { ok: false, status: 400, log, leadsQueued: 0, error: window.error };
+  }
+  const { start, end } = window;
+  const windowMeta = { start, end, source: window.source };
+  if (window.source === 'override') {
+    logLine(log, `[BACKFILL] Using explicit window override: ${start} to ${end}`);
+  } else {
+    const label =
+      job.dateWindow.kind === 'last_n_days'
+        ? `last ${job.dateWindow.days} days`
+        : `last ${job.dateWindow.months} months`;
+    logLine(log, `[WINDOW] Default ${label}: ${start} to ${end}`);
+  }
 
   try {
     const leads = await fetchPipedriveDeals({
@@ -402,7 +429,7 @@ export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResul
 
     if (!upload.ok) {
       logLine(log, `Error:\n${typeof upload.error === 'string' ? upload.error : JSON.stringify(upload.error, null, 2)}\nHTTP Code: ${upload.httpCode}`);
-      return { ok: false, status: 500, log, leadsQueued: leads.length, upload: upload.body, error: upload.error };
+      return { ok: false, status: 500, log, leadsQueued: leads.length, window: windowMeta, upload: upload.body, error: upload.error };
     }
 
     if (upload.error) {
@@ -413,16 +440,26 @@ export async function runEnhancedJob(fileName: string): Promise<EnhancedRunResul
     } else {
       logLine(log, `Conversions uploaded successfully!\n${conversionAction}\nLeads sent: ${leads.length}`);
     }
-    return { ok: true, status: 200, log, leadsQueued: leads.length, upload: upload.body, error: upload.error };
+    return { ok: true, status: 200, log, leadsQueued: leads.length, window: windowMeta, upload: upload.body, error: upload.error };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logLine(log, `Error: ${message}`);
-    return { ok: false, status: 500, log, leadsQueued: 0, error: message };
+    return { ok: false, status: 500, log, leadsQueued: 0, window: windowMeta, error: message };
   }
+}
+
+export const ENHANCED_ROBOTS = 'noindex, nofollow, noarchive, nosnippet';
+
+export function enhancedNoIndexHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  return {
+    'Cache-Control': 'no-store, private',
+    'X-Robots-Tag': ENHANCED_ROBOTS,
+    ...extra,
+  };
 }
 
 /** HTML debug page matching the old PHP output shape (escaped). */
 export function formatEnhancedHtml(result: EnhancedRunResult): string {
   const body = result.log.map((line) => `<pre>${escapeHtml(line)}</pre>`).join('\n');
-  return `<!doctype html><html><head><meta charset="utf-8"><title>Enhanced conversion job</title></head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="${ENHANCED_ROBOTS}"><title>Enhanced conversion job</title></head><body>${body}</body></html>`;
 }
