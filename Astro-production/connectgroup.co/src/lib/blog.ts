@@ -88,6 +88,7 @@ export interface BlogPost {
     description?: string;
     image?: string;
   };
+  status?: string;
   schema?: Record<string, unknown>;
   sourceUrl: string;
   migratedAt: string;
@@ -183,7 +184,7 @@ export function sanitizeTocEntry(entry: TocEntry): TocEntry | null {
 
 /** Add/preserve heading IDs and build TOC from H2/H3 in content HTML. */
 export function processContentHeadings(html: string): { html: string; toc: TocEntry[]; headings: BlogPost['headings'] } {
-  const $ = cheerio.load(`<div id="root">${html}</div>`, { decodeEntities: false }, false);
+  const $ = cheerio.load(`<div id="root">${html}</div>`, { xml: { decodeEntities: false } } as any, false);
   const toc: TocEntry[] = [];
   const headings: BlogPost['headings'] = [];
   const usedIds = new Set<string>();

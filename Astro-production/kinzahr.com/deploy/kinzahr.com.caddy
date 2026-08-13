@@ -27,6 +27,10 @@ kinzahr.com, www.kinzahr.com {
 	@noncanonical host www.kinzahr.com
 	redir @noncanonical https://kinzahr.com{uri} permanent
 
+	@enhanced path /enhanced /enhanced/*
+	header @enhanced X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+	header @enhanced Cache-Control "no-store, private"
+
 	reverse_proxy 127.0.0.1:5093
 
 	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$

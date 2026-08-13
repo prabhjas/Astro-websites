@@ -155,9 +155,9 @@ fi
 fail=0
 for job in "${JOBS[@]}"; do
   if [[ -n "$QS" ]]; then
-    url="${BASE_URL%/}/enhanced/job?file=${job}&${QS#?}"
+    url="${BASE_URL%/}/enhanced/job/?file=${job}&${QS#?}"
   else
-    url="${BASE_URL%/}/enhanced/job?file=${job}"
+    url="${BASE_URL%/}/enhanced/job/?file=${job}"
   fi
   out="/tmp/enhanced-${job}.out"
   echo "==> GET ${url}"
