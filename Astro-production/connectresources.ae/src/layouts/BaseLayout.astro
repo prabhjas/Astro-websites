@@ -57,6 +57,19 @@ const stylesheets = [
   ]),
 ];
 
+/** Dashboard Global GTM — SSR into HTML so it appears in View Source */
+let gtmHead = "";
+let gtmBody = "";
+let gtmFooter = "";
+try {
+  const gtm = await readGlobalGtmConfig(resolveInternalAdminDir());
+  gtmHead = sanitiseGtmSnippet(gtm?.headScript || "");
+  gtmBody = sanitiseGtmSnippet(gtm?.bodyHtml || "");
+  gtmFooter = sanitiseGtmSnippet(gtm?.footerScript || "");
+} catch {
+  /* keep public pages resilient */
+}
+const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
 ---
 
 <!doctype html>
@@ -70,11 +83,21 @@ const stylesheets = [
     <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
-    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
+    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
+    {!hasGtm ? (
+      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    ) : (
+      <script is:inline>
+        window.__runtimeGtmLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+      </script>
+    )}
     {/* Marquee inline calls run mid-body; load definition in head like live WP */}
     <script is:inline src="/wp-content/plugins/marquee-image-crawler/js/marquee-image-crawler.js"></script>
   </head>
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
+    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
     <div class:list={["l-canvas", "type_wide", hideSiteChrome && "l-canvas--elementor-canvas"]}>
       {!hideSiteChrome ? (
@@ -87,5 +110,6 @@ const stylesheets = [
     <FloatContacts />
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
+    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>
 </html>
