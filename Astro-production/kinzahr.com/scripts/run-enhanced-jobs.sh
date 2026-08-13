@@ -154,7 +154,11 @@ fi
 
 fail=0
 for job in "${JOBS[@]}"; do
-  url="${BASE_URL%/}/enhanced/${job}${QS}"
+  if [[ -n "$QS" ]]; then
+    url="${BASE_URL%/}/enhanced/job?file=${job}&${QS#?}"
+  else
+    url="${BASE_URL%/}/enhanced/job?file=${job}"
+  fi
   out="/tmp/enhanced-${job}.out"
   echo "==> GET ${url}"
   code=$(curl -sS -o "$out" -w "%{http_code}" \

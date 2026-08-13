@@ -95,6 +95,8 @@ curl -fsS -H "Authorization: Bearer $ENHANCED_RUN_SECRET" \
 
 Successful responses include `X-Enhanced-Window: 2026-08-06/2026-08-06` and `X-Enhanced-Window-Source: override|default`.
 
+Publish-safe runner URL (use this from the host): `/enhanced/job?file=kinzahr.php` plus optional `date` / `start` / `end`.
+
 ## Automate every 12 hours
 
 Script: `scripts/run-enhanced-jobs.sh` (no date args → last 2 days).
