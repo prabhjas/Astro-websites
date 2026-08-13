@@ -1,7 +1,17 @@
-/* Match live Elementor kit-8 defaults (override any leftover SP kit CSS) */
-body.elementor-kit-8,
-.elementor-kit-8 {
+/* Match Connect FZ Elementor kit-20028 defaults */
+body.elementor-kit-20028,
+.elementor-kit-20028 {
   font-family: Roboto, sans-serif;
+}
+
+/* Oklahoma theme falls back to Helvetica; Figma/live nav uses Poppins */
+header.header1 #navbar .menu-item > a,
+header.header1 #navbar .nav-menu > li > a,
+.navbar-default .navbar-nav > li > a,
+body #navbar .menu-item > a {
+  font-family: Poppins, sans-serif !important;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 html,
@@ -679,38 +689,78 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 }
 
 /*
-  Hero banners: Elementor keeps navy (#163E87 / #2E3135) headings on blue/photo
-  backgrounds (KIZAD + other free-zone / PRO / visa / consultant pages).
+  Hero banners: Elementor ships navy (#163E87 / #2E3135) on blue/photo heroes.
+  Force white copy inside known hero sections (beats .elementor-NNNN specificity).
 */
-.elementor-element-da35e5d .elementor-heading-title,
-.elementor-element-da35e5d .elementor-heading-title a,
-.elementor-element-fb28a94 .elementor-heading-title,
-.elementor-element-e5beba9 .elementor-heading-title,
-.elementor-element-e5beba9 .elementor-heading-title a,
-.elementor-element-d5f190c .elementor-heading-title,
-.elementor-element-d5f190c .elementor-heading-title a,
-.elementor-element-d5f190c .elementor-widget-text-editor,
-.elementor-element-d5f190c .elementor-widget-text-editor p,
-.elementor-element-d5f190c .elementor-widget-text-editor a,
-.elementor-element-2677d887 .elementor-heading-title,
-.elementor-element-2677d887 .elementor-heading-title a,
-.elementor-element-2677d887 .elementor-widget-text-editor,
-.elementor-element-2677d887 .elementor-widget-text-editor p,
-.elementor-element-2677d887 .elementor-widget-text-editor a,
-.elementor-element-4ded758c .elementor-heading-title,
-.elementor-element-4ded758c .elementor-heading-title a,
-.elementor-element-4ded758c .elementor-widget-text-editor,
-.elementor-element-4ded758c .elementor-widget-text-editor p,
-.elementor-element-4ded758c .elementor-widget-text-editor a,
-.elementor-element-ab0da16 .elementor-heading-title,
-.elementor-element-25897e69 .elementor-heading-title,
-.elementor-element-63ddfeef .elementor-heading-title,
-.elementor-element-7f45487d .elementor-heading-title,
-.elementor-element-7f45487d .elementor-heading-title a,
-.elementor-element-7f45487d .elementor-widget-text-editor,
-.elementor-element-7f45487d .elementor-widget-text-editor p,
-.elementor-element-7f45487d .elementor-widget-text-editor a,
-.elementor-element-26a5d654 .elementor-heading-title {
+.elementor .elementor-element.elementor-element-da35e5d :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
+.elementor .elementor-element.elementor-element-da35e5d .elementor-heading-title,
+.elementor .elementor-element.elementor-element-da35e5d .elementor-widget-text-editor,
+.elementor .elementor-element.elementor-element-d5f190c :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
+.elementor .elementor-element.elementor-element-d5f190c .elementor-heading-title,
+.elementor .elementor-element.elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor .elementor-element.elementor-element-2677d887 :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
+.elementor .elementor-element.elementor-element-2677d887 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-2677d887 .elementor-widget-text-editor,
+.elementor .elementor-element.elementor-element-7f45487d :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
+.elementor .elementor-element.elementor-element-7f45487d .elementor-heading-title,
+.elementor .elementor-element.elementor-element-7f45487d .elementor-widget-text-editor,
+.elementor .elementor-element.elementor-element-4ded758c :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
+.elementor .elementor-element.elementor-element-4ded758c .elementor-heading-title,
+.elementor .elementor-element.elementor-element-4ded758c .elementor-widget-text-editor,
+.elementor .elementor-element.elementor-element-fb28a94 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-e5beba9 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-e5beba9 .elementor-heading-title a,
+.elementor .elementor-element.elementor-element-ab0da16 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-25897e69 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-63ddfeef .elementor-heading-title,
+.elementor .elementor-element.elementor-element-26a5d654 .elementor-heading-title,
+.elementor .elementor-element.elementor-element-2d80ec4,
+.elementor .elementor-element.elementor-element-2d80ec4 p,
+.elementor .elementor-element.elementor-element-2a33e508,
+.elementor .elementor-element.elementor-element-2a33e508 p,
+.elementor .elementor-element.elementor-element-622cfd70,
+.elementor .elementor-element.elementor-element-622cfd70 p {
   color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Freezone/service heroes: keep BG cover like live Elementor */
+.elementor .elementor-element.elementor-element-da35e5d,
+.elementor .elementor-element.elementor-element-d5f190c,
+.elementor .elementor-element.elementor-element-2677d887,
+.elementor .elementor-element.elementor-element-7f45487d,
+.elementor .elementor-element.elementor-element-4ded758c {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Keep hero CTA buttons readable (light fill + navy label, as designed) */
+.elementor .elementor-element.elementor-element-da35e5d .elementor-button,
+.elementor .elementor-element.elementor-element-d5f190c .elementor-button,
+.elementor .elementor-element.elementor-element-2677d887 .elementor-button,
+.elementor .elementor-element.elementor-element-7f45487d .elementor-button,
+.elementor .elementor-element.elementor-element-4ded758c .elementor-button {
+  -webkit-text-fill-color: unset;
+}
+
+.elementor .elementor-element.elementor-element-da35e5d .elementor-button-text,
+.elementor .elementor-element.elementor-element-d5f190c .elementor-button-text,
+.elementor .elementor-element.elementor-element-2677d887 .elementor-button-text,
+.elementor .elementor-element.elementor-element-7f45487d .elementor-button-text,
+.elementor .elementor-element.elementor-element-4ded758c .elementor-button-text {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/*
+  Freezone FACILITIES column: map/skyline BG overlaps heading + CTA.
+  Drop the left-side image; keep FACILITIES label, headline, and Let's Talk.
+*/
+.elementor .elementor-element.elementor-element-b42c605,
+.elementor .elementor-element.elementor-element-b42c605 > .elementor-widget-wrap,
+.elementor .elementor-element.elementor-element-b42c605 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.elementor .elementor-element.elementor-element-b42c605:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap {
+  background-image: none !important;
+  background: transparent !important;
 }
