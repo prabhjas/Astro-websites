@@ -6,6 +6,8 @@
  */
 export const prerender = false;
 
+import { RUNTIME_GTM_LOADER_SCRIPT } from '../lib/gtm/inject.ts';
+
 Astro.response.status = 404;
 Astro.response.statusText = 'Not Found';
 ---
@@ -32,7 +34,12 @@ Astro.response.statusText = 'Not Found';
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    <script
+      is:inline
+      data-runtime-gtm="1"
+      data-runtime-gtm-loader="delayed"
+      set:html={RUNTIME_GTM_LOADER_SCRIPT}
+    ></script>
     <style>
       :root {
         --ink: #0b092d;
