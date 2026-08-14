@@ -44,7 +44,7 @@ export const RUNTIME_GTM_LOADER_SCRIPT = `(() => {
     load(event && event.type ? event.type : 'interaction');
   }
 
-  const interactionEvents = ['pointerdown', 'keydown', 'touchstart', 'focusin'];
+  const interactionEvents = ['pointerdown', 'keydown', 'touchstart'];
   interactionEvents.forEach((eventName) => {
     try {
       window.addEventListener(eventName, onInteraction, { capture: true, passive: true, once: true });
