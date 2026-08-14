@@ -1,9 +1,11 @@
 import node from '@astrojs/node';
 import { defineConfig } from 'astro/config';
 
-const siteUrl = (process.env.PUBLIC_SITE_URL || 'https://www.connectresourcesint.com')
-  .trim()
-  .replace(/\/$/, '');
+// The fleet registry uses the apex host as its stable service identity, while
+// Caddy redirects that host to the public www canonical. Keep generated SEO
+// URLs on the public canonical even though the isolated builder supplies the
+// registry host through PUBLIC_SITE_URL.
+const siteUrl = 'https://www.connectresourcesint.com';
 
 export default defineConfig({
   site: siteUrl,

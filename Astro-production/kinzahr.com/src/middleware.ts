@@ -2,13 +2,17 @@ import './cms';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { defineMiddleware } from 'astro:middleware';
-import { getServerEnv } from './env/server';
+import { getServerEnv, resolveInternalAdminDir } from './env/server';
 import { logInfo } from './services/logger';
-import { readRuntimeRedirects, readCanonicalRedirectsYaml, recordRedirectHit } from './lib/runtime-redirects/store';
+import { readRuntimeRedirects, readCanonicalRedirectsYaml, recordRedirectHit, type RuntimeRedirectRule } from './lib/runtime-redirects/store';
 
 function normalisePath(pathname: string): string {
   if (!pathname || pathname === '/') return '/';
   return pathname.endsWith('/') ? pathname : `${pathname}/`;
+}
+
+function canFrontendRedirectTarget(target: string): boolean {
+  return target.startsWith('/') && !target.startsWith('//') && !target.includes('\\');
 }
 
 function shouldAccessLog(pathname: string): boolean {
@@ -61,19 +65,43 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    const canonical = readCanonicalRedirectsYaml(process.cwd());
+    let internalAdminDir: string | null = null;
+    let hasTrustedEnv = false;
+    let runtime: RuntimeRedirectRule[] = [];
+
     try {
       const env = getServerEnv();
-      const runtime = await readRuntimeRedirects(env.internalAdminDir);
-      const canonical = readCanonicalRedirectsYaml(process.cwd());
-      const all = [...canonical, ...runtime];
-      const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
-      if (match) {
-        await recordRedirectHit(env.internalAdminDir, match.from);
-        const status = (match.status || 301) as 301 | 302 | 303 | 307 | 308;
-        return context.redirect(match.to, status);
-      }
+      internalAdminDir = env.internalAdminDir;
+      hasTrustedEnv = true;
     } catch {
-      // Missing env / redirect store should never break public pages
+      // Secretless frontend has no backend/Pipedrive env; repo YAML still applies below.
+      try {
+        internalAdminDir = resolveInternalAdminDir();
+      } catch {
+        internalAdminDir = null;
+      }
+    }
+
+    if (internalAdminDir) {
+      runtime = await readRuntimeRedirects(internalAdminDir);
+    }
+
+    const all = [...canonical, ...runtime];
+    const match = all.find((rule) => {
+      if (!hasTrustedEnv && !canFrontendRedirectTarget(String(rule.to || ''))) return false;
+      return normalisePath(rule.from) === normalisePath(pathname);
+    });
+    if (match) {
+      if (internalAdminDir) {
+        try {
+          await recordRedirectHit(internalAdminDir, match.from);
+        } catch {
+          // Secretless frontend is read-only; redirect stats are best-effort.
+        }
+      }
+      const status = (match.status || 301) as 301 | 302 | 303 | 307 | 308;
+      return context.redirect(match.to, status);
     }
 
     // Before hitting static 404 for missing WP thumbnails, try full-size upload.

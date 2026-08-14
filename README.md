@@ -265,6 +265,7 @@ Details for Aaron / FLOW: see [docs/CONNECT-ASTRO-NEW-SITE-PLAYBOOK.md](docs/CON
 - Validation, honeypot, **5 req / 60s / IP** rate limit, attribution (UTM/gclid/…).
 - Phone: CBSS uses intl-tel + `/api/geo`; Iberia plain tel.
 - Lead path: **file store + Pipedrive only** — do **not** configure SMTP / `FORM_NOTIFICATION_*`.
+- Pipedrive “User Landed On” is sourced from `landingPageUrl` (first landing page/session URL), not `referrerUrl` — verified in source on 2026-08-13 UTC.
 - `astro.config` `security.allowedDomains` for apex + www.
 - Unknown URLs → **404** (not prepare:page 503).
 - Prod binary: `astro build` → `node ./dist/server/entry.mjs` — never `astro dev` in production.

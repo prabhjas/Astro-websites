@@ -31,7 +31,7 @@ export const ATTRIBUTION_PRIMARY_KEYS = [
 export type AttributionKey = (typeof ATTRIBUTION_PRIMARY_KEYS)[number];
 
 export const ATTRIBUTION_KEY_ALIASES: Record<AttributionKey, string[]> = {
-  gclid: ['gclid'],
+  gclid: ['gclid', 'gbraid', 'wbraid'],
   gbraid: ['gbraid'],
   wbraid: ['wbraid'],
   fbclid: ['fbclid'],
@@ -46,8 +46,8 @@ export const ATTRIBUTION_KEY_ALIASES: Record<AttributionKey, string[]> = {
   group_id: ['group_id', 'groupid', 'groupId'],
   creative_id: ['creative_id', 'creativeid', 'creative', 'creativeId'],
   keyword: ['keyword', 'kw', 'q', 'utm_term'],
-  matchtype: ['matchtype'],
-  device: ['device'],
+  matchtype: ['matchtype', 'match_type'],
+  device: ['device', 'utm_device'],
   network: ['network'],
   placement: ['placement', 'displayad'],
   target: ['target', 'targetid', 'target_id', 'targetId'],
@@ -55,7 +55,7 @@ export const ATTRIBUTION_KEY_ALIASES: Record<AttributionKey, string[]> = {
   loc_physical_ms: ['loc_physical_ms', 'locphysicalms', 'locPhysicalMs'],
   loc_interest_ms: ['loc_interest_ms', 'locinterestms', 'locInterestMs'],
   gad_source: ['gad_source', 'gadsource'],
-  source: ['source'],
+  source: ['source', 'gad_source', 'gadsource'],
 };
 
 export type AttributionValues = Partial<Record<AttributionKey, string>> & {

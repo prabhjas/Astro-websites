@@ -17,6 +17,12 @@ export type RedirectStatRecord = {
   lastAccessAt?: string;
 };
 
+type RedirectYamlRow = {
+  from?: unknown;
+  to?: unknown;
+  status?: unknown;
+};
+
 function runtimePath(rootDir: string): string {
   return join(rootDir, 'redirects.json');
 }
@@ -90,10 +96,10 @@ export async function persistManagedRedirects(
 export function readCanonicalRedirectsYaml(projectRoot: string): RuntimeRedirectRule[] {
   try {
     const yamlPath = join(projectRoot, 'src/data/redirects.yml');
-    const parsed = parse(readFileSync(yamlPath, 'utf8')) ?? {};
-    const list = Array.isArray(parsed.redirects) ? parsed.redirects : [];
+    const parsed = (parse(readFileSync(yamlPath, 'utf8')) ?? {}) as { redirects?: RedirectYamlRow[] };
+    const list: RedirectYamlRow[] = Array.isArray(parsed.redirects) ? parsed.redirects : [];
     return list
-      .filter((row) => row?.from && row?.to)
+      .filter((row): row is RedirectYamlRow & { from: unknown; to: unknown } => Boolean(row?.from && row?.to))
       .map((row) => ({
         from: String(row.from),
         to: String(row.to),
@@ -221,7 +227,7 @@ export function parseRankMathRedirectImport(content: string): RuntimeRedirectRul
   }
 
   const parsed = JSON.parse(trimmed) as Record<string, unknown> | unknown[];
-  const candidates = Array.isArray(parsed)
+  const candidates: unknown[] = Array.isArray(parsed)
     ? parsed
     : Array.isArray((parsed as any).redirects)
       ? (parsed as any).redirects
@@ -232,7 +238,7 @@ export function parseRankMathRedirectImport(content: string): RuntimeRedirectRul
           : [];
 
   return candidates
-    .map((row) => {
+    .map((row): RuntimeRedirectRule | null => {
       const entry = row as Record<string, unknown>;
       const sources = entry.sources;
       const sourceFromArray =
