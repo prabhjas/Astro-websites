@@ -66,7 +66,48 @@ body:not(.home) .elementor-4177 .e-n-menu-toggle .e-font-icon-svg {
   color: #000000;
 }
 
-/* Mobile nav styles live in /css/eor-mobile-nav.css */
+/*
+  Mobile mega menu: Elementor export sets --n-menu-dropdown-indicator-space:300px
+  below 767px. That value is used as flex gap on .e-n-menu-title, so the chevron
+  wraps and leaves a ~300px empty band under Services (About clipped off-screen).
+*/
+@media (max-width: 767px) {
+  .elementor-4177 .elementor-element.elementor-element-a3fe7ea {
+    --n-menu-dropdown-indicator-space: 8px;
+  }
+
+  .elementor-4177 .elementor-element-a3fe7ea .e-n-menu-title {
+    flex-wrap: nowrap !important;
+    gap: var(--n-menu-dropdown-indicator-space, 8px) !important;
+  }
+}
+
+/* Mobile mega-menu accordion: keep submenu in-flow when open */
+@media (max-width: 1024px) {
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content > .e-con.e-active {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-block-start: 8px !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu-wrapper {
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+  }
+
+  .elementor-widget-n-menu .e-n-menu-title-container:not(a) {
+    cursor: pointer;
+  }
+}
 
 .elementor img {
   height: auto;

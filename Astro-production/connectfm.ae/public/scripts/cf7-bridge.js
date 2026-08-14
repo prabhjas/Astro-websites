@@ -1,4 +1,6 @@
 (() => {
+  console.log("Form Tracking Loaded ✅");
+
   const endpoint =
     window.__SP_CONTACT_ENDPOINT__ ||
     document.querySelector('meta[name="sp-contact-endpoint"]')?.getAttribute("content") ||
@@ -296,6 +298,50 @@
     );
   }
 
+  function fieldValue(form, selector) {
+    const el = form.querySelector(selector);
+    return el ? String(el.value || "").trim() : "";
+  }
+
+  /** GTM / dataLayer lead event — matches legacy #leadForm payload + CF7 ids */
+  function pushFormSubmissionLead({ name, email, phone, formId, submissionId, formName }) {
+    window.dataLayer = window.dataLayer || [];
+    const payload = {
+      event: "form_submission_lead",
+      name: name || "",
+      email: email || "",
+      phone_number: phone || "",
+      form_id: formId || "",
+      form_name: formName || "",
+      submission_id: submissionId || "",
+      status: "mail_sent",
+    };
+    window.dataLayer.push(payload);
+    console.log("Form Tracking — DataLayer Pushed ✅", payload);
+  }
+
+  function dispatchCf7MailSent(form, { name, email, phone, formId, submissionId }) {
+    try {
+      const unit = form.closest(".wpcf7");
+      const detail = {
+        contactFormId: formId || form.querySelector("[name='_wpcf7']")?.value || "",
+        unitTag: form.querySelector("[name='_wpcf7_unit_tag']")?.value || unit?.id || "",
+        status: "mail_sent",
+        inputs: [
+          { name: "your-name", value: name || "" },
+          { name: "name", value: name || "" },
+          { name: "your-email", value: email || "" },
+          { name: "your-phone", value: phone || "" },
+          { name: "submission_id", value: submissionId || "" },
+        ],
+      };
+      document.dispatchEvent(new CustomEvent("wpcf7mailsent", { bubbles: true, detail }));
+      form.dispatchEvent(new CustomEvent("wpcf7mailsent", { bubbles: true, detail }));
+    } catch {
+      /* ignore */
+    }
+  }
+
   function sanitizeNameInput(el) {
     if (!(el instanceof HTMLInputElement)) return;
     const cleaned = el.value
@@ -450,6 +496,16 @@
         if (!fd.get("submission_id")) fd.set("submission_id", crypto.randomUUID());
         if (!fd.get("submitted_at")) fd.set("submitted_at", new Date().toISOString());
 
+        const leadName = fieldValue(form, NAME_SEL);
+        const leadEmail = fieldValue(form, EMAIL_SEL);
+        const leadPhone = result.phone || getPhoneValue(form);
+        const leadFormId =
+          form.querySelector("[name='_wpcf7']")?.value ||
+          form.closest("[data-wpcf7-id]")?.getAttribute("data-wpcf7-id") ||
+          "";
+        const leadSubmissionId = String(fd.get("submission_id") || "");
+        const leadFormName = String(fd.get("form_name") || detectFormName(form));
+
         const payload = {};
         const arrays = {};
         fd.forEach((value, key) => {
@@ -509,6 +565,23 @@
           } catch (e) {}
 
           const isAmcWizard = Boolean(form.querySelector(".form-main .cf7-step"));
+
+          pushFormSubmissionLead({
+            name: leadName,
+            email: leadEmail,
+            phone: leadPhone,
+            formId: leadFormId,
+            submissionId: data.submissionId || leadSubmissionId,
+            formName: leadFormName,
+          });
+          dispatchCf7MailSent(form, {
+            name: leadName,
+            email: leadEmail,
+            phone: leadPhone,
+            formId: leadFormId,
+            submissionId: data.submissionId || leadSubmissionId,
+          });
+
           if (!isAmcWizard) {
             clearLegacyFormFields(form);
           }
@@ -564,7 +637,9 @@
         el.setAttribute("aria-hidden", "true");
       }
     });
-    document.querySelectorAll("form.wpcf7-form, .wpcf7 form, form[data-sp-contact-form]").forEach(wireForm);
+    document
+      .querySelectorAll("form.wpcf7-form, .wpcf7 form, form[data-sp-contact-form], form#leadForm")
+      .forEach(wireForm);
   }
 
   if (document.readyState === "loading") {
