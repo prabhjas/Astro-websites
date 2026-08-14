@@ -786,3 +786,40 @@ div.wpcf7-response-output.sp-status-visible,
   }
 }
 
+/* Homepage — client testimonials: one card at a time on mobile */
+@media (max-width: 767px) {
+  .elementor-element.elementor-element-ddba3f9 .swiper-slide {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+}
+
+/* Homepage — trust cards: stack full width on mobile; 4-col carousel on desktop */
+@media (max-width: 767px) {
+  .elementor-element.elementor-element-238453b .elementor-main-swiper,
+  .elementor-element.elementor-element-238453b .elementor-swiper {
+    overflow: visible;
+  }
+
+  .elementor-element.elementor-element-238453b .swiper-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    transform: none !important;
+    height: auto !important;
+    gap: 16px;
+  }
+
+  .elementor-element.elementor-element-238453b .swiper-slide {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  .elementor-element.elementor-element-238453b .elementor-swiper-button-prev,
+  .elementor-element.elementor-element-238453b .elementor-swiper-button-next,
+  .elementor-element.elementor-element-238453b .swiper-pagination {
+    display: none !important;
+  }
+}
+
