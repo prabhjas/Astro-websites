@@ -2770,7 +2770,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(buildContactFormPayload(form)),

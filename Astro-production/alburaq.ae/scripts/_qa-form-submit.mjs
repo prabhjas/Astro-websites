@@ -10,12 +10,12 @@ for (const [url, label] of pages) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const apiCalls = [];
   page.on('request', (req) => {
-    if (req.url().includes('/api/contact')) {
+    if (req.url().includes('/api/contact/')) {
       apiCalls.push({ method: req.method(), url: req.url(), post: req.postData()?.slice(0, 200) });
     }
   });
   page.on('response', async (res) => {
-    if (res.url().includes('/api/contact')) {
+    if (res.url().includes('/api/contact/')) {
       const text = await res.text().catch(() => '');
       apiCalls.push({ status: res.status(), body: text.slice(0, 300) });
     }

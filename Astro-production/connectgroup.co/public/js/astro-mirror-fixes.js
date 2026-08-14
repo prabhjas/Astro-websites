@@ -1949,7 +1949,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: buildContactFormData(form),
