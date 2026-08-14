@@ -7,6 +7,7 @@ import { getServerEnv } from '../../env/server';
 import { logFormFailure } from '../../services/logger';
 import { getClientIp, isRateLimited } from '../../utils/form/rate-limit';
 import { maskSensitiveValue } from '../../utils/form/mask';
+import { replayRequestWithBody } from '@connect/site-cms/http/request-body';
 import { parseContactFormBody } from '../../utils/form/parse-contact-body';
 import { readRequestBodyLimited } from '../../utils/form/read-body-limited';
 import { validateContactForm, type ContactFormInput } from '../../utils/form/validate';
@@ -97,10 +98,11 @@ export const POST: APIRoute = async ({ request }) => {
         413,
       );
     }
-    const bodyText = new TextDecoder('utf-8').decode(limited.bytes);
+    // Replay after size-limited read so multipart FormData (browser CF7 posts) still parses.
+    const parsedRequest = replayRequestWithBody(request, limited.bytes);
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
-      const json = (bodyText ? JSON.parse(bodyText) : {}) as Record<string, unknown>;
+      const json = (await parsedRequest.json()) as Record<string, unknown>;
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
       for (const [key, value] of Object.entries(json || {})) {
@@ -112,19 +114,18 @@ export const POST: APIRoute = async ({ request }) => {
       }
       input = parseContactFormBody(raw, arrays);
     } else {
-      const params = new URLSearchParams(bodyText);
+      const formData = await parsedRequest.formData();
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
-      for (const key of new Set(params.keys())) {
-        const values = params.getAll(key);
+      formData.forEach((value, key) => {
         if (key.endsWith('[]')) {
           const arrayKey = key.slice(0, -2);
-          arrays[arrayKey] = values.map(String);
-          continue;
+          if (!arrays[arrayKey]) arrays[arrayKey] = [];
+          arrays[arrayKey].push(String(value));
+          return;
         }
-        if (values.length > 1) arrays[key] = values.map(String);
-        raw[key] = values[0] ?? '';
-      }
+        raw[key] = value;
+      });
       input = parseContactFormBody(raw, arrays);
     }
   } catch {
