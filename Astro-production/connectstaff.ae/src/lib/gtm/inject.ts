@@ -56,13 +56,6 @@ export const RUNTIME_GTM_LOADER_SCRIPT = `(() => {
   });
   document.addEventListener('submit', onInteraction, true);
 
-  function schedulePostLoad() {
-    window.setTimeout(() => load('post-load-delay'), 8000);
-  }
-
-  if (document.readyState === 'complete') schedulePostLoad();
-  else window.addEventListener('load', schedulePostLoad, { once: true });
-
   window.__loadRuntimeGtm = load;
 })();`;
 
