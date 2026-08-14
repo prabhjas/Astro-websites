@@ -36,7 +36,8 @@ Do **not** use headless WordPress for Elementor pages — layout is not in the A
 Verified 2026-08-14: `src/lib/legacy-page.js` applies a homepage-only first-paint
 canary to the legacy mirror. It preloads the first above-fold staff carousel
 images, injects a small critical CSS shim for the header/hero/carousel path, and
-defers only the two largest legacy CSS blockers while preserving noscript fallbacks.
+defers active homepage stylesheet links outside `noscript` while preserving
+noscript fallbacks.
 
 ## Forms & Pipedrive
 
