@@ -28,4 +28,22 @@ node scripts/migrate-posts-from-legacy.mjs
 node scripts/_fetch-all-elementor-chunks.mjs
 ```
 
+## Legacy performance optimizer
+
+Verification date: 2026-08-14 UTC.
+
+Cleaned legacy pages are post-processed by `scripts/lib/legacy-performance-optimizer.mjs`.
+The optimizer is wired into `scripts/prepare-page.mjs` and can also be run across the existing
+cleaned HTML files:
+
+```bash
+pnpm --filter snapsale-ae-astro run optimize:legacy
+```
+
+The optimizer is presentation-only. It removes obsolete WP Rocket runtime and dead Rocket
+annotations, recovers responsive image attributes only when every local candidate exists,
+promotes blank lazy iframes such as the contact-page Google Map, and normalizes image loading
+priority. It must not change API routes, Pipedrive/contact handling, GTM runtime, crawler policy,
+environment files, secrets, or production data.
+
 See `AGENTS.md` and `docs/00-NEW-SITE-MASTER.md` at the monorepo root.

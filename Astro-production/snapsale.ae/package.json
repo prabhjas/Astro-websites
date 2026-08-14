@@ -35,6 +35,7 @@
     "sync:blog-order": "node scripts/sync-wp-blog-order.mjs",
     "prepare:blog-shell": "node scripts/prepare-blog-shell.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
+    "optimize:legacy": "node scripts/optimize-legacy-pages.mjs",
     "chrome:extract": "node scripts/extract-chrome.mjs",
     "qa:final": "node scripts/final-qa.mjs",
     "qa:final:ui": "node scripts/final-qa-ui.mjs"

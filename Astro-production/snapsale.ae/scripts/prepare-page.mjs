@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile, access, readdir } from 'node:fs/promises';
 import { dirname, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { optimizeLegacyPerformanceHtml } from './lib/legacy-performance-optimizer.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -608,7 +609,10 @@ async function main() {
     console.log('Skipping download (pass --download to fetch assets into public/)');
   }
 
-  html = optimizeFontLoading(rewriteOriginUrls(html));
+  html = optimizeLegacyPerformanceHtml(optimizeFontLoading(rewriteOriginUrls(html)), {
+    slug,
+    publicRoot: PUBLIC_ASSETS,
+  });
   await mkdir(dirname(OUT_HTML), { recursive: true });
   await writeFile(OUT_HTML, html, 'utf8');
   console.log(`Wrote ${OUT_HTML}`);
