@@ -6,7 +6,8 @@
 	font-family: 'SF Pro Display';
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
-	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
+	font-display: swap;
+	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2') format('woff2'),
+	url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
 }
 /* End Custom Fonts CSS */

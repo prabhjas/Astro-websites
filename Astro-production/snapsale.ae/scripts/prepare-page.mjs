@@ -26,6 +26,9 @@ const ORIGIN_ALIASES = [
   'http://snapsale.ae',
   'http://www.snapsale.ae',
 ];
+const SF_FONT_WOFF = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff';
+const SF_FONT_WOFF2 = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2';
+const SF_FONT_PRELOAD = `<link rel="preload" as="font" href="${SF_FONT_WOFF2}" type="font/woff2" crossorigin>`;
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
 const slug = args.find((a) => !a.startsWith('--'));
@@ -60,6 +63,42 @@ function stripHardcodedAnalytics(html) {
       /<script[^>]*>\s*function gtag\(\)[\s\S]*?gtag\(\s*['"]config['"][\s\S]*?<\/script>\s*/gi,
       '',
     );
+}
+
+function optimizeFontAssetText(text) {
+  return text
+    .replace(/font-display:\s*auto\s*;/gi, 'font-display: swap;')
+    .replace(
+      /src:\s*url\((['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\1\)\s*format\((['"])woff\2\)\s*;/gi,
+      `src: url('${SF_FONT_WOFF2}') format('woff2'),\n\turl('${SF_FONT_WOFF}') format('woff');`,
+    );
+}
+
+function hasFontLoadingDebt(text) {
+  return (
+    /font-display:\s*auto\s*;/i.test(text) ||
+    /src:\s*url\((['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\1\)\s*format\((['"])woff\2\)\s*;/i.test(text)
+  );
+}
+
+const SF_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold-snapsale-subset\.woff2\3)[^>]*>/i;
+const LEGACY_SF_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\3)[^>]*>\s*/gi;
+const ROBOTO_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/elementor\/google-fonts\/fonts\/roboto-[^"']+\.woff2\3)[^>]*>\s*/gi;
+
+function ensureSfFontPreload(html) {
+  let out = html.replace(LEGACY_SF_FONT_PRELOAD_RE, '').replace(ROBOTO_FONT_PRELOAD_RE, '');
+  if (SF_FONT_PRELOAD_RE.test(out)) return out;
+  if (/<meta\s+name=(['"])viewport\1[^>]*>/i.test(out)) {
+    return out.replace(/(<meta\s+name=(['"])viewport\2[^>]*>\s*)/i, `$1\n${SF_FONT_PRELOAD}\n`);
+  }
+  return out.replace(/<head([^>]*)>/i, `<head$1>\n${SF_FONT_PRELOAD}`);
+}
+
+function optimizeFontLoading(html) {
+  return ensureSfFontPreload(optimizeFontAssetText(html));
 }
 
 function shouldLocalize(url) {
@@ -437,9 +476,10 @@ async function localizePublicAssets() {
 
   for (const file of files) {
     const raw = await readFile(file, 'utf8');
-    if (!/snapsale\.ae/.test(raw)) continue;
-    for (const u of collectUrls(raw)) nested.add(u);
-    const next = rewriteOriginUrls(raw);
+    const hasOriginUrls = /snapsale\.ae/.test(raw);
+    if (!hasOriginUrls && !hasFontLoadingDebt(raw)) continue;
+    if (hasOriginUrls) for (const u of collectUrls(raw)) nested.add(u);
+    const next = optimizeFontAssetText(rewriteOriginUrls(raw));
     if (next !== raw) {
       await writeFile(file, next, 'utf8');
       rewrittenFiles++;
@@ -459,9 +499,10 @@ async function localizePublicAssets() {
     const more = new Set();
     for (const file of files2) {
       const raw = await readFile(file, 'utf8');
-      if (!/snapsale\.ae/.test(raw)) continue;
-      for (const u of collectUrls(raw)) more.add(u);
-      const next = rewriteOriginUrls(raw);
+      const hasOriginUrls = /snapsale\.ae/.test(raw);
+      if (!hasOriginUrls && !hasFontLoadingDebt(raw)) continue;
+      if (hasOriginUrls) for (const u of collectUrls(raw)) more.add(u);
+      const next = optimizeFontAssetText(rewriteOriginUrls(raw));
       if (next !== raw) await writeFile(file, next, 'utf8');
     }
     if (more.size) {
@@ -471,8 +512,8 @@ async function localizePublicAssets() {
       );
       for (const file of files2) {
         const raw = await readFile(file, 'utf8');
-        if (!/snapsale\.ae/.test(raw)) continue;
-        await writeFile(file, rewriteOriginUrls(raw), 'utf8');
+        if (!/snapsale\.ae/.test(raw) && !hasFontLoadingDebt(raw)) continue;
+        await writeFile(file, optimizeFontAssetText(rewriteOriginUrls(raw)), 'utf8');
       }
     }
   }
@@ -506,7 +547,7 @@ async function main() {
     console.log('Skipping download (pass --download to fetch assets into public/)');
   }
 
-  html = rewriteOriginUrls(html);
+  html = optimizeFontLoading(rewriteOriginUrls(html));
   await mkdir(dirname(OUT_HTML), { recursive: true });
   await writeFile(OUT_HTML, html, 'utf8');
   console.log(`Wrote ${OUT_HTML}`);

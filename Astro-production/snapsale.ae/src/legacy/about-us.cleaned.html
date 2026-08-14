@@ -3,10 +3,12 @@
 <head>
 <!-- Prepared for Astro Phase 1 Â· about-us Â· 2026-08-10T08:52:48.167Z --><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
 </script>
-	
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="profile" href="https://gmpg.org/xfn/11">
-	
+
+<link rel="preload" as="font" href="/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2" type="font/woff2" crossorigin>
+<link rel="profile" href="https://gmpg.org/xfn/11">
+
 <!-- Search Engine Optimization by Rank Math PRO - https://rankmath.com/ -->
 <title>About Us | Snapsale UAE</title>
 <link data-rocket-preload as="style" data-wpr-hosted-gf-parameters="family=Roboto%3A300%2C400%2C300%2C400&display=swap" href="/wp-content/cache/fonts/1/google-fonts/css/f/8/1/3c94dab8bd387f7f9d6040a055328.css" rel="preload">
@@ -89,8 +91,9 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 	font-family: 'SF Pro Display';
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
-	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
+	font-display: swap;
+	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2') format('woff2'),
+	url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
 }
 
 /*# sourceURL=elementor-pro-custom-fonts-inline-css */
@@ -413,7 +416,7 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 .label_ln {
     width: 100% !important;
     display: inline-flex;
-} 
+}
 }
 </style>
 <noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><meta name="generator" content="WP Rocket 3.21.1" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_lazyload_images wpr_lazyload_iframes wpr_minify_css wpr_host_fonts_locally wpr_desktop" /></head>
@@ -612,19 +615,19 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<div class="elementor-widget-container">
 							<div class="elementor-icon-box-wrapper">
 
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							Anna Tutova						</span>
 					</h3>
-				
+
 									<p class="elementor-icon-box-description">
 						Head of Operations					</p>
-				
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -675,19 +678,19 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<div class="elementor-widget-container">
 							<div class="elementor-icon-box-wrapper">
 
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							Omar Essam						</span>
 					</h3>
-				
+
 									<p class="elementor-icon-box-description">
 						Senior Property Advisor 					</p>
-				
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -738,19 +741,19 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<div class="elementor-widget-container">
 							<div class="elementor-icon-box-wrapper">
 
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							Syed Ali Faraz						</span>
 					</h3>
-				
+
 									<p class="elementor-icon-box-description">
 						Real estate Expert					</p>
-				
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -849,17 +852,17 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<span  class="elementor-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" viewBox="0 0 57 57" fill="none"><g clip-path="url(#clip0_256_1884)"><path d="M45.8057 0H11.1942C5.02172 0 0 5.02172 0 11.1942V45.8058C0 51.9783 5.02172 57 11.1942 57H45.8057C51.9783 57 57 51.9783 57 45.8058V11.1942C57 5.02172 51.9783 0 45.8057 0Z" fill="#33B8EB"></path><path d="M28.4999 10.6243L14.5002 16.3106V32.1079C14.5002 35.6258 15.8923 38.4381 18.4187 40.0261L28.4999 46.3757L38.5807 40.0263C41.1079 38.4356 42.4996 35.6235 42.4996 32.1079V16.3106L28.4999 10.6243ZM39.8277 32.1079C39.8277 33.593 39.4808 36.3027 37.157 37.7654L28.4999 43.2181L19.8416 37.7646C17.5189 36.3048 17.1721 33.5938 17.1721 32.1079V18.1092L28.4999 13.5081L39.8277 18.1092V32.1079Z" fill="white"></path><path d="M24.8823 26.6833C24.8823 28.2049 25.8287 29.5089 27.1639 30.0411V33.8005H29.8358V30.0411C31.171 29.5089 32.1173 28.2049 32.1173 26.6833C32.1173 24.6887 30.4945 23.0659 28.4998 23.0659C26.5052 23.0659 24.8823 24.6887 24.8823 26.6833ZM29.4455 26.6833C29.4455 27.203 29.0213 27.6258 28.4998 27.6258C27.9784 27.6258 27.5542 27.203 27.5542 26.6833C27.5542 26.1619 27.9784 25.7378 28.4998 25.7378C29.0213 25.7378 29.4455 26.1619 29.4455 26.6833Z" fill="white"></path></g><defs><clipPath id="clip0_256_1884"><rect width="57" height="57" fill="white"></rect></clipPath></defs></svg>				</span>
 			</div>
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							100%						</span>
 					</h3>
-				
-				
+
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -879,17 +882,17 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<span  class="elementor-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" viewBox="0 0 57 57" fill="none"><rect width="57" height="57" rx="12" fill="#33B8EB"></rect><path d="M41.7764 36.4692V43.9997H26.8005V36.4692" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M34.2883 30.7427L43.5274 37.5795" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M34.2883 30.7427L25.0493 37.5795" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M44.0001 44H41.749" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15.2236 43.9997V36.4692" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M28.5001 35.0261L22.7117 30.7427" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22.7117 30.7427L13.4727 37.5795" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 44H26.8278" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32.3589 43.9358V37.4399H36.2178V43.9358" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M30.9131 16.7944V22.9815C30.9815 22.9932 33.0814 22.9815 33.0814 22.9815" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M36.3521 16.9106V22.8159" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M40.4806 19.9089C40.4806 21.5646 39.5617 22.8747 38.1038 22.9002C37.6185 22.9086 36.3643 22.9134 36.3643 22.9134C36.3643 22.9134 36.3564 20.7368 36.3564 19.9022C36.3564 19.2168 36.3521 16.9043 36.3521 16.9043C36.3521 16.9043 37.4804 16.9043 38.054 16.9043C39.6531 16.9043 40.4806 18.2531 40.4806 19.9089Z" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.3362 17.4495C20.3362 17.4495 19.2251 16.5156 17.9148 16.9103C16.7116 17.2727 16.5434 18.66 17.4138 19.2275C17.4138 19.2275 18.2679 19.6085 19.2153 19.958C21.4957 20.7991 20.5134 23.0053 18.6776 23.0053C17.7583 23.0053 16.9868 22.6027 16.5198 22.0874" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M25.7084 22.9748C24.6455 22.9748 23.7839 22.1132 23.7839 21.0504V18.8278C23.7839 17.7649 24.6456 16.9033 25.7084 16.9033C26.7713 16.9033 27.6328 17.765 27.6328 18.8278V21.0504C27.6328 22.1132 26.7712 22.9748 25.7084 22.9748Z" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M44 13H13V26.8278H23.9989L28.5 30.1722L33.0011 26.8278H44V13Z" stroke="white" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>				</span>
 			</div>
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							4,5k						</span>
 					</h3>
-				
-				
+
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -909,17 +912,17 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<span  class="elementor-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" viewBox="0 0 57 57" fill="none"><rect width="57" height="57" rx="12" fill="#33B8EB"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M14.1071 13C13.496 13 13 13.496 13 14.1071V42.8929C13 43.504 13.496 44 14.1071 44H22.9643C23.5755 44 24.0715 43.504 24.0715 42.8929C24.0715 42.2817 23.5755 41.7857 22.9643 41.7857H15.2143V15.2143H30.256L32.9287 17.8869V20.75C32.9287 21.3611 33.4247 21.8571 34.0358 21.8571C34.647 21.8571 35.143 21.3611 35.143 20.75V17.4286C35.143 17.1352 35.0267 16.8529 34.8186 16.6458L31.4972 13.3244C31.2901 13.1162 31.0078 13 30.7144 13H14.1071ZM18.5357 18.5357C17.9246 18.5357 17.4286 19.0317 17.4286 19.6429C17.4286 20.254 17.9246 20.75 18.5357 20.75H29.6072C30.2184 20.75 30.7144 20.254 30.7144 19.6429C30.7144 19.0317 30.2184 18.5357 29.6072 18.5357H18.5357ZM18.5357 22.9643C17.9246 22.9643 17.4286 23.4603 17.4286 24.0714C17.4286 24.6826 17.9246 25.1786 18.5357 25.1786H29.6072C30.2184 25.1786 30.7144 24.6826 30.7144 24.0714C30.7144 23.4603 30.2184 22.9643 29.6072 22.9643H18.5357ZM34.0358 24.0714C33.7192 24.0714 33.4192 24.2065 33.2099 24.4434L24.3527 34.4077C24.0626 34.7332 23.9896 35.1982 24.1689 35.5968C24.3472 35.9942 24.7424 36.25 25.1786 36.25H26.2858V42.8929C26.2858 43.504 26.7818 44 27.3929 44H31.8215C32.4327 44 32.9287 43.504 32.9287 42.8929V39.5714H35.143V42.8929C35.143 43.504 35.639 44 36.2501 44H40.6787C41.2899 44 41.7859 43.504 41.7859 42.8929V36.25H42.893C43.3293 36.25 43.7245 35.9942 43.9028 35.5968C44.0821 35.1982 44.0091 34.7332 43.719 34.4077L34.8618 24.4434C34.6525 24.2065 34.3525 24.0714 34.0358 24.0714ZM34.0358 26.8459L40.4496 34.059C39.9491 34.1641 39.5716 34.6103 39.5716 35.1429V41.7857H37.3573V38.4643C37.3573 37.8531 36.8613 37.3571 36.2501 37.3571H31.8215C31.2104 37.3571 30.7144 37.8531 30.7144 38.4643V41.7857H28.5001V35.1429C28.5001 34.6103 28.1226 34.1641 27.6221 34.059L34.0358 26.8459ZM18.5357 27.3929C17.9246 27.3929 17.4286 27.8889 17.4286 28.5C17.4286 29.1111 17.9246 29.6071 18.5357 29.6071H26.2858C26.8969 29.6071 27.3929 29.1111 27.3929 28.5C27.3929 27.8889 26.8969 27.3929 26.2858 27.3929H18.5357ZM18.5357 31.8214C17.9246 31.8214 17.4286 32.3174 17.4286 32.9286C17.4286 33.5397 17.9246 34.0357 18.5357 34.0357H21.8572C22.4683 34.0357 22.9643 33.5397 22.9643 32.9286C22.9643 32.3174 22.4683 31.8214 21.8572 31.8214H18.5357ZM18.5357 36.25C17.9246 36.25 17.4286 36.746 17.4286 37.3571C17.4286 37.9683 17.9246 38.4643 18.5357 38.4643H21.8572C22.4683 38.4643 22.9643 37.9683 22.9643 37.3571C22.9643 36.746 22.4683 36.25 21.8572 36.25H18.5357Z" fill="white"></path></svg>				</span>
 			</div>
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							24h						</span>
 					</h3>
-				
-				
+
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -939,17 +942,17 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 				<span  class="elementor-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" viewBox="0 0 57 57" fill="none"><rect width="57" height="57" rx="12" fill="#33B8EB"></rect><path d="M38.6719 36.477L39.8532 37.9282C39.9579 38.0569 40.0948 38.1564 40.2502 38.2175L41.3082 38.6335L40.4094 39.5171C40.2278 39.6956 40.1256 39.9378 40.1256 40.1904V41.3657L39.1707 40.8024C38.8639 40.6214 38.4804 40.6214 38.1736 40.8024L37.219 41.3657V40.1904C37.219 39.9377 37.1168 39.696 36.9355 39.5171L36.0367 38.6335L37.0947 38.2175C37.2498 38.1564 37.3864 38.0569 37.4911 37.9282L38.6719 36.477ZM28.4997 36.477L29.6813 37.9282C29.7857 38.0569 29.9222 38.1564 30.0777 38.2175L31.1354 38.6335L30.2366 39.5171C30.055 39.6956 29.9531 39.9378 29.9528 40.1904V41.3651L28.9983 40.8024C28.6914 40.6217 28.3083 40.6217 28.0014 40.8024L27.0469 41.3651V40.1904C27.0466 39.9377 26.9447 39.6956 26.763 39.5171L25.8643 38.6335L26.922 38.2175C27.0775 38.1564 27.2143 38.0569 27.319 37.9282L28.4997 36.477ZM18.3281 36.477L19.5088 37.9282C19.6135 38.0569 19.7503 38.1564 19.9058 38.2175L20.9638 38.6335L20.0651 39.5171C19.8834 39.6956 19.7812 39.9377 19.7812 40.1904V41.3651L18.8264 40.8024C18.5198 40.6217 18.1367 40.6217 17.8298 40.8024L16.875 41.3651V40.1904C16.875 39.9377 16.7728 39.6956 16.5911 39.5171L15.6925 38.6335L16.7504 38.2175C16.9056 38.1564 17.0424 38.0569 17.1468 37.9282L18.3281 36.477ZM18.3281 34C18.0338 34 17.7554 34.1314 17.5713 34.3575L15.7934 36.5424L13.6089 37.4015C13.3065 37.5205 13.0851 37.7806 13.0198 38.0943C12.9543 38.4077 13.0536 38.7326 13.2838 38.959L14.9375 40.5848V43.0475C14.9378 43.3907 15.1254 43.7069 15.4291 43.8759C15.7328 44.0449 16.1052 44.0405 16.4045 43.8642L18.3281 42.7294L20.2514 43.8641C20.5507 44.0408 20.9234 44.0454 21.2271 43.8765C21.5308 43.7072 21.7187 43.3907 21.7187 43.0475V40.5848L23.3724 38.9591C23.3872 38.9441 23.4018 38.929 23.4157 38.9132C23.4286 38.929 23.4418 38.9442 23.4557 38.9591L25.1094 40.5848V43.0475C25.1094 43.3907 25.2973 43.7073 25.601 43.8762C25.9047 44.0451 26.2774 44.0404 26.5767 43.8641L28.4997 42.7294L30.4236 43.8641C30.7229 44.0405 31.0953 44.0448 31.399 43.8758C31.7024 43.7069 31.8903 43.3907 31.8903 43.0474V40.5847L33.544 38.959C33.5591 38.9441 33.5736 38.9289 33.5875 38.9131C33.6001 38.9289 33.6133 38.9441 33.6272 38.959L35.2809 40.5847V43.0475C35.2809 43.3907 35.4688 43.7073 35.7725 43.8765C36.0762 44.0454 36.4489 44.0408 36.7482 43.8641L38.6719 42.7294L40.5952 43.8641C40.8945 44.0408 41.2672 44.0454 41.5709 43.8762C41.8746 43.7072 42.0625 43.3907 42.0625 43.0475V40.5848L43.7162 38.9591C43.9464 38.7327 44.0457 38.4079 43.9802 38.0942C43.9145 37.7807 43.6932 37.5204 43.3908 37.4015L41.2063 36.5422L39.4284 34.3575C39.2446 34.1318 38.9661 34.0004 38.6719 34.0001C38.3776 34.0001 38.0992 34.1315 37.9154 34.3575L36.1375 36.5425L33.9527 37.4015C33.8121 37.4573 33.6869 37.5451 33.5869 37.6573C33.4867 37.5448 33.3605 37.4573 33.2192 37.4015L31.0344 36.5422L29.2565 34.3575C29.0727 34.1315 28.7942 34.0001 28.4997 34.0001C28.2055 34.0004 27.9273 34.1318 27.7435 34.3575L25.9655 36.5425L23.7808 37.4015C23.6402 37.4573 23.515 37.5451 23.415 37.6577C23.3144 37.5448 23.1886 37.4574 23.047 37.4015L20.862 36.5422L19.0843 34.3575C18.9005 34.1317 18.6224 34.0003 18.3281 34Z" fill="white"></path><path d="M15.9062 14.9512H41.0934C41.6403 14.9512 42.0625 15.3767 42.0625 15.9272V25.6846C42.0625 26.2327 41.64 26.6585 41.0934 26.6585H32.375C32.0981 26.6585 31.8348 26.7776 31.6509 26.9859L28.4997 30.556L25.3487 26.9859C25.1649 26.7776 24.9016 26.6585 24.6247 26.6585H15.9062C15.3597 26.6585 14.9375 26.2333 14.9375 25.6829V15.9272C14.9375 15.3767 15.3597 14.9512 15.9062 14.9512ZM15.9062 13C14.3125 13 13 14.3221 13 15.9272V25.6829C13 27.2876 14.3125 28.6101 15.9062 28.6101H24.1898L27.7756 32.6726C27.9595 32.881 28.2231 33 28.4997 33C28.7766 33 29.0402 32.8809 29.2241 32.6726L32.8099 28.6101H41.0934C42.6872 28.6101 44 27.2886 44 25.6846V15.9272C44 14.3221 42.6872 13 41.0934 13H15.9062Z" fill="white"></path><path d="M18.9546 18C18.7016 18 18.4587 18.1052 18.2797 18.2928C18.1007 18.4803 18 18.7346 18 19C18 19.2654 18.1007 19.5197 18.2797 19.7072C18.4587 19.8948 18.7016 20.0003 18.9546 20H38.0458C38.5728 20 39 19.5523 39 19C39 18.4477 38.5728 18 38.0458 18H18.9546Z" fill="white"></path><path d="M18.9546 22C18.7013 21.9997 18.4587 22.1052 18.2794 22.2927C18.1004 22.4805 17.9997 22.7347 18 23C18 23.2653 18.1007 23.5195 18.2797 23.707C18.4587 23.8945 18.7016 24 18.9546 24H38.0458C38.5728 23.9997 39 23.5521 39 23C39.0003 22.735 38.8996 22.4805 38.7206 22.293C38.5417 22.1055 38.299 22 38.0458 22H18.9546Z" fill="white"></path></svg>				</span>
 			</div>
-			
+
 						<div class="elementor-icon-box-content">
 
 									<h3 class="elementor-icon-box-title">
 						<span  >
 							100%						</span>
 					</h3>
-				
-				
+
+
 			</div>
-			
+
 		</div>
 						</div>
 				</div>
@@ -1362,7 +1365,7 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 					</div>
 				</div>
 				</footer>
-		
+
 <script type="speculationrules">
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hello-elementor-child-theme/*","/wp-content/themes/hello-elementor/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
@@ -1470,7 +1473,7 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 				function render_country_flags(){
 
 					$(".wpcf7-countrytext").countrySelect({
-						
+
 					});
 					$(".wpcf7-phonetext").intlTelInput({
 						autoHideDialCode: true,
@@ -1478,9 +1481,9 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 						nationalMode: false,
 						separateDialCode: true,
 						hiddenInput: "full_number",
-							
+
 					});
-	
+
 					$(".wpcf7-phonetext").each(function () {
 
 						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
@@ -1489,18 +1492,18 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 						//console.log(hiddenInput);
 						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
 					});
-					
+
 					$(".wpcf7-phonetext").on("countrychange", function() {
 						// do something with iti.getSelectedCountryData()
 						//console.log(this.value);
 						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
 						var hiddenInput = $(this).attr("name");
 						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
-						
+
 					});
 						$(".wpcf7-phonetext").on("keyup", function() {
 							var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
-							
+
 							var value   = $(this).val();
 							//console.log(dial_code, value);
 							if(value == "+")
@@ -1514,7 +1517,7 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
 						if(country_name == "")
 						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
-						
+
 						var value   = $(this).val();
 						//console.log(country_name, value);
 						$(this).val(country_name + value.substring(country_name.length));
@@ -1527,7 +1530,7 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 					url: "https://ipinfo.io/json",
 					//url: "https://reallyfreegeoip.org/json/",
 					success: function(response){
-						
+
 						//console.log(response);
 						//var location = JSON.parse(response);
 						console.log(response.country);
@@ -1540,28 +1543,28 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 								autoPlaceholder: true,
 								nationalMode: false,
 								separateDialCode: true,
-								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),	
+								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),
 							});
-							
+
 							$(".wpcf7-phonetext").each(function () {
 								var hiddenInput = $(this).attr('name');
 								//console.log(hiddenInput);
 								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
 								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
 							});
-							
+
 							$(".wpcf7-phonetext").on("countrychange", function() {
 								// do something with iti.getSelectedCountryData()
 								//console.log(this.value);
 								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
 								var hiddenInput = $(this).attr("name");
 								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
-								
+
 							});
-								
+
 								$(".wpcf7-phonetext").on("keyup", function() {
 									var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
-									
+
 									var value   = $(this).val();
 									if(value == "+")
 										$(this).val("");
@@ -1569,12 +1572,12 @@ var nbcpf = {"ajaxurl":"/wp-admin/admin-ajax.php"};
 										$(this).val(dial_code + value);
 									else if(value.indexOf("+") > 0)
 										$(this).val(dial_code + value.substring(dial_code.length));
-								
+
 								});$(".wpcf7-countrytext").on("keyup", function() {
 								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
 								if(country_name == "")
 								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
-								
+
 								var value   = $(this).val();
 								//console.log(country_name, value);
 								$(this).val(country_name + value.substring(country_name.length));
