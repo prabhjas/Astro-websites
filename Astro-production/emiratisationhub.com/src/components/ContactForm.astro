@@ -214,7 +214,7 @@ const { formId = 'contact-lead', formName = 'Emiratisation Hub Contact Form' } =
       for (const [k, v] of new FormData(form)) data[k] = String(v);
 
       try {
-        const res  = await fetch('/api/contact', {
+        const res  = await fetch('/api/contact/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
