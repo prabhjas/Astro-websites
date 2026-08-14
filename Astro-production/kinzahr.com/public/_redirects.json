@@ -73,5 +73,10 @@
     "from": "/services/recruitment-consultancy/",
     "to": "/services/executive-search-firm/",
     "status": 301
+  },
+  {
+    "from": "/permanent-hiring/",
+    "to": "/services/permanent-hiring/",
+    "status": 301
   }
 ]
