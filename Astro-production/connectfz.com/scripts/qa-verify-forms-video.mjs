@@ -13,7 +13,7 @@ async function submitForm(page, path) {
   const msg = form.locator("[name='your-message'], textarea").first();
   if (await msg.count()) await msg.fill("Automated QA submission");
   const [resp] = await Promise.all([
-    page.waitForResponse((r) => r.url().includes("/api/contact"), { timeout: 20000 }).catch(() => null),
+    page.waitForResponse((r) => r.url().includes("/api/contact/"), { timeout: 20000 }).catch(() => null),
     form.locator("button[type=submit], input[type=submit]").first().click(),
   ]);
   let body = null;
