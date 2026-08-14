@@ -249,6 +249,29 @@ export function getSharedServicesMegaLi(headerHtml = getSharedHeaderHtml()) {
 }
 
 /**
+ * Correct legacy navigation values which have no real destination.
+ *
+ * Parent mega-menu items open on hover/click; "#" moves visitors to the top
+ * of the page instead of opening a destination. Services is already a
+ * non-link, so Brands and Our Brands should behave the same way.
+ *
+ * @param {string} html
+ */
+function normalizeMirrorNavigation(html) {
+  let out = html.replaceAll('http://connectresources.ae', 'https://connectresources.ae');
+
+  for (const itemId of ['mega-menu-item-31540', 'mega-menu-item-31582']) {
+    const parentLink = new RegExp(
+      `(<li\\b[^>]*\\bid=["']${itemId}["'][^>]*>\\s*<a\\b[^>]*?)\\s+href=(["'])#\\2`,
+      'i',
+    );
+    out = out.replace(parentLink, '$1');
+  }
+
+  return out;
+}
+
+/**
  * Return the outer HTML of the balanced tag starting at openStart, or ''.
  * @param {string} html
  * @param {number} openStart
@@ -342,8 +365,8 @@ export function applyHomepageServicesMega(html) {
  */
 export function applySharedChrome(html, slug) {
   if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) {
-    if (slug === 'homepage') return applyHomepageServicesMega(html);
-    return html;
+    if (slug === 'homepage') return normalizeMirrorNavigation(applyHomepageServicesMega(html));
+    return normalizeMirrorNavigation(html);
   }
 
   const headerHtml = getSharedHeaderHtml();
@@ -367,5 +390,5 @@ export function applySharedChrome(html, slug) {
     out = replaceBalancedTag(out, footerClass, 'footer', footerHtml);
   }
 
-  return out;
+  return normalizeMirrorNavigation(out);
 }

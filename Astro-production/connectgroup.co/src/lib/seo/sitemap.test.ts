@@ -162,14 +162,13 @@ describe('xml + robots rendering', () => {
   });
 
   it('robots.txt references underscore sitemap_index.xml on resolved domain', () => {
-    const txt = renderRobotsTxt('https://example.com', ['/tag/', '/category/', '/wp-admin/']);
+    const txt = renderRobotsTxt('https://example.com', ['/tag/', '/category/']);
     assert.equal(
       txt,
       [
         'User-agent: *',
         'Disallow: /tag/',
         'Disallow: /category/',
-        'Disallow: /wp-admin/',
         '',
         'Sitemap: https://example.com/sitemap_index.xml',
         '',

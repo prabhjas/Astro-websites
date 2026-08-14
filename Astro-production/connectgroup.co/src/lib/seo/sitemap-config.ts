@@ -8,8 +8,8 @@ export const SITEMAP_ENTRY_LIMIT = Number.parseInt(
   10,
 ) || 100;
 
-/** Paths disallowed for crawlers (mirrors live WordPress robots.txt). */
-export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/', '/wp-admin/'] as const;
+/** Paths disallowed for crawlers. WordPress-only /wp-admin/ does not exist on Astro. */
+export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/'] as const;
 
 /** Static page slugs excluded from the page sitemap (demo / internal). */
 export const EXCLUDED_PAGE_SLUGS = new Set([
