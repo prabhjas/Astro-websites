@@ -143,7 +143,7 @@ await page.fill('input[name="company-name"]', 'QA Co');
 await page.fill('textarea[name="your-message"]', 'Automated LP QA submission — please ignore');
 const [resp] = await Promise.all([
   page
-    .waitForResponse((r) => r.url().includes('/api/contact') && r.request().method() === 'POST', {
+    .waitForResponse((r) => r.url().includes('/api/contact/') && r.request().method() === 'POST', {
       timeout: 20000,
     })
     .catch(() => null),

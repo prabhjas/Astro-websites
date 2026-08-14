@@ -10,7 +10,12 @@ export const SITEMAP_ENTRY_LIMIT = Number.parseInt(
 ) || 50000;
 
 /** Paths disallowed for crawlers (mirrors live WordPress robots.txt). */
-export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/', '/wp-admin/'] as const;
+export const ROBOTS_DISALLOW_PATHS = [
+  '/tag/',
+  '/category/',
+  '/wp-admin/',
+  '/enhanced/',
+] as const;
 
 /** Static page slugs excluded from the page sitemap (demo / internal / paid LPs). */
 export const EXCLUDED_PAGE_SLUGS = new Set([

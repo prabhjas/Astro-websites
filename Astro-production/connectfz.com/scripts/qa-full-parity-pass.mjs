@@ -161,7 +161,7 @@ if (homeForm) {
   await phone.fill("+971501111111");
   await page.locator("form.wpcf7-form textarea, form.wpcf7-form [name='your-message']").first().fill("Home form QA");
   const [resp] = await Promise.all([
-    page.waitForResponse((r) => r.url().includes("/api/contact"), { timeout: 20000 }).catch(() => null),
+    page.waitForResponse((r) => r.url().includes("/api/contact/"), { timeout: 20000 }).catch(() => null),
     page.locator("form.wpcf7-form input[type=submit]").first().click(),
   ]);
   let body = null;

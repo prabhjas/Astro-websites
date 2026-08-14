@@ -39,7 +39,11 @@ const pageCrumbs =
     : [];
 
 const postCrumbs = post
-  ? [homeCrumb, { name: "Blog", href: "/blogs/" }, { name: stripHtml(post.title) }]
+  ? [
+      homeCrumb,
+      { name: "Blog", href: "/blogs/" },
+      { name: stripHtml(post.title), href: undefined as string | undefined },
+    ]
   : [];
 
 const seo =

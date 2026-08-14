@@ -1,4 +1,5 @@
 import { hashEmail, hashNamePart, hashPhone, splitName } from './hash.js';
+import { resolveEnhancedDateRange, type EnhancedDateOverride } from './dates.js';
 import {
   FIELD_DOMAIN_ID,
   FIELD_GCLID,
@@ -7,6 +8,8 @@ import {
   resolveDateWindow,
   type EnhancedJobConfig,
 } from './jobs.js';
+
+export type { EnhancedDateOverride } from './dates.js';
 
 export type EnhancedLead = {
   deal_id: number | string;
@@ -23,6 +26,7 @@ export type EnhancedRunResult = {
   status: number;
   log: string[];
   leadsQueued: number;
+  window?: { start: string; end: string; source: 'default' | 'override' };
   upload?: unknown;
   error?: unknown;
 };
@@ -339,35 +343,6 @@ async function uploadClickConversions(args: {
   return { ok: true, httpCode: res.status, body };
 }
 
-export type EnhancedDateOverride = {
-  start: string;
-  end: string;
-};
-
-function parseIsoDate(value: string): string | null {
-  const s = String(value || '').trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
-  const d = new Date(`${s}T00:00:00Z`);
-  if (Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) return null;
-  return s;
-}
-
-/** Optional YYYY-MM-DD override (query ?start=&end= or env ENHANCED_WINDOW_START/END). */
-export function resolveEnhancedDateRange(
-  job: EnhancedJobConfig,
-  override?: EnhancedDateOverride,
-): { start: string; end: string } {
-  const envStart = parseIsoDate(env('ENHANCED_WINDOW_START'));
-  const envEnd = parseIsoDate(env('ENHANCED_WINDOW_END'));
-  const start = parseIsoDate(override?.start || '') || envStart;
-  const end = parseIsoDate(override?.end || '') || envEnd;
-  if (start && end) {
-    if (start > end) return { start: end, end: start };
-    return { start, end };
-  }
-  return resolveDateWindow(job.dateWindow);
-}
-
 export async function runEnhancedJob(
   fileName: string,
   dateOverride?: EnhancedDateOverride,
@@ -408,9 +383,26 @@ export async function runEnhancedJob(
   }
 
   logLine(log, `Job: ${job.label} (${job.id})`);
-  const { start, end } = resolveEnhancedDateRange(job, dateOverride);
-  if (dateOverride?.start || dateOverride?.end || env('ENHANCED_WINDOW_START') || env('ENHANCED_WINDOW_END')) {
+  const window = resolveEnhancedDateRange(
+    resolveDateWindow(job.dateWindow),
+    dateOverride,
+    env('ENHANCED_WINDOW_START'),
+    env('ENHANCED_WINDOW_END'),
+  );
+  if (window.error) {
+    logLine(log, `[BACKFILL] ${window.error}`);
+    return { ok: false, status: 400, log, leadsQueued: 0, error: window.error };
+  }
+  const { start, end } = window;
+  const windowMeta = { start, end, source: window.source };
+  if (window.source === 'override') {
     logLine(log, `[BACKFILL] Using explicit window override: ${start} to ${end}`);
+  } else {
+    const label =
+      job.dateWindow.kind === 'last_n_days'
+        ? `last ${job.dateWindow.days} days`
+        : `last ${job.dateWindow.months} months`;
+    logLine(log, `[WINDOW] Default ${label}: ${start} to ${end}`);
   }
 
   try {
@@ -437,7 +429,7 @@ export async function runEnhancedJob(
 
     if (!upload.ok) {
       logLine(log, `Error:\n${typeof upload.error === 'string' ? upload.error : JSON.stringify(upload.error, null, 2)}\nHTTP Code: ${upload.httpCode}`);
-      return { ok: false, status: 500, log, leadsQueued: leads.length, upload: upload.body, error: upload.error };
+      return { ok: false, status: 500, log, leadsQueued: leads.length, window: windowMeta, upload: upload.body, error: upload.error };
     }
 
     if (upload.error) {
@@ -448,16 +440,26 @@ export async function runEnhancedJob(
     } else {
       logLine(log, `Conversions uploaded successfully!\n${conversionAction}\nLeads sent: ${leads.length}`);
     }
-    return { ok: true, status: 200, log, leadsQueued: leads.length, upload: upload.body, error: upload.error };
+    return { ok: true, status: 200, log, leadsQueued: leads.length, window: windowMeta, upload: upload.body, error: upload.error };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logLine(log, `Error: ${message}`);
-    return { ok: false, status: 500, log, leadsQueued: 0, error: message };
+    return { ok: false, status: 500, log, leadsQueued: 0, window: windowMeta, error: message };
   }
+}
+
+export const ENHANCED_ROBOTS = 'noindex, nofollow, noarchive, nosnippet';
+
+export function enhancedNoIndexHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  return {
+    'Cache-Control': 'no-store, private',
+    'X-Robots-Tag': ENHANCED_ROBOTS,
+    ...extra,
+  };
 }
 
 /** HTML debug page matching the old PHP output shape (escaped). */
 export function formatEnhancedHtml(result: EnhancedRunResult): string {
   const body = result.log.map((line) => `<pre>${escapeHtml(line)}</pre>`).join('\n');
-  return `<!doctype html><html><head><meta charset="utf-8"><title>Enhanced conversion job</title></head><body>${body}</body></html>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="${ENHANCED_ROBOTS}"><title>Enhanced conversion job</title></head><body>${body}</body></html>`;
 }

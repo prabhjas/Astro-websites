@@ -17,6 +17,12 @@ export type RedirectStatRecord = {
   lastAccessAt?: string;
 };
 
+type RedirectYamlRow = {
+  from?: unknown;
+  to?: unknown;
+  status?: unknown;
+};
+
 function runtimePath(rootDir: string): string {
   return join(rootDir, 'redirects.json');
 }
@@ -90,10 +96,10 @@ export async function persistManagedRedirects(
 export function readCanonicalRedirectsYaml(projectRoot: string): RuntimeRedirectRule[] {
   try {
     const yamlPath = join(projectRoot, 'src/data/redirects.yml');
-    const parsed = parse(readFileSync(yamlPath, 'utf8')) ?? {};
-    const list = Array.isArray(parsed.redirects) ? parsed.redirects : [];
+    const parsed = (parse(readFileSync(yamlPath, 'utf8')) ?? {}) as { redirects?: RedirectYamlRow[] };
+    const list: RedirectYamlRow[] = Array.isArray(parsed.redirects) ? parsed.redirects : [];
     return list
-      .filter((row) => row?.from && row?.to)
+      .filter((row): row is RedirectYamlRow & { from: unknown; to: unknown } => Boolean(row?.from && row?.to))
       .map((row) => ({
         from: String(row.from),
         to: String(row.to),
@@ -141,8 +147,8 @@ function actionDataUrl(entry: Record<string, unknown>): string {
 }
 
 function parseRankMathJsonRows(content: string): RuntimeRedirectRule[] {
-  const parsed = JSON.parse(content) as Record<string, unknown>;
-  const candidates = Array.isArray(parsed)
+  const parsed = JSON.parse(content) as Record<string, unknown> | unknown[];
+  const candidates: unknown[] = Array.isArray(parsed)
     ? parsed
     : Array.isArray(parsed.redirects)
       ? parsed.redirects
@@ -153,7 +159,7 @@ function parseRankMathJsonRows(content: string): RuntimeRedirectRule[] {
           : [];
 
   return candidates
-    .map((row) => {
+    .map((row): RuntimeRedirectRule | null => {
       const entry = row as Record<string, unknown>;
       // Rank Math: `url` / `sources` are match sources; destination is `action_data.url`.
       // Never treat bare `url` as destination.
@@ -232,7 +238,7 @@ function parseCsvRedirectRows(content: string): RuntimeRedirectRule[] {
   const statusIdx = hasHeader ? indexOf('status', 'code', 'header_code', 'statuscode') : 2;
 
   return rows
-    .map((line) => {
+    .map((line): RuntimeRedirectRule | null => {
       const cells = split(line);
       const from = pickString(cells[fromIdx]);
       const to = pickString(cells[toIdx]);

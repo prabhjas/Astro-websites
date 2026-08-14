@@ -1217,9 +1217,9 @@
     document.querySelectorAll('img[srcset]').forEach(function (img) {
       var src = img.getAttribute('src') || '';
       if (!src || src.indexOf('data:image') === 0) return;
-      // Keep full-size src; drop srcset so narrow viewports don't request missing -WxH files.
-      img.removeAttribute('srcset');
-      img.removeAttribute('sizes');
+      // Keep responsive candidates when the importer verified local variants.
+      // The error handler below still falls back to full-size URLs for any stale candidate.
+      img.dataset.astroResponsiveGuard = '1';
     });
 
     if (window.__astroImgErrorBound) return;
@@ -1405,6 +1405,38 @@
       var email = span ? decode(span.getAttribute('data-cfemail') || '') : 'info@snapsale.ae';
       a.setAttribute('href', 'mailto:' + email);
       if (span && !span.textContent.trim()) span.textContent = email;
+    });
+  }
+
+  /**
+   * Replacement for WP Rocket's Elementor preload helper.
+   * Keep animated elements visible without retaining Rocket's event-capture bootstrap.
+   */
+  function ensureElementorAnimationsVisible() {
+    document.querySelectorAll('.elementor-invisible[data-settings]').forEach(function (el) {
+      var settings = parseWidgetSettings(el);
+      var animation =
+        settings._animation_mobile ||
+        settings.animation_mobile ||
+        settings._animation_tablet ||
+        settings.animation_tablet ||
+        settings._animation ||
+        settings.animation ||
+        '';
+      if (animation && animation !== 'none') {
+        el.classList.remove(animation);
+        el.classList.add('animated', animation);
+      }
+      el.classList.remove('elementor-invisible');
+      try {
+        delete settings._animation_mobile;
+        delete settings.animation_mobile;
+        delete settings._animation_tablet;
+        delete settings.animation_tablet;
+        delete settings._animation;
+        delete settings.animation;
+        el.dataset.settings = JSON.stringify(settings);
+      } catch (e) {}
     });
   }
 
@@ -3115,6 +3147,7 @@
   function boot() {
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
+    safe(ensureElementorAnimationsVisible);
     safe(preferCssStickyPostForm);
     safe(wireLegacyContactForms);
     safe(unwrapRocketLazyScripts);
@@ -3158,6 +3191,7 @@
       safe(ensureNavMenus);
     safe(ensureWhatsappLinks);
     safe(ensureSmartSliders);
+      safe(ensureElementorAnimationsVisible);
       safe(preferCssStickyPostForm);
       safe(ensureHaCarousel);
       safe(ensureKinzaFormSkin);
