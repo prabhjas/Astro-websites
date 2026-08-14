@@ -167,3 +167,54 @@
     font-size: clamp(1.45rem, 2.6vw, 2.1rem) !important;
   }
 }
+
+/* Mobile hero guard for the mirrored Elementor pages. Several imported pages
+ * reuse the same hero/widget ids with desktop heading sizes, which pushes the
+ * actual first viewport below the fold on throttled mobile tests. */
+@media (max-width: 767px) {
+  .elementor .elementor-element.elementor-element-5e61233 {
+    --padding-top: 4.5rem !important;
+    --padding-right: 1rem !important;
+    --padding-left: 1rem !important;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .elementor .elementor-element.elementor-element-5e61233 > .e-con-inner,
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-80c8060 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-80c8060 {
+    gap: 0.55rem !important;
+    --gap: 0.55rem !important;
+    --row-gap: 0.55rem !important;
+  }
+
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-271fa7b,
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-271fa7b h1 {
+    max-width: 100%;
+    font-size: 2.25rem !important;
+    line-height: 1.05 !important;
+    white-space: normal !important;
+    overflow-wrap: normal;
+  }
+
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-f8c0539,
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-f8c0539 h2 {
+    max-width: 100%;
+    font-size: 1.45rem !important;
+    line-height: 1.14 !important;
+  }
+
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-78322af {
+    max-width: 100%;
+    font-size: 0.95rem !important;
+    line-height: 1.35 !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-271fa7b,
+  .elementor .elementor-element.elementor-element-5e61233 .elementor-element.elementor-element-271fa7b h1 {

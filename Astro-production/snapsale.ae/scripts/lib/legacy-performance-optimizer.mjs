@@ -8,7 +8,19 @@ const CONTENT_IMAGE_SKIP_RE =
 const HERO_NAME_RE = /(?:hero|banner|header|featured|main|page-title|background-image)/i;
 const SECONDARY_BACKGROUND_RE = /(?:cta|footer|insights|testimonial|pattern|shape|overlay)/i;
 const WP_ROCKET_MARKER_RE =
-  /RocketLazyLoadScripts|rocket_beacon_data|wpr-beacon|lazyload\.min\.js|rocket-lazyload-nojs-css|wpr-lazyrender|RocketElementorPreload|lazyLoadThumb\(|data-(?:rocket|wpr)-/gi;
+  /RocketLazyLoadScripts|rocket_beacon_data|wpr-beacon|lazyload\.min\.js|rocket-lazyload-nojs-css|wpr-lazyrender|RocketElementorPreload|lazyLoadThumb\(|nowprocket=1|data-(?:rocket|wpr)-/gi;
+const NON_CRITICAL_STYLESHEET_HREF_RE =
+  /(?:\/wp-content\/(?:cache\/min\/1\/wp-content\/)?uploads\/elementor\/google-fonts\/css\/roboto\.css|\/wp-content\/plugins\/smart-slider-3\/.*\/smartslider\.min\.css|\/wp-content\/(?:cache\/min\/1\/wp-content\/)?plugins\/elementor\/assets\/lib\/font-awesome\/css\/(?:all|v4-shims)\.min\.css|\/css\/fontawesome-all\.min\.css)/i;
+const RESPONSIVE_HERO_PRELOADS_BY_SLUG = new Map([
+  [
+    'homepage',
+    [
+      { href: '/wp-content/uploads/2024/10/Hero-image-Snapsale-single-with-black-layer-1.webp', media: '(max-width: 767px)' },
+      { href: '/wp-content/uploads/2024/10/Hero-image-Snapsale.webp', media: '(min-width: 768px)' },
+    ],
+  ],
+]);
+
 
 function countMatches(text, pattern) {
   return (text.match(pattern) || []).length;
@@ -113,6 +125,7 @@ function isContentImage(tag, publicRoot) {
 
 function stripWpRocketRuntime(html) {
   let next = html
+    .replace(/<script\b[^>]*>[\s\S]*?nowprocket=1[\s\S]*?<\/script>\s*/gi, '')
     .replace(/<!--\s*This website is like a Rocket[\s\S]*?-->\s*/gi, '')
     .replace(/<meta\b[^>]*name=["']generator["'][^>]*WP Rocket[^>]*>\s*/gi, '')
     .replace(/<noscript>\s*<style\b[^>]*id=["']rocket-lazyload-nojs-css["'][\s\S]*?<\/style>\s*<\/noscript>\s*/gi, '')
@@ -225,6 +238,26 @@ function collectHeroBackgroundCandidates(html, publicRoot, slug = '') {
   return candidates.sort((a, b) => b.score - a.score);
 }
 
+function ensureKnownHeroBackgroundPreloads(html, publicRoot, slug = '') {
+  const preloads = RESPONSIVE_HERO_PRELOADS_BY_SLUG.get(slug);
+  if (!preloads) return html;
+  const preloadHrefs = new Set(preloads.map((preload) => preload.href));
+  let next = html.replace(
+    /<link\b(?=[^>]*\brel=["']?preload\b)(?=[^>]*\bas=["']?image\b)[^>]*>\s*/gi,
+    (tag) => (preloadHrefs.has(normalizeLocalUrl(getAttr(tag, 'href'))) ? '' : tag),
+  );
+  const tags = preloads
+    .filter((preload) => publicAssetExists(preload.href, publicRoot))
+    .map((preload) => {
+      const media = preload.media ? ` media="${escapeAttr(preload.media)}"` : '';
+      return `<link rel="preload" as="image" href="${escapeAttr(preload.href)}" type="image/webp" fetchpriority="high"${media}>`;
+    });
+  if (!tags.length) return next;
+  return /<\/head>/i.test(next)
+    ? next.replace(/<\/head>/i, `${tags.join('\n')}\n</head>`)
+    : `${tags.join('\n')}\n${next}`;
+}
+
 function ensureHeroBackgroundPreload(html, publicRoot, slug = '') {
   if (/<link\b(?=[^>]*\brel=["']?preload\b)(?=[^>]*\bas=["']?image\b)[^>]*>/i.test(html)) {
     return html;
@@ -252,6 +285,41 @@ function tuneImagePriorities(html, publicRoot) {
   });
 }
 
+function normalizeDeferredStylesheetFallbacks(html) {
+  let next = html;
+  let previous = '';
+  while (next !== previous) {
+    previous = next;
+    next = next.replace(
+      /<link\b(?=[^>]*\bdata-astro-deferred-css=(['"])1\1)[^>]*>\s*<noscript>\s*(<link\b[^>]*>)\s*<\/noscript>/gi,
+      '$2',
+    );
+  }
+  return next;
+}
+
+function deferNonCriticalStylesheets(html) {
+  return normalizeDeferredStylesheetFallbacks(html).replace(/<link\b[^>]*>/gi, (tag) => {
+    const rel = getAttr(tag, 'rel');
+    const href = getAttr(tag, 'href');
+    if (!/\bstylesheet\b/i.test(rel) || !NON_CRITICAL_STYLESHEET_HREF_RE.test(href)) {
+      return tag;
+    }
+    if (hasAttr(tag, 'data-astro-deferred-css')) return tag;
+
+    const originalMedia = getAttr(tag, 'media') || 'all';
+    let nextTag = setAttr(tag, 'media', 'print');
+    nextTag = setAttr(nextTag, 'onload', "this.onload=null;this.media='all'");
+    nextTag = setAttr(nextTag, 'data-astro-deferred-css', '1');
+
+    let fallbackTag = removeAttr(nextTag, 'onload');
+    fallbackTag = removeAttr(fallbackTag, 'data-astro-deferred-css');
+    fallbackTag = setAttr(fallbackTag, 'media', originalMedia);
+
+    return `${nextTag}<noscript>${fallbackTag}</noscript>`;
+  });
+}
+
 export function optimizeLegacyPerformanceHtml(html, options = {}) {
   const publicRoot = options.publicRoot || path.join(process.cwd(), 'public');
   const slug = options.slug || '';
@@ -259,7 +327,9 @@ export function optimizeLegacyPerformanceHtml(html, options = {}) {
   next = stripWpRocketRuntime(next);
   next = recoverNoscriptResponsiveImages(next, publicRoot);
   next = promoteLazyEmbeds(next);
+  next = ensureKnownHeroBackgroundPreloads(next, publicRoot, slug);
   next = ensureHeroBackgroundPreload(next, publicRoot, slug);
+  next = deferNonCriticalStylesheets(next);
   next = tuneImagePriorities(next, publicRoot);
   return next.replace(/[ \t]+$/gm, '').replace(/\n{2,}$/u, '\n');
 }
@@ -277,6 +347,7 @@ export function summarizeLegacyPerformanceHtml(html) {
     noscriptImages: countMatches(html, /<noscript>\s*<img\b/gi),
     lazyEmbeds: countMatches(html, /<iframe\b(?=[^>]*\bdata-lazy-src=)/gi),
     rocketMarkers: countMatches(html, WP_ROCKET_MARKER_RE),
+    deferredStylesheets: countMatches(html, /\bdata-astro-deferred-css=/gi),
     highPriorityImages: countMatches(html, /<img\b(?=[^>]*\bfetchpriority=["']high["'])/gi),
     lowPriorityImages: countMatches(html, /<img\b(?=[^>]*\bfetchpriority=["']low["'])/gi),
     integrationMarkers: countMatches(html, /runtime-gtm|googletagmanager|fbevents|facebook\.com|api\/contact|wa\.me|whatsapp/gi),
