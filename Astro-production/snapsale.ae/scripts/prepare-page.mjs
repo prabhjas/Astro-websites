@@ -35,6 +35,15 @@ const FONT_OPTIMIZED_ELEMENTOR_CSS_RE = new RegExp(
   `(/wp-content/uploads/elementor/css/post-(?:${FONT_OPTIMIZED_ELEMENTOR_POST_IDS.join('|')})\\.css)(?:\\?ver=[0-9]+)?`,
   'g',
 );
+const PAGE_HERO_IMAGE_PRELOADS = new Map([
+  ['cash-house-buyers', '/wp-content/uploads/2024/10/Cash-House-Buyers-hero-image-1.webp'],
+]);
+const PAGE_BELOW_FOLD_IMAGE_URLS = new Map([
+  ['cash-house-buyers', [
+    '/wp-content/uploads/2024/10/How-cash-buyers-work-image-1.webp',
+    '/wp-content/uploads/2024/10/Why-choose-us-Snapsale-image2-2.webp',
+  ]],
+]);
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
 const slug = args.find((a) => !a.startsWith('--'));
@@ -107,8 +116,50 @@ function bumpFontOptimizedCssVersions(html) {
   return html.replace(FONT_OPTIMIZED_ELEMENTOR_CSS_RE, `$1?ver=${FONT_ASSET_VERSION}`);
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function preloadLinkAlreadyExists(html, href, asValue) {
+  const escapedHref = escapeRegExp(href);
+  const escapedAs = escapeRegExp(asValue);
+  return new RegExp(`<link\\b(?=[^>]*\\brel=(['"])preload\\1)(?=[^>]*\\bas=(['"])${escapedAs}\\2)(?=[^>]*\\bhref=(['"])${escapedHref}\\3)[^>]*>`, 'i').test(html);
+}
+
+function ensureHeroImagePreload(html) {
+  const href = PAGE_HERO_IMAGE_PRELOADS.get(slug);
+  if (!href || preloadLinkAlreadyExists(html, href, 'image')) return html;
+  const link = `<link rel="preload" as="image" href="${href}" type="image/webp" fetchpriority="high">`;
+  if (/<meta\s+charset=(['"])?[^>]*>/i.test(html)) {
+    return html.replace(/(<meta\s+charset=(['"])?[^>]*>\s*)/i, `$1\n${link}\n`);
+  }
+  return html.replace(/<head([^>]*)>/i, `<head$1>\n${link}`);
+}
+
+function tunePageImagePriorities(html) {
+  const urls = PAGE_BELOW_FOLD_IMAGE_URLS.get(slug) || [];
+  let out = html;
+  for (const url of urls) {
+    const escapedUrl = escapeRegExp(url);
+    const imgRe = new RegExp(`<img\\b([^>]*\\bsrc=(['"])${escapedUrl}\\2[^>]*)>`, 'gi');
+    out = out.replace(imgRe, (full, attrs) => {
+      let next = attrs
+        .replace(/\sfetchpriority=(['"])(?:high|auto|low)\1/gi, '')
+        .replace(/\sloading=(['"])(?:lazy|eager|auto)\1/gi, '')
+        .replace(/\s*\/\s*$/g, '');
+      next += ' loading="lazy" fetchpriority="low"';
+      return `<img${next}>`;
+    });
+  }
+  return out;
+}
+
 function optimizeFontLoading(html) {
-  return bumpFontOptimizedCssVersions(ensureSfFontPreload(optimizeFontAssetText(html)));
+  return tunePageImagePriorities(
+    ensureHeroImagePreload(
+      bumpFontOptimizedCssVersions(ensureSfFontPreload(optimizeFontAssetText(html))),
+    ),
+  );
 }
 
 function shouldLocalize(url) {
