@@ -49,6 +49,16 @@
       } catch (e) {}
     }
 
+    function normalizeChromeNavigation() {
+      ['mega-menu-item-31540', 'mega-menu-item-31582'].forEach(function (id) {
+        var link = document.querySelector('#' + id + ' > .mega-menu-link[href="#"]');
+        if (link) link.removeAttribute('href');
+      });
+      document.querySelectorAll('a[href="http://connectresources.ae"]').forEach(function (link) {
+        link.href = 'https://connectresources.ae/';
+      });
+    }
+
     fetch('/chrome/header.html', { credentials: 'same-origin' })
       .then(function (res) {
         if (!res.ok) throw new Error(String(res.status));
@@ -62,6 +72,7 @@
           html = html.slice(start, end + '</header>'.length);
         }
         root.outerHTML = html;
+        normalizeChromeNavigation();
         reinitChromeWidgets();
         // Mirror fixes / Max Mega Menu may finish after chrome fetch
         setTimeout(reinitChromeWidgets, 400);
