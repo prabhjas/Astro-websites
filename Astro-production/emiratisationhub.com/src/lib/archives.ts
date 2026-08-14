@@ -284,7 +284,7 @@ function normalizeArchiveHtml(html: string): string {
 
 /** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   const loopContainer = $('.elementor-loop-container.elementor-grid').first();
 
   if (loopContainer.length) {

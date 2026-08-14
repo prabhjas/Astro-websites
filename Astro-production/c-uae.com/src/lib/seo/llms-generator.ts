@@ -59,8 +59,10 @@ export function generateLlmsTxt(options: GenerateLlmsOptions): string {
     let description = meta.description || '';
     try {
       const seo = loadPageSeo(slug === '' ? 'home' : slug);
-      title = title || cleanTitle(seo.title, slug || 'Home');
-      description = description || seo.description;
+      if (seo) {
+        title = title || cleanTitle(seo.title || '', slug || 'Home');
+        description = description || seo.description || '';
+      }
     } catch {
       title = title || (slug || 'Home');
     }

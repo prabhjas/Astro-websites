@@ -27,7 +27,7 @@ function authorised(request: Request, secret: string): boolean {
 
 /**
  * Publish-safe enhanced job URL (no `..` in the filename).
- * GET /enhanced/job?file=kinzahr.php&date=YYYY-MM-DD
+ * GET /enhanced/job/?file=kinzahr.php&date=YYYY-MM-DD
  */
 export const GET: APIRoute = async ({ request }) => {
   const secret =

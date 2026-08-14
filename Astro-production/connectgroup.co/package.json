@@ -14,7 +14,7 @@
     "preview": "astro preview --port 4326 --host",
     "start": "node ./dist/server/entry.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
-    "prebuild": "pnpm run redirects:generate",
+    "prebuild": "node scripts/generate-redirects.mjs",
     "test": "node --import tsx --test tests/contact-form.test.mjs"
   },
   "dependencies": {
