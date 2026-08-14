@@ -269,7 +269,7 @@ function wrapInAuthorShell(
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   $('.elementor-location-archive').html(`<div class="emiratisationhub-author-page">${mainInner}</div>`);
   html = $.html();
 

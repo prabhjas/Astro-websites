@@ -11,7 +11,7 @@ interface Props {
 const { formId = 'contact-lead', formName = 'Emiratisation Gate Contact Form' } = Astro.props;
 ---
 
-<form id={formId} class="cg-contact-form" method="post" action="/api/contact" novalidate>
+<form id={formId} class="cg-contact-form" method="post" action="/api/contact/" novalidate>
   <input type="text" name="website" class="cg-contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <input type="hidden" name="form_name" value={formName} />
   <input type="hidden" name="form_id" value={formId} />
@@ -164,7 +164,7 @@ const { formId = 'contact-lead', formName = 'Emiratisation Gate Contact Form' } 
       submitting = true;
       if (submitBtn) submitBtn.disabled = true;
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: new FormData(form),

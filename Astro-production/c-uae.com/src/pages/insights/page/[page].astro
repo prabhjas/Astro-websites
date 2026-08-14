@@ -8,11 +8,7 @@ import { breadcrumbSchema } from "../../../lib/seo";
 
 export const prerender = false;
 
-export function getStaticPaths() {
-  return [];
-}
-
-const pageNum = Number(Astro.params.page || "2");
+const pageNum = Number((Astro.params as { page?: string }).page || "2");
 const sorted = [...getPosts()].sort((a, b) => +new Date(b.date) - +new Date(a.date));
 const { items, page, totalPages } = paginate(sorted, pageNum, POSTS_PER_PAGE);
 if (pageNum < 2 || pageNum > totalPages) {

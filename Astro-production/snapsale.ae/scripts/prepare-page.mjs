@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile, access, readdir } from 'node:fs/promises';
 import { dirname, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { optimizeLegacyPerformanceHtml } from './lib/legacy-performance-optimizer.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -26,6 +27,24 @@ const ORIGIN_ALIASES = [
   'http://snapsale.ae',
   'http://www.snapsale.ae',
 ];
+const SF_FONT_WOFF = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff';
+const SF_FONT_WOFF2 = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2';
+const SF_FONT_PRELOAD = `<link rel="preload" as="font" href="${SF_FONT_WOFF2}" type="font/woff2" crossorigin>`;
+const FONT_ASSET_VERSION = '1786685600';
+const FONT_OPTIMIZED_ELEMENTOR_POST_IDS = ['21', '441', '442', '496', '541', '595', '607', '608', '632', '94'];
+const FONT_OPTIMIZED_ELEMENTOR_CSS_RE = new RegExp(
+  `(/wp-content/uploads/elementor/css/post-(?:${FONT_OPTIMIZED_ELEMENTOR_POST_IDS.join('|')})\\.css)(?:\\?ver=[0-9]+)?`,
+  'g',
+);
+const PAGE_HERO_IMAGE_PRELOADS = new Map([
+  ['cash-house-buyers', '/wp-content/uploads/2024/10/Cash-House-Buyers-hero-image-1.webp'],
+]);
+const PAGE_BELOW_FOLD_IMAGE_URLS = new Map([
+  ['cash-house-buyers', [
+    '/wp-content/uploads/2024/10/How-cash-buyers-work-image-1.webp',
+    '/wp-content/uploads/2024/10/Why-choose-us-Snapsale-image2-2.webp',
+  ]],
+]);
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
 const slug = args.find((a) => !a.startsWith('--'));
@@ -60,6 +79,88 @@ function stripHardcodedAnalytics(html) {
       /<script[^>]*>\s*function gtag\(\)[\s\S]*?gtag\(\s*['"]config['"][\s\S]*?<\/script>\s*/gi,
       '',
     );
+}
+
+function optimizeFontAssetText(text) {
+  return text
+    .replace(/font-display:\s*auto\s*;/gi, 'font-display: swap;')
+    .replace(
+      /src:\s*url\((['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\1\)\s*format\((['"])woff\2\)\s*;/gi,
+      `src: url('${SF_FONT_WOFF2}') format('woff2'),\n\turl('${SF_FONT_WOFF}') format('woff');`,
+    );
+}
+
+function hasFontLoadingDebt(text) {
+  return (
+    /font-display:\s*auto\s*;/i.test(text) ||
+    /src:\s*url\((['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\1\)\s*format\((['"])woff\2\)\s*;/i.test(text)
+  );
+}
+
+const SF_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold-snapsale-subset\.woff2\3)[^>]*>/i;
+const LEGACY_SF_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/2024\/10\/SF-Pro-Display-Semibold\.woff\3)[^>]*>\s*/gi;
+const ROBOTO_FONT_PRELOAD_RE =
+  /<link\b(?=[^>]*\brel=(['"])preload\1)(?=[^>]*\bas=(['"])font\2)(?=[^>]*\bhref=(['"])\/wp-content\/uploads\/elementor\/google-fonts\/fonts\/roboto-[^"']+\.woff2\3)[^>]*>\s*/gi;
+
+function ensureSfFontPreload(html) {
+  let out = html.replace(LEGACY_SF_FONT_PRELOAD_RE, '').replace(ROBOTO_FONT_PRELOAD_RE, '');
+  if (SF_FONT_PRELOAD_RE.test(out)) return out;
+  if (/<meta\s+name=(['"])viewport\1[^>]*>/i.test(out)) {
+    return out.replace(/(<meta\s+name=(['"])viewport\2[^>]*>\s*)/i, `$1\n${SF_FONT_PRELOAD}\n`);
+  }
+  return out.replace(/<head([^>]*)>/i, `<head$1>\n${SF_FONT_PRELOAD}`);
+}
+
+function bumpFontOptimizedCssVersions(html) {
+  return html.replace(FONT_OPTIMIZED_ELEMENTOR_CSS_RE, `$1?ver=${FONT_ASSET_VERSION}`);
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function preloadLinkAlreadyExists(html, href, asValue) {
+  const escapedHref = escapeRegExp(href);
+  const escapedAs = escapeRegExp(asValue);
+  return new RegExp(`<link\\b(?=[^>]*\\brel=(['"])preload\\1)(?=[^>]*\\bas=(['"])${escapedAs}\\2)(?=[^>]*\\bhref=(['"])${escapedHref}\\3)[^>]*>`, 'i').test(html);
+}
+
+function ensureHeroImagePreload(html) {
+  const href = PAGE_HERO_IMAGE_PRELOADS.get(slug);
+  if (!href || preloadLinkAlreadyExists(html, href, 'image')) return html;
+  const link = `<link rel="preload" as="image" href="${href}" type="image/webp" fetchpriority="high">`;
+  if (/<meta\s+charset=(['"])?[^>]*>/i.test(html)) {
+    return html.replace(/(<meta\s+charset=(['"])?[^>]*>\s*)/i, `$1\n${link}\n`);
+  }
+  return html.replace(/<head([^>]*)>/i, `<head$1>\n${link}`);
+}
+
+function tunePageImagePriorities(html) {
+  const urls = PAGE_BELOW_FOLD_IMAGE_URLS.get(slug) || [];
+  let out = html;
+  for (const url of urls) {
+    const escapedUrl = escapeRegExp(url);
+    const imgRe = new RegExp(`<img\\b([^>]*\\bsrc=(['"])${escapedUrl}\\2[^>]*)>`, 'gi');
+    out = out.replace(imgRe, (full, attrs) => {
+      let next = attrs
+        .replace(/\sfetchpriority=(['"])(?:high|auto|low)\1/gi, '')
+        .replace(/\sloading=(['"])(?:lazy|eager|auto)\1/gi, '')
+        .replace(/\s*\/\s*$/g, '');
+      next += ' loading="lazy" fetchpriority="low"';
+      return `<img${next}>`;
+    });
+  }
+  return out;
+}
+
+function optimizeFontLoading(html) {
+  return tunePageImagePriorities(
+    ensureHeroImagePreload(
+      bumpFontOptimizedCssVersions(ensureSfFontPreload(optimizeFontAssetText(html))),
+    ),
+  );
 }
 
 function shouldLocalize(url) {
@@ -437,9 +538,10 @@ async function localizePublicAssets() {
 
   for (const file of files) {
     const raw = await readFile(file, 'utf8');
-    if (!/snapsale\.ae/.test(raw)) continue;
-    for (const u of collectUrls(raw)) nested.add(u);
-    const next = rewriteOriginUrls(raw);
+    const hasOriginUrls = /snapsale\.ae/.test(raw);
+    if (!hasOriginUrls && !hasFontLoadingDebt(raw)) continue;
+    if (hasOriginUrls) for (const u of collectUrls(raw)) nested.add(u);
+    const next = optimizeFontAssetText(rewriteOriginUrls(raw));
     if (next !== raw) {
       await writeFile(file, next, 'utf8');
       rewrittenFiles++;
@@ -459,9 +561,10 @@ async function localizePublicAssets() {
     const more = new Set();
     for (const file of files2) {
       const raw = await readFile(file, 'utf8');
-      if (!/snapsale\.ae/.test(raw)) continue;
-      for (const u of collectUrls(raw)) more.add(u);
-      const next = rewriteOriginUrls(raw);
+      const hasOriginUrls = /snapsale\.ae/.test(raw);
+      if (!hasOriginUrls && !hasFontLoadingDebt(raw)) continue;
+      if (hasOriginUrls) for (const u of collectUrls(raw)) more.add(u);
+      const next = optimizeFontAssetText(rewriteOriginUrls(raw));
       if (next !== raw) await writeFile(file, next, 'utf8');
     }
     if (more.size) {
@@ -471,8 +574,8 @@ async function localizePublicAssets() {
       );
       for (const file of files2) {
         const raw = await readFile(file, 'utf8');
-        if (!/snapsale\.ae/.test(raw)) continue;
-        await writeFile(file, rewriteOriginUrls(raw), 'utf8');
+        if (!/snapsale\.ae/.test(raw) && !hasFontLoadingDebt(raw)) continue;
+        await writeFile(file, optimizeFontAssetText(rewriteOriginUrls(raw)), 'utf8');
       }
     }
   }
@@ -506,7 +609,10 @@ async function main() {
     console.log('Skipping download (pass --download to fetch assets into public/)');
   }
 
-  html = rewriteOriginUrls(html);
+  html = optimizeLegacyPerformanceHtml(optimizeFontLoading(rewriteOriginUrls(html)), {
+    slug,
+    publicRoot: PUBLIC_ASSETS,
+  });
   await mkdir(dirname(OUT_HTML), { recursive: true });
   await writeFile(OUT_HTML, html, 'utf8');
   console.log(`Wrote ${OUT_HTML}`);

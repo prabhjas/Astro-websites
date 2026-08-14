@@ -137,7 +137,7 @@ function getArchiveBasePath(data: ArchivePageData): string {
 
 /** Insights + category pages use the Insights Elementor template + custom loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   const postsHtml = data.posts.map((p) => buildPostCardHtml(p)).join('\n');
   const ecs = $('.ecs-posts').first();
   if (ecs.length) ecs.html(postsHtml);

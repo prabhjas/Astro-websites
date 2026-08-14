@@ -81,6 +81,12 @@ export function serveLegacyPage(slug) {
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
 
+    // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
+  html = html.replace(
+    /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
+    'src=$1/js/astro-mirror-fixes.js?v=contact-slash-20260814$1'
+  );
+
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
