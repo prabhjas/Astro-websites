@@ -66,6 +66,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Run malware / inject scan per [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md)
 - [ ] Remove or quarantine findings (PHP webshells, spam HTML, bad `.htaccess`, obfuscated JS)
 - [ ] No nested `node_modules` / `package-lock.json` left in the site folder
+- [ ] **Asset debt:** avoid multi‑MB PNG heroes, duplicated header/app-store images, and WP lazy placeholders — see [AARON-RULES.md](AARON-RULES.md) § Performance / asset debt
 
 **Next → Phase 02**
 

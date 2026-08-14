@@ -1,9 +1,11 @@
 # Developer handoff — Astro fleet releases
 
-**Updated:** 2026-08-13 (Aaron — all 42 sites on the normal publisher)  
-**Full boundary / controls:** [ASTRO-FLEET-AUTONOMOUS-RELEASE.md](ASTRO-FLEET-AUTONOMOUS-RELEASE.md)
+**Updated:** 2026-08-14 (Aaron — PDF changes live at `c34649d75`; keep presentation-only lane)  
+**Rules index:** [AARON-RULES.md](AARON-RULES.md)
 
 All **42 websites**—including Connect Freelance and Connect Resources International—use the same normal process for presentation changes.
+
+Accepted remote tip (pull this first on the host): **`origin/astro-fleet-development`** @ `c34649d756cef0690f596a1125b358cf2085b749`.
 
 ## Workspace
 
@@ -36,6 +38,20 @@ sudo /usr/local/sbin/astro-fleet-release publish
 ```
 
 The developer does **not** run `git push`, restart the website, edit Caddy, or copy files into production.
+
+## Hard stop — Aaron / root only
+
+Do **not** touch or request:
+
+- production secrets / `.env` values  
+- Caddy / systemd / release tooling  
+- Pipedrive / contact **backend** behavior  
+
+Those stay owner-controlled. Protected paths blocked by the presentation publisher still need Aaron’s lane — do not force them through `astro-fleet-release publish`.
+
+## Ops note (temporary)
+
+`eormiddleast.com` may be routed directly to the trusted backend when the secretless frontend socket causes long waits. Coordinate with Aaron before EOR frontend/performance work.
 
 ## What happens automatically
 
