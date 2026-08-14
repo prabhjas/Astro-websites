@@ -339,10 +339,11 @@
       var wrap = widget.querySelector('.elementor-main-swiper.swiper, .swiper');
       if (!wrap) return;
 
-      if (widget.dataset.astroTestimonial === '1' && wrap.swiper) return;
-
-      if (wrap.swiper && typeof wrap.swiper.destroy === 'function') {
-        wrap.swiper.destroy(true, true);
+      // Elementor owns a successfully initialized carousel. This file is a
+      // fallback for mirrored pages, not a competing initializer.
+      if (wrap.swiper) {
+        widget.dataset.astroTestimonial = '1';
+        return;
       }
 
       var settings = parseWidgetSettings(widget);
@@ -469,10 +470,10 @@
       var wrap = widget.querySelector('.elementor-image-carousel-wrapper.swiper');
       if (!wrap) return;
 
-      if (widget.dataset.astroImageCarousel === '1' && wrap.swiper) return;
-
-      if (wrap.swiper && typeof wrap.swiper.destroy === 'function') {
-        wrap.swiper.destroy(true, true);
+      // Avoid tearing down Elementor's instance after it has initialized.
+      if (wrap.swiper) {
+        widget.dataset.astroImageCarousel = '1';
+        return;
       }
 
       var settings = parseWidgetSettings(widget);
