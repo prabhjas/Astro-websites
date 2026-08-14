@@ -29,6 +29,12 @@ const ORIGIN_ALIASES = [
 const SF_FONT_WOFF = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff';
 const SF_FONT_WOFF2 = '/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2';
 const SF_FONT_PRELOAD = `<link rel="preload" as="font" href="${SF_FONT_WOFF2}" type="font/woff2" crossorigin>`;
+const FONT_ASSET_VERSION = '1786685600';
+const FONT_OPTIMIZED_ELEMENTOR_POST_IDS = ['21', '441', '442', '496', '541', '595', '607', '608', '632', '94'];
+const FONT_OPTIMIZED_ELEMENTOR_CSS_RE = new RegExp(
+  `(/wp-content/uploads/elementor/css/post-(?:${FONT_OPTIMIZED_ELEMENTOR_POST_IDS.join('|')})\\.css)(?:\\?ver=[0-9]+)?`,
+  'g',
+);
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
 const slug = args.find((a) => !a.startsWith('--'));
@@ -97,8 +103,12 @@ function ensureSfFontPreload(html) {
   return out.replace(/<head([^>]*)>/i, `<head$1>\n${SF_FONT_PRELOAD}`);
 }
 
+function bumpFontOptimizedCssVersions(html) {
+  return html.replace(FONT_OPTIMIZED_ELEMENTOR_CSS_RE, `$1?ver=${FONT_ASSET_VERSION}`);
+}
+
 function optimizeFontLoading(html) {
-  return ensureSfFontPreload(optimizeFontAssetText(html));
+  return bumpFontOptimizedCssVersions(ensureSfFontPreload(optimizeFontAssetText(html)));
 }
 
 function shouldLocalize(url) {
