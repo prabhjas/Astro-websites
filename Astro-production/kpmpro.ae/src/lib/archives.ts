@@ -265,7 +265,7 @@ function assembleTagHtml(data: ArchivePageData): string {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=contact-slash-20260814" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);
