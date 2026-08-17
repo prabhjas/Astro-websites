@@ -540,8 +540,8 @@ const quotes = [
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                   event: 'form_submission_lead',
-                  email: (form.querySelector('[name="email"]') || {}).value || '',
-                  phone_number: (form.querySelector('[name="phone"]') || {}).value || '',
+                  email: (form.querySelector('[name="email"]') as HTMLInputElement | null)?.value || '',
+                  phone_number: (form.querySelector('[name="phone"]') as HTMLInputElement | null)?.value || '',
                   form_id: form.id || '',
                   submission_id: (result.data && result.data.submissionId) || form.dataset.submissionId || '',
                   status: 'mail_sent',
