@@ -473,7 +473,7 @@ div.wpcf7-response-output.sp-status-visible,
   object-fit: cover;
 }
 
-/* Background YouTube embed fill */
+/* Background YouTube embed fill (cover — full-bleed hero sections) */
 .elementor-background-video-container iframe.elementor-background-video-embed {
   position: absolute;
   top: 50%;
@@ -485,6 +485,37 @@ div.wpcf7-response-output.sp-status-visible,
   transform: translate(-50%, -50%);
   border: 0;
   pointer-events: none;
+}
+
+/*
+  Homepage dashboard demo (GSAP animate_box) — fit full frame.
+  Global cover sizing + 100vw crops sides when the box is narrower than viewport.
+*/
+.elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
+.animate_box .elementor-background-video-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+
+.elementor-element.elementor-element-cdbecf6
+  .elementor-background-video-container
+  iframe.elementor-background-video-embed,
+.animate_box
+  .elementor-background-video-container
+  iframe.elementor-background-video-embed {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(100cqw, calc(100cqh * 16 / 9));
+  height: min(100cqh, calc(100cqw * 9 / 16));
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
 }
 .home-header > .elementor-container,
 .elementor-element-e9a775c > .elementor-container {
