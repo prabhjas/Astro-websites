@@ -16,7 +16,23 @@ Design: [docs/FLEET-MONITORING-ARCHITECTURE-PROPOSAL.md](../../docs/FLEET-MONITO
 node scripts/fleet-monitor/run.mjs once        # discover URLs (first time) → critical checks + cert → daily report
 node scripts/fleet-monitor/run.mjs daemon      # keep running: critical every 5 min, sitemap/cert/CrUX daily, daily report
 node scripts/fleet-monitor/run.mjs weekly      # 7-day report (.md + .pdf) — the one for the CEO
+node scripts/fleet-monitor/status.mjs          # what is it doing right now? (--watch = live, --html = dashboard.html)
+node scripts/fleet-monitor/selftest.mjs        # 25 assertions against local mock sites — no fleet traffic
 ```
+
+## Seeing what's happening
+
+| Command | Shows |
+|---|---|
+| `node scripts/fleet-monitor/status.mjs` | daemon PID/uptime, last critical/sitemap/CrUX cycle, cycles-in-24h vs expected, sites green, open issues (with would-alert flags), releases observed, external hosts, evidence size |
+| `node scripts/fleet-monitor/status.mjs --watch` | same, refreshing every 30 s |
+| `node scripts/fleet-monitor/status.mjs --html` then open `local/monitor-evidence/dashboard.html` | tile-per-site colour board (green/amber/red) + the status text, auto-refresh 60 s (the daemon regenerates it after every critical cycle) |
+| `tail -f local/monitor-evidence/daemon-logs/stdout.log` | raw per-site lines as each cycle runs |
+| `cat local/monitor-evidence/reports/report-<date>-1d.md` | yesterday/today digest |
+
+## Testing
+
+`selftest.mjs` starts 7 mock sites on 127.0.0.1 (healthy, 500, soft-404, robots-blocks-all, body-shrink, slow-TTFB, sitemap 200→404) and runs the real scripts against them in a throw-away evidence dir. It asserts every verdict rule, streak/would-alert (incl. the raised threshold inside a publish window), body-shrink learning, commit-change → publish window, sitemap transitions, state, report generation and heartbeats. Run it after any change to the checkers.
 
 Evidence lands in `local/monitor-evidence/` (git-ignored):
 
@@ -55,6 +71,8 @@ Stop: `launchctl unload ~/Library/LaunchAgents/com.connectgroup.astro-fleet-moni
 | `report.mjs [--days N] [--out f]` | — | JSONL → Markdown: exec summary, per-site table, needs-attention, would-alert incidents, sitemap corpus + problem URLs, latency calibration, release events, CrUX, monitor self-check |
 | `report-pdf.py in.md out.pdf` | — | Markdown → styled PDF (python3 + reportlab) |
 | `run.mjs once\|daemon\|weekly\|launchd\|cron` | — | orchestrator; each step is a child process with its own heartbeat |
+| `status.mjs [--watch] [--html]` | — | live status / dashboard |
+| `selftest.mjs` | — | mock-site regression test (25 assertions) |
 
 ## Config
 

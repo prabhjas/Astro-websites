@@ -70,7 +70,7 @@ async function daemon() {
     if (!running) {
       running = true;
       const wantCert = lastDaily.cert !== day && hour >= CONFIG.cadence.certHourUtc;
-      step('check-critical.mjs', ['all', ...(wantCert ? ['--cert'] : [])]).then(() => { running = false; if (wantCert) lastDaily.cert = day; });
+      step('check-critical.mjs', ['all', ...(wantCert ? ['--cert'] : [])]).then(() => { running = false; if (wantCert) lastDaily.cert = day; return step('status.mjs', ['--html']); });
     } else log('critical cycle skipped — previous still running (recorded as gap)');
 
     if (lastDaily.sitemap !== day && hour >= CONFIG.cadence.sitemapHourUtc && dailyLane('sitemap', 'check-sitemap.mjs', ['all', '--rediscover'])) lastDaily.sitemap = day;

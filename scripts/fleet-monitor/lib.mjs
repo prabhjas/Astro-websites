@@ -48,7 +48,10 @@ export function siteThresholds(siteId) {
  * Placeholder sites (no domain / status placeholder) are never enrolled.
  */
 export function resolveSites(selector) {
-  let sites = REGISTRY.sites.filter((s) => s.domain && s.status !== 'placeholder');
+  // selftest hook: FLEET_MONITOR_TEST_SITES = JSON array of {id, domain, port, origin} replaces the registry
+  const testSites = process.env.FLEET_MONITOR_TEST_SITES ? JSON.parse(process.env.FLEET_MONITOR_TEST_SITES) : null;
+  let sites = (testSites ?? REGISTRY.sites).filter((s) => s.domain && s.status !== 'placeholder');
+  if (testSites) return !selector || selector === 'all' ? sites : sites.filter((s) => selector.split(',').includes(s.id));
   if (Array.isArray(CONFIG.include) && CONFIG.include.length) sites = sites.filter((s) => CONFIG.include.includes(s.id));
   if (Array.isArray(CONFIG.exclude) && CONFIG.exclude.length) sites = sites.filter((s) => !CONFIG.exclude.includes(s.id));
   if (!selector || selector === 'all') return sites;

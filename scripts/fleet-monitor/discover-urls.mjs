@@ -23,7 +23,8 @@ function decode(s) {
 }
 
 /** Determine canonical origin (follow apex → www redirect once, if any). */
-export async function canonicalOrigin(domain) {
+export async function canonicalOrigin(domain, explicit) {
+  if (explicit) return { origin: explicit, redirected: false, first: null };
   const apex = `https://${domain}`;
   const r = await probe(`${apex}/`);
   if (r.status >= 300 && r.status < 400 && r.location) {
@@ -34,7 +35,7 @@ export async function canonicalOrigin(domain) {
 
 export async function discoverSite(site) {
   const started = Date.now();
-  const { origin, redirected } = await canonicalOrigin(site.domain);
+  const { origin, redirected } = await canonicalOrigin(site.domain, site.origin);
   const seenSitemaps = new Set();
   const urls = new Map();
   const queue = [];

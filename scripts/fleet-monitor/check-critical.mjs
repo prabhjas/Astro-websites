@@ -23,6 +23,7 @@ const args = process.argv.slice(2);
 const flags = new Set(args.filter((a) => a.startsWith('--')));
 const selector = args.find((a) => !a.startsWith('--'));
 const DO_CERT = flags.has('--cert');
+const dbg = process.env.FLEET_MONITOR_DEBUG ? (...a) => console.error('[dbg]', ...a) : () => {};
 const DO_ORIGIN = flags.has('--origin') || CONFIG.origin.enabled || process.env.FLEET_MONITOR_ORIGIN === '1';
 
 function urlsFor(siteId) {
@@ -82,7 +83,7 @@ async function checkSite(site, state) {
 
   // canonical origin — reuse learned, else learn now
   let origin = st.canonicalOrigin;
-  if (!origin) { const c = await canonicalOrigin(site.domain); origin = c.origin; st.canonicalOrigin = origin; st.wwwCanonical = c.redirected; }
+  if (!origin) { const c = await canonicalOrigin(site.domain, site.origin); origin = c.origin; st.canonicalOrigin = origin; st.wwwCanonical = c.redirected; }
   const canonicalHost = new URL(origin).hostname;
   const otherHost = canonicalHost.startsWith('www.') ? canonicalHost.slice(4) : `www.${canonicalHost}`;
   const corpus = urlsFor(site.id);
@@ -90,6 +91,7 @@ async function checkSite(site, state) {
   const emit = (r) => { records.push(r); appendCheck(r); };
   const base = (extra) => ({ ts, site: site.id, domain: site.domain, ...extra });
 
+  dbg(site.id, '1. Homepage');
   // ---- 1. Homepage (with content assertions + publish-window detection)
   await jitter();
   const home = await probe(`${origin}/`);
@@ -115,6 +117,7 @@ async function checkSite(site, state) {
   const inPublishWindow = st.lastCommitChangeTs ? (Date.parse(ts) - Date.parse(st.lastCommitChangeTs)) < th.publishWindowMinutes * 60000 : false;
   emit(base({ type: 'critical', route: '/', ...slim(home), verdict, reason: reasons.join('; ') || null, inPublishWindow, ...applyStreak(st, '/', verdict, th, inPublishWindow) }));
 
+  dbg(site.id, '2. robots.tx');
   // ---- 2. robots.txt
   await jitter();
   const robots = await probe(`${origin}/robots.txt`);
@@ -123,6 +126,7 @@ async function checkSite(site, state) {
   else if (robotsBlocksAll(robots.bodyText ?? '')) { verdict = 'fail'; reason = 'robots blocks all crawlers (User-agent: * / Disallow: /)'; }
   emit(base({ type: 'critical', route: '/robots.txt', ...slim(robots), verdict, reason, ...applyStreak(st, '/robots.txt', verdict, th, inPublishWindow) }));
 
+  dbg(site.id, '3. sitemap');
   // ---- 3. sitemap (the one discovery found, else conventional)
   const smUrl = corpus?.sitemaps?.[0] ?? `${origin}/sitemap-index.xml`;
   await jitter();
@@ -132,6 +136,7 @@ async function checkSite(site, state) {
   if (reason && verdict === 'pass') verdict = 'fail';
   emit(base({ type: 'critical', route: 'sitemap', ...slim(sm), verdict, reason, ...applyStreak(st, 'sitemap', verdict, th, inPublishWindow) }));
 
+  dbg(site.id, '4. guarantee');
   // ---- 4. guaranteed 404
   await jitter();
   const miss = await probe(`${origin}/__fleet_missing_8c1e954e/`);
@@ -139,6 +144,7 @@ async function checkSite(site, state) {
   reason = miss.status === 404 ? null : (miss.error || `soft-404: status ${miss.status}`);
   emit(base({ type: 'critical', route: '/__missing__', ...slim(miss), verdict, reason, ...applyStreak(st, '/__missing__', verdict, th, inPublishWindow) }));
 
+  dbg(site.id, '5. /api/heal');
   // ---- 5. /api/health/ (optional per site)
   await jitter();
   const health = await probe(`${origin}/api/health/`, { maxBytes: 64 * 1024 });
@@ -147,7 +153,9 @@ async function checkSite(site, state) {
   else { verdict = 'fail'; reason = health.error || `status ${health.status}`; }
   emit(base({ type: 'critical', route: '/api/health/', ...slim(health), verdict, reason, ...applyStreak(st, '/api/health/', verdict, th, inPublishWindow) }));
 
-  // ---- 6. canonical redirect pair (other host must 3xx → canonical)
+  dbg(site.id, '6. canonical');
+  // ---- 6. canonical redirect pair (other host must 3xx → canonical) — skipped for explicit test origins
+  if (!site.origin) {
   await jitter();
   const other = await probe(`https://${otherHost}/`, { maxBytes: 64 * 1024 });
   if (other.error) { verdict = other.error === 'ENOTFOUND' ? 'warn' : 'fail'; reason = `${otherHost}: ${other.error}`; }
@@ -157,7 +165,9 @@ async function checkSite(site, state) {
   } else if (other.status === 200) { verdict = 'warn'; reason = `${otherHost} serves 200 directly (duplicate host, no canonical redirect)`; }
   else { verdict = 'fail'; reason = `${otherHost} status ${other.status}`; }
   emit(base({ type: 'redirect', route: `https://${otherHost}/`, ...slim(other), verdict, reason, ...applyStreak(st, 'redirect', verdict, th, inPublishWindow) }));
+  }
 
+  dbg(site.id, '7. conversio');
   // ---- 7. conversion pages
   for (const cu of conversionPages(corpus, origin)) {
     await jitter();
@@ -172,8 +182,9 @@ async function checkSite(site, state) {
     emit(base({ type: 'conversion', route, ...slim(c), verdict, reason: rs.join('; ') || null, ...applyStreak(st, route, verdict, th, inPublishWindow) }));
   }
 
+  dbg(site.id, '8. TLS certi');
   // ---- 8. TLS certificate (daily)
-  if (DO_CERT) {
+  if (DO_CERT && origin.startsWith('https://')) {
     const ci = await certInfo(canonicalHost);
     if (ci.error && ci.daysRemaining == null) { verdict = 'fail'; reason = ci.error; }
     else if (ci.authorized === false) { verdict = 'fail'; reason = `cert not trusted: ${ci.error}`; }
@@ -183,6 +194,7 @@ async function checkSite(site, state) {
     emit(base({ type: 'cert', route: canonicalHost, url: `tls://${canonicalHost}:443`, status: ci.authorized ? 200 : 0, ok: verdict !== 'fail', ...ci, verdict, reason, ...applyStreak(st, 'cert', verdict, th, false) }));
   }
 
+  dbg(site.id, '9. Origin pr');
   // ---- 9. Origin probe (host placement only)
   if (DO_ORIGIN && site.port) {
     const o = await probe(`http://${CONFIG.origin.host}:${site.port}/`, { host: canonicalHost, timeoutMs: 8000 });
