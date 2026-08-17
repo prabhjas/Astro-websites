@@ -54,6 +54,7 @@ const stylesheets = [
     ...baseCss,
     ...extraCss,
     "/css/migration-overrides.css",
+    "/css/menu-no-hash.css",
   ]),
 ];
 
@@ -87,5 +88,6 @@ const stylesheets = [
     <FloatContacts />
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
+      <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>
