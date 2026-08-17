@@ -13,7 +13,7 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css';
+const HEADER_CSS_HREF = '/chrome/header.css?v=navhash1';
 const HEADER_CSS_MARK = 'data-izi-shared-header-css';
 // Do not inject peer-brand form CSS (kinza/pittant leftovers break IZI CF7 styling).
 const FORM_CSS_HREF = '';
@@ -285,16 +285,43 @@ function markCurrentMenuItem(headerHtml, slug) {
  * @param {string} html
  * @param {string} slug
  */
+/** Dropdown parents must not use href="#" in HTML (SEO). Keep the <a> so the submenu still opens.
+ *  Drop elementor-item-anchor so Elementor JS cannot put href="#" back. */
+function stripHashParentMenuLinks(html) {
+  return String(html).replace(/<a\b([^>]*?)>/gi, (tag, attrs) => {
+    const isMenu =
+      /\b(?:elementor-item|elementor-sub-item|elementor-item-anchor|e-n-menu-title-container|menu-link|w-nav-anchor|mega-menu-link)\b/.test(
+        attrs,
+      );
+    if (!isMenu) return tag;
+    let next = attrs;
+    let changed = false;
+    if (/\bhref\s*=\s*(["'])#\1/.test(next)) {
+      next = next.replace(/\s*href\s*=\s*(["'])#\1/, '');
+      if (!/\brole\s*=/.test(next)) next += ' role="button"';
+      if (!/\btabindex\s*=/.test(next)) next += ' tabindex="0"';
+      changed = true;
+    }
+    if (/\belementor-item-anchor\b/.test(next)) {
+      next = next.replace(/\s*\belementor-item-anchor\b/g, '');
+      changed = true;
+    }
+    if (!changed) return tag;
+    return '<a' + next + '>';
+  });
+}
+
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  const withMenuFix = stripHashParentMenuLinks(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(withMenuFix);
 
   // Impreza uses #page-header / #page-footer; Elementor Theme Builder uses
   // data-elementor-type; Astra uses #masthead / #colophon. Each cleaned page
   // already includes its own chrome — only swap Elementor regions when present.
-  const hasElementorHeader = /data-elementor-type="header"/i.test(html);
+  const hasElementorHeader = /data-elementor-type="header"/i.test(withMenuFix);
   const hasSharedHeader = existsSync(HEADER_PATH);
 
-  let out = ensureHeaderCss(html);
+  let out = ensureHeaderCss(withMenuFix);
 
   if (hasElementorHeader && hasSharedHeader) {
     const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
@@ -320,5 +347,5 @@ export function applySharedChrome(html, slug) {
     }
   }
 
-  return out;
+  return stripHashParentMenuLinks(out);
 }

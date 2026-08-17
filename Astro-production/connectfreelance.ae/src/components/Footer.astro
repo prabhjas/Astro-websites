@@ -1,6 +1,24 @@
 ---
-/** Shared chrome placeholder — Evolution pages mostly use legacy HTML shells. */
+import { readFileSync, existsSync } from "node:fs";
+import { join } from "node:path";
+import LicenceStrip from "./LicenceStrip.astro";
+
+const footerPath = join(process.cwd(), "src/legacy/chrome/footer.html");
+const footerHtml = existsSync(footerPath) ? readFileSync(footerPath, "utf8") : "";
 ---
-<footer class="site-footer" data-chrome="footer">
-  <p>© Connect Freelance</p>
-</footer>
+
+{
+  footerHtml ? (
+    <>
+      <link rel="stylesheet" href="/css/cf-licence.css" data-cf-licence-css="1" />
+      <Fragment set:html={footerHtml} />
+    </>
+  ) : (
+    <>
+      <link rel="stylesheet" href="/css/cf-licence.css" data-cf-licence-css="1" />
+      <footer class="site-footer" data-chrome="footer">
+        <LicenceStrip />
+      </footer>
+    </>
+  )
+}

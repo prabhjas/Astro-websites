@@ -1,0 +1,85 @@
+---
+/**
+ * Licence & verification band — matches the Connect Freelance footer mockup.
+ * Facts come from src/data/licence.json via ../lib/licence.
+ */
+import { licence, licenceRows, hasLicencePdf, isLicenceComplete } from "../lib/licence";
+
+const show = isLicenceComplete();
+const pdfReady = hasLicencePdf();
+---
+
+{
+  show && (
+    <section class="cf-licence" aria-labelledby="cf-licence-title">
+      <div class="cf-licence__inner">
+        <h2 class="cf-licence__title" id="cf-licence-title">License Details</h2>
+        <p class="cf-licence__lead">
+          <strong>{licence.businessName}</strong> is fully licensed in Dubai, UAE by the {licence.issuingAuthority}.
+        </p>
+
+        <dl class="cf-licence__grid">
+          {
+            licenceRows.map((row) => (
+              <div class="cf-licence__row">
+                <dt>{row.label}</dt>
+                <dd>
+                  {row.label === "License Status" ? (
+                    <span class="cf-licence__badge">{row.value}</span>
+                  ) : (
+                    row.value
+                  )}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="cf-licence__verify">
+          <a
+            class="cf-licence__qr"
+            href={licence.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            aria-label={`Verify licence ${licence.number} on the official Dubai licence portal`}
+          >
+            <img
+              src={licence.qrPath}
+              width="150"
+              height="150"
+              loading="lazy"
+              decoding="async"
+              alt={`QR code linking to the official Dubai portal for verifying licence ${licence.number}`}
+            />
+          </a>
+          <p class="cf-licence__qr-caption">
+            Scan to verify on the official Dubai licence portal
+          </p>
+        </div>
+
+        <div class="cf-licence__actions">
+          <a
+            class="cf-licence__btn cf-licence__btn--primary"
+            href={licence.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+          >
+            Verify our license
+          </a>
+          {
+            pdfReady && (
+              <a
+                class="cf-licence__btn cf-licence__btn--ghost"
+                href={licence.pdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click here to view the license
+              </a>
+            )
+          }
+        </div>
+      </div>
+    </section>
+  )
+}

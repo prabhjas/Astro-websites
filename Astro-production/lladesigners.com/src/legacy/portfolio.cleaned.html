@@ -933,7 +933,7 @@ class="hfeed site" id="page">
 						<i aria-hidden="true" class="fab fa-facebook"></i>					</a>
 				</span>
 							<span class="elementor-grid-item" role="listitem">
-					<a class="elementor-icon elementor-social-icon elementor-social-icon-linkedin elementor-repeater-item-05008f6" href="https://www.linkedin.com/company/99982540/" target="_blank">
+					<a class="elementor-icon elementor-social-icon elementor-social-icon-linkedin elementor-repeater-item-05008f6" href="https://www.linkedin.com/company/lla-designers/" target="_blank">
 						<span class="elementor-screen-only">Linkedin</span>
 						<i aria-hidden="true" class="fab fa-linkedin"></i>					</a>
 				</span>
@@ -1029,6 +1029,11 @@ class="hfeed site" id="page">
 						<div class="elementor-element elementor-element-15b4514 elementor-widget elementor-widget-shortcode" data-id="15b4514" data-element_type="widget" data-e-type="widget" data-widget_type="shortcode.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-shortcode"><style>
+.project-filter{
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
 .gallery-wrap{
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -1036,19 +1041,22 @@ class="hfeed site" id="page">
 }
 
 .gallery-ct{
-    height: 300px;
+    height: 280px;
     width:100%;
+    overflow: hidden;
+    background: #f3f3f3;
 } 
 
 .gallery-ct img{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
 
 .top-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -1129,51 +1137,21 @@ class="hfeed site" id="page">
 <!-- style end -->
 
 <div class="project-filter">
-	
-	<!--option -->
-	<div class="top-wrap">
-	<div><h2>Feature Projects</h2></div>    
-	<div class="cat-select">
-        <select class="filter-select" id="project-type-filter">
-            <option value="all" data-filter="all" selected>ALL PROJECTS</option>
-                        <option value="" data-filter=""></option>
-                        <option value="" data-filter=""></option>
-                    </select>
-    </div>
-	</div>
-	
-	<!-- portfolio gallery -->
-	
-<div class="gallery-wrap">	
-		<p></p>
-   	 
+	<div class="gallery-wrap">
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-1.png" alt="Modern minimalist bedroom with platform bed" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-2.png" alt="Open-plan living and kitchen interior" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-3.png" alt="Luxury kitchen with black cabinets and marble island" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-4.png" alt="Contemporary living room with sectional sofa" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-5.png" alt="Luxury master bedroom with tufted headboard" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-6.png" alt="Dark modern bathroom with freestanding tub" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-7.png" alt="Minimalist bathroom with oval bathtub" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-8.png" alt="Bright kitchen and dining interior" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-9.png" alt="Modern kitchen with island and bar stools" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-10.png" alt="Luxury living room with marble and cowhide rug" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-11.png" alt="Teal living room with gold accents" width="800" height="560" loading="lazy" /></div>
+		<div class="gallery-ct"><img src="/wp-content/uploads/2026/08/portfolio/portfolio-12.png" alt="Open-plan living and dining interior" width="800" height="560" loading="lazy" /></div>
 	</div>
 </div>
-
-
-
-<!-- Script -->
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-
-		jQuery(".filter-select").on('change',function(){
-			//var value = jQuery(this).find(":selected").val();
-			var value = jQuery(this).find(':selected').attr('data-filter') 
-			
-			if(value == "all") {
-				jQuery('.filter').fadeIn('1000');
-			} else {
-				jQuery(".filter").not('.'+value).fadeOut('3000');
-				jQuery('.filter').filter('.'+value).fadeIn('3000');
-			}
-			
-			// Remove and add the 'actived' class
-			jQuery('.filter-button.actived').removeClass("actived");
-			jQuery(this).addClass("actived");
-		});
-
-	});  
-</script>
 </div>
 						</div>
 				</div>
@@ -1324,15 +1302,15 @@ the World.</h2>				</div>
 				<div class="elementor-widget-container">
 							<ul class="elementor-icon-list-items elementor-inline-items">
 							<li class="elementor-icon-list-item elementor-inline-item">
-											<a href="#">
+											<a href="/privacy-policy/">
 
 											<span class="elementor-icon-list-text">Privacy Policy</span>
 											</a>
 									</li>
 								<li class="elementor-icon-list-item elementor-inline-item">
-											<a href="#">
+											<a href="/terms-and-services/">
 
-											<span class="elementor-icon-list-text">Terms &amp; Service</span>
+											<span class="elementor-icon-list-text">Terms &amp; Services</span>
 											</a>
 									</li>
 						</ul>

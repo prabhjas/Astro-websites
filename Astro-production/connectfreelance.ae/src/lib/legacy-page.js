@@ -164,10 +164,14 @@ export function serveLegacyPage(slug) {
   html = decodeProtectedEmailsInHtml(html);
 
   // CF7 → /api/contact + Ads/UTM capture (also injected at prepare time; keep as runtime safety).
+  html = html.replace(
+    /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
+    '/js/astro-mirror-fixes.js?v=navhash3',
+  );
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=navhash3" defer></script>\n</body>',
     );
   }
 

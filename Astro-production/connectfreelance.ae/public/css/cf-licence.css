@@ -1,0 +1,241 @@
+/*
+ * Connect Freelance licence band — matches the footer mockup:
+ * full-width purple heading, two-column facts, QR on the right,
+ * outlined verify button under the grid. No card chrome.
+ */
+
+.cf-licence {
+  color: #1a1b1a;
+  padding: 28px 0 8px;
+  font-family: "Lexend", Sans-serif;
+  background: transparent;
+}
+
+.cf-licence__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 168px;
+  grid-template-areas:
+    "title title"
+    "lead  lead"
+    "grid  qr"
+    "btn   qr";
+  column-gap: 48px;
+  row-gap: 10px;
+  align-items: start;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.cf-licence__title {
+  grid-area: title;
+  font-family: "Lexend", Sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #9747ff;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.cf-licence__lead {
+  grid-area: lead;
+  margin: 4px 0 10px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #1a1b1a;
+  max-width: none;
+}
+
+.cf-licence__lead strong {
+  font-weight: 700;
+}
+
+.cf-licence__grid {
+  grid-area: grid;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 48px;
+  row-gap: 0;
+}
+
+.cf-licence__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.cf-licence__row dt {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1a1b1a;
+  margin: 0;
+}
+
+.cf-licence__row dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1b1a;
+  text-align: right;
+}
+
+.cf-licence__badge {
+  display: inline-block;
+  padding: 3px 16px;
+  border-radius: 999px;
+  background: #9747ff;
+  border: 1px solid #9747ff;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.cf-licence__actions {
+  grid-area: btn;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  justify-self: start;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.cf-licence__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 28px;
+  border-radius: 2px;
+  font-family: "Lexend", Sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.cf-licence .cf-licence__btn--primary {
+  background: #fff;
+  color: #1a1b1a;
+  border: 1px solid #1a1b1a;
+}
+
+.cf-licence .cf-licence__btn--primary:hover,
+.cf-licence .cf-licence__btn--primary:focus-visible {
+  background: #1a1b1a;
+  border-color: #1a1b1a;
+  color: #fff;
+}
+
+.cf-licence .cf-licence__btn--ghost {
+  background: transparent;
+  color: #1a1b1a;
+  border: 1px solid #1a1b1a;
+}
+
+.cf-licence .cf-licence__btn--ghost:hover,
+.cf-licence .cf-licence__btn--ghost:focus-visible {
+  background: #1a1b1a;
+  color: #fff;
+}
+
+.cf-licence__verify {
+  grid-area: qr;
+  text-align: center;
+  justify-self: end;
+  padding-top: 8px;
+}
+
+.cf-licence__qr {
+  display: inline-block;
+  padding: 0;
+  background: #fff;
+  line-height: 0;
+}
+
+.cf-licence__qr img {
+  width: 150px;
+  height: 150px;
+  display: block;
+}
+
+.cf-licence__qr-caption {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #4a4a4a;
+  max-width: 16ch;
+  margin-inline: auto;
+}
+
+/* Mockup has no social row — ISO badges stay, icons go. */
+.elementor-location-footer .elementor-widget-social-icons,
+.elementor-33 .elementor-element-c7cf532 {
+  display: none !important;
+}
+
+/*
+ * FOOTER.webp is a bottom-edge decoration (halftone shards left, brush mark
+ * right). Elementor used background-size:cover, which swallows the corners
+ * once the licence band makes the footer taller. Pin it to the bottom.
+ */
+.elementor-location-footer .elementor-element-b21c9df,
+.elementor-33 .elementor-element.elementor-element-b21c9df {
+  background-image: url("/wp-content/uploads/2024/07/FOOTER.webp") !important;
+  background-repeat: no-repeat !important;
+  background-position: bottom center !important;
+  background-size: 100% auto !important;
+  padding-bottom: 110px !important;
+}
+
+@media (max-width: 767px) {
+  .cf-licence {
+    padding: 18px 0 6px;
+  }
+
+  .cf-licence__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "lead"
+      "grid"
+      "qr"
+      "btn";
+    row-gap: 14px;
+  }
+
+  .cf-licence__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cf-licence__verify {
+    justify-self: center;
+    padding-top: 0;
+  }
+
+  .cf-licence__btn {
+    width: auto;
+  }
+
+  .cf-licence__title {
+    font-size: 18px;
+  }
+}

@@ -308,6 +308,20 @@
     }
   }
 
+  /** WP Rocket async CSS stays as rel=preload until onload; force stylesheets so backgrounds paint. */
+  function promoteRocketAsyncCss() {
+    document.querySelectorAll('link[data-rocket-async="style"][rel="preload"]').forEach(function (link) {
+      link.rel = 'stylesheet';
+      link.removeAttribute('as');
+      link.removeAttribute('data-rocket-async');
+      link.removeAttribute('onload');
+      link.removeAttribute('onerror');
+    });
+    document.querySelectorAll('.e-con.e-parent:not(.e-lazyloaded)').forEach(function (el) {
+      el.classList.add('e-lazyloaded');
+    });
+  }
+
   /** WP Rocket leaves type="rocketlazyloadscript" / type="text/rocketlazyloadscript" — unwrap */
   function unwrapRocketLazyScripts() {
     document
@@ -3434,6 +3448,7 @@
   }
 
   function boot() {
+    safe(promoteRocketAsyncCss);
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
     safe(preferCssStickyPostForm);
