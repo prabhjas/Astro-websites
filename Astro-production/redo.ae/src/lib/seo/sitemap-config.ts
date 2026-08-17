@@ -38,10 +38,11 @@ export const ROBOTS_DISALLOW_PATHS = [
   '/*?replytocom=',
 ] as const;
 
-/** Static page slugs excluded from the page sitemap (demo / internal). */
+/** Static page slugs excluded from the page sitemap (demo / internal / campaign LPs). */
 export const EXCLUDED_PAGE_SLUGS = new Set([
   'demo',
   'status',
+  'best-renovation-company',
 ]);
 
 /** Cache policy for sitemap/robots responses (static hosting may ignore; useful in preview/SSR). */

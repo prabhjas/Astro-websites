@@ -399,6 +399,10 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 .astro-blog-breadcrumb__item:hover{text-decoration:underline}
 .astro-blog-breadcrumb__item--current{color:#333;font-weight:500}
 .astro-blog-breadcrumb__sep{color:#999}
+@media (min-width:768px){
+.elementor-18825 .elementor-element-72119b3{position:-webkit-sticky;position:sticky;top:24px;align-self:flex-start;height:auto;z-index:5}
+.elementor-18825 .elementor-section,.elementor-18825 .elementor-container,.elementor-18825 .e-con{overflow:visible!important}
+}
 </style>`;
 
 /** Assemble final HTML from shell template + post data. */

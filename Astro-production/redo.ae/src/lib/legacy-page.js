@@ -8,7 +8,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
-import { applySharedChrome } from './shared-chrome.js';
+import { applySharedChrome, injectLicenceSection } from './shared-chrome.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://redo.ae')
   .trim()
@@ -25,7 +25,7 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
+  let html = injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slug)));
 
   // Normalize CF7 form actions to the Astro contact endpoint (trailingSlash: always).
   html = html.replace(

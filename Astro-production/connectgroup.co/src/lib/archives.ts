@@ -137,9 +137,7 @@ function getArchiveBasePath(data: ArchivePageData): string {
 
 /** Insights + category pages use the Insights Elementor template + custom loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  // HTML mode (not xml): xml serialization rewrites empty divs as <div/>, which browsers
-  // treat as an open tag — nesting #page inside .pix-page-loading-bg (display:none) → white page.
-  const $ = cheerio.load(html, { decodeEntities: false } as any);
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   const postsHtml = data.posts.map((p) => buildPostCardHtml(p)).join('\n');
   const ecs = $('.ecs-posts').first();
   if (ecs.length) ecs.html(postsHtml);
