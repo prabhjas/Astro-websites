@@ -37,6 +37,14 @@ function withActiveState(html: string, current: string) {
     .replace(/\s*current-menu-parent/g, "")
     .replace(/\s*aria-current="page"/g, "");
 
+  // Dropdown parents are hover/arrow triggers, not destinations. Drop their
+  // snapshot `href="#"` so they behave like the already-hrefless "Countries"
+  // item instead of jumping to the top of the page (same as connectgroup.co).
+  out = out.replace(/<a\b[^>]*>/gi, (tag) => {
+    if (!/\baria-haspopup="menu"/i.test(tag)) return tag;
+    return tag.replace(/\s*\bhref="#"/i, "");
+  });
+
   const allHrefs = [...out.matchAll(/\bhref="(\/[^"#]*)"/g)].map((m) => m[1]);
   const activeDeep = pickActiveHref(current, allHrefs);
   if (!activeDeep) return out;
