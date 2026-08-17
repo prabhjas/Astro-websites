@@ -1,5 +1,738 @@
 ---
-import footerHtml from "../data/footer.html?raw";
+import { licence } from "../lib/licence";
+
+const year = new Date().getFullYear();
+
+const companyLinks = [
+  { label: "Home", href: "/", accent: true },
+  { label: "Industries", href: "/industries/" },
+  { label: "About", href: "/about-us/" },
+  { label: "Insights", href: "/insights/" },
+  { label: "Contact", href: "/contact-us/" },
+];
+
+const industryLinks = [
+  { label: "Construction", href: "/construction/" },
+  { label: "Manufacturing", href: "/manufacturing/" },
+  { label: "Oil & Gas", href: "/oil-and-gas/" },
+  { label: "Food Industry", href: "/food-industry/" },
+  { label: "Logistics", href: "/logistics/" },
+  { label: "MEP", href: "/electromechanical/" },
+];
+
+const licenceLeft = [
+  { label: "License Status", value: licence.status, badge: true },
+  { label: "Business Name", value: licence.businessName },
+  { label: "Issuing Authority", value: licence.issuingAuthority },
+  { label: "Issue Date", value: licence.issueDate },
+];
+
+const licenceRight = [
+  { label: "License Number", value: licence.number },
+  { label: "License Type", value: licence.type },
+  { label: "Legal Type", value: licence.legalType },
+];
 ---
 
-<div class="sp-impreza-footer" set:html={footerHtml} />
+<footer id="page-footer" class="ng-footer" itemscope itemtype="https://schema.org/WPFooter">
+  <div class="ng-footer__deco ng-footer__deco--right" aria-hidden="true">
+    <img src="/footer/deco-right-3.svg" alt="" width="565" height="668" />
+    <img src="/footer/deco-right-1.svg" alt="" width="213" height="666" />
+    <img src="/footer/deco-right-2.svg" alt="" width="213" height="666" />
+  </div>
+  <div class="ng-footer__deco ng-footer__deco--left" aria-hidden="true">
+    <img src="/footer/deco-left.svg" alt="" width="542" height="634" />
+  </div>
+  <div class="ng-footer__deco ng-footer__deco--bottom" aria-hidden="true">
+    <img src="/footer/deco-bottom.svg" alt="" width="434" height="507" />
+  </div>
+
+  <div class="ng-footer__inner">
+    <div class="ng-footer__top">
+      <div class="ng-footer__brand">
+        <a class="ng-footer__logo" href="/">
+          <img
+            src="/wp-content/uploads/2023/05/logo-NG-manpower-white-verison.png"
+            alt="NG Manpower"
+            width="73"
+            height="91"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+
+        <div class="ng-footer__contact">
+          <div class="ng-footer__block">
+            <p class="ng-footer__label">Address:</p>
+            <p class="ng-footer__value ng-footer__value--lg">
+              City Tower 2, Sheikh Zayed Road, Dubai, United Arab Emirates
+            </p>
+          </div>
+          <div class="ng-footer__block">
+            <p class="ng-footer__label">Contact:</p>
+            <p class="ng-footer__value ng-footer__value--lg">
+              <a href="tel:+97143316688">+971 4 331 6688</a>
+            </p>
+            <p class="ng-footer__value ng-footer__value--lg">
+              <a href="mailto:contact@ngmanpower.com">contact@ngmanpower.com</a>
+            </p>
+          </div>
+          <div class="ng-footer__social">
+            <a
+              href="https://www.instagram.com/ng_manpower.ae/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+              <img src="/footer/icon-instagram.svg" alt="" width="24" height="24" />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/ng-manpower"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              title="LinkedIn"
+            >
+              <img src="/footer/icon-linkedin.svg" alt="" width="24" height="24" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="ng-footer__nav" aria-label="Footer">
+        <div class="ng-footer__col">
+          <p class="ng-footer__heading">Company</p>
+          <ul>
+            {
+              companyLinks.map((link) => (
+                <li>
+                  <a class:list={["ng-footer__link ng-footer__link--lg", { "is-accent": link.accent }]} href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="ng-footer__col">
+          <p class="ng-footer__heading">Industries</p>
+          <ul>
+            {
+              industryLinks.map((link) => (
+                <li>
+                  <a class="ng-footer__link" href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <section class="ng-footer__licence" aria-labelledby="ng-footer-licence-title">
+      <div class="ng-footer__licence-col">
+        <div class="ng-footer__licence-intro">
+          <h2 class="ng-footer__licence-title" id="ng-footer-licence-title">LICENSE DETAILS</h2>
+          <p class="ng-footer__licence-lead">
+            <strong>{licence.businessName}</strong> is fully licensed in Dubai, UAE by the {licence.issuingAuthority}.
+          </p>
+        </div>
+        <dl class="ng-footer__fields">
+          {
+            licenceLeft.map((row) => (
+              <div class="ng-footer__field">
+                <dt>{row.label}</dt>
+                <dd>
+                  {row.badge ? <span class="ng-footer__badge">{row.value}</span> : row.value}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="ng-footer__licence-col ng-footer__licence-col--end">
+        <dl class="ng-footer__fields">
+          {
+            licenceRight.map((row) => (
+              <div class="ng-footer__field">
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <a
+          class="ng-footer__verify"
+          href={licence.verifyUrl}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          Verify our license
+          <img src="/footer/icon-arrow-up.svg" alt="" width="24" height="24" />
+        </a>
+      </div>
+
+      <div class="ng-footer__qr">
+        <a
+          href={licence.verifyUrl}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          aria-label={`Verify licence ${licence.number} on the official Dubai licence portal`}
+        >
+          <img
+            src={licence.qrPath}
+            width="185"
+            height="185"
+            loading="lazy"
+            decoding="async"
+            alt={`QR code linking to the official Dubai portal for verifying licence ${licence.number}`}
+          />
+        </a>
+        <p class="ng-footer__qr-caption">
+          <span>Scan to verify</span> on the<br />official Dubai licence portal
+        </p>
+      </div>
+    </section>
+
+    <div class="ng-footer__credits">
+      <p>© {year} NG Manpower. All rights reserved.</p>
+      <div class="ng-footer__legal">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms-of-service/">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  :global(#page-footer.ng-footer .ng-footer__label),
+  :global(#page-footer.ng-footer .ng-footer__heading),
+  :global(#page-footer.ng-footer .ng-footer__value),
+  :global(#page-footer.ng-footer .ng-footer__link:not(.is-accent)),
+  :global(#page-footer.ng-footer .ng-footer__licence-title),
+  :global(#page-footer.ng-footer .ng-footer__licence-lead),
+  :global(#page-footer.ng-footer .ng-footer__field dt),
+  :global(#page-footer.ng-footer .ng-footer__field dd),
+  :global(#page-footer.ng-footer .ng-footer__verify),
+  :global(#page-footer.ng-footer .ng-footer__qr-caption) {
+    color: #ffffff !important;
+  }
+
+  :global(#page-footer.ng-footer .ng-footer__link.is-accent),
+  :global(#page-footer.ng-footer .ng-footer__qr-caption span) {
+    color: #00cfff !important;
+  }
+
+  :global(#page-footer.ng-footer .ng-footer__credits),
+  :global(#page-footer.ng-footer .ng-footer__credits p),
+  :global(#page-footer.ng-footer .ng-footer__legal a) {
+    color: #dee2e6 !important;
+  }
+
+  :global(#page-footer.ng-footer .ng-footer__value--lg a) {
+    color: #ffffff !important;
+  }
+
+  .ng-footer {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #004ab5 0%, #00133e 100%);
+    color: #ffffff;
+    font-family: Poppins, sans-serif;
+  }
+
+  .ng-footer__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 120px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  .ng-footer__deco {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ng-footer__deco img {
+    display: block;
+    max-width: none;
+    height: auto;
+  }
+
+  .ng-footer__deco--right {
+    top: -198px;
+    right: -94px;
+    width: 568px;
+    height: 669px;
+    opacity: 0.2;
+  }
+
+  .ng-footer__deco--right img {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .ng-footer__deco--right img:first-child {
+    width: 565px;
+    height: 668px;
+  }
+
+  .ng-footer__deco--right img:nth-child(2) {
+    right: 355px;
+    width: 213px;
+    height: 666px;
+  }
+
+  .ng-footer__deco--right img:nth-child(3) {
+    width: 213px;
+    height: 666px;
+  }
+
+  .ng-footer__deco--left {
+    left: -184px;
+    top: 56px;
+    width: 694px;
+    opacity: 0.2;
+    transform: rotate(-85deg);
+    transform-origin: center;
+  }
+
+  .ng-footer__deco--left img {
+    width: 542px;
+    height: 634px;
+  }
+
+  .ng-footer__deco--bottom {
+    left: 50%;
+    bottom: 38px;
+    width: 555px;
+    opacity: 0.05;
+    transform: translateX(-50%) rotate(96deg);
+    transform-origin: center;
+  }
+
+  .ng-footer__deco--bottom img {
+    width: 434px;
+    height: 507px;
+  }
+
+  .ng-footer__top {
+    display: flex;
+    align-items: flex-start;
+    gap: 64px;
+  }
+
+  .ng-footer__brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .ng-footer__logo {
+    display: inline-flex;
+    width: 73px;
+    height: 91px;
+    overflow: hidden;
+  }
+
+  .ng-footer__logo img {
+    width: 73px;
+    height: 91px;
+    max-width: none;
+    object-fit: contain;
+    object-position: left top;
+  }
+
+  .ng-footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ng-footer__block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ng-footer__label,
+  .ng-footer__heading {
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .ng-footer__label {
+    font-size: 16px;
+    color: #ffffff;
+  }
+
+  .ng-footer__heading {
+    font-size: 20px;
+    color: #ffffff;
+  }
+
+  .ng-footer__value {
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .ng-footer__value--lg,
+  .ng-footer__value--lg a {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .ng-footer__value--lg a:hover {
+    color: #00cfff;
+  }
+
+  .ng-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ng-footer__social a {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+
+  .ng-footer__social img {
+    width: 24px;
+    height: 24px;
+    max-width: none;
+  }
+
+  .ng-footer__nav {
+    flex: 0 0 324px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .ng-footer__col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ng-footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ng-footer__link {
+    display: block;
+    padding: 8px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .ng-footer__link--lg {
+    font-size: 18px;
+  }
+
+  .ng-footer__link.is-accent {
+    color: #00cfff;
+    font-weight: 500;
+  }
+
+  .ng-footer__link:hover {
+    color: #00cfff;
+  }
+
+  .ng-footer__licence {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 185px;
+    gap: 35px;
+    align-items: start;
+    padding: 50px 0;
+  }
+
+  .ng-footer__licence-col {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 0;
+  }
+
+  .ng-footer__licence-col--end {
+    align-items: flex-end;
+    padding-top: 82px;
+  }
+
+  .ng-footer__licence-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ng-footer__licence-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .ng-footer__licence-lead {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .ng-footer__licence-lead strong {
+    font-weight: 600;
+  }
+
+  .ng-footer__fields {
+    margin: 0;
+    width: 100%;
+  }
+
+  .ng-footer__field {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(111, 189, 187, 0.2);
+  }
+
+  .ng-footer__field dt {
+    flex: 0 0 140px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .ng-footer__field dd {
+    flex: 1 1 auto;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #ffffff;
+    text-align: right;
+  }
+
+  .ng-footer__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: #dfeeff;
+    border: 1px solid #9ce6fc;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #004ab5;
+  }
+
+  .ng-footer__verify {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: 2px solid #ebfafe;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffffff;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ng-footer__verify:hover {
+    background: rgba(235, 250, 254, 0.08);
+  }
+
+  .ng-footer__verify img {
+    width: 24px;
+    height: 24px;
+    max-width: none;
+  }
+
+  .ng-footer__qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .ng-footer__qr a {
+    display: block;
+    width: 185px;
+    height: 185px;
+    overflow: hidden;
+  }
+
+  .ng-footer__qr img {
+    width: 185px;
+    height: 185px;
+    max-width: none;
+  }
+
+  .ng-footer__qr-caption {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .ng-footer__qr-caption span {
+    color: #00cfff;
+  }
+
+  .ng-footer__credits {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #dee2e6;
+  }
+
+  .ng-footer__credits p {
+    margin: 0;
+    color: #dee2e6;
+  }
+
+  .ng-footer__legal {
+    display: flex;
+    gap: 24px;
+  }
+
+  .ng-footer__legal a {
+    color: #dee2e6;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ng-footer__legal a:hover {
+    color: #00cfff;
+  }
+
+  @media (max-width: 1199px) {
+    .ng-footer__inner {
+      padding: 64px 48px 32px;
+      gap: 48px;
+    }
+
+    .ng-footer__nav {
+      flex: 0 0 280px;
+      gap: 24px;
+    }
+
+    .ng-footer__licence {
+      grid-template-columns: 1fr 1fr;
+      padding: 24px 0;
+    }
+
+    .ng-footer__qr {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+
+    .ng-footer__licence-col--end {
+      padding-top: 82px;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .ng-footer__top {
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .ng-footer__nav {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
+    .ng-footer__licence-col--end {
+      padding-top: 0;
+      align-items: stretch;
+    }
+
+    .ng-footer__verify {
+      align-self: flex-end;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ng-footer__inner {
+      padding: 48px 24px 28px;
+      gap: 40px;
+    }
+
+    .ng-footer__deco--right,
+    .ng-footer__deco--left,
+    .ng-footer__deco--bottom {
+      opacity: 0.12;
+    }
+
+    .ng-footer__nav {
+      gap: 32px;
+    }
+
+    .ng-footer__licence {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 8px 0;
+    }
+
+    .ng-footer__field {
+      flex-wrap: wrap;
+    }
+
+    .ng-footer__field dt {
+      flex: 1 1 auto;
+    }
+
+    .ng-footer__verify {
+      width: 100%;
+    }
+
+    .ng-footer__credits {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+</style>

@@ -259,3 +259,90 @@
     syncHeaderOffset();
   });
 })();
+
+/** Connect FM Elementor mega-menu (e-n-menu) — Services accordion on mobile */
+(() => {
+  const MQ = "(max-width: 1024px)";
+  function isMobile() {
+    return window.matchMedia(MQ).matches;
+  }
+  function setLayout(nav) {
+    if (!nav) return;
+    if (isMobile()) nav.setAttribute("data-layout", "dropdown");
+    else nav.removeAttribute("data-layout");
+  }
+  function closeItem(li) {
+    const btn = li.querySelector(":scope > .e-n-menu-title .e-n-menu-dropdown-icon");
+    const content = li.querySelector(":scope > .e-n-menu-content > .e-con");
+    const title = li.querySelector(":scope > .e-n-menu-title");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+    if (content) content.classList.remove("e-active");
+    if (title) title.classList.remove("e-current");
+    li.classList.remove("is-open");
+  }
+  function openItem(li) {
+    const btn = li.querySelector(":scope > .e-n-menu-title .e-n-menu-dropdown-icon");
+    const content = li.querySelector(":scope > .e-n-menu-content > .e-con");
+    const title = li.querySelector(":scope > .e-n-menu-title");
+    if (btn) btn.setAttribute("aria-expanded", "true");
+    if (content) content.classList.add("e-active");
+    if (title) title.classList.add("e-current");
+    li.classList.add("is-open");
+  }
+  function toggleItem(li) {
+    if (li.classList.contains("is-open")) closeItem(li);
+    else {
+      const parent = li.parentElement;
+      if (parent) {
+        parent.querySelectorAll(":scope > .e-n-menu-item.is-open").forEach((sib) => {
+          if (sib !== li) closeItem(sib);
+        });
+      }
+      openItem(li);
+    }
+  }
+  function bind(widget) {
+    if (widget.dataset.astroEnMenuBound === "1") return;
+    widget.dataset.astroEnMenuBound = "1";
+    const nav = widget.querySelector(".e-n-menu");
+    setLayout(nav);
+
+    const toggle = widget.querySelector(".e-n-menu-toggle");
+    if (toggle && toggle.dataset.astroEnToggleBound !== "1") {
+      toggle.dataset.astroEnToggleBound = "1";
+      toggle.addEventListener("click", () => {
+        if (!isMobile()) return;
+        // Let Elementor also handle if present; ensure layout stays dropdown
+        setLayout(nav);
+        if (toggle.getAttribute("aria-expanded") !== "true") {
+          widget.querySelectorAll(".e-n-menu-item.is-open").forEach(closeItem);
+        }
+      });
+    }
+
+    widget.querySelectorAll(".e-n-menu-item").forEach((li) => {
+      const btn = li.querySelector(":scope > .e-n-menu-title .e-n-menu-dropdown-icon");
+      const titleClick = li.querySelector(
+        ":scope > .e-n-menu-title .e-n-menu-title-container:not(a)",
+      );
+      if (!btn) return;
+      const onToggle = (e) => {
+        if (!isMobile()) return;
+        e.preventDefault();
+        e.stopPropagation();
+        toggleItem(li);
+      };
+      btn.addEventListener("click", onToggle);
+      if (titleClick) titleClick.addEventListener("click", onToggle);
+    });
+  }
+  function init() {
+    document.querySelectorAll(".elementor-widget-n-menu").forEach(bind);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+  window.addEventListener("load", init);
+  window.addEventListener("resize", () => {
+    document.querySelectorAll(".elementor-widget-n-menu .e-n-menu").forEach(setLayout);
+  });
+})();

@@ -1,0 +1,746 @@
+---
+/**
+ * Campaign landing page: Best Renovation Company in Dubai.
+ * Design: Figma "Redo Landing Pages - Ad Design" (desktop / tablet / mobile).
+ */
+export const prerender = false;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EstimateForm from '../components/lp-best-renovation/EstimateForm.astro';
+
+const asset = '/lp/best-renovation-company';
+const phoneDisplay = '+971 58 915 1443';
+const phoneHref = 'tel:+971589151443';
+const email = 'contact@redo.ae';
+const instagram = 'https://www.instagram.com/redo_fitout/';
+const facebook = 'https://www.facebook.com/redorenovations.ae/';
+const waFloat =
+  'https://api.whatsapp.com/send?phone=971589151443&text=Hi%2C%20I%20found%20your%20contact%20through%20your%20website%20Redo.%20Please%20let%20me%20know%20how%20to%20proceed.%20Thanks!';
+
+const partners = [
+  { src: `${asset}/partners/masaar.webp`, alt: 'Masaar', width: 119, height: 40 },
+  { src: `${asset}/partners/sobha.webp`, alt: 'Sobha Realty', width: 121, height: 40 },
+  { src: `${asset}/partners/nakheel.webp`, alt: 'Nakheel', width: 88, height: 40 },
+  { src: `${asset}/partners/danube.webp`, alt: 'Danube Properties', width: 135, height: 40 },
+  { src: `${asset}/partners/emaar.webp`, alt: 'Emaar', width: 163, height: 40 },
+  { src: `${asset}/partners/dubai-sports-city.webp`, alt: 'Dubai Sports City', width: 93, height: 40 },
+  { src: `${asset}/partners/arada.webp`, alt: 'Arada', width: 186, height: 36 },
+  { src: `${asset}/partners/damac.webp`, alt: 'DAMAC', width: 250, height: 40 },
+];
+
+const services = [
+  {
+    href: '/villa-renovation-dubai/',
+    img: `${asset}/services/villa.webp`,
+    title: 'Villa Renovation',
+    text: 'from structural work to final finishes.',
+  },
+  {
+    href: '/apartment-renovation/',
+    img: `${asset}/services/apartment.webp`,
+    title: 'Apartment Renovation',
+    text: 'one room or the whole apartment, we handle it all.',
+  },
+  {
+    href: '/kitchen-renovation/',
+    img: `${asset}/services/kitchen.webp`,
+    title: 'Kitchen Renovation',
+    text: 'cabinetry, countertops, through to appliances installed and connected.',
+  },
+  {
+    href: '/bathroom-renovation/',
+    img: `${asset}/services/bathroom.webp`,
+    title: 'Bathroom Renovation',
+    text: 'from design to the bathroom you actually wanted.',
+  },
+  {
+    href: '/carpenter/',
+    img: `${asset}/services/joinery.webp`,
+    title: 'Joinery',
+    text: 'custom cabinetry and built-ins, made to fit your space.',
+  },
+  {
+    href: '/redo-landscaping/',
+    img: `${asset}/services/landscaping.webp`,
+    title: 'Landscaping',
+    text: 'outdoor renovation for villas, gardens, and pool surrounds.',
+  },
+];
+
+const whyItems = [
+  {
+    icon: `${asset}/icons/no-cheap-substitutions.svg`,
+    title: 'No Cheap Substitutions',
+    text: "We help you choose materials that actually last, and explain the trade-offs before you decide — not after they're installed.",
+  },
+  {
+    icon: `${asset}/icons/weekly-reports.svg`,
+    title: 'Weekly Reports, Every Friday',
+    text: "Photos of what was finished, what's next, and where the timeline stands. If something shifts, we tell you why",
+  },
+  {
+    icon: `${asset}/icons/no-subcontractors.svg`,
+    title: 'No Subcontractors',
+    text: "We don't hand your job to whoever's cheapest that week. Plumbing, electrical, tiling, masonry — all done in-house, by people who work for us.",
+  },
+  {
+    icon: `${asset}/icons/nocs-approvals.svg`,
+    title: 'NOCs and Approvals Handled',
+    text: 'Need sign-off from Emaar, Nakheel, or Dubai Municipality? We handle it, or guide you through exactly what to submit.',
+  },
+  {
+    icon: `${asset}/icons/12-month-warranty.svg`,
+    title: '12-Month Warranty',
+    text: "We're confident enough in our craftsmanship to back it for a full year. So far, none of our clients have needed to use it.",
+  },
+  {
+    icon: `${asset}/icons/3d-design.svg`,
+    title: '3D Design',
+    text: 'We create detailed 3D designs for your renovation project, turning your ideas into a clear visual plan before work begins.',
+  },
+];
+
+const quotes = [
+  {
+    text: 'What sold me wasn’t the quote, it was the process. Every Friday, without fail, we had photos and an update on where things stood. When a supplier ran late, they told us straight away and adjusted the plan — no excuses.',
+    who: '— James Whitfield | Villa, Dubai Hills (Whispering Pines)',
+  },
+  {
+    text: 'Our building has a long list of rules for renovation work. REDO handled the permits and timing restrictions so we didn’t have to chase anyone. The price we agreed at the start was the price we paid at the end.',
+    who: '— Kaylee Bennett | Duplex, DIFC Central Park Towers',
+  },
+  {
+    text: 'I’m particular about finishing work. The tiling, the joinery, the details — done properly, not rushed. No shortcuts, and no swapping materials halfway through.',
+    who: '— Markus Weber | Villa, Arabian Ranches',
+  },
+];
+---
+
+<BaseLayout
+  showChrome={false}
+  seo={{
+    title: 'Best Renovation Company in Dubai | Redo',
+    description:
+      'Villa, kitchen, bathroom, and home renovation in Dubai. Clear pricing, best crew, weekly updates till handover.',
+    robots: 'noindex, nofollow',
+    canonical: 'https://redo.ae/best-renovation-company/',
+    og: {
+      title: 'Best Renovation Company in Dubai | Redo',
+      description:
+        'Villa, kitchen, bathroom, and home renovation in Dubai. Clear pricing, best crew, weekly updates till handover.',
+      type: 'website',
+      image: `${asset}/hero-bg.webp`,
+    },
+  }}
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css" />
+    <link rel="stylesheet" href="/css/page-design/best-renovation-company.css?v=align2" />
+    <link
+      rel="stylesheet"
+      href="/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
+    />
+  </Fragment>
+
+  <div class="lp-page">
+    <section class="lp-hero" id="top">
+      <div class="lp-hero__bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset={`${asset}/hero-mobile.webp?v=3`} />
+          <source media="(max-width: 1024px)" srcset={`${asset}/hero-tablet.webp?v=3`} />
+          <img src={`${asset}/hero-desktop.webp?v=3`} alt="" width="1872" height="1190" />
+        </picture>
+      </div>
+      <header class="lp-header">
+        <a class="lp-header__logo" href="/" aria-label="Redo home">
+          <img
+            class="lp-header__logo-mark"
+            src={`${asset}/icons/header-mark.svg`}
+            alt="REDO"
+            width="70"
+            height="60"
+          />
+        </a>
+        <a class="lp-header__cta" href="#estimate">find project estimate</a>
+      </header>
+      <div class="lp-hero__inner">
+        <div class="lp-hero__copy">
+          <div>
+            <h1>Best Renovation Company in Dubai, for People Who Value Quality</h1>
+            <p>
+              Villa, kitchen, bathroom, and home renovation in Dubai. Clear pricing, best crew, weekly updates till
+              handover.
+            </p>
+          </div>
+          <div class="lp-hero__badges">
+            <img
+              src={`${asset}/icons/certified.svg`}
+              alt="Certified renovation company"
+              width="239"
+              height="70"
+            />
+            <img src={`${asset}/icons/warranty.svg`} alt="1 year warranty" width="180" height="70" />
+          </div>
+        </div>
+        <div class="lp-hero__form" id="estimate">
+          <div>
+            <p class="lp-hero__form-title">Get your estimate</p>
+            <p class="lp-hero__form-sub">- fill in the form -</p>
+          </div>
+          <EstimateForm
+            formId="lp-hero-estimate"
+            formName="Best Renovation Company LP - Hero"
+            theme="dark"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-partners" aria-label="We work with">
+      <h2>We work with</h2>
+      <div class="lp-partners__track-wrap">
+        <div class="lp-partners__track">
+          {
+            [...partners, ...partners].map((logo, i) => (
+              <img src={logo.src} alt={i < partners.length ? logo.alt : ''} width={logo.width} height={logo.height} />
+            ))
+          }
+        </div>
+      </div>
+      <div class="lp-partners__grid">
+        {
+          partners.map((logo) => (
+            <img src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} />
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="lp-show">
+      <p class="lp-show__lead">
+        We could tell you why we're different from other renovation companies in Dubai. Or we could just show you.
+      </p>
+      <p class="lp-show__scroll">Scroll before you call</p>
+      <div class="lp-show__reels" data-lp-reels-track>
+        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
+          <img src={`${asset}/reels/reel-1.webp`} alt="REDO Instagram reel — dining interior" width="248" height="441" />
+        </a>
+        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
+          <img src={`${asset}/reels/reel-2.webp`} alt="REDO Instagram reel — brand film" width="248" height="441" />
+        </a>
+        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
+          <img src={`${asset}/reels/reel-3.webp`} alt="REDO Instagram reel — bathroom" width="248" height="441" />
+        </a>
+      </div>
+      <a class="lp-btn lp-btn--navy lp-show__cta" href={instagram} target="_blank" rel="noopener noreferrer">
+        Follow REDO instagram
+      </a>
+    </section>
+
+    <section class="lp-services" id="services">
+      <div class="lp-services__intro">
+        <p class="lp-services__kicker">You've seen the work. Let us tell you more</p>
+        <h2>Our home renovation services in Dubai, from vision to the finished result.</h2>
+      </div>
+      <div class="lp-services__grid" data-lp-slider-track>
+        {
+          services.map((item) => (
+            <a class="lp-services__card" href={item.href}>
+              <img src={item.img} alt={item.title} width="429" height="273" />
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </a>
+          ))
+        }
+      </div>
+      <div class="lp-services__nav">
+        <button class="is-prev" type="button" data-lp-slider-prev aria-label="Previous service">
+          <img src={`${asset}/icons/arrow-left.svg`} alt="" width="40" height="40" />
+        </button>
+        <button class="is-next" type="button" data-lp-slider-next aria-label="Next service">
+          <img src={`${asset}/icons/arrow-right.svg`} alt="" width="40" height="40" />
+        </button>
+      </div>
+      <a class="lp-btn lp-btn--black" href="#estimate">Get an estimate</a>
+    </section>
+
+    <section class="lp-process">
+      <div class="lp-process__intro">
+        <h2>How It Works</h2>
+        <p>From Your Vision to Handover</p>
+        <a class="lp-btn lp-btn--red lp-process__cta" href="#estimate">Get an estimate</a>
+      </div>
+      <div class="lp-process__steps">
+        <div class="lp-process__step">
+          <span>Step 1</span>
+          <img src={`${asset}/icons/check.svg`} alt="" width="25" height="25" />
+          <h3>Tell us your<br />vision</h3>
+        </div>
+        <div class="lp-process__step">
+          <span>Step 2</span>
+          <img src={`${asset}/icons/check.svg`} alt="" width="25" height="25" />
+          <h3>Get your<br />price</h3>
+        </div>
+        <div class="lp-process__step">
+          <span>Step 3</span>
+          <img src={`${asset}/icons/check.svg`} alt="" width="25" height="25" />
+          <h3>Get your<br />timeline</h3>
+        </div>
+        <div class="lp-process__step">
+          <span>Step 4</span>
+          <img src={`${asset}/icons/check.svg`} alt="" width="25" height="25" />
+          <h3>Watch it<br />happen</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-why">
+      <div class="lp-why__copy">
+        <h2>Why REDO</h2>
+        <p>The Details Most Renovation Companies in Dubai Skip</p>
+        <div class="lp-why__grid">
+          {
+            whyItems.map((item) => (
+              <article class="lp-why__item">
+                <img src={item.icon} alt="" width="56" height="56" />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+      <div class="lp-why__media">
+        <img src={`${asset}/why-redo.webp`} alt="REDO renovation interior" width="651" height="542" />
+        <button class="lp-why__play" type="button" data-lp-video aria-label="Play project video">
+          <img src={`${asset}/icons/play.svg`} alt="" width="90" height="90" />
+        </button>
+      </div>
+    </section>
+
+    <div class="lp-end">
+    <section class="lp-quotes">
+      <div class="lp-quotes__media">
+        <img src={`${asset}/testimonial.webp`} alt="Happy Redo client at a renovated villa" width="601" height="827" />
+      </div>
+      <div class="lp-quotes__body">
+        <h2>What Our Clients Are Saying</h2>
+        <img class="lp-quotes__stars" src={`${asset}/icons/stars.svg`} alt="5 star review" width="160" height="32" />
+        <p class="lp-quotes__text" data-lp-quote-text>“{quotes[0].text}”</p>
+        <p class="lp-quotes__who" data-lp-quote-who>{quotes[0].who}</p>
+        <div class="lp-quotes__nav">
+          <button class="is-prev" type="button" data-lp-quote-prev aria-label="Previous testimonial">
+            <img src={`${asset}/icons/arrow-left.svg`} alt="" width="40" height="40" />
+          </button>
+          <button class="is-next" type="button" data-lp-quote-next aria-label="Next testimonial">
+            <img src={`${asset}/icons/arrow-right.svg`} alt="" width="40" height="40" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-contact" id="contact-estimate">
+      <div class="lp-contact__form-wrap">
+        <h2>Ready to bring your idea to life?</h2>
+        <p>Tell us your plan, we’ll tell you the cost.</p>
+        <EstimateForm
+          formId="lp-footer-estimate"
+          formName="Best Renovation Company LP - Contact"
+          theme="light"
+          showMessage={true}
+        />
+        <p class="lp-contact__blurb">
+          Trust our experienced team to turn your vision into reality. Contact us today for innovative designs,
+          sustainable solutions, and exceptional service
+        </p>
+      </div>
+      <div class="lp-contact__info">
+        <div>
+          <span>Call us at</span>
+          <a href={phoneHref}>{phoneDisplay}</a>
+        </div>
+        <div>
+          <span>Email us at</span>
+          <a href={`mailto:${email}`}>{email}</a>
+        </div>
+        <div class="lp-contact__social">
+          <span>Check out our socials</span>
+          <div class="lp-socials">
+            <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <img src={`${asset}/icons/facebook.svg`} alt="" width="12" height="22" />
+            </a>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <img src={`${asset}/icons/instagram.svg`} alt="" width="22" height="22" />
+            </a>
+          </div>
+        </div>
+        <a class="lp-contact__mark" href="/" aria-label="Redo home">
+          <img src={`${asset}/icons/redo-mark.svg`} alt="REDO — Renovate, Enhance, Design, Optimize" width="133" height="144" />
+        </a>
+      </div>
+    </section>
+
+    <footer class="lp-footer">
+      <div class="lp-footer__bar">
+        <p>
+          <strong>© 2026 REDO All rights reserved</strong>
+          {'  -  '}
+          Web Design &amp; Development by Connect Group
+        </p>
+        <span class="lp-footer__lang">
+          <img src={`${asset}/icons/globe.svg`} alt="" width="15" height="15" />
+          English
+        </span>
+      </div>
+    </footer>
+    </div>
+
+    <a class="lp-wa-float" href={waFloat} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+      <img src="/wp-content/uploads/2024/03/whatsapp-button.png" alt="WhatsApp" width="70" height="70" />
+    </a>
+
+    <div class="lp-modal" hidden data-lp-modal>
+      <button class="lp-modal__close" type="button" data-lp-modal-close aria-label="Close video">&times;</button>
+      <div class="lp-modal__frame">
+        <iframe
+          data-lp-iframe
+          title="REDO renovation video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="/wp-includes/js/jquery/jquery.min.js" is:inline></script>
+  <script
+    src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
+    is:inline></script>
+  <script src="/js/astro-mirror-fixes.js?v=geo1" defer></script>
+  <script is:inline define:vars={{ quotesJson: JSON.stringify(quotes) }}>
+    window.__lpQuotes = JSON.parse(quotesJson);
+  </script>
+  <script>
+    import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
+
+    type Quote = { text: string; who: string };
+
+    declare global {
+      interface Window {
+        __lpQuotes?: Quote[];
+        dataLayer?: Array<Record<string, string>>;
+        jQuery?: any;
+      }
+    }
+
+    function initLpPage() {
+      var quotes: Quote[] = window.__lpQuotes || [];
+      document.querySelectorAll<HTMLFormElement>('.lp-form').forEach(function (form) {
+        var submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+        var status = form.querySelector<HTMLElement>('.lp-form__status');
+        var submitting = false;
+        var formId = form.id;
+        var formName = form.getAttribute('data-form-name') || '';
+
+        function setHidden(name: string, value: string) {
+          var input = form.querySelector<HTMLInputElement>('[name="' + name + '"]');
+          if (input) input.value = value || '';
+        }
+
+        function captureTracking() {
+          var captured = captureAttribution(formId, formName);
+          populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+          setHidden('page_url', window.location.href);
+          setHidden('submission_page_url', window.location.href);
+          setHidden('referrer_url', document.referrer || '');
+          if (!form.dataset.submissionId) {
+            form.dataset.submissionId = crypto.randomUUID();
+          }
+          setHidden('submission_id', form.dataset.submissionId);
+        }
+
+        captureTracking();
+
+        function clearErrors() {
+          form.querySelectorAll('.lp-form__error').forEach(function (el) {
+            el.textContent = '';
+          });
+          if (status) {
+            status.hidden = true;
+            status.textContent = '';
+            status.classList.remove('lp-form__status--error', 'lp-form__status--success');
+          }
+        }
+
+        function showFieldErrors(errors: Record<string, string>) {
+          if (!errors) return;
+          if (errors.name && !errors.first_name) errors.first_name = errors.name;
+          Object.keys(errors).forEach(function (key) {
+            var el = form.querySelector<HTMLElement>('[data-error-for="' + key + '"]');
+            if (el) el.textContent = errors[key];
+          });
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (submitting) return;
+          clearErrors();
+          captureTracking();
+          setHidden('submitted_at', new Date().toISOString());
+
+          var phone = form.querySelector<HTMLInputElement>('.cg-phone-input');
+          var countryCodeInput = form.querySelector<HTMLInputElement>('[name="phone-country-code"]');
+          if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
+            try {
+              var full = window.jQuery(phone).intlTelInput('getNumber');
+              if (full) phone.value = full;
+              var dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
+              if (dial && countryCodeInput) countryCodeInput.value = '+' + dial.dialCode;
+            } catch (err) {}
+          }
+
+          submitting = true;
+          if (submitBtn) submitBtn.disabled = true;
+
+          var payload: Record<string, string> = {};
+          new FormData(form).forEach(function (value, key) {
+            if (typeof value === 'string') payload[key] = value;
+          });
+
+          fetch('/api/contact/', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          })
+            .then(function (response) {
+              return response
+                .json()
+                .then(function (data) {
+                  return { ok: response.ok, data: data };
+                })
+                .catch(function () {
+                  return {
+                    ok: false,
+                    data: {
+                      message: 'We could not submit your enquiry at the moment. Please try again shortly.',
+                    },
+                  };
+                });
+            })
+            .then(function (result) {
+              if (status) status.hidden = false;
+              if (result.ok && result.data && result.data.success) {
+                if (status) {
+                  status.textContent = result.data.message || 'Thank you. Your enquiry has been received.';
+                  status.classList.add('lp-form__status--success');
+                }
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                  event: 'form_submission_lead',
+                  email: (form.querySelector('[name="email"]') as HTMLInputElement | null)?.value || '',
+                  phone_number: (form.querySelector('[name="phone"]') as HTMLInputElement | null)?.value || '',
+                  form_id: form.id || '',
+                  submission_id: (result.data && result.data.submissionId) || form.dataset.submissionId || '',
+                  status: 'mail_sent',
+                });
+                form.reset();
+                form.dataset.submissionId = crypto.randomUUID();
+                captureTracking();
+                return;
+              }
+              if (status) {
+                status.textContent =
+                  (result.data && result.data.message) ||
+                  'We could not submit your enquiry at the moment. Please try again shortly.';
+                status.classList.add('lp-form__status--error');
+              }
+              if (result.data && result.data.errors) showFieldErrors(result.data.errors);
+            })
+            .catch(function () {
+              if (status) {
+                status.hidden = false;
+                status.textContent = 'We could not submit your enquiry at the moment. Please try again shortly.';
+                status.classList.add('lp-form__status--error');
+              }
+            })
+            .finally(function () {
+              submitting = false;
+              if (submitBtn) submitBtn.disabled = false;
+            });
+        });
+      });
+
+      var quoteIndex = 0;
+      var textEl = document.querySelector<HTMLElement>('[data-lp-quote-text]');
+      var whoEl = document.querySelector<HTMLElement>('[data-lp-quote-who]');
+      function renderQuote() {
+        if (!quotes.length || !textEl || !whoEl) return;
+        textEl.textContent = '“' + quotes[quoteIndex].text + '”';
+        whoEl.textContent = quotes[quoteIndex].who;
+      }
+      var prev = document.querySelector<HTMLButtonElement>('[data-lp-quote-prev]');
+      var next = document.querySelector<HTMLButtonElement>('[data-lp-quote-next]');
+      var quoteTimer: ReturnType<typeof setInterval> | null = null;
+      function stopQuoteAutoplay() {
+        if (quoteTimer) {
+          clearInterval(quoteTimer);
+          quoteTimer = null;
+        }
+      }
+      function startQuoteAutoplay() {
+        stopQuoteAutoplay();
+        if (!quotes.length) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        quoteTimer = setInterval(function () {
+          quoteIndex = (quoteIndex + 1) % quotes.length;
+          renderQuote();
+        }, 5000);
+      }
+      if (prev) {
+        prev.addEventListener('click', function () {
+          quoteIndex = (quoteIndex - 1 + quotes.length) % quotes.length;
+          renderQuote();
+          startQuoteAutoplay();
+        });
+      }
+      if (next) {
+        next.addEventListener('click', function () {
+          quoteIndex = (quoteIndex + 1) % quotes.length;
+          renderQuote();
+          startQuoteAutoplay();
+        });
+      }
+      startQuoteAutoplay();
+
+      function initPeekSlider(
+        track: HTMLElement | null,
+        prevBtn: HTMLButtonElement | null,
+        nextBtn: HTMLButtonElement | null,
+        intervalMs: number,
+      ) {
+        if (!track || !track.children.length) return;
+        const sliderTrack = track;
+        var mq = window.matchMedia('(max-width: 1024px)');
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var timer: ReturnType<typeof setInterval> | null = null;
+        var paused = false;
+
+        function step() {
+          var card = sliderTrack.children[0];
+          if (!card) return sliderTrack.clientWidth;
+          var styles = window.getComputedStyle(sliderTrack);
+          var gap = parseFloat(styles.gap || styles.columnGap) || 16;
+          return card.getBoundingClientRect().width + gap;
+        }
+
+        function maxIndex() {
+          return Math.max(0, sliderTrack.children.length - 1);
+        }
+
+        function currentIndex() {
+          var size = step();
+          if (!size) return 0;
+          return Math.round(sliderTrack.scrollLeft / size);
+        }
+
+        function go(i: number) {
+          var max = maxIndex();
+          var nextIndex = i;
+          if (nextIndex > max) nextIndex = 0;
+          if (nextIndex < 0) nextIndex = max;
+          sliderTrack.scrollTo({
+            left: nextIndex * step(),
+            behavior: reduce.matches ? 'auto' : 'smooth',
+          });
+        }
+
+        function stop() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+
+        function play() {
+          stop();
+          if (!mq.matches || reduce.matches) return;
+          timer = setInterval(function () {
+            if (paused) return;
+            go(currentIndex() + 1);
+          }, intervalMs || 4200);
+        }
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function () {
+            go(currentIndex() - 1);
+            play();
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener('click', function () {
+            go(currentIndex() + 1);
+            play();
+          });
+        }
+
+        sliderTrack.addEventListener('pointerdown', function () {
+          paused = true;
+        });
+        ['pointerup', 'pointercancel', 'mouseleave'].forEach(function (evt) {
+          sliderTrack.addEventListener(evt, function () {
+            paused = false;
+          });
+        });
+
+        if (mq.addEventListener) mq.addEventListener('change', play);
+        else mq.addListener(play);
+        play();
+      }
+
+      initPeekSlider(
+        document.querySelector('[data-lp-slider-track]'),
+        document.querySelector('[data-lp-slider-prev]'),
+        document.querySelector('[data-lp-slider-next]'),
+        4200
+      );
+      initPeekSlider(document.querySelector('[data-lp-reels-track]'), null, null, 3800);
+
+      var modal = document.querySelector<HTMLElement>('[data-lp-modal]');
+      var iframe = document.querySelector<HTMLIFrameElement>('[data-lp-iframe]');
+      var videoBtn = document.querySelector<HTMLButtonElement>('[data-lp-video]');
+      var closeBtn = document.querySelector<HTMLButtonElement>('[data-lp-modal-close]');
+      var videoSrc = 'https://www.youtube.com/embed/_y5oghxspRU?autoplay=1';
+      function closeModal() {
+        if (!modal) return;
+        modal.hidden = true;
+        if (iframe) iframe.src = '';
+      }
+      const modalEl = modal;
+      const iframeEl = iframe;
+      if (videoBtn && modalEl && iframeEl) {
+        videoBtn.addEventListener('click', function () {
+          iframeEl.src = videoSrc;
+          modalEl.hidden = false;
+        });
+      }
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModal();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLpPage);
+    } else {
+      initLpPage();
+    }
+  </script>
+</BaseLayout>
