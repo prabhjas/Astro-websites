@@ -963,3 +963,91 @@ body.elementor-page-66853 #lp-form select {
   background-size: 12px 8px !important;
   padding-right: 28px !important;
 }
+
+/*
+ * About Us (/about-us/) — one H1 per page.
+ * Desktop hero keeps h1; mobile hero repeat is h2 (same visual weight via us_custom_5c6e2f98).
+ */
+.us_custom_5c6e2f98 h2.about-us-hero-mobile {
+  margin: 0;
+  color: #0b1347;
+  font-size: 52px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/*
+ * Homepage + shared mobile fixes (< 600px).
+ * Benefits Smart Slider (n2-ss-16) was rendering a 2×2 desktop grid on narrow viewports.
+ */
+@media (max-width: 600px) {
+  .us_custom_5c6e2f98 h2.about-us-hero-mobile {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16-align,
+  .us_custom_cb1b1e2d #n2-ss-16,
+  .us_custom_cb1b1e2d .n2-section-smartslider {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-slider-1,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-slider-2,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-slider-3,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-slide,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layers-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layer-row-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layer-col,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layer-row .n2-ss-layer-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 [data-hidemobileportrait="1"] {
+    display: none !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layer[data-pm="absolute"] {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-layer-content,
+  .us_custom_cb1b1e2d #n2-ss-16 .n2-ss-section-main-content {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .us_custom_cb1b1e2d div#n2-ss-16-arrow-next,
+  .us_custom_cb1b1e2d div#n2-ss-16-arrow-previous {
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .us_custom_cb1b1e2d .us_custom_ee5e22b5,
+  .us_custom_cb1b1e2d .us_custom_ee5e22b5 .w-text-value {
+    text-align: center !important;
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+}
