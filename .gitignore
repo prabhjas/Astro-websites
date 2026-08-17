@@ -5,6 +5,10 @@ Exported-wp/
 .vscode
 Lana staging
 
+# Local-only git/push notes — never commit or push this file
+push-refer-files.txt
+push-refer-files
+
 # Dependencies
 node_modules/
 .pnpm-store/
