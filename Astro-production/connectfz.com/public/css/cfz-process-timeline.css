@@ -110,73 +110,9 @@
 
 .okhaloma-contact input::placeholder,
 .okhaloma-contact textarea::placeholder {
-  color: #5a6f8f !important;
-  -webkit-text-fill-color: #5a6f8f !important;
+  color: #7a8aaa !important;
+  -webkit-text-fill-color: #7a8aaa !important;
   opacity: 1;
-}
-
-/*
-  Process "Get Started" form sticky is handled in ElementorScripts (section-bounded).
-  Collapse Elementor sticky spacers so the row height stays correct.
-*/
-.elementor-element-2dcf5139,
-.elementor-element-1db02d2,
-.elementor-element-2bee9f87,
-.elementor-element-d2f8c71,
-.elementor-element-8676285,
-.elementor-element-f878b92,
-.elementor-element-69184ea4 {
-  overflow: visible !important;
-}
-
-.elementor-element-40cc132f .elementor-motion-effects-container,
-.elementor-element-40cc132f .elementor-motion-effects-layer {
-  display: none !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-.elementor-element-30eb65a4 {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
-  width: 100% !important;
-}
-
-/* PROCESS blue sections: left-column body copy must be white (not navy/black) */
-.elementor-element-2dcf5139 .elementor-element-4d812929,
-.elementor-element-2dcf5139 .elementor-element-4d812929 p,
-.elementor-element-2dcf5139 .elementor-element-4d812929 span,
-.elementor-element-2bee9f87 .elementor-element-4d499bfb,
-.elementor-element-2bee9f87 .elementor-element-4d499bfb p,
-.elementor-element-2bee9f87 .elementor-element-4d499bfb span,
-.elementor-element-d2f8c71 .elementor-element-2f965ef1,
-.elementor-element-d2f8c71 .elementor-element-2f965ef1 p,
-.elementor-element-d2f8c71 .elementor-element-2f965ef1 span,
-.elementor-element-8676285 .elementor-element-6c62922a,
-.elementor-element-8676285 .elementor-element-6c62922a p,
-.elementor-element-8676285 .elementor-element-6c62922a span,
-.elementor-element-4d812929,
-.elementor-element-4d812929 p,
-.elementor-element-4d499bfb,
-.elementor-element-4d499bfb p,
-.elementor-element-2f965ef1,
-.elementor-element-2f965ef1 p,
-.elementor-element-6c62922a,
-.elementor-element-6c62922a p {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
-
-/* PROCESS titles on blue hero bands */
-.elementor-element-2dcf5139 .elementor-element-42038aa9 .elementor-heading-title,
-.elementor-element-1db02d2 .elementor-heading-title.cfz-process-title,
-.elementor-element-2bee9f87 .cfz-process-title,
-.elementor-element-d2f8c71 .cfz-process-title {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
 }
 
 @media (max-width: 767px) {

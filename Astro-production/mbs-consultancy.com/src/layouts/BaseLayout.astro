@@ -49,7 +49,6 @@ const stylesheets = [
     ...baseCss,
     ...extraCss,
     "/css/migration-overrides.css",
-    "/css/menu-no-hash.css",
   ]),
 ];
 
@@ -135,6 +134,5 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <FloatContacts />
     <ElementorScripts />
     {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
-      <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>
