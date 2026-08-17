@@ -423,6 +423,11 @@ body.single-post .sp-breadcrumbs span {
 
 
 /* Footer brand logo: keep native aspect (theme max-width:100% + HTML height stretches it) */
+footer aside#block-2 {
+  margin-top: 0 !important;
+  margin-bottom: 0;
+}
+
 footer #block-2 .wp-block-image,
 footer .cfz-footer-logo {
   margin: 0 0 10px;
@@ -497,6 +502,15 @@ footer .sidebar-1 #block-10 {
     border: 0 !important;
     border-left: 0 !important;
     border-right: 0 !important;
+    align-self: flex-start;
+  }
+
+  footer .sidebar-1 aside.widget {
+    margin-top: 0;
+  }
+
+  footer .sidebar-1 #block-2 {
+    margin-top: 0 !important;
   }
 
   footer .footer-top .widget-title {
