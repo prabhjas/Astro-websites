@@ -1419,7 +1419,6 @@
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
     window.__astroLegacyContactFormsWired = true;
-    try { resolveInitialLandingUrl(); } catch (e) {}
 
     function ensureHiddenField(form, name, value) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -1433,67 +1432,6 @@
       return input;
     }
 
-    function getAttrCookie(name) {
-      var nameEQ = name + '=';
-      var parts = document.cookie.split(';');
-      for (var i = 0; i < parts.length; i++) {
-        var c = parts[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-          try {
-            return decodeURIComponent(c.substring(nameEQ.length));
-          } catch (e) {
-            return c.substring(nameEQ.length);
-          }
-        }
-      }
-      return '';
-    }
-
-    function setAttrCookie(name, value, days) {
-      var d = new Date();
-      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-      var secure = location.protocol === 'https:' ? '; Secure' : '';
-      document.cookie =
-        name +
-        '=' +
-        encodeURIComponent(String(value == null ? '' : value)) +
-        '; expires=' +
-        d.toUTCString() +
-        '; path=/; SameSite=Lax' +
-        secure;
-    }
-
-    function resolveInitialLandingUrl() {
-      var pageUrl = window.location.href;
-      var fromCookie = getAttrCookie('initialUrl') || getAttrCookie('cg_initial_url');
-      if (fromCookie) return fromCookie;
-      try {
-        var fromSession = sessionStorage.getItem('cg_initial_url');
-        if (fromSession) {
-          setAttrCookie('initialUrl', fromSession, 30);
-          return fromSession;
-        }
-      } catch (e) {}
-      setAttrCookie('initialUrl', pageUrl, 30);
-      try {
-        sessionStorage.setItem('cg_initial_url', pageUrl);
-      } catch (e) {}
-      return pageUrl;
-    }
-
-    function pushLeadToDataLayer(email, phone, submissionId) {
-      try {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: 'form_submission_lead',
-          email: email || '',
-          phone_number: phone || '',
-          submission_id: submissionId || '',
-        });
-      } catch (e) {}
-    }
-
-
     function ensureLegacyTrackingFields(form) {
       if (!form.dataset.submissionId) {
         form.dataset.submissionId =
@@ -1502,7 +1440,7 @@
             : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       var pageUrl = window.location.href;
-      var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
+      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
       ensureHiddenField(form, 'form_name', 'Evolution Middle East Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
@@ -1513,29 +1451,21 @@
     }
 
     function captureTrackingFields(form) {
-      var params = new URLSearchParams(window.location.search || '');
-      var hashParams = new URLSearchParams((window.location.hash || '').replace(/^#\??/, ''));
-      function paramHas(key) {
-        return params.has(key) || hashParams.has(key);
-      }
-      function paramGet(key) {
-        if (params.has(key)) return params.get(key) || '';
-        if (hashParams.has(key)) return hashParams.get(key) || '';
-        return '';
-      }
+      var params = new URLSearchParams(window.location.search);
       var pageUrl = window.location.href;
-      var initial = resolveInitialLandingUrl();
-      if (typeof ensureLegacyTrackingFields === 'function') {
-        ensureLegacyTrackingFields(form);
+      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
+      if (!sessionStorage.getItem('cg_initial_url')) {
+        sessionStorage.setItem('cg_initial_url', pageUrl);
       }
+      ensureLegacyTrackingFields(form);
 
+      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
       var TRACKING_FIELDS = {
-        gclid: ['gclid', 'gbraid', 'wbraid'],
+        gclid: ['gclid'],
         gbraid: ['gbraid'],
         wbraid: ['wbraid'],
         fbclid: ['fbclid'],
         msclkid: ['msclkid'],
-        twclid: ['twclid'],
         utm_source: ['utm_source'],
         utm_medium: ['utm_medium'],
         utm_campaign: ['utm_campaign'],
@@ -1546,8 +1476,8 @@
         group_id: ['group_id', 'groupid'],
         creative_id: ['creative_id', 'creativeid', 'creative'],
         keyword: ['keyword', 'kw', 'q', 'utm_term'],
-        matchtype: ['matchtype', 'match_type'],
-        device: ['device', 'utm_device'],
+        matchtype: ['matchtype'],
+        device: ['device'],
         network: ['network'],
         placement: ['placement', 'displayad'],
         target: ['target', 'targetid', 'target_id'],
@@ -1561,31 +1491,15 @@
 
       function firstParam(aliases) {
         for (var i = 0; i < aliases.length; i++) {
-          var alias = aliases[i];
-          if (paramHas(alias)) return String(paramGet(alias) || '').trim();
+          var v = params.get(aliases[i]);
+          if (v) return v;
         }
         return '';
       }
 
       Object.keys(TRACKING_FIELDS).forEach(function (name) {
-        var fromUrl = firstParam(TRACKING_FIELDS[name]);
-        var value = fromUrl;
-        if (fromUrl) {
-          setAttrCookie(name, fromUrl, 30);
-        } else {
-          value = getAttrCookie(name) || '';
-        }
-        if (name === 'gclid' && !value) {
-          value = getAttrCookie('gclid') || getAttrCookie('gbraid') || getAttrCookie('wbraid') || '';
-        }
-        ensureHiddenField(form, name, value);
+        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
       });
-
-      var urlGclid = String(paramGet('gclid') || paramGet('gbraid') || paramGet('wbraid') || '').trim();
-      if (urlGclid) {
-        setAttrCookie('gclid', urlGclid, 30);
-        ensureHiddenField(form, 'gclid', urlGclid);
-      }
 
       ensureHiddenField(form, 'initial_url', initial);
       ensureHiddenField(form, 'landing_page_url', initial);
@@ -1593,7 +1507,6 @@
       ensureHiddenField(form, 'submission_page_url', pageUrl);
       ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
-
 
     function normalizeNationalPhoneDigits(phone, dialCode) {
       var digits = String(phone.value || '').replace(/\D/g, '');
@@ -1981,7 +1894,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact/', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(buildContactFormPayload(form)),

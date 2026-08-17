@@ -11,168 +11,6 @@
   const SUCCESS_MSG = "Thank you. Your enquiry has been received.";
   const FAIL_MSG = "We could not submit your enquiry at the moment. Please try again shortly.";
 
-
-  function getAttrCookie(name) {
-    var nameEQ = name + "=";
-    var parts = document.cookie.split(";");
-    for (var i = 0; i < parts.length; i++) {
-      var c = parts[i].trim();
-      if (c.indexOf(nameEQ) === 0) {
-        try {
-          return decodeURIComponent(c.substring(nameEQ.length));
-        } catch (e) {
-          return c.substring(nameEQ.length);
-        }
-      }
-    }
-    return "";
-  }
-
-  function setAttrCookie(name, value, days) {
-    var d = new Date();
-    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-    var secure = location.protocol === "https:" ? "; Secure" : "";
-    document.cookie =
-      name +
-      "=" +
-      encodeURIComponent(String(value == null ? "" : value)) +
-      "; expires=" +
-      d.toUTCString() +
-      "; path=/; SameSite=Lax" +
-      secure;
-  }
-
-
-  function ensureHiddenField(form, name, value) {
-    var input = form.querySelector('[name="' + name + '"]');
-    if (!input) {
-      input = document.createElement("input");
-      input.type = "hidden";
-      input.name = name;
-      form.appendChild(input);
-    }
-    if (!String(input.value || "").trim()) input.value = value || "";
-    return input;
-  }
-
-  function resolveInitialLandingUrl() {
-    var pageUrl = window.location.href;
-    var fromCookie = getAttrCookie("initialUrl") || getAttrCookie("cg_initial_url");
-    if (fromCookie) return fromCookie;
-    try {
-      var fromSession = sessionStorage.getItem("cg_initial_url");
-      if (fromSession) {
-        setAttrCookie("initialUrl", fromSession, 30);
-        return fromSession;
-      }
-    } catch (e) {}
-    setAttrCookie("initialUrl", pageUrl, 30);
-    try {
-      sessionStorage.setItem("cg_initial_url", pageUrl);
-    } catch (e) {}
-    return pageUrl;
-  }
-
-  function captureTrackingFields(form) {
-    var params = new URLSearchParams(window.location.search || "");
-    var hashParams = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
-    function paramHas(key) {
-      return params.has(key) || hashParams.has(key);
-    }
-    function paramGet(key) {
-      if (params.has(key)) return params.get(key) || "";
-      if (hashParams.has(key)) return hashParams.get(key) || "";
-      return "";
-    }
-    var pageUrl = window.location.href;
-    var initial = resolveInitialLandingUrl();
-
-    var TRACKING_FIELDS = {
-      gclid: ["gclid", "gbraid", "wbraid"],
-      gbraid: ["gbraid"],
-      wbraid: ["wbraid"],
-      fbclid: ["fbclid"],
-      msclkid: ["msclkid"],
-      twclid: ["twclid"],
-      utm_source: ["utm_source"],
-      utm_medium: ["utm_medium"],
-      utm_campaign: ["utm_campaign"],
-      utm_term: ["utm_term"],
-      utm_content: ["utm_content"],
-      campaign_id: ["campaign_id", "campaignid", "gad_campaignid", "campaign"],
-      adgroup_id: ["adgroup_id", "adgroupid"],
-      group_id: ["group_id", "groupid"],
-      creative_id: ["creative_id", "creativeid", "creative"],
-      keyword: ["keyword", "kw", "q", "utm_term"],
-      matchtype: ["matchtype", "match_type"],
-      device: ["device", "utm_device"],
-      network: ["network"],
-      placement: ["placement", "displayad"],
-      target: ["target", "targetid", "target_id"],
-      target_id: ["target_id", "targetid", "target"],
-      adposition: ["adposition", "ad_position"],
-      loc_physical_ms: ["loc_physical_ms", "locphysicalms"],
-      loc_interest_ms: ["loc_interest_ms", "locinterestms"],
-      gad_source: ["gad_source", "gadsource"],
-      source: ["source", "gad_source", "gadsource"],
-    };
-
-    function firstParam(aliases) {
-      for (var i = 0; i < aliases.length; i++) {
-        var alias = aliases[i];
-        if (paramHas(alias)) return String(paramGet(alias) || "").trim();
-      }
-      return "";
-    }
-
-    Object.keys(TRACKING_FIELDS).forEach(function (name) {
-      var fromUrl = firstParam(TRACKING_FIELDS[name]);
-      var value = fromUrl;
-      if (paramHas(TRACKING_FIELDS[name][0]) || fromUrl) {
-        // Persist when URL explicitly carried any alias with a value
-        if (fromUrl) setAttrCookie(name, fromUrl, 30);
-      } else {
-        value = getAttrCookie(name) || "";
-      }
-      // gclid special-case: also accept cookie if URL empty
-      if (name === "gclid" && !value) {
-        value = getAttrCookie("gclid") || getAttrCookie("gbraid") || getAttrCookie("wbraid") || "";
-      }
-      ensureHiddenField(form, name, value);
-    });
-
-    // Explicit click-id cookies when present on URL
-    ["gclid", "gbraid", "wbraid", "gclsrc"].forEach(function (k) {
-      var v = String(paramGet(k) || "").trim();
-      if (v) setAttrCookie(k === "gclsrc" ? "gclsrc" : k === "gclid" ? "gclid" : k, k === "gclid" ? (paramGet("gclid") || paramGet("gbraid") || paramGet("wbraid") || v) : v, 30);
-    });
-    var urlGclid = String(paramGet("gclid") || paramGet("gbraid") || paramGet("wbraid") || "").trim();
-    if (urlGclid) {
-      setAttrCookie("gclid", urlGclid, 30);
-      ensureHiddenField(form, "gclid", urlGclid);
-    }
-
-    ensureHiddenField(form, "initial_url", initial);
-    ensureHiddenField(form, "landing_page_url", initial);
-    ensureHiddenField(form, "page_url", pageUrl);
-    ensureHiddenField(form, "submission_page_url", pageUrl);
-    ensureHiddenField(form, "referrer_url", document.referrer || "");
-  }
-
-
-  function pushLeadToDataLayer(email, phone, submissionId) {
-    try {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "form_submission_lead",
-        email: email || "",
-        phone_number: phone || "",
-        submission_id: submissionId || "",
-      });
-    } catch (e) {}
-  }
-
-
   const NAME_SEL = "[name='sub'], [name='first-name'], [name='firstName'], [name='your-name'], [name='name']";
   const EMAIL_SEL = "[name='sub2'], [name='your-email'], [name='email']";
   const PHONE_SEL =
@@ -458,7 +296,6 @@
           return;
         }
 
-        captureTrackingFields(form);
         const fd = new FormData(form);
         if (result.phone) {
           const phoneName = form.querySelector(PHONE_SEL)?.getAttribute("name") || "phone";
@@ -466,10 +303,7 @@
           fd.set("phone", result.phone);
         }
         if (!fd.get("page_url")) fd.set("page_url", window.location.href);
-        if (!fd.get("initial_url")) fd.set("initial_url", resolveInitialLandingUrl());
-        if (!fd.get("landing_page_url")) fd.set("landing_page_url", resolveInitialLandingUrl());
-        if (!fd.get("page_url")) fd.set("page_url", window.location.href);
-        if (!fd.get("submission_page_url")) fd.set("submission_page_url", window.location.href);
+        if (!fd.get("initial_url")) fd.set("initial_url", window.location.href);
         if (!fd.get("form_name")) fd.set("form_name", detectFormName(form));
         if (!fd.get("submission_id")) fd.set("submission_id", crypto.randomUUID());
         if (!fd.get("submitted_at")) fd.set("submitted_at", new Date().toISOString());
