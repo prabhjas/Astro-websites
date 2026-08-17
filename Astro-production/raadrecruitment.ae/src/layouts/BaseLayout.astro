@@ -45,6 +45,7 @@ const stylesheets = [
     ...(liveInlineCss as string[]).filter((href) => !skipInline.has(href)),
     ...(smartSliderCss as string[]),
     ...extraCss,
+    "/css/migration-overrides.css",
     "/css/raadrecruitment-astra-fixes.css",
     "/css/raadrecruitment-mobile-nav.css",
   ]),

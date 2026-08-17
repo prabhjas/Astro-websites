@@ -106,8 +106,68 @@ function withActiveState(html: string, current: string) {
   return out;
 }
 
-const html = withActiveState(headerHtml, path);
+
+function stripMenuDummyHashHrefs(html: string) {
+  return html.replace(/<a\b([^>]*)>/gi, (full, attrs: string) => {
+    if (!/\bhref="#"/i.test(attrs)) return full;
+    if (
+      /\b(w-nav-control|elementor-button|elementor-icon|mean-expand|w-toplink|modeltheme-trigger|lwptoc_toggle_label)\b/.test(
+        attrs,
+      )
+    ) {
+      return full;
+    }
+    if (
+      !/\b(elementor-item|elementor-sub-item|elementor-item-anchor|menu-link|w-nav-anchor|mega-menu-link)\b/.test(
+        attrs,
+      )
+    ) {
+      return full;
+    }
+    const next = attrs.replace(/\s*href="#"/i, "").replace(/\s*\belementor-item-anchor\b/g, "");
+    return `<a${next}>`;
+  });
+}
+
+const html = stripMenuDummyHashHrefs(withActiveState(headerHtml, path));
 ---
 
 <div class="sp-impreza-header" data-sp-elementor-header set:html={html} />
+
+<style is:global>
+
+/* Hide dummy '#' on submenu / dropdown hover.
+   Elementor pointer ::before and WP heading permalinks must not show on
+   dropdown links. Top-level underline pointers and carets stay intact. */
+.elementor-nav-menu--dropdown a::before,
+.elementor-nav-menu--dropdown .elementor-item::before,
+.elementor-nav-menu--dropdown .elementor-sub-item::before,
+.elementor-sub-item::before,
+.e-n-menu-content a::before,
+.e-n-menu-content .elementor-icon-box-title a::after,
+.e-n-menu-content .elementor-heading-title a::after,
+.w-nav-list.level_2 .w-nav-anchor::before,
+.w-nav-list.level_3 .w-nav-anchor::before,
+.w-nav-list.submenu .w-nav-anchor::before,
+.ast-nav-menu .sub-menu .menu-link::before,
+.main-header-menu .sub-menu .menu-link::before,
+.navbar .dropdown-menu > li > a::before,
+#navbar .sub-menu a::before {
+  content: none !important;
+}
+
+.elementor-location-header h1 a:hover::after,
+.elementor-location-header h2 a:hover::after,
+.elementor-location-header h3 a:hover::after,
+.elementor-location-header h4 a:hover::after,
+.elementor-location-header h5 a:hover::after,
+.elementor-location-header h6 a:hover::after,
+.elementor-location-header .elementor-icon-box-title a:hover::after,
+.elementor-location-header .elementor-heading-title a:hover::after,
+.e-n-menu-content .elementor-icon-box-title a:hover::after,
+.e-n-menu-content .elementor-heading-title a:hover::after {
+  content: none !important;
+}
+
+</style>
 <script is:inline src="/scripts/raadrecruitment-mobile-nav.js"></script>
