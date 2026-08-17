@@ -1,0 +1,377 @@
+---
+const items = [
+  {
+    quote:
+      "NG Manpower Solutions has been a game-changer for our Oil & Gas company. Their understanding of our industry's unique needs and their ability to provide skilled professionals have exceeded our expectations. Their streamlined processes, flexibility, and commitment to safety have saved us time and costs. We highly recommend NG Manpower Solutions for reliable and efficient manpower outsourcing.",
+    name: "Mike Williams",
+    role: "Operations Manager",
+    photo: "/testimonials/avatar-mike.png",
+    photoHasRing: true,
+  },
+  {
+    quote:
+      "I highly recommend the outsourcing solutions which offers a comprehensive range of services that cater to various industries, showcasing their versatility and adaptability with reliable and efficient solutions, they prove to be a trusted partner for businesses in the UAE. I am confident that engaging their services will greatly benefit any organization seeking outsourcing solutions.",
+    name: "Gary H. Curtin",
+    role: "General Manager",
+    photo: "/testimonials/avatar-2.png",
+    photoHasRing: true,
+  },
+  {
+    quote:
+      "I had an exceptional experience working with outstanding company. Their expertise in providing outsourcing solutions is truly commendable. The team demonstrated remarkable professionalism and efficiency throughout our collaboration. Their attention to detail, prompt service, and commitment to delivering high-quality results exceeded my expectations. Highly recommend to everyone seeking reliable outsourcing solutions in the UAE.",
+    name: "Dmitry Butusov",
+    role: "Human Resources Manager",
+    photo: "/testimonials/avatar-3.png",
+    photoHasRing: false,
+  },
+];
+---
+
+<section class="l-section wpb_row height_medium ng-testi-section" data-ng-testi>
+  <div class="l-section-h i-cf">
+    <div class="ng-testi">
+      <div class="ng-testi__head">
+        <p class="ng-testi__title">What they says</p>
+        <img
+          class="ng-testi__quote-icon"
+          src="/testimonials/quote.svg"
+          alt=""
+          width="116"
+          height="116"
+        />
+      </div>
+
+      <div class="ng-testi__card">
+        {
+          items.map((item, index) => (
+            <article
+              class="ng-testi__slide"
+              data-ng-testi-slide
+              hidden={index !== 0}
+            >
+              <p class="ng-testi__quote">“ {item.quote} ”</p>
+              <hr class="ng-testi__rule" />
+              <div class="ng-testi__foot">
+                <div class="ng-testi__author">
+                  <div
+                    class:list={[
+                      "ng-testi__avatar",
+                      item.photoHasRing && "ng-testi__avatar--ringed",
+                    ]}
+                  >
+                    <img src={item.photo} alt={item.name} width="98" height="98" />
+                  </div>
+                  <div class="ng-testi__meta">
+                    <p class="ng-testi__name">{item.name}</p>
+                    <p class="ng-testi__role">{item.role}</p>
+                    <div class="ng-testi__stars" aria-label="5 star rating">
+                      {Array.from({ length: 5 }).map(() => (
+                        <img src="/testimonials/star.svg" alt="" width="20" height="20" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div class="ng-testi__nav-spacer" aria-hidden="true" />
+              </div>
+            </article>
+          ))
+        }
+
+        <div class="ng-testi__nav">
+          <button type="button" class="ng-testi__btn" data-ng-testi-prev aria-label="Previous testimonial">
+            <img src="/testimonials/arrow.svg" alt="" width="34" height="34" />
+          </button>
+          <button type="button" class="ng-testi__btn" data-ng-testi-next aria-label="Next testimonial">
+            <img src="/testimonials/arrow.svg" alt="" width="34" height="34" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-ng-testi]").forEach((root) => {
+    const slides = Array.from(root.querySelectorAll("[data-ng-testi-slide]"));
+    if (slides.length < 2) return;
+    let index = 0;
+
+    const show = (next: number) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        (slide as HTMLElement).hidden = i !== index;
+      });
+    };
+
+    root.querySelector("[data-ng-testi-prev]")?.addEventListener("click", () => show(index - 1));
+    root.querySelector("[data-ng-testi-next]")?.addEventListener("click", () => show(index + 1));
+  });
+</script>
+
+<style>
+  .ng-testi-section {
+    padding-top: 24px !important;
+    padding-bottom: 72px !important;
+    background: #fff;
+  }
+
+  .ng-testi {
+    max-width: 1219px;
+    margin: 0 auto;
+  }
+
+  .ng-testi__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .ng-testi__title {
+    margin: 0 !important;
+    font-family: Poppins, sans-serif !important;
+    font-size: 36px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    color: #004ab5 !important;
+    -webkit-text-fill-color: #004ab5 !important;
+  }
+
+  .ng-testi__quote-icon {
+    display: block;
+    width: 116px;
+    height: 116px;
+    flex: 0 0 116px;
+    object-fit: contain;
+  }
+
+  .ng-testi__card {
+    position: relative;
+    background: #fff;
+  }
+
+  .ng-testi__slide {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .ng-testi__slide[hidden] {
+    display: none !important;
+  }
+
+  .ng-testi__quote {
+    margin: 0 !important;
+    font-family: Poppins, sans-serif !important;
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+
+  .ng-testi__rule {
+    display: block;
+    width: 100%;
+    height: 0;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #d9d9d9;
+  }
+
+  .ng-testi__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 100px;
+    padding: 7px 0 7px 10px;
+  }
+
+  .ng-testi__author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .ng-testi__avatar {
+    flex: 0 0 86px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .ng-testi__avatar img {
+    display: block;
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .ng-testi__avatar--ringed {
+    width: 98px;
+    height: 98px;
+    flex-basis: 98px;
+    overflow: visible;
+  }
+
+  .ng-testi__avatar--ringed img {
+    width: 98px;
+    height: 98px;
+  }
+
+  .ng-testi__avatar:not(.ng-testi__avatar--ringed) {
+    box-shadow: 0 0 0 6px #d6ebff;
+  }
+
+  .ng-testi__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .ng-testi__name {
+    margin: 0 !important;
+    font-family: Poppins, sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+
+  .ng-testi__role {
+    margin: 0 !important;
+    font-family: Poppins, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+
+  .ng-testi__stars {
+    display: flex;
+    gap: 0;
+    margin-top: 2px;
+  }
+
+  .ng-testi__stars img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .ng-testi__nav-spacer {
+    flex: 0 0 100px;
+  }
+
+  .ng-testi__nav {
+    position: absolute;
+    right: 0;
+    bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    z-index: 2;
+  }
+
+  .ng-testi__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .ng-testi__btn:first-child img {
+    transform: rotate(180deg);
+  }
+
+  .ng-testi__btn img {
+    display: block;
+    width: 34px;
+    height: 34px;
+  }
+
+  .ng-testi__btn:hover {
+    opacity: 0.7;
+  }
+
+  .ng-testi__btn:focus-visible {
+    outline: 2px solid #004ab5;
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 1024px) {
+    .ng-testi__title {
+      font-size: 28px !important;
+    }
+
+    .ng-testi__quote {
+      font-size: 22px !important;
+    }
+
+    .ng-testi__quote-icon {
+      width: 88px;
+      height: 88px;
+      flex-basis: 88px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ng-testi-section {
+      padding-top: 8px !important;
+      padding-bottom: 48px !important;
+    }
+
+    .ng-testi__head {
+      margin-bottom: 16px;
+    }
+
+    .ng-testi__title {
+      font-size: 24px !important;
+    }
+
+    .ng-testi__quote-icon {
+      width: 72px;
+      height: 72px;
+      flex-basis: 72px;
+    }
+
+    .ng-testi__quote {
+      font-size: 21px !important;
+    }
+
+    .ng-testi__name {
+      font-size: 20px !important;
+    }
+
+    .ng-testi__role {
+      font-size: 16px !important;
+    }
+
+    .ng-testi__foot {
+      padding-left: 0;
+      min-height: 86px;
+    }
+
+    .ng-testi__nav {
+      gap: 20px;
+      bottom: 24px;
+    }
+
+    .ng-testi__nav-spacer {
+      flex-basis: 88px;
+    }
+  }
+</style>
