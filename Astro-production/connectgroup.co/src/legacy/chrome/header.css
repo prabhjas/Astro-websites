@@ -2341,13 +2341,22 @@ li#mega-menu-item-31469 { display: none !important; }
   }
 }
 
-/* Force Services tab hover/active without requiring data-touch-mode */
-.elementor-35149 .elementor-element.elementor-element-caf053b .e-n-tab-title[aria-selected="true"],
+/* Services mega-menu: hide duplicate HR Services card (overview link already exists) */
+#mega-menu-item-35463 .elementor-element-ebba244 {
+  display: none !important;
+}
+
+/* Services submenu: remove default selected highlight; keep hover highlight */
 .elementor-35149 .elementor-element.elementor-element-caf053b .e-n-tab-title[aria-selected="false"]:hover {
   background: #29389433 !important;
   border-style: solid !important;
   border-width: 1px !important;
   border-color: #D4D7F940 !important;
+}
+
+.elementor-35149 .elementor-element.elementor-element-caf053b .e-n-tab-title[aria-selected="true"] {
+  background: transparent !important;
+  border-color: transparent !important;
 }
 
 /* Services mega-menu (Elementor template 35149) — from live connectgroup.co */
