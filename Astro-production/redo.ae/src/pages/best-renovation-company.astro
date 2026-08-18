@@ -19,6 +19,11 @@ const facebook = 'https://www.facebook.com/redorenovations.ae/';
 const waFloat =
   'https://api.whatsapp.com/send?phone=971589151443&text=Hi%2C%20I%20found%20your%20contact%20through%20your%20website%20Redo.%20Please%20let%20me%20know%20how%20to%20proceed.%20Thanks!';
 const whyVideoId = 'ibLhh9KXW0U';
+const reels = [
+  { poster: `${asset}/reels/reel-1.webp?v=ig1`, file: `${asset}/reels/reel-1.mp4`, alt: 'REDO Instagram reel', width: 534, height: 946 },
+  { poster: `${asset}/reels/reel-2.webp?v=ig1`, file: `${asset}/reels/reel-2.mp4`, alt: 'REDO Instagram reel', width: 579, height: 1024 },
+  { poster: `${asset}/reels/reel-3.webp?v=ig1`, file: `${asset}/reels/reel-3.mp4`, alt: 'REDO Instagram reel', width: 360, height: 622 },
+];
 
 const partners = [
   { src: `${asset}/partners/masaar.webp`, alt: 'Masaar', width: 119, height: 40 },
@@ -33,37 +38,31 @@ const partners = [
 
 const services = [
   {
-    href: '/villa-renovation-dubai/',
     img: `${asset}/services/villa.webp`,
     title: 'Villa Renovation',
     text: 'from structural work to final finishes.',
   },
   {
-    href: '/apartment-renovation/',
     img: `${asset}/services/apartment.webp`,
     title: 'Apartment Renovation',
     text: 'one room or the whole apartment, we handle it all.',
   },
   {
-    href: '/kitchen-renovation/',
     img: `${asset}/services/kitchen.webp`,
     title: 'Kitchen Renovation',
     text: 'cabinetry, countertops, through to appliances installed and connected.',
   },
   {
-    href: '/bathroom-renovation/',
     img: `${asset}/services/bathroom.webp`,
     title: 'Bathroom Renovation',
     text: 'from design to the bathroom you actually wanted.',
   },
   {
-    href: '/carpenter/',
     img: `${asset}/services/joinery.webp`,
     title: 'Joinery',
     text: 'custom cabinetry and built-ins, made to fit your space.',
   },
   {
-    href: '/redo-landscaping/',
     img: `${asset}/services/landscaping.webp`,
     title: 'Landscaping',
     text: 'outdoor renovation for villas, gardens, and pool surrounds.',
@@ -139,7 +138,7 @@ const quotes = [
   <Fragment slot="head">
     <meta name="googlebot" content="noindex, nofollow" />
     <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css" />
-    <link rel="stylesheet" href="/css/page-design/best-renovation-company.css?v=reels2" />
+    <link rel="stylesheet" href="/css/page-design/best-renovation-company.css?v=fix9" />
     <link
       rel="stylesheet"
       href="/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
@@ -165,7 +164,6 @@ const quotes = [
             height="60"
           />
         </a>
-        <a class="lp-header__cta" href="#estimate">find project estimate</a>
       </header>
       <div class="lp-hero__inner">
         <div class="lp-hero__copy">
@@ -226,15 +224,33 @@ const quotes = [
       </p>
       <p class="lp-show__scroll">Scroll before you call</p>
       <div class="lp-show__reels" data-lp-reels-track>
-        <a class="lp-show__reel" href="https://www.instagram.com/reel/DZrRpdBAiKu/" target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-1.webp`} alt="REDO Instagram reel" width="248" height="441" />
-        </a>
-        <a class="lp-show__reel" href="https://www.instagram.com/reel/DNx2hal4noi/" target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-2.webp`} alt="REDO Instagram reel" width="248" height="441" />
-        </a>
-        <a class="lp-show__reel" href="https://www.instagram.com/reel/DI_aM0HMojk/" target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-3.webp`} alt="REDO Instagram reel" width="248" height="441" />
-        </a>
+        {
+          reels.map((reel) => (
+            <div class="lp-show__reel" data-lp-reel-card>
+              <img
+                class="lp-show__reel-poster"
+                src={reel.poster}
+                alt={reel.alt}
+                width={reel.width}
+                height={reel.height}
+              />
+              <video
+                class="lp-show__reel-native"
+                data-lp-reel-native
+                muted
+                playsinline
+                loop
+                preload="metadata"
+                poster={reel.poster}
+              >
+                <source src={reel.file} type="video/mp4" />
+              </video>
+              <button class="lp-show__reel-play" type="button" data-lp-reel-play aria-label="Play reel">
+                <img src={`${asset}/icons/play.svg`} alt="" width="56" height="56" />
+              </button>
+            </div>
+          ))
+        }
       </div>
       <a class="lp-btn lp-btn--navy lp-show__cta" href={instagram} target="_blank" rel="noopener noreferrer">
         Follow REDO instagram
@@ -249,11 +265,11 @@ const quotes = [
       <div class="lp-services__grid" data-lp-slider-track>
         {
           services.map((item) => (
-            <a class="lp-services__card" href={item.href}>
+            <article class="lp-services__card">
               <img src={item.img} alt={item.title} width="429" height="273" />
               <h3>{item.title}</h3>
               <p>{item.text}</p>
-            </a>
+            </article>
           ))
         }
       </div>
@@ -272,7 +288,6 @@ const quotes = [
       <div class="lp-process__intro">
         <h2>How It Works</h2>
         <p>From Your Vision to Handover</p>
-        <a class="lp-btn lp-btn--red lp-process__cta" href="#estimate">Get an estimate</a>
       </div>
       <div class="lp-process__steps">
         <div class="lp-process__step">
@@ -296,6 +311,7 @@ const quotes = [
           <h3>Watch it<br />happen</h3>
         </div>
       </div>
+      <a class="lp-btn lp-btn--red lp-process__cta" href="#estimate">Get an estimate</a>
     </section>
 
     <section class="lp-why">
@@ -325,7 +341,7 @@ const quotes = [
         <iframe
           class="lp-why__video"
           data-lp-why-embed
-          src={`https://www.youtube.com/embed/${whyVideoId}?autoplay=1&mute=1&loop=1&playlist=${whyVideoId}&playsinline=1&rel=0&modestbranding=1`}
+          src={`https://www.youtube.com/embed/${whyVideoId}?autoplay=1&mute=1&loop=1&playlist=${whyVideoId}&playsinline=1&rel=0&modestbranding=1&controls=0&iv_load_policy=3&fs=0`}
           title="REDO renovation video"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
@@ -365,10 +381,6 @@ const quotes = [
           theme="light"
           showMessage={true}
         />
-        <p class="lp-contact__blurb">
-          Trust our experienced team to turn your vision into reality. Contact us today for innovative designs,
-          sustainable solutions, and exceptional service
-        </p>
       </div>
       <div class="lp-contact__info">
         <div>
@@ -394,6 +406,10 @@ const quotes = [
           <img src={`${asset}/icons/redo-mark.svg`} alt="REDO — Renovate, Enhance, Design, Optimize" width="133" height="144" />
         </a>
       </div>
+      <p class="lp-contact__blurb">
+        Trust our experienced team to turn your vision into reality. Contact us today for innovative designs,
+        sustainable solutions, and exceptional service
+      </p>
     </section>
 
     <footer class="lp-footer">
@@ -656,6 +672,7 @@ const quotes = [
           if (!mq.matches || reduce.matches) return;
           timer = setInterval(function () {
             if (paused) return;
+            if (track.querySelector('.is-playing')) return;
             go(currentIndex() + 1);
           }, intervalMs || 4200);
         }
@@ -719,5 +736,53 @@ const quotes = [
     } else {
       initLpPage();
     }
+  </script>
+  <script is:inline>
+    (function () {
+      function stopReel(card) {
+        var video = card.querySelector('[data-lp-reel-native]');
+        card.classList.remove('is-playing');
+        if (!video) return;
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      function playReel(card) {
+        document.querySelectorAll('[data-lp-reel-card].is-playing').forEach(function (openCard) {
+          if (openCard !== card) stopReel(openCard);
+        });
+        var video = card.querySelector('[data-lp-reel-native]');
+        if (!video) return;
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+        card.classList.add('is-playing');
+        var playPromise = video.play();
+        if (playPromise && playPromise.catch) {
+          playPromise.catch(function () {
+            card.classList.remove('is-playing');
+          });
+        }
+      }
+
+      function bind() {
+        document.querySelectorAll('[data-lp-reel-card]').forEach(function (card) {
+          if (card.dataset.lpReelBound === '1') return;
+          card.dataset.lpReelBound = '1';
+          card.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var video = card.querySelector('[data-lp-reel-native]');
+            if (card.classList.contains('is-playing') && video && !video.paused) return;
+            playReel(card);
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+      } else {
+        bind();
+      }
+    })();
   </script>
 </BaseLayout>
