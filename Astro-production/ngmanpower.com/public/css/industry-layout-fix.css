@@ -186,11 +186,13 @@
   justify-content: center;
 }
 .us_custom_2cb867d0 .w-image img[src*="Helping-Our-Clients"] {
-  width: min(280px, 70vw) !important;
-  max-width: 280px !important;
+  width: 368px !important;
+  max-width: min(368px, 90vw) !important;
   height: auto !important;
   margin: 0 auto !important;
   display: block;
+  object-fit: contain !important;
+  object-position: center center !important;
 }
 .us_custom_2cb867d0 .w-image img[src*="Frame-338"] {
   width: min(200px, 55vw) !important;

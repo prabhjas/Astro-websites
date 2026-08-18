@@ -9,6 +9,9 @@ const ROOT = process.cwd();
 const HEADER_PATH = join(ROOT, 'src/legacy/chrome/header.html');
 const HEADER_CSS_PATH = join(ROOT, 'src/legacy/chrome/header.css');
 const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
+const LICENCE_PATH = join(ROOT, 'src/legacy/chrome/licence-section.html');
+const LICENCE_CSS_HREF = '/css/redo-licence.css';
+const LICENCE_CSS_MARK = 'data-redo-licence-css';
 
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
@@ -24,11 +27,14 @@ let cachedHeader = null;
 let cachedFooter = null;
 /** @type {string | null} */
 let cachedHeaderCss = null;
+/** @type {string | null} */
+let cachedLicence = null;
 
 export function clearSharedChromeCache() {
   cachedHeader = null;
   cachedFooter = null;
   cachedHeaderCss = null;
+  cachedLicence = null;
 }
 
 /**
@@ -110,6 +116,47 @@ export function getSharedFooterHtml() {
     );
   }
   return cachedFooter;
+}
+
+function getLicenceSectionHtml() {
+  if (cachedLicence == null) {
+    if (!existsSync(LICENCE_PATH)) return '';
+    cachedLicence = readFileSync(LICENCE_PATH, 'utf8').trim();
+  }
+  return cachedLicence;
+}
+
+function ensureLicenceCss(html) {
+  if (html.includes(LICENCE_CSS_MARK) || html.includes(LICENCE_CSS_HREF)) return html;
+  const link = `<link rel="stylesheet" href="${LICENCE_CSS_HREF}" ${LICENCE_CSS_MARK}="1" />`;
+  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, `${link}\n</head>`) : link + html;
+}
+
+/**
+ * Insert the Figma LICENSE DETAILS strip above the footer copyright bar.
+ * @param {string} html
+ */
+export function injectLicenceSection(html) {
+  const fragment = getLicenceSectionHtml();
+  if (!fragment) return html;
+  let out = ensureLicenceCss(html);
+  // Do not match data-redo-licence-css — that is only the stylesheet tag.
+  if (out.includes('class="redo-licence"')) return out;
+
+  const marker = 'elementor-element-6132ce2';
+  const markerAt = out.indexOf(marker);
+  if (markerAt >= 0) {
+    const sectionStart = out.lastIndexOf('<section', markerAt);
+    if (sectionStart >= 0) {
+      return out.slice(0, sectionStart) + fragment + '\n' + out.slice(sectionStart);
+    }
+  }
+
+  const footerClose = out.toLowerCase().lastIndexOf('</footer>');
+  if (footerClose >= 0) {
+    return out.slice(0, footerClose) + fragment + '\n' + out.slice(footerClose);
+  }
+  return out;
 }
 
 /**

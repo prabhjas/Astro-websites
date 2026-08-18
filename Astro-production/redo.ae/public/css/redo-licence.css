@@ -1,0 +1,231 @@
+/* LICENSE DETAILS strip — Figma node 3239:616 */
+.elementor-location-footer .redo-licence,
+[data-elementor-type="footer"] .redo-licence,
+footer .redo-licence,
+.redo-licence {
+  background: #fff;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  display: block;
+}
+
+.redo-licence p,
+.redo-licence dt,
+.redo-licence dd {
+  margin: 0 !important;
+}
+
+.redo-licence__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 35px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.redo-licence__col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.redo-licence__col--end {
+  align-items: flex-end;
+  padding-top: 82px;
+}
+
+.redo-licence__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.redo-licence__title {
+  margin: 0 !important;
+  font-family: "SF Pro Display", Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1f2125 !important;
+}
+
+.redo-licence__lead {
+  margin: 0;
+  font-family: "SF Pro Display", Poppins, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #1f2125;
+}
+
+.redo-licence__lead strong {
+  font-weight: 600;
+}
+
+.redo-licence__fields {
+  margin: 0;
+  width: 100%;
+}
+
+.redo-licence__field {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5eeff;
+  min-height: 41px;
+  box-sizing: border-box;
+}
+
+.redo-licence__field dt {
+  flex: 0 0 140px;
+  margin: 0;
+  font-family: "SF Pro Display", Poppins, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #1f2125;
+}
+
+.redo-licence__field dd {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: "SF Pro Display", Poppins, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #1f2125;
+  text-align: right;
+}
+
+.redo-licence__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  border-radius: 100px;
+  background: #e5eeff;
+  font-family: Lexend, "SF Pro Display", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #202b79;
+}
+
+.redo-licence__verify {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: #000;
+  color: #fff;
+  font-family: "SF Pro Display", Poppins, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.redo-licence__verify:hover {
+  background: #1f2125;
+  color: #fff;
+}
+
+.redo-licence__verify img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  max-width: none;
+}
+
+.redo-licence__qr {
+  flex: 0 0 185px;
+  width: 185px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.redo-licence__qr a {
+  display: block;
+  width: 185px;
+  height: 185px;
+  overflow: hidden;
+}
+
+.redo-licence__qr img {
+  display: block;
+  width: 185px;
+  height: 185px;
+  max-width: none;
+}
+
+.redo-licence__qr-caption {
+  margin: 0;
+  font-family: Poppins, "SF Pro Display", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  color: #1f2125;
+}
+
+.redo-licence__qr-caption span {
+  color: #202b79;
+}
+
+@media (max-width: 1199px) {
+  .redo-licence__inner {
+    flex-wrap: wrap;
+  }
+
+  .redo-licence__col {
+    flex: 1 1 280px;
+  }
+
+  .redo-licence__col--end {
+    padding-top: 0;
+    align-items: stretch;
+  }
+
+  .redo-licence__verify {
+    align-self: flex-end;
+  }
+
+  .redo-licence__qr {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .redo-licence__inner {
+    gap: 24px;
+    flex-direction: column;
+  }
+
+  .redo-licence__col,
+  .redo-licence__qr {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .redo-licence__field {
+    flex-wrap: wrap;
+  }
+
+  .redo-licence__field dt {
+    flex: 1 1 auto;
+  }
+
+  .redo-licence__verify {
+    align-self: stretch;
+  }
+}

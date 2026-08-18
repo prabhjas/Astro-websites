@@ -883,16 +883,58 @@ p.last-modified {
     background-color: #fff;
     
 }
-.single-post p {
+/* Scope post body colors so they don't bleed into the dark footer */
+.single-post .elementor-location-single p,
+.single-post .elementor-18825 p {
    
     color: #383838;
 }
-.single-post li {
+.single-post .elementor-location-single li,
+.single-post .elementor-18825 li {
     color: #383838;
 }
-.single-post a {
+.single-post .elementor-location-single a,
+.single-post .elementor-18825 a {
     color: #b72e29;
     
+}
+/* Inner post footer: keep text/links white on dark chrome */
+body.single-post #pix-page-footer,
+body.single-post #pix-page-footer p,
+body.single-post #pix-page-footer li,
+body.single-post #pix-page-footer span,
+body.single-post #pix-page-footer a,
+body.single-post .elementor-location-footer,
+body.single-post .elementor-location-footer p,
+body.single-post .elementor-location-footer li,
+body.single-post .elementor-location-footer span,
+body.single-post .elementor-location-footer a,
+body.single-post .elementor-location-footer .elementor-icon-list-text,
+body.single-post .elementor-location-footer .elementor-heading-title,
+body.astro-blog-post #pix-page-footer,
+body.astro-blog-post #pix-page-footer p,
+body.astro-blog-post #pix-page-footer li,
+body.astro-blog-post #pix-page-footer span,
+body.astro-blog-post #pix-page-footer a,
+body.astro-blog-post .elementor-location-footer,
+body.astro-blog-post .elementor-location-footer p,
+body.astro-blog-post .elementor-location-footer li,
+body.astro-blog-post .elementor-location-footer span,
+body.astro-blog-post .elementor-location-footer a,
+body.astro-blog-post .elementor-location-footer .elementor-icon-list-text,
+body.astro-blog-post .elementor-location-footer .elementor-heading-title {
+    color: #ffffff !important;
+}
+/* Inner post top bar: keep address/email/phone white */
+body.single-post .elementor-location-header .elementor-icon-box-title,
+body.single-post .elementor-location-header .elementor-icon-box-title a,
+body.single-post .elementor-location-header a[href^="mailto:"],
+body.single-post .elementor-location-header a[href^="tel:"],
+body.astro-blog-post .elementor-location-header .elementor-icon-box-title,
+body.astro-blog-post .elementor-location-header .elementor-icon-box-title a,
+body.astro-blog-post .elementor-location-header a[href^="mailto:"],
+body.astro-blog-post .elementor-location-header a[href^="tel:"] {
+    color: #ffffff !important;
 }
 #transaction_hide{
 	display:none;

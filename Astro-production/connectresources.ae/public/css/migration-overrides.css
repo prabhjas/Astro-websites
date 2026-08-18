@@ -678,6 +678,20 @@ img[src*="mohre-logo-en"] {
 }
 
 /*
+ * "Benefits of Our Service" slider (Smart Slider 16) on phones/small tablets:
+ * the mobile layout stretches each white card to the full slide width, so a
+ * swipe brings the next card in flush against the current one. Inset the slide
+ * to restore the gutter between cards. Breakpoints mirror ss-16-*.css.
+ */
+@media (orientation: landscape) and (max-width: 900px),
+  (orientation: portrait) and (max-width: 700px) {
+  div#n2-ss-16 .n2-ss-slide {
+    padding-inline: 10px;
+    box-sizing: border-box;
+  }
+}
+
+/*
  * Footer column widths from live Theme Options / us_custom CSS.
  * Not present in loaded page-design sheets, so mobile footer was
  * stacking full-width instead of the live 2-column link grid.
