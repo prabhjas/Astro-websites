@@ -11,6 +11,16 @@ interface Props {
 const { seo = {}, fallback, extraCss = [] } = Astro.props;
 const meta = resolveSeo(seo, fallback);
 
+/** Bust Cloudflare immutable CSS so Elementor background URLs pick up after publish. */
+const CSS_CACHE_BUST = "20260818a";
+function stylesheetHref(href: string): string {
+  if (!href.startsWith("/") || href.includes("?")) return href;
+  if (href.startsWith("/wp-content/") || href.startsWith("/css/")) {
+    return `${href}?v=${CSS_CACHE_BUST}`;
+  }
+  return href;
+}
+
 const schemas = [organizationSchema(), ...meta.schemas];
 ---
 
@@ -45,13 +55,13 @@ const schemas = [organizationSchema(), ...meta.schemas];
 
 <link
   rel="preload"
-  href="/wp-content/uploads/elementor/google-fonts/css/nunito.css"
+  href="/wp-content/uploads/elementor/google-fonts/css/nunito.css?v=20260818a"
   as="style"
 />
 
 {
   extraCss.map((href) => (
-    <link rel="stylesheet" href={href} />
+    <link rel="stylesheet" href={stylesheetHref(href)} />
   ))
 }
 

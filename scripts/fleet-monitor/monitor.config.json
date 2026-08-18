@@ -1,0 +1,27 @@
+{
+  "format": "astro-fleet-monitor-config-v1",
+  "evidenceDir": "local/monitor-evidence",
+  "include": [],
+  "exclude": [],
+  "cadence": {
+    "criticalMinutes": 5,
+    "sitemapHourUtc": 2,
+    "certHourUtc": 3,
+    "cruxHourUtc": 4
+  },
+  "politeness": {
+    "fleetConcurrency": 4,
+    "siteConcurrency": 2,
+    "jitterMs": [50, 250],
+    "timeoutMs": 15000,
+    "sitemapMaxUrlsPerSite": 5000
+  },
+  "critical": {
+    "routes": ["/", "/robots.txt", "/sitemap-index.xml", "/sitemap.xml", "/api/health/", "/__fleet_missing_8c1e954e/"],
+    "conversionPathHints": ["/contact", "/contact-us", "/get-a-quote", "/quote", "/request-a-quote", "/get-in-touch"]
+  },
+  "origin": {
+    "enabled": false,
+    "host": "127.0.0.1"
+  }
+}

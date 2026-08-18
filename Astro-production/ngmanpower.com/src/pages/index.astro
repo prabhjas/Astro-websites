@@ -1,6 +1,7 @@
 ---
 import { sanitizeMirrorHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Testimonials from "../components/Testimonials.astro";
 import { getPageByPath } from "../lib/content";
 import { breadcrumbSchema } from "../lib/seo";
 
@@ -13,6 +14,16 @@ if (!page) throw new Error("Home page missing from content data");
 const html = sanitizeMirrorHtml(page.bodyHtml || page.content);
 const extraCss = [...(page.pageCss || [])];
 const bodyClass = `home wp-singular page-template-default page page-id-${page.id}`;
+
+const testiStart = html.indexOf(
+  '<section class="l-section wpb_row us_custom_8d45c27c hide_on_mobiles',
+);
+const testiAfter = html.indexOf(
+  '<section class="l-section wpb_row us_custom_0c6eec21',
+);
+const hasTestiSplit = testiStart >= 0 && testiAfter > testiStart;
+const beforeHtml = hasTestiSplit ? html.slice(0, testiStart) : html;
+const afterHtml = hasTestiSplit ? html.slice(testiAfter) : "";
 ---
 
 <BaseLayout
@@ -31,5 +42,7 @@ const bodyClass = `home wp-singular page-template-default page page-id-${page.id
     ],
   }}
 >
-  <Fragment set:html={html} />
+  <Fragment set:html={beforeHtml} />
+  {hasTestiSplit && <Testimonials />}
+  {afterHtml && <Fragment set:html={afterHtml} />}
 </BaseLayout>

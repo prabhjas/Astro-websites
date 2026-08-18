@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  ""
+  "https://connectzone.ae"
 )
   .trim()
   .replace(/\/$/, "");

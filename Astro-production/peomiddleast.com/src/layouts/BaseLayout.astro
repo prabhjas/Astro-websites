@@ -95,6 +95,7 @@ const jsonLd = {
 <!doctype html>
 <html lang="en-US">
   <head>
+    <link rel="stylesheet" href="/css/menu-no-hash.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -131,5 +132,6 @@ const jsonLd = {
     {showChrome && <Header />}
     <slot />
     {showChrome && <Footer />}
+      <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>

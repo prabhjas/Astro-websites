@@ -1,0 +1,117 @@
+---
+interface Props {
+  formId: string;
+  formName: string;
+  theme?: 'dark' | 'light';
+  showMessage?: boolean;
+}
+
+const {
+  formId,
+  formName,
+  theme = 'dark',
+  showMessage = false,
+} = Astro.props;
+
+const waHref =
+  'https://api.whatsapp.com/send?phone=971589151443&text=Hi%2C%20I%20found%20your%20contact%20through%20your%20website%20Redo.%20Please%20let%20me%20know%20how%20to%20proceed.%20Thanks!';
+---
+
+<form
+  id={formId}
+  class:list={['lp-form', `lp-form--${theme}`]}
+  method="post"
+  action="/api/contact/"
+  novalidate
+  data-form-name={formName}
+>
+  <input type="text" name="website" class="lp-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="form_name" value={formName} />
+  <input type="hidden" name="form_id" value={formId} />
+  <input type="hidden" name="submission_id" value="" />
+  <input type="hidden" name="page_url" value="" />
+  <input type="hidden" name="referrer_url" value="" />
+  <input type="hidden" name="initial_url" value="" />
+  <input type="hidden" name="landing_page_url" value="" />
+  <input type="hidden" name="submission_page_url" value="" />
+  <input type="hidden" name="utm_source" value="" />
+  <input type="hidden" name="utm_medium" value="" />
+  <input type="hidden" name="utm_campaign" value="" />
+  <input type="hidden" name="utm_term" value="" />
+  <input type="hidden" name="utm_content" value="" />
+  <input type="hidden" name="gclid" value="" />
+  <input type="hidden" name="gbraid" value="" />
+  <input type="hidden" name="wbraid" value="" />
+  <input type="hidden" name="fbclid" value="" />
+  <input type="hidden" name="msclkid" value="" />
+  <input type="hidden" name="campaign_id" value="" />
+  <input type="hidden" name="adgroup_id" value="" />
+  <input type="hidden" name="group_id" value="" />
+  <input type="hidden" name="creative_id" value="" />
+  <input type="hidden" name="keyword" value="" />
+  <input type="hidden" name="matchtype" value="" />
+  <input type="hidden" name="device" value="" />
+  <input type="hidden" name="network" value="" />
+  <input type="hidden" name="placement" value="" />
+  <input type="hidden" name="target" value="" />
+  <input type="hidden" name="adposition" value="" />
+  <input type="hidden" name="loc_physical_ms" value="" />
+  <input type="hidden" name="loc_interest_ms" value="" />
+  <input type="hidden" name="gad_source" value="" />
+  <input type="hidden" name="source" value="" />
+  <input type="hidden" name="first_touch_payload" value="" />
+  <input type="hidden" name="last_touch_payload" value="" />
+  <input type="hidden" name="first_visit_at" value="" />
+  <input type="hidden" name="latest_visit_at" value="" />
+  <input type="hidden" name="submitted_at" value="" />
+  <input type="hidden" name="phone-country-code" value="" />
+
+  <div class="lp-form__row">
+    <label class="lp-form__field">
+      <span>First Name<span class="lp-form__req">*</span></span>
+      <input type="text" name="first_name" placeholder="First Name" required autocomplete="given-name" />
+      <em class="lp-form__error" data-error-for="first_name"></em>
+    </label>
+    <label class="lp-form__field">
+      <span>Last Name<span class="lp-form__req">*</span></span>
+      <input type="text" name="last_name" placeholder="Last Name" required autocomplete="family-name" />
+      <em class="lp-form__error" data-error-for="last_name"></em>
+    </label>
+  </div>
+
+  <label class="lp-form__field">
+    <span>Email<span class="lp-form__req">*</span></span>
+    <input type="email" name="email" placeholder="email@domain.com" required autocomplete="email" />
+    <em class="lp-form__error" data-error-for="email"></em>
+  </label>
+
+  <label class="lp-form__field">
+    <span>Phone number<span class="lp-form__req">*</span></span>
+    <input
+      type="tel"
+      name="phone"
+      class="cg-phone-input wpcf7-phonetext"
+      placeholder="00 000 0000"
+      required
+      autocomplete="tel"
+    />
+    <em class="lp-form__error" data-error-for="phone"></em>
+  </label>
+
+  {
+    showMessage && (
+      <label class="lp-form__field">
+        <span>Message (Optional)</span>
+        <textarea name="message" rows="4" placeholder="Your message..."></textarea>
+        <em class="lp-form__error" data-error-for="message"></em>
+      </label>
+    )
+  }
+
+  <button class="lp-btn lp-btn--blue" type="submit">Get an estimate</button>
+  <a class="lp-btn lp-btn--whatsapp" href={waHref} target="_blank" rel="noopener noreferrer">
+    <img src="/lp/best-renovation-company/icons/whatsapp.svg" alt="" width="24" height="24" />
+    <span>In a rush?&nbsp;&nbsp;instead</span>
+  </a>
+  <p class="lp-form__status" hidden></p>
+</form>

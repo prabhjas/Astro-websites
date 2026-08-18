@@ -39,6 +39,27 @@ body.l-body .l-main .wpb_single_image img {
   display: block;
 }
 
+/* Helping Our Clients 3-circle graphic — native 368×106, never stretch */
+body.l-body .l-main img[src*="Helping-Our-Clients"] {
+  width: 368px !important;
+  max-width: min(368px, 90vw) !important;
+  height: auto !important;
+  aspect-ratio: 368 / 106 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+body.l-body .l-main .w-image:has(img[src*="Helping-Our-Clients"]),
+body.l-body .l-main .w-image:has(img[src*="Helping-Our-Clients"]) .w-image-h {
+  width: auto !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+}
+
 /* ISO badge logos — natural size, not full column width */
 body.l-body .l-main .us_custom_55283421,
 body.l-body .l-main .us_custom_55283421 .w-image-h {

@@ -42,7 +42,7 @@
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
 <script is:inline>
   window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
-    ajaxurl: "/api/contact/",
+    ajaxurl: "/api/contact",
     nonce: "astro",
     urls: { assets: "/wp-content/plugins/elementor-pro/assets/", rest: "/" },
     settings: {},
@@ -78,6 +78,126 @@
     }
     setTimeout(flatten, 50);
     setTimeout(flatten, 500);
+  })();
+</script>
+<script is:inline>
+  // Process Get Started: keep form sticky inside its Process section only (not page-wide).
+  (function () {
+    var FORM_WIDGET = ".elementor-element-30eb65a4";
+    var FORM_COLS = [
+      ".elementor-element-40cc132f",
+      ".elementor-element-5376db8",
+      ".elementor-element-4cc7814d",
+      ".elementor-element-8573535",
+      ".elementor-element-5b8e4af9",
+      ".elementor-element-79a7185f",
+    ];
+    var TOP = 100;
+
+    function cardEl(col) {
+      return (
+        col.querySelector(".sticky-wrapper") ||
+        col.querySelector(":scope > .elementor-widget-wrap") ||
+        col
+      );
+    }
+
+    function prepare() {
+      document.querySelectorAll(FORM_WIDGET).forEach(function (el) {
+        if (window.jQuery) {
+          try {
+            window.jQuery(el).unstick();
+          } catch (e) {}
+        }
+        el.classList.remove("elementor-sticky", "elementor-sticky--active", "elementor-sticky--effects");
+        el.style.setProperty("position", "relative", "important");
+        el.style.removeProperty("top");
+        el.style.removeProperty("left");
+        el.style.removeProperty("bottom");
+        var colWrap = el.closest(".elementor-widget-wrap");
+        if (colWrap) {
+          colWrap.querySelectorAll(".elementor-motion-effects-container, .elementor-sticky__spacer").forEach(function (n) {
+            n.remove();
+          });
+        }
+      });
+    }
+
+    function sync() {
+      if (window.matchMedia && window.matchMedia("(max-width: 991px)").matches) {
+        FORM_COLS.forEach(function (sel) {
+          document.querySelectorAll(sel).forEach(function (col) {
+            var card = cardEl(col);
+            card.style.removeProperty("position");
+            card.style.removeProperty("top");
+            card.style.removeProperty("left");
+            card.style.removeProperty("width");
+            card.style.removeProperty("bottom");
+          });
+        });
+        return;
+      }
+
+      FORM_COLS.forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (col) {
+          var section = col.closest(".elementor-section");
+          if (!section) return;
+          var card = cardEl(col);
+          var sr = section.getBoundingClientRect();
+          var colR = col.getBoundingClientRect();
+          var cardH = card.offsetHeight;
+          var width = colR.width;
+
+          // Above section: natural flow
+          if (sr.top >= TOP) {
+            card.style.setProperty("position", "relative", "important");
+            card.style.setProperty("top", "0px", "important");
+            card.style.setProperty("left", "auto", "important");
+            card.style.setProperty("width", "100%", "important");
+            card.style.setProperty("bottom", "auto", "important");
+            return;
+          }
+
+          // Past section: dock to bottom of section
+          if (sr.bottom <= TOP + cardH) {
+            card.style.setProperty("position", "absolute", "important");
+            card.style.setProperty("top", "auto", "important");
+            card.style.setProperty("bottom", "0px", "important");
+            card.style.setProperty("left", "0px", "important");
+            card.style.setProperty("width", width + "px", "important");
+            if (getComputedStyle(col).position === "static") {
+              col.style.position = "relative";
+            }
+            return;
+          }
+
+          // Inside section: fixed within viewport, constrained by section
+          card.style.setProperty("position", "fixed", "important");
+          card.style.setProperty("top", TOP + "px", "important");
+          card.style.setProperty("left", colR.left + "px", "important");
+          card.style.setProperty("width", width + "px", "important");
+          card.style.setProperty("bottom", "auto", "important");
+          card.style.setProperty("z-index", "5", "important");
+        });
+      });
+    }
+
+    function boot() {
+      prepare();
+      sync();
+    }
+
+    boot();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    if (window.jQuery) {
+      window.jQuery(boot);
+      window.jQuery(window).on("load", boot);
+    } else {
+      window.addEventListener("load", boot);
+    }
+    setTimeout(boot, 100);
+    setTimeout(boot, 800);
   })();
 </script>
 <script is:inline src="/wp-content/plugins/responsive-accordion-and-collapse/js/accordion.js"></script>
