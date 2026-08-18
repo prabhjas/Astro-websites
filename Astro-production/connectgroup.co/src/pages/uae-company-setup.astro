@@ -1,6 +1,919 @@
 ---
 /**
- * Figma Business Setup slug — canonical page is the original WP URL /business-formation-uae/.
+ * UAE Company Setup / Business Setup — built from the CG v3.0 Figma design
+ * (desktop node 5727:17489). Live URL: /uae-company-setup/
+ * Shared chrome via BaseLayout (Header/Footer).
+ * Assets in /public/uae-company-setup/. Styles scoped under .cgbs-.
  */
-return Astro.redirect('/business-formation-uae/', 301);
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadPageSeo } from '../lib/seo';
+
+const seo = loadPageSeo('uae-company-setup');
+
+const img = '/uae-company-setup';
+const contact = '/contact-us/';
+const meet = 'https://connectgroup2.pipedrive.com/scheduler/A8ExDZT6O/meeting-with-connect-group';
+
+const stats = [
+  { big: '15,000+', small: 'Businesses set up in the UAE' },
+  { big: '9+ yrs', small: 'UAE company formation since 2016' },
+  { big: '40+', small: 'Free zones covered across UAE' },
+  { big: '1 hrs', small: 'Average response time' },
+];
+
+const brands = [
+  { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi' },
+  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE' },
+  { src: `${img}/brands/connect-fz.png`, alt: 'Connect FZ' },
+  { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation' },
+];
+
+const trust = [
+  { t: 'Mainland', d: 'Full UAE market access, all 7 emirates' },
+  { t: '40+ Free Zones', d: 'DMCC, IFZA, RAKEZ, JAFZA and more' },
+  { t: 'Offshore', d: 'JAFZA, RAK ICC, Ajman Offshore' },
+  { t: '3,000+ Business Activities', d: 'Every industry and licence type covered' },
+];
+
+const mistakes = [
+  {
+    icon: `${img}/icons/wrong-jurisdiction.png`,
+    title: 'Wrong jurisdiction chosen.',
+    body: 'A free zone licence cannot sell directly to UAE mainland clients without a distribution agreement or a separate mainland entity. Discovering this after the licence is issued means paying twice and waiting again. Connect Group confirms jurisdiction fit before a single form is filed.',
+  },
+  {
+    icon: `${img}/icons/bank-rejected.png`,
+    title: 'Bank account rejected after the licence is issued.',
+    body: 'UAE banks apply their own KYC standards, independent of any licensing authority. High-risk activity classifications, certain shareholder nationalities, and insufficient business documentation are the most common triggers for rejection. A rejected application delays operations by weeks. Connect Group introduces clients to banking partners whose criteria match their company profile before they apply.',
+  },
+  {
+    icon: `${img}/icons/activity-mismatch.png`,
+    title: 'Activity code mismatch.',
+    body: 'Trading on an activity not listed on your licence is a DET violation. Amending an activity after the fact costs additional government fees and processing time that a correct initial filing avoids. Connect Group confirms every activity code against your actual business model before submission.',
+  },
+  {
+    icon: `${img}/icons/ownership-structure.png`,
+    title: 'Ownership structure set up incorrectly.',
+    body: 'Since the 2021 FDI reform, 100% foreign ownership has been permitted across most mainland activities. But specific sectors still require UAE national participation or a corporate sponsor. Getting the structure wrong at incorporation creates a company that cannot trade and requires a full restructure to fix.',
+  },
+];
+
+const whyFacts = [
+  {
+    t: '0% Personal income tax',
+    d: 'Every dirham you earn stays yours. No personal income tax, no capital gains tax on personal investments, and no withholding tax on dividends.',
+  },
+  {
+    t: '100% Foreign ownership on Mainland',
+    d: 'The 2021 FDI reform extended full foreign ownership to the majority of mainland activities. A UAE national partner is no longer required for most business categories.',
+  },
+  {
+    t: 'Within 4 hours of 2.5 billion people',
+    d: "Dubai sits at the intersection of Europe, Asia and Africa. Emirates alone flies to over 140 destinations, making Dubai one of the world's best-connected business addresses.",
+  },
+  {
+    t: 'World-class banking infrastructure',
+    d: 'Multi-currency accounts, SWIFT connectivity and private banking access through institutions like ADCB, Emirates NBD, Mashreq and HSBC, all operating under UAE Central Bank regulation.',
+  },
+  {
+    t: '9% corporate tax on qualifying income only',
+    d: 'Corporate tax at 9% applies above AED 375,000 per year from June 2023. Businesses below AED 3,000,000 in revenue qualify for small business relief. Qualifying free zone income retains a 0% rate.',
+  },
+  {
+    t: 'Company registered in days, not months',
+    d: 'Free zone licences issued in 3 to 7 working days. IFZA zero-visa packages from AED 14,000. Mainland DED licences in 5 to 10 working days when documentation is complete on the first submission.',
+  },
+];
+
+const routes = [
+  {
+    n: 'Option 01',
+    name: 'Mainland',
+    color: '#4051b5',
+    body: 'For businesses that need to trade directly with UAE clients, bid on government contracts or operate from any physical location across the UAE. Licensed by DED or the relevant emirate authority.',
+    href: '/uae-mainland-company-setup/',
+    link: 'Learn about Mainland Setup →',
+  },
+  {
+    n: 'Option 02',
+    name: 'Free Zone',
+    color: '#007c91',
+    body: 'For businesses that operate internationally, want full foreign ownership and tax exemptions, and do not need to sell directly to UAE mainland consumers. Over 40 free zones covered by Connect Group.',
+    href: '/uae-freezone-company-setup/',
+    link: 'Learn about Free Zone Setup →',
+  },
+  {
+    n: 'Option 03',
+    name: 'Offshore',
+    color: '#f2633f',
+    body: 'For businesses that want to hold assets, open a UAE bank account, and trade internationally without operating physically inside the UAE. Available through JAFZA, RAK ICC, and Ajman offshore authorities.',
+    href: '/uae-offshore-company-setup/',
+    link: 'Learn about Offshore Setup →',
+  },
+];
+
+const steps = [
+  {
+    n: '1',
+    t: 'We confirm your activity and structure',
+    d: 'We review your business model against the full DED and free zone activity list, confirm ownership eligibility under post-2021 FDI rules, and recommend the jurisdiction that fits your clients, your structure, and your visa requirements.',
+  },
+  {
+    n: '2',
+    t: 'We reserve your trade name',
+    d: 'We check availability and reserve your preferred trade name with the relevant authority. This happens after initial approval is confirmed, so the name is secured before the licence application is submitted.',
+  },
+  {
+    n: '3',
+    t: 'We prepare and submit all documents',
+    d: 'Memorandum of association, shareholder documentation, passport copies, application forms. We prepare the complete package and submit it correctly on the first attempt, which is the single biggest factor in keeping timelines on track.',
+  },
+  {
+    n: '4',
+    t: 'We secure your office or flexi-desk',
+    d: 'Every UAE licence requires a valid registered address. We arrange your office, serviced workspace or flexi-desk through our network of approved UAE workspace providers, matched to your licence type and visa requirements.',
+  },
+  {
+    n: '5',
+    t: 'We obtain and verify your trade licence',
+    d: 'We collect the issued licence from the authority and verify every detail against your original brief before delivery. Activity codes, ownership structure, and trade name are confirmed accurate before you receive the document.',
+  },
+  {
+    n: '6',
+    t: 'We open your visa file and bank account',
+    d: 'Establishment card, MOHRE registration, and investor visa applications filed simultaneously. Bank account introductions made to partner institutions whose KYC criteria match your company profile, reducing rejection risk before you apply.',
+  },
+];
+
+const testimonials = [
+  {
+    quote: 'I came to Connect Group having already wasted three weeks with another provider who got my activity codes wrong. Connect Group corrected the entire structure, resubmitted with the right documentation, and had my licence issued in six days. Everything was accurate on the first submission.',
+    initials: 'JM',
+    name: 'J. Mensah',
+    role: 'Founder, Marketing Consultancy, Dubai',
+  },
+  {
+    quote: 'Connect Group helped us hire and relocate a team of 15 within a month. We had the mainland licence, the visas and the payroll structure in place before anyone landed. Best execution team.',
+    initials: 'RD',
+    name: 'R. D.',
+    role: 'Founder, Tech Start-up, Dubai',
+  },
+  {
+    quote: 'We were entering the UAE from Singapore with no idea where to start. Connect Group walked us through mainland versus free zone, confirmed the right structure for our client base and handled every document. Three months in and we are fully operational.',
+    initials: 'LT',
+    name: 'L. Tan',
+    role: 'Country Director, Tech Company, Dubai',
+  },
+];
+
+const afterLicence = [
+  {
+    icon: `${img}/icons/pro-services.png`,
+    title: 'PRO Services',
+    body: 'Visa renewals, MOHRE filings and government liaison so no deadline is ever missed and no establishment card ever lapses.',
+    href: '/pro-services/',
+  },
+  {
+    icon: `${img}/icons/visa-immigration.png`,
+    title: 'Visa and Immigration',
+    body: "Investor visas, employee work permits, Emirates ID and dependent sponsorship, all processed through Connect Group's licensed PRO team.",
+    href: '/visa-services/',
+  },
+  {
+    icon: `${img}/icons/corporate-bank.png`,
+    title: 'Corporate Bank Account',
+    body: 'Introductions to UAE banking partners pre-screened against your company activity and shareholder profile, reducing rejection risk before you apply.',
+    href: contact,
+  },
+  {
+    icon: `${img}/icons/hr-payroll.svg`,
+    title: 'HR, Payroll and Compliance',
+    body: "WPS payroll, MOHRE labour contracts, employee onboarding and ongoing HR administration through Connect Group's workforce division.",
+    href: '/hr-services/',
+  },
+];
+
+const faqs = [
+  {
+    q: 'I do not know whether I need a mainland, free zone or offshore company. Can Connect Group help me decide?',
+    a: '<p>Yes, and this is where most engagements start. Connect Group reviews your business activity, where your clients are based and what you need the company to do. From there, the right structure becomes clear. Mainland gives you full UAE market access. Free zone suits international trading with lower setup costs. Offshore works for holding, assets and privacy. You do not need to arrive with the answer. That is what Connect Group is for.</p>',
+  },
+  {
+    q: 'How quickly can Connect Group get my UAE company set up?',
+    a: '<p>Free zone licences are issued in 3 to 7 working days once documents are submitted correctly. Mainland DED licences take 5 to 10 working days. Offshore registration completes in 3 to 5 working days.</p><p>The timelines hold when the documentation is complete and accurate on first submission. That is what Connect Group prepares before anything is filed.</p>',
+  },
+  {
+    q: 'What if my business activity needs approval from more than one authority?',
+    a: '<p>Some regulated activities require approvals from sector authorities beyond the main licensing body. Healthcare needs DHA clearance. Education needs KHDA. Food activities need Dubai Municipality.</p><p>Connect Group identifies every required approval for your activity before filing and submits to all relevant authorities simultaneously where possible, which keeps timelines tight.</p>',
+  },
+  {
+    q: 'How does Connect Group handle the cost? Is there a fixed package?',
+    a: '<p>There is no fixed package because every setup is different. Your licence type, activity, emirate, office size and visa count all affect the cost. Connect Group builds a full itemised breakdown for your specific brief before anything is filed.</p><p>Government fees are passed through at cost. Your service fee is confirmed in writing. Nothing moves until you approve.</p>',
+  },
+  {
+    q: 'What does Connect Group include after the licence is issued?',
+    a: '<p>The licence opens the door. What comes next is the establishment card, MOHRE registration, investor visas, a bank account and corporate tax registration with the FTA. Connect Group manages all of these as part of the standard post-licence process. Most clients continue working with Connect Group for PRO services, visa renewals and HR support after setup is complete.</p>',
+  },
+  {
+    q: 'Will I have one point of contact at Connect Group throughout the process?',
+    a: '<p>Yes. One named specialist manages your file from the first conversation to the delivered licence. They coordinate every submission, follow up with every authority and keep you updated at each stage. You are not passed between departments. You always know who to call and they always know your file.</p>',
+  },
+  {
+    q: 'Do I need to visit the UAE to set up my company with Connect Group?',
+    a: '<p>Not always. Free zone and offshore setups can often be completed remotely with notarised documents. Mainland setups typically require physical presence for the MOA signing and bank account opening. Connect Group tells you exactly which steps need your presence before you book any travel. No unnecessary trips.</p>',
+  },
+];
+
+const intel = [
+  { src: `${img}/intel/intel-1.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+  { src: `${img}/intel/intel-2.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+  { src: `${img}/intel/intel-3.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+];
 ---
+
+<BaseLayout seo={seo}>
+  <Fragment slot="head">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/maxmegamenu/style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/themes/essentials/inc/css/bootstrap.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-spacer.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css?ver=4.1.5" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/wp-scss-cache/pixfort-core-style.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/common/main.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/plugins/pixfort-core/includes/assets/css/header.min.css?ver=3.2.17" />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/plusjakartasans.css?ver=1785312815" />
+    <link rel="stylesheet" href="/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css" />
+  </Fragment>
+
+  <main class="cgbs">
+    <section class="cgbs-hero">
+      <div class="cgbs-wrap">
+        <div class="cgbs-hero-copy">
+          <p class="cgbs-eyebrow cgbs-eyebrow-light">UAE Company Setup</p>
+          <h1>Your UAE company.<br />The right structure. From day one.</h1>
+          <p class="cgbs-hero-routes">Mainland – Free Zone – Offshore</p>
+          <p class="cgbs-hero-lead">
+            Most setup mistakes happen before a single form is filed. Wrong jurisdiction, wrong
+            activity code, wrong ownership structure. Connect Group has set up over 15,000
+            businesses in the UAE by getting these three things right from the start.
+          </p>
+          <div class="cgbs-btn-row">
+            <a class="cgbs-btn cgbs-btn-light" href={meet} target="_blank" rel="noopener">Start Your Company Setup</a>
+            <a class="cgbs-btn cgbs-btn-outline" href="#cgbs-mistakes">Learn More</a>
+          </div>
+        </div>
+
+        <div class="cgbs-brands">
+          <h2>Our Specialist Brands</h2>
+          <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
+          <div class="cgbs-brand-row">
+            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+          </div>
+        </div>
+
+        <div class="cgbs-stats">
+          {stats.map((s) => (
+            <div class="cgbs-stat">
+              <div class="cgbs-stat-big">{s.big}</div>
+              <div class="cgbs-stat-small">{s.small}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-trust" aria-label="Setup coverage">
+      <div class="cgbs-wrap cgbs-trust-row">
+        {trust.map((item) => (
+          <div class="cgbs-trust-item">
+            <strong>{item.t}</strong>
+            <span>{item.d}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-mistakes" id="cgbs-mistakes">
+      <div class="cgbs-wrap cgbs-mistakes-grid">
+        <div>
+          <h2 class="cgbs-h2">Most businesses lose weeks to avoidable setup mistakes</h2>
+          <p class="cgbs-lead">
+            These are not edge cases. They are the calls Connect Group takes every week from
+            businesses that set up without the right advice.
+          </p>
+          <blockquote class="cgbs-quote-card">
+            “These are not rare cases. They are the calls we take every week.”
+          </blockquote>
+          <a class="cgbs-btn cgbs-btn-black" href={contact}>Speak to a Setup Specialist</a>
+        </div>
+        <div class="cgbs-mistake-cards">
+          {mistakes.map((m) => (
+            <article class="cgbs-card">
+              <img class="cgbs-card-icon" src={m.icon} alt="" width="60" height="60" loading="lazy" />
+              <h3>{m.title}</h3>
+              <p>{m.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-why" id="cgbs-why">
+      <div class="cgbs-wrap cgbs-why-grid">
+        <div>
+          <h2 class="cgbs-h2">Why the UAE? And why now?</h2>
+          <p class="cgbs-lead">
+            Six facts that explain why the UAE attracted over AED 170 billion in foreign direct
+            investment in a single year and why that number is still rising.
+          </p>
+          <div class="cgbs-adv-list">
+            {whyFacts.map((a) => (
+              <details class="cgbs-adv-item" open>
+                <summary>
+                  {a.t}
+                  <img src={`${img}/icons/chevron.svg`} alt="" width="32" height="32" />
+                </summary>
+                <p>{a.d}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+        <div class="cgbs-why-art">
+          <img src={`${img}/why-uae.png`} alt="Why the UAE is a leading destination for company formation" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-routes">
+      <div class="cgbs-wrap">
+        <h2 class="cgbs-h2 cgbs-center">Which setup route is right for you?</h2>
+        <p class="cgbs-lead cgbs-center cgbs-maxw">
+          Three structures. The right one depends on who your clients are, where they are based
+          and what you plan to do with the company. Connect Group confirms the fit before
+          anything is filed.
+        </p>
+        <div class="cgbs-route-grid">
+          {routes.map((r) => (
+            <article class="cgbs-route-card">
+              <p class="cgbs-route-n" style={`color: ${r.color}`}>{r.n}</p>
+              <h3>{r.name}</h3>
+              <p>{r.body}</p>
+              <a href={r.href} style={`color: ${r.color}`}>{r.link}</a>
+            </article>
+          ))}
+        </div>
+        <p class="cgbs-unsure">Not Sure Which Fits?</p>
+        <div class="cgbs-center-btn" style="margin-top: 15px;">
+          <a class="cgbs-btn cgbs-btn-black" href={contact}>Talk to a Specialist</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-process">
+      <div class="cgbs-wrap">
+        <h2 class="cgbs-h2 cgbs-center">How Connect Group sets up your company?</h2>
+        <p class="cgbs-sub-light cgbs-center cgbs-maxw">
+          Six steps. One point of contact. Your only job is to tell us what you want to build.
+          Every filing, every submission, and every follow-up is Connect Group's responsibility
+          from that point.
+        </p>
+        <div class="cgbs-steps">
+          {steps.map((s) => (
+            <div class="cgbs-step">
+              <div class="cgbs-step-head">
+                <span class="cgbs-step-n">{s.n}</span>
+                <span class="cgbs-step-k">STEP</span>
+              </div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </div>
+          ))}
+        </div>
+        <div class="cgbs-center-btn">
+          <a class="cgbs-btn cgbs-btn-black cgbs-btn-pill" href={meet} target="_blank" rel="noopener">Start Your Setup Today</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-testi-section">
+      <div class="cgbs-wrap">
+        <p class="cgbs-eyebrow cgbs-eyebrow-slate cgbs-center">From the People Using It</p>
+        <h2 class="cgbs-h2 cgbs-center">What our clients say</h2>
+        <div class="cgbs-testi-slider">
+          <div class="swiper cgbs-testi-swiper">
+            <div class="swiper-wrapper">
+              {testimonials.map((t) => (
+                <div class="swiper-slide">
+                  <article class="cgbs-testi">
+                    <img class="cgbs-quote-icon" src={`${img}/icons/quote.svg`} alt="" width="17" height="16" />
+                    <div class="cgbs-stars" aria-label="5 out of 5 stars">
+                      {Array.from({ length: 5 }).map(() => (
+                        <img src={`${img}/icons/star.svg`} alt="" width="24" height="24" />
+                      ))}
+                    </div>
+                    <blockquote>{t.quote}</blockquote>
+                    <div class="cgbs-testi-who">
+                      <strong>{t.initials}</strong>
+                      <div class="cgbs-testi-name">{t.name}</div>
+                      <div class="cgbs-testi-role">{t.role}</div>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="cgbs-testi-nav" aria-hidden="false">
+            <button class="cgbs-testi-prev" type="button" aria-label="Previous testimonial">
+              <svg viewBox="0 0 1000 1000" aria-hidden="true"><path d="M646 125C629 125 613 133 604 142L308 442C296 454 292 471 292 487 292 504 296 521 308 533L604 854C617 867 629 875 646 875 663 875 679 871 692 858 704 846 713 829 713 812 713 796 708 779 692 767L438 487 692 225C700 217 708 204 708 187 708 171 704 154 692 142 675 129 663 125 646 125Z"></path></svg>
+            </button>
+            <div class="cgbs-testi-dots"></div>
+            <button class="cgbs-testi-next" type="button" aria-label="Next testimonial">
+              <svg viewBox="0 0 1000 1000" aria-hidden="true"><path d="M696 533C708 521 713 504 713 487 713 471 708 454 696 446L400 146C388 133 375 125 354 125 338 125 325 129 313 142 300 154 292 171 292 187 292 204 296 221 308 233L563 492 304 771C292 783 288 800 288 817 288 833 296 850 308 863 321 871 338 875 354 875 371 875 388 867 400 854L696 533Z"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-after">
+      <div class="cgbs-wrap">
+        <h2 class="cgbs-h2 cgbs-center">Everything you need after the licence. Still Connect Group.</h2>
+        <p class="cgbs-lead cgbs-center cgbs-maxw">
+          A trade licence opens the door. What you need next is the infrastructure to operate.
+          Connect Group covers every function a UAE business needs to run compliantly from day one.
+        </p>
+        <div class="cgbs-after-grid">
+          {afterLicence.map((c) => (
+            <a class="cgbs-card cgbs-after-card" href={c.href}>
+              <img class="cgbs-card-icon" src={c.icon} alt="" width="60" height="60" loading="lazy" />
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section">
+      <div class="cgbs-wrap">
+        <p class="cgbs-eyebrow cgbs-eyebrow-teal">Common Questions</p>
+        <h2 class="cgbs-h2">Frequently asked questions about Company Setup in UAE</h2>
+        <p class="cgbs-lead">The questions every client asks before filing. Answered directly, without preamble.</p>
+        <div class="cgbs-faq-list">
+          {faqs.map((f, i) => (
+            <details class="cgbs-faq" open={i === 0}>
+              <summary>
+                {f.q}
+                <img src={`${img}/icons/faq-chevron.svg`} alt="" width="32" height="32" />
+              </summary>
+              <div class="cgbs-faq-a" set:html={f.a} />
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-finalcta-wrap">
+      <div class="cgbs-wrap">
+        <div class="cgbs-finalcta">
+          <h2>Ready to set up the right way?</h2>
+          <p>
+            Tell Connect Group what you want to build and where your clients are. We confirm the
+            jurisdiction, the activity codes, and the structure, then file everything correctly
+            the first time. 15,000 businesses before you have done exactly this.
+          </p>
+          <a class="cgbs-btn cgbs-btn-black" href={contact}>Send My Setup Brief</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cgbs-section cgbs-intel">
+      <div class="cgbs-wrap">
+        <h2 class="cgbs-h2-sm">UAE Market Intel</h2>
+        <p class="cgbs-intel-sub">Secrets to scaling with speed</p>
+        <div class="cgbs-cards3">
+          {intel.map((c) => (
+            <a class="cgbs-intel-card" href="/insights/">
+              <img src={c.src} alt="" loading="lazy" />
+              <div class="cgbs-intel-body">
+                <h3>{c.t}</h3>
+                <p>{c.d}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"></script>
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function () {
+      var el = document.querySelector('.cgbs-testi-swiper');
+      if (!el || typeof Swiper === 'undefined') return;
+      var slideCount = el.querySelectorAll('.swiper-slide').length;
+      new Swiper(el, {
+        slidesPerView: 1,
+        spaceBetween: 12,
+        loop: slideCount > 1,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        allowTouchMove: true,
+        pagination: { el: '.cgbs-testi-dots', clickable: true },
+        navigation: { nextEl: '.cgbs-testi-next', prevEl: '.cgbs-testi-prev' },
+        breakpoints: {
+          768: { slidesPerView: 2, spaceBetween: 12 },
+          1025: { slidesPerView: 3, spaceBetween: 12 },
+        },
+      });
+    });
+  </script>
+  <script is:inline src="/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+  <script is:inline>
+    var pixfort_main_object = { name: 'mainVals', dataPopupBase: '', dataPixOverlay: 'pix-overlay-2', dataPopupCheckLink: '' };
+    var PIX_JS_OPTIONS = { dataPopupBase: '', dataPagePopupsBase: '', mobileBreakPoint: '1024' };
+    var PIX_POPUPS_OPTIONS = [];
+  </script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/pixfort-core/dist/front/index.bundle-898a720260c818ad1bb5.js?ver=1785312815" defer></script>
+  <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=1785312815" defer></script>
+  <script is:inline src="/js/astro-mirror-fixes.js" defer></script>
+</BaseLayout>
+
+<style>
+  .cgbs {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.5;
+    --cgbs-navy: #2e3a8c;
+    --cgbs-navy-deep: #080e33;
+    --cgbs-slate: #4051b5;
+    --cgbs-teal: #007c91;
+    --cgbs-lavender: #d4d7f9;
+    --cgbs-lilac: #7a87da;
+    --cgbs-orange: #f2633f;
+    --cgbs-silver: #767676;
+  }
+  .cgbs * { box-sizing: border-box; }
+  .cgbs h1, .cgbs h2, .cgbs h3, .cgbs h4, .cgbs p, .cgbs a, .cgbs li, .cgbs dt, .cgbs dd,
+  .cgbs blockquote, .cgbs summary, .cgbs div, .cgbs span, .cgbs strong {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  .cgbs img { max-width: 100%; display: block; }
+  .cgbs-wrap { max-width: 1300px; margin: 0 auto; padding: 0 40px; }
+  .cgbs-section { padding: 80px 0; }
+  .cgbs-center { text-align: center; }
+  .cgbs-maxw { max-width: 860px; margin-left: auto; margin-right: auto; }
+  .cgbs-center-btn { text-align: center; margin-top: 44px; }
+
+  .cgbs-h2 { color: #1a1a1a; font-size: 48px; font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; margin: 0 0 16px; }
+  .cgbs-h2-sm { color: #1a1a1a; font-size: 32px; font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .cgbs-lead { color: #1a1a1a; font-size: 20px; font-weight: 500; line-height: 1.4; letter-spacing: -0.02em; margin: 0 0 24px; }
+  .cgbs-sub-light { color: rgba(255, 255, 255, 0.9); font-size: 18px; margin: 0 auto 48px; }
+  .cgbs-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 12px; }
+  .cgbs-eyebrow-teal { color: var(--cgbs-teal); }
+  .cgbs-eyebrow-slate { color: var(--cgbs-slate); opacity: 0.7; }
+  .cgbs-eyebrow-light { color: var(--cgbs-lilac); }
+
+  .cgbs-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 18px; border-radius: 12px; padding: 16px 32px;
+    border: 1.5px solid transparent; text-decoration: none; line-height: 1;
+    transition: transform 0.15s ease; cursor: pointer;
+  }
+  .cgbs-btn:hover { transform: translateY(-2px); }
+  .cgbs-btn-light { background: #fff; color: #121212; }
+  .cgbs-btn-outline { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.55); }
+  .cgbs-btn-black { background: #121212; color: #fff; }
+  .cgbs-btn-pill { border-radius: 999px; }
+
+  .cgbs-hero {
+    position: relative; overflow: hidden;
+    background: #080e33 url('/uae-company-setup/bkg/hero-desktop.webp') center top / cover no-repeat;
+    color: #fff; padding: 80px 0 0; text-align: center;
+    min-height: 1174px;
+  }
+  .cgbs-hero .cgbs-wrap,
+  .cgbs-process .cgbs-wrap { position: relative; z-index: 1; max-width: 1440px; padding: 0 70px; }
+  .cgbs-hero-copy {
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 695px; padding: 124px 0 164px;
+  }
+  .cgbs-hero .cgbs-eyebrow { margin: 0; }
+  .cgbs-hero h1 {
+    color: #fff; font-size: 64px; font-weight: 600; line-height: 1.2;
+    letter-spacing: -0.02em; margin: 0 auto 12px; max-width: 1038px;
+  }
+  .cgbs-hero-routes {
+    color: var(--cgbs-lilac); font-size: 32px; font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1.3; margin: 0 0 12px;
+  }
+  .cgbs-hero-lead {
+    color: #d1d1d1; font-size: 24px; font-weight: 500; line-height: 1.4;
+    margin: 0 auto 24px; max-width: 1038px;
+  }
+  .cgbs-btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .cgbs-hero .cgbs-btn { font-size: 16px; font-weight: 700; border-radius: 8px; padding: 12px 24px; min-height: 44px; }
+
+  .cgbs-brands { text-align: center; margin-top: 0; padding: 24px 0 40px; }
+  .cgbs-brands h2 { color: #fafafa; font-size: 24px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .cgbs-brands p { color: #d1d1d1; font-size: 18px; margin: 0 auto 24px; max-width: 780px; }
+  .cgbs-brand-row { display: flex; align-items: center; justify-content: center; gap: 10px 40px; flex-wrap: wrap; }
+  .cgbs-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
+  .cgbs-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    max-width: 1096px; margin: 0 auto; padding-bottom: 50px;
+  }
+  .cgbs-stat {
+    background: rgba(126, 171, 255, 0.1);
+    border-radius: 20px; padding: 15px 30px; text-align: center;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .cgbs-stat-big { color: #fff; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+  .cgbs-stat-small { font-size: 16px; color: #fafafa; margin-top: 8px; line-height: 1.5; }
+
+  .cgbs-trust {
+    background: linear-gradient(90deg, var(--cgbs-navy) 0%, var(--cgbs-navy-deep) 100%);
+    padding: 12px 0;
+  }
+  .cgbs-trust-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; align-items: center;
+  }
+  .cgbs-trust-item + .cgbs-trust-item {
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+    padding-left: 24px;
+  }
+  .cgbs-trust-item { color: #fff; }
+  .cgbs-trust-item strong { display: block; font-size: 16px; font-weight: 600; line-height: 1.47; }
+  .cgbs-trust-item span { display: block; font-size: 14px; font-weight: 400; color: var(--cgbs-lavender); line-height: 1.47; }
+  .cgbs-trust-div { width: 1px; height: 36px; background: rgba(255, 255, 255, 0.28); }
+
+  .cgbs-mistakes { background: linear-gradient(180deg, var(--cgbs-lavender) 0%, #ffffff 100%); }
+  .cgbs-mistakes-grid { display: grid; grid-template-columns: 423px 1fr; gap: 28px; align-items: start; }
+  .cgbs-quote-card {
+    background: var(--cgbs-lavender); border-radius: 20px; padding: 32px;
+    font-size: 20px; font-weight: 500; line-height: 1.4; margin: 0 0 30px; color: #1a1a1a;
+  }
+  .cgbs-mistake-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cgbs-card {
+    background: #fff; border-radius: 20px; padding: 40px 32px;
+    box-shadow: 0 4px 24px rgba(30, 30, 80, 0.05);
+  }
+  .cgbs-card-icon { width: 60px; height: 60px; object-fit: contain; margin-bottom: 24px; }
+  .cgbs-card h3 { color: #000; font-size: 24px; font-weight: 500; margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.4; }
+  .cgbs-card p { color: #1a1a1a; font-size: 16px; line-height: 1.5; margin: 0; }
+
+  .cgbs-why { background: #fff; }
+  .cgbs-why-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
+  .cgbs-adv-list { border-top: 1px solid #e7e7ef; margin-top: 8px; }
+  .cgbs-adv-item { border-bottom: 1px solid #e7e7ef; padding: 16px 0; }
+  .cgbs-adv-item summary {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+    cursor: pointer; list-style: none; font-size: 16px; font-weight: 500; color: var(--cgbs-slate);
+  }
+  .cgbs-adv-item summary::-webkit-details-marker { display: none; }
+  .cgbs-adv-item summary img { flex: none; width: 32px; height: 32px; transition: transform 0.2s ease; }
+  .cgbs-adv-item:not([open]) summary img { transform: rotate(180deg); }
+  .cgbs-adv-item p { color: #121212; font-size: 14px; line-height: 1.5; margin: 6px 0 0; max-width: 478px; }
+  .cgbs-why-art { display: flex; align-items: center; justify-content: center; }
+  .cgbs-why-art img { width: 100%; max-width: 562px; height: auto; }
+
+  .cgbs-routes { background: linear-gradient(180deg, #ffffff 0%, var(--cgbs-lavender) 100%); }
+  .cgbs-route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
+  .cgbs-route-card { background: #fff; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; }
+  .cgbs-route-n { font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 16px; }
+  .cgbs-route-card h3 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 16px; color: #000; }
+  .cgbs-route-card p { color: #1a1a1a; font-size: 16px; line-height: 1.5; margin: 0 0 24px; flex: 1; }
+  .cgbs-route-card a { font-size: 16px; font-weight: 700; text-transform: uppercase; text-decoration: none; }
+  .cgbs-unsure { text-align: center; color: var(--cgbs-navy); font-size: 20px; font-weight: 500; margin: 40px 0 0; }
+
+  .cgbs-process {
+    position: relative; overflow: hidden; color: #fff;
+    background: #2e3a8c url('/uae-company-setup/bkg/process-desktop.webp') center bottom / cover no-repeat;
+    padding: 80px 0 156px;
+    min-height: 1339px;
+  }
+  .cgbs-process .cgbs-h2 { color: #fff; margin: 0 auto 16px; max-width: 850px; }
+  .cgbs-process .cgbs-sub-light { margin: 0 auto 50px; max-width: 850px; }
+  .cgbs-process .cgbs-center-btn { margin-top: 80px; position: relative; z-index: 1; }
+  .cgbs-process .cgbs-btn-pill { min-width: 264px; min-height: 55px; padding: 16px 32px; }
+  .cgbs-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; z-index: 1; }
+  .cgbs-step {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px; padding: 40px;
+    backdrop-filter: blur(10px);
+    min-height: 353px;
+  }
+  .cgbs-step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .cgbs-step-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 43px; height: 43px; border-radius: 8px;
+    background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25);
+    font-weight: 600; font-size: 22px;
+  }
+  .cgbs-step-k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
+  .cgbs-step h3 { color: #fff; font-size: 22px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.3; }
+  .cgbs-step p { color: rgba(255, 255, 255, 0.88); font-size: 15px; line-height: 1.6; margin: 0; }
+
+  .cgbs-cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cgbs-testi-slider { margin-top: 48px; }
+  .cgbs-testi-swiper { overflow: hidden; }
+  .cgbs-testi-swiper :global(.swiper-slide) { height: auto; }
+  .cgbs-testi-swiper :global(.swiper-wrapper) { align-items: stretch; }
+  .cgbs-testi {
+    background: #fff; border: 1px solid #d1d1d1; border-radius: 16px;
+    padding: 32px 24px; display: flex; flex-direction: column; height: 100%;
+  }
+  .cgbs-quote-icon { width: 17px; height: 16px; margin-bottom: 16px; }
+  .cgbs-stars { display: flex; gap: 0; margin-bottom: 16px; }
+  .cgbs-stars img { width: 24px; height: 24px; }
+  .cgbs-testi blockquote { margin: 0; font-size: 16px; line-height: 1.5; color: #1a1a1a; flex: 1; text-align: left; }
+  .cgbs-testi-who { margin-top: 22px; text-align: left; }
+  .cgbs-testi-who strong { display: block; font-size: 18px; font-weight: 700; }
+  .cgbs-testi-name { font-size: 18px; font-weight: 600; margin-top: 2px; }
+  .cgbs-testi-role { color: var(--cgbs-silver); font-size: 12px; font-weight: 500; margin-top: 2px; }
+  .cgbs-testi-nav {
+    display: none; align-items: center; justify-content: space-between;
+    gap: 16px; margin-top: 28px; width: 100%;
+  }
+  .cgbs-testi-prev, .cgbs-testi-next {
+    width: 40px; height: 40px; padding: 0; border: 0; background: transparent; cursor: pointer;
+    color: #1a1a1a; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  }
+  .cgbs-testi-prev svg, .cgbs-testi-next svg { width: 18px; height: 18px; fill: currentColor; }
+  .cgbs-testi-dots { display: flex; justify-content: center; flex: 1; }
+  .cgbs-testi-dots :global(.swiper-pagination-bullet) {
+    width: 8px; height: 8px; background: #c9c9c9; opacity: 1; margin: 0 4px;
+  }
+  .cgbs-testi-dots :global(.swiper-pagination-bullet-active) { background: #1a1a1a; }
+  @media (max-width: 767px) {
+    .cgbs-testi-nav { display: flex; }
+  }
+
+  .cgbs-after { background: linear-gradient(180deg, #ffffff 0%, var(--cgbs-lavender) 100%); }
+  .cgbs-after-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 40px; }
+  .cgbs-after-card { text-decoration: none; color: inherit; display: block; }
+  .cgbs-after-card h3 { white-space: pre-line; }
+
+  .cgbs-faq-list { border-top: 1px solid #e6e6e6; margin-top: 34px; }
+  .cgbs-faq { border-bottom: 1px solid #e6e6e6; }
+  .cgbs-faq summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    cursor: pointer; list-style: none; font-size: 18px; font-weight: 400; padding: 20px 0;
+  }
+  .cgbs-faq summary::-webkit-details-marker { display: none; }
+  .cgbs-faq summary img { flex: none; width: 32px; height: 32px; transition: transform 0.2s ease; }
+  .cgbs-faq:not([open]) summary img { transform: rotate(180deg); }
+  .cgbs-faq-a { color: #313131; font-size: 16px; line-height: 1.5; padding-bottom: 24px; }
+  .cgbs-faq-a p { margin: 0 0 12px; }
+  .cgbs-faq-a p:last-child { margin-bottom: 0; }
+
+  .cgbs-finalcta-wrap { padding-top: 40px; padding-bottom: 70px; }
+  .cgbs-finalcta {
+    border-radius: 35px; text-align: center; padding: 90px 60px;
+    background:
+      radial-gradient(55% 90% at 12% 30%, rgba(122, 135, 218, 0.5), transparent 60%),
+      radial-gradient(50% 90% at 88% 35%, rgba(248, 156, 126, 0.55), transparent 60%),
+      radial-gradient(60% 90% at 40% 90%, rgba(199, 236, 239, 0.5), transparent 65%),
+      #fdfbf7;
+  }
+  .cgbs-finalcta h2 { color: #141414; font-size: 64px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; max-width: 980px; margin: 0 auto 20px; }
+  .cgbs-finalcta p { color: #1a1a1a; font-size: 20px; font-weight: 500; margin: 0 auto 30px; max-width: 976px; }
+
+  .cgbs-intel { padding-top: 30px; }
+  .cgbs-intel-sub { color: #121212; font-size: 16px; margin: 0 0 34px; }
+  .cgbs-intel-card {
+    background: linear-gradient(180deg, #fdfdfd 0%, #f6f5fa 100%);
+    border: 1px solid rgba(209, 209, 209, 0.5);
+    border-radius: 20px; overflow: hidden; text-decoration: none; color: inherit; display: block; padding: 20px;
+  }
+  .cgbs-intel-card img { width: 100%; height: 259px; object-fit: cover; border-radius: 24px; }
+  .cgbs-intel-body { padding: 20px 4px 4px; }
+  .cgbs-intel-body h3 { color: #1a1a1a; font-size: 24px; font-weight: 500; margin: 0 0 12px; letter-spacing: -0.02em; line-height: 1.4; }
+  .cgbs-intel-body p { color: var(--cgbs-silver); font-size: 16px; margin: 0; }
+
+  @media (max-width: 1100px) {
+    .cgbs-mistakes-grid, .cgbs-why-grid { grid-template-columns: 1fr; gap: 36px; }
+    .cgbs-why-art { order: -1; }
+    .cgbs-after-grid { grid-template-columns: repeat(2, 1fr); }
+    .cgbs-trust-row { grid-template-columns: 1fr 1fr; }
+    .cgbs-trust-item + .cgbs-trust-item { border-left: none; padding-left: 0; }
+  }
+  @media (max-width: 1024px) {
+    .cgbs-cards3, .cgbs-route-grid { grid-template-columns: 1fr; }
+    .cgbs-steps { grid-template-columns: 1fr 1fr; }
+    .cgbs-hero {
+      background-image: url('/uae-company-setup/bkg/hero-tablet.webp');
+      min-height: 0; padding: 100px 0 40px;
+    }
+    .cgbs-hero-copy { min-height: 0; padding: 48px 0 56px; }
+    .cgbs-hero h1 { font-size: 44px; }
+    .cgbs-hero-routes { font-size: 24px; }
+    .cgbs-hero-lead { font-size: 18px; }
+    .cgbs-process {
+      background-image: url('/uae-company-setup/bkg/process-tablet.webp');
+      min-height: 0; padding: 72px 0 180px;
+    }
+    .cgbs-process .cgbs-center-btn { margin-top: 48px; }
+    .cgbs-step { min-height: 0; }
+    .cgbs-h2 { font-size: 36px; }
+    .cgbs-finalcta h2 { font-size: 40px; }
+  }
+  @media (max-width: 860px) {
+    .cgbs-wrap,
+    .cgbs-hero .cgbs-wrap,
+    .cgbs-process .cgbs-wrap { padding: 0 24px; }
+    .cgbs-section { padding: 60px 0; }
+    .cgbs-hero { padding: 110px 0 36px; }
+    .cgbs-hero h1 { font-size: 34px; }
+    .cgbs-h2 { font-size: 30px; }
+    .cgbs-stats { grid-template-columns: repeat(2, 1fr); }
+    .cgbs-mistake-cards { grid-template-columns: 1fr; }
+    .cgbs-finalcta { padding: 60px 28px; }
+    .cgbs-finalcta h2 { font-size: 30px; }
+    .cgbs-card { padding: 28px 24px; }
+  }
+  @media (max-width: 560px) {
+    .cgbs-hero {
+      background-image: url('/uae-company-setup/bkg/hero-mobile.webp');
+      background-size: 100% auto;
+      background-position: center top;
+      padding: 80px 0 0;
+      min-height: 1412px;
+    }
+    .cgbs-hero .cgbs-wrap,
+    .cgbs-process .cgbs-wrap { padding: 0 24px; }
+    .cgbs-hero-copy {
+      width: 100%;
+      min-height: 695px;
+      padding: 34px 0 74px;
+      justify-content: flex-start;
+    }
+    .cgbs-hero h1 { font-size: 32px; line-height: 1.2; margin-bottom: 12px; }
+    .cgbs-hero-routes { font-size: 20px; margin-bottom: 12px; }
+    .cgbs-hero-lead { font-size: 16px; line-height: 1.55; margin-bottom: 24px; }
+    .cgbs-hero .cgbs-btn-row {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    .cgbs-hero .cgbs-btn-row .cgbs-btn {
+      width: 100%;
+      max-width: none;
+      white-space: nowrap;
+      font-size: 16px;
+      padding: 12px 16px;
+      min-height: 44px;
+    }
+    .cgbs-brands { padding: 24px 0 40px; }
+    .cgbs-brands h2 { font-size: 20px; }
+    .cgbs-brands p { font-size: 16px; margin-bottom: 24px; }
+    .cgbs-brand-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 64px 64px;
+      gap: 10px;
+      align-items: center;
+      justify-items: center;
+    }
+    .cgbs-brand-row img { height: 40px; max-width: 150px; }
+    .cgbs-stats {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      grid-auto-flow: column;
+      gap: 20px;
+      padding-bottom: 50px;
+    }
+    .cgbs-stat { padding: 15px 12px; }
+    .cgbs-stat-big { font-size: 24px; }
+    .cgbs-stat-small { font-size: 14px; }
+    .cgbs-trust-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cgbs-trust-item + .cgbs-trust-item {
+      border-left: 1px solid rgba(255, 255, 255, 0.28);
+      padding-left: 12px;
+    }
+    .cgbs-process {
+      background-image: url('/uae-company-setup/bkg/process-mobile.webp');
+      background-size: 100% auto;
+      background-position: center bottom;
+      padding: 56px 0 160px;
+    }
+    .cgbs-steps, .cgbs-after-grid { grid-template-columns: 1fr; }
+    .cgbs-btn-row { flex-direction: column; }
+    .cgbs-btn-row .cgbs-btn { width: 100%; }
+  }
+</style>
