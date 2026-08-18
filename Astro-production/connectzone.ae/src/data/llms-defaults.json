@@ -1,72 +1,72 @@
 {
-  "siteTitle": "S&P Heavy Machinery Rental",
-  "summary": "S & P HEAVY MACHINERY RENTAL L.L.C is a Dubai-based equipment rental company supplying heavy machinery, construction equipment, generators, forklifts and scaffolding across the UAE, with delivery, operators and maintenance support.",
-  "details": "Licensed in Dubai by the Department of Economy and Tourism (DET) under trade licence 1493335. Fleet covers earthmoving and lifting machinery, power generation, access and scaffolding equipment on daily, weekly, monthly and long-term rental terms.",
-  "blogHome": "/blog/",
+  "siteTitle": "Connect Zone",
+  "summary": "Connect Zone is a Dubai-based business-setup consultancy helping entrepreneurs and companies form businesses in the UAE - mainland, free zone and offshore - with trade licensing, visa processing, PRO services and business-center solutions.",
+  "details": "Based at 804, City Tower 2, Sheikh Zayed Road, Dubai, with over 22 years of experience. Services include mainland company formation, free zone and offshore company setup, business structuring, trade licensing, freelance visas, PRO and document-clearing services, VAT registration and related support across Dubai and the wider UAE. Contact: +971 4 331 6688, info@connectzone.ae.",
+  "blogHome": "/insights/",
   "groupOrder": [
-    "Equipment Rental Services",
+    "Business Setup Services",
     "Company Pages",
     "Blog & Insights",
     "Other Pages"
   ],
   "postsCount": 20,
-  "blogNote": "Blog articles cover equipment selection, rental costs, safety and operating guidance for heavy machinery in Dubai and the wider UAE.",
+  "blogNote": "Insights articles cover UAE business setup, trade licensing, free zone comparisons, visas and compliance topics for entrepreneurs in Dubai and the wider Emirates.",
   "categoryMarkdown": "",
   "entries": {
     "/": {
       "group": "Company Pages",
       "title": "Home",
-      "description": "Heavy equipment rental in the UAE — machinery, generators, forklifts and scaffolding with support for construction, industrial and event projects."
+      "description": "Business setup in the UAE - company formation across Dubai mainland, free zones and offshore, with licensing, visas and PRO support."
     },
     "/about-us/": {
       "group": "Company Pages",
       "title": "About Us",
-      "description": "About S&P Heavy Machinery Rental — a UAE rental company for tools, machinery and equipment serving construction, events and industry."
+      "description": "About Connect Zone - a Dubai business-setup consultancy with over 22 years of experience guiding company formation in the UAE."
     },
     "/contact-us/": {
       "group": "Company Pages",
       "title": "Contact Us",
-      "description": "Contact S&P Heavy Rental for quotes, availability and rental enquiries across the UAE."
+      "description": "Contact Connect Zone for business setup consultations and quotes - 804, City Tower 2, Sheikh Zayed Road, Dubai; +971 4 331 6688."
     },
-    "/services/": {
-      "group": "Equipment Rental Services",
-      "title": "Equipment Rental Services",
-      "description": "Equipment rental services in the UAE — machinery and tools for construction and commercial projects."
+    "/business-setup-in-dubai/": {
+      "group": "Business Setup Services",
+      "title": "Business Setup in Dubai",
+      "description": "Company formation in Dubai - licensing steps, approvals and setup support on the mainland."
     },
-    "/heavy-machinery-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Heavy Machinery Rental",
-      "description": "Heavy machinery rental in Dubai and the UAE for construction and infrastructure work, with expert support."
+    "/dubai-mainland-license/": {
+      "group": "Business Setup Services",
+      "title": "Dubai Mainland Licence",
+      "description": "Commercial, professional and industrial trade licences on the Dubai mainland."
     },
-    "/heavy-machinery-rental/forklift-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Forklift Rental",
-      "description": "Forklift rental in Dubai and the UAE with a wide fleet on daily, weekly or monthly terms."
+    "/freelance-visas/": {
+      "group": "Business Setup Services",
+      "title": "Freelance Visas",
+      "description": "UAE freelance visa packages - eligibility, costs and application support."
     },
-    "/construction-equipment-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Construction Equipment Rental",
-      "description": "Construction equipment rental in Dubai and the UAE — durable, high-performance machinery with expert support."
+    "/pro-services/": {
+      "group": "Business Setup Services",
+      "title": "PRO Services",
+      "description": "Corporate PRO services in the UAE - document clearing, government liaison and visa processing."
     },
-    "/generator-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Generator Rental",
-      "description": "Generator rental in Dubai and the UAE — reliable, fuel-efficient units for construction, events and backup power."
+    "/business-center/": {
+      "group": "Business Setup Services",
+      "title": "Business Centers",
+      "description": "Business-center and office solutions in the UAE for new companies."
     },
-    "/power-generator-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Power Generator Rental",
-      "description": "Power generator rental in the UAE — help choosing the right generator capacity for your project."
+    "/cost-calculator/": {
+      "group": "Company Pages",
+      "title": "Cost Calculator",
+      "description": "Estimate UAE business setup costs by licence type, free zone and visa count."
     },
-    "/scaffold-rental/": {
-      "group": "Equipment Rental Services",
-      "title": "Scaffold Rental",
-      "description": "Scaffold rental in Dubai and the UAE for construction, maintenance and event work."
+    "/dubai-multi-commodities-centre-dmcc-free-zone-company/": {
+      "group": "Business Setup Services",
+      "title": "DMCC Free Zone",
+      "description": "Company formation in the DMCC free zone in Dubai."
     },
-    "/blog/": {
-      "group": "Blog & Insights",
-      "title": "Blog",
-      "description": "Expert advice, maintenance tips and best practice for heavy equipment rental in the UAE."
+    "/abu-dhabi-global-market-adgm-company-formation/": {
+      "group": "Business Setup Services",
+      "title": "ADGM Company Formation",
+      "description": "Setting up a company in Abu Dhabi Global Market (ADGM)."
     }
   }
 }
