@@ -2,6 +2,10 @@
  * Fallback Elementor Swiper carousels (fleet + testimonials).
  */
 (() => {
+  const MOBILE_MAX = 767;
+  /** Widgets that show all slides stacked on mobile instead of a carousel. */
+  const MOBILE_STACK_WIDGET_IDS = new Set(["238453b"]);
+
   function parseSettings(el) {
     const widget = el.closest("[data-settings], .elementor-widget");
     const raw =
@@ -15,9 +19,76 @@
     }
   }
 
+  function num(val, fallback) {
+    const n = Number(val);
+    return Number.isFinite(n) && n > 0 ? n : fallback;
+  }
+
+  function spaceBetween(settings, suffix = "") {
+    const key = suffix ? `space_between${suffix}` : "space_between";
+    const v = settings[key];
+    if (typeof v === "object") return Number(v?.size) || 10;
+    return Number(v) || 10;
+  }
+
+  function buildBreakpoints(settings) {
+    const desktop = num(settings.slides_per_view || settings.slides_to_show, 1);
+    const tablet = num(settings.slides_per_view_tablet, desktop);
+    const mobile = num(settings.slides_per_view_mobile, 1);
+
+    return {
+      0: {
+        slidesPerView: mobile,
+        spaceBetween: spaceBetween(settings, "_mobile"),
+      },
+      768: {
+        slidesPerView: tablet,
+        spaceBetween: spaceBetween(settings, "_tablet"),
+      },
+      1025: {
+        slidesPerView: desktop,
+        spaceBetween: spaceBetween(settings),
+      },
+    };
+  }
+
+  function getCarouselWidget(el) {
+    return (
+      el.closest(".elementor-element[data-widget_type*='carousel']") ||
+      el.closest(".elementor-widget[data-widget_type*='carousel']")
+    );
+  }
+
+  function markMobileStack(widgetEl, swiperEl) {
+    widgetEl?.classList.add("sp-mobile-stack");
+    swiperEl.classList.add("sp-mobile-stack");
+  }
+
+  function shouldMobileStack(widgetEl) {
+    return (
+      widgetEl instanceof HTMLElement &&
+      MOBILE_STACK_WIDGET_IDS.has(widgetEl.getAttribute("data-id") || "")
+    );
+  }
+
+  /** Apply stacked layout on mobile before/alwithout Swiper loading. */
+  function applyMobileStacks() {
+    if (!window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches) return;
+
+    document
+      .querySelectorAll(".elementor-main-swiper, .swiper")
+      .forEach((el) => {
+        if (!(el instanceof HTMLElement)) return;
+        const widgetEl = getCarouselWidget(el);
+        if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
+      });
+  }
+
   function boot() {
     const SwiperCtor = window.Swiper;
     if (!SwiperCtor) return;
+
+    applyMobileStacks();
 
     document.querySelectorAll(".elementor-main-swiper, .swiper").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
@@ -26,6 +97,12 @@
 
       const settings = parseSettings(el);
       const parent = el.closest(".elementor-element") || el.parentElement;
+      const widgetEl = getCarouselWidget(el);
+
+      if (shouldMobileStack(widgetEl) && el.classList.contains("sp-mobile-stack")) {
+        return;
+      }
+
       const next = parent?.querySelector(
         ".elementor-swiper-button-next, .swiper-button-next",
       );
@@ -33,21 +110,13 @@
         ".elementor-swiper-button-prev, .swiper-button-prev",
       );
       const pagination = parent?.querySelector(".swiper-pagination");
-
-      const slidesPerView =
-        Number(settings.slides_per_view) ||
-        Number(settings.slides_to_show) ||
-        1;
-
-      const space =
-        typeof settings.space_between === "object"
-          ? Number(settings.space_between?.size) || 10
-          : Number(settings.space_between) || 10;
+      const breakpoints = buildBreakpoints(settings);
 
       try {
         // eslint-disable-next-line no-new
         new SwiperCtor(el, {
-          slidesPerView,
+          slidesPerView: 1,
+          breakpoints,
           loop: settings.loop !== "no" && settings.infinite !== "no",
           speed: Number(settings.speed) || 500,
           autoplay:
@@ -61,7 +130,6 @@
           navigation:
             next && prev ? { nextEl: next, prevEl: prev } : undefined,
           pagination: pagination ? { el: pagination, clickable: true } : undefined,
-          spaceBetween: space,
           watchOverflow: true,
           centeredSlides: settings.centered_slides === "yes",
         });
@@ -89,6 +157,7 @@
   }
 
   function run() {
+    applyMobileStacks();
     ensureSwiper(() => {
       boot();
       setTimeout(boot, 300);
@@ -96,7 +165,14 @@
     });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-  else run();
-  window.addEventListener("load", () => setTimeout(boot, 200));
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", run);
+  } else {
+    run();
+  }
+  window.addEventListener("load", () => {
+    applyMobileStacks();
+    setTimeout(boot, 200);
+  });
+  window.addEventListener("resize", applyMobileStacks);
 })();

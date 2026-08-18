@@ -1805,6 +1805,52 @@
         });
     }
 
+    function countryFromTimezone() {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        var map = {
+          'Asia/Dubai': 'ae',
+          'Asia/Muscat': 'om',
+          'Asia/Qatar': 'qa',
+          'Asia/Bahrain': 'bh',
+          'Asia/Kuwait': 'kw',
+          'Asia/Riyadh': 'sa',
+          'Asia/Kolkata': 'in',
+          'Asia/Calcutta': 'in',
+          'Asia/Karachi': 'pk',
+          'Asia/Dhaka': 'bd',
+          'Asia/Colombo': 'lk',
+          'Asia/Kathmandu': 'np',
+          'Asia/Singapore': 'sg',
+          'Asia/Kuala_Lumpur': 'my',
+          'Asia/Manila': 'ph',
+          'Asia/Jakarta': 'id',
+          'Asia/Bangkok': 'th',
+          'Asia/Ho_Chi_Minh': 'vn',
+          'Asia/Shanghai': 'cn',
+          'Asia/Hong_Kong': 'hk',
+          'Asia/Tokyo': 'jp',
+          'Asia/Seoul': 'kr',
+          'Europe/London': 'gb',
+          'Europe/Paris': 'fr',
+          'Europe/Berlin': 'de',
+          'Africa/Cairo': 'eg',
+          'Africa/Johannesburg': 'za',
+          'Africa/Lagos': 'ng',
+          'Africa/Nairobi': 'ke',
+          'America/New_York': 'us',
+          'America/Chicago': 'us',
+          'America/Denver': 'us',
+          'America/Los_Angeles': 'us',
+          'America/Toronto': 'ca',
+          'Australia/Sydney': 'au',
+        };
+        return map[tz] || '';
+      } catch (e) {
+        return '';
+      }
+    }
+
     function lookupCountryByIp() {
       if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
         window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
@@ -1813,25 +1859,32 @@
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
-      // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
+      // Same-origin CF header first. Ignore AE "fallback" so local/dev can use timezone.
       var endpoints = [
-        '/api/geo/country',
+        '/api/geo/country/',
       ];
       var i = 0;
       return new Promise(function (resolve) {
+        function finish(code) {
+          var resolved = code || countryFromTimezone();
+          if (resolved) window.__astroDetectedCountry = resolved;
+          resolve(resolved);
+        }
         function next() {
           if (i >= endpoints.length) {
-            resolve('');
+            finish('');
             return;
           }
           var url = endpoints[i++];
           fetchJsonWithTimeout(url, 3000)
             .then(function (data) {
+              if (data && data.source === 'fallback') {
+                next();
+                return;
+              }
               var code = parseCountry(data);
-              if (code) {
-                window.__astroDetectedCountry = code;
-                resolve(code);
-              } else next();
+              if (code) finish(code);
+              else next();
             })
             .catch(function () {
               next();

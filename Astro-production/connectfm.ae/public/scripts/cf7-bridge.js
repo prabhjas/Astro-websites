@@ -162,19 +162,6 @@
   }
 
 
-  function pushLeadToDataLayer(email, phone, submissionId) {
-    try {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "form_submission_lead",
-        email: email || "",
-        phone_number: phone || "",
-        submission_id: submissionId || "",
-      });
-    } catch (e) {}
-  }
-
-
   const NAME_SEL = "[name='sub'], [name='first-name'], [name='firstName'], [name='your-name'], [name='name']";
   const EMAIL_SEL = "[name='sub2'], [name='your-email'], [name='email']";
   const PHONE_SEL =
@@ -303,10 +290,10 @@
     return el ? String(el.value || "").trim() : "";
   }
 
-  /** GTM / dataLayer lead event — matches legacy #leadForm payload + CF7 ids */
+  /** GTM / dataLayer lead event — includes enhanced conversion fields. */
   function pushFormSubmissionLead({ name, email, phone, formId, submissionId, formName }) {
     window.dataLayer = window.dataLayer || [];
-    const payload = {
+    window.dataLayer.push({
       event: "form_submission_lead",
       name: name || "",
       email: email || "",
@@ -315,9 +302,7 @@
       form_name: formName || "",
       submission_id: submissionId || "",
       status: "mail_sent",
-    };
-    window.dataLayer.push(payload);
-    console.log("Form Tracking — DataLayer Pushed ✅", payload);
+    });
   }
 
   function dispatchCf7MailSent(form, { name, email, phone, formId, submissionId }) {
@@ -554,16 +539,6 @@
           }
 
           const successMsg = data.message || SUCCESS_MSG;
-          try {
-            const emailEl = form.querySelector("[name='your-email'], [name='email'], [name='sub2']");
-            const phoneEl = form.querySelector("input.wpcf7-phonetext, input[name='phone'], input[type='tel'], input[name^='phonetext-']");
-            pushLeadToDataLayer(
-              emailEl && emailEl.value ? String(emailEl.value).trim() : "",
-              phoneEl && phoneEl.value ? String(phoneEl.value).trim() : "",
-              (data && (data.submissionId || data.submission_id)) || form.dataset.submissionId || "",
-            );
-          } catch (e) {}
-
           const isAmcWizard = Boolean(form.querySelector(".form-main .cf7-step"));
 
           pushFormSubmissionLead({
