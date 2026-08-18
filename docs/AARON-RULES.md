@@ -1,13 +1,33 @@
 # Aaron rules — security, deploy, structure (follow this)
 
-**Updated:** 2026-08-14  
+**Updated:** 2026-08-18  
 **Index only.** Detail lives in the linked docs. Do not reopen closed FQ items unless a new site is copied from a peer.
 
 Aaron’s source-review quote (FQ-04):
 
 > The source review uncovered that the branch had been mechanically copied from older peer sites: blank canonical origins, stale peer domains, unsafe deployment guidance, and three dormant code-execution hooks.
 
-**Live publish (14 Aug):** PDF-requested protected source is live. Accepted HEAD is `c34649d75` on `origin/astro-fleet-development`. Host workflow: `/opt/Astro-development` · branch `astro-fleet-development` · SSH-signed commits · `sudo /usr/local/sbin/astro-fleet-release publish` for eligible site-only changes. See [DEVELOPER-HANDOFF.md](DEVELOPER-HANDOFF.md).
+**Live publish:** Host workflow is `/opt/Astro-development` · branch `astro-fleet-development` · SSH-signed commits · `sudo /usr/local/sbin/astro-fleet-release publish` for eligible site-only changes. See [DEVELOPER-HANDOFF.md](DEVELOPER-HANDOFF.md). Laptop working branch is `work/astro-sites` — do not treat it as the live pin.
+
+---
+
+## 18 Aug — Aaron comments (follow these)
+
+| Aaron said | Our follow |
+|------------|------------|
+| Image corruption on Connect Zone / Connect FZ (placeholder logos, smeared duplicate uploads, SP Heavy menu wearing another brand’s logo) | Restore **real** in-use images; never delete logos/page/post assets that are referenced. Do not advance the live pin until chrome + referenced images are real files, not 643-byte placeholders or one blob copied across hundreds of paths. |
+| Branch must **not** revert `caddy/Caddyfile.production` or `README.md` | **Keep Aaron’s live-mirror Caddyfile** (admin unix socket, Cloudflare `trusted_proxies`, site blocks). Reject any merge that deletes those ~3,100 lines. |
+| Old per-site `/internal/operations` dashboard | **Gone on purpose.** Middleware 404s it. FLOW is the UI. |
+| FLOW / CRM should consume site APIs | Per-domain `https://<domain>/api/internal/*` with `Authorization: Bearer <INTERNAL_JOB_SECRET>`. Full catalog: [CMS-DASHBOARD-AND-FLOW-APIS.md](CMS-DASHBOARD-AND-FLOW-APIS.md). Old HTML UI to inspect: commit `fba983f69`. Shared handlers landed in `413424705`. |
+| Do not copy peer chrome | After any peer rsync, grep `Forklift Rental` / `spheavyrental` / foreign `headerHtml` in `src/data/{site.json,global-css.json,header.html,footer.html}`. |
+
+**Clone / publish extra rules (18 Aug):**
+
+- If the same SHA appears on 5+ upload paths, treat it as smear/corruption until proven otherwise.
+- Header/footer HTML used by `ElementorHeader` / `ElementorFooter` must match **this** domain, not a leftover from `global-css.json`.
+- `caddy/Caddyfile.production` and root `README.md` are owner-shaped files — never “simplify” them in a site PR.
+
+**Still open on laptop `work/astro-sites` (do not call this image-clean):** Connect FZ uploads still contain smear groups (one 1.1 MB blob on hundreds of paths). Zone logos and live Zone/FZ header/footer are this brand. FLOW `/api/internal` note is [CMS-DASHBOARD-AND-FLOW-APIS.md](CMS-DASHBOARD-AND-FLOW-APIS.md). Do not advance the live pin until FZ referenced images are real files.
 
 ---
 

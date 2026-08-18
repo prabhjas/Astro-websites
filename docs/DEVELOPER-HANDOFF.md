@@ -1,7 +1,8 @@
 # Developer handoff — Astro fleet releases
 
-**Updated:** 2026-08-14 (Aaron — PDF changes live at `c34649d75`; keep presentation-only lane)  
-**Rules index:** [AARON-RULES.md](AARON-RULES.md)
+**Updated:** 2026-08-18  
+**Rules index:** [AARON-RULES.md](AARON-RULES.md) (includes 18 Aug asset / Caddy / FLOW comments)  
+**FLOW APIs:** [CMS-DASHBOARD-AND-FLOW-APIS.md](CMS-DASHBOARD-AND-FLOW-APIS.md)
 
 All **42 websites**—including Connect Freelance and Connect Resources International—use the same normal process for presentation changes.
 
@@ -38,6 +39,8 @@ sudo /usr/local/sbin/astro-fleet-release publish
 ```
 
 The developer does **not** run `git push`, restart the website, edit Caddy, or copy files into production.
+
+Do **not** commit a revert of `caddy/Caddyfile.production` or root `README.md`. Do **not** ship placeholder/smeared upload blobs or another site’s header/footer chrome. Presentation work on laptop `work/astro-sites` is not live until it is signed and published from `astro-fleet-development`.
 
 ## Hard stop — Aaron / root only
 
