@@ -250,8 +250,37 @@
     dedupeSubmenuIcons();
   }
 
+  function stripNavHashHrefs() {
+    document.querySelectorAll('.elementor-nav-menu .menu-item-has-children > a').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (href === '#' || a.classList.contains('elementor-item-anchor')) {
+        a.removeAttribute('href');
+        a.classList.remove('elementor-item-anchor');
+        if (!a.getAttribute('role')) a.setAttribute('role', 'button');
+        if (!a.hasAttribute('tabindex')) a.setAttribute('tabindex', '0');
+      }
+    });
+  }
+
+  function watchNavHashHrefs() {
+    if (!document.body || document.body.dataset.cfNavHashWatch) return;
+    document.body.dataset.cfNavHashWatch = '1';
+    document.addEventListener(
+      'click',
+      function (e) {
+        var a = e.target.closest && e.target.closest('.elementor-nav-menu .menu-item-has-children > a');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (!href || href === '#') e.preventDefault();
+      },
+      true,
+    );
+  }
+
   function ensureNavMenus() {
     var $ = window.jQuery;
+    stripNavHashHrefs();
+    watchNavHashHrefs();
 
     // Hover/focus open for desktop dropdowns (works with or without SmartMenus)
     document
@@ -284,9 +313,13 @@
     }
     setTimeout(function () {
       initSmartMenusFallback();
+      stripNavHashHrefs();
       dedupeSubmenuIcons();
     }, 700);
-    setTimeout(dedupeSubmenuIcons, 1500);
+    setTimeout(function () {
+      stripNavHashHrefs();
+      dedupeSubmenuIcons();
+    }, 1500);
     setTimeout(dedupeSubmenuIcons, 3000);
   }
 
@@ -2035,6 +2068,9 @@
       '.elementor-menu-toggle__icon--close.eicon-close:after{transform:rotate(-45deg);}',
       '.elementor-menu-toggle:not(.elementor-active) .elementor-menu-toggle__icon--close{display:none;}',
       '.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open{display:none;}',
+      /* Insurance / custom parents: Elementor paints "#" via :before on .elementor-item */
+      '.elementor-nav-menu a.elementor-item::before,.elementor-nav-menu a.elementor-item::after,.elementor-nav-menu a.elementor-item-anchor::before,.elementor-nav-menu a.elementor-item-anchor::after,.elementor-nav-menu a.elementor-sub-item::before,.elementor-nav-menu a.elementor-sub-item::after{content:none!important;font-size:0!important;color:transparent!important;background:none!important;}',
+      '.elementor-nav-menu a[href="#"]{cursor:pointer;}',
       /* Submenu caret: match Elementor live (1em SVG + padded flex hit area) */
       '.elementor-nav-menu .sub-arrow{align-items:center;display:inline-flex;line-height:1;margin-block:-10px;margin-inline-start:.15em;padding:10px;padding-inline-end:0;vertical-align:middle;}',
       '.elementor-nav-menu .sub-arrow .e-font-icon-svg,.elementor-nav-menu .sub-arrow svg{width:1em!important;height:1em!important;fill:currentColor;display:block;}',
