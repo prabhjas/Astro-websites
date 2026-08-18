@@ -20,7 +20,9 @@
             post.link +
             '"><div class="articlepostthumbnailurl"><img src="' +
             post.thumbnail +
-            '" alt=""/></div></a>',
+            '" alt="' +
+            String(post.title || "").replace(/"/g, "&quot;") +
+            '"/></div></a>',
         );
         postDiv.append(
           '<div class="innerpost_wrapper"><div class="authorwrapper"><div class="postcategory">' +

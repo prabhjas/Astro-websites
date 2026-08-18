@@ -8,7 +8,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
-import { applySharedChrome } from './shared-chrome.js';
+import { applySharedChrome, injectLicenceSection } from './shared-chrome.js';
 import { resolveSiteOrigin } from './seo/site-url.ts';
 import { hydrateReviewFormFromQuery } from './review-form-hydrate.js';
 
@@ -145,7 +145,7 @@ export function serveLegacyPage(slug, options = {}) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
+  let html = injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slug)));
 
   // Live WP fills review-form from ?Model=&post-id=&… query (CF7 default:get + car shortcode).
   if (slug === 'review-form' && options.requestUrl) {

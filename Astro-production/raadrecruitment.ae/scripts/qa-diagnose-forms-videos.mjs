@@ -60,7 +60,7 @@ const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
 const net = [];
 page.on("response", (r) => {
-  if (r.url().includes("/api/contact") || r.url().includes(".mp4") || r.status() >= 400) {
+  if (r.url().includes("/api/contact/") || r.url().includes(".mp4") || r.status() >= 400) {
     net.push({ url: r.url().replace(LOCAL, "").slice(0, 120), status: r.status() });
   }
 });
@@ -96,7 +96,7 @@ if (formInfo.found) {
   const msg = page.locator("[name='your-message'], textarea").first();
   if (await msg.count()) await msg.fill("Automated QA — please ignore.");
   const [resp] = await Promise.all([
-    page.waitForResponse((r) => r.url().includes("/api/contact"), { timeout: 15000 }).catch(() => null),
+    page.waitForResponse((r) => r.url().includes("/api/contact/"), { timeout: 15000 }).catch(() => null),
     page.locator("form.wpcf7-form input[type=submit], form.wpcf7-form button[type=submit]").first().click(),
   ]);
   let body = null;

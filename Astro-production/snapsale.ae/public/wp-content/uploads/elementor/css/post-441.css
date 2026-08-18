@@ -75,7 +75,7 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 .label_ln {
     width: 100% !important;
     display: inline-flex;
-} 
+}
 }/* End custom CSS */
 /* Start custom CSS for container, class: .elementor-element-0e96f6a */.bg_lst{
     background: linear-gradient(180deg, #FFF 0%, #EBF1FB 48%, #FFF 100%);
@@ -84,7 +84,8 @@ select.wpcf7-form-control.wpcf7-select.wpcf7-validates-as-required {
 	font-family: 'SF Pro Display';
 	font-style: normal;
 	font-weight: normal;
-	font-display: auto;
-	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
+	font-display: swap;
+	src: url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold-snapsale-subset.woff2') format('woff2'),
+	url('/wp-content/uploads/2024/10/SF-Pro-Display-Semibold.woff') format('woff');
 }
 /* End Custom Fonts CSS */

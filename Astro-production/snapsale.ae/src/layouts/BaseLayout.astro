@@ -7,6 +7,7 @@
 import type { PageSeo } from '../lib/seo';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { RUNTIME_GTM_LOADER_SCRIPT } from '../lib/gtm/inject.ts';
 
 interface Props {
   seo: PageSeo;
@@ -107,6 +108,7 @@ const jsonLd = {
 <!doctype html>
 <html lang="en-US">
   <head>
+    <link rel="stylesheet" href="/css/menu-no-hash.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -136,12 +138,18 @@ const jsonLd = {
       href="/wp-content/uploads/2024/09/cropped-FAVICON-CR-ROUNDED-32x32.png"
       sizes="32x32"
     />
-    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    <script
+      is:inline
+      data-runtime-gtm="1"
+      data-runtime-gtm-loader="delayed"
+      set:html={RUNTIME_GTM_LOADER_SCRIPT}
+    ></script>
     <slot name="head" />
   </head>
   <body>
     {showChrome && <Header />}
     <slot />
     {showChrome && <Footer />}
+      <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>

@@ -198,9 +198,12 @@ const { formId = 'contact-lead', formName = 'Connect Group Contact Form' } = Ast
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: 'form_submission_lead',
+              name: (form.querySelector('[name="name"]') || {}).value || '',
               email: (form.querySelector('[name="email"]') || {}).value || '',
               phone_number: (form.querySelector('[name="phone"]') || {}).value || '',
+              form_id: form.id || '',
               submission_id: (result.data && result.data.submissionId) || form.dataset.submissionId || '',
+              status: 'mail_sent',
             });
             form.reset();
             form.dataset.submissionId = crypto.randomUUID();

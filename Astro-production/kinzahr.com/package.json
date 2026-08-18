@@ -14,7 +14,7 @@
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
     "check": "astro check",
-    "test": "node --import tsx --test tests/contact-form.test.mjs",
+    "test": "node --import tsx --test tests/contact-form.test.mjs tests/enhanced-date.test.mjs",
     "prepare:page": "node scripts/prepare-page.mjs",
     "prepare:homepage": "node scripts/prepare-page.mjs homepage",
     "prepare:homepage:download": "node scripts/prepare-page.mjs homepage --download",

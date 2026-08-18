@@ -16,6 +16,7 @@ export interface BlogImage {
   alt?: string;
   width?: number;
   height?: number;
+  originalUrl?: string;
 }
 
 export interface BlogLink {
@@ -34,10 +35,16 @@ export interface BlogPost {
   authorSlug?: string;
   categories?: Array<{ name: string; slug?: string; url?: string }>;
   tags?: Array<{ name: string; slug: string }>;
-  featuredImage?: BlogImage;
+  featuredImage?: BlogImage | null;
+  canonical?: string;
+  modifiedAt?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   headings?: Array<{ level: string; text: string; id: string }>;
   toc?: TocEntry[];
   robots?: string;
+  og?: { title?: string; description?: string; image?: string; type?: string };
+  twitter?: { card?: string; title?: string; description?: string; image?: string };
   [key: string]: unknown;
 }
 

@@ -1805,6 +1805,52 @@
         });
     }
 
+    function countryFromTimezone() {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        var map = {
+          'Asia/Dubai': 'ae',
+          'Asia/Muscat': 'om',
+          'Asia/Qatar': 'qa',
+          'Asia/Bahrain': 'bh',
+          'Asia/Kuwait': 'kw',
+          'Asia/Riyadh': 'sa',
+          'Asia/Kolkata': 'in',
+          'Asia/Calcutta': 'in',
+          'Asia/Karachi': 'pk',
+          'Asia/Dhaka': 'bd',
+          'Asia/Colombo': 'lk',
+          'Asia/Kathmandu': 'np',
+          'Asia/Singapore': 'sg',
+          'Asia/Kuala_Lumpur': 'my',
+          'Asia/Manila': 'ph',
+          'Asia/Jakarta': 'id',
+          'Asia/Bangkok': 'th',
+          'Asia/Ho_Chi_Minh': 'vn',
+          'Asia/Shanghai': 'cn',
+          'Asia/Hong_Kong': 'hk',
+          'Asia/Tokyo': 'jp',
+          'Asia/Seoul': 'kr',
+          'Europe/London': 'gb',
+          'Europe/Paris': 'fr',
+          'Europe/Berlin': 'de',
+          'Africa/Cairo': 'eg',
+          'Africa/Johannesburg': 'za',
+          'Africa/Lagos': 'ng',
+          'Africa/Nairobi': 'ke',
+          'America/New_York': 'us',
+          'America/Chicago': 'us',
+          'America/Denver': 'us',
+          'America/Los_Angeles': 'us',
+          'America/Toronto': 'ca',
+          'Australia/Sydney': 'au',
+        };
+        return map[tz] || '';
+      } catch (e) {
+        return '';
+      }
+    }
+
     function lookupCountryByIp() {
       if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
         window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
@@ -1813,25 +1859,32 @@
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
-      // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
+      // Same-origin CF header first. Ignore AE "fallback" so local/dev can use timezone.
       var endpoints = [
-        '/api/geo/country',
+        '/api/geo/country/',
       ];
       var i = 0;
       return new Promise(function (resolve) {
+        function finish(code) {
+          var resolved = code || countryFromTimezone();
+          if (resolved) window.__astroDetectedCountry = resolved;
+          resolve(resolved);
+        }
         function next() {
           if (i >= endpoints.length) {
-            resolve('');
+            finish('');
             return;
           }
           var url = endpoints[i++];
           fetchJsonWithTimeout(url, 3000)
             .then(function (data) {
+              if (data && data.source === 'fallback') {
+                next();
+                return;
+              }
               var code = parseCountry(data);
-              if (code) {
-                window.__astroDetectedCountry = code;
-                resolve(code);
-              } else next();
+              if (code) finish(code);
+              else next();
             })
             .catch(function () {
               next();
@@ -2447,6 +2500,7 @@
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
     window.__astroLegacyContactFormsWired = true;
+    try { resolveInitialLandingUrl(); } catch (e) {}
 
     function ensureHiddenField(form, name, value) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -2460,6 +2514,67 @@
       return input;
     }
 
+    function getAttrCookie(name) {
+      var nameEQ = name + '=';
+      var parts = document.cookie.split(';');
+      for (var i = 0; i < parts.length; i++) {
+        var c = parts[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+          try {
+            return decodeURIComponent(c.substring(nameEQ.length));
+          } catch (e) {
+            return c.substring(nameEQ.length);
+          }
+        }
+      }
+      return '';
+    }
+
+    function setAttrCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(String(value == null ? '' : value)) +
+        '; expires=' +
+        d.toUTCString() +
+        '; path=/; SameSite=Lax' +
+        secure;
+    }
+
+    function resolveInitialLandingUrl() {
+      var pageUrl = window.location.href;
+      var fromCookie = getAttrCookie('initialUrl') || getAttrCookie('cg_initial_url');
+      if (fromCookie) return fromCookie;
+      try {
+        var fromSession = sessionStorage.getItem('cg_initial_url');
+        if (fromSession) {
+          setAttrCookie('initialUrl', fromSession, 30);
+          return fromSession;
+        }
+      } catch (e) {}
+      setAttrCookie('initialUrl', pageUrl, 30);
+      try {
+        sessionStorage.setItem('cg_initial_url', pageUrl);
+      } catch (e) {}
+      return pageUrl;
+    }
+
+    function pushLeadToDataLayer(email, phone, submissionId) {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'form_submission_lead',
+          email: email || '',
+          phone_number: phone || '',
+          submission_id: submissionId || '',
+        });
+      } catch (e) {}
+    }
+
+
     function ensureLegacyTrackingFields(form) {
       if (!form.dataset.submissionId) {
         form.dataset.submissionId =
@@ -2468,7 +2583,7 @@
             : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
+      var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
       ensureHiddenField(form, 'form_name', 'Redo Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
@@ -2479,21 +2594,29 @@
     }
 
     function captureTrackingFields(form) {
-      var params = new URLSearchParams(window.location.search);
-      var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
-      if (!sessionStorage.getItem('cg_initial_url')) {
-        sessionStorage.setItem('cg_initial_url', pageUrl);
+      var params = new URLSearchParams(window.location.search || '');
+      var hashParams = new URLSearchParams((window.location.hash || '').replace(/^#\??/, ''));
+      function paramHas(key) {
+        return params.has(key) || hashParams.has(key);
       }
-      ensureLegacyTrackingFields(form);
+      function paramGet(key) {
+        if (params.has(key)) return params.get(key) || '';
+        if (hashParams.has(key)) return hashParams.get(key) || '';
+        return '';
+      }
+      var pageUrl = window.location.href;
+      var initial = resolveInitialLandingUrl();
+      if (typeof ensureLegacyTrackingFields === 'function') {
+        ensureLegacyTrackingFields(form);
+      }
 
-      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
       var TRACKING_FIELDS = {
-        gclid: ['gclid'],
+        gclid: ['gclid', 'gbraid', 'wbraid'],
         gbraid: ['gbraid'],
         wbraid: ['wbraid'],
         fbclid: ['fbclid'],
         msclkid: ['msclkid'],
+        twclid: ['twclid'],
         utm_source: ['utm_source'],
         utm_medium: ['utm_medium'],
         utm_campaign: ['utm_campaign'],
@@ -2504,8 +2627,8 @@
         group_id: ['group_id', 'groupid'],
         creative_id: ['creative_id', 'creativeid', 'creative'],
         keyword: ['keyword', 'kw', 'q', 'utm_term'],
-        matchtype: ['matchtype'],
-        device: ['device'],
+        matchtype: ['matchtype', 'match_type'],
+        device: ['device', 'utm_device'],
         network: ['network'],
         placement: ['placement', 'displayad'],
         target: ['target', 'targetid', 'target_id'],
@@ -2519,15 +2642,31 @@
 
       function firstParam(aliases) {
         for (var i = 0; i < aliases.length; i++) {
-          var v = params.get(aliases[i]);
-          if (v) return v;
+          var alias = aliases[i];
+          if (paramHas(alias)) return String(paramGet(alias) || '').trim();
         }
         return '';
       }
 
       Object.keys(TRACKING_FIELDS).forEach(function (name) {
-        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+        var fromUrl = firstParam(TRACKING_FIELDS[name]);
+        var value = fromUrl;
+        if (fromUrl) {
+          setAttrCookie(name, fromUrl, 30);
+        } else {
+          value = getAttrCookie(name) || '';
+        }
+        if (name === 'gclid' && !value) {
+          value = getAttrCookie('gclid') || getAttrCookie('gbraid') || getAttrCookie('wbraid') || '';
+        }
+        ensureHiddenField(form, name, value);
       });
+
+      var urlGclid = String(paramGet('gclid') || paramGet('gbraid') || paramGet('wbraid') || '').trim();
+      if (urlGclid) {
+        setAttrCookie('gclid', urlGclid, 30);
+        ensureHiddenField(form, 'gclid', urlGclid);
+      }
 
       ensureHiddenField(form, 'initial_url', initial);
       ensureHiddenField(form, 'landing_page_url', initial);
@@ -2535,6 +2674,7 @@
       ensureHiddenField(form, 'submission_page_url', pageUrl);
       ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
+
 
     function normalizeNationalPhoneDigits(phone, dialCode) {
       var digits = String(phone.value || '').replace(/\D/g, '');

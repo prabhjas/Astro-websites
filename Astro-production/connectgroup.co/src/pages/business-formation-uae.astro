@@ -1,10 +1,6 @@
 ---
 /**
- * Phase 1: static mirror of WordPress page.
- * Live URL: https://connectgroup.co/business-formation-uae/
- * Source: source/wordpress-exports/business-formation-uae/index-https.html
+ * Redirect old business-formation slug to canonical company-setup slug.
  */
-import { serveLegacyPage } from '../lib/legacy-page.js';
-
-return serveLegacyPage('business-formation-uae');
+return Astro.redirect('/uae-company-setup/', 301);
 ---

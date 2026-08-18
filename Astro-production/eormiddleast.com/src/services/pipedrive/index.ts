@@ -109,7 +109,7 @@ function buildCustomFields(env: ServerEnv, form: NormalisedContactForm): Record<
     [keys.source]: env.pipedriveLeadSourceId,
     [keys.website]: env.websiteId,
     [keys.leadSubmittedOn]: form.pageUrl ? `Lead Submitted On: ${form.pageUrl}` : undefined,
-    [keys.userLandedOn]: form.referrerUrl ? `User Landed on: ${form.referrerUrl}` : undefined,
+    [keys.userLandedOn]: form.landingPageUrl ? `User Landed on: ${form.landingPageUrl}` : undefined,
     [keys.nationality]: form.nationality,
     [keys.countryCode]: form.countryCode ? form.countryCode.replace(/^\+/, '') : undefined,
     [keys.companyName]: form.company,

@@ -9,7 +9,6 @@ import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import { resolveInternalAdminDir } from "../env/server";
-import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 import "../styles/global.css";
 
 interface Props {
@@ -75,24 +74,12 @@ const stylesheets = [
     "/css/elementor-bg-fallback.css",
     "/css/simplePagination.min.css",
     "/css/migration-overrides.css",
+    "/css/menu-no-hash.css",
     "/css/connectfz-mobile-nav.css",
     "/css/cfz-process-timeline.css",
   ]),
 ].filter((href) => !SP_KIT_BLOCKLIST.has(href) && !href.includes("/elementor/css/post-19.css"));
 
-/** Dashboard / env GTM — SSR into HTML so it appears in View Source */
-let gtmHead = "";
-let gtmBody = "";
-let gtmFooter = "";
-try {
-  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
-  gtmHead = gtm.headScript || "";
-  gtmBody = gtm.bodyHtml || "";
-  gtmFooter = gtm.footerScript || "";
-} catch {
-  /* keep public pages resilient */
-}
-const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
 ---
 
 <!doctype html>
@@ -106,16 +93,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
-    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
-    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
-    {!hasGtm ? (
-      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
-    ) : (
-      <script is:inline>
-        window.__runtimeGtmLoaded = true;
-        window.dataLayer = window.dataLayer || [];
-      </script>
-    )}
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
   </head>
   <body
     class:list={[
@@ -131,7 +109,6 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
       bodyClass,
     ]}
   >
-    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
     <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
     <main id="content" class="site-main">
@@ -143,6 +120,6 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     <FloatContacts />
     <CostCalculator />
     <ElementorScripts />
-    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
+      <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>

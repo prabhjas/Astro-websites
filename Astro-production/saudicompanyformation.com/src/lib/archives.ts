@@ -277,7 +277,7 @@ const INSIGHTS_FILTER_SCRIPT = `
 
 /** Blog + category pages use the Insights Elementor template + CAF-compatible cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   const caf = $('#caf-post-layout-container').first();
 
   if (caf.length) {

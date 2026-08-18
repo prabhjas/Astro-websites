@@ -9,6 +9,9 @@ const ROOT = process.cwd();
 const HEADER_PATH = join(ROOT, 'src/legacy/chrome/header.html');
 const HEADER_CSS_PATH = join(ROOT, 'src/legacy/chrome/header.css');
 const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
+const LICENCE_PATH = join(ROOT, 'src/legacy/chrome/licence-section.html');
+const LICENCE_CSS_HREF = '/css/redo-licence.css';
+const LICENCE_CSS_MARK = 'data-redo-licence-css';
 
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
@@ -24,11 +27,14 @@ let cachedHeader = null;
 let cachedFooter = null;
 /** @type {string | null} */
 let cachedHeaderCss = null;
+/** @type {string | null} */
+let cachedLicence = null;
 
 export function clearSharedChromeCache() {
   cachedHeader = null;
   cachedFooter = null;
   cachedHeaderCss = null;
+  cachedLicence = null;
 }
 
 /**
@@ -112,6 +118,47 @@ export function getSharedFooterHtml() {
   return cachedFooter;
 }
 
+function getLicenceSectionHtml() {
+  if (cachedLicence == null) {
+    if (!existsSync(LICENCE_PATH)) return '';
+    cachedLicence = readFileSync(LICENCE_PATH, 'utf8').trim();
+  }
+  return cachedLicence;
+}
+
+function ensureLicenceCss(html) {
+  if (html.includes(LICENCE_CSS_MARK) || html.includes(LICENCE_CSS_HREF)) return html;
+  const link = `<link rel="stylesheet" href="${LICENCE_CSS_HREF}" ${LICENCE_CSS_MARK}="1" />`;
+  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, `${link}\n</head>`) : link + html;
+}
+
+/**
+ * Insert the Figma LICENSE DETAILS strip above the footer copyright bar.
+ * @param {string} html
+ */
+export function injectLicenceSection(html) {
+  const fragment = getLicenceSectionHtml();
+  if (!fragment) return html;
+  let out = ensureLicenceCss(html);
+  // Do not match data-redo-licence-css — that is only the stylesheet tag.
+  if (out.includes('class="redo-licence"')) return out;
+
+  const marker = 'elementor-element-6132ce2';
+  const markerAt = out.indexOf(marker);
+  if (markerAt >= 0) {
+    const sectionStart = out.lastIndexOf('<section', markerAt);
+    if (sectionStart >= 0) {
+      return out.slice(0, sectionStart) + fragment + '\n' + out.slice(sectionStart);
+    }
+  }
+
+  const footerClose = out.toLowerCase().lastIndexOf('</footer>');
+  if (footerClose >= 0) {
+    return out.slice(0, footerClose) + fragment + '\n' + out.slice(footerClose);
+  }
+  return out;
+}
+
 /**
  * Evolution footer template has no CF7 block today; keep helper for future parity.
  * @param {string} footerHtml
@@ -192,7 +239,7 @@ function replaceBalancedTag(html, openStart, tagName, replacement) {
  * @param {string} html
  */
 function ensureHeaderCss(html) {
-  let out = html;
+  let out = stripMenuDummyHashHrefs(html);
   if (!out.includes(HEADER_CSS_MARK) && !out.includes(HEADER_CSS_HREF)) {
     const link = `<link rel="stylesheet" href="${HEADER_CSS_HREF}" ${HEADER_CSS_MARK}="1" />`;
     out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
@@ -283,8 +330,24 @@ function markCurrentMenuItem(headerHtml, slug) {
  * @param {string} html
  * @param {string} slug
  */
+
+function stripMenuDummyHashHrefs(html) {
+  return html.replace(/<a\b([^>]*)>/gi, (full, attrs) => {
+    if (!/\bhref="#"/i.test(attrs)) return full;
+    if (/\b(w-nav-control|elementor-button|elementor-icon|mean-expand|w-toplink|modeltheme-trigger|lwptoc_toggle_label)\b/.test(attrs)) {
+      return full;
+    }
+    if (!/\b(elementor-item|elementor-sub-item|elementor-item-anchor|menu-link|w-nav-anchor|mega-menu-link)\b/.test(attrs)) {
+      return full;
+    }
+    const next = attrs.replace(/\s*href="#"/i, '').replace(/\s*\belementor-item-anchor\b/g, '');
+    return `<a${next}>`;
+  });
+}
+
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  html = stripMenuDummyHashHrefs(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(html);
 
   // Prefer each page's exported Theme Builder chrome (matches live HTML).
   // Shared header/footer fragments are only a backfill for broken exports —

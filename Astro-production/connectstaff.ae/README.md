@@ -31,6 +31,14 @@ Same Phase 1 approach as the Connect Group Astro migration:
 
 Do **not** use headless WordPress for Elementor pages — layout is not in the API.
 
+## Homepage performance canary
+
+Verified 2026-08-14: `src/lib/legacy-page.js` applies a homepage-only first-paint
+canary to the legacy mirror. It preloads the first above-fold staff carousel
+images, injects a small critical CSS shim for the header/hero/carousel path, and
+defers active homepage stylesheet links outside `noscript` while preserving
+noscript fallbacks.
+
 ## Forms & Pipedrive
 
 Legacy `form.wpcf7-form` markup stays in the HTML. `public/js/astro-mirror-fixes.js` intercepts submit and posts to `/api/contact`.

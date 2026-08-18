@@ -1,4 +1,66 @@
-const GTM_LOADER_TAG = '<script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>';
+export const RUNTIME_GTM_LOADER_SCRIPT = `(() => {
+  if (window.__runtimeGtmLoaderInstalled) return;
+  window.__runtimeGtmLoaderInstalled = true;
+  window.dataLayer = window.dataLayer || [];
+
+  const src = '/runtime-gtm.js';
+  let scheduled = false;
+
+  function findExistingRuntimeScript() {
+    return Array.from(document.scripts || []).some((script) => {
+      const currentSrc = script.getAttribute('src') || '';
+      return currentSrc === src || currentSrc.endsWith(src);
+    });
+  }
+
+  function load(reason) {
+    if (scheduled || window.__runtimeGtmLoaded || findExistingRuntimeScript()) return;
+    scheduled = true;
+    try {
+      window.dataLayer.push({
+        event: 'runtime_gtm_loader_start',
+        runtimeGtmLoadReason: reason || 'auto',
+      });
+    } catch (_) {}
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    script.setAttribute('data-runtime-gtm', '1');
+    script.setAttribute('data-runtime-gtm-reason', reason || 'auto');
+    (document.head || document.documentElement).appendChild(script);
+  }
+
+  function cleanup() {
+    interactionEvents.forEach((eventName) => {
+      window.removeEventListener(eventName, onInteraction, true);
+      document.removeEventListener(eventName, onInteraction, true);
+    });
+    document.removeEventListener('submit', onInteraction, true);
+  }
+
+  function onInteraction(event) {
+    cleanup();
+    load(event && event.type ? event.type : 'interaction');
+  }
+
+  const interactionEvents = ['pointerdown', 'keydown', 'touchstart'];
+  interactionEvents.forEach((eventName) => {
+    try {
+      window.addEventListener(eventName, onInteraction, { capture: true, passive: true, once: true });
+      document.addEventListener(eventName, onInteraction, { capture: true, passive: true, once: true });
+    } catch (_) {
+      window.addEventListener(eventName, onInteraction, true);
+      document.addEventListener(eventName, onInteraction, true);
+    }
+  });
+  document.addEventListener('submit', onInteraction, true);
+
+  window.__loadRuntimeGtm = load;
+})();`;
+
+export const RUNTIME_GTM_LOADER_TAG =
+  `<script data-runtime-gtm="1" data-runtime-gtm-loader="delayed">${RUNTIME_GTM_LOADER_SCRIPT}</script>`;
 
 /**
  * Strip hardcoded WP GTM / gtag snippets and inject the fleet runtime loader.
@@ -9,8 +71,8 @@ export function injectRuntimeGtmLoader(html: string): string {
   let next = stripped;
   if (!next.includes('data-runtime-gtm="1"')) {
     next = /<\/head>/i.test(next)
-      ? next.replace(/<\/head>/i, `${GTM_LOADER_TAG}\n</head>`)
-      : `${GTM_LOADER_TAG}\n${next}`;
+      ? next.replace(/<\/head>/i, `${RUNTIME_GTM_LOADER_TAG}\n</head>`)
+      : `${RUNTIME_GTM_LOADER_TAG}\n${next}`;
   }
   return next;
 }
