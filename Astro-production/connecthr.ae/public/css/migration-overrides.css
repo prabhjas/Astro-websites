@@ -847,6 +847,10 @@ div.wpcf7-response-output.sp-status-visible,
     margin: 0 !important;
   }
 
+  .elementor-element.elementor-element-238453b .swiper-slide-duplicate {
+    display: none !important;
+  }
+
   .elementor-element.elementor-element-238453b .elementor-swiper-button-prev,
   .elementor-element.elementor-element-238453b .elementor-swiper-button-next,
   .elementor-element.elementor-element-238453b .swiper-pagination {

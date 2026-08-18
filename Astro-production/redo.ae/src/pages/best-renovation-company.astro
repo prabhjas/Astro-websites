@@ -8,6 +8,8 @@ export const prerender = false;
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EstimateForm from '../components/lp-best-renovation/EstimateForm.astro';
 
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
 const asset = '/lp/best-renovation-company';
 const phoneDisplay = '+971 58 915 1443';
 const phoneHref = 'tel:+971589151443';
@@ -16,6 +18,12 @@ const instagram = 'https://www.instagram.com/redo_fitout/';
 const facebook = 'https://www.facebook.com/redorenovations.ae/';
 const waFloat =
   'https://api.whatsapp.com/send?phone=971589151443&text=Hi%2C%20I%20found%20your%20contact%20through%20your%20website%20Redo.%20Please%20let%20me%20know%20how%20to%20proceed.%20Thanks!';
+const whyVideoId = 'ibLhh9KXW0U';
+const reels = [
+  { poster: `${asset}/reels/reel-1.webp?v=ig1`, file: `${asset}/reels/reel-1.mp4`, alt: 'REDO Instagram reel', width: 534, height: 946 },
+  { poster: `${asset}/reels/reel-2.webp?v=ig1`, file: `${asset}/reels/reel-2.mp4`, alt: 'REDO Instagram reel', width: 579, height: 1024 },
+  { poster: `${asset}/reels/reel-3.webp?v=ig1`, file: `${asset}/reels/reel-3.mp4`, alt: 'REDO Instagram reel', width: 360, height: 622 },
+];
 
 const partners = [
   { src: `${asset}/partners/masaar.webp`, alt: 'Masaar', width: 119, height: 40 },
@@ -30,37 +38,31 @@ const partners = [
 
 const services = [
   {
-    href: '/villa-renovation-dubai/',
     img: `${asset}/services/villa.webp`,
     title: 'Villa Renovation',
     text: 'from structural work to final finishes.',
   },
   {
-    href: '/apartment-renovation/',
     img: `${asset}/services/apartment.webp`,
     title: 'Apartment Renovation',
     text: 'one room or the whole apartment, we handle it all.',
   },
   {
-    href: '/kitchen-renovation/',
     img: `${asset}/services/kitchen.webp`,
     title: 'Kitchen Renovation',
     text: 'cabinetry, countertops, through to appliances installed and connected.',
   },
   {
-    href: '/bathroom-renovation/',
     img: `${asset}/services/bathroom.webp`,
     title: 'Bathroom Renovation',
     text: 'from design to the bathroom you actually wanted.',
   },
   {
-    href: '/carpenter/',
     img: `${asset}/services/joinery.webp`,
     title: 'Joinery',
     text: 'custom cabinetry and built-ins, made to fit your space.',
   },
   {
-    href: '/redo-landscaping/',
     img: `${asset}/services/landscaping.webp`,
     title: 'Landscaping',
     text: 'outdoor renovation for villas, gardens, and pool surrounds.',
@@ -134,8 +136,9 @@ const quotes = [
   }}
 >
   <Fragment slot="head">
+    <meta name="googlebot" content="noindex, nofollow" />
     <link rel="stylesheet" href="/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css" />
-    <link rel="stylesheet" href="/css/page-design/best-renovation-company.css?v=align2" />
+    <link rel="stylesheet" href="/css/page-design/best-renovation-company.css?v=fix9" />
     <link
       rel="stylesheet"
       href="/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css"
@@ -161,7 +164,6 @@ const quotes = [
             height="60"
           />
         </a>
-        <a class="lp-header__cta" href="#estimate">find project estimate</a>
       </header>
       <div class="lp-hero__inner">
         <div class="lp-hero__copy">
@@ -222,15 +224,33 @@ const quotes = [
       </p>
       <p class="lp-show__scroll">Scroll before you call</p>
       <div class="lp-show__reels" data-lp-reels-track>
-        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-1.webp`} alt="REDO Instagram reel — dining interior" width="248" height="441" />
-        </a>
-        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-2.webp`} alt="REDO Instagram reel — brand film" width="248" height="441" />
-        </a>
-        <a class="lp-show__reel" href={instagram} target="_blank" rel="noopener noreferrer">
-          <img src={`${asset}/reels/reel-3.webp`} alt="REDO Instagram reel — bathroom" width="248" height="441" />
-        </a>
+        {
+          reels.map((reel) => (
+            <div class="lp-show__reel" data-lp-reel-card>
+              <img
+                class="lp-show__reel-poster"
+                src={reel.poster}
+                alt={reel.alt}
+                width={reel.width}
+                height={reel.height}
+              />
+              <video
+                class="lp-show__reel-native"
+                data-lp-reel-native
+                muted
+                playsinline
+                loop
+                preload="metadata"
+                poster={reel.poster}
+              >
+                <source src={reel.file} type="video/mp4" />
+              </video>
+              <button class="lp-show__reel-play" type="button" data-lp-reel-play aria-label="Play reel">
+                <img src={`${asset}/icons/play.svg`} alt="" width="56" height="56" />
+              </button>
+            </div>
+          ))
+        }
       </div>
       <a class="lp-btn lp-btn--navy lp-show__cta" href={instagram} target="_blank" rel="noopener noreferrer">
         Follow REDO instagram
@@ -245,11 +265,11 @@ const quotes = [
       <div class="lp-services__grid" data-lp-slider-track>
         {
           services.map((item) => (
-            <a class="lp-services__card" href={item.href}>
+            <article class="lp-services__card">
               <img src={item.img} alt={item.title} width="429" height="273" />
               <h3>{item.title}</h3>
               <p>{item.text}</p>
-            </a>
+            </article>
           ))
         }
       </div>
@@ -268,7 +288,6 @@ const quotes = [
       <div class="lp-process__intro">
         <h2>How It Works</h2>
         <p>From Your Vision to Handover</p>
-        <a class="lp-btn lp-btn--red lp-process__cta" href="#estimate">Get an estimate</a>
       </div>
       <div class="lp-process__steps">
         <div class="lp-process__step">
@@ -292,6 +311,7 @@ const quotes = [
           <h3>Watch it<br />happen</h3>
         </div>
       </div>
+      <a class="lp-btn lp-btn--red lp-process__cta" href="#estimate">Get an estimate</a>
     </section>
 
     <section class="lp-why">
@@ -310,11 +330,23 @@ const quotes = [
           }
         </div>
       </div>
-      <div class="lp-why__media">
-        <img src={`${asset}/why-redo.webp`} alt="REDO renovation interior" width="651" height="542" />
-        <button class="lp-why__play" type="button" data-lp-video aria-label="Play project video">
-          <img src={`${asset}/icons/play.svg`} alt="" width="90" height="90" />
-        </button>
+      <div class="lp-why__media" data-lp-why-media>
+        <img
+          class="lp-why__poster"
+          src={`${asset}/why-redo.webp`}
+          alt=""
+          width="651"
+          height="542"
+        />
+        <iframe
+          class="lp-why__video"
+          data-lp-why-embed
+          src={`https://www.youtube.com/embed/${whyVideoId}?autoplay=1&mute=1&loop=1&playlist=${whyVideoId}&playsinline=1&rel=0&modestbranding=1&controls=0&iv_load_policy=3&fs=0`}
+          title="REDO renovation video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
       </div>
     </section>
 
@@ -349,10 +381,6 @@ const quotes = [
           theme="light"
           showMessage={true}
         />
-        <p class="lp-contact__blurb">
-          Trust our experienced team to turn your vision into reality. Contact us today for innovative designs,
-          sustainable solutions, and exceptional service
-        </p>
       </div>
       <div class="lp-contact__info">
         <div>
@@ -378,6 +406,10 @@ const quotes = [
           <img src={`${asset}/icons/redo-mark.svg`} alt="REDO — Renovate, Enhance, Design, Optimize" width="133" height="144" />
         </a>
       </div>
+      <p class="lp-contact__blurb">
+        Trust our experienced team to turn your vision into reality. Contact us today for innovative designs,
+        sustainable solutions, and exceptional service
+      </p>
     </section>
 
     <footer class="lp-footer">
@@ -398,18 +430,6 @@ const quotes = [
     <a class="lp-wa-float" href={waFloat} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
       <img src="/wp-content/uploads/2024/03/whatsapp-button.png" alt="WhatsApp" width="70" height="70" />
     </a>
-
-    <div class="lp-modal" hidden data-lp-modal>
-      <button class="lp-modal__close" type="button" data-lp-modal-close aria-label="Close video">&times;</button>
-      <div class="lp-modal__frame">
-        <iframe
-          data-lp-iframe
-          title="REDO renovation video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </div>
   </div>
 
   <script src="/wp-includes/js/jquery/jquery.min.js" is:inline></script>
@@ -417,33 +437,24 @@ const quotes = [
     src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"
     is:inline></script>
   <script src="/js/astro-mirror-fixes.js?v=geo1" defer></script>
-  <script is:inline define:vars={{ quotesJson: JSON.stringify(quotes) }}>
+  <script is:inline define:vars={{ quotesJson: JSON.stringify(quotes), whyVideoId }}>
     window.__lpQuotes = JSON.parse(quotesJson);
+    window.__lpWhyVideoId = whyVideoId;
   </script>
   <script>
     import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
 
-    type Quote = { text: string; who: string };
-
-    declare global {
-      interface Window {
-        __lpQuotes?: Quote[];
-        dataLayer?: Array<Record<string, string>>;
-        jQuery?: any;
-      }
-    }
-
     function initLpPage() {
-      var quotes: Quote[] = window.__lpQuotes || [];
-      document.querySelectorAll<HTMLFormElement>('.lp-form').forEach(function (form) {
-        var submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-        var status = form.querySelector<HTMLElement>('.lp-form__status');
+      var quotes = window.__lpQuotes || [];
+      document.querySelectorAll('.lp-form').forEach(function (form) {
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var status = form.querySelector('.lp-form__status');
         var submitting = false;
         var formId = form.id;
         var formName = form.getAttribute('data-form-name') || '';
 
-        function setHidden(name: string, value: string) {
-          var input = form.querySelector<HTMLInputElement>('[name="' + name + '"]');
+        function setHidden(name, value) {
+          var input = form.querySelector('[name="' + name + '"]');
           if (input) input.value = value || '';
         }
 
@@ -472,11 +483,11 @@ const quotes = [
           }
         }
 
-        function showFieldErrors(errors: Record<string, string>) {
+        function showFieldErrors(errors) {
           if (!errors) return;
           if (errors.name && !errors.first_name) errors.first_name = errors.name;
           Object.keys(errors).forEach(function (key) {
-            var el = form.querySelector<HTMLElement>('[data-error-for="' + key + '"]');
+            var el = form.querySelector('[data-error-for="' + key + '"]');
             if (el) el.textContent = errors[key];
           });
         }
@@ -488,8 +499,8 @@ const quotes = [
           captureTracking();
           setHidden('submitted_at', new Date().toISOString());
 
-          var phone = form.querySelector<HTMLInputElement>('.cg-phone-input');
-          var countryCodeInput = form.querySelector<HTMLInputElement>('[name="phone-country-code"]');
+          var phone = form.querySelector('.cg-phone-input');
+          var countryCodeInput = form.querySelector('[name="phone-country-code"]');
           if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
             try {
               var full = window.jQuery(phone).intlTelInput('getNumber');
@@ -502,7 +513,7 @@ const quotes = [
           submitting = true;
           if (submitBtn) submitBtn.disabled = true;
 
-          var payload: Record<string, string> = {};
+          var payload = {};
           new FormData(form).forEach(function (value, key) {
             if (typeof value === 'string') payload[key] = value;
           });
@@ -540,11 +551,9 @@ const quotes = [
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                   event: 'form_submission_lead',
-                  email: (form.querySelector('[name="email"]') as HTMLInputElement | null)?.value || '',
-                  phone_number: (form.querySelector('[name="phone"]') as HTMLInputElement | null)?.value || '',
-                  form_id: form.id || '',
+                  email: (form.querySelector('[name="email"]') || {}).value || '',
+                  phone_number: (form.querySelector('[name="phone"]') || {}).value || '',
                   submission_id: (result.data && result.data.submissionId) || form.dataset.submissionId || '',
-                  status: 'mail_sent',
                 });
                 form.reset();
                 form.dataset.submissionId = crypto.randomUUID();
@@ -574,16 +583,16 @@ const quotes = [
       });
 
       var quoteIndex = 0;
-      var textEl = document.querySelector<HTMLElement>('[data-lp-quote-text]');
-      var whoEl = document.querySelector<HTMLElement>('[data-lp-quote-who]');
+      var textEl = document.querySelector('[data-lp-quote-text]');
+      var whoEl = document.querySelector('[data-lp-quote-who]');
       function renderQuote() {
         if (!quotes.length || !textEl || !whoEl) return;
         textEl.textContent = '“' + quotes[quoteIndex].text + '”';
         whoEl.textContent = quotes[quoteIndex].who;
       }
-      var prev = document.querySelector<HTMLButtonElement>('[data-lp-quote-prev]');
-      var next = document.querySelector<HTMLButtonElement>('[data-lp-quote-next]');
-      var quoteTimer: ReturnType<typeof setInterval> | null = null;
+      var prev = document.querySelector('[data-lp-quote-prev]');
+      var next = document.querySelector('[data-lp-quote-next]');
+      var quoteTimer = null;
       function stopQuoteAutoplay() {
         if (quoteTimer) {
           clearInterval(quoteTimer);
@@ -615,43 +624,37 @@ const quotes = [
       }
       startQuoteAutoplay();
 
-      function initPeekSlider(
-        track: HTMLElement | null,
-        prevBtn: HTMLButtonElement | null,
-        nextBtn: HTMLButtonElement | null,
-        intervalMs: number,
-      ) {
+      function initPeekSlider(track, prevBtn, nextBtn, intervalMs) {
         if (!track || !track.children.length) return;
-        const sliderTrack = track;
         var mq = window.matchMedia('(max-width: 1024px)');
         var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-        var timer: ReturnType<typeof setInterval> | null = null;
+        var timer = null;
         var paused = false;
 
         function step() {
-          var card = sliderTrack.children[0];
-          if (!card) return sliderTrack.clientWidth;
-          var styles = window.getComputedStyle(sliderTrack);
+          var card = track.children[0];
+          if (!card) return track.clientWidth;
+          var styles = window.getComputedStyle(track);
           var gap = parseFloat(styles.gap || styles.columnGap) || 16;
           return card.getBoundingClientRect().width + gap;
         }
 
         function maxIndex() {
-          return Math.max(0, sliderTrack.children.length - 1);
+          return Math.max(0, track.children.length - 1);
         }
 
         function currentIndex() {
           var size = step();
           if (!size) return 0;
-          return Math.round(sliderTrack.scrollLeft / size);
+          return Math.round(track.scrollLeft / size);
         }
 
-        function go(i: number) {
+        function go(i) {
           var max = maxIndex();
           var nextIndex = i;
           if (nextIndex > max) nextIndex = 0;
           if (nextIndex < 0) nextIndex = max;
-          sliderTrack.scrollTo({
+          track.scrollTo({
             left: nextIndex * step(),
             behavior: reduce.matches ? 'auto' : 'smooth',
           });
@@ -669,6 +672,7 @@ const quotes = [
           if (!mq.matches || reduce.matches) return;
           timer = setInterval(function () {
             if (paused) return;
+            if (track.querySelector('.is-playing')) return;
             go(currentIndex() + 1);
           }, intervalMs || 4200);
         }
@@ -686,11 +690,11 @@ const quotes = [
           });
         }
 
-        sliderTrack.addEventListener('pointerdown', function () {
+        track.addEventListener('pointerdown', function () {
           paused = true;
         });
         ['pointerup', 'pointercancel', 'mouseleave'].forEach(function (evt) {
-          sliderTrack.addEventListener(evt, function () {
+          track.addEventListener(evt, function () {
             paused = false;
           });
         });
@@ -708,33 +712,23 @@ const quotes = [
       );
       initPeekSlider(document.querySelector('[data-lp-reels-track]'), null, null, 3800);
 
-      var modal = document.querySelector<HTMLElement>('[data-lp-modal]');
-      var iframe = document.querySelector<HTMLIFrameElement>('[data-lp-iframe]');
-      var videoBtn = document.querySelector<HTMLButtonElement>('[data-lp-video]');
-      var closeBtn = document.querySelector<HTMLButtonElement>('[data-lp-modal-close]');
-      var videoSrc = 'https://www.youtube.com/embed/_y5oghxspRU?autoplay=1';
-      function closeModal() {
-        if (!modal) return;
-        modal.hidden = true;
-        if (iframe) iframe.src = '';
+      var whyEmbed = document.querySelector('[data-lp-why-embed]');
+      var whyMedia = document.querySelector('[data-lp-why-media]');
+      if (whyEmbed && whyMedia && 'IntersectionObserver' in window) {
+        var whyWatcher = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              if (whyEmbed.dataset.started === '1') return;
+              whyEmbed.dataset.started = '1';
+              whyEmbed.src = whyEmbed.src;
+              whyWatcher.disconnect();
+            });
+          },
+          { threshold: 0.25, rootMargin: '80px 0px' }
+        );
+        whyWatcher.observe(whyMedia);
       }
-      const modalEl = modal;
-      const iframeEl = iframe;
-      if (videoBtn && modalEl && iframeEl) {
-        videoBtn.addEventListener('click', function () {
-          iframeEl.src = videoSrc;
-          modalEl.hidden = false;
-        });
-      }
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (modal) {
-        modal.addEventListener('click', function (e) {
-          if (e.target === modal) closeModal();
-        });
-      }
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeModal();
-      });
     }
 
     if (document.readyState === 'loading') {
@@ -742,5 +736,53 @@ const quotes = [
     } else {
       initLpPage();
     }
+  </script>
+  <script is:inline>
+    (function () {
+      function stopReel(card) {
+        var video = card.querySelector('[data-lp-reel-native]');
+        card.classList.remove('is-playing');
+        if (!video) return;
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      function playReel(card) {
+        document.querySelectorAll('[data-lp-reel-card].is-playing').forEach(function (openCard) {
+          if (openCard !== card) stopReel(openCard);
+        });
+        var video = card.querySelector('[data-lp-reel-native]');
+        if (!video) return;
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+        card.classList.add('is-playing');
+        var playPromise = video.play();
+        if (playPromise && playPromise.catch) {
+          playPromise.catch(function () {
+            card.classList.remove('is-playing');
+          });
+        }
+      }
+
+      function bind() {
+        document.querySelectorAll('[data-lp-reel-card]').forEach(function (card) {
+          if (card.dataset.lpReelBound === '1') return;
+          card.dataset.lpReelBound = '1';
+          card.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var video = card.querySelector('[data-lp-reel-native]');
+            if (card.classList.contains('is-playing') && video && !video.paused) return;
+            playReel(card);
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+      } else {
+        bind();
+      }
+    })();
   </script>
 </BaseLayout>
