@@ -1,0 +1,35 @@
+
+
+/* nav-submenu-hash-fix: hide the hash Elementor paints on submenu hover.
+   Pointer underlines stay (they are empty boxes with a background). */
+.elementor-nav-menu--main a.elementor-item-anchor::before,
+.elementor-nav-menu--main a.elementor-item-anchor::after,
+.elementor-nav-menu a.elementor-item-anchor::before,
+.elementor-nav-menu a.elementor-item-anchor::after {
+  content: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+.elementor-nav-menu--dropdown a.elementor-item::before,
+.elementor-nav-menu--dropdown a.elementor-item::after,
+.elementor-nav-menu--dropdown a.elementor-sub-item::before,
+.elementor-nav-menu--dropdown a.elementor-sub-item::after,
+.elementor-nav-menu--dropdown a.menu-link::before,
+.elementor-nav-menu--dropdown a.menu-link::after,
+.e-n-menu-content a.e-link::before,
+.e-n-menu-content a.e-link::after,
+.e-n-menu-dropdown-menu a::before,
+.e-n-menu-dropdown-menu a::after {
+  content: "" !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+.elementor-nav-menu .menu-item-has-children > a:not([href]),
+.elementor-nav-menu a.elementor-item-anchor:not([href]),
+.e-n-menu-title-container:not([href]),
+.main-header-menu .menu-item-has-children > a.menu-link:not([href]),
+.w-nav-list .menu-item-has-children > a.w-nav-anchor:not([href]) {
+  cursor: pointer;
+}

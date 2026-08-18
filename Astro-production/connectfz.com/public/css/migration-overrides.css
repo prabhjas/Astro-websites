@@ -709,12 +709,6 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 .elementor .elementor-element.elementor-element-da35e5d :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
 .elementor .elementor-element.elementor-element-da35e5d .elementor-heading-title,
 .elementor .elementor-element.elementor-element-da35e5d .elementor-widget-text-editor,
-.elementor .elementor-element.elementor-element-d5f190c :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
-.elementor .elementor-element.elementor-element-d5f190c .elementor-heading-title,
-.elementor .elementor-element.elementor-element-d5f190c .elementor-widget-text-editor,
-.elementor .elementor-element.elementor-element-2677d887 :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
-.elementor .elementor-element.elementor-element-2677d887 .elementor-heading-title,
-.elementor .elementor-element.elementor-element-2677d887 .elementor-widget-text-editor,
 .elementor .elementor-element.elementor-element-7f45487d :is(h1, h2, h3, h4, h5, h6, p, span, a):not(.elementor-button):not(.elementor-button-text):not(.elementor-button *),
 .elementor .elementor-element.elementor-element-7f45487d .elementor-heading-title,
 .elementor .elementor-element.elementor-element-7f45487d .elementor-widget-text-editor,
@@ -728,10 +722,6 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 .elementor .elementor-element.elementor-element-25897e69 .elementor-heading-title,
 .elementor .elementor-element.elementor-element-63ddfeef .elementor-heading-title,
 .elementor .elementor-element.elementor-element-26a5d654 .elementor-heading-title,
-.elementor .elementor-element.elementor-element-2d80ec4,
-.elementor .elementor-element.elementor-element-2d80ec4 p,
-.elementor .elementor-element.elementor-element-2a33e508,
-.elementor .elementor-element.elementor-element-2a33e508 p,
 .elementor .elementor-element.elementor-element-622cfd70,
 .elementor .elementor-element.elementor-element-622cfd70 p {
   color: #ffffff !important;
@@ -740,8 +730,6 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 
 /* Freezone/service heroes: keep BG cover like live Elementor */
 .elementor .elementor-element.elementor-element-da35e5d,
-.elementor .elementor-element.elementor-element-d5f190c,
-.elementor .elementor-element.elementor-element-2677d887,
 .elementor .elementor-element.elementor-element-7f45487d,
 .elementor .elementor-element.elementor-element-4ded758c {
   background-size: cover !important;
@@ -759,12 +747,109 @@ body.is_header_semitransparent .sticky-wrapper.is-sticky .navbar-default {
 }
 
 .elementor .elementor-element.elementor-element-da35e5d .elementor-button-text,
-.elementor .elementor-element.elementor-element-d5f190c .elementor-button-text,
-.elementor .elementor-element.elementor-element-2677d887 .elementor-button-text,
 .elementor .elementor-element.elementor-element-7f45487d .elementor-button-text,
 .elementor .elementor-element.elementor-element-4ded758c .elementor-button-text {
   color: inherit !important;
   -webkit-text-fill-color: currentColor !important;
+}
+
+/*
+  Visa detail pages (Figma): peach hero, navy headline, portrait on the left.
+  Do NOT use the freezone white-on-photo treatment.
+*/
+body[class*="elementor-page-26896"] .elementor-element-2677d887,
+body[class*="elementor-page-30109"] .elementor-element-d5f190c,
+body[class*="elementor-page-30124"] .elementor-element-d5f190c,
+body[class*="elementor-page-30142"] .elementor-element-d5f190c,
+body[class*="elementor-page-30150"] .elementor-element-d5f190c,
+body[class*="elementor-page-30160"] .elementor-element-d5f190c,
+body[class*="elementor-page-30169"] .elementor-element-d5f190c,
+.elementor-26896 .elementor-element-2677d887,
+.elementor-30109 .elementor-element-d5f190c,
+.elementor-30124 .elementor-element-d5f190c,
+.elementor-30142 .elementor-element-d5f190c,
+.elementor-30150 .elementor-element-d5f190c,
+.elementor-30160 .elementor-element-d5f190c,
+.elementor-30169 .elementor-element-d5f190c {
+  background-image: url("/wp-content/uploads/figma-pack/bg2.jpg") !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  background-color: #f7d7c3 !important;
+}
+
+.elementor-26896 .elementor-element-2677d887 :is(h1, h2, .elementor-heading-title),
+.elementor-30109 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title),
+.elementor-30124 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title),
+.elementor-30142 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title),
+.elementor-30150 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title),
+.elementor-30160 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title),
+.elementor-30169 .elementor-element-d5f190c :is(h1, h2, .elementor-heading-title) {
+  color: #163e87 !important;
+  -webkit-text-fill-color: #163e87 !important;
+}
+
+.elementor-26896 .elementor-element-2677d887 .elementor-widget-text-editor,
+.elementor-26896 .elementor-element-2677d887 .elementor-widget-text-editor p,
+.elementor-26896 .elementor-element-2a33e508,
+.elementor-26896 .elementor-element-2a33e508 p,
+.elementor-30109 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30109 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30109 .elementor-element-2d80ec4,
+.elementor-30109 .elementor-element-2d80ec4 p,
+.elementor-30124 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30124 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30124 .elementor-element-2d80ec4,
+.elementor-30124 .elementor-element-2d80ec4 p,
+.elementor-30142 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30142 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30142 .elementor-element-2d80ec4,
+.elementor-30142 .elementor-element-2d80ec4 p,
+.elementor-30150 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30150 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30150 .elementor-element-2d80ec4,
+.elementor-30150 .elementor-element-2d80ec4 p,
+.elementor-30160 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30160 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30160 .elementor-element-2d80ec4,
+.elementor-30160 .elementor-element-2d80ec4 p,
+.elementor-30169 .elementor-element-d5f190c .elementor-widget-text-editor,
+.elementor-30169 .elementor-element-d5f190c .elementor-widget-text-editor p,
+.elementor-30169 .elementor-element-2d80ec4,
+.elementor-30169 .elementor-element-2d80ec4 p {
+  color: #163e87 !important;
+  -webkit-text-fill-color: #163e87 !important;
+}
+
+/* Light visa/pro-service bands (peach/white): navy body + lists. Same widget IDs
+   are reused on navy PROCESS sections, which stay white via cfz-process-timeline.css. */
+.elementor-element-42af3a21 .elementor-element-6c62922a,
+.elementor-element-42af3a21 .elementor-element-6c62922a :is(p, li, span),
+.elementor-element-1321656a .elementor-element-4d499bfb,
+.elementor-element-1321656a .elementor-element-4d499bfb :is(p, li, ul, span) {
+  color: #163e87 !important;
+  -webkit-text-fill-color: #163e87 !important;
+}
+
+.elementor-26896 .elementor-element-2677d887 .elementor-widget-image img,
+.elementor-30109 .elementor-element-d5f190c .elementor-widget-image img,
+.elementor-30124 .elementor-element-d5f190c .elementor-widget-image img,
+.elementor-30142 .elementor-element-d5f190c .elementor-widget-image img,
+.elementor-30150 .elementor-element-d5f190c .elementor-widget-image img,
+.elementor-30160 .elementor-element-d5f190c .elementor-widget-image img,
+.elementor-30169 .elementor-element-d5f190c .elementor-widget-image img {
+  width: 100%;
+  max-width: 560px;
+  height: auto !important;
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+/* Visa hub: Figma skyline hero */
+.elementor-26972 .elementor-element-4ded758c,
+.elementor-27002 .elementor-element-7f45487d {
+  background-image: url("/wp-content/uploads/figma-pack/UAE-VISA-SERVICES-bg.jpg") !important;
+  background-size: cover !important;
+  background-position: center center !important;
 }
 
 /*

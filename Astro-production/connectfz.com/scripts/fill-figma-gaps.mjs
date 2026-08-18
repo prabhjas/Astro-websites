@@ -11,12 +11,17 @@ const U03 = path.join(PUBLIC, "wp-content/uploads/2023/03");
 function ok(p) {
   return fs.existsSync(p) && fs.statSync(p).size > 80;
 }
-function cp(src, dest) {
+function cp(src, dest, { forceLarger = false } = {}) {
   if (!ok(src)) {
     console.warn("missing src", src);
     return false;
   }
-  if (ok(dest) && fs.statSync(dest).size > 500) return false;
+  if (ok(dest)) {
+    const destSize = fs.statSync(dest).size;
+    const srcSize = fs.statSync(src).size;
+    if (!forceLarger && destSize > 500) return false;
+    if (forceLarger && destSize >= srcSize) return false;
+  }
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(src, dest);
   console.log("→", path.relative(PUBLIC, dest));
@@ -99,7 +104,7 @@ const visaDesktop = {
   "Desktop-7-scaled.jpg": "UAE-Golden-Visa.jpg",
 };
 for (const [destName, packName] of Object.entries(visaDesktop)) {
-  cp(path.join(PACK, packName), path.join(U06, destName));
+  cp(path.join(PACK, packName), path.join(U06, destName), { forceLarger: true });
 }
 
 cp(visaBg, path.join(U12, "image-ezgif.com-png-to-webp-converter-1.webp"));

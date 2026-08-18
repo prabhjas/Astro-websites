@@ -2,6 +2,30 @@
  * Keeps submenu layout, colors, underline/pointer hover, real URLs, and responsive menus.
  */
 
+/* Impreza carets use font-family:fontawesome */
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "fontawesome";
+  font-weight: 900;
+  src: url("/wp-content/themes/Impreza/fonts/fa-solid-900.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "fontawesome";
+  font-weight: 400;
+  src: url("/wp-content/themes/Impreza/fonts/fa-regular-400.woff2") format("woff2");
+}
+@font-face {
+  font-display: swap;
+  font-style: normal;
+  font-family: "FontAwesome";
+  font-weight: 400;
+  src: url("/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-solid-900.woff2") format("woff2"),
+       url("/wp-content/themes/Impreza/fonts/fa-solid-900.woff2") format("woff2");
+}
+
 .w-nav-arrow:before {
   font-weight: 900;
 }

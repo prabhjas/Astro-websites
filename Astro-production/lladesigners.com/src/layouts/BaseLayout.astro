@@ -119,11 +119,10 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <link
-      rel="icon"
-      href="/wp-content/uploads/2024/09/cropped-FAVICON-CR-ROUNDED-32x32.png"
-      sizes="32x32"
-    />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     <slot name="head" />
   </head>

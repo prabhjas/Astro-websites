@@ -1,6 +1,7 @@
 ---
 import SEOHead from "../components/SEOHead.astro";
 import ElementorHeader from "../components/ElementorHeader.astro";
+import HomeAnnouncementBar from "../components/HomeAnnouncementBar.astro";
 import ElementorFooter from "../components/ElementorFooter.astro";
 import LicenceStrip from "../components/LicenceStrip.astro";
 import { licence } from "../lib/licence";
@@ -26,6 +27,8 @@ interface Props {
   loadElementor?: boolean;
   /** Elementor Canvas pages: no theme header/footer (page owns chrome). */
   hideSiteChrome?: boolean;
+  /** Homepage security advisory strip above the header. */
+  showHomeAnnouncement?: boolean;
 }
 
 const {
@@ -37,6 +40,7 @@ const {
   bodyClass = "",
   loadElementor = false,
   hideSiteChrome = false,
+  showHomeAnnouncement = false,
 } = Astro.props;
 
 /** Prefer live homepage stylesheet order (Impreza + plugins). */
@@ -54,6 +58,8 @@ const stylesheets = [
     ...baseCss,
     ...extraCss,
     "/css/migration-overrides.css",
+    "/css/menu-no-hash.css",
+    ...(showHomeAnnouncement ? ["/css/home-announcement-bar.css"] : []),
   ]),
 ];
 
@@ -77,6 +83,7 @@ const stylesheets = [
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
     <div class:list={["l-canvas", "type_wide", hideSiteChrome && "l-canvas--elementor-canvas"]}>
+      {showHomeAnnouncement ? <HomeAnnouncementBar /> : null}
       {!hideSiteChrome ? (
         <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
       ) : null}
@@ -87,5 +94,7 @@ const stylesheets = [
     <FloatContacts />
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
+      <script src="/js/menu-no-hash.js" defer></script>
+    {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar.js" defer></script> : null}
   </body>
 </html>

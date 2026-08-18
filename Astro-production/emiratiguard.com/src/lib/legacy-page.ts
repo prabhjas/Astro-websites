@@ -85,6 +85,13 @@ export function serveLegacyPage(slug: string): Response {
   }
 
   let html = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, "utf8"));
+  // Shared logo lives in every WP dump — set brand alt once at serve time.
+  html = html.replace(/<img\b[^>]*>/gi, (tag) => {
+    if (!/logo-horizontal-emiratiguard-white/i.test(tag)) return tag;
+    if (/\balt="Emirati Guard"/i.test(tag)) return tag;
+    if (/\balt="/i.test(tag)) return tag.replace(/\balt="[^"]*"/i, 'alt="Emirati Guard"');
+    return tag.replace(/<img\b/i, '<img alt="Emirati Guard"');
+  });
   html = injectRuntimeGtmLoader(html);
   html = absolutizeSeoUrls(html, slug);
   html = ensureStylesheet(html, "/css/form-mirror-fixes.css");
