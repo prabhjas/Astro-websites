@@ -24,7 +24,12 @@ const stats = [
 const brands = [
   { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi' },
   { src: `${img}/brands/c-uae.png`, alt: 'C-UAE' },
-  { src: `${img}/brands/connect-fz.png`, alt: 'Connect FZ' },
+  {
+    src: `${img}/brands/connect-fz.png`,
+    alt: 'Connect FZ',
+    className: 'cgbs-brand-connectfz',
+    style: 'height:30px;max-width:175px;width:auto;object-fit:contain;',
+  },
   { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation' },
 ];
 
@@ -155,7 +160,7 @@ const testimonials = [
   {
     quote: 'Connect Group helped us hire and relocate a team of 15 within a month. We had the mainland licence, the visas and the payroll structure in place before anyone landed. Best execution team.',
     initials: 'RD',
-    name: 'R. D.',
+    name: 'R. Douglas',
     role: 'Founder, Tech Start-up, Dubai',
   },
   {
@@ -225,9 +230,24 @@ const faqs = [
 ];
 
 const intel = [
-  { src: `${img}/intel/intel-1.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
-  { src: `${img}/intel/intel-2.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
-  { src: `${img}/intel/intel-3.png`, t: 'Connect Group was born from a singular realization', d: 'The uncompromising standard securing your global legacy.' },
+  {
+    src: '/wp-content/uploads/2025/06/Understanding-Wage-Protection-System-WPS-Audits-in-the-UAE-image-cover-blog.webp',
+    t: 'Understanding Wage Protection System (WPS) Audits in the UAE',
+    d: 'In 2009, the United Arab Emirates (UAE) developed an electronic salary transfer mechanism called WPS—Wage...',
+    href: '/understanding-wage-protection-system-wps/',
+  },
+  {
+    src: '/wp-content/uploads/2025/04/Ensure-Visa-Compliance-in-UAE-with-Expert-PRO-Services-image-cover-blog.webp',
+    t: 'PRO Services for Compliance with Visa Regulations in UAE',
+    d: 'Getting an employee visa or work permit in the UAE requires navigating a maze of...',
+    href: '/pro-services-for-compliance-with-visa-regulations-in-uae/',
+  },
+  {
+    src: '/wp-content/uploads/2025/04/Common-Misconceptions-About-Business-Consultants-Debunked-image-cover-blog-1.webp',
+    t: 'Common Misconceptions About Hiring a Business Consultant',
+    d: 'When planning to hire a business consultant, you might have many doubts and myths that...',
+    href: '/common-misconceptions-about-hiring-a-business-consultant/',
+  },
 ];
 ---
 
@@ -277,7 +297,7 @@ const intel = [
           <h2>Our Specialist Brands</h2>
           <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
           <div class="cgbs-brand-row">
-            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+            {brands.map((b) => <img class={b.className} style={b.style} src={b.src} alt={b.alt} loading="lazy" />)}
           </div>
         </div>
 
@@ -337,8 +357,8 @@ const intel = [
             investment in a single year and why that number is still rising.
           </p>
           <div class="cgbs-adv-list">
-            {whyFacts.map((a) => (
-              <details class="cgbs-adv-item" open>
+            {whyFacts.map((a, i) => (
+              <details class="cgbs-adv-item" open={i === 0}>
                 <summary>
                   {a.t}
                   <img src={`${img}/icons/chevron.svg`} alt="" width="32" height="32" />
@@ -503,7 +523,7 @@ const intel = [
         <p class="cgbs-intel-sub">Secrets to scaling with speed</p>
         <div class="cgbs-cards3">
           {intel.map((c) => (
-            <a class="cgbs-intel-card" href="/insights/">
+            <a class="cgbs-intel-card" href={c.href}>
               <img src={c.src} alt="" loading="lazy" />
               <div class="cgbs-intel-body">
                 <h3>{c.t}</h3>
@@ -519,6 +539,16 @@ const intel = [
   <script is:inline src="/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js"></script>
   <script is:inline>
     document.addEventListener('DOMContentLoaded', function () {
+      var whyAccordions = document.querySelectorAll('.cgbs-adv-list .cgbs-adv-item');
+      whyAccordions.forEach(function (item) {
+        item.addEventListener('toggle', function () {
+          if (!item.open) return;
+          whyAccordions.forEach(function (other) {
+            if (other !== item) other.open = false;
+          });
+        });
+      });
+
       var el = document.querySelector('.cgbs-testi-swiper');
       if (!el || typeof Swiper === 'undefined') return;
       var slideCount = el.querySelectorAll('.swiper-slide').length;
@@ -631,6 +661,12 @@ const intel = [
   .cgbs-brands p { color: #d1d1d1; font-size: 18px; margin: 0 auto 24px; max-width: 780px; }
   .cgbs-brand-row { display: flex; align-items: center; justify-content: center; gap: 10px 40px; flex-wrap: wrap; }
   .cgbs-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
+  .cgbs-brand-row .cgbs-brand-connectfz {
+    height: 30px;
+    width: auto;
+    max-width: 175px;
+    object-fit: contain;
+  }
   .cgbs-stats {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
     max-width: 1096px; margin: 0 auto; padding-bottom: 50px;
@@ -891,6 +927,12 @@ const intel = [
       justify-items: center;
     }
     .cgbs-brand-row img { height: 40px; max-width: 150px; }
+    .cgbs-brand-row .cgbs-brand-connectfz {
+      height: 28px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+    }
     .cgbs-stats {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
