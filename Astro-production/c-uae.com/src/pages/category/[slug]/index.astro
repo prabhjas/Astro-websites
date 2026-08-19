@@ -48,11 +48,12 @@ html = html.replace(
 if (hasMore) {
   html = html.replace(
     /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${initialItems}" data-category-id="${category.id}">`,
+    `<nav$1 data-sp-blog-load-more="1" data-sp-url-lock="${category.path}" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${initialItems}" data-category-id="${category.id}">`,
   );
+  /** Load More is AJAX-only — use a button so no pagination URL can be opened. */
   html = html.replace(
-    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
-    `$1${category.path}?page=2$2`,
+    /(<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?)<a\s+href="[^"]*"\s+class="elementor-button-link elementor-button\s*"(\s+role="button")?\s*>\s*(<span>[\s\S]*?<\/span>)\s*<\/a>/i,
+    `$1<button type="button" class="elementor-button-link elementor-button " data-sp-load-more-btn="1">$3</button>`,
   );
 } else {
   html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");

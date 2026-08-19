@@ -47,6 +47,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Insights archive pagination URLs are retired (Load More is AJAX-only).
+    if (/^\/insights\/page\/\d+\/?$/i.test(pathname)) {
+      return context.redirect('/insights/', 301);
+    }
+    if (normalisePath(pathname) === '/insights/' && context.url.searchParams.has('page')) {
+      return context.redirect('/insights/', 301);
+    }
+
     if (pathname.startsWith('/api/internal/') || pathname === '/api/health' || pathname === '/api/health/') {
       return next();
     }
