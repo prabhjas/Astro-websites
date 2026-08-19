@@ -1,7 +1,7 @@
 /**
  * Injects the KinzaHR licence & verification band into every legacy footer.
  *
- * Legacy pages are served straight from src/legacy/*.cleaned.html at runtime
+ * Legacy pages are served straight from src/legacy (nested cleaned HTML) at runtime
  * (see src/lib/legacy-page.js), and each page carries its own copy of the
  * Elementor footer — so the band has to be written into each file rather than
  * rendered once from a layout. This script is the single place that happens.
@@ -240,10 +240,16 @@ function revert(html) {
   return out;
 }
 
+function listCleanedHtml(dir) {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) return listCleanedHtml(path);
+    return entry.name.endsWith(".cleaned.html") ? [path] : [];
+  });
+}
+
 const targets = [
-  ...readdirSync(join(ROOT, "src/legacy"))
-    .filter((f) => f.endsWith(".cleaned.html"))
-    .map((f) => join(ROOT, "src/legacy", f)),
+  ...listCleanedHtml(join(ROOT, "src/legacy")),
   join(ROOT, "src/legacy/chrome/footer.html"),
   join(ROOT, "public/chrome/footer.html"),
 ].filter((p) => existsSync(p));

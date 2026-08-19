@@ -6,7 +6,7 @@ import { defineConfig } from 'astro/config';
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
   process.env.SITE_URL ||
-  ''
+  'https://alburaq.ae'
 )
   .trim()
   .replace(/\/$/, '');
@@ -25,6 +25,7 @@ export default defineConfig({
   // request URL as http://, and checkOrigin rejects HTTPS visitors' form
   // POSTs with "Cross-site POST form submissions are forbidden" (403).
   security: {
+    checkOrigin: true,
     allowedDomains: [
       { hostname: 'alburaq.ae', protocol: 'https' },
       { hostname: 'www.alburaq.ae', protocol: 'https' },
