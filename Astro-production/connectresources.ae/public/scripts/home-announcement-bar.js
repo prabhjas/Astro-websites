@@ -26,7 +26,7 @@
   function onScroll() {
     if (ticking) return;
     ticking = true;
-    window.requestAnimationFrame(sync);
+    requestAnimationFrame(sync);
   }
 
   sync();
