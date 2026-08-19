@@ -4,10 +4,10 @@ const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
 const api = [];
 page.on('request', (r) => {
-  if (r.url().includes('/api/contact')) api.push({ method: r.method(), body: r.postData()?.slice(0, 250) });
+  if (r.url().includes('/api/contact/')) api.push({ method: r.method(), body: r.postData()?.slice(0, 250) });
 });
 page.on('response', async (r) => {
-  if (r.url().includes('/api/contact')) {
+  if (r.url().includes('/api/contact/')) {
     api.push({ status: r.status(), body: (await r.text().catch(() => '')).slice(0, 200) });
   }
 });

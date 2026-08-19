@@ -12,6 +12,68 @@
   const SUCCESS_MSG = "Thank you. Your enquiry has been received.";
   const FAIL_MSG = "We could not submit your enquiry at the moment. Please try again shortly.";
 
+
+  function getAttrCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) {
+        try {
+          return decodeURIComponent(c.substring(nameEQ.length));
+        } catch (e) {
+          return c.substring(nameEQ.length);
+        }
+      }
+    }
+    return "";
+  }
+
+  function setAttrCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(String(value == null ? "" : value)) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function resolveInitialLandingUrl() {
+    var pageUrl = window.location.href;
+    var fromCookie = getAttrCookie("initialUrl") || getAttrCookie("cg_initial_url");
+    if (fromCookie) return fromCookie;
+    try {
+      var fromSession = sessionStorage.getItem("cg_initial_url");
+      if (fromSession) {
+        setAttrCookie("initialUrl", fromSession, 30);
+        return fromSession;
+      }
+    } catch (e) {}
+    setAttrCookie("initialUrl", pageUrl, 30);
+    try {
+      sessionStorage.setItem("cg_initial_url", pageUrl);
+    } catch (e) {}
+    return pageUrl;
+  }
+
+  function pushLeadToDataLayer(email, phone, submissionId) {
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "form_submission_lead",
+        email: email || "",
+        phone_number: phone || "",
+        submission_id: submissionId || "",
+      });
+    } catch (e) {}
+  }
+
+
   function ensureStatus(form) {
     let status = form.querySelector(".wpcf7-response-output, [data-sp-form-status]");
     if (!status) {
@@ -275,24 +337,26 @@
   }
 
   function captureTrackingFields(form) {
-    const params = new URLSearchParams(window.location.search);
-    const pageUrl = window.location.href;
-    let initial = "";
-    try {
-      initial = sessionStorage.getItem("cg_initial_url") || pageUrl;
-      if (!sessionStorage.getItem("cg_initial_url")) {
-        sessionStorage.setItem("cg_initial_url", pageUrl);
-      }
-    } catch {
-      initial = pageUrl;
+    var params = new URLSearchParams(window.location.search || "");
+    var hashParams = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    function paramHas(key) {
+      return params.has(key) || hashParams.has(key);
     }
+    function paramGet(key) {
+      if (params.has(key)) return params.get(key) || "";
+      if (hashParams.has(key)) return hashParams.get(key) || "";
+      return "";
+    }
+    var pageUrl = window.location.href;
+    var initial = resolveInitialLandingUrl();
 
-    const TRACKING_FIELDS = {
-      gclid: ["gclid"],
+    var TRACKING_FIELDS = {
+      gclid: ["gclid", "gbraid", "wbraid"],
       gbraid: ["gbraid"],
       wbraid: ["wbraid"],
       fbclid: ["fbclid"],
       msclkid: ["msclkid"],
+      twclid: ["twclid"],
       utm_source: ["utm_source"],
       utm_medium: ["utm_medium"],
       utm_campaign: ["utm_campaign"],
@@ -303,8 +367,8 @@
       group_id: ["group_id", "groupid"],
       creative_id: ["creative_id", "creativeid", "creative"],
       keyword: ["keyword", "kw", "q", "utm_term"],
-      matchtype: ["matchtype"],
-      device: ["device"],
+      matchtype: ["matchtype", "match_type"],
+      device: ["device", "utm_device"],
       network: ["network"],
       placement: ["placement", "displayad"],
       target: ["target", "targetid", "target_id"],
@@ -316,17 +380,40 @@
       source: ["source", "gad_source", "gadsource"],
     };
 
-    const firstParam = (aliases) => {
-      for (const alias of aliases) {
-        const v = params.get(alias);
-        if (v) return v;
+    function firstParam(aliases) {
+      for (var i = 0; i < aliases.length; i++) {
+        var alias = aliases[i];
+        if (paramHas(alias)) return String(paramGet(alias) || "").trim();
       }
       return "";
-    };
+    }
 
-    Object.keys(TRACKING_FIELDS).forEach((name) => {
-      ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+    Object.keys(TRACKING_FIELDS).forEach(function (name) {
+      var fromUrl = firstParam(TRACKING_FIELDS[name]);
+      var value = fromUrl;
+      if (paramHas(TRACKING_FIELDS[name][0]) || fromUrl) {
+        // Persist when URL explicitly carried any alias with a value
+        if (fromUrl) setAttrCookie(name, fromUrl, 30);
+      } else {
+        value = getAttrCookie(name) || "";
+      }
+      // gclid special-case: also accept cookie if URL empty
+      if (name === "gclid" && !value) {
+        value = getAttrCookie("gclid") || getAttrCookie("gbraid") || getAttrCookie("wbraid") || "";
+      }
+      ensureHiddenField(form, name, value);
     });
+
+    // Explicit click-id cookies when present on URL
+    ["gclid", "gbraid", "wbraid", "gclsrc"].forEach(function (k) {
+      var v = String(paramGet(k) || "").trim();
+      if (v) setAttrCookie(k === "gclsrc" ? "gclsrc" : k === "gclid" ? "gclid" : k, k === "gclid" ? (paramGet("gclid") || paramGet("gbraid") || paramGet("wbraid") || v) : v, 30);
+    });
+    var urlGclid = String(paramGet("gclid") || paramGet("gbraid") || paramGet("wbraid") || "").trim();
+    if (urlGclid) {
+      setAttrCookie("gclid", urlGclid, 30);
+      ensureHiddenField(form, "gclid", urlGclid);
+    }
 
     ensureHiddenField(form, "initial_url", initial);
     ensureHiddenField(form, "landing_page_url", initial);
@@ -334,6 +421,7 @@
     ensureHiddenField(form, "submission_page_url", pageUrl);
     ensureHiddenField(form, "referrer_url", document.referrer || "");
   }
+
 
   function wireForm(form) {
     if (!(form instanceof HTMLFormElement) || form.dataset.spContactWired === "1") return;
@@ -363,6 +451,7 @@
           return;
         }
 
+        captureTrackingFields(form);
         const fd = new FormData(form);
         if (result.phone) {
           fd.set("phonetext-597", result.phone);

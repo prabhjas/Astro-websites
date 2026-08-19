@@ -9,7 +9,6 @@ import liveCssOrder from "../data/live-css-order.json";
 import liveInlineCss from "../data/live-inline-css.json";
 import smartSliderCss from "../data/smart-slider-css.json";
 import { resolveInternalAdminDir } from "../env/server";
-import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
 import "../styles/global.css";
 
 interface Props {
@@ -51,19 +50,6 @@ const stylesheets = [
   ]),
 ];
 
-/** Dashboard / env GTM — SSR into HTML so it appears in View Source */
-let gtmHead = "";
-let gtmBody = "";
-let gtmFooter = "";
-try {
-  const gtm = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
-  gtmHead = gtm.headScript || "";
-  gtmBody = gtm.bodyHtml || "";
-  gtmFooter = gtm.footerScript || "";
-} catch {
-  /* keep public pages resilient */
-}
-const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
 ---
 
 <!doctype html>
@@ -79,16 +65,7 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
     </script>
     {/* Early _N2 queue so any mid-body slider markup can register before footer scripts */}
     <script is:inline src="/scripts/smart-slider/bootstrap.js"></script>
-    {gtmHead ? <Fragment set:html={gtmHead} /> : null}
-    {hasGtm ? <meta name="sp-gtm-ssr" content="1" /> : null}
-    {!hasGtm ? (
-      <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
-    ) : (
-      <script is:inline>
-        window.__runtimeGtmLoaded = true;
-        window.dataLayer = window.dataLayer || [];
-      </script>
-    )}
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
   </head>
   <body
     class:list={[
@@ -109,7 +86,6 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
       bodyClass,
     ]}
   >
-    {gtmBody ? <Fragment set:html={gtmBody} /> : null}
     <div id="page" class="hfeed site">
       <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
       <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
@@ -125,6 +101,5 @@ const hasGtm = Boolean(gtmHead || gtmBody || gtmFooter);
       <ElementorFooter />
     </div>
     <ElementorScripts />
-    {gtmFooter ? <Fragment set:html={gtmFooter} /> : null}
   </body>
 </html>
