@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { getAuthors, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = true;
+
+const authors = getAuthors().filter((a) => a.avatar);
+---
+
+<BaseLayout
+  currentPath="/author/"
+  menuActivePath="/insights/"
+  bodyClass="page-authors wp-theme-Impreza wp-child-theme-Impreza-child l-body"
+  seo={{
+    title: "Meet Our Authors | MBS Consultancy",
+    description: "Meet the expert team behind MBS Consultancy's insights and articles.",
+    canonical: "/author/",
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Author", url: "/author/" },
+      ]),
+    ],
+  }}
+  extraCss={["/css/page-design/authors.css"]}
+>
+  <main id="page-content" class="l-main">
+    <section class="authors-hero">
+      <div class="authors-hero__inner">
+        <h1 class="authors-hero__title">Meet Our Authors</h1>
+        <p class="authors-hero__desc">
+          Meet our authors, the brilliant minds behind our compelling stories. From renowned bestsellers to promising new talents, explore the diverse voices that are shaping our literary landscape. Step into a world where every page offers an unforgettable adventure.
+        </p>
+      </div>
+    </section>
+
+    <section class="authors-banner">
+      <img
+        src="/wp-content/uploads/authors/authors-hero-banner.jpg"
+        alt="Authors banner"
+        loading="eager"
+      />
+    </section>
+
+    <section class="authors-grid-section">
+      <div class="authors-grid">
+        {authors.map((author) => (
+          <a href={author.path} class="author-card">
+            <div class="author-card__img-wrap">
+              <img
+                src={author.avatar}
+                alt={stripHtml(author.name)}
+                loading="lazy"
+                width="252"
+                height="252"
+              />
+            </div>
+            <div class="author-card__info">
+              <h2 class="author-card__name">{stripHtml(author.name)}</h2>
+              {author.title && <p class="author-card__title">{author.title}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
