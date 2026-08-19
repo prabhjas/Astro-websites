@@ -98,14 +98,27 @@
             }
           }
 
-          const slidesPerView =
+          const desktopSlides =
             Number(settings.slides_per_view) ||
             Number(settings.slides_to_show) ||
             1;
+          const tabletSlides =
+            Number(settings.slides_per_view_tablet) ||
+            Math.min(2, desktopSlides);
+          const mobileSlides =
+            Number(settings.slides_per_view_mobile) || 1;
           const space =
             typeof settings.space_between === "object"
               ? Number(settings.space_between?.size) || 10
               : Number(settings.space_between) || 10;
+          const spaceMobile =
+            typeof settings.space_between_mobile === "object"
+              ? Number(settings.space_between_mobile?.size) || space
+              : Number(settings.space_between_mobile) || space;
+          const spaceTablet =
+            typeof settings.space_between_tablet === "object"
+              ? Number(settings.space_between_tablet?.size) || space
+              : Number(settings.space_between_tablet) || space;
 
           // Testimonials on live autoplay even when autoplay key is omitted
           const wantsAutoplay =
@@ -116,10 +129,10 @@
 
           // eslint-disable-next-line no-new
           const instance = new SwiperCtor(el, {
-            slidesPerView,
+            slidesPerView: mobileSlides,
             loop: settings.loop !== "no",
             speed: Number(settings.speed) || 500,
-            spaceBetween: space,
+            spaceBetween: spaceMobile,
             watchOverflow: true,
             autoplay: wantsAutoplay
               ? {
@@ -139,10 +152,12 @@
             navigation: next && prev ? { nextEl: next, prevEl: prev } : undefined,
             breakpoints: {
               768: {
-                slidesPerView: Number(settings.slides_per_view_tablet) || slidesPerView,
+                slidesPerView: tabletSlides,
+                spaceBetween: spaceTablet,
               },
               1025: {
-                slidesPerView: Number(settings.slides_per_view) || slidesPerView,
+                slidesPerView: desktopSlides,
+                spaceBetween: space,
               },
             },
           });
@@ -161,14 +176,11 @@
   }
 
   function bindMobileHamburger() {
-    // Mobile header: Raven menu toggle (visible section on phone)
-    document.querySelectorAll(".cz-site-header .raven-nav-menu-toggle").forEach((toggle) => {
+    document.querySelectorAll(".cz-site-header .elementor-element-705f233e .raven-nav-menu-toggle").forEach((toggle) => {
       if (toggle.dataset.czBurgerBound) return;
       toggle.dataset.czBurgerBound = "1";
-      const section = toggle.closest(".elementor-element-705f233e") || toggle.closest(".cz-site-header");
-      const menuRoot =
-        section?.querySelector(".raven-nav-menu-main, .raven-nav-menu, nav") ||
-        toggle.parentElement?.querySelector(".raven-nav-menu-main, .raven-nav-menu");
+      const section = toggle.closest(".elementor-element-705f233e");
+      const menuRoot = section?.querySelector(".raven-nav-menu-mobile") || section?.querySelector(".raven-nav-menu-dropdown");
 
       toggle.addEventListener("click", (e) => {
         e.preventDefault();
@@ -179,9 +191,7 @@
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
         if (menuRoot) {
           menuRoot.classList.toggle("raven-nav-menu--mobile-active", open);
-          menuRoot.style.display = open ? "block" : "";
-          menuRoot.style.maxHeight = open ? "min(80vh, 640px)" : "";
-          menuRoot.style.overflow = open ? "auto" : "";
+          menuRoot.style.display = open ? "block" : "none";
         }
       });
     });
@@ -217,6 +227,24 @@
         else open();
       });
     });
+  }
+
+  function enforceMobileOneSlide() {
+    if (window.innerWidth >= 768) return;
+    document
+      .querySelectorAll(".elementor-widget-testimonial-carousel .elementor-main-swiper")
+      .forEach((el) => {
+        const sw = el.swiper;
+        if (!sw) return;
+        if (Number(sw.params.slidesPerView) > 1) {
+          sw.params.slidesPerView = 1;
+          try {
+            sw.update();
+          } catch {
+            /* ignore */
+          }
+        }
+      });
   }
 
   function ensureTestimonialAutoplay() {
@@ -267,6 +295,7 @@
   function run() {
     initJetSliders();
     initTestimonialSwipers();
+    enforceMobileOneSlide();
     ensureTestimonialAutoplay();
     bindMobileHamburger();
   }
@@ -278,5 +307,6 @@
     setTimeout(run, 400);
     setTimeout(run, 1200);
     setTimeout(ensureTestimonialAutoplay, 1800);
+    setTimeout(enforceMobileOneSlide, 1800);
   });
 })();
