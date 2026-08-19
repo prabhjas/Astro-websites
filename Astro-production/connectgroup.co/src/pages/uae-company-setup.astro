@@ -22,15 +22,15 @@ const stats = [
 ];
 
 const brands = [
-  { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi' },
-  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE' },
+  { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi Arabia logo' },
+  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE business setup logo' },
   {
     src: `${img}/brands/connect-fz.png`,
-    alt: 'Connect FZ',
+    alt: 'Connect FZ free zone company setup logo',
     className: 'cgbs-brand-connectfz',
     style: 'height:30px;max-width:175px;width:auto;object-fit:contain;',
   },
-  { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation' },
+  { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation services logo' },
 ];
 
 const trust = [
@@ -43,21 +43,25 @@ const trust = [
 const mistakes = [
   {
     icon: `${img}/icons/wrong-jurisdiction.png`,
+    iconAlt: 'Wrong jurisdiction company setup mistake icon',
     title: 'Wrong jurisdiction chosen.',
     body: 'A free zone licence cannot sell directly to UAE mainland clients without a distribution agreement or a separate mainland entity. Discovering this after the licence is issued means paying twice and waiting again. Connect Group confirms jurisdiction fit before a single form is filed.',
   },
   {
     icon: `${img}/icons/bank-rejected.png`,
+    iconAlt: 'Bank account rejection UAE company icon',
     title: 'Bank account rejected after the licence is issued.',
     body: 'UAE banks apply their own KYC standards, independent of any licensing authority. High-risk activity classifications, certain shareholder nationalities, and insufficient business documentation are the most common triggers for rejection. A rejected application delays operations by weeks. Connect Group introduces clients to banking partners whose criteria match their company profile before they apply.',
   },
   {
     icon: `${img}/icons/activity-mismatch.png`,
+    iconAlt: 'Activity code mismatch compliance icon',
     title: 'Activity code mismatch.',
     body: 'Trading on an activity not listed on your licence is a DET violation. Amending an activity after the fact costs additional government fees and processing time that a correct initial filing avoids. Connect Group confirms every activity code against your actual business model before submission.',
   },
   {
     icon: `${img}/icons/ownership-structure.png`,
+    iconAlt: 'Ownership structure setup icon',
     title: 'Ownership structure set up incorrectly.',
     body: 'Since the 2021 FDI reform, 100% foreign ownership has been permitted across most mainland activities. But specific sectors still require UAE national participation or a corporate sponsor. Getting the structure wrong at incorporation creates a company that cannot trade and requires a full restructure to fix.',
   },
@@ -174,24 +178,28 @@ const testimonials = [
 const afterLicence = [
   {
     icon: `${img}/icons/pro-services.png`,
+    iconAlt: 'PRO Services government liaison icon',
     title: 'PRO Services',
     body: 'Visa renewals, MOHRE filings and government liaison so no deadline is ever missed and no establishment card ever lapses.',
     href: '/pro-services/',
   },
   {
     icon: `${img}/icons/visa-immigration.png`,
+    iconAlt: 'Visa and Immigration services icon',
     title: 'Visa and Immigration',
     body: "Investor visas, employee work permits, Emirates ID and dependent sponsorship, all processed through Connect Group's licensed PRO team.",
     href: '/visa-services/',
   },
   {
     icon: `${img}/icons/corporate-bank.png`,
+    iconAlt: 'Corporate bank account setup icon',
     title: 'Corporate Bank Account',
     body: 'Introductions to UAE banking partners pre-screened against your company activity and shareholder profile, reducing rejection risk before you apply.',
     href: contact,
   },
   {
     icon: `${img}/icons/hr-payroll.svg`,
+    iconAlt: 'HR payroll and compliance icon',
     title: 'HR, Payroll and Compliance',
     body: "WPS payroll, MOHRE labour contracts, employee onboarding and ongoing HR administration through Connect Group's workforce division.",
     href: '/hr-services/',
@@ -279,8 +287,8 @@ const intel = [
     <section class="cgbs-hero">
       <div class="cgbs-wrap">
         <div class="cgbs-hero-copy">
-          <p class="cgbs-eyebrow cgbs-eyebrow-light">UAE Company Setup</p>
-          <h1>Your UAE company.<br />The right structure. From day one.</h1>
+          <h1 class="cgbs-eyebrow cgbs-eyebrow-light">UAE Company Setup</h1>
+          <h2>Your UAE company.<br />The right structure. From day one.</h2>
           <p class="cgbs-hero-routes">Mainland – Free Zone – Offshore</p>
           <p class="cgbs-hero-lead">
             Most setup mistakes happen before a single form is filed. Wrong jurisdiction, wrong
@@ -339,7 +347,7 @@ const intel = [
         <div class="cgbs-mistake-cards">
           {mistakes.map((m) => (
             <article class="cgbs-card">
-              <img class="cgbs-card-icon" src={m.icon} alt="" width="60" height="60" loading="lazy" />
+              <img class="cgbs-card-icon" src={m.icon} alt={m.iconAlt} width="60" height="60" loading="lazy" />
               <h3>{m.title}</h3>
               <p>{m.body}</p>
             </article>
@@ -361,7 +369,7 @@ const intel = [
               <details class="cgbs-adv-item" open={i === 0}>
                 <summary>
                   {a.t}
-                  <img src={`${img}/icons/chevron.svg`} alt="" width="32" height="32" />
+                  <img src={`${img}/icons/chevron.svg`} alt="Expandable section navigation chevron" width="32" height="32" />
                 </summary>
                 <p>{a.d}</p>
               </details>
@@ -369,7 +377,7 @@ const intel = [
           </div>
         </div>
         <div class="cgbs-why-art">
-          <img src={`${img}/why-uae.png`} alt="Why the UAE is a leading destination for company formation" loading="lazy" />
+          <img src={`${img}/why-uae.webp`} alt="Why the UAE is a leading destination for company formation" loading="lazy" />
         </div>
       </div>
     </section>
@@ -435,10 +443,10 @@ const intel = [
               {testimonials.map((t) => (
                 <div class="swiper-slide">
                   <article class="cgbs-testi">
-                    <img class="cgbs-quote-icon" src={`${img}/icons/quote.svg`} alt="" width="17" height="16" />
+                    <img class="cgbs-quote-icon" src={`${img}/icons/quote.svg`} alt="Client testimonial quote mark icon" width="17" height="16" />
                     <div class="cgbs-stars" aria-label="5 out of 5 stars">
                       {Array.from({ length: 5 }).map(() => (
-                        <img src={`${img}/icons/star.svg`} alt="" width="24" height="24" />
+                        <img src={`${img}/icons/star.svg`} alt="Five star rating icon" width="24" height="24" />
                       ))}
                     </div>
                     <blockquote>{t.quote}</blockquote>
@@ -475,7 +483,7 @@ const intel = [
         <div class="cgbs-after-grid">
           {afterLicence.map((c) => (
             <a class="cgbs-card cgbs-after-card" href={c.href}>
-              <img class="cgbs-card-icon" src={c.icon} alt="" width="60" height="60" loading="lazy" />
+              <img class="cgbs-card-icon" src={c.icon} alt={c.iconAlt} width="60" height="60" loading="lazy" />
               <h3>{c.title}</h3>
               <p>{c.body}</p>
             </a>
@@ -494,7 +502,7 @@ const intel = [
             <details class="cgbs-faq" open={i === 0}>
               <summary>
                 {f.q}
-                <img src={`${img}/icons/faq-chevron.svg`} alt="" width="32" height="32" />
+                <img src={`${img}/icons/faq-chevron.svg`} alt="Expandable section navigation chevron" width="32" height="32" />
               </summary>
               <div class="cgbs-faq-a" set:html={f.a} />
             </details>
@@ -524,7 +532,7 @@ const intel = [
         <div class="cgbs-cards3">
           {intel.map((c) => (
             <a class="cgbs-intel-card" href={c.href}>
-              <img src={c.src} alt="" loading="lazy" />
+              <img src={c.src} alt={c.t} loading="lazy" />
               <div class="cgbs-intel-body">
                 <h3>{c.t}</h3>
                 <p>{c.d}</p>
@@ -641,7 +649,10 @@ const intel = [
     min-height: 695px; padding: 124px 0 164px;
   }
   .cgbs-hero .cgbs-eyebrow { margin: 0; }
-  .cgbs-hero h1 {
+  .cgbs-hero h1.cgbs-eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .cgbs-hero h2 {
     color: #fff; font-size: 64px; font-weight: 600; line-height: 1.2;
     letter-spacing: -0.02em; margin: 0 auto 12px; max-width: 1038px;
   }
@@ -657,8 +668,13 @@ const intel = [
   .cgbs-hero .cgbs-btn { font-size: 16px; font-weight: 700; border-radius: 8px; padding: 12px 24px; min-height: 44px; }
 
   .cgbs-brands { text-align: center; margin-top: 0; padding: 24px 0 40px; }
-  .cgbs-brands h2 { color: #fafafa; font-size: 24px; font-weight: 500; margin: 0 0 8px; letter-spacing: -0.02em; }
-  .cgbs-brands p { color: #d1d1d1; font-size: 18px; margin: 0 auto 24px; max-width: 780px; }
+  .cgbs-brands h2 {
+    color: #fafafa; font-size: 24px; font-weight: 500; margin: 0 auto 8px;
+    letter-spacing: -0.02em; text-align: center; max-width: 780px;
+  }
+  .cgbs-brands p {
+    color: #d1d1d1; font-size: 18px; margin: 0 auto 24px; max-width: 780px; text-align: center;
+  }
   .cgbs-brand-row { display: flex; align-items: center; justify-content: center; gap: 10px 40px; flex-wrap: wrap; }
   .cgbs-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
   .cgbs-brand-row .cgbs-brand-connectfz {
@@ -727,6 +743,13 @@ const intel = [
   .cgbs-why-art img { width: 100%; max-width: 562px; height: auto; }
 
   .cgbs-routes { background: linear-gradient(180deg, #ffffff 0%, var(--cgbs-lavender) 100%); }
+  .cgbs-routes .cgbs-h2,
+  .cgbs-routes .cgbs-lead {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cgbs-routes .cgbs-h2 { max-width: 980px; }
   .cgbs-route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
   .cgbs-route-card { background: #fff; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; }
   .cgbs-route-n { font-size: 16px; font-weight: 700; text-transform: uppercase; margin: 0 0 16px; }
@@ -800,6 +823,13 @@ const intel = [
   }
 
   .cgbs-after { background: linear-gradient(180deg, #ffffff 0%, var(--cgbs-lavender) 100%); }
+  .cgbs-after .cgbs-h2,
+  .cgbs-after .cgbs-lead {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cgbs-after .cgbs-h2 { max-width: 980px; }
   .cgbs-after-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 40px; }
   .cgbs-after-card { text-decoration: none; color: inherit; display: block; }
   .cgbs-after-card h3 { white-space: pre-line; }
@@ -856,7 +886,7 @@ const intel = [
       min-height: 0; padding: 100px 0 40px;
     }
     .cgbs-hero-copy { min-height: 0; padding: 48px 0 56px; }
-    .cgbs-hero h1 { font-size: 44px; }
+    .cgbs-hero h2 { font-size: 44px; }
     .cgbs-hero-routes { font-size: 24px; }
     .cgbs-hero-lead { font-size: 18px; }
     .cgbs-process {
@@ -874,7 +904,7 @@ const intel = [
     .cgbs-process .cgbs-wrap { padding: 0 24px; }
     .cgbs-section { padding: 60px 0; }
     .cgbs-hero { padding: 110px 0 36px; }
-    .cgbs-hero h1 { font-size: 34px; }
+    .cgbs-hero h2 { font-size: 34px; }
     .cgbs-h2 { font-size: 30px; }
     .cgbs-stats { grid-template-columns: repeat(2, 1fr); }
     .cgbs-mistake-cards { grid-template-columns: 1fr; }
@@ -898,7 +928,7 @@ const intel = [
       padding: 34px 0 74px;
       justify-content: flex-start;
     }
-    .cgbs-hero h1 { font-size: 32px; line-height: 1.2; margin-bottom: 12px; }
+    .cgbs-hero h2 { font-size: 32px; line-height: 1.2; margin-bottom: 12px; }
     .cgbs-hero-routes { font-size: 20px; margin-bottom: 12px; }
     .cgbs-hero-lead { font-size: 16px; line-height: 1.55; margin-bottom: 24px; }
     .cgbs-hero .cgbs-btn-row {
