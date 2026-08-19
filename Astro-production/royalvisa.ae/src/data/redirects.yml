@@ -81,3 +81,104 @@ redirects:
   - from: /visa-services/
     to: /golden-visa/
     status: 301
+
+  # Legacy blog slugs (404 on live) → current canonical posts/pages
+  - from: /family-visit-visa-uae-comprehensive-guide/
+    to: /family-visit-visa-uae-2/
+    status: 301
+  - from: /freelance-visa-for-skilled-professionals-dubai-new-rules/
+    to: /dubai-freelance-visa-eligibility-requirements/
+    status: 301
+  - from: /golden-visa-in-dubai-and-uae-how-to-get-how-long-how-much/
+    to: /guide-for-golden-visa-uae/
+    status: 301
+  - from: /golden-visa-vs-premium-visa/
+    to: /golden-visa-requirements-uae/
+    status: 301
+  - from: /how-to-extend-your-visit-visa-in-dubai-uae-updated-information/
+    to: /guide-on-visa-extension-in-uae/
+    status: 301
+  - from: /how-to-transfer-sponsorship-in-uae/
+    to: /visa-transfer-uae/
+    status: 301
+  - from: /manage-your-emirates-id-in-uae-online/
+    to: /emirates-id/
+    status: 301
+  - from: /new-special-golden-visa-uae-most-recent-updates/
+    to: /guide-for-golden-visa-uae/
+    status: 301
+  - from: /new-uae-policies-and-developments-most-recent-updates/
+    to: /types-of-visa-in-uae/
+    status: 301
+  - from: /new-visa-rules-in-dubai-uae-and-how-to-benefit/
+    to: /types-of-visa-in-uae/
+    status: 301
+  - from: /property-visa-uae-comprehensive-guide/
+    to: /property-visa/
+    status: 301
+  - from: /residence-visa-uae-a-comprehensive-guide/
+    to: /uae-residency-visa-guide/
+    status: 301
+  - from: /residence-vs-tourist-visa-dubai/
+    to: /types-of-residence-visa-in-uae/
+    status: 301
+  - from: /silver-visa-uae-program/
+    to: /silver-visa/
+    status: 301
+  - from: /tourist-vs-visit-visa-dubai/
+    to: /dubai-tourist-visa-costs-and-information/
+    status: 301
+  - from: /uae-business-travel-visa/
+    to: /uae-business-visa-types-requirements-cost/
+    status: 301
+  - from: /uae-family-sponsorship-new-golden-visa-law/
+    to: /spouse-visa-uae-for-family-members/
+    status: 301
+  - from: /uae-golden-visa-investor/
+    to: /golden-visa/
+    status: 301
+  - from: /uae-golden-visa-requirements-for-investors-and-entrepreneurs/
+    to: /golden-visa-requirements-uae/
+    status: 301
+  - from: /uae-residency-visa-startup-entrepreneur-golden-visa/
+    to: /explore-opulent-living-with-uae-residency-visa/
+    status: 301
+  - from: /uae-visa-cancellation-status-after-leaving-uae/
+    to: /visa-cancellation-and-final-settlement/
+    status: 301
+  - from: /uae-visit-visa-eligibility-and-requirements/
+    to: /6-month-visit-visa-dubai-cost-documents-processing-timeline/
+    status: 301
+  - from: /uae-visit-visa-requirements-for-all-nationalities/
+    to: /how-to-get-dubai-visa/
+    status: 301
+  - from: /visa-interview-tips-how-to-prepare-for-your-visa-interview/
+    to: /getting-help-with-your-uae-visa-application-visa-services-available-in-2024/
+    status: 301
+  - from: /visa-overstay-in-uae-fines-penalties-and-consequences/
+    to: /overstay-fine-in-uae/
+    status: 301
+  - from: /visa-stamping-and-documents-requirements/
+    to: /all-about-visa-stamping-dubai/
+    status: 301
+  - from: /work-visit-visa-dubai/
+    to: /dubai-tourist-visa-costs-and-information/
+    status: 301
+  - from: /work-visa-in-uae-requirements-and-application-process/
+    to: /your-guide-to-employment-visa/
+    status: 301
+  - from: /wps-application-guide-uae/
+    to: /uae-employment-visa-for-employment/
+    status: 301
+  - from: /write-a-formal-letter-to-the-embassy/
+    to: /getting-help-with-your-uae-visa-application-visa-services-available-in-2024/
+    status: 301
+  - from: /your-comprehensive-guide-to-uae-visa-types-and-rules/
+    to: /types-of-visa-in-uae/
+    status: 301
+  - from: /your-guide-to-the-new-uae-freelance-visa/
+    to: /benefits-of-freelance-visa-uae/
+    status: 301
+  - from: /your-guide-to-the-uae-golden-visa-residency-program/
+    to: /guide-for-golden-visa-uae/
+    status: 301

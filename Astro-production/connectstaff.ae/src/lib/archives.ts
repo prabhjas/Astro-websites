@@ -258,13 +258,15 @@ function patchArchiveMeta(html: string, data: ArchivePageData): string {
     data.type === 'tag'
       ? `${data.title.replace(/ Archives$/, '')} Archives - Connect Staff${pageSuffix}`
       : `${data.title}${pageSuffix}`;
+  const description =
+    data.currentPage > 1 ? `${data.description}${pageSuffix}` : data.description;
 
   out = out.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
 
   if (out.includes('name="description"')) {
     out = out.replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
-      `<meta name="description" content="${escapeHtml(data.description)}" />`,
+      `<meta name="description" content="${escapeHtml(description)}" />`,
     );
   }
 
@@ -288,9 +290,9 @@ export function getBlogPageData(page = 1): ArchivePageData {
 
   return {
     type: 'blog',
-    title: 'Insights on HR, Payroll, and Business Solutions',
+    title: 'Explore the latest industry trends and tips in staffing solutions.',
     description:
-      'Latest articles from Connect Staff on HR, visas, recruitment, Emiratisation, and business in Abu Dhabi.',
+      'Our blog offers valuable insights from industry experts to help you navigate the world of recruitment and staffing efficiently.',
     canonical,
     ...paged,
   };
