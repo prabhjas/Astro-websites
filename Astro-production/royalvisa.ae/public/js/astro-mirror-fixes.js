@@ -1100,6 +1100,30 @@
     });
   }
 
+  /** WCAG: associate CF7 inputs with visible labels or aria-label from placeholders */
+  function ensureFormAccessibility() {
+    document.querySelectorAll('form.wpcf7-form').forEach(function (form) {
+      form.querySelectorAll('input, textarea, select').forEach(function (field) {
+        if (field.type === 'hidden' || field.type === 'submit' || field.type === 'button') return;
+        if (field.getAttribute('aria-label') || field.getAttribute('aria-labelledby')) return;
+        var wrap = field.closest('.wpcf7-form-control-wrap');
+        var label = wrap && wrap.previousElementSibling && wrap.previousElementSibling.tagName === 'LABEL'
+          ? wrap.previousElementSibling
+          : form.querySelector('label[for="' + field.id + '"]');
+        if (label && !label.id) {
+          var lid = field.id ? field.id + '-label' : 'rv-field-label-' + Math.random().toString(36).slice(2, 8);
+          label.id = lid;
+          field.setAttribute('aria-labelledby', lid);
+          return;
+        }
+        var placeholder = field.getAttribute('placeholder') || field.getAttribute('name') || '';
+        if (placeholder) {
+          field.setAttribute('aria-label', placeholder.replace(/[-_]/g, ' '));
+        }
+      });
+    });
+  }
+
   /** WP Rocket / Elementor lazy images: promote data-lazy-src to real src */
   function ensureLazyImages() {
     document.querySelectorAll('img[data-lazy-src]').forEach(function (img) {
@@ -3001,6 +3025,7 @@
     safe(ensureIconAndSwiperCss);
     safe(preferCssStickyPostForm);
     safe(wireLegacyContactForms);
+    safe(ensureFormAccessibility);
     safe(unwrapRocketLazyScripts);
     safe(prepareTestimonialCarousels);
     safe(ensureLazyImages);

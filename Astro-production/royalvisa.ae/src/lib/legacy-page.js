@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
+import { applyMirrorHygiene, inferMissingImgAlts } from './mirror-hygiene.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://royalvisa.ae')
   .trim()
@@ -46,7 +47,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  html = sanitizeMirrorHtml(html);
+  html = sanitizeMirrorHtml(applyMirrorHygiene(inferMissingImgAlts(html, slug)));
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
