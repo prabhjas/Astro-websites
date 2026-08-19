@@ -167,16 +167,16 @@ export function serveLegacyPage(slug) {
   }
 
   // CF7 → /api/contact + Ads/UTM capture (also injected at prepare time; keep as runtime safety).
-  if (!html.includes('astro-mirror-fixes.js')) {
+  if (!html.includes('astro-mirror-fixes')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js?v=20260817-aboutimg" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes-v2.js?v=20260817-aboutimg" defer></script>\n</body>',
     );
   } else {
     // Bust stale broken builds that browsers may have cached.
     html = html.replace(
       /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
-      '/js/astro-mirror-fixes.js?v=20260817-aboutimg',
+      '/js/astro-mirror-fixes-v2.js?v=20260817-aboutimg',
     );
   }
 
