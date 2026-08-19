@@ -14,7 +14,7 @@ import { mkdir, readFile, writeFile, access, readdir } from 'node:fs/promises';
 import { dirname, join, extname } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
-import { Readable } from 'node:stream';
+import { applyMirrorHygiene, inferMissingImgAlts } from '../src/lib/mirror-hygiene.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -255,6 +255,8 @@ function cleanHtml(html) {
       `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`,
     );
   }
+
+  out = inferMissingImgAlts(applyMirrorHygiene(out), slug);
 
   return normalizeAssetUrlsInHtml(out);
 }
