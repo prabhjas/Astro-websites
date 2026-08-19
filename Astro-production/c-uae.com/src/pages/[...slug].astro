@@ -14,7 +14,6 @@ import {
 } from "../lib/content";
 import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
-import { preparePageFaqSchema } from "../lib/faq-schema";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -30,25 +29,12 @@ if (!page && !post) {
   return notFoundResponse();
 }
 
-const FAQ_EXCLUDE_SELECTORS: Record<string, string[]> = {
-  "/document-clearing-servcies-uae/": [
-    ".elementor-element-5043478",
-    ".elementor-element-c534661",
-    ".elementor-element-685810e",
-  ],
-};
-
 const entry = page || post!;
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
-const sanitizedHtml = sanitizeMirrorHtml(injectCanonicalCf7Forms(rawHtml, {
+const html = sanitizeMirrorHtml(injectCanonicalCf7Forms(rawHtml, {
   path,
   variant: post ? "blog" : path.includes("contact") ? "contact" : "contact",
 }));
-const { html, schemas: faqSchemas } = preparePageFaqSchema(
-  sanitizedHtml,
-  entry.seo.schemas || [],
-  FAQ_EXCLUDE_SELECTORS[path] ? { excludeSelectors: FAQ_EXCLUDE_SELECTORS[path] } : {},
-);
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -89,7 +75,7 @@ const seo = page
       canonical: path,
       ogImage: page.seo.ogImage,
       schemas: [
-        ...faqSchemas,
+        ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
       ],
       ...(PAGE_ROBOTS[path] || {}),
@@ -104,7 +90,7 @@ const seo = page
       modifiedTime: post!.modified,
       authorName: post!.authorName,
       schemas: [
-        ...faqSchemas,
+        ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
         articleSchema(
           {
