@@ -1,6 +1,8 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { isLicenceComplete, licence } from '../licence.ts';
+import { ROBOTS_DISALLOW_PATHS } from './sitemap-config.ts';
+import { renderRobotsTxt } from './sitemap-xml.ts';
 
 export type ManagedTextFile = {
   content: string;
@@ -34,84 +36,7 @@ function licenceHeader(origin: string): string {
 
 export function defaultRobotsContent(siteOrigin: string): string {
   const origin = siteOrigin.replace(/\/$/, '');
-  return (
-    licenceHeader(origin) +
-    [
-      '# robots.txt for c-uae.com',
-      '',
-      'User-agent: *',
-      'Allow: /',
-      '',
-      '# Block WordPress admin/system areas',
-      'Disallow: /wp-admin/',
-      'Allow: /wp-admin/admin-ajax.php',
-      'Disallow: /wp-includes/',
-      'Disallow: /wp-content/plugins/',
-      'Disallow: /wp-content/cache/',
-      'Disallow: /wp-json/',
-      'Disallow: /xmlrpc.php',
-      'Disallow: /cgi-bin/',
-      'Disallow: /trackback/',
-      'Disallow: /comments/feed/',
-      'Disallow: /?s=',
-      'Disallow: /search/',
-      'Disallow: /*?p=',
-      'Disallow: /*?replytocom=',
-      'Disallow: /*/attachment/',
-      '',
-      '# Block internal/duplicate parameter URLs from being crawled and indexed separately',
-      'Disallow: /*?*utm_',
-      'Disallow: /*?*fbclid',
-      'Disallow: /*?*gclid',
-      '',
-      '# Block low-value archive and feed URLs',
-      'Disallow: /tag/',
-      'Disallow: /category/',
-      'Disallow: /*/feed/',
-      'Disallow: /feed/',
-      'Disallow: /*/embed/',
-      '',
-      '# Explicitly allow major AI crawlers (for visibility in AI-assisted search and answers)',
-      'User-agent: GPTBot',
-      'Allow: /',
-      '',
-      'User-agent: ChatGPT-User',
-      'Allow: /',
-      '',
-      'User-agent: ClaudeBot',
-      'Allow: /',
-      '',
-      'User-agent: Claude-Web',
-      'Allow: /',
-      '',
-      'User-agent: anthropic-ai',
-      'Allow: /',
-      '',
-      'User-agent: PerplexityBot',
-      'Allow: /',
-      '',
-      'User-agent: Google-Extended',
-      'Allow: /',
-      '',
-      'User-agent: Applebot-Extended',
-      'Allow: /',
-      '',
-      '# Block aggressive/low-value scrapers known for excessive crawl load',
-      'User-agent: AhrefsBot',
-      'Crawl-delay: 10',
-      '',
-      'User-agent: SemrushBot',
-      'Crawl-delay: 10',
-      '',
-      'User-agent: MJ12bot',
-      'Disallow: /',
-      '',
-      '# Sitemap reference',
-      `Sitemap: ${origin}/sitemap_index.xml`,
-      `llms: ${origin}/llms.txt`,
-      '',
-    ].join('\n')
-  );
+  return licenceHeader(origin) + renderRobotsTxt(origin, ROBOTS_DISALLOW_PATHS);
 }
 
 export function defaultLlmContent(): string {

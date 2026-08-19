@@ -3,9 +3,9 @@
 # Paths should start with /. Prefer trailing-slash style matching live WordPress.
 
 redirects:
-  # Move legacy business-formation slug to new company setup slug
-  - from: /business-formation-uae/
-    to: /uae-company-setup/
+  # CG v3.0 Business Setup lives at the original WP slug
+  - from: /uae-company-setup/
+    to: /business-formation-uae/
     status: 301
 
   # Pages not marked Done in Connect group asrto.xlsx (column D)

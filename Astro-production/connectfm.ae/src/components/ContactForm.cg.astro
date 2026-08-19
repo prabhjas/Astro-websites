@@ -198,7 +198,6 @@ const { formId = 'contact-lead', formName = 'Connect Group Contact Form' } = Ast
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               event: 'form_submission_lead',
-              name: (form.querySelector('[name="name"]') || {}).value || '',
               email: (form.querySelector('[name="email"]') || {}).value || '',
               phone_number: (form.querySelector('[name="phone"]') || {}).value || '',
               form_id: form.id || '',

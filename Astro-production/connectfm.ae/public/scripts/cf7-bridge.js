@@ -1,6 +1,4 @@
 (() => {
-  console.log("Form Tracking Loaded ✅");
-
   const endpoint =
     window.__SP_CONTACT_ENDPOINT__ ||
     document.querySelector('meta[name="sp-contact-endpoint"]')?.getAttribute("content") ||
@@ -285,17 +283,11 @@
     );
   }
 
-  function fieldValue(form, selector) {
-    const el = form.querySelector(selector);
-    return el ? String(el.value || "").trim() : "";
-  }
-
-  /** GTM / dataLayer lead event — includes enhanced conversion fields. */
-  function pushFormSubmissionLead({ name, email, phone, formId, submissionId, formName }) {
+  /** GTM / dataLayer lead event for Enhanced Conversions (email + phone). */
+  function pushFormSubmissionLead({ email, phone, formId, submissionId, formName }) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: "form_submission_lead",
-      name: name || "",
       email: email || "",
       phone_number: phone || "",
       form_id: formId || "",
@@ -305,7 +297,7 @@
     });
   }
 
-  function dispatchCf7MailSent(form, { name, email, phone, formId, submissionId }) {
+  function dispatchCf7MailSent(form, { formId, submissionId }) {
     try {
       const unit = form.closest(".wpcf7");
       const detail = {
@@ -313,10 +305,6 @@
         unitTag: form.querySelector("[name='_wpcf7_unit_tag']")?.value || unit?.id || "",
         status: "mail_sent",
         inputs: [
-          { name: "your-name", value: name || "" },
-          { name: "name", value: name || "" },
-          { name: "your-email", value: email || "" },
-          { name: "your-phone", value: phone || "" },
           { name: "submission_id", value: submissionId || "" },
         ],
       };
@@ -481,8 +469,7 @@
         if (!fd.get("submission_id")) fd.set("submission_id", crypto.randomUUID());
         if (!fd.get("submitted_at")) fd.set("submitted_at", new Date().toISOString());
 
-        const leadName = fieldValue(form, NAME_SEL);
-        const leadEmail = fieldValue(form, EMAIL_SEL);
+        const leadEmail = String(form.querySelector(EMAIL_SEL)?.value || "").trim();
         const leadPhone = result.phone || getPhoneValue(form);
         const leadFormId =
           form.querySelector("[name='_wpcf7']")?.value ||
@@ -542,7 +529,6 @@
           const isAmcWizard = Boolean(form.querySelector(".form-main .cf7-step"));
 
           pushFormSubmissionLead({
-            name: leadName,
             email: leadEmail,
             phone: leadPhone,
             formId: leadFormId,
@@ -550,9 +536,6 @@
             formName: leadFormName,
           });
           dispatchCf7MailSent(form, {
-            name: leadName,
-            email: leadEmail,
-            phone: leadPhone,
             formId: leadFormId,
             submissionId: data.submissionId || leadSubmissionId,
           });
