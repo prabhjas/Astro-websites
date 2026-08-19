@@ -9,6 +9,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageByPath } from "../lib/content";
 import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
 import { breadcrumbSchema } from "../lib/seo";
+import { preparePageFaqSchema } from "../lib/faq-schema";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -18,9 +19,16 @@ const page = getPageByPath(path);
 if (!page) return notFoundResponse();
 
 const rawHtml = ("bodyHtml" in page && page.bodyHtml) || page.content || "";
-const html = sanitizeMirrorHtml(
+const sanitizedHtml = sanitizeMirrorHtml(
   injectCanonicalCf7Forms(rawHtml, { path, variant: "contact" }),
 );
+const { html, schemas: faqSchemas } = preparePageFaqSchema(sanitizedHtml, page.seo.schemas || [], {
+  excludeSelectors: [
+    ".elementor-element-5043478",
+    ".elementor-element-c534661",
+    ".elementor-element-685810e",
+  ],
+});
 
 const crumbs = [
   { name: "Home", href: "/" },
@@ -42,7 +50,7 @@ const crumbs = [
     canonical: path,
     ogImage: page.seo.ogImage,
     schemas: [
-      ...(page.seo.schemas || []),
+      ...faqSchemas,
       breadcrumbSchema(crumbs.map((c) => ({ name: c.name, url: c.href || path }))),
     ],
   }}
