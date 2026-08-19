@@ -1,7 +1,9 @@
 /**
- * Site-wide — hide the security advisory bar on scroll down; show at top.
+ * Homepage only — hide the security advisory bar on scroll down; show at top.
  */
 (function () {
+  if (!document.body.classList.contains("home")) return;
+
   var threshold = 12;
   var ticking = false;
   var bar = document.getElementById("cr-home-announcement");
