@@ -58,3 +58,16 @@ select#cat.postform:focus {
     width: 100%;
   }
 }
+
+/* Insights Load More — AJAX loading state */
+.ecs-load-more-button.sp-load-more--loading .elementor-button {
+  opacity: 0.65;
+  pointer-events: none;
+  cursor: wait;
+}
+
+.ecs-load-more-button .elementor-button[aria-disabled="true"],
+.ecs-load-more-button button.elementor-button:disabled {
+  pointer-events: none;
+  cursor: wait;
+}
