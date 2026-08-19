@@ -13,7 +13,7 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css?v=navhash9';
+const HEADER_CSS_HREF = '/chrome/header-v2.css?v=navhash9';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 
 /** @type {string | null} */
