@@ -58,6 +58,67 @@ function absolutizeSeoUrls(html, slug) {
   return out;
 }
 
+const FAVICON_MARK = 'data-lla-favicon';
+
+/** Google requires a crawlable square icon ≥48px at a root URL (not /wp-content). */
+function ensureFaviconLinks(html) {
+  const block = `<link rel="icon" href="/favicon.ico" sizes="48x48" ${FAVICON_MARK}="1" />
+<link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+<link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+`;
+  let out = html.replace(/<link\b[^>]*rel=["'](?:shortcut )?icon["'][^>]*>/gi, '');
+  out = out.replace(/<link\b[^>]*rel=["']apple-touch-icon["'][^>]*>/gi, '');
+  if (out.includes(FAVICON_MARK)) return out;
+  if (/<\/head>/i.test(out)) return out.replace(/<\/head>/i, `${block}</head>`);
+  return block + out;
+}
+
+/**
+ * Yoast marked most WP pages as og:type=article. Keep article for blog posts;
+ * company/service pages (About Us, Services, etc.) must be website.
+ * @param {string} html
+ * @param {string} slug
+ */
+function correctOgType(html, slug) {
+  const s = String(slug || '').replace(/^\/+|\/+$/g, '');
+  let type = 'website';
+  if (s === 'author' || s.startsWith('author/')) type = 'profile';
+  else if (
+    /\bsingle\s+single-post\b/.test(html) ||
+    /itemtype=['"]https:\/\/schema\.org\/Blog['"]/i.test(html)
+  ) {
+    type = 'article';
+  }
+
+  const tag = `<meta property="og:type" content="${type}" />`;
+  if (/property=["']og:type["']/i.test(html)) {
+    return html.replace(/<meta\s+property=["']og:type["']\s+content=["'][^"']*["']\s*\/?>/i, tag);
+  }
+  if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, `${tag}\n</head>`);
+  return tag + html;
+}
+
+/**
+ * WP Rocket serves stylesheets as rel=preload (data-rocket-async).
+ * Convert them to real stylesheets so Elementor background images paint.
+ * @param {string} html
+ */
+function promoteRocketAsyncCss(html) {
+  return html.replace(
+    /<link([^>]*)\sdata-rocket-async="style"([^>]*)\sas="style"([^>]*)>/g,
+    (_match, pre, mid, post) => {
+      const attrs = `${pre} ${mid} ${post}`
+        .replace(/\s*data-rocket-async="style"/g, '')
+        .replace(/\s*as="style"/g, '')
+        .replace(/\s*onload="[^"]*"/g, '')
+        .replace(/\s*onerror="[^"]*"/g, '')
+        .replace(/\brel=['"]preload['"]/g, 'rel="stylesheet"');
+      return `<link${attrs}>`;
+    },
+  );
+}
+
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
@@ -69,7 +130,12 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(applySharedChrome(raw, slug));
+  let html = correctOgType(
+    promoteRocketAsyncCss(
+      ensureFaviconLinks(injectRuntimeGtmLoader(applySharedChrome(raw, slug))),
+    ),
+    slug,
+  );
 
 
   // Impreza blog pagination active/current styling (us-nav-style_6).
@@ -104,13 +170,13 @@ export function serveLegacyPage(slug) {
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js?v=20260810-faq1" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=20260817-aboutimg" defer></script>\n</body>',
     );
   } else {
     // Bust stale broken builds that browsers may have cached.
     html = html.replace(
       /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
-      '/js/astro-mirror-fixes.js?v=20260810-faq1',
+      '/js/astro-mirror-fixes.js?v=20260817-aboutimg',
     );
   }
 

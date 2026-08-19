@@ -2,7 +2,7 @@
  * Shared Elementor chrome fragments for KinzaHR.
  * Header/footer are theme-builder divs (data-elementor-type), not <header>/<footer> tags.
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -13,14 +13,18 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css';
+const HEADER_CSS_HREF = '/chrome/header.css?v=navhash1';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 const FORM_CSS_HREF = '/css/kinza-form-fix.css';
 const FORM_CSS_MARK = 'data-kinza-form-fix';
+const LICENCE_CSS_HREF = '/css/kinza-licence.css';
+const LICENCE_CSS_MARK = 'data-kinza-licence-css';
+const LICENCE_BAND_START = '<!-- kz-licence:start -->';
+const LICENCE_BAND_END = '<!-- kz-licence:end -->';
 
-/** @type {string | null} */
+/** @type {{ mtimeMs: number, html: string } | null} */
 let cachedHeader = null;
-/** @type {string | null} */
+/** @type {{ mtimeMs: number, html: string } | null} */
 let cachedFooter = null;
 /** @type {string | null} */
 let cachedHeaderCss = null;
@@ -87,29 +91,37 @@ function normalizeChromeFragment(html, attrSnippet) {
 }
 
 export function getSharedHeaderHtml() {
-  if (cachedHeader == null) {
-    if (!existsSync(HEADER_PATH)) {
-      throw new Error(`Shared header missing: ${HEADER_PATH}`);
-    }
-    cachedHeader = normalizeChromeFragment(
-      readFileSync(HEADER_PATH, 'utf8'),
-      'data-elementor-type="header"',
-    );
+  if (!existsSync(HEADER_PATH)) {
+    throw new Error(`Shared header missing: ${HEADER_PATH}`);
   }
-  return cachedHeader;
+  const mtimeMs = statSync(HEADER_PATH).mtimeMs;
+  if (cachedHeader == null || cachedHeader.mtimeMs !== mtimeMs) {
+    cachedHeader = {
+      mtimeMs,
+      html: normalizeChromeFragment(
+        readFileSync(HEADER_PATH, 'utf8'),
+        'data-elementor-type="header"',
+      ),
+    };
+  }
+  return cachedHeader.html;
 }
 
 export function getSharedFooterHtml() {
-  if (cachedFooter == null) {
-    if (!existsSync(FOOTER_PATH)) {
-      throw new Error(`Shared footer missing: ${FOOTER_PATH}`);
-    }
-    cachedFooter = normalizeChromeFragment(
-      readFileSync(FOOTER_PATH, 'utf8'),
-      'data-elementor-type="footer"',
-    );
+  if (!existsSync(FOOTER_PATH)) {
+    throw new Error(`Shared footer missing: ${FOOTER_PATH}`);
   }
-  return cachedFooter;
+  const mtimeMs = statSync(FOOTER_PATH).mtimeMs;
+  if (cachedFooter == null || cachedFooter.mtimeMs !== mtimeMs) {
+    cachedFooter = {
+      mtimeMs,
+      html: normalizeChromeFragment(
+        readFileSync(FOOTER_PATH, 'utf8'),
+        'data-elementor-type="footer"',
+      ),
+    };
+  }
+  return cachedFooter.html;
 }
 
 /**
@@ -201,7 +213,34 @@ function ensureHeaderCss(html) {
     const link = `<link rel="stylesheet" href="${FORM_CSS_HREF}" ${FORM_CSS_MARK}="1" />`;
     out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
   }
+  if (!out.includes(LICENCE_CSS_MARK) && !out.includes(LICENCE_CSS_HREF)) {
+    const link = `<link rel="stylesheet" href="${LICENCE_CSS_HREF}" ${LICENCE_CSS_MARK}="1" />`;
+    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
+  }
   return out;
+}
+
+function getLicenceBandHtml() {
+  const footer = getSharedFooterHtml();
+  const start = footer.indexOf(LICENCE_BAND_START);
+  const end = footer.indexOf(LICENCE_BAND_END);
+  if (start < 0 || end < 0) return '';
+  return footer.slice(start, end + LICENCE_BAND_END.length);
+}
+
+/**
+ * Nested service/industry mirrors keep their own Elementor footer, which the
+ * original licence-strip pass never reached. Inject the shared band when missing.
+ * @param {string} html
+ */
+function ensureLicenceBand(html) {
+  if (html.includes(LICENCE_BAND_START)) return html;
+  const band = getLicenceBandHtml();
+  if (!band) return html;
+  const idx = html.lastIndexOf('</footer>');
+  if (idx >= 0) return html.slice(0, idx) + `${band}\n` + html.slice(idx);
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, `${band}\n</body>`);
+  return html + band;
 }
 
 /**
@@ -283,12 +322,39 @@ function markCurrentMenuItem(headerHtml, slug) {
  * @param {string} html
  * @param {string} slug
  */
+/** Dropdown parents must not use href="#" in HTML (SEO). Keep the <a> so the submenu still opens.
+ *  Drop elementor-item-anchor so Elementor JS cannot put href="#" back. */
+function stripHashParentMenuLinks(html) {
+  return String(html).replace(/<a\b([^>]*?)>/gi, (tag, attrs) => {
+    const isMenu =
+      /\b(?:elementor-item|elementor-sub-item|elementor-item-anchor|e-n-menu-title-container|menu-link|w-nav-anchor|mega-menu-link)\b/.test(
+        attrs,
+      );
+    if (!isMenu) return tag;
+    let next = attrs;
+    let changed = false;
+    if (/\bhref\s*=\s*(["'])#\1/.test(next)) {
+      next = next.replace(/\s*href\s*=\s*(["'])#\1/, '');
+      if (!/\brole\s*=/.test(next)) next += ' role="button"';
+      if (!/\btabindex\s*=/.test(next)) next += ' tabindex="0"';
+      changed = true;
+    }
+    if (/\belementor-item-anchor\b/.test(next)) {
+      next = next.replace(/\s*\belementor-item-anchor\b/g, '');
+      changed = true;
+    }
+    if (!changed) return tag;
+    return '<a' + next + '>';
+  });
+}
+
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  const withMenuFix = stripHashParentMenuLinks(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(withMenuFix);
 
   const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
 
-  let out = ensureHeaderCss(html);
+  let out = ensureHeaderCss(withMenuFix);
   out = replaceThemeBuilderRegion(out, 'data-elementor-type="header"', headerHtml);
 
   // Only inject shared footer when the page has none (broken export).
@@ -304,5 +370,6 @@ export function applySharedChrome(html, slug) {
     }
   }
 
-  return out;
+  out = ensureLicenceBand(out);
+  return stripHashParentMenuLinks(out);
 }
