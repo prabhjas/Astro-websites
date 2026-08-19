@@ -4,7 +4,9 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
+import { sanitizeMirrorHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { normalizeLegacyDocumentUrls } from './legacy-page.js';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -449,7 +451,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     throw new Error('Blog shell missing. Run: npm run prepare:blog-shell');
   }
 
-  let html = readFileSync(SHELL_PATH, 'utf8');
+  let html = sanitizeMirrorHtml(normalizeLegacyDocumentUrls(readFileSync(SHELL_PATH, 'utf8')));
 
   html = html
     .replace('<!--ASTRO_BLOG:BREADCRUMB-->', buildBreadcrumbHtml(post))
@@ -748,13 +750,6 @@ export function buildCafLayout3CardHtml(post: BlogPost): string {
   const authorUrl = authorSlug ? `/author/${escapeHtml(authorSlug)}/` : '/author/';
   const dateDisplay = formatDate(post.publishedAt);
   const primary = post.categories[0];
-  const cats = post.categories
-    .slice(0, 3)
-    .map((c) => {
-      const slug = (c.slug || getCategorySlug(c)).toLowerCase();
-      return `<li><a href="/category/${escapeHtml(slug)}/">${escapeHtml(c.name)}</a></li>`;
-    })
-    .join('');
   const catIds = post.categories
     .map((c) => (c.slug || getCategorySlug(c) || '').toLowerCase())
     .filter(Boolean)
@@ -768,9 +763,9 @@ export function buildCafLayout3CardHtml(post: BlogPost): string {
 
   return `<article class="caf-post-layout3 caf-col-md-4 caf-col-md-tablet6 caf-col-md-mobile12 caf-mb-10" data-astro-cats="${escapeHtml(catIds)}">
   <div class="caf-post-layout3">
-    <a href="${postUrl}" class="caf-featured-img-box" ${bg} aria-label="${title}"></a>
-    <div id="manage-post-area">
-      <div class="caf-meta-content-cats"><ul>${cats}</ul>${badge}</div>
+    <a href="${postUrl}" class="caf-featured-img-box" ${bg} aria-label="${title}">&nbsp;</a>
+    <div class="manage-post-area" id="manage-post-area">
+      <div class="caf-meta-content-cats">${badge}</div>
       <div class="caf-post-title"><h2><a href="${postUrl}">${title}</a></h2></div>
       <div class="astro-caf-meta">By <a href="${authorUrl}">${authorName}</a> <span class="astro-caf-meta-sep">-</span> <span class="astro-caf-date">${CALENDAR_ICON_SVG} ${escapeHtml(dateDisplay)}</span></div>
     </div>

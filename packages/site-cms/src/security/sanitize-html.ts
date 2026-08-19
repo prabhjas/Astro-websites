@@ -118,6 +118,19 @@ export function sanitizeMirrorHtml(dirty: string): string {
   html = html.replace(/<base\b[^>]*>/gi, '');
   html = html.replace(/<meta\b[^>]*http-equiv\s*=\s*['"]?refresh['"]?[^>]*>/gi, '');
 
+  // Strip WordPress / Elementor / WP Rocket / WPML generator fingerprints.
+  html = html.replace(/<meta\b[^>]*name=["']generator["'][^>]*>/gi, '');
+  html = html.replace(
+    /<!--\s*This website is like a Rocket[\s\S]*?-->/gi,
+    '',
+  );
+  html = html.replace(/<!--\s*WP Rocket[\s\S]*?-->/gi, '');
+  // Drop WP Rocket beacon / lazy-load helper scripts that 404 on Astro.
+  html = html.replace(
+    /<script\b[^>]*(?:wpr-beacon|rocket-lazy|wp-rocket)[^>]*>[\s\S]*?<\/script>/gi,
+    '',
+  );
+
   return html;
 }
 
