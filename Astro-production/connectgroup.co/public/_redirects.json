@@ -5,6 +5,16 @@
     "status": 301
   },
   {
+    "from": "/dubai-mainland/",
+    "to": "/uae-mainland-company-setup/",
+    "status": 301
+  },
+  {
+    "from": "/dubai-mainland",
+    "to": "/uae-mainland-company-setup/",
+    "status": 301
+  },
+  {
     "from": "/dubai-free-zone/",
     "to": "/",
     "status": 301
