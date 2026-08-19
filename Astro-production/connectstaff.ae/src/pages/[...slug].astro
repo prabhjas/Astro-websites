@@ -6,12 +6,19 @@
  *
  * SSR so dashboard post edits are visible without a full rebuild.
  */
+import type { APIRoute } from 'astro';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { isPageSlug, isPostSlug } from '../lib/inventory.js';
 import { getBlogPost, serveBlogPost } from '../lib/blog.ts';
 import { serveLegacyPage } from '../lib/legacy-page.js';
 import { notFoundResponse } from '../lib/not-found.js';
+import { GET as robotsHandler } from './robots.txt.ts';
+import { GET as sitemapIndexHandler } from './sitemap_index.xml.ts';
+import { GET as pageSitemapHandler } from './page-sitemap.xml.ts';
+import { GET as postSitemapHandler } from './post-sitemap.xml.ts';
+import { GET as llmsHandler } from './llms.txt.ts';
+import { GET as llmHandler } from './llm.txt.ts';
 
 export const prerender = false;
 
@@ -19,6 +26,20 @@ const slugParam = Astro.params.slug;
 const slug = Array.isArray(slugParam) ? slugParam.join('/') : String(slugParam || '');
 if (!slug) {
   return notFoundResponse();
+}
+
+const seoHandlers: Record<string, APIRoute> = {
+  'robots.txt': robotsHandler,
+  'sitemap_index.xml': sitemapIndexHandler,
+  'page-sitemap.xml': pageSitemapHandler,
+  'post-sitemap.xml': postSitemapHandler,
+  'llms.txt': llmsHandler,
+  'llm.txt': llmHandler,
+};
+
+const seoHandler = seoHandlers[slug];
+if (seoHandler) {
+  return seoHandler(Astro);
 }
 
 const post = getBlogPost(slug);

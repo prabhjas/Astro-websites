@@ -9,8 +9,34 @@ export const SITEMAP_ENTRY_LIMIT = Number.parseInt(
   10,
 ) || 50000;
 
-/** Paths disallowed for crawlers (mirrors live WordPress robots.txt). */
-export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/', '/wp-admin/'] as const;
+/** Paths disallowed for crawlers (aligned with fleet SEO standard + live WP patterns). */
+export const ROBOTS_DISALLOW_PATHS = [
+  '/?s=',
+  '/page/*/?s=',
+  '/search/',
+  '/wp-json/',
+  '/?rest_route=',
+  '/wp-admin/',
+  '/wp-includes/',
+  '/tag/',
+  '/blog/page/',
+  '/category/',
+  '/*feed*/',
+  '/*rss*/',
+  '/cgi-bin/',
+  '/tmp/',
+  '/login',
+  '/register',
+  '/cart',
+  '/checkout',
+  '/my-account',
+  '/*cdn-cgi*/',
+  '/*.php$',
+  '/*.cgi$',
+  '/private/',
+  '/old-site-backups/',
+  '/*?replytocom=',
+] as const;
 
 /** Static page slugs excluded from the page sitemap (demo / internal). */
 export const EXCLUDED_PAGE_SLUGS = new Set([
