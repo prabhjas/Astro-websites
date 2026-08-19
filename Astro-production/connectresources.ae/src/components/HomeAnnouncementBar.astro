@@ -1,24 +1,23 @@
 ---
 /**
- * Homepage-only security advisory strip (above fixed header).
+ * Site-wide security advisory marquee (above fixed header).
  * Scroll hide/show is handled by /scripts/home-announcement-bar.js
  */
 ---
 
 <div class="cr-home-announcement-wrap" id="cr-home-announcement-wrap">
-  <aside
+  <div
     id="cr-home-announcement"
     class="cr-home-announcement"
     role="note"
     aria-label="Security advisory"
   >
-    <p class="cr-home-announcement__text">
-      Security Advisory: Fraudulent activity reported involving unauthorized parties
-      requesting payment on behalf of Connect Resources. Connect Resources does not solicit payment from
-      candidates or employees. Verify sender email addresses are from
-      <a class="cr-home-announcement__domain" href="mailto:info@connectresources.ae">@connectresources.ae</a>
-      or
-      <a class="cr-home-announcement__domain" href="mailto:info@connectgroup.co">@connectgroup.co</a>
-    </p>
-  </aside>
+    <div class="cr-marquee">
+      <div class="cr-marquee__track" aria-hidden="false">
+        <span class="cr-marquee__segment">🚨 Security Advisory: Fraudulent activity reported involving unauthorized parties requesting payment on behalf of Connect Resources. Connect Resources does not solicit payment from candidates or employees. Verify sender email addresses are from <a class="cr-marquee__link" href="mailto:info@connectresources.ae">@connectresources.ae</a> or <a class="cr-marquee__link" href="mailto:info@connectgroup.co">@connectgroup.co</a></span>
+        <span class="cr-marquee__segment" aria-hidden="true">🚨 Security Advisory: Fraudulent activity reported involving unauthorized parties requesting payment on behalf of Connect Resources. Connect Resources does not solicit payment from candidates or employees. Verify sender email addresses are from <a class="cr-marquee__link" href="mailto:info@connectresources.ae" tabindex="-1">@connectresources.ae</a> or <a class="cr-marquee__link" href="mailto:info@connectgroup.co" tabindex="-1">@connectgroup.co</a></span>
+        <span class="cr-marquee__segment" aria-hidden="true">🚨 Security Advisory: Fraudulent activity reported involving unauthorized parties requesting payment on behalf of Connect Resources. Connect Resources does not solicit payment from candidates or employees. Verify sender email addresses are from <a class="cr-marquee__link" href="mailto:info@connectresources.ae" tabindex="-1">@connectresources.ae</a> or <a class="cr-marquee__link" href="mailto:info@connectgroup.co" tabindex="-1">@connectgroup.co</a></span>
+      </div>
+    </div>
+  </div>
 </div>

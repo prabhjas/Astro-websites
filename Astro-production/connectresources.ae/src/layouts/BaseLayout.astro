@@ -59,7 +59,7 @@ const stylesheets = [
     ...extraCss,
     "/css/migration-overrides.css",
     "/css/menu-no-hash.css",
-    ...(showHomeAnnouncement ? ["/css/home-announcement-bar.css"] : []),
+    "/css/home-announcement-bar.css",
   ]),
 ];
 
@@ -83,7 +83,7 @@ const stylesheets = [
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
     <div class:list={["l-canvas", "type_wide", hideSiteChrome && "l-canvas--elementor-canvas"]}>
-      {showHomeAnnouncement ? <HomeAnnouncementBar /> : null}
+      {!hideSiteChrome ? <HomeAnnouncementBar /> : null}
       {!hideSiteChrome ? (
         <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
       ) : null}
@@ -95,6 +95,6 @@ const stylesheets = [
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
       <script src="/js/menu-no-hash.js" defer></script>
-    {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar.js" defer></script> : null}
+    {!hideSiteChrome ? <script src="/scripts/home-announcement-bar.js" defer></script> : null}
   </body>
 </html>
