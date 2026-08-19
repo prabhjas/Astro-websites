@@ -79,11 +79,27 @@ export type ServerEnv = {
   };
 };
 
+function required(name: string, value: string | undefined): string {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return trimmed;
+}
+
 function optionalInt(value: string | undefined): number | undefined {
   const trimmed = value?.trim();
   if (!trimmed) return undefined;
   const n = Number(trimmed);
   return Number.isFinite(n) ? n : undefined;
+}
+
+function requiredInt(name: string, value: string | undefined): number {
+  const n = optionalInt(value);
+  if (n === undefined) {
+    throw new Error(`Missing or invalid integer environment variable: ${name}`);
+  }
+  return n;
 }
 
 function parseIntList(value: string | undefined, fallback: number[]): number[] {
@@ -185,17 +201,18 @@ export function getServerEnv(): ServerEnv {
     internalUploadDir: env.INTERNAL_UPLOAD_DIR?.trim() || '.data/internal-uploads',
     internalUploadMaxFileBytes: optionalInt(env.INTERNAL_UPLOAD_MAX_FILE_BYTES) ?? 10 * 1024 * 1024,
     dashboardUsers: parseDashboardUsers(env.DASHBOARD_USERS_JSON),
-    // Blank token is intentional: FileLeadStore still accepts the lead; Pipedrive is skipped.
-    pipedriveApiToken: env.PIPEDRIVE_API_TOKEN?.trim() || '',
-    pipedriveCompanyDomain:
-      env.PIPEDRIVE_COMPANY_DOMAIN?.trim() || env.PIPEDRIVE_API_URL?.trim() || 'connectgroup2',
-    pipedriveOwnerId: optionalInt(env.PIPEDRIVE_OWNER_ID) ?? 0,
+    pipedriveApiToken: required('PIPEDRIVE_API_TOKEN', env.PIPEDRIVE_API_TOKEN),
+    pipedriveCompanyDomain: required(
+      'PIPEDRIVE_COMPANY_DOMAIN',
+      env.PIPEDRIVE_COMPANY_DOMAIN ?? env.PIPEDRIVE_API_URL,
+    ),
+    pipedriveOwnerId: requiredInt('PIPEDRIVE_OWNER_ID', env.PIPEDRIVE_OWNER_ID),
     pipedriveStageId: optionalInt(env.PIPEDRIVE_STAGE_ID),
     pipedrivePipelineId: optionalInt(env.PIPEDRIVE_PIPELINE_ID),
     pipedrivePersonLabelIds: parseIntList(env.PIPEDRIVE_PERSON_LABEL_IDS, [5]),
     pipedrivePersonVisibleTo: optionalInt(env.PIPEDRIVE_PERSON_VISIBLE_TO) ?? 3,
-    pipedriveLeadSourceId: optionalInt(env.PIPEDRIVE_LEAD_SOURCE_ID ?? env.FORM_SOURCE) ?? 270,
-    websiteId: optionalInt(env.WEBSITE_ID) ?? 4816,
+    pipedriveLeadSourceId: requiredInt('PIPEDRIVE_LEAD_SOURCE_ID', env.PIPEDRIVE_LEAD_SOURCE_ID ?? env.FORM_SOURCE),
+    websiteId: requiredInt('WEBSITE_ID', env.WEBSITE_ID),
     websiteName: env.WEBSITE_NAME?.trim() || 'Redo',
     formSource: env.FORM_SOURCE?.trim() || '270',
     formName: env.FORM_NAME?.trim() || 'Redo Contact Form',
