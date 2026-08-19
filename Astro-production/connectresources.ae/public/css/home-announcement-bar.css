@@ -1,59 +1,104 @@
 /*
- * Homepage-only security advisory bar (above fixed header).
+ * Homepage-only security advisory marquee (above fixed header).
  * Hidden on scroll via body.cr-announcement-hidden + home-announcement-bar.js
  */
+html:has(body.home) {
+  overflow-x: clip;
+}
+
 body.home {
-  --cr-announcement-height: 56px;
+  --cr-announcement-height: 36px;
 }
 
 body.home:not(.cr-announcement-hidden) {
   --header-height: calc(115px + var(--cr-announcement-height));
 }
 
+/* Wrapper — fixed, full-width, clips the marquee */
 body.home .cr-home-announcement-wrap {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10001;
-  max-height: 160px;
+  height: var(--cr-announcement-height);
   overflow: hidden;
-  transition: max-height 0.25s ease;
+  transition: height 0.25s ease;
   pointer-events: auto;
 }
 
 body.home.cr-announcement-hidden .cr-home-announcement-wrap {
-  max-height: 0;
+  height: 0;
   pointer-events: none;
 }
 
+/* Bar background */
 body.home .cr-home-announcement {
   display: flex;
   align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: var(--cr-announcement-height);
+  background: #480006;
+  overflow: hidden;
   box-sizing: border-box;
-  padding: 16px 40px;
-  background: #ffe3c9;
 }
 
-body.home .cr-home-announcement__text {
-  margin: 0 !important;
-  max-width: 1440px;
-  color: #552f0c !important;
+/* Marquee container */
+body.home .cr-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Scrolling track — 3 copies for seamless loop */
+body.home .cr-marquee__track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: cr-marquee-scroll 55s linear infinite;
+  will-change: transform;
+}
+
+/* Each text segment */
+body.home .cr-marquee__segment {
+  display: inline-block;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-left: 50vw;
+  color: #fff !important;
   font-family: Poppins, sans-serif !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-style: normal !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 150% !important;
-  text-align: center;
 }
 
-body.home .cr-home-announcement__domain {
-  color: #552f0c !important;
-  font-weight: 500 !important;
+@keyframes cr-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+/* Email links inside marquee */
+body.home .cr-marquee__link {
+  color: #fff !important;
+  font-weight: 600 !important;
   text-decoration: none;
 }
 
+body.home .cr-marquee__link:hover {
+  opacity: 0.85;
+}
+
+/* Pause on hover for readability */
+body.home .cr-home-announcement:hover .cr-marquee__track {
+  animation-play-state: paused;
+}
+
+/* Push header down when bar is visible */
 body.home .cr-site-header #page-header,
 body.home .cr-site-header .l-header {
   top: var(--cr-announcement-height);
@@ -68,11 +113,5 @@ body.home.cr-announcement-hidden .cr-site-header .l-header {
 @media (max-width: 900px) {
   body.home:not(.cr-announcement-hidden) {
     --header-height: calc(106px + var(--cr-announcement-height));
-  }
-}
-
-@media (max-width: 767px) {
-  body.home .cr-home-announcement {
-    padding: 12px 16px;
   }
 }
