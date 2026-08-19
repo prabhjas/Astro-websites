@@ -1,4 +1,67 @@
-/* Connect Staff shared header — primary look comes from theme/Elementor CSS */
+/* Connect Staff shared header — match live Elementor chrome */
+
+header[data-elementor-type="header"] .elementor-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+}
+
+/* Top contact bar: gradient spans the viewport; items stay in the 1200px row */
+header[data-elementor-type="header"] section.bg_r {
+  width: 100% !important;
+  max-width: 100% !important;
+  background: linear-gradient(90deg, #04c2cd 0%, #4d47f3 43.75%, #7d2ae7 100%) !important;
+}
+
+header[data-elementor-type="header"] section.bg_r > .elementor-container {
+  background: transparent !important;
+}
+
+header[data-elementor-type="header"] .elementor-widget-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+header[data-elementor-type="header"] img {
+  display: block;
+  width: auto;
+  max-width: 137px;
+  height: auto;
+}
+
+header[data-elementor-type="header"] ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header[data-elementor-type="header"] .elementor-nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+@media (max-width: 1024px) {
+  header[data-elementor-type="header"] .elementor-nav-menu--main {
+    display: none;
+  }
+
+  header[data-elementor-type="header"] .elementor-menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  header[data-elementor-type="header"] .elementor-container {
+    padding: 10px 14px;
+  }
+}
 
 /* nav-submenu-hash-fix: hide the hash Elementor paints on submenu hover.
    Pointer underlines stay (they are empty boxes with a background). */

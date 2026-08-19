@@ -6,6 +6,30 @@ import { getServerEnv } from './env/server';
 import { logInfo } from './services/logger';
 import { readRuntimeRedirects, readCanonicalRedirectsYaml, recordRedirectHit } from './lib/runtime-redirects/store';
 
+const CSP_REPORT_ONLY = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'self'",
+  "form-action 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://*.doubleclick.net",
+  "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.googletagmanager.com",
+  "media-src 'self'",
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+].join('; ');
+
+function addReportOnlyCsp(response: Response): Response {
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.toLowerCase().includes('text/html')) return response;
+  response.headers.set('Content-Security-Policy-Report-Only', CSP_REPORT_ONLY);
+  return response;
+}
+
 function normalisePath(pathname: string): string {
   if (!pathname || pathname === '/') return '/';
   return pathname.endsWith('/') ? pathname : `${pathname}/`;
@@ -104,5 +128,5 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
-  return response;
+  return addReportOnlyCsp(response);
 });
