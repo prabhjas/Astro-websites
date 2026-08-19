@@ -1,4 +1,4 @@
-import { load, type Cheerio, type Element } from "cheerio";
+import { load, type Cheerio } from "cheerio";
 
 export type FaqItem = {
   name: string;
@@ -76,7 +76,7 @@ function parseJsonLdBlock(block: string): unknown {
   }
 }
 
-function extractElementorFaqs($: ReturnType<typeof load>, root: Cheerio<Element>): FaqItem[] {
+function extractElementorFaqs($: ReturnType<typeof load>, root: Cheerio<any>): FaqItem[] {
   const items: FaqItem[] = [];
   const seen = new Set<string>();
 
@@ -98,7 +98,7 @@ function extractElementorFaqs($: ReturnType<typeof load>, root: Cheerio<Element>
   return items;
 }
 
-function extractFaqOrderedList($: ReturnType<typeof load>, root: Cheerio<Element>): FaqItem[] {
+function extractFaqOrderedList($: ReturnType<typeof load>, root: Cheerio<any>): FaqItem[] {
   const items: FaqItem[] = [];
   const seen = new Set<string>();
 
@@ -139,7 +139,7 @@ function extractFaqOrderedList($: ReturnType<typeof load>, root: Cheerio<Element
   return items;
 }
 
-function extractHeadingFaqs($: ReturnType<typeof load>, root: Cheerio<Element>): FaqItem[] {
+function extractHeadingFaqs($: ReturnType<typeof load>, root: Cheerio<any>): FaqItem[] {
   const items: FaqItem[] = [];
   const seen = new Set<string>();
   const scoped = root.find(
