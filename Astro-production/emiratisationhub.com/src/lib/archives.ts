@@ -25,7 +25,7 @@ import {
 const ROOT = process.cwd();
 const INSIGHTS_PATH = join(ROOT, 'src/legacy/blog.cleaned.html');
 const TAG_SHELL_PATH = join(ROOT, 'src/legacy/tag-shell/template.html');
-const ORIGIN = '';
+const ORIGIN = (process.env.PUBLIC_SITE_URL || 'https://emiratisationhub.com').replace(/\/$/, '');
 
 export interface ArchivePageData {
   type: 'blog' | 'category' | 'tag';
@@ -125,6 +125,42 @@ html body.elementor-page-blog{
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .elementor-1985 .elementor-post-info{font-size:13px;color:#6b7280;}
+/* Stabilize blog meta row layout even when icon fonts fail */
+.elementor-1975 .elementor-post-info .elementor-icon-list-items,
+.elementor-1985 .elementor-post-info .elementor-icon-list-items{
+  display:flex !important;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px;
+  margin:0;
+  padding:0;
+}
+.elementor-1975 .elementor-post-info .elementor-icon-list-item,
+.elementor-1985 .elementor-post-info .elementor-icon-list-item{
+  display:inline-flex !important;
+  align-items:center;
+  margin:0 !important;
+  padding:0 !important;
+  position:static;
+}
+.elementor-1975 .elementor-post-info .elementor-icon-list-item::after,
+.elementor-1985 .elementor-post-info .elementor-icon-list-item::after{
+  content:none !important;
+  display:none !important;
+}
+.elementor-1975 .elementor-post-info .elementor-icon-list-icon,
+.elementor-1985 .elementor-post-info .elementor-icon-list-icon{
+  display:none !important;
+}
+.elementor-1975 .elementor-post-info .elementor-repeater-item-b4b5bd9::before,
+.elementor-1985 .elementor-post-info .elementor-repeater-item-b4b5bd9::before{
+  content:"•";
+  display:inline-block;
+  margin-right:6px;
+  color:#6b7280;
+  font-size:12px;
+  line-height:1;
+}
 /* Match Elementor posts widgets: featured=1 col, side grid=2 cols */
 .elementor-grid-1 .ecs-posts.elementor-posts-container.elementor-grid{
   display:grid !important;
@@ -144,6 +180,20 @@ body.elementor-page-blog .elementor-pagination{display:none !important;}
 .catbutton .filter-button.active,.catbutton .filter-button.is-active{
   background:#57820C !important;color:#fff !important;border-color:#57820C !important;
 }
+/* Blog page content width (live featured row was 1300px; target 1280px) */
+body.page-id-1199 .elementor-1199 > .elementor-section > .elementor-container,
+body.elementor-page-1199 .elementor-1199 > .elementor-section > .elementor-container,
+body.page-id-blog .elementor-1199 > .elementor-section > .elementor-container,
+body.elementor-page-blog .elementor-1199 > .elementor-section > .elementor-container{
+  max-width:1280px !important;
+}
+.astro-blog-load-more-wrap{text-align:center;margin:32px 0 8px;}
+.astro-blog-load-more{
+  color:#4A4A4A;font-family:Poppins,sans-serif;font-size:14px;font-weight:600;line-height:20.5px;
+  border-radius:100px;border:1px solid #D9D9D9;padding:12px 32px;background:#fff;cursor:pointer;
+}
+.astro-blog-load-more:hover{background:#121212;color:#fff;border-color:#121212;}
+.astro-blog-load-more.is-hidden{display:none!important;}
 .astro-archive-heading{font-size:1.75rem;font-weight:700;margin:0 0 1.5rem;color:#070c13}
 </style>`;
 
@@ -220,18 +270,10 @@ function normalizeArchiveHtml(html: string): string {
     .replace(/https:\/\/(?:www\.)?emiratisationhub\.com\//g, '/')
     .replace(/http:\/\/(?:www\.)?emiratisationhub\.com\//g, '/');
 
-  // WP Rocket deferred stylesheets → immediate stylesheets
+  // Keep FA/eicons links but normalize WP Rocket min-cache paths to canonical plugin paths.
   out = out.replace(
-    /<link([^>]*)\sdata-rocket-async="style"([^>]*)\sas="style"([^>]*)>/g,
-    (_match, pre, mid, post) => {
-      let attrs = `${pre} ${mid} ${post}`
-        .replace(/\s*data-rocket-async="style"/g, '')
-        .replace(/\s*as="style"/g, '')
-        .replace(/\s*onload="[^"]*"/g, '')
-        .replace(/\s*onerror="[^"]*"/g, '')
-        .replace(/\brel=['"]preload['"]/g, 'rel="stylesheet"');
-      return `<link${attrs}>`;
-    },
+    /\/wp-content\/cache\/min\/\d+\/wp-content\/plugins\/elementor\/assets\/lib\/(font-awesome|eicons)\//gi,
+    '/wp-content/plugins/elementor/assets/lib/$1/',
   );
 
   out = out.replace(/<img\b([^>]*)\/?>/gi, (full, attrs) => {
@@ -240,8 +282,8 @@ function normalizeArchiveHtml(html: string): string {
       attrs.match(/(?:^|\s)data-src=(['"])(.*?)\1/i);
     if (!lazySrc) return full;
     let next = String(attrs).replace(/\/\s*$/, '').trimEnd();
-    if (/(?:^|\s)src=(['"])/.test(next)) {
-      next = next.replace(/(?:^|\s)src=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}src=${q}${lazySrc[2]}${q}`);
+    if (/(?<![a-z-])src=(['"])/i.test(next)) {
+      next = next.replace(/(?<![a-z-])src=(['"])(.*?)\1/i, (_m, q) => `src=${q}${lazySrc[2]}${q}`);
     } else {
       next += ` src="${lazySrc[2]}"`;
     }
@@ -249,8 +291,8 @@ function normalizeArchiveHtml(html: string): string {
       next.match(/\bdata-lazy-srcset=(['"])(.*?)\1/i) ||
       next.match(/(?:^|\s)data-srcset=(['"])(.*?)\1/i);
     if (lazySrcset) {
-      if (/(?:^|\s)srcset=(['"])/.test(next)) {
-        next = next.replace(/(?:^|\s)srcset=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}srcset=${q}${lazySrcset[2]}${q}`);
+      if (/(?<![a-z-])srcset=(['"])/i.test(next)) {
+        next = next.replace(/(?<![a-z-])srcset=([''])(.*?)\1/i, (_m, q) => `srcset=${q}${lazySrcset[2]}${q}`);
       } else {
         next += ` srcset="${lazySrcset[2]}"`;
       }
@@ -264,6 +306,24 @@ function normalizeArchiveHtml(html: string): string {
       .replace(/\bswiper-lazy\b/g, '');
     return `<img ${next.trim()} />`;
   });
+
+  // Remove WP Rocket bootstrap that hijacks DOMContentLoaded/load events
+  out = out.replace(/<script[^>]*>\s*\(?\(\)\s*=>\s*\{class RocketLazyLoadScripts[\s\S]*?RocketLazyLoadScripts\.run\(\)\s*\}\s*\)?\(\)\s*;?\s*<\/script>/i, '');
+  out = out.replace(/<script>\s*var rocket_beacon_data[\s\S]*?<\/script>\s*<script[^>]*wpr-beacon[^>]*><\/script>\s*<script>[\s\S]*?wprRemoveCPCSS[\s\S]*?<\/script>/i, '');
+
+  // WP Rocket deferred JS → real scripts
+  out = out.replace(
+    /<script\b([^>]*)\btype=["']rocketlazyloadscript["']([^>]*)>/gi,
+    (_m, pre, post) => {
+      let attrs = `${pre}${post}`
+        .replace(/\sdata-rocket-src=["']([^"']*)["']/gi, ' src="$1"')
+        .replace(/\sdata-rocket-defer\b/gi, ' defer');
+      return `<script${attrs}>`;
+    },
+  );
+
+  // Handle data-rocket-type
+  out = out.replace(/\sdata-rocket-type=["']([^"']*)["']/gi, ' type="$1"');
 
   // Ensure loop CSS for blog cards is present
   if (!/post-1975\.css/i.test(out)) {
@@ -279,12 +339,30 @@ function normalizeArchiveHtml(html: string): string {
     );
   }
 
+  out = out.replace(
+    /\/wp-content\/plugins\/elementor\/assets\/lib\/css\/elementor-icons\.min\.css/gi,
+    '/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css',
+  );
+
+  const iconCss = [
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css',
+    '/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css',
+  ];
+  for (const href of iconCss) {
+    if (!out.includes(href)) {
+      out = out.replace(/<\/head>/i, `<link rel="stylesheet" href="${href}" />\n</head>`);
+    }
+  }
+
   return out;
 }
 
 /** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
+  const $ = cheerio.load(html);
   const loopContainer = $('.elementor-loop-container.elementor-grid').first();
 
   if (loopContainer.length) {
@@ -309,6 +387,12 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
   // "Latest Blogs" lists all posts with client-side filters).
   if (data.type === 'blog') {
     $('.elementor-pagination').remove();
+    const filterPost = $('.filter-post').first();
+    if (filterPost.length && !filterPost.next('.astro-blog-load-more-wrap').length) {
+      filterPost.after(
+        '<div class="astro-blog-load-more-wrap"><button type="button" class="astro-blog-load-more btn btn-default" data-astro-blog-load-more>Load More</button></div>',
+      );
+    }
   } else {
     const pagination = buildPaginationHtmlForArchive(data);
     const pagNav = $('.elementor-pagination').first();
@@ -333,10 +417,27 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
   $('head').append([getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n'));
 
   if (!$('script[src*="astro-mirror-fixes.js"]').length) {
-    $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260730-nav" defer></script>');
+    $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>');
   }
 
-  return injectRuntimeGtmLoader(applySharedChrome($.html(), data.type === 'blog' ? 'blog' : 'default'));
+  let result = injectRuntimeGtmLoader(applySharedChrome($.html(), data.type === 'blog' ? 'blog' : 'default'));
+  const fixStyles = [getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n');
+  if (fixStyles && !result.includes('astro-archive-fix-css')) {
+    if (/<\/head>/i.test(result)) {
+      result = result.replace(/<\/head>/i, `${fixStyles}\n</head>`);
+    } else if (/<body\b/i.test(result)) {
+      result = result.replace(/<body\b/i, `${fixStyles}\n<body`);
+    } else {
+      result = `${fixStyles}\n${result}`;
+    }
+  }
+  if (result.includes('astro-mirror-fixes.js') && !result.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    result = result.replace(
+      /astro-mirror-fixes\.js(?:\?[^"']*)?/g,
+      'astro-mirror-fixes.js?v=20260819-icons3',
+    );
+  }
+  return result;
 }
 
 /** Tag pages use live Elementor archive template 24660 (archive_cards skin). */
@@ -359,7 +460,9 @@ function assembleTagHtml(data: ArchivePageData): string {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>\n</body>');
+  } else if (!html.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
   return injectRuntimeGtmLoader(html);
@@ -375,11 +478,13 @@ function patchArchiveMeta(html: string, data: ArchivePageData): string {
 
   out = out.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
 
-  if (out.includes('name="description"')) {
+  if (/<meta\s+name=["']description["']/i.test(out)) {
     out = out.replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
       `<meta name="description" content="${escapeHtml(data.description)}" />`,
     );
+  } else {
+    out = out.replace('</head>', `<meta name="description" content="${escapeHtml(data.description)}" />\n</head>`);
   }
 
   if (out.includes('rel="canonical"')) {
