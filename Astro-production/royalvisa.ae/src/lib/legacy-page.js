@@ -1,3 +1,4 @@
+// Post-release Cloudflare cache: rely on astro-cloudflare-purge after publish (Aaron auto purge).
 import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 /**
  * Serve a Phase 1 cleaned WordPress HTML mirror from src/legacy/<slug>.cleaned.html

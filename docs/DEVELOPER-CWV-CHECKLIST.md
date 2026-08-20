@@ -55,13 +55,31 @@ After build, the publisher runs canary checks (homepage loads, correct status co
 
 - [ ] **No untracked or modified files** on the host at publish time. If you see `BLOCKED: development worktree must be clean`, remove or commit stray files.
 
-### A7. Static Asset Caching (Caddy)
+### A7. Cloudflare cache (use auto purge — do not invent v2 renames)
 
-Live Caddy may serve stale versions of CSS/JS files. If your changes to existing static files don't appear on live:
+Aaron installed post-release Cloudflare purge. **Use that**, not filename cache-busting, as the default.
 
-- [ ] **Cache-bust by renaming the file** — e.g., `migration-overrides.css` → `migration-overrides-v2.css`. Update all references in layouts/components.
-- [ ] **New files are always served fresh** — only existing filenames can be stale.
-- [ ] **Verify after deploy** — `curl -sS -o /dev/null -w "%{size_download}" https://site.com/css/your-file.css` should match local file size.
+**Normal deploy flow (presentation lane):**
+
+1. Fix the real files (same CSS/JS/image paths).
+2. Signed commit on host `astro-fleet-development`.
+3. `sudo /usr/local/sbin/astro-fleet-release publish`
+4. Auto hook `astro-fleet-cloudflare-purge.path` runs `astro-cloudflare-purge after-release` for accepted sites.
+5. Verify live URLs after purge.
+
+**Do not (default):**
+
+- Rename `file.css` → `file-v2.css` / `runtime-gtm.js` → `runtime-gtm-v2.js` just to bypass cache
+- invent rsync/Caddy reloads
+
+**If still stale after publish + auto purge:** escalate to Aaron (Caddy/origin cache policy or manual zone purge). Only use a path rename as a last resort with explicit approval.
+
+**Manual purge (Aaron/root only — `webdev` cannot sudo this):**
+
+```bash
+sudo /usr/local/sbin/astro-cloudflare-purge site <site_id> --release-default --reason "describe why"
+# examples: alburaq | connectstaff | lladesigners | royalvisa | kinzahr | connecthr
+```
 
 ---
 
@@ -134,6 +152,19 @@ git diff --cached --stat | grep 'Bin 0 ->'
 # Review any new binary files for size
 ```
 
+### Deploy + Cloudflare auto purge (host)
+
+```bash
+cd /opt/Astro-development
+# branch must be astro-fleet-development; worktree clean; SSH-signed commit
+sudo /usr/local/sbin/astro-fleet-release publish
+# After success: astro-fleet-cloudflare-purge.path auto-runs
+#   /usr/local/sbin/astro-cloudflare-purge after-release
+# Verify live pages/assets. Do not rename to *-v2 by default.
+```
+
+`webdev` cannot run `astro-cloudflare-purge` manually (root-only). Publish is what triggers auto purge.
+
 ---
 
 ## Part D — Aaron's Speed Passes Reference
@@ -178,7 +209,7 @@ These optimizations are already applied. **Do not revert them.** If you touch th
 | `live frontend proof failed` | Canary homepage check fails | Ensure site builds and serves homepage with 200 |
 | `worktree must be clean` | Untracked/modified files on host | `git clean -fd` or commit/remove stray files |
 | `networkless build failed` | Build error (missing deps, type errors) | Build locally first with `pnpm run build` |
-| Stale CSS/JS on live | Caddy serving cached old file | Rename file to v2, update all references |
+| Stale CSS/JS on live | Cloudflare/origin still serving old asset | After publish, rely on auto CF purge; verify; escalate to Aaron if still stale — do not default to `*-v2` renames |
 
 ---
 

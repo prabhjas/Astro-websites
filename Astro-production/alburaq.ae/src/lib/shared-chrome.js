@@ -2,6 +2,7 @@
  * Shared Elementor chrome fragments for Al Buraq.
  * Header/footer are theme-builder divs (data-elementor-type), not <header>/<footer> tags.
  */
+// Post-release Cloudflare cache: rely on astro-cloudflare-purge after publish (Aaron auto purge).
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
