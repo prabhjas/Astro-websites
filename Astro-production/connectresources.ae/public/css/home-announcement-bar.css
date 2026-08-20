@@ -14,7 +14,7 @@ body.home:not(.cr-announcement-hidden) {
   --header-height: calc(115px + var(--cr-announcement-height));
 }
 
-/* Wrapper — fixed, full-width, clips the marquee */
+/* Wrapper — fixed, full-width, slides off-screen when hidden */
 body.home .cr-home-announcement-wrap {
   position: fixed;
   top: 0;
@@ -23,12 +23,13 @@ body.home .cr-home-announcement-wrap {
   z-index: 10001;
   height: var(--cr-announcement-height);
   overflow: hidden;
-  transition: height 0.25s ease;
+  transform: translateY(0);
+  transition: transform 0.25s ease;
   pointer-events: auto;
 }
 
 body.home.cr-announcement-hidden .cr-home-announcement-wrap {
-  height: 0;
+  transform: translateY(-100%);
   pointer-events: none;
 }
 
@@ -37,7 +38,8 @@ body.home .cr-home-announcement {
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--cr-announcement-height);
+  min-height: var(--cr-announcement-height);
+  padding: 8px 0;
   background: #480006;
   overflow: hidden;
   box-sizing: border-box;
