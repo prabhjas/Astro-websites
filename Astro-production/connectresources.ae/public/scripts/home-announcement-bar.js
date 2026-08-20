@@ -7,12 +7,15 @@
   var threshold = 12;
   var ticking = false;
   var bar = document.getElementById("cr-home-announcement");
+  var cachedHeight = 0;
 
   function measure() {
     if (!bar) return;
-    var hidden = document.body.classList.contains("cr-announcement-hidden");
-    var h = hidden ? 0 : bar.offsetHeight;
-    if (!hidden && h < 1) h = bar.scrollHeight;
+    var h = bar.scrollHeight;
+    if (h < 1) h = bar.offsetHeight;
+    if (h < 1) h = 36;
+    if (h === cachedHeight) return;
+    cachedHeight = h;
     document.body.style.setProperty("--cr-announcement-height", h + "px");
   }
 
@@ -20,7 +23,6 @@
     ticking = false;
     var y = window.scrollY || document.documentElement.scrollTop || 0;
     document.body.classList.toggle("cr-announcement-hidden", y > threshold);
-    measure();
   }
 
   function onScroll() {
@@ -29,7 +31,13 @@
     requestAnimationFrame(sync);
   }
 
+  measure();
   sync();
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(measure);
+  }
+
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", measure, { passive: true });
 })();
