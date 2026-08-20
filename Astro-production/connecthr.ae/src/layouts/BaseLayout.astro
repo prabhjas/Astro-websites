@@ -80,7 +80,7 @@ const stylesheets = [
     <script is:inline define:vars={{ contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/" }}>
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
-    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    <script src="/runtime-gtm-v2.js" defer data-runtime-gtm="1"></script>
   </head>
   <body
     class:list={[
