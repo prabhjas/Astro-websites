@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
-import { resolveInternalAdminDir } from "../env/server";
-import { resolveEffectiveGtmConfig, snippetsFromGtmId } from "../lib/gtm/store";
+import { snippetsFromGtmId } from "../lib/gtm/store";
 
 export const prerender = false;
 
@@ -16,19 +15,12 @@ export const GET: APIRoute = async () => {
   let bodyHtml = "";
   let footerScript = "";
   try {
-    const config = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
-    // FLOW-saved gtm.json still wins. Otherwise force the official single
-    // container — live env was still injecting GTM-P7XTGMV3 + GTM-5WFZ2Z2.
-    if (config.source === "file") {
-      headScript = config.headScript;
-      bodyHtml = config.bodyHtml;
-      footerScript = config.footerScript;
-    } else {
-      const official = snippetsFromGtmId(OFFICIAL_GTM_ID);
-      headScript = official.headScript;
-      bodyHtml = official.bodyHtml;
-      footerScript = official.footerScript;
-    }
+    // Always inject the official single container for this site.
+    // Live env / FLOW previously injected GTM-P7XTGMV3 + GTM-5WFZ2Z2.
+    const official = snippetsFromGtmId(OFFICIAL_GTM_ID);
+    headScript = official.headScript;
+    bodyHtml = official.bodyHtml;
+    footerScript = official.footerScript;
   } catch {
     /* public loader must stay resilient */
   }
