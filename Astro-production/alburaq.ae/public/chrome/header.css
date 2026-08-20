@@ -1,7 +1,6 @@
 /* Al Buraq shared header — primary look comes from Astra/Elementor CSS */
 
-/* nav-submenu-hash-fix: hide the hash Elementor paints on submenu hover.
-   Pointer underlines stay (they are empty boxes with a background). */
+/* Hide hash/caret junk Elementor paints on menu labels. */
 .elementor-nav-menu--main a.elementor-item-anchor::before,
 .elementor-nav-menu--main a.elementor-item-anchor::after,
 .elementor-nav-menu a.elementor-item-anchor::before,
@@ -21,9 +20,12 @@
 .e-n-menu-content a.e-link::after,
 .e-n-menu-dropdown-menu a::before,
 .e-n-menu-dropdown-menu a::after {
-  content: "" !important;
-  color: transparent !important;
-  font-size: 0 !important;
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  border: 0 !important;
 }
 
 .elementor-nav-menu .menu-item-has-children > a:not([href]),
@@ -32,4 +34,55 @@
 .main-header-menu .menu-item-has-children > a.menu-link:not([href]),
 .w-nav-list .menu-item-has-children > a.w-nav-anchor:not([href]) {
   cursor: pointer;
+}
+
+/* Desktop header: pin primary nav to the right of the dark bar */
+@media (min-width: 1025px) {
+  .elementor-25 .elementor-element-146a617 .elementor-nav-menu--main.elementor-nav-menu--layout-horizontal,
+  .elementor-25 .elementor-element-146a617 .elementor-nav-menu--main.elementor-nav-menu--layout-horizontal .elementor-nav-menu {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  /* Nested desktop flyout: PAYROLL sits to the right of OUTSOURCING */
+  .elementor-nav-menu--main .sub-menu {
+    overflow: visible !important;
+  }
+  .elementor-nav-menu--main .sub-menu > .menu-item-has-children {
+    position: relative !important;
+  }
+  .elementor-nav-menu--main .sub-menu > .menu-item-has-children > .sub-menu {
+    display: none !important;
+    position: absolute !important;
+    left: 100% !important;
+    right: auto !important;
+    top: 0 !important;
+    margin: 0 !important;
+    z-index: 10000 !important;
+    min-width: max-content;
+  }
+  .elementor-nav-menu--main .sub-menu > .menu-item-has-children:hover > .sub-menu,
+  .elementor-nav-menu--main .sub-menu > .menu-item-has-children.highlighted > .sub-menu {
+    display: block !important;
+  }
+}
+
+/* Mobile overlay: even rows, no pointer-underline slash through labels */
+@media (max-width: 1024px) {
+  .elementor-nav-menu--dropdown a.elementor-item,
+  .elementor-nav-menu--dropdown a.elementor-sub-item {
+    position: relative;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    line-height: 1.4;
+  }
+  .elementor-nav-menu--dropdown .sub-menu {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  .elementor-25 .elementor-element-04a4e5f .elementor-nav-menu__container.elementor-nav-menu--dropdown {
+    margin-top: 0 !important;
+  }
 }

@@ -13,9 +13,29 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
-const HOME_PERF_MARK = 'data-connectstaff-home-perf="20260814"';
-const HOME_CRITICAL_MARK = 'data-connectstaff-home-critical="20260814"';
+const HOME_PERF_MARK = 'data-connectstaff-home-perf="20260818h"';
+const HOME_CRITICAL_MARK = 'data-connectstaff-home-critical="20260818h"';
 const HOME_DEFERRED_CSS_MARK = 'data-connectstaff-home-deferred-css';
+const HOME_HEADER_CSS_HREF = '/chrome/header-v2.css?v=navhash9';
+/** Stylesheets required for above-the-fold header — must not be deferred (prevents reload FOUC). */
+const HOME_HEADER_STYLESHEET_IDS = new Set([
+  'elementor-frontend-css',
+  'elementor-post-635-css',
+  'elementor-post-24-css',
+  'widget-nav-menu-css',
+  'widget-image-css',
+  'e-sticky-css',
+  'elementor-icons-css',
+  'ecs-container-layout-css',
+  'ecs-mobile-menu-css',
+  'ecs-styles-css',
+  'elementor-gf-local-inter-css',
+  'font-awesome-5-all-css',
+  'font-awesome-css',
+  'elementor-icons-shared-0-css',
+  'elementor-icons-fa-solid-css',
+  'elementor-icons-fa-regular-css',
+]);
 const HOME_STAFF_PRELOADS = [
   '<link rel="preload" as="image" href="/wp-content/uploads/2024/07/staff-1.webp" type="image/webp" fetchpriority="high">',
   '<link rel="preload" as="image" href="/wp-content/uploads/2024/07/staff-2.webp" type="image/webp" fetchpriority="high">',
@@ -29,6 +49,8 @@ a{color:inherit;text-decoration:none}
 header[data-elementor-type="header"]{position:relative;z-index:20;background:#fff}
 header[data-elementor-type="header"] .elementor-section{width:100%}
 header[data-elementor-type="header"] .elementor-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:12px 16px}
+header[data-elementor-type="header"] section.bg_r{width:100%!important;max-width:100%!important;background:linear-gradient(90deg,#04C2CD 0%,#4D47F3 43.75%,#7D2AE7 100%)!important}
+header[data-elementor-type="header"] section.bg_r>.elementor-container{background:transparent!important}
 header[data-elementor-type="header"] .elementor-widget-wrap{display:flex;align-items:center;gap:20px;width:100%}
 header[data-elementor-type="header"] img{display:block;width:auto;max-width:137px;height:auto}
 header[data-elementor-type="header"] ul{list-style:none;margin:0;padding:0}
@@ -40,7 +62,7 @@ header[data-elementor-type="header"] .elementor-menu-toggle{display:none}
 .elementor{box-sizing:border-box}
 .elementor *,.elementor :after,.elementor :before{box-sizing:border-box}
 .elementor-section{position:relative}
-.elementor-section .elementor-container{display:flex;position:relative;margin-left:auto;margin-right:auto;max-width:1200px}
+.elementor-19889 .elementor-section .elementor-container{display:flex;position:relative;margin-left:auto;margin-right:auto;max-width:1200px}
 .elementor-column{position:relative;display:flex;min-height:1px}
 .elementor-col-100{width:100%}
 .elementor-col-50{width:50%}
@@ -78,7 +100,7 @@ header[data-elementor-type="header"] .elementor-menu-toggle{display:none}
 @media (max-width:767px){
   .elementor-hidden-mobile{display:none!important}
   header[data-elementor-type="header"] .elementor-container{padding:10px 14px}
-  .elementor-section .elementor-container{display:block}
+  .elementor-19889 .elementor-section .elementor-container{display:block}
   .elementor-col-50{width:100%}
   .elementor-19889 .elementor-element.elementor-element-5234bc3>.elementor-container{min-height:250px}
   .elementor-19889 .elementor-element.elementor-element-562bca4{padding:50px 10px 40px}
@@ -106,7 +128,19 @@ function attrValue(tag, name) {
   return tag.match(new RegExp(`\\s${name}=(["'])(.*?)\\1`, 'i'))?.[2] || '';
 }
 
+function isHomepageHeaderStylesheet(tag) {
+  const id = attrValue(tag, 'id');
+  if (id && HOME_HEADER_STYLESHEET_IDS.has(id)) return true;
+  const href = attrValue(tag, 'href').toLowerCase();
+  if (!href) return false;
+  if (href.includes('/elementor/css/post-635.css')) return true;
+  if (href.includes('/chrome/header-v2.css') || href.includes('/chrome/header.css')) return true;
+  if (href.includes('font-awesome')) return true;
+  return false;
+}
+
 function deferHomepageStylesheetTag(tag) {
+  if (isHomepageHeaderStylesheet(tag)) return tag;
   if (!attrValue(tag, 'href')) return tag;
   if (new RegExp(`${HOME_DEFERRED_CSS_MARK}=`, 'i').test(tag)) return tag;
   if (/data-astro-deferred-css=/i.test(tag)) return tag;
@@ -156,8 +190,101 @@ function applyHomepagePerformanceCanary(html) {
     return href && !next.includes(`href="${href}"`);
   }).join('\n');
   next = insertBeforeHeadClose(next, preloadFragment);
+  if (!next.includes(HOME_HEADER_CSS_HREF)) {
+    next = insertBeforeHeadClose(
+      next,
+      `<link rel="stylesheet" href="${HOME_HEADER_CSS_HREF}" data-connectstaff-home-header-css="1" />`,
+    );
+  }
   next = insertBeforeHeadClose(next, HOME_CRITICAL_CSS);
   return next.replace(/<html\b/i, `<html ${HOME_PERF_MARK}`);
+}
+
+function fixBrokenAssetUrls(html) {
+  return html.replace(/https?:\/(?!\/)(wp-content|wp-includes)\//gi, '/$1/');
+}
+
+function humanizeAltFromSrc(src) {
+  const file = (src.split('/').pop() || '').replace(/\.[^.]+$/, '');
+  if (/^staff-\d+$/i.test(file)) {
+    return 'Connect Staff temporary staffing professional in the UAE';
+  }
+  if (!file) return 'Connect Staff';
+  return file
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+\d+$/, '')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
+
+function fixEmptyImgAlts(html) {
+  return html.replace(/<img\b([^>]*?)>/gi, (full, attrs) => {
+    const src = attrs.match(/\bsrc=(['"])(.*?)\1/i)?.[2] || '';
+    const altMatch = attrs.match(/\balt=(['"])(.*?)\1/i);
+    const alt = altMatch?.[2]?.trim() ?? '';
+    if (alt) return full;
+    const generated = humanizeAltFromSrc(src);
+    if (altMatch) {
+      return `<img${attrs.replace(/\balt=(['"]).*?\1/i, ` alt="${generated}"`)}>`;
+    }
+    return `<img${attrs} alt="${generated}">`;
+  });
+}
+
+function ensureFavicon(html) {
+  const liveFavicon = [
+    '<link rel="icon" href="/wp-content/uploads/2024/06/favicon-2.ico" sizes="32x32" />',
+    '<link rel="icon" href="/wp-content/uploads/2024/06/favicon-2.ico" sizes="192x192" />',
+    '<link rel="apple-touch-icon" href="/wp-content/uploads/2024/06/favicon-2.ico" />',
+    '<meta name="msapplication-TileImage" content="/wp-content/uploads/2024/06/favicon-2.ico" />',
+  ].join('\n');
+
+  let out = html.replace(
+    /<link\s+rel="(?:icon|apple-touch-icon|shortcut icon)"\s+href="[^"]*(?:favicon\.svg|\/favicon\.ico)[^"]*"[^>]*>\s*/gi,
+    '',
+  );
+  out = out.replace(
+    /<link\s+rel="(?:icon|apple-touch-icon)"\s+href="[^"]*"[^>]*>\s*/gi,
+    '',
+  );
+  out = out.replace(/<meta\s+name="msapplication-TileImage"[^>]*>\s*/gi, '');
+  return insertBeforeHeadClose(out, liveFavicon);
+}
+
+function stripHtmlToText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function buildHomepageFaqSchema(html) {
+  const items = [];
+  const itemRe =
+    /<div class="elementor-accordion-item">[\s\S]*?<a class="elementor-accordion-title"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<div[^>]*class="elementor-tab-content[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+  for (const match of html.matchAll(itemRe)) {
+    const name = stripHtmlToText(match[1]);
+    const text = stripHtmlToText(match[2]);
+    if (name && text) {
+      items.push({
+        '@type': 'Question',
+        name,
+        acceptedAnswer: { '@type': 'Answer', text },
+      });
+    }
+  }
+  if (!items.length) return html;
+  if (html.includes('"@type":"FAQPage"') || html.includes('"@type": "FAQPage"')) return html;
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items,
+  };
+  const block = `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
+  return insertBeforeHeadClose(html, block);
 }
 
 /** @param {string} slug */
@@ -176,6 +303,10 @@ export function serveLegacyPage(slug) {
     siteOrigin: SITE_ORIGIN,
     path,
   });
+  html = fixBrokenAssetUrls(html);
+  html = fixEmptyImgAlts(html);
+  html = sanitizeMirrorHtml(html);
+  html = ensureFavicon(html);
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -185,8 +316,8 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  html = sanitizeMirrorHtml(html);
   if (slug === 'homepage') {
+    html = buildHomepageFaqSchema(html);
     html = applyHomepagePerformanceCanary(html);
   }
   return new Response(html, {

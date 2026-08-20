@@ -233,7 +233,11 @@
   }
 
   function isMobileDropdownItem(li) {
-    return !!(li && li.closest('.elementor-nav-menu--dropdown'));
+    if (!li) return false;
+    // Desktop panels are `ul.sub-menu.elementor-nav-menu--dropdown` under --main.
+    // Only the hamburger overlay (`nav.elementor-nav-menu__container`) is mobile.
+    if (li.closest('.elementor-nav-menu--main')) return false;
+    return !!li.closest('.elementor-nav-menu__container.elementor-nav-menu--dropdown');
   }
 
   function showNavSubmenu(li, opts) {
@@ -262,12 +266,15 @@
     // leaves left:0/top:46 which stacks PAYROLL inside the parent panel).
     var isNested = !!li.parentElement && li.parentElement.classList.contains('sub-menu');
     if (isNested) {
+      sub.style.setProperty('display', 'block', 'important');
       sub.style.setProperty('position', 'absolute', 'important');
       sub.style.setProperty('left', '100%', 'important');
       sub.style.setProperty('right', 'auto', 'important');
       sub.style.setProperty('top', '0px', 'important');
       sub.style.setProperty('margin-top', '0px', 'important');
       sub.style.setProperty('margin-left', '0px', 'important');
+      sub.style.setProperty('width', 'max-content', 'important');
+      sub.style.setProperty('overflow', 'visible', 'important');
       sub.style.setProperty('z-index', '10000', 'important');
     }
   }
@@ -1423,6 +1430,32 @@
     });
   }
 
+  /** FAQ questions → <h3> (SEO). Preserve classes/attrs so Elementor styles still apply. */
+  function promoteAccordionTitleToH3(el) {
+    if (!el || el.tagName === 'H3') return el;
+    var h3 = document.createElement('h3');
+    Array.prototype.slice.call(el.attributes).forEach(function (attr) {
+      h3.setAttribute(attr.name, attr.value);
+    });
+    while (el.firstChild) h3.appendChild(el.firstChild);
+    el.parentNode.replaceChild(h3, el);
+    return h3;
+  }
+
+  function wrapAccordionTitleInnerH3(el) {
+    if (!el) return;
+    if (el.tagName === 'H3') return;
+    if (el.querySelector(':scope > h3')) return;
+    var h3 = document.createElement('h3');
+    while (el.firstChild) h3.appendChild(el.firstChild);
+    el.appendChild(h3);
+  }
+
+  function promoteFaqQuestionsToH3() {
+    document.querySelectorAll('.e-n-accordion-item-title-text').forEach(promoteAccordionTitleToH3);
+    document.querySelectorAll('.elementor-tab-title .elementor-accordion-title').forEach(wrapAccordionTitleInnerH3);
+  }
+
   /** Elementor nested accordion — smooth open/close like live Elementor */
   /**
    * Nested Elementor accordion (`<details>`). Prefer native open/close —
@@ -1454,6 +1487,7 @@
         var summary = item.querySelector('summary.e-n-accordion-item-title');
         if (summary) {
           summary.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+          promoteAccordionTitleToH3(summary.querySelector('.e-n-accordion-item-title-text'));
         }
 
         item.addEventListener('toggle', function () {
@@ -1570,8 +1604,13 @@
     }
 
     document.querySelectorAll('.elementor-widget-accordion .elementor-accordion').forEach(function (root) {
-      if (root.dataset.astroAccordion) return;
+      if (root.dataset.astroAccordion) {
+        root.querySelectorAll('.elementor-tab-title .elementor-accordion-title').forEach(wrapAccordionTitleInnerH3);
+        return;
+      }
       root.dataset.astroAccordion = '1';
+
+      root.querySelectorAll('.elementor-tab-title .elementor-accordion-title').forEach(wrapAccordionTitleInnerH3);
 
       // Collapse all by default (match live collapsed FAQ look)
       collapseAll(root);
@@ -2155,6 +2194,25 @@
       '.elementor-widget-n-accordion .e-n-accordion-item[open] .e-closed{display:none!important;}',
       /* Smooth nested accordion panel (all pages) */
       '.elementor-widget-n-accordion .e-n-accordion-item>.e-con{will-change:height,opacity;}',
+      /* Homepage split headlines — Elementor CSS zeros <p> margin but these are <h2> */
+      '.elementor-20 .elementor-element-48e4a10 h2,.elementor-20 .elementor-element-3d3bfc7 h2,' +
+        '.elementor-20 .elementor-element-0bfdcbc h2,.elementor-20 .elementor-element-14eed55 h2{margin:0;padding:0;}',
+      '.elementor-20 .elementor-element-48e4a10 .elementor-widget-container,' +
+        '.elementor-20 .elementor-element-3d3bfc7 .elementor-widget-container,' +
+        '.elementor-20 .elementor-element-0bfdcbc .elementor-widget-container,' +
+        '.elementor-20 .elementor-element-14eed55 .elementor-widget-container{padding-top:0;padding-bottom:0;}',
+      /* Mobile nav overlay: drop Elementor pointer bars that slash through labels */
+      '.elementor-nav-menu--dropdown a.elementor-item::before,.elementor-nav-menu--dropdown a.elementor-item::after,' +
+        '.elementor-nav-menu--dropdown a.elementor-sub-item::before,.elementor-nav-menu--dropdown a.elementor-sub-item::after' +
+        '{content:none!important;display:none!important;background:none!important;height:0!important;border:0!important;}',
+      '@media (max-width:1024px){.elementor-nav-menu--dropdown a.elementor-item,.elementor-nav-menu--dropdown a.elementor-sub-item' +
+        '{border:0!important;box-shadow:none!important;text-decoration:none!important;}' +
+        '.elementor-nav-menu--dropdown .sub-menu{margin-top:0!important;padding-top:0!important;}' +
+        '.elementor-25 .elementor-element-04a4e5f .elementor-nav-menu__container.elementor-nav-menu--dropdown{margin-top:0!important;}}',
+      '.e-n-accordion-item-title-text,h3.e-n-accordion-item-title-text{' +
+        'margin:0;padding:0;font-size:inherit;font-weight:inherit;line-height:inherit;color:inherit;font-family:inherit;}',
+      '.elementor-tab-title .elementor-accordion-title h3,.elementor-tab-title h3.elementor-accordion-title{' +
+        'margin:0;padding:0;font-size:inherit;font-weight:inherit;line-height:inherit;color:inherit;font-family:inherit;}',
       /* Staff outsourcing: blend lavender accordion section into following white section */
       '.elementor-34276 .elementor-element-735da21:not(.elementor-motion-effects-element-type-background),.elementor-34276 .elementor-element-735da21>.elementor-motion-effects-container>.elementor-motion-effects-layer{background-image:linear-gradient(180deg,#FFFFFF 0%,#D4D7F9 55%,#FFFFFF 100%)!important;}',
       /* Share buttons visibility */
@@ -2234,6 +2292,7 @@
       'min-width:max-content!important;width:max-content!important;max-width:none!important;',
       'background-color:#1f232b!important;border:0!important;box-shadow:0 8px 24px rgba(0,0,0,.35)!important;}',
       /* Nested flyout (OUTSOURCING → PAYROLL): always to the RIGHT, never stacked inside */
+      '.elementor-nav-menu--main .sub-menu{overflow:visible!important;}',
       '.elementor-nav-menu--main .sub-menu > .menu-item-has-children{position:relative!important;}',
       '.elementor-nav-menu--main .sub-menu > .menu-item-has-children > .sub-menu{',
       'display:none!important;position:absolute!important;left:100%!important;right:auto!important;',
@@ -3619,6 +3678,7 @@
     safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(promoteFaqQuestionsToH3);
     safe(ensureEzToc);
     safe(ensureEcsLoadMore);
     safe(decodeCloudflareEmails);
@@ -3670,6 +3730,7 @@
       safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(promoteFaqQuestionsToH3);
     safe(ensureEzToc);
     safe(ensureElementorToc);
     safe(ensureEcsLoadMore);
@@ -3702,6 +3763,7 @@
       safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(promoteFaqQuestionsToH3);
     safe(ensureEzToc);
     safe(ensureElementorToc);
     safe(ensureEcsLoadMore);
@@ -4157,6 +4219,7 @@
     safe(ensureClassicAccordion);
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
+    safe(promoteFaqQuestionsToH3);
     safe(ensureEzToc);
     safe(ensureElementorToc);
     safe(ensureEcsLoadMore);

@@ -1,4 +1,12 @@
 /* Royal Visa shared header — primary look comes from Astra/Elementor CSS */
+
+/* Image logo only — hide duplicate Astra text site title next to logo */
+.ast-site-title-wrap,
+.site-branding .site-title,
+.site-branding .site-title a {
+  display: none !important;
+}
+
 .main-header-menu .menu-item-has-children > a.menu-link:not([href]) {
 	cursor: pointer;
 }
