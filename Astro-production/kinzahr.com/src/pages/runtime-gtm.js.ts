@@ -1,8 +1,10 @@
 import type { APIRoute } from "astro";
-import { resolveInternalAdminDir } from "../env/server";
-import { resolveEffectiveGtmConfig } from "../lib/gtm/store";
+import { snippetsFromGtmId } from "../lib/gtm/store";
 
 export const prerender = false;
+
+/** Official GTM container for kinzahr.com (GTM Admin → Container Settings). */
+const OFFICIAL_GTM_ID = "GTM-P7XTGMV3";
 
 function escapeJs(value: string): string {
   return JSON.stringify(value);
@@ -13,10 +15,12 @@ export const GET: APIRoute = async () => {
   let bodyHtml = "";
   let footerScript = "";
   try {
-    const config = await resolveEffectiveGtmConfig(resolveInternalAdminDir());
-    headScript = config.headScript;
-    bodyHtml = config.bodyHtml;
-    footerScript = config.footerScript;
+    // Always inject the official single container for this site.
+    // Live env / FLOW previously left this empty or pointed at wrong IDs.
+    const official = snippetsFromGtmId(OFFICIAL_GTM_ID);
+    headScript = official.headScript;
+    bodyHtml = official.bodyHtml;
+    footerScript = official.footerScript;
   } catch {
     /* public loader must stay resilient */
   }

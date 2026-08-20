@@ -91,6 +91,13 @@ export function serveLegacyPage(slug: string): Response {
   }
 
   let html = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, "utf8"));
+  // Shared header/footer logo lives in every WP dump — set brand alt once at serve time.
+  html = html.replace(/<img\b[^>]*>/gi, (tag) => {
+    if (!/logo-the-FreelancerGate/i.test(tag)) return tag;
+    if (/\balt="The Freelancer Gate"/i.test(tag)) return tag;
+    if (/\balt="/i.test(tag)) return tag.replace(/\balt="[^"]*"/i, 'alt="The Freelancer Gate"');
+    return tag.replace(/<img\b/i, '<img alt="The Freelancer Gate"');
+  });
   html = injectRuntimeGtmLoader(html);
   html = absolutizeSeoUrls(html, slug);
   html = ensureStylesheet(html, "/css/form-mirror-fixes.css");

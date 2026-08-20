@@ -16,7 +16,7 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
 const HOME_PERF_MARK = 'data-connectstaff-home-perf="20260818h"';
 const HOME_CRITICAL_MARK = 'data-connectstaff-home-critical="20260820d"';
 const HOME_DEFERRED_CSS_MARK = 'data-connectstaff-home-deferred-css';
-const HOME_HEADER_CSS_HREF = '/chrome/header.css?v=navhash13';
+const HOME_HEADER_CSS_HREF = '/chrome/header-v2.css?v=navhash14';
 /** Stylesheets required for above-the-fold header — must not be deferred (prevents reload FOUC). */
 const HOME_HEADER_STYLESHEET_IDS = new Set([
   'elementor-frontend-css',
@@ -143,7 +143,7 @@ function isHomepageHeaderStylesheet(tag) {
   const href = attrValue(tag, 'href').toLowerCase();
   if (!href) return false;
   if (href.includes('/elementor/css/post-635.css')) return true;
-  if (href.includes('/chrome/header.css')) return true;
+  if (href.includes('/chrome/header-v2.css') || href.includes('/chrome/header.css')) return true;
   if (href.includes('font-awesome')) return true;
   return false;
 }

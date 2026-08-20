@@ -2,6 +2,7 @@
  * Shared Elementor chrome fragments for LLA Designers.
  * Header/footer are theme-builder divs (data-elementor-type), not <header>/<footer> tags.
  */
+// Post-release Cloudflare cache: rely on astro-cloudflare-purge after publish (Aaron auto purge).
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -14,7 +15,7 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css?v=navhash1';
+const HEADER_CSS_HREF = '/chrome/header-v2.css?v=navhash1';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 const FORM_CSS_HREF = '/css/kinza-form-fix.css';
 const FORM_CSS_MARK = 'data-kinza-form-fix';

@@ -1,6 +1,7 @@
 ---
 import SEOHead from "../components/SEOHead.astro";
 import ElementorHeader from "../components/ElementorHeader.astro";
+import HomeAnnouncementBar from "../components/HomeAnnouncementBar.astro";
 import ElementorFooter from "../components/ElementorFooter.astro";
 import LicenceStrip from "../components/LicenceStrip.astro";
 import { licence } from "../lib/licence";
@@ -9,6 +10,7 @@ import ElementorFrontend from "../components/ElementorFrontend.astro";
 import FloatContacts from "../components/FloatContacts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
+import { isArabicPath } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import { resolveInternalAdminDir } from "../env/server";
 import { readGlobalGtmConfig, sanitiseGtmSnippet } from "../lib/gtm/store";
@@ -26,6 +28,14 @@ interface Props {
   loadElementor?: boolean;
   /** Elementor Canvas pages: no theme header/footer (page owns chrome). */
   hideSiteChrome?: boolean;
+  /** Homepage security advisory strip above the header. */
+  showHomeAnnouncement?: boolean;
+  /** HTML lang attribute (default en-AE). Overridden automatically for /ar/ paths. */
+  htmlLang?: string;
+  /** HTML dir attribute (default ltr). Overridden automatically for /ar/ paths. */
+  htmlDir?: "ltr" | "rtl";
+  /** Open Graph locale (default en_US). Overridden automatically for /ar/ paths. */
+  ogLocale?: string;
 }
 
 const {
@@ -37,7 +47,17 @@ const {
   bodyClass = "",
   loadElementor = false,
   hideSiteChrome = false,
+  showHomeAnnouncement = false,
+  htmlLang = "en-AE",
+  htmlDir = "ltr",
+  ogLocale = "en_US",
 } = Astro.props;
+
+/** Arabic /ar/ clones: set document language in the layout so catch-all routes stay publisher-safe. */
+const arabic = isArabicPath(currentPath);
+const resolvedHtmlLang = arabic ? "ar" : htmlLang;
+const resolvedHtmlDir = arabic ? "rtl" : htmlDir;
+const resolvedOgLocale = arabic ? "ar_AE" : ogLocale;
 
 /** Prefer live homepage stylesheet order (Impreza + plugins). */
 const liveOrder = (liveCssOrder as string[]) || [];
@@ -54,15 +74,17 @@ const stylesheets = [
     ...baseCss,
     ...extraCss,
     "/css/migration-overrides.css",
+    "/css/menu-no-hash.css",
+    ...(showHomeAnnouncement ? ["/css/home-announcement-bar-v2.css"] : []),
   ]),
 ];
 
 ---
 
 <!doctype html>
-<html lang="en-AE">
+<html lang={resolvedHtmlLang} dir={resolvedHtmlDir}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} ogLocale={resolvedOgLocale} />
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
@@ -77,6 +99,7 @@ const stylesheets = [
   <body class={bodyClass || "l-body wp-theme-Impreza wp-child-theme-Impreza-child"}>
     <a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
     <div class:list={["l-canvas", "type_wide", hideSiteChrome && "l-canvas--elementor-canvas"]}>
+      {showHomeAnnouncement ? <HomeAnnouncementBar /> : null}
       {!hideSiteChrome ? (
         <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
       ) : null}
@@ -87,5 +110,7 @@ const stylesheets = [
     <FloatContacts />
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
+      <script src="/js/menu-no-hash.js" defer></script>
+    {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar-v2.js" defer></script> : null}
   </body>
 </html>

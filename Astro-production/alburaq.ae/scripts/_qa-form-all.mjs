@@ -12,7 +12,7 @@ for (const [url, label] of urls) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const api = [];
   page.on('response', async (r) => {
-    if (r.url().includes('/api/contact')) {
+    if (r.url().includes('/api/contact/')) {
       api.push({ status: r.status(), body: (await r.text().catch(() => '')).slice(0, 180) });
     }
   });

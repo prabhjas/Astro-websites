@@ -36,6 +36,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   '/private/',
   '/old-site-backups/',
   '/*?replytocom=',
+  '/best-renovation-company/',
 ] as const;
 
 /** Static page slugs excluded from the page sitemap (demo / internal / campaign LPs). */

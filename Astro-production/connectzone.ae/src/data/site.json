@@ -27,75 +27,143 @@
       "href": "/"
     },
     {
-      "label": "Services",
-      "href": "/services/",
+      "label": "Business Setup",
+      "href": "/business-setup-in-dubai/",
       "children": [
         {
-          "label": "Heavy Machinery Rental",
-          "href": "/heavy-machinery-rental/",
+          "label": "Business Setup in Dubai",
+          "href": "/business-setup-in-dubai/",
           "children": [
             {
-              "label": "Forklift Rental",
-              "href": "/heavy-machinery-rental/forklift-rental/"
+              "label": "Free Zone",
+              "href": "/uae-freezone-company-setup/"
+            },
+            {
+              "label": "Dubai Mainland",
+              "href": "/dubai-mainland-license/"
             }
           ]
         },
         {
-          "label": "Construction Equipment Rental",
-          "href": "/construction-equipment-rental/"
+          "label": "Business Setup in Abu Dhabi",
+          "href": "/business-setup-in-abu-dhabi/"
         },
         {
-          "label": "Generator Rental",
-          "href": "/generator-rental/"
+          "label": "Business Setup in Sharjah",
+          "href": "/business-setup-in-sharjah/"
         },
         {
-          "label": "Scaffold Rental",
-          "href": "/scaffold-rental/"
+          "label": "Business Setup in Ajman",
+          "href": "/company-formation-in-ajman/"
+        },
+        {
+          "label": "Business Setup in UAQ",
+          "href": "/business-setup-in-umm-al-quwain/"
+        },
+        {
+          "label": "Business Setup in RAK",
+          "href": "/company-formation-in-rak/"
+        },
+        {
+          "label": "Business Setup in Fujairah",
+          "href": "/business-setup-in-fujairah/"
         }
       ]
     },
     {
-      "label": "About us",
+      "label": "License",
+      "href": "/professional-license/",
+      "children": [
+        {
+          "label": "Professional License",
+          "href": "/professional-license/"
+        },
+        {
+          "label": "Commercial License",
+          "href": "/commercial-license/"
+        },
+        {
+          "label": "Trade License",
+          "href": "/trade-license/"
+        },
+        {
+          "label": "Tourism License",
+          "href": "/dubai-tourism-license/"
+        },
+        {
+          "label": "Industrial License",
+          "href": "/industrial-license-dubai/"
+        },
+        {
+          "label": "Ecommerce License",
+          "href": "/ecommerce-license/"
+        }
+      ]
+    },
+    {
+      "label": "Services",
+      "href": "/pro-services/",
+      "children": [
+        {
+          "label": "PRO Services",
+          "href": "/pro-services/"
+        },
+        {
+          "label": "Business Center",
+          "href": "/business-center/"
+        },
+        {
+          "label": "VAT & Tax Consultancy",
+          "href": "/vat-and-tax-consultancy-services/"
+        },
+        {
+          "label": "Freelance Visa",
+          "href": "/freelance-visas/"
+        }
+      ]
+    },
+    {
+      "label": "Insights",
+      "href": "/insights/"
+    },
+    {
+      "label": "About Us",
       "href": "/about-us/"
     },
     {
-      "label": "Blog",
-      "href": "/blog/"
-    },
-    {
-      "label": "Contact us",
+      "label": "Contact Us",
       "href": "/contact-us/"
     }
   ],
   "footerServices": [
     {
-      "label": "Generator Rental",
-      "href": "/generator-rental/"
+      "label": "PRO Services",
+      "href": "/pro-services/"
     },
     {
-      "label": "Heavy Machinery Rental",
-      "href": "/heavy-machinery-rental/"
+      "label": "Business Center",
+      "href": "/business-center/"
     },
     {
-      "label": "Construction Equipment Rental",
-      "href": "/construction-equipment-rental/"
+      "label": "VAT & Tax Consultancy",
+      "href": "/vat-and-tax-consultancy-services/"
     },
     {
-      "label": "Scaffold Rental",
-      "href": "/scaffold-rental/"
+      "label": "Freelance Visa",
+      "href": "/freelance-visas/"
     }
   ],
   "footerQuickLinks": [
     {
-      "label": "Blog",
-      "href": "/blog/"
+      "label": "Insights",
+      "href": "/insights/"
     },
     {
-      "label": "About us",
+      "label": "About Us",
       "href": "/about-us/"
     },
     {
-      "label": "Contact us",
+      "label": "Contact Us",
       "href": "/contact-us/"
     }
   ],
