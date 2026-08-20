@@ -12,6 +12,9 @@ redirects:
   - from: /blog/
     to: /insights/
     status: 301
+  - from: /insight/
+    to: /insights/
+    status: 301
   - from: /contact-us-new/
     to: https://iberiaeor.com/contact-us
     status: 301
