@@ -82,18 +82,31 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
 
     try {
-      const env = getServerEnv();
-      const runtime = await readRuntimeRedirects(env.internalAdminDir);
       const canonical = readCanonicalRedirectsYaml(process.cwd());
+      let runtime: typeof canonical = [];
+      let adminDir = '';
+      try {
+        const env = getServerEnv();
+        adminDir = env.internalAdminDir;
+        runtime = await readRuntimeRedirects(env.internalAdminDir);
+      } catch {
+        // Pipedrive/env missing must not skip repo redirects.yml
+      }
       const all = [...canonical, ...runtime];
       const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
       if (match) {
-        await recordRedirectHit(env.internalAdminDir, match.from);
+        if (adminDir) {
+          try {
+            await recordRedirectHit(adminDir, match.from);
+          } catch {
+            // stats are optional
+          }
+        }
         const status = (match.status || 301) as 301 | 302 | 303 | 307 | 308;
         return context.redirect(match.to, status);
       }
     } catch {
-      // Missing env / redirect store should never break public pages
+      // Missing redirect store should never break public pages
     }
 
     // Before hitting static 404 for missing WP thumbnails, try full-size upload.

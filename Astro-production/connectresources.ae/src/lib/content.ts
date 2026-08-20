@@ -137,9 +137,19 @@ export function getRelatedPosts(post: PostEntry, limit = 3): PostEntry[] {
 export function normalizePath(pathname: string): string {
   if (!pathname || pathname === "/") return "/";
   let p = pathname.split("?")[0].split("#")[0];
+  try {
+    p = decodeURIComponent(p);
+  } catch {
+    /* keep raw path if malformed encoding */
+  }
   if (!p.startsWith("/")) p = `/${p}`;
   if (!p.endsWith("/")) p = `${p}/`;
   return p;
+}
+
+/** Arabic locale pages under /ar/... */
+export function isArabicPath(pathname: string): boolean {
+  return normalizePath(pathname).startsWith("/ar/");
 }
 
 export function absoluteUrl(pathname: string): string {

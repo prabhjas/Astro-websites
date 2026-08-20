@@ -71,6 +71,20 @@ redirects:
     to: /uae-attestation/
     status: 301
 
+  # Legacy public slugs (SEO ticket 2026-08-20)
+  - from: /rta-approval/
+    to: /rta-approval-and-permit/
+    status: 301
+  - from: /dependent-work-permit-residency-visa-cancellation/
+    to: /dependent-work-residency-visa-cancellation/
+    status: 301
+  - from: /uae-attestation-services/
+    to: /uae-attestation/
+    status: 301
+  - from: /company-liquidation-in-dubai/
+    to: /company-liquidation/
+    status: 301
+
   # Sensible service aliases
   - from: /ded/
     to: /ded-services/

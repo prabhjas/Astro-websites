@@ -10,6 +10,7 @@ import ElementorFrontend from "../components/ElementorFrontend.astro";
 import FloatContacts from "../components/FloatContacts.astro";
 import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
+import { isArabicPath } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import { resolveInternalAdminDir } from "../env/server";
 import { readGlobalGtmConfig, sanitiseGtmSnippet } from "../lib/gtm/store";
@@ -29,6 +30,12 @@ interface Props {
   hideSiteChrome?: boolean;
   /** Homepage security advisory strip above the header. */
   showHomeAnnouncement?: boolean;
+  /** HTML lang attribute (default en-AE). Overridden automatically for /ar/ paths. */
+  htmlLang?: string;
+  /** HTML dir attribute (default ltr). Overridden automatically for /ar/ paths. */
+  htmlDir?: "ltr" | "rtl";
+  /** Open Graph locale (default en_US). Overridden automatically for /ar/ paths. */
+  ogLocale?: string;
 }
 
 const {
@@ -41,7 +48,16 @@ const {
   loadElementor = false,
   hideSiteChrome = false,
   showHomeAnnouncement = false,
+  htmlLang = "en-AE",
+  htmlDir = "ltr",
+  ogLocale = "en_US",
 } = Astro.props;
+
+/** Arabic /ar/ clones: set document language in the layout so catch-all routes stay publisher-safe. */
+const arabic = isArabicPath(currentPath);
+const resolvedHtmlLang = arabic ? "ar" : htmlLang;
+const resolvedHtmlDir = arabic ? "rtl" : htmlDir;
+const resolvedOgLocale = arabic ? "ar_AE" : ogLocale;
 
 /** Prefer live homepage stylesheet order (Impreza + plugins). */
 const liveOrder = (liveCssOrder as string[]) || [];
@@ -66,9 +82,9 @@ const stylesheets = [
 ---
 
 <!doctype html>
-<html lang="en-AE">
+<html lang={resolvedHtmlLang} dir={resolvedHtmlDir}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} ogLocale={resolvedOgLocale} />
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
