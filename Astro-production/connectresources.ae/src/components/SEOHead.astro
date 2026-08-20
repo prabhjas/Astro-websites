@@ -6,9 +6,10 @@ interface Props {
   seo?: SeoInput;
   fallback?: SeoData;
   extraCss?: string[];
+  ogLocale?: string;
 }
 
-const { seo = {}, fallback, extraCss = [] } = Astro.props;
+const { seo = {}, fallback, extraCss = [], ogLocale = "en_US" } = Astro.props;
 const meta = resolveSeo(seo, fallback);
 
 const schemas = [organizationSchema(), ...meta.schemas];
@@ -21,7 +22,7 @@ const schemas = [organizationSchema(), ...meta.schemas];
 <meta name="robots" content={meta.robots} />
 <link rel="canonical" href={meta.canonical} />
 
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={ogLocale} />
 <meta property="og:type" content={meta.ogType} />
 <meta property="og:title" content={meta.title} />
 <meta property="og:description" content={meta.description} />
@@ -51,7 +52,12 @@ const schemas = [organizationSchema(), ...meta.schemas];
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Poppins:wght@400;500;600;700;800&family=Spline+Sans:wght@400;500;600;700&display=swap"
 />
-
+{ogLocale === "ar_AE" && (
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap"
+  />
+)}
 
 {
   extraCss.map((href) => (
