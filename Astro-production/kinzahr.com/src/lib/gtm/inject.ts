@@ -1,4 +1,4 @@
-const GTM_LOADER_TAG = '<script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>';
+const GTM_LOADER_TAG = '<script src="/runtime-gtm-v2.js" defer data-runtime-gtm="1"></script>';
 
 /**
  * Strip hardcoded WP GTM / gtag snippets and inject the fleet runtime loader.
