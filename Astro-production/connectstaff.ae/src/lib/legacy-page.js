@@ -14,9 +14,9 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .replace(/\/$/, '');
 
 const HOME_PERF_MARK = 'data-connectstaff-home-perf="20260818h"';
-const HOME_CRITICAL_MARK = 'data-connectstaff-home-critical="20260818h"';
+const HOME_CRITICAL_MARK = 'data-connectstaff-home-critical="20260820d"';
 const HOME_DEFERRED_CSS_MARK = 'data-connectstaff-home-deferred-css';
-const HOME_HEADER_CSS_HREF = '/chrome/header.css?v=navhash9';
+const HOME_HEADER_CSS_HREF = '/chrome/header.css?v=navhash13';
 /** Stylesheets required for above-the-fold header — must not be deferred (prevents reload FOUC). */
 const HOME_HEADER_STYLESHEET_IDS = new Set([
   'elementor-frontend-css',
@@ -48,9 +48,17 @@ img{max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 header[data-elementor-type="header"]{position:relative;z-index:20;background:#fff}
 header[data-elementor-type="header"] .elementor-section{width:100%}
-header[data-elementor-type="header"] .elementor-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:12px 16px}
-header[data-elementor-type="header"] section.bg_r{width:100%!important;max-width:100%!important;background:linear-gradient(90deg,#04C2CD 0%,#4D47F3 43.75%,#7D2AE7 100%)!important}
-header[data-elementor-type="header"] section.bg_r>.elementor-container{background:transparent!important}
+header[data-elementor-type="header"] .elementor-element-571634e7{display:none!important}
+header[data-elementor-type="header"] .elementor-section-boxed>.elementor-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:12px 16px}
+header[data-elementor-type="header"] section.bg_r{width:100%!important;max-width:100%!important;margin-top:0!important;background:linear-gradient(90deg,#04C2CD 0%,#4D47F3 43.75%,#7D2AE7 100%)!important}
+header[data-elementor-type="header"] section.bg_r>.elementor-container{display:flex;align-items:center;max-width:1200px;width:100%;margin:0 auto!important;padding:8px 16px!important;background:transparent!important}
+header[data-elementor-type="header"] section.bg_r .elementor-button{display:inline-flex!important;align-items:center!important;font-size:12px!important;line-height:1.2!important;padding:0!important}
+header[data-elementor-type="header"] section.bg_r .elementor-button-content-wrapper{display:inline-flex!important;align-items:center!important;flex-direction:row!important;gap:6px!important}
+header[data-elementor-type="header"] section.bg_r .elementor-button-icon{display:inline-flex!important;align-items:center!important;line-height:0!important}
+header[data-elementor-type="header"] section.bg_r .elementor-button-icon svg{display:block;width:14px;height:14px}
+header[data-elementor-type="header"] section.bg_r .elementor-button-text{display:inline-flex;align-items:center;line-height:1.2!important}
+header[data-elementor-type="header"] section.bg_r .elementor-widget-button{width:auto!important;max-width:none!important}
+header[data-elementor-type="header"] .elementor-element-59cc52f7.elementor-sticky--active,header[data-elementor-type="header"] .elementor-element-3e632d52.elementor-sticky--active{padding-top:0!important;margin-top:0!important;top:0!important}
 header[data-elementor-type="header"] .elementor-widget-wrap{display:flex;align-items:center;gap:20px;width:100%}
 header[data-elementor-type="header"] img{display:block;width:auto;max-width:137px;height:auto}
 header[data-elementor-type="header"] ul{list-style:none;margin:0;padding:0}
@@ -99,7 +107,8 @@ header[data-elementor-type="header"] .elementor-menu-toggle{display:none}
 @media (min-width:768px) and (max-width:1024px){.elementor-hidden-tablet{display:none!important}}
 @media (max-width:767px){
   .elementor-hidden-mobile{display:none!important}
-  header[data-elementor-type="header"] .elementor-container{padding:10px 14px}
+  header[data-elementor-type="header"] .elementor-section-boxed>.elementor-container{padding:10px 14px}
+  header[data-elementor-type="header"] section.bg_r>.elementor-container{padding:8px 14px!important}
   .elementor-19889 .elementor-section .elementor-container{display:block}
   .elementor-col-50{width:100%}
   .elementor-19889 .elementor-element.elementor-element-5234bc3>.elementor-container{min-height:250px}
