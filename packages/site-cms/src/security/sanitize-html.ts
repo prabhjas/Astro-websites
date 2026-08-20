@@ -130,6 +130,19 @@ export function sanitizeMirrorHtml(dirty: string): string {
     /<script\b[^>]*(?:wpr-beacon|rocket-lazy|wp-rocket)[^>]*>[\s\S]*?<\/script>/gi,
     '',
   );
+  // WP Rocket head bootstrap blocks first paint; astro-mirror-fixes handles body scripts.
+  html = html.replace(
+    /<script>if\(navigator\.userAgent\.match\(\/MSIE[\s\S]*?<\/script>/gi,
+    '',
+  );
+  html = html.replace(
+    /<script>\(\(\)=>\{class RocketLazyLoadScripts[\s\S]*?<\/script>/gi,
+    '',
+  );
+  html = html.replace(
+    /<script>\(\(\)=>\{class RocketElementorPreload[\s\S]*?<\/script>/gi,
+    '',
+  );
 
   return html;
 }

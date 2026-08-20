@@ -11,6 +11,7 @@
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **42 domains + ports · all scaffolded · 0 placeholders** |
 | **WEBSITE_ID** | **[WEBSITE-ID-REGISTRY.md](WEBSITE-ID-REGISTRY.md)** | FLOW website picker IDs for `.env` / `.env.prod` (`WEBSITE_ID=`) |
 | **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
+| **CWV** | **[DEVELOPER-CWV-CHECKLIST.md](DEVELOPER-CWV-CHECKLIST.md)** | LCP / INP / CLS checklist before merging P0 pages |
 | **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |
 | **Aaron full** | **[SECURITY-AARON-FULL-HANDOFF-2026-08-07.md](SECURITY-AARON-FULL-HANDOFF-2026-08-07.md)** | **One doc for Aaron:** done vs don’t (CSP enforce / prerender / SRI / mirror sanitize), ops steps, verify |
 | **security ops** | **[SECURITY-OPS-AARON-HANDOFF.md](SECURITY-OPS-AARON-HANDOFF.md)** | Short copy-paste runbook (CA, firewall, Caddy reload, secrets) |
