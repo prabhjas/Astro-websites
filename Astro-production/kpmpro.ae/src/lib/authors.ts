@@ -5,6 +5,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { injectPageBreadcrumbs } from './page-breadcrumbs.js';
 import { applySharedChrome } from './shared-chrome.js';
 import {
   LIVE_AUTHOR_ORDER,
@@ -269,9 +270,12 @@ function wrapInAuthorShell(
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
   $('.elementor-location-archive').html(`<div class="kpmpro-author-page">${mainInner}</div>`);
-  html = $.html();
+  html = String($.html()).replace(
+    /<(script|style|title|textarea|iframe|noscript)(\b[^>]*)\/>/gi,
+    '<$1$2></$1>',
+  );
 
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(meta.title)}</title>`);
 
@@ -302,7 +306,7 @@ function wrapInAuthorShell(
     html = html.replace('</body>', '<script src="/js/author-load-more.js" defer></script>\n</body>');
   }
 
-  return injectRuntimeGtmLoader(applySharedChrome(html, 'author'));
+  return injectPageBreadcrumbs(injectRuntimeGtmLoader(applySharedChrome(html, 'author')), 'author');
 }
 
 function buildAuthorDirectoryMain(entries: AuthorDirectoryEntry[]): string {
