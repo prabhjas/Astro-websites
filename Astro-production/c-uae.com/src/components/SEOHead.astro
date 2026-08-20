@@ -44,11 +44,9 @@ const schemas = [organizationSchema(mediaOrigin), ...meta.schemas];
 <link rel="icon" href={site.appleTouchIcon} sizes="192x192" />
 <link rel="apple-touch-icon" href={site.appleTouchIcon} />
 
-<link
-  rel="preload"
-  href="/wp-content/uploads/elementor/google-fonts/css/nunito.css"
-  as="style"
-/>
+{Astro.url.pathname === '/' && (
+  <link rel="preload" as="image" href="/wp-content/uploads/2024/05/Header-Section-Desktop.webp" fetchpriority="high" />
+)}
 
 {
   extraCss.map((href) => (

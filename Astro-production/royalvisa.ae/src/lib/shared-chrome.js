@@ -13,7 +13,7 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css';
+const HEADER_CSS_HREF = '/chrome/header.css?v=navhash1';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 const FORM_CSS_HREF = '/css/kinza-form-fix.css';
 const FORM_CSS_MARK = 'data-kinza-form-fix';
@@ -275,25 +275,52 @@ function markCurrentMenuItem(headerHtml, slug) {
   return out;
 }
 
+/** Dropdown parents must not use href="#" in HTML (SEO). Keep the <a> so the submenu still opens.
+ *  Drop elementor-item-anchor so Elementor JS cannot put href="#" back. */
+function stripHashParentMenuLinks(html) {
+  return String(html).replace(/<a\b([^>]*?)>/gi, (tag, attrs) => {
+    const isMenu =
+      /\b(?:elementor-item|elementor-sub-item|elementor-item-anchor|e-n-menu-title-container|menu-link|w-nav-anchor|mega-menu-link)\b/.test(
+        attrs,
+      );
+    if (!isMenu) return tag;
+    let next = attrs;
+    let changed = false;
+    if (/\bhref\s*=\s*(["'])#\1/.test(next)) {
+      next = next.replace(/\s*href\s*=\s*(["'])#\1/, '');
+      if (!/\brole\s*=/.test(next)) next += ' role="button"';
+      if (!/\btabindex\s*=/.test(next)) next += ' tabindex="0"';
+      changed = true;
+    }
+    if (/\belementor-item-anchor\b/.test(next)) {
+      next = next.replace(/\s*\belementor-item-anchor\b/g, '');
+      changed = true;
+    }
+    if (!changed) return tag;
+    return '<a' + next + '>';
+  });
+}
+
 /**
  * Inject shared header into a cleaned legacy HTML document.
  * Footer is left as exported per page — live uses footer 1054 on most
  * templates and 18333 on contact; swapping breaks CSS (post-XXXX.css).
- * No-op for excluded slugs (homepage).
+ * Homepage keeps its own chrome except the Services hash-link fix.
  * @param {string} html
  * @param {string} slug
  */
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  const withMenuFix = stripHashParentMenuLinks(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(withMenuFix);
 
   // Royal Visa uses Astra theme chrome (#masthead / #colophon), not Elementor
   // Theme Builder regions. Each cleaned page already includes its own header/
   // footer — only swap when an Elementor header region exists AND we have a
   // shared fragment on disk.
-  const hasElementorHeader = /data-elementor-type="header"/i.test(html);
+  const hasElementorHeader = /data-elementor-type="header"/i.test(withMenuFix);
   const hasSharedHeader = existsSync(HEADER_PATH);
 
-  let out = ensureHeaderCss(html);
+  let out = ensureHeaderCss(withMenuFix);
 
   if (hasElementorHeader && hasSharedHeader) {
     const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
@@ -315,5 +342,5 @@ export function applySharedChrome(html, slug) {
     }
   }
 
-  return out;
+  return stripHashParentMenuLinks(out);
 }

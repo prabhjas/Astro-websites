@@ -7,10 +7,10 @@ page.on('console', (msg) => logs.push(['console', msg.type(), msg.text().slice(0
 page.on('pageerror', (err) => logs.push(['pageerror', err.message]));
 const api = [];
 page.on('request', (req) => {
-  if (req.url().includes('/api/contact')) api.push({ method: req.method(), body: req.postData()?.slice(0, 400) });
+  if (req.url().includes('/api/contact/')) api.push({ method: req.method(), body: req.postData()?.slice(0, 400) });
 });
 page.on('response', async (res) => {
-  if (res.url().includes('/api/contact')) api.push({ status: res.status(), body: (await res.text().catch(() => '')).slice(0, 300) });
+  if (res.url().includes('/api/contact/')) api.push({ status: res.status(), body: (await res.text().catch(() => '')).slice(0, 300) });
 });
 
 await page.goto('http://127.0.0.1:5120/contact-us/', { waitUntil: 'domcontentloaded', timeout: 90000 });

@@ -59,7 +59,7 @@ const stylesheets = [
     ...extraCss,
     "/css/migration-overrides.css",
     "/css/menu-no-hash.css",
-    ...(showHomeAnnouncement ? ["/css/home-announcement-bar.css"] : []),
+    ...(showHomeAnnouncement ? ["/css/home-announcement-bar-v2.css"] : []),
   ]),
 ];
 
@@ -95,6 +95,6 @@ const stylesheets = [
     <ElementorScripts />
     {loadElementor ? <ElementorFrontend /> : null}
       <script src="/js/menu-no-hash.js" defer></script>
-    {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar.js" defer></script> : null}
+    {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar-v2.js" defer></script> : null}
   </body>
 </html>

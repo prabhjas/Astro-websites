@@ -114,6 +114,8 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
   };
 }
 
+export { faqPageSchema, type FaqItem } from "./faq-schema";
+
 export function articleSchema(
   input: {
     title: string;

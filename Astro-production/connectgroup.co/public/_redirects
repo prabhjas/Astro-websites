@@ -1,7 +1,7 @@
 # Generated from src/data/redirects.yml — do not edit by hand
 # Run: npm run redirects:generate
 
-/uae-company-setup/  /business-formation-uae/  301
+/business-formation-uae/  /uae-company-setup/  301
 /dubai-mainland/  /uae-mainland-company-setup/  301
 /dubai-mainland  /uae-mainland-company-setup/  301
 /dubai-free-zone/  /  301

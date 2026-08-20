@@ -6,8 +6,6 @@
  */
 export const prerender = false;
 
-import { RUNTIME_GTM_LOADER_SCRIPT } from '../lib/gtm/inject.ts';
-
 Astro.response.status = 404;
 Astro.response.statusText = 'Not Found';
 ---
@@ -23,23 +21,16 @@ Astro.response.statusText = 'Not Found';
       content="The page you requested could not be found on Connect Staff."
     />
     <meta name="robots" content="noindex, follow" />
-    <link
-      rel="icon"
-      href="/wp-content/uploads/2024/09/cropped-FAVICON-CR-ROUNDED-32x32.png"
-      sizes="32x32"
-    />
+    <link rel="icon" href="/wp-content/uploads/2024/06/favicon-2.ico" sizes="32x32" />
+    <link rel="icon" href="/wp-content/uploads/2024/06/favicon-2.ico" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/wp-content/uploads/2024/06/favicon-2.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script
-      is:inline
-      data-runtime-gtm="1"
-      data-runtime-gtm-loader="delayed"
-      set:html={RUNTIME_GTM_LOADER_SCRIPT}
-    ></script>
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     <style>
       :root {
         --ink: #0b092d;

@@ -192,7 +192,7 @@ function replaceBalancedTag(html, openStart, tagName, replacement) {
  * @param {string} html
  */
 function ensureHeaderCss(html) {
-  let out = html;
+  let out = stripMenuDummyHashHrefs(html);
   if (!out.includes(HEADER_CSS_MARK) && !out.includes(HEADER_CSS_HREF)) {
     const link = `<link rel="stylesheet" href="${HEADER_CSS_HREF}" ${HEADER_CSS_MARK}="1" />`;
     out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
@@ -283,8 +283,24 @@ function markCurrentMenuItem(headerHtml, slug) {
  * @param {string} html
  * @param {string} slug
  */
+
+function stripMenuDummyHashHrefs(html) {
+  return html.replace(/<a\b([^>]*)>/gi, (full, attrs) => {
+    if (!/\bhref="#"/i.test(attrs)) return full;
+    if (/\b(w-nav-control|elementor-button|elementor-icon|mean-expand|w-toplink|modeltheme-trigger|lwptoc_toggle_label)\b/.test(attrs)) {
+      return full;
+    }
+    if (!/\b(elementor-item|elementor-sub-item|elementor-item-anchor|menu-link|w-nav-anchor|mega-menu-link)\b/.test(attrs)) {
+      return full;
+    }
+    const next = attrs.replace(/\s*href="#"/i, '').replace(/\s*\belementor-item-anchor\b/g, '');
+    return `<a${next}>`;
+  });
+}
+
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  html = stripMenuDummyHashHrefs(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(html);
 
   // The UAE Gate uses Astra theme chrome (#masthead / #colophon), not Elementor
   // Theme Builder regions. Each cleaned page already includes its own header/
@@ -293,7 +309,7 @@ export function applySharedChrome(html, slug) {
   const hasElementorHeader = /data-elementor-type="header"/i.test(html);
   const hasSharedHeader = existsSync(HEADER_PATH);
 
-  let out = ensureHeaderCss(html);
+  let out = ensureHeaderCss(stripMenuDummyHashHrefs(html));
 
   if (hasElementorHeader && hasSharedHeader) {
     const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
