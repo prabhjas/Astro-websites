@@ -280,6 +280,19 @@ body.elementor-page-4614 nav.rank-math-breadcrumb .last,
   color: #ffffff !important;
 }
 
+/* Author hub (dark #0246FF hero): white Home breadcrumb only */
+body.elementor-page-7193 nav.rank-math-breadcrumb a[href="/"],
+.elementor-7193 nav.rank-math-breadcrumb a[href="/"],
+body.page-id-7193 nav.rank-math-breadcrumb a[href="/"] {
+  color: #ffffff !important;
+}
+body.elementor-page-7193 nav.rank-math-breadcrumb a[href="/"]:hover,
+.elementor-7193 nav.rank-math-breadcrumb a[href="/"]:hover,
+body.page-id-7193 nav.rank-math-breadcrumb a[href="/"]:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+
 /* Contact Us: no breadcrumb */
 body.elementor-page-241 nav.rank-math-breadcrumb,
 .elementor-241 nav.rank-math-breadcrumb,
