@@ -1,6 +1,7 @@
 /* Connect Staff shared header — match live Elementor chrome */
 
-header[data-elementor-type="header"] .elementor-container {
+/* Nav row only — do not pad the full-width contact bar (causes a white top gap). */
+header[data-elementor-type="header"] .elementor-section-boxed > .elementor-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,15 +10,75 @@ header[data-elementor-type="header"] .elementor-container {
   padding: 12px 16px;
 }
 
+/* Empty Elementor spacer section above the contact bar */
+header[data-elementor-type="header"] .elementor-element-571634e7 {
+  display: none !important;
+}
+
 /* Top contact bar: gradient spans the viewport; items stay in the 1200px row */
 header[data-elementor-type="header"] section.bg_r {
   width: 100% !important;
   max-width: 100% !important;
+  margin-top: 0 !important;
   background: linear-gradient(90deg, #04c2cd 0%, #4d47f3 43.75%, #7d2ae7 100%) !important;
 }
 
 header[data-elementor-type="header"] section.bg_r > .elementor-container {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto !important;
+  padding: 8px 16px !important;
   background: transparent !important;
+}
+
+/* Top bar contact links: +1px type, icon + text vertically centered */
+header[data-elementor-type="header"] section.bg_r .elementor-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  padding: 0 !important;
+}
+
+header[data-elementor-type="header"] section.bg_r .elementor-button-content-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  gap: 6px !important;
+}
+
+header[data-elementor-type="header"] section.bg_r .elementor-button-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 0 !important;
+}
+
+header[data-elementor-type="header"] section.bg_r .elementor-button-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+header[data-elementor-type="header"] section.bg_r .elementor-button-text {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2 !important;
+}
+
+header[data-elementor-type="header"] section.bg_r .elementor-widget-button {
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* Sticky nav: Elementor keeps padding-top:1% for static spacing under the
+   contact bar; when position:fixed that becomes a white strip at the viewport top. */
+header[data-elementor-type="header"] .elementor-element-59cc52f7.elementor-sticky--active,
+header[data-elementor-type="header"] .elementor-element-3e632d52.elementor-sticky--active {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  top: 0 !important;
 }
 
 header[data-elementor-type="header"] .elementor-widget-wrap {
@@ -58,8 +119,12 @@ header[data-elementor-type="header"] .elementor-nav-menu {
 }
 
 @media (max-width: 767px) {
-  header[data-elementor-type="header"] .elementor-container {
+  header[data-elementor-type="header"] .elementor-section-boxed > .elementor-container {
     padding: 10px 14px;
+  }
+
+  header[data-elementor-type="header"] section.bg_r > .elementor-container {
+    padding: 8px 14px !important;
   }
 }
 

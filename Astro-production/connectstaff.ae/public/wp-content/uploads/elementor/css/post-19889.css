@@ -144,10 +144,16 @@ textarea.wpcf7-form-control.wpcf7-textarea.wpcf7-validates-as-required.inside_la
 /* Start custom CSS for loop-carousel, class: .elementor-element-ee3f1a7 */.n2-ss-item-image-content.n2-ss-item-content.n2-ow-all {
     border-radius: 15px !important;
 }/* End custom CSS */
-/* Start custom CSS for section, class: .elementor-element-9a9758f */.article-2 .height_eql{
-    height:unset !important;
-}
-
-.article-2 .elementor-widget-theme-post-excerpt{
-    display:none;
-}/* End custom CSS */
+/* Start custom CSS for section, class: .elementor-element-9a9758f */.article-2 .elementor-loop-container .swiper-wrapper{align-items:stretch!important}
+.article-2 .elementor-loop-container .swiper-slide,
+.article-2 .elementor-loop-container .e-loop-item{height:auto!important;display:flex!important;flex-direction:column!important}
+.article-2 .elementor-loop-container .e-loop-item>.elementor,
+.article-2 .elementor-loop-container .e-loop-item>.elementor-section,
+.article-2 .elementor-loop-container .e-loop-item .elementor-container,
+.article-2 .elementor-loop-container .height_eql{height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important}
+.article-2 .elementor-loop-container .height_eql>.elementor-element-populated{height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important}
+.article-2 .elementor-widget-theme-post-featured-image{width:100%}
+.article-2 .elementor-widget-theme-post-featured-image img{width:100%!important;aspect-ratio:16/10;height:auto!important;object-fit:cover;display:block}
+.article-2 .elementor-widget-theme-post-title{flex:1 1 auto}
+.article-2 .elementor-widget-theme-post-title .elementor-heading-title{min-height:calc(1.4em * 3)}
+.article-2 .elementor-widget-theme-post-excerpt{display:none}/* End custom CSS */

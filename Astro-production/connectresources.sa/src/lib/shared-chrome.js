@@ -276,13 +276,14 @@ function markCurrentMenuItem(headerHtml, slug) {
 }
 
 /**
- * Inject shared header into a cleaned legacy HTML document.
- * Footer is left as exported per page — live uses footer 1054 on most
- * templates and 18333 on contact; swapping breaks CSS (post-XXXX.css).
- * No-op for excluded slugs (homepage).
+ * WordPress WhatsApp widget leftover: a bare `=Hi` text node after `</a>`
+ * (from `&text= Hi, I found…` leaking out of the href).
  * @param {string} html
- * @param {string} slug
  */
+export function stripStrayWhatsappText(html) {
+  return String(html).replace(/^\s*=Hi\s*$/gm, '');
+}
+
 /** Dropdown parents must not use href="#" in HTML (SEO). Keep the <a> so the submenu still opens.
  *  Drop elementor-item-anchor so Elementor JS cannot put href="#" back. */
 function stripHashParentMenuLinks(html) {
@@ -309,8 +310,16 @@ function stripHashParentMenuLinks(html) {
   });
 }
 
+/**
+ * Inject shared header into a cleaned legacy HTML document.
+ * Footer is left as exported per page — live uses footer 1054 on most
+ * templates and 18333 on contact; swapping breaks CSS (post-XXXX.css).
+ * No-op for excluded slugs (homepage).
+ * @param {string} html
+ * @param {string} slug
+ */
 export function applySharedChrome(html, slug) {
-  const withMenuFix = stripHashParentMenuLinks(html);
+  const withMenuFix = stripHashParentMenuLinks(stripStrayWhatsappText(html));
   if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(withMenuFix);
 
   const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
