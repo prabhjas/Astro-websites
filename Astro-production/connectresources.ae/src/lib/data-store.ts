@@ -42,7 +42,14 @@ function writeArray<T>(fileName: string, rows: T[]): void {
 }
 
 export function readPages(): PageEntry[] {
-  return readArray<PageEntry>("pages.json");
+  const pages = readArray<PageEntry>("pages.json");
+  const arPages = readArray<PageEntry>("ar-pages.json");
+  if (!arPages.length) return pages;
+  const byPath = new Map(pages.map((p) => [p.path, p]));
+  for (const page of arPages) {
+    byPath.set(page.path, page);
+  }
+  return [...byPath.values()];
 }
 
 export function readPosts(): PostEntry[] {

@@ -29,6 +29,12 @@ interface Props {
   hideSiteChrome?: boolean;
   /** Homepage security advisory strip above the header. */
   showHomeAnnouncement?: boolean;
+  /** HTML lang attribute (default en-AE). */
+  htmlLang?: string;
+  /** HTML dir attribute (default ltr). */
+  htmlDir?: "ltr" | "rtl";
+  /** Open Graph locale (default en_US). */
+  ogLocale?: string;
 }
 
 const {
@@ -41,6 +47,9 @@ const {
   loadElementor = false,
   hideSiteChrome = false,
   showHomeAnnouncement = false,
+  htmlLang = "en-AE",
+  htmlDir = "ltr",
+  ogLocale = "en_US",
 } = Astro.props;
 
 /** Prefer live homepage stylesheet order (Impreza + plugins). */
@@ -66,9 +75,9 @@ const stylesheets = [
 ---
 
 <!doctype html>
-<html lang="en-AE">
+<html lang={htmlLang} dir={htmlDir}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} />
+    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} ogLocale={ogLocale} />
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
