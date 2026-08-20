@@ -12,7 +12,6 @@ import {
   stripHtml,
   normalizePath,
   smartSliderCssForHtml,
-  isArabicPath,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import {
@@ -125,8 +124,6 @@ const bodyClass = page
       ? `page wp-singular page-template-default page-id-${page.id} elementor-default elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`
       : `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
   : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
-
-const arabic = isArabicPath(path);
 ---
 
 <BaseLayout
@@ -138,9 +135,6 @@ const arabic = isArabicPath(path);
   menuActivePath={post ? "/blog/" : undefined}
   loadElementor={isElementorPage}
   hideSiteChrome={isElementorCanvas}
-  htmlLang={arabic ? "ar" : "en-AE"}
-  htmlDir={arabic ? "rtl" : "ltr"}
-  ogLocale={arabic ? "ar_AE" : "en_US"}
 >
   {
     renderRawHtml ? (
