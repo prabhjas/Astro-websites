@@ -292,13 +292,50 @@
 
   /** Ensure FA + Swiper stylesheets exist (live often inlines SVG; cards still use .fas). */
   function ensureIconAndSwiperCss() {
-    if (!document.getElementById('astro-fa-css')) {
-      var fa = document.createElement('link');
-      fa.id = 'astro-fa-css';
-      fa.rel = 'stylesheet';
-      fa.href = '/css/fontawesome-all.min.css?v=20260804';
-      document.head.appendChild(fa);
+    // WP Rocket min cache rewrites icon CSS to /wp-content/cache/min/...; relative
+    // webfont paths 404 on the Astro mirror and icons show as empty boxes.
+    document.querySelectorAll('link[href*="/wp-content/cache/min/"]').forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (!href) return;
+      if (
+        href.indexOf('font-awesome/css/') === -1 &&
+        href.indexOf('eicons/css/') === -1 &&
+        href.indexOf('elementor-icons') === -1
+      ) {
+        return;
+      }
+      var fixed = href.replace(/\/wp-content\/cache\/min\/\d+\//, '/');
+      if (fixed && fixed !== href) {
+        link.setAttribute('href', fixed);
+      }
+    });
+
+    function ensureCss(id, href) {
+      if (document.getElementById(id)) return;
+      if (document.querySelector('link[href="' + href + '"]')) return;
+      var link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
     }
+
+    ensureCss(
+      'astro-fa-core-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css',
+    );
+    ensureCss(
+      'astro-fa-solid-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css',
+    );
+    ensureCss(
+      'astro-fa-regular-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css',
+    );
+    ensureCss(
+      'astro-fa-brands-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css',
+    );
     if (!document.querySelector('link[href*="eicons"],link[href*="elementor-icons"]') && !document.getElementById('astro-eicons-css')) {
       var ei = document.createElement('link');
       ei.id = 'astro-eicons-css';
@@ -745,13 +782,55 @@
         settings.image_spacing_custom_mobile && settings.image_spacing_custom_mobile.size !== undefined
           ? parseInt(settings.image_spacing_custom_mobile.size, 10) || gapDesktop
           : gapDesktop;
+      // Homepage partner-logo strip: keep logos tighter than inherited Elementor spacing.
+      if (widget.getAttribute('data-id') === '180c51f') {
+        desktop = 5;
+        tablet = 4;
+        mobile = 2;
+        gapDesktop = Math.min(gapDesktop, 8);
+        gapTablet = Math.min(gapTablet, 8);
+        gapMobile = Math.min(gapMobile, 8);
+      }
       var slideCount = wrap.querySelectorAll('.swiper-slide').length;
-      var loop = settings.infinite === 'yes' && slideCount > desktop;
+      var autoplayEnabled = settings.autoplay === 'yes';
+      var isHomepageLogoStrip = widget.getAttribute('data-id') === '180c51f';
+      // Keep at least one hidden slide when autoplay is enabled so the strip can move.
+      var desktopView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(desktop, slideCount - 1)
+          : Math.min(desktop, slideCount || 1);
+      var tabletView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(tablet, slideCount - 1)
+          : Math.min(tablet, slideCount || 1);
+      var mobileView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(mobile, slideCount - 1)
+          : Math.min(mobile, slideCount || 1);
+      desktopView = Math.max(1, desktopView);
+      tabletView = Math.max(1, tabletView);
+      mobileView = Math.max(1, mobileView);
+      if (isHomepageLogoStrip && slideCount > 0 && slideCount <= desktopView) {
+        // Swiper needs more slides than visible items for a smooth loop.
+        var wrapper = wrap.querySelector('.swiper-wrapper');
+        if (wrapper) {
+          var originals = Array.prototype.slice.call(wrapper.children);
+          var guard = 0;
+          while (wrapper.children.length <= desktopView && guard < 3) {
+            originals.forEach(function (node) {
+              wrapper.appendChild(node.cloneNode(true));
+            });
+            guard += 1;
+          }
+          slideCount = wrap.querySelectorAll('.swiper-slide').length;
+        }
+      }
+      var loop = settings.infinite === 'yes' && slideCount > desktopView;
       var slidesToScroll = parseInt(settings.slides_to_scroll || '1', 10) || 1;
       var nextEl = widget.querySelector('.elementor-swiper-button-next, .swiper-button-next');
       var prevEl = widget.querySelector('.elementor-swiper-button-prev, .swiper-button-prev');
       var swiperOptions = {
-        slidesPerView: mobile,
+        slidesPerView: mobileView,
         slidesPerGroup: slidesToScroll,
         spaceBetween: gapMobile,
         loop: loop,
@@ -761,8 +840,8 @@
         observeParents: true,
         allowTouchMove: true,
         breakpoints: {
-          768: { slidesPerView: tablet, spaceBetween: gapTablet, slidesPerGroup: slidesToScroll },
-          1025: { slidesPerView: desktop, spaceBetween: gapDesktop, slidesPerGroup: slidesToScroll },
+          768: { slidesPerView: tabletView, spaceBetween: gapTablet, slidesPerGroup: slidesToScroll },
+          1025: { slidesPerView: desktopView, spaceBetween: gapDesktop, slidesPerGroup: slidesToScroll },
         },
       };
 
@@ -773,7 +852,7 @@
         };
       }
 
-      if (settings.autoplay === 'yes') {
+      if (autoplayEnabled) {
         swiperOptions.autoplay = {
           delay: parseInt(settings.autoplay_speed || '3000', 10) || 3000,
           disableOnInteraction: settings.pause_on_interaction === 'yes',
@@ -1166,6 +1245,14 @@
 
   /** WP Rocket / Elementor / Swiper lazy images: promote data-lazy-src + data-src to real src */
   function ensureLazyImages() {
+    function getNoscriptFallbackSrc(img) {
+      var sibling = img.nextElementSibling;
+      if (!sibling || sibling.tagName !== 'NOSCRIPT') return '';
+      var html = sibling.textContent || sibling.innerHTML || '';
+      var match = html.match(/<img[^>]*\ssrc=['"]([^'"]+)['"]/i);
+      return match ? String(match[1]).trim() : '';
+    }
+
     document.querySelectorAll('img[data-lazy-src], img[data-src], img.swiper-lazy').forEach(function (img) {
       var lazySrc = img.getAttribute('data-lazy-src') || img.getAttribute('data-src');
       if (!lazySrc) return;
@@ -1181,6 +1268,24 @@
       if (lazySizes && !img.getAttribute('sizes')) {
         img.setAttribute('sizes', lazySizes);
       }
+
+      if (img.dataset.astroImgRecover !== '1') {
+        img.dataset.astroImgRecover = '1';
+        img.addEventListener(
+          'error',
+          function () {
+            var fallback =
+              img.getAttribute('data-lazy-src') ||
+              img.getAttribute('data-src') ||
+              getNoscriptFallbackSrc(img);
+            if (!fallback) return;
+            if (img.getAttribute('src') === fallback) return;
+            img.setAttribute('src', fallback);
+          },
+          { once: true },
+        );
+      }
+
       img.removeAttribute('data-lazy-src');
       img.removeAttribute('data-src');
       img.removeAttribute('data-lazy-srcset');
@@ -1260,7 +1365,18 @@
           }
         }
 
-        // 3) Hide broken icons that still 404 (matches live missing uploads)
+        // 3) Blog list cards: fallback image instead of blank broken area
+        if (img.closest('.filter-post .main-post.post-wrap .post-img')) {
+          var fallback = '/wp-content/uploads/2024/02/Contact-banner.png';
+          if (current !== fallback) {
+            img.removeAttribute('srcset');
+            img.removeAttribute('sizes');
+            img.setAttribute('src', fallback);
+            return;
+          }
+        }
+
+        // 4) Non-blog assets: hide irrecoverably broken images
         img.dataset.rvBroken = '1';
         img.setAttribute('data-rv-broken', '1');
         img.removeAttribute('srcset');
@@ -2037,8 +2153,20 @@
       /* Blog Latest Blogs category chips */
       '.catbutton .filter-button{cursor:pointer;}',
       '.catbutton .filter-button.active,.catbutton .filter-button.is-active{background:#5A8C1C!important;color:#fff!important;border-color:#5A8C1C!important;}',
-      '.filter-post .main-post.post-wrap{display:flex;gap:24px;align-items:flex-start;margin-bottom:28px;}',
+      '.filter-post .main-post.post-wrap{display:grid;grid-template-columns:minmax(260px,40%) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:28px;}',
+      '.filter-post .main-post.post-wrap .post-img{min-width:0;}',
+      '.filter-post .main-post.post-wrap .post-img img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover;background:#f4f5f7;}',
+      '@media (max-width:767px){.filter-post .main-post.post-wrap{display:block;}}',
       '.filter-post .main-post.post-wrap.is-hidden{display:none!important;}',
+      '.filter-post .main-post.post-wrap.is-load-hidden{display:none!important;}',
+      '.astro-blog-load-more-wrap{text-align:center;margin:32px 0 8px;}',
+      '.astro-blog-load-more{color:#4A4A4A;font-family:Poppins,sans-serif;font-size:14px;font-weight:600;line-height:20.5px;border-radius:100px;border:1px solid #D9D9D9;padding:12px 32px;background:#fff;cursor:pointer;}',
+      '.astro-blog-load-more:hover{background:#121212;color:#fff;border-color:#121212;}',
+      '.astro-blog-load-more.is-hidden{display:none!important;}',
+      /* Recruitment hero heading: keep two lines and centered on desktop */
+      '.astro-recruitment-title-break{display:none;}',
+      '.astro-recruitment-line1,.astro-recruitment-line2{display:inline;white-space:normal;}',
+      '@media (min-width:1025px){body.page-id-1750 .elementor-element-287c2a2f,body.elementor-page-1750 .elementor-element-287c2a2f,body.page-id-1750 .elementor-element-287c2a2f>.elementor-widget-container,body.elementor-page-1750 .elementor-element-287c2a2f>.elementor-widget-container{display:flex!important;justify-content:center!important;text-align:center!important;}body.page-id-1750 .elementor-element-287c2a2f .elementor-heading-title,body.elementor-page-1750 .elementor-element-287c2a2f .elementor-heading-title{display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center!important;max-width:1120px;margin-left:auto!important;margin-right:auto!important;line-height:1.12;}.astro-recruitment-line1,.astro-recruitment-line2{display:block;white-space:nowrap;text-align:center!important;width:auto;max-width:none;margin-left:auto!important;margin-right:auto!important;}.astro-recruitment-title-break{display:none!important;}}',
       /* Sticky form: ancestor overflow must not clip sticky */
       '@media (min-width:768px){.elementor-section:has(.elementor-element-3595752),.elementor-section:has(.elementor-element-3595752)>.elementor-container,.elementor-section:has(.elementor-element-3595752) .elementor-column,.elementor-section:has(.elementor-element-3595752)>.elementor-container>.elementor-column>.elementor-widget-wrap{overflow:visible!important;}}',
       'img[data-rv-broken]{visibility:hidden;max-height:0;margin:0;padding:0;}',
@@ -3163,25 +3291,150 @@
     setTimeout(onScroll, 500);
   }
 
-  /** Latest Blogs shortcode filters (`.filter-button` → `.filter-post .filter`) */
+  /** Latest Blogs: category filters + client-side Load More (10 posts per batch). */
   function ensureBlogCategoryFilters() {
     var buttons = document.querySelectorAll('.catbutton .filter-button, .filter-button[data-filter]');
-    var posts = document.querySelectorAll('.filter-post .filter, .filter-post .main-post.post-wrap');
+    var posts = Array.prototype.slice.call(
+      document.querySelectorAll('.filter-post .filter, .filter-post .main-post.post-wrap'),
+    );
     if (!buttons.length || !posts.length) return;
 
-    function applyFilter(value) {
-      var slug = String(value || 'all').toLowerCase();
+    var BATCH = 10;
+    var activeFilter = 'all';
+    var visibleLimit = BATCH;
+    var BLOG_CARD_FALLBACK_IMAGE = '/wp-content/uploads/2024/02/Contact-banner.png';
+    var loadMoreBtn =
+      document.querySelector('[data-astro-blog-load-more]') ||
+      document.querySelector('.astro-blog-load-more');
+
+    function getNoscriptFallbackSrc(img) {
+      var sibling = img.nextElementSibling;
+      if (!sibling || sibling.tagName !== 'NOSCRIPT') return '';
+      var html = sibling.textContent || sibling.innerHTML || '';
+      var match = html.match(/<img[^>]*\ssrc=['"]([^'"]+)['"]/i);
+      return match ? String(match[1]).trim() : '';
+    }
+
+    function hydratePostImages(post) {
+      post.querySelectorAll('img').forEach(function (img) {
+        var preferred =
+          img.getAttribute('src') ||
+          img.getAttribute('data-lazy-src') ||
+          img.getAttribute('data-src') ||
+          getNoscriptFallbackSrc(img);
+        var lazySrc = img.getAttribute('data-lazy-src') || img.getAttribute('data-src');
+        var fallback = lazySrc || getNoscriptFallbackSrc(img);
+
+        if (!preferred || preferred.indexOf('data:image') === 0) {
+          preferred = fallback;
+        }
+        if (!preferred && post.matches('.main-post.post-wrap')) {
+          preferred = BLOG_CARD_FALLBACK_IMAGE;
+        }
+        if (preferred && (img.getAttribute('src') || '').indexOf('data:image') === 0) {
+          img.setAttribute('src', preferred);
+        } else if (preferred && !img.getAttribute('src')) {
+          img.setAttribute('src', preferred);
+        }
+
+        var lazySrcset = img.getAttribute('data-lazy-srcset') || img.getAttribute('data-srcset');
+        if (lazySrcset && !img.getAttribute('srcset')) {
+          img.setAttribute('srcset', lazySrcset);
+        }
+        var lazySizes = img.getAttribute('data-lazy-sizes');
+        if (lazySizes && !img.getAttribute('sizes')) {
+          img.setAttribute('sizes', lazySizes);
+        }
+
+        if (img.dataset.astroPostImgRecover !== '1') {
+          img.dataset.astroPostImgRecover = '1';
+          img.addEventListener(
+            'error',
+            function () {
+              var rescue =
+                getNoscriptFallbackSrc(img) ||
+                img.getAttribute('data-lazy-src') ||
+                (post.matches('.main-post.post-wrap') ? BLOG_CARD_FALLBACK_IMAGE : '');
+              if (!rescue || img.getAttribute('src') === rescue) return;
+              img.setAttribute('src', rescue);
+            },
+            { once: true },
+          );
+        }
+
+        if (!img.loading) img.loading = 'lazy';
+      });
+    }
+
+    function ensureLoadMoreButton() {
+      var wrap = document.querySelector('.astro-blog-load-more-wrap');
+      if (!loadMoreBtn && !wrap) {
+        var filterPost = document.querySelector('.filter-post');
+        if (!filterPost) return null;
+        wrap = document.createElement('div');
+        wrap.className = 'astro-blog-load-more-wrap';
+        wrap.innerHTML =
+          '<button type="button" class="astro-blog-load-more btn btn-default" data-astro-blog-load-more>Load More</button>';
+        filterPost.insertAdjacentElement('afterend', wrap);
+      }
+      if (!loadMoreBtn) {
+        loadMoreBtn = document.querySelector('[data-astro-blog-load-more], .astro-blog-load-more');
+      }
+      if (loadMoreBtn && loadMoreBtn.dataset.astroLoadMoreBound !== '1') {
+        loadMoreBtn.dataset.astroLoadMoreBound = '1';
+        loadMoreBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          visibleLimit += BATCH;
+          applyFilter(activeFilter);
+        });
+      }
+      return loadMoreBtn;
+    }
+
+    function matchingPosts() {
+      var slug = String(activeFilter || 'all').toLowerCase();
       var isAll = !slug || slug === 'all';
+      return posts.filter(function (post) {
+        return isAll || post.classList.contains(slug);
+      });
+    }
+
+    function applyFilter(value) {
+      activeFilter = String(value || 'all').toLowerCase();
+      var slug = activeFilter;
+      var isAll = !slug || slug === 'all';
+      var matched = matchingPosts();
+
       posts.forEach(function (post) {
         var match = isAll || post.classList.contains(slug);
         post.classList.toggle('is-hidden', !match);
-        post.style.display = match ? '' : 'none';
+        if (!match) {
+          post.classList.add('is-load-hidden');
+          post.style.display = 'none';
+        }
       });
+
+      matched.forEach(function (post, index) {
+        var show = index < visibleLimit;
+        post.classList.toggle('is-load-hidden', !show);
+        post.style.display = show ? '' : 'none';
+        if (show) hydratePostImages(post);
+      });
+
       buttons.forEach(function (btn) {
-        var active = String(btn.getAttribute('data-filter') || '').toLowerCase() === slug || (isAll && String(btn.getAttribute('data-filter') || '').toLowerCase() === 'all');
+        var active =
+          String(btn.getAttribute('data-filter') || '').toLowerCase() === slug ||
+          (isAll && String(btn.getAttribute('data-filter') || '').toLowerCase() === 'all');
         btn.classList.toggle('active', active);
         btn.classList.toggle('is-active', active);
       });
+
+      var btn = ensureLoadMoreButton();
+      if (btn) {
+        var hasMore = matched.length > visibleLimit;
+        btn.classList.toggle('is-hidden', !hasMore);
+        btn.style.display = hasMore ? '' : 'none';
+      }
     }
 
     buttons.forEach(function (btn) {
@@ -3189,12 +3442,24 @@
       btn.dataset.astroFilterBound = '1';
       btn.addEventListener('click', function (e) {
         e.preventDefault();
+        visibleLimit = BATCH;
         applyFilter(btn.getAttribute('data-filter') || 'all');
       });
     });
 
-    // Default: show all
+    visibleLimit = BATCH;
     applyFilter('all');
+  }
+
+  /** Recruitment page hero title: force two-line desktop wrap. */
+  function ensureRecruitmentTwoLineTitle() {
+    if (!document.body || !(document.body.classList.contains('page-id-1750') || document.body.classList.contains('elementor-page-1750'))) return;
+    var title = document.querySelector('.elementor-element-287c2a2f .elementor-heading-title');
+    if (!title || title.dataset.astroTwoLine === '1') return;
+    title.innerHTML =
+      '<span class="astro-recruitment-line1">How Our Expert <span class="blue">Emiratisation Recruitment</span></span>' +
+      '<span class="astro-recruitment-line2">Services Can Help You</span>';
+    title.dataset.astroTwoLine = '1';
   }
 
   function boot() {
@@ -3221,6 +3486,7 @@
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
     safe(ensureBlogCategoryFilters);
+    safe(ensureRecruitmentTwoLineTitle);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
     safe(ensurePixfortAnimations);
@@ -3247,6 +3513,7 @@
       safe(ensureKinzaFormSkin);
       safe(ensureTaxonomyFilter);
       safe(ensureBlogCategoryFilters);
+      safe(ensureRecruitmentTwoLineTitle);
       safe(ensureStickySidebarClamp);
       safe(bindStickySidebarClampObservers);
     }, 600);
@@ -3268,6 +3535,7 @@
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
     safe(ensureBlogCategoryFilters);
+    safe(ensureRecruitmentTwoLineTitle);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
       safe(ensurePixfortAnimations);

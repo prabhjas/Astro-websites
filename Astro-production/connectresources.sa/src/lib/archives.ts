@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { stripStrayWhatsappText } from './shared-chrome.js';
 import {
   ARCHIVE_POSTS_PER_PAGE,
   TAG_POSTS_PER_PAGE,
@@ -347,7 +348,7 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
   let html = readFileSync(INSIGHTS_PATH, 'utf8');
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
-  return injectRuntimeGtmLoader(html);
+  return injectRuntimeGtmLoader(stripStrayWhatsappText(html));
 }
 
 export function serveArchivePage(data: ArchivePageData): Response {
