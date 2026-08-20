@@ -1,0 +1,48 @@
+/* /author/ hub — Elementor author directory inside Twenty Twenty blog shell */
+.author-hub #site-content {
+  overflow: visible !important;
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.author-hub .author-hub-content,
+.author-hub .sp-page-content {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.author-hub .elementor-1642 {
+  width: 100%;
+}
+
+.author-hub .author-box h3.elementor-image-box-title {
+  margin: 0;
+}
+
+.author-hub .author-box .elementor-image-box-content {
+  background: #fff;
+  padding: 80px 30px 30px 30px;
+}
+
+.author-hub .author-box .elementor-image-box-content:hover {
+  background: #f7bb27;
+}
+
+.author-hub .author-box .elementor-posts .elementor-post {
+  background: #f4f2fc;
+}
+
+.author-hub .author-box .elementor-post__text {
+  padding: 0 20px 20px 20px;
+}
+
+.author-hub .author-box a.elementor-post__read-more {
+  background: #fcbb09;
+  padding: 14px 30px;
+  margin: 10px 0;
+  display: inline-block;
+}
