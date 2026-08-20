@@ -295,7 +295,9 @@ function wrapInAuthorShell(
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>\n</body>');
+  } else if (!html.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
   if (options.loadMoreScript && !html.includes('author-load-more.js')) {

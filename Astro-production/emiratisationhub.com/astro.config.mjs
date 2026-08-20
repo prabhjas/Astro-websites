@@ -9,7 +9,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 const redirectsFile = join(root, 'src/data/redirects.yml');
 
 /** Canonical production origin — prefer PUBLIC_SITE_URL; never hardcode only in SEO endpoints. */
-const siteUrl = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || '')
+const siteUrl = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://emiratisationhub.com')
   .trim()
   .replace(/\/$/, '');
 
