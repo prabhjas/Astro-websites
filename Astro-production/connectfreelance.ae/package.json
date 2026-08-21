@@ -26,6 +26,7 @@
     "prepare:author-shell": "node scripts/prepare-author-shell.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
     "chrome:extract": "node scripts/extract-chrome.mjs",
+    "licence:apply": "node scripts/apply-licence-strip.mjs",
     "qa:final": "node scripts/final-qa.mjs",
     "qa:final:ui": "node scripts/final-qa-ui.mjs"
   },

@@ -48,3 +48,9 @@ redirects:
   - from: /services/recruitment-consultancy/
     to: /services/executive-search-firm/
     status: 301
+  - from: /permanent-hiring/
+    to: /services/permanent-hiring/
+    status: 301
+  - from: /services/eor-peo-services/
+    to: /services/employer-of-record/
+    status: 301

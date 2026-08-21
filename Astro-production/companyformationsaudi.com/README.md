@@ -1,6 +1,6 @@
 # companyformationsaudi.com — Astro fleet site
 
-Company Formation Saudi (https://companyformationsaudi.com/) — WordPress/Elementor → Astro SSR mirror.
+Company Formation Saudi (/) — WordPress/Elementor → Astro SSR mirror.
 
 | | |
 |--|--|

@@ -90,6 +90,9 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
   transformTags: {
     a: sanitizeHtmlLib.simpleTransform('a', { rel: 'noopener noreferrer' }),
   },
+  // WP Rocket leaves <img> + <noscript><img></noscript>. Without this, sanitize-html
+  // strips <noscript> but keeps the inner <img>, so every body image renders twice.
+  nonTextTags: ['script', 'style', 'textarea', 'option', 'noscript'],
 };
 
 /** Sanitize HTML intended for set:html / CMS post bodies. */

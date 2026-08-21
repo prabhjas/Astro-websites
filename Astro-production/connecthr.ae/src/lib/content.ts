@@ -27,7 +27,10 @@ export type {
   TagEntry,
 } from "./content-types";
 
-export const site = siteJson as typeof siteJson & {
+export const site = siteJson as unknown as Omit<
+  typeof siteJson,
+  "navigation" | "footerServices" | "footerQuickLinks"
+> & {
   navigation: import("./content-types").NavItem[];
   footerServices: { label: string; href: string }[];
   footerQuickLinks: { label: string; href: string }[];
@@ -189,8 +192,42 @@ export function absoluteUrl(pathname: string): string {
   return `${base}${path}`;
 }
 
+const NAMED_HTML_ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
+function decodeHtmlEntitiesOnce(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => {
+      const code = Number.parseInt(hex, 16);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : _;
+    })
+    .replace(/&#(\d+);/g, (_, dec) => {
+      const code = Number.parseInt(dec, 10);
+      return Number.isFinite(code) ? String.fromCodePoint(code) : _;
+    })
+    .replace(/&([a-z]+);/gi, (match, name: string) => NAMED_HTML_ENTITIES[name.toLowerCase()] ?? match);
+}
+
+/** Decode single- and double-encoded WP entities (&#038;, &#8211;, &amp;, …). */
+export function decodeHtmlEntities(text: string): string {
+  if (!text || !/&(?:#x?[0-9a-f]+|[a-z]+);/i.test(text)) return text;
+  let out = text;
+  let prev = "";
+  while (out !== prev) {
+    prev = out;
+    out = decodeHtmlEntitiesOnce(out);
+  }
+  return out;
+}
+
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return decodeHtmlEntities(html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim());
 }
 
 export function formatDate(date: string): string {

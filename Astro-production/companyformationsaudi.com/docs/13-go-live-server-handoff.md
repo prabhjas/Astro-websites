@@ -6,7 +6,7 @@
 **Unix user:** `site-companyformationsaudi`  
 **Canonical:** `https://companyformationsaudi.com` (www → apex)  
 **Package filter:** `companyformationsaudi-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5114`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA + paired manual loaders) → `127.0.0.1:5114`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/companyformationsaudi.service`, `deploy/companyformationsaudi.com.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full**, backed by named CA `astro_origin_2026` and paired manual loaders (never Flexible).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---
@@ -52,11 +52,11 @@ Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Every
 
 ```bash
 curl -sS http://127.0.0.1:5114/api/health/
-curl -sI https://companyformationsaudi.com/ | head
-curl -sI https://www.companyformationsaudi.com/ | head   # → canonical apex
-curl -sI https://companyformationsaudi.com/robots.txt
-curl -sI https://companyformationsaudi.com/sitemap_index.xml
-curl -sI https://companyformationsaudi.com/about/
+curl -sI / | head
+curl -sI / | head   # → canonical apex
+curl -sI /robots.txt
+curl -sI /sitemap_index.xml
+curl -sI /about/
 ```
 
 ---

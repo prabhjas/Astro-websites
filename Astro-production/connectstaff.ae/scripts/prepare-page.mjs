@@ -147,6 +147,33 @@ function promoteLazyImages(html) {
   });
 }
 
+function humanizeAltFromSrc(src) {
+  const file = (src.split('/').pop() || '').replace(/\.[^.]+$/, '');
+  if (/^staff-\d+$/i.test(file)) {
+    return 'Connect Staff temporary staffing professional in the UAE';
+  }
+  if (!file) return 'Connect Staff';
+  return file
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+\d+$/, '')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .trim();
+}
+
+function fixMissingImgAlts(html) {
+  return html.replace(/<img\b([^>]*?)>/gi, (full, attrs) => {
+    const src = attrs.match(/\bsrc=(['"])(.*?)\1/i)?.[2] || '';
+    const altMatch = attrs.match(/\balt=(['"])(.*?)\1/i);
+    const alt = altMatch?.[2]?.trim() ?? '';
+    if (alt) return full;
+    const generated = humanizeAltFromSrc(src);
+    if (altMatch) {
+      return `<img${attrs.replace(/\balt=(['"]).*?\1/i, ` alt="${generated}"`)}>`;
+    }
+    return `<img${attrs} alt="${generated}">`;
+  });
+}
+
 function normalizeAssetUrlsInHtml(html) {
   return html.replace(
     /((?:https?:\/\/(?:www\.)?connectstaff\.ae|\/wp-content|\/wp-includes)\/[^"'<>]+)/gi,
@@ -218,6 +245,7 @@ function cleanHtml(html) {
 
   // Promote WP Rocket lazy images to real src (static mirror should not wait on lazyload.js)
   out = promoteLazyImages(out);
+  out = fixMissingImgAlts(out);
 
   out = out.replace(
     /<head([^>]*)>/i,
@@ -237,13 +265,17 @@ function cleanHtml(html) {
 
 function rewriteOriginUrls(text) {
   let out = text.replace(/https?:\\\/\\\/(?:www\.)?connectstaff\.ae/gi, '');
-  // Protocol-relative URLs (common in Elementor / WP Rocket output)
-  out = out.replace(/\/\/(?:www\.)?connectstaff\.ae(\/[^"'()\s<>]*)/gi, (_, path) =>
-    path.replace(/&amp;/g, '&').split('#')[0],
-  );
+  // Absolute origins FIRST. A bare //domain pass before this turns
+  // https://domain/x into https:/x (broken — images/CSS never load).
   out = out.replace(/https?:\/\/(?:www\.)?connectstaff\.ae(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );
+  // Protocol-relative only (not the // inside https://)
+  out = out.replace(/(?<!:)\/\/(?:www\.)?connectstaff\.ae(\/[^"'()\s<>]*)/gi, (_, path) =>
+    path.replace(/&amp;/g, '&').split('#')[0],
+  );
+  // Repair already-broken rewrites from older prepares
+  out = out.replace(/https?:\/(?!\/)(wp-content|wp-includes)\//gi, '/$1/');
   return out;
 }
 

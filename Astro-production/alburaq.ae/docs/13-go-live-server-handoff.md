@@ -6,7 +6,7 @@
 **Unix user:** `site-alburaq`  
 **Canonical:** `https://alburaq.ae` (www → apex)  
 **Package filter:** `alburaq-astro`  
-**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (`tls internal`) → `127.0.0.1:5120`  
+**App model:** Astro **Node standalone SSR** behind Cloudflare → Caddy (named CA + paired manual loaders) → `127.0.0.1:5120`
 **Node:** `>=22.12.0` (see `package.json` `engines`)
 
 Templates: `deploy/alburaq.service`, `deploy/alburaq.ae.caddy`, `deploy/ROOT_SETUP.md`.  
@@ -30,7 +30,7 @@ Local laptop sign-off uses `fleet-local` only — do **not** run the production 
 | `/api/blog/listing` | Blog index AJAX |
 | `/api/internal/*` | FLOW bearer APIs (must reach origin) |
 
-**SSL/TLS:** **Full** (not Flexible; not Full strict alone with `tls internal`).  
+**SSL/TLS:** **Full**, backed by named CA `astro_origin_2026` and paired manual loaders (never Flexible).
 Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Everything” on robots/sitemaps/`runtime-gtm.js`.
 
 ---
@@ -52,12 +52,12 @@ Skip Bot Fight / Managed Challenge on the SEO paths above. Do not “Cache Every
 
 ```bash
 curl -sS http://127.0.0.1:5120/api/health/
-curl -sSI https://www.alburaq.ae/ | head -15   # → 301 https://alburaq.ae/
-curl -sSI https://alburaq.ae/ | head -10
-curl -sSI https://alburaq.ae/robots.txt
-curl -sSI https://alburaq.ae/sitemap_index.xml
-curl -sSI https://alburaq.ae/llms.txt
-curl -sSI https://alburaq.ae/about-us   # → 301 /about-us/
+curl -sSI / | head -15   # → 301 /
+curl -sSI / | head -10
+curl -sSI /robots.txt
+curl -sSI /sitemap_index.xml
+curl -sSI /llms.txt
+curl -sSI /about-us   # → 301 /about-us/
 ```
 
 **Git already has** the production Caddy site block + one-hop `http://www.alburaq.ae` line in `caddy/Caddyfile.production` — owner copies that into live `/etc/caddy/Caddyfile` (do not reload from a developer laptop).

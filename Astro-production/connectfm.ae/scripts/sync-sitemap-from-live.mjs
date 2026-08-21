@@ -10,14 +10,14 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const LIVE_INDEX =
-  process.env.LIVE_SITEMAP_INDEX || "https://c-uae.com/sitemap_index.xml";
+  process.env.LIVE_SITEMAP_INDEX || "https://connectfm.ae/sitemap_index.xml";
 const LOCAL_DIR = process.env.LOCAL_SITEMAP_DIR || "";
 const OUT = join(process.cwd(), "src/data/sitemap-urls.json");
 
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "CUAESitemapSync/1.0",
+      "User-Agent": "ConnectFMSitemapSync/1.0",
       Accept: "application/xml,text/xml,*/*",
     },
   });

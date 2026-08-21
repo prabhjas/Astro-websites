@@ -10,13 +10,58 @@
     "status": 301
   },
   {
-    "from": "/blog/",
-    "to": "/insights/",
+    "from": "/contact/",
+    "to": "/contact-us/",
     "status": 301
   },
   {
-    "from": "/contact/",
-    "to": "/contact-us/",
+    "from": "/insights/",
+    "to": "/blog/",
+    "status": 301
+  },
+  {
+    "from": "/hire-emirati-talent-process/2/",
+    "to": "/hire-emirati-talent-process/",
+    "status": 301
+  },
+  {
+    "from": "/employee-benefits-in-uae/2/",
+    "to": "/employee-benefits-in-uae/",
+    "status": 301
+  },
+  {
+    "from": "/common-recruitment-mistakes/2/",
+    "to": "/common-recruitment-mistakes/",
+    "status": 301
+  },
+  {
+    "from": "/recruitment-process-outsourcing/2/",
+    "to": "/recruitment-process-outsourcing/",
+    "status": 301
+  },
+  {
+    "from": "/permanent-recruitment-agency-in-dubai/",
+    "to": "/permanent-recruitment/",
+    "status": 301
+  },
+  {
+    "from": "/emiratisation-percentage-in-private-sector/?page=3/",
+    "to": "/emiratisation-percentage-in-private-sector/",
+    "status": 301
+  },
+  {
+    "from": "/esaad-card-for-golden-visa/2/",
+    "to": "/esaad-card-for-golden-visa/",
+    "status": 301
+  },
+  {
+    "from": "/benefits-of-emiratisation-for-uae-nationals/",
+    "to": "/benefits-of-emiratisation-in-uae/",
+    "status": 301
+  },
+  {
+    "from": "/avoid-emiratisation-penalties/",
+    "to": "/emiratisation-fines-in-the-uae/",
     "status": 301
   }
 ]

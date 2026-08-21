@@ -51,7 +51,7 @@ export function defaultLlmContent(): string {
     '# Edit this file from the internal SEO dashboard.',
     '# Describe the site, preferred citations, and any crawl constraints for AI systems.',
     '',
-    'Site: https://alburaq.ae',
+    'Site: ',
     '',
   ].join('\n');
 }

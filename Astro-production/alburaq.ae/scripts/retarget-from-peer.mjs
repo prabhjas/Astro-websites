@@ -70,8 +70,8 @@ async function walk(dir) {
 function retarget(text) {
   let s = text;
   // Domains / emails first (longer patterns before shorter)
-  s = s.replace(/https:\/\/(?:www\.)?alburaq\.ae/gi, 'https://alburaq.ae');
-  s = s.replace(/http:\/\/(?:www\.)?alburaq\.ae/gi, 'http://alburaq.ae');
+  s = s.replace(/https:\/\/(?:www\.)?alburaq\.ae/gi, '');
+  s = s.replace(/http:\/\/(?:www\.)?alburaq\.ae/gi, '');
   s = s.replace(/www\.alburaq\.ae/gi, 'www.alburaq.ae');
   s = s.replace(/contact@alburaq\.ae/gi, 'contact@alburaq.ae');
   s = s.replace(/alburaq\.ae/gi, 'alburaq.ae');

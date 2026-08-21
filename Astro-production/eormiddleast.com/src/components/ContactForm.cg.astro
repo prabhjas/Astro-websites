@@ -11,7 +11,7 @@ interface Props {
 const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' } = Astro.props;
 ---
 
-<form id={formId} class="cg-contact-form" method="post" action="/api/contact" novalidate>
+<form id={formId} class="cg-contact-form" method="post" action="/api/contact/" novalidate>
   <input type="text" name="website" class="cg-contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <input type="hidden" name="form_name" value={formName} />
   <input type="hidden" name="form_id" value={formId} />
@@ -93,20 +93,20 @@ const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' }
   import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
 
   document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById(formId);
+    const form = document.getElementById(formId);
     if (!form) return;
 
-    var submitBtn = form.querySelector('button[type="submit"]');
-    var status = form.querySelector('.cg-contact-form__status');
-    var submitting = false;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('.cg-contact-form__status');
+    let submitting = false;
 
     function setHidden(name, value) {
-      var input = form.querySelector('[name="' + name + '"]');
+      const input = form.querySelector('[name="' + name + '"]');
       if (input) input.value = value || '';
     }
 
     function captureTracking() {
-      var captured = captureAttribution(formId, formName);
+      const captured = captureAttribution(formId, formName);
       populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
       setHidden('page_url', window.location.href);
       setHidden('submission_page_url', window.location.href);
@@ -133,7 +133,7 @@ const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' }
     function showFieldErrors(errors) {
       if (!errors) return;
       Object.keys(errors).forEach(function (key) {
-        var el = form.querySelector('[data-error-for="' + key + '"]');
+        const el = form.querySelector('[data-error-for="' + key + '"]');
         if (el) el.textContent = errors[key];
       });
     }
@@ -146,15 +146,17 @@ const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' }
       captureTracking();
       setHidden('submitted_at', new Date().toISOString());
 
-      var phone = form.querySelector('.cg-phone-input');
-      var countryCodeInput = form.querySelector('[name="phone-country-code"]');
+      const phone = form.querySelector('.cg-phone-input');
+      const countryCodeInput = form.querySelector('[name="phone-country-code"]');
       if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
         try {
-          var full = window.jQuery(phone).intlTelInput('getNumber');
+          const full = window.jQuery(phone).intlTelInput('getNumber');
           if (full) phone.value = full;
-          var dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
+          const dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
           if (dial && countryCodeInput) countryCodeInput.value = '+' + dial.dialCode;
-        } catch (err) {}
+        } catch {
+          // Keep the raw phone value when the optional legacy plugin is unavailable.
+        }
       }
 
       submitting = true;
@@ -162,12 +164,12 @@ const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' }
 
       // JSON body — Astro checkOrigin only blocks cross-site *form* POSTs (FormData /
       // urlencoded). Behind TLS proxies that check misfires unless allowedDomains is set.
-      var payload = {};
-      var arrays = {};
+      const payload = {};
+      const arrays = {};
       new FormData(form).forEach(function (value, key) {
         if (typeof value !== 'string') return;
         if (key.endsWith('[]')) {
-          var arrayKey = key.slice(0, -2);
+          const arrayKey = key.slice(0, -2);
           if (!arrays[arrayKey]) arrays[arrayKey] = [];
           arrays[arrayKey].push(value);
           return;
@@ -178,7 +180,7 @@ const { formId = 'eor-contact-lead', formName = 'EOR Middle East Contact Form' }
         payload[k] = arrays[k];
       });
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

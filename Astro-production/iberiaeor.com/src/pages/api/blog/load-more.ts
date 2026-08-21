@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import {
   BLOG_LOAD_MORE_PER_PAGE,
-  renderBlogCardsHtml,
+  renderInsightsCardsHtml,
 } from "../../../lib/blog-card-html";
 import { getPosts, paginate } from "../../../lib/content";
 
@@ -16,7 +16,8 @@ export const GET: APIRoute = async ({ url }) => {
 
   const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
   const slice = paginate(sorted, page, perPage);
-  const html = renderBlogCardsHtml(slice.items);
+  /** Insights archive + author pages use Elementor loop template 213. */
+  const html = renderInsightsCardsHtml(slice.items);
 
   return new Response(
     JSON.stringify({

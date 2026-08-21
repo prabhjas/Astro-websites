@@ -3,5 +3,5 @@
 | Field | Value |
 |-------|-------|
 | Kind | post |
-| Live URL | https://companyformationsaudi.com/construction-company-in-saudi/ |
+| Live URL | /construction-company-in-saudi/ |
 | Fetched | 2026-08-08T06:10:53.976Z |

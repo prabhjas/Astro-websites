@@ -6,7 +6,14 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 | | |
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
-| **Fleet status (Aug 2026)** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** — 45 domains, ports **5080–5124**, next free **5125**. Live Caddy = **nine** cutover sites (see [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)). |
+| **Paste into Claude (34-site queue)** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-03 memory note. **FQ-04 source review already done — do not redo.** |
+| **Fleet status (Aug 2026)** | **42 sites** on live Caddy. Laptop working branch: `work/astro-sites`. Live publish pin: host `astro-fleet-development` via `astro-fleet-release publish` — **do not treat laptop merge as live**. Ports **5080–5124**. |
+| **18 Aug (Aaron)** | Do not ship placeholder/smeared uploads or peer chrome. Do not revert `caddy/Caddyfile.production` / `README.md`. FLOW uses `/api/internal/*`; `/internal/operations` is 404. Detail: [AARON-RULES.md](AARON-RULES.md) § 18 Aug. |
+| **Aaron rules (security / deploy / copy)** | **[AARON-RULES.md](AARON-RULES.md)** — immutable release, FQ-00–04, **18 Aug** asset/Caddy/FLOW comments, canary `:5999`. |
+| **FLOW / CMS APIs (Aaron)** | Per-site `/api/internal/*` + bearer secret. Old `/internal/operations` UI is 404. Shareable note: [CMS-DASHBOARD-AND-FLOW-APIS.md](CMS-DASHBOARD-AND-FLOW-APIS.md). |
+| **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — never the retired default local-CA directive. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
+| **34-site queue** | **[§ Fleet work queue](#fleet-work-queue--34-sites)** — geo, nanoid, memory, source-review leftovers, owner APPLY. Do these on every keep site, then follow for new sites. |
+| **Pre-switch canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** — private `:5999`, one site, real env; then `switch`. |
 | **Repo** | [Connect-Group-Tech/Astro-websites](https://github.com/Connect-Group-Tech/Astro-websites) |
 | **Reference peers** | Leads-only: `cbss.ae` / `iberiaworkforce.com` · Full CMS: `spheavyrental.ae` / `connectgroup.co` / `evolutionmiddleast.com` / `c-uae.com` |
 | **Go-live verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** — trailing slash, canonical, GTM, forms, APIs, **404 brand**, content/images |
@@ -61,6 +68,8 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Run malware / inject scan per [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md)
 - [ ] Remove or quarantine findings (PHP webshells, spam HTML, bad `.htaccess`, obfuscated JS)
 - [ ] No nested `node_modules` / `package-lock.json` left in the site folder
+- [ ] **Asset debt:** avoid multi‑MB PNG heroes, duplicated header/app-store images, and WP lazy placeholders — see [AARON-RULES.md](AARON-RULES.md) § Performance / asset debt
+- [ ] **18 Aug:** logos and in-use uploads are real files (not 643-byte placeholders / one blob copied across a directory); header/footer are this domain, not SP Heavy chrome; do not revert `caddy/Caddyfile.production` or `README.md`
 
 **Next → Phase 02**
 
@@ -121,6 +130,7 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Valid submit → 200, lead JSON written, Pipedrive attempted (or mocked in local)
 - [ ] Submit with `?gclid=test&campaignid=1&device=m` → fields on lead JSON
 - [ ] Phone / intl-tel (if peer has it) country + E.164 behaviour OK
+- [ ] Geo: `cf-ipcountry` via `/api/geo` or `/api/geo/country` (skip `XX` / `T1` → fallback `ae`). **No** browser call to `ipinfo.io`. Prefer SSR `window.__GEO_COUNTRY__` when touching forms — see [§ FQ-02](#fq-02--geo--stop-ipinfoio-use-cloudflare)
 
 **Next → Phase 05**
 
@@ -347,12 +357,19 @@ node scripts/fleet-local.mjs smoke <site-id>
 **Detail:** [CONNECT-CADDY-DEPLOYMENT.md](CONNECT-CADDY-DEPLOYMENT.md) · copy `deploy/` from peer
 
 - [ ] `deploy/<unit>.service` — `PORT`, `EnvironmentFile=…/.env.prod`, correct user
-- [ ] `deploy/<domain>.caddy` — production pattern (bare hosts, `tls internal`, HSTS, `@noncanonical`, static cache)
-- [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production`
-- [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`
+- [ ] `deploy/<domain>.caddy` — **Aaron production pattern** (copy a live peer such as `connectfm.ae`):
+  - named CA `astro_origin_2026` via `tls force_automate { issuer internal { ca … } }`
+  - paired manual loaders for apex **and** `www` under `/var/lib/caddy/.../certificates/astro_origin_2026/`
+  - **never** ship new sites with the retired default local-CA directive
+  - HSTS, `@noncanonical`, static cache headers
+- [ ] Note one-hop HTTP alt-host line for fleet `Caddyfile.production` (include `http://www.<domain>`)
+- [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`; Cloudflare **Full** (not Flexible)
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`
-- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned
+- [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned — match the peer named-CA block, never an old local-CA scaffold
+- [ ] **18 Aug:** never replace or shrink `caddy/Caddyfile.production` / root `README.md` — keep admin unix socket, Cloudflare `trusted_proxies`, and existing site blocks
+- [ ] Contact `POST /api/contact` bounds body with `readRequestBodyLimited` (Aaron contact hardening) + rate limit
 - [ ] GTM wiring complete per **Phase 05 § Dynamic GTM / GA4** (`resolveEffectiveGtmConfig`, `recreateScript`, `inject.ts`, `.env.example` IDs blank — live IDs only on server / FLOW)
+- [ ] Private keys / Caddy PEM material must never be committed — CI `private-key-guard` must stay green
 
 **Do not** edit `/etc/caddy/Caddyfile` or reload Caddy as a developer step. That is **owner-only** — [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md).
 
@@ -419,10 +436,132 @@ Site is ready for **owner Caddy / public DNS** when:
 
 ---
 
+## Fleet work queue — 34 sites
+
+**Scope:** the keep list on [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (28 live + next 6). Same rules apply to every **new** site after that.
+
+**Live 28:** `c-uae.com` · `cbss.ae` · `connectfm.ae` · `connectfreelance.ae` · `connectfz.com` · `connectgroup.co` · `connecthr.ae` · `connectresources.ae` · `connectresources.sa` · `connectstaff.ae` · `emiratiguard.com` · `emiratisationgate.org` · `emiratisationgateway.com` · `eormiddleast.com` · `evolutionmiddleast.com` · `freelancerdxb.com` · `iberiaeor.com` · `iberiaworkforce.com` · `kinzahr.com` · `kpmpro.ae` · `ngmanpower.com` · `payrollmiddleast.org` · `peomiddleast.com` · `pittant.com` · `redo.ae` · `royalvisa.ae` · `spheavyrental.ae` · `thefreelancergate.com`  
+
+**Next 6:** `mbs-consultancy.com` · `connectzone.ae` · `movey.ae` · `emiratisationhub.com` · `companyformationsaudi.com` · `alburaq.ae`  
+Also on live Caddy (not in the 34 tree): `connectresourcesint.com` (**5098**).
+
+Audit date: **11 Aug 2026**. Tick when the change is in git **and** rebuilt into the next immutable release (app-only rsync is not enough for live 28).
+
+### Already correct at our end (do not redo)
+
+| Item | Status |
+|------|--------|
+| Next-6 Caddy = named CA `astro_origin_2026` (zero retired local-CA directives) | Done in git + staging pack |
+| Contact `readRequestBodyLimited` (incl. mbs / movey) | Done |
+| `.env.example` `PUBLIC_SITE_URL=https://<this-domain>` (not blank) | Done on keep sites |
+| Server geo prefers `cf-ipcountry` | Done on almost all 34 (`/api/geo/country` or cbss/iberia `/api/geo.ts`) |
+| Client geo tries same-origin `/api/geo…` **first** | Done where `astro-mirror-fixes.js` / CBSS `SiteScripts` exist |
+| Staging `APPLY-NEXT6` + `signatures/APPLY.sh` | **Do not run (FQ-00).** Aaron: signature script mutates the attested release from user-writable staging; next-six has no rollback, ignores failed health checks, does in-tree builds, seds `site-ctl`. Owner rewrites. |
+| Mirror chrome `eval` / script rehydrate | **Inventory, do not blindly strip (FQ-04 D).** ScrollSequence + Elementor need them. Third hook is likely `regen.ts` `execFile` — review if unused. |
+
+### Do now — all 34 (developer)
+
+#### FQ-00 — Staged root scripts (Aaron veto)
+
+> The staged root scripts are not safe to run as written. The signature script mutates the attested immutable release from a user-writable staging directory, and the next-six script has no transactional rollback, tolerates failed health checks, starts mutable in-tree builds, and edits site-ctl with a brittle text substitution.
+
+Do **not** run `/home/webdev/staging/signatures/APPLY.sh` or `…/fleet-cutover-20260810/APPLY-NEXT6.sh`. Mark any note that still tells Aaron to run them. Safe shape: new immutable release (signatures as artifacts), transactional next-6, health-check abort, no `site-ctl` sed. Detail: [CLAUDE-FLEET-QUEUE-PROMPT § FQ-00](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-00--do-not-run-staged-signature--next-6-apply-scripts).
+
+#### FQ-01 — RA-01 `nanoid` 3.3.16 → 3.3.18
+
+**Done in git** (11 Aug 2026) and included in live release `7155cbbb2`. Root override `nanoid: 3.3.18`; lockfile has 0× 3.3.16. Do not bump again unless the catalog moves.
+
+| Step | Who |
+|------|-----|
+| Bump via `pnpm update nanoid@3.3.18 -r` (or `pnpm why nanoid` then override) at repo root — **one** `pnpm-lock.yaml` | Dev |
+| `pnpm install` → `fleet-local.mjs build` for all 34 **on Linux** (or CI), not only macOS | Dev |
+| New immutable release + redeploy | Owner |
+
+**Risk:** macOS-only native bindings (sharp/esbuild) can make Linux rebuilds fail. Never rsync laptop `node_modules`. If a site cannot build on Linux, that is a **hard blocker** (Phase 05 § Native / macOS build blockers).
+
+#### FQ-02 — Geo: stop `ipinfo.io`, use Cloudflare `Cf-Ipcountry`
+
+Aaron: *the current implementation is causing the exact bug they’re trying to prevent.*
+
+Browser `https://ipinfo.io/json` → `if (response.country !== undefined) { countrySelect…; intlTelInput… }`. Fail / rate-limit → **no default country** → bare number / wrong dial code. Measured: **880,146** requests, **3,379** files, **30** sites vs ~50k/month free tier. `Cf-Ipcountry` already on **99.92%** of requests.
+
+**Standard (every site + every new site):**
+
+1. Request-time (not build-time): `cf-ipcountry` → `/^[A-Z]{2}$/` → skip `XX` / `T1` → fallback **`ae`**. Prefer `/runtime-geo.js` (`prerender = false`) setting `window.__GEO_COUNTRY__`, or existing `/api/geo*`. Do **not** bake country into prerendered HTML.
+2. Replace the `$.ajax` / `fetch` block entirely:
+   `$(".wpcf7-countrytext").countrySelect({ defaultCountry: window.__GEO_COUNTRY__ })` + intlTelInput. **Always** init (never leave undefined).
+3. Delete browser calls to `ipinfo.io`, `ipwho.is`, `geojs`, `ipapi.co`.
+4. Do not rewrite 3,379 vendor files or patch the immutable release in place — build + owner deploy. Our bridge must win.
+
+Caveats: local/dev → `ae`; HTML must not be edge-cached without `Vary` (safe today: `max-age=0`). GDPR: stop sending visitor IPs to ipinfo.
+
+Full spec: [CLAUDE-FLEET-QUEUE-PROMPT § FQ-02](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-02--geo-stop-ipinfoio-use-cloudflare-cf-ipcountry).
+
+#### FQ-03 — Memory: per-site caps, not one shared pool
+
+Aaron asked: raise memory **for each** unit vs **shared** for all.
+
+**Recommendation: keep per-site cgroups. Do not put all 34 in one shared MemoryMax.**
+
+| | Per-site `MemoryMax` (keep) | One shared slice for all |
+|--|-----------------------------|---------------------------|
+| Isolation | One fat site (CR) cannot starve the others | Noisy neighbour takes the pool |
+| Debugging | `MemoryAvailable=0` on **that** unit | Whole fleet degrades together |
+| Host RAM | Caps are **limits**, not reservations — idle sites do not lock 256 Mi each | Looks “efficient”, hides the real hog |
+| Fits today | Matches immutable security units (`MemoryHigh=200M`, `MemoryMax=256M`) | Would fight Aaron’s isolation model |
+
+**What we do (dev + owner):**
+
+1. **Owner:** raise `MemoryHigh` / `MemoryMax` on **heavy mirrors** first (`connectresources.ae` is already `MemoryAvailable=0` at 256 Mi — that is why the Smart Slider “static” assets time out; Node still serves them). Suggest **512 Mi / 384 Mi** for large WP mirrors; leave thin leads-only (cbss/iberia) at 256 Mi.
+2. **Owner (better than a huge Node cap):** Caddy `file_server` for `/wp-content/`, `/css/`, `/js/` so Node is not the static CDN.
+3. Optional host-level **slice** as a backstop only (sum of peaks), never instead of per-unit caps.
+4. CR slider will not stay fixed by restart alone.
+
+Pages are static; the **process** is still Node standalone (`output: "static"` + `@astrojs/node`). That is expected for `/api/*`.
+
+#### FQ-04 — Source review: mechanical copy — **done, do not redo**
+
+> The branch had been mechanically copied from older peer sites: blank canonical origins, stale peer domains, unsafe deployment guidance, and three dormant code-execution hooks.
+
+| Check | Our status | Action |
+|-------|------------|--------|
+| A — Blank canonicals | **Followed** — `.env.example` + `astro.config` `site` are this domain | Re-check after any peer rsync |
+| B — Stale peer host in **runtime** SEO | **Followed** — mbs no longer seeds `connectgroup.co` (tests may still use peer fixtures) | Peer-grep new copies only |
+| B — Operator docs / `13-go-live-server-handoff.md` | Some next-6 trees still titled SP Heavy | Ignore; use [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) |
+| C — Unsafe deploy guidance | **Do not run** copied legacy `ROOT_SETUP.md` or in-tree build instructions | Live path = immutable release. Point at [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md) only |
+| D — Three hooks | **Required chrome** — (1) ScrollSequence `eval` (2) Elementor rehydrate **must stay** or the site breaks; (3) `regen.ts` `execFile` FLOW-only | Never strip 1–2. No unauthenticated caller for 3 |
+
+**Clone rule (future sites):** after rsync from a peer, grep the new domain vs the peer in `src/`, `deploy/`, `docs/`, `.env.example`. Peer hits in `scripts/` one-shots are OK only if clearly named extract/import tools.
+
+Full spec: [CLAUDE-FLEET-QUEUE-PROMPT § FQ-04](CLAUDE-FLEET-QUEUE-PROMPT.md#fq-04--source-review-mechanical-copy-next-6-first-then-keep-list).
+
+### Owner / host (we stage; Aaron applies)
+
+| Item | Notes |
+|------|-------|
+| **Do not run** current `APPLY-NEXT6.sh` or `signatures/APPLY.sh` | Aaron veto (FQ-00). Rewrite: transactional, health-check abort, no in-tree build, no `site-ctl` sed, signatures only via **new** immutable release |
+| Install refreshed staging Caddy (105× `astro_origin_2026`) | Never use the retired local-CA pack |
+| New immutable release after FQ-01 / FQ-02 | Live 28 still run the current release |
+| Memory bump + optional Caddy static | FQ-03 |
+| `connectresources` | Memory first; then confirm Smart Slider CSS/JS 200 on loopback |
+
+Staging pack: `/home/webdev/staging/fleet-cutover-20260810/` + `notes/AARON-STAGING-REFRESH-20260810.md`.
+
+### Future sites (after the 34)
+
+Every new domain must ship FQ-02 geo (no ipinfo), FQ-04 peer-grep, Phase 08 CA Caddy, contact body limit, unique `INTERNAL_JOB_SECRET`, and Linux-clean `pnpm install`. Catalog bumps (FQ-01 style) happen **once** at the workspace root, then rebuild all sites.
+
+---
+
 ## Deferred fleet gaps (tracked — do not forget)
 
 | Gap | Sites | Status | Notes |
 |-----|-------|--------|-------|
+| **FQ-00** staged APPLY / signature scripts | Host staging | **Do not run** | Aaron veto. See [§ FQ-00](#fq-00--staged-root-scripts-aaron-veto). |
+| **FQ-01** nanoid 3.3.16 → 3.3.18 | All 34 + lockfile | **Done in git** (11 Aug 2026) | Root override `nanoid: 3.3.18` + `pnpm install`; lockfile 0× 3.3.16. cbss + connectresources built clean locally. **Owner:** Linux rebuild + new immutable release. See [§ FQ-01](#fq-01--ra-01-nanoid-3316--3318). |
+| **FQ-02** kill client `ipinfo.io` / CF `Cf-Ipcountry` | All 34 | **Done in git** (11 Aug 2026) | Client third-party geo (`ipinfo`/`ipwho`/`geojs`/`ipapi`) stripped from `astro-mirror-fixes.js` (×24) + cbss `SiteScripts.astro`; `__GEO_COUNTRY__` preference added; same-origin `/api/geo*` retained. Server `country.ts` (×32) + cbss/iberia `geo.ts` now header-only + **AE fallback** (`XX`/`T1`→`ae`), no third-party lookup. Verified: no header→`ae`, `SA`→`sa`, `XX`/`T1`→`ae`. Legacy WP inline `ipinfo` in `src/legacy/*.cleaned.html` left in place (bridge wins) — owner immutable release. See [§ FQ-02](#fq-02--geo-stop-ipinfoio-use-cloudflare-cf-ipcountry). |
+| **FQ-03** per-site memory (not shared pool) | Heavy mirrors first (`connectresources`) | **Owner** — note written | Keep per-unit cgroups; raise CR; optional Caddy static. Recommendation drafted: [AARON-MEMORY-NOTE.md](AARON-MEMORY-NOTE.md). See [§ FQ-03](#fq-03--memory-per-site-caps-not-one-shared-pool). |
+| **FQ-04** mechanical copy (canonicals / peers / deploy docs / 3 hooks) | Keep 34 | **Done at our end** | Do not redo. Canonicals + CA Caddy + hooks classified. See [§ FQ-04](#fq-04--source-review-mechanical-copy). |
 | Dynamic `/llms.txt` (+ `/llm.txt`, `llms-defaults.json`, `llms-serve`) | **iberiaworkforce.com** | **Deferred** (Aug 2026) — do **not** block other deploys | `cbss.ae` now has a hand-shaped `/llms.txt` + Organization schema (rebuild required after adding). Backfill Iberia Workforce from a peer. See Phase 05 § Dynamic `/llms.txt`. |
 | Fleet runtime GTM loader | **cbss.ae**, **iberiaworkforce.com** | **Deferred** | Live with hard-coded / no `/runtime-gtm.js`. Backfill from Phase 05 § Dynamic GTM when touching those sites. |
 | Real DET `licence.json` fill | **eor, connectfm, connectfz, iberiaeor, connectresources.ae** | **Blanked on purpose** (Aug 2026) | S&P Heavy contamination removed; strip hidden via `isLicenceComplete`. Fill from each company’s DET record before publishing a licence band. See Phase 05 § DET trade licence. |
@@ -452,8 +591,9 @@ When picking llms up: copy peer `llms.txt.ts` / `llm.txt.ts` / `llms-serve` / ge
 | 08 | [CONNECT-CADDY-DEPLOYMENT](CONNECT-CADDY-DEPLOYMENT.md) | Caddy **patterns** (git templates) |
 | 09–10 | [server-ops-only](server-ops-only.md) · **[10-GO-LIVE-VERIFY-CHECKLIST](10-GO-LIVE-VERIFY-CHECKLIST.md)** | App sync + verify |
 | Owner | **[OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md)** · [OPS-OWNER-DYNAMIC-GTM-GA4](OPS-OWNER-DYNAMIC-GTM-GA4.md) | Live Caddy + GTM (end) |
+| Claude | **[CLAUDE-FLEET-QUEUE-PROMPT](CLAUDE-FLEET-QUEUE-PROMPT.md)** | Paste-ready 34-site queue (FQ-01–04) |
 | — | [docs/README](README.md) | Full index |
 
 ---
 
-*Aug 2026 — single entry for upcoming websites. Existing playbooks stay as detail; this file orders them. Caddy/root stays owner-only.*
+*Aug 2026 — single entry for upcoming websites. Existing playbooks stay as detail; this file orders them. Caddy/root stays owner-only. 34-site queue (geo / nanoid / memory / peer-copy) added 11 Aug 2026.*

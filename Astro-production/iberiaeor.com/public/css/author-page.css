@@ -1,0 +1,246 @@
+/* Author archive — banner matches screenshot (avatar left + text); cards reuse Insights (elementor-213). */
+
+.author-page {
+  --author-blue: #0246ff;
+  --author-ink: #1e1e1e;
+}
+
+/*
+ * Hello Elementor theme.css caps:
+ *   body:not([class*="elementor-page-"]) .site-main { max-width: 1140px }
+ * Author archives are not Elementor pages, so override for a full-bleed banner.
+ */
+body.author-page .site-main,
+body.author-page .site-main > .page-content {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+@media (min-width: 1200px) {
+  body.author-page:not([class*="elementor-page-"]) .site-main,
+  body.author-page .site-main {
+    max-width: none !important;
+  }
+}
+
+.author-page .author-page-hero {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-color: var(--author-blue);
+  background-image: url("/wp-content/uploads/2024/12/about-us-image-background.webp");
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 56px 40px 60px;
+  color: #fff;
+}
+
+.author-page .author-page-hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.author-page .author-page-hero__profile {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  text-align: left;
+}
+
+.author-page .author-page-avatar {
+  flex: 0 0 160px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: #fff;
+  border: 0;
+  margin: 0;
+}
+
+.author-page .author-page-avatar--placeholder {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.author-page .author-page-hero__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 720px;
+}
+
+.author-page .author-page-hero__name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 6px;
+}
+
+.author-page .author-page-name {
+  margin: 0;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.author-page .author-page-linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  line-height: 0;
+  border-radius: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.author-page .author-page-linkedin:hover {
+  opacity: 0.85;
+}
+
+.author-page .author-page-linkedin svg {
+  display: block;
+}
+
+.author-page .author-page-role {
+  margin: 0 0 12px;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fff;
+}
+
+.author-page .author-page-bio {
+  margin: 0;
+  max-width: none;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.author-page .author-page-articles {
+  padding: 64px 20px 80px;
+  background: #fff;
+}
+
+.author-page .author-page-articles__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.author-page .author-page-articles__title {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--author-ink);
+}
+
+/* Insights-matching posts grid (page 223: 30px / 35px gaps, 3 columns) */
+.author-page .ecs-posts.elementor-posts-container.elementor-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 30px;
+  row-gap: 35px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.author-page .ecs-posts .elementor-post {
+  margin: 0;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.author-page .ecs-posts .elementor-213 .elementor-element-dc218b1 img,
+.author-page .ecs-posts .elementor-213 .elementor-widget-theme-post-featured-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.author-page .ecs-posts .elementor-213 .elementor-element-8dce244 .elementor-heading-title a {
+  text-decoration: none;
+  color: #1e1e1e;
+}
+
+.author-page .ecs-posts .elementor-213 .elementor-element-8dce244 .elementor-heading-title a:hover {
+  color: #0246ff;
+}
+
+.author-page .ecs-posts .elementor-213 .elementor-element-0072051 .elementor-heading-title a {
+  text-decoration: none;
+  color: #0246ff;
+}
+
+.author-page .ecs-posts .elementor-213 .elementor-element-0072051 .elementor-heading-title a:hover {
+  text-decoration: underline;
+}
+
+.author-page .author-page-empty {
+  text-align: center;
+  color: #7d7d7d;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  padding: 2rem 0 1rem;
+}
+
+.author-page .sp-pagination {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .author-page .ecs-posts.elementor-posts-container.elementor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .author-page .author-page-hero {
+    padding: 48px 24px 52px;
+  }
+
+  .author-page .author-page-hero__profile {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .author-page .ecs-posts.elementor-posts-container.elementor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .author-page .author-page-hero {
+    padding: 40px 16px 44px;
+    background-position: center top;
+  }
+
+  .author-page .author-page-hero__profile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .author-page .author-page-avatar {
+    flex-basis: 120px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .author-page .author-page-articles {
+    padding: 48px 16px 64px;
+  }
+}

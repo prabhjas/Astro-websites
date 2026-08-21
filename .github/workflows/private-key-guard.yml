@@ -1,0 +1,26 @@
+name: Private key material guard
+
+on:
+  push: {}
+  pull_request: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  reject-private-key-material:
+    runs-on: ubuntu-latest
+    # This repository is large enough that a cold checkout can take five
+    # minutes. Keep the security steps mandatory instead of cancelling at the
+    # checkout boundary.
+    timeout-minutes: 15
+    steps:
+      - name: Check out the triggering revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Reject tracked private keys and Caddy credential storage
+        run: bash scripts/ci/reject-private-key-material.sh
+      - name: Guard active Caddy origin TLS structure
+        run: bash scripts/ci/check-caddy-origin-tls-structure.sh

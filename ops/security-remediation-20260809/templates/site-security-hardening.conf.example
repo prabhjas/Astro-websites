@@ -1,0 +1,23 @@
+# REVIEW TEMPLATE ONLY — additive drop-in for a loopback Node site service.
+[Service]
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RemoveIPC=yes
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+AmbientCapabilities=
+UMask=0027
+
+# Preserve/verify the unit's existing ReadWritePaths for its .data and any
+# LEAD_STORE_DIR/INTERNAL_* paths. Do not deploy until a non-production start of
+# the exact unit succeeds with this drop-in.

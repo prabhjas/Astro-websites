@@ -1653,15 +1653,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
       // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {
@@ -2202,6 +2203,7 @@
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
     window.__astroLegacyContactFormsWired = true;
+    try { resolveInitialLandingUrl(); } catch (e) {}
 
     function ensureHiddenField(form, name, value) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -2215,6 +2217,67 @@
       return input;
     }
 
+    function getAttrCookie(name) {
+      var nameEQ = name + '=';
+      var parts = document.cookie.split(';');
+      for (var i = 0; i < parts.length; i++) {
+        var c = parts[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+          try {
+            return decodeURIComponent(c.substring(nameEQ.length));
+          } catch (e) {
+            return c.substring(nameEQ.length);
+          }
+        }
+      }
+      return '';
+    }
+
+    function setAttrCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(String(value == null ? '' : value)) +
+        '; expires=' +
+        d.toUTCString() +
+        '; path=/; SameSite=Lax' +
+        secure;
+    }
+
+    function resolveInitialLandingUrl() {
+      var pageUrl = window.location.href;
+      var fromCookie = getAttrCookie('initialUrl') || getAttrCookie('cg_initial_url');
+      if (fromCookie) return fromCookie;
+      try {
+        var fromSession = sessionStorage.getItem('cg_initial_url');
+        if (fromSession) {
+          setAttrCookie('initialUrl', fromSession, 30);
+          return fromSession;
+        }
+      } catch (e) {}
+      setAttrCookie('initialUrl', pageUrl, 30);
+      try {
+        sessionStorage.setItem('cg_initial_url', pageUrl);
+      } catch (e) {}
+      return pageUrl;
+    }
+
+    function pushLeadToDataLayer(email, phone, submissionId) {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'form_submission_lead',
+          email: email || '',
+          phone_number: phone || '',
+          submission_id: submissionId || '',
+        });
+      } catch (e) {}
+    }
+
+
     function ensureLegacyTrackingFields(form) {
       if (!form.dataset.submissionId) {
         form.dataset.submissionId =
@@ -2223,7 +2286,7 @@
             : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
+      var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
       ensureHiddenField(form, 'form_name', 'Pittant Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
@@ -2234,21 +2297,29 @@
     }
 
     function captureTrackingFields(form) {
-      var params = new URLSearchParams(window.location.search);
-      var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
-      if (!sessionStorage.getItem('cg_initial_url')) {
-        sessionStorage.setItem('cg_initial_url', pageUrl);
+      var params = new URLSearchParams(window.location.search || '');
+      var hashParams = new URLSearchParams((window.location.hash || '').replace(/^#\??/, ''));
+      function paramHas(key) {
+        return params.has(key) || hashParams.has(key);
       }
-      ensureLegacyTrackingFields(form);
+      function paramGet(key) {
+        if (params.has(key)) return params.get(key) || '';
+        if (hashParams.has(key)) return hashParams.get(key) || '';
+        return '';
+      }
+      var pageUrl = window.location.href;
+      var initial = resolveInitialLandingUrl();
+      if (typeof ensureLegacyTrackingFields === 'function') {
+        ensureLegacyTrackingFields(form);
+      }
 
-      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
       var TRACKING_FIELDS = {
-        gclid: ['gclid'],
+        gclid: ['gclid', 'gbraid', 'wbraid'],
         gbraid: ['gbraid'],
         wbraid: ['wbraid'],
         fbclid: ['fbclid'],
         msclkid: ['msclkid'],
+        twclid: ['twclid'],
         utm_source: ['utm_source'],
         utm_medium: ['utm_medium'],
         utm_campaign: ['utm_campaign'],
@@ -2259,8 +2330,8 @@
         group_id: ['group_id', 'groupid'],
         creative_id: ['creative_id', 'creativeid', 'creative'],
         keyword: ['keyword', 'kw', 'q', 'utm_term'],
-        matchtype: ['matchtype'],
-        device: ['device'],
+        matchtype: ['matchtype', 'match_type'],
+        device: ['device', 'utm_device'],
         network: ['network'],
         placement: ['placement', 'displayad'],
         target: ['target', 'targetid', 'target_id'],
@@ -2274,15 +2345,31 @@
 
       function firstParam(aliases) {
         for (var i = 0; i < aliases.length; i++) {
-          var v = params.get(aliases[i]);
-          if (v) return v;
+          var alias = aliases[i];
+          if (paramHas(alias)) return String(paramGet(alias) || '').trim();
         }
         return '';
       }
 
       Object.keys(TRACKING_FIELDS).forEach(function (name) {
-        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+        var fromUrl = firstParam(TRACKING_FIELDS[name]);
+        var value = fromUrl;
+        if (fromUrl) {
+          setAttrCookie(name, fromUrl, 30);
+        } else {
+          value = getAttrCookie(name) || '';
+        }
+        if (name === 'gclid' && !value) {
+          value = getAttrCookie('gclid') || getAttrCookie('gbraid') || getAttrCookie('wbraid') || '';
+        }
+        ensureHiddenField(form, name, value);
       });
+
+      var urlGclid = String(paramGet('gclid') || paramGet('gbraid') || paramGet('wbraid') || '').trim();
+      if (urlGclid) {
+        setAttrCookie('gclid', urlGclid, 30);
+        ensureHiddenField(form, 'gclid', urlGclid);
+      }
 
       ensureHiddenField(form, 'initial_url', initial);
       ensureHiddenField(form, 'landing_page_url', initial);
@@ -2290,6 +2377,7 @@
       ensureHiddenField(form, 'submission_page_url', pageUrl);
       ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
+
 
     function normalizeNationalPhoneDigits(phone, dialCode) {
       var digits = String(phone.value || '').replace(/\D/g, '');
@@ -3284,6 +3372,236 @@
     setTimeout(onScroll, 500);
   }
 
+  /** Elementor Pro popup fallback — decode action URLs and toggle the popup div. */
+  function ensureElementorPopups() {
+    var OVERLAY_ID = 'astro-popup-overlay';
+    if (document.getElementById(OVERLAY_ID)) return;
+
+    // Inject CSS to fix phone dial-code overlap inside popup overlay
+    if (!document.getElementById('astro-popup-phone-fix')) {
+      var pfix = document.createElement('style');
+      pfix.id = 'astro-popup-phone-fix';
+      pfix.textContent =
+        '#astro-popup-overlay .intl-tel-input{display:block!important;width:100%!important;position:relative!important;}' +
+        '#astro-popup-overlay .intl-tel-input input,' +
+        '#astro-popup-overlay .intl-tel-input input[type=text],' +
+        '#astro-popup-overlay .intl-tel-input input[type=tel]{' +
+        'box-sizing:border-box!important;width:100%!important;}';
+      document.head.appendChild(pfix);
+    }
+
+    var POPUP_CSS_URLS = [
+      '/wp-content/uploads/elementor/css/post-1354.css',
+      '/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css',
+    ];
+
+    function ensureCssLoaded(href) {
+      if (document.querySelector('link[href*="' + href.split('/').pop() + '"]')) return;
+      var link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = href;
+      document.head.appendChild(link);
+    }
+
+    function ensurePopupInDom() {
+      if (document.querySelector('[data-elementor-id="1354"]')) {
+        POPUP_CSS_URLS.forEach(ensureCssLoaded);
+        return;
+      }
+      if (!document.querySelector('a[href*="elementor-action"]')) return;
+      fetch('/')
+        .then(function (r) { return r.text(); })
+        .then(function (html) {
+          var temp = document.createElement('div');
+          temp.innerHTML = html;
+          var popup = temp.querySelector('[data-elementor-id="1354"]');
+          if (!popup) return;
+          popup.style.display = 'none';
+          document.body.appendChild(popup);
+          POPUP_CSS_URLS.forEach(ensureCssLoaded);
+        })
+        .catch(function () {});
+    }
+
+    function parseActionUrl(href) {
+      if (!href) return null;
+      var decoded = decodeURIComponent(href);
+      var m = decoded.match(/elementor-action:action=popup:open&settings=([A-Za-z0-9+/=]+)/);
+      if (!m) return null;
+      try {
+        var json = JSON.parse(atob(m[1]));
+        return json.id ? String(json.id) : null;
+      } catch (e) { return null; }
+    }
+
+    function createOverlay() {
+      var overlay = document.createElement('div');
+      overlay.id = OVERLAY_ID;
+      overlay.style.cssText =
+        'display:none;position:fixed;inset:0;z-index:999999;' +
+        'background:rgba(0,0,0,.6);overflow-y:auto;' +
+        'justify-content:center;align-items:flex-start;padding:40px 16px;';
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closePopup();
+      });
+      document.body.appendChild(overlay);
+      return overlay;
+    }
+
+    function stylePopupClone(clone) {
+      clone.style.cssText =
+        'display:block!important;visibility:visible!important;opacity:1!important;' +
+        'position:relative;margin:auto;max-width:900px;width:100%;' +
+        'background:#fff;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.25);overflow:hidden;';
+      // Two-column layout: dark image panel left, white form panel right
+      var topCon = clone.querySelector('.e-con-full.e-parent');
+      if (topCon) topCon.style.cssText = 'display:flex!important;flex-wrap:nowrap!important;';
+      var imagePanels = clone.querySelectorAll('.elementor-widget-image');
+      imagePanels.forEach(function (p) {
+        var container = p.closest('.e-con.e-parent');
+        if (container && container !== topCon) {
+          container.style.cssText = 'flex:0 0 42%!important;max-width:42%!important;display:flex!important;';
+        }
+      });
+      var formPanel = clone.querySelector('.elementor-widget-contact-form-7');
+      if (formPanel) {
+        var formCon = formPanel.closest('.e-con.e-parent');
+        if (formCon) formCon.style.cssText = 'flex:1!important;padding:30px!important;background:#fff!important;';
+      }
+      // Heading size
+      var headings = clone.querySelectorAll('.elementor-heading-title, .elementor-widget-text-editor .elementor-widget-container');
+      if (headings.length > 0) headings[0].style.cssText = 'font-size:32px!important;line-height:38px!important;font-weight:700!important;';
+      // Hide any elementor-hidden-desktop/tablet that shouldn't show
+      clone.querySelectorAll('.elementor-hidden-desktop.elementor-hidden-tablet.elementor-hidden-mobile').forEach(function (el) {
+        el.style.display = 'none';
+      });
+      // Fix phone field dial code overlap
+      clone.querySelectorAll('.intl-tel-input input, .intl-tel-input.separate-dial-code input').forEach(function (inp) {
+        inp.style.cssText = 'padding-left:120px!important;';
+      });
+      // Close button
+      var close = document.createElement('button');
+      close.textContent = '\u00D7';
+      close.style.cssText =
+        'position:absolute;top:8px;right:14px;font-size:28px;line-height:1;' +
+        'background:none;border:none;cursor:pointer;color:#333;z-index:10;';
+      close.addEventListener('click', closePopup);
+      clone.appendChild(close);
+    }
+
+    function fixPhonePadding(container) {
+      container.querySelectorAll('.intl-tel-input').forEach(function (wrap) {
+        wrap.style.setProperty('display', 'block', 'important');
+        wrap.style.setProperty('width', '100%', 'important');
+        var sf = wrap.querySelector('.selected-flag');
+        var inp = wrap.querySelector('input.wpcf7-phonetext, input[type=tel], input[type=text]');
+        if (!sf || !inp) return;
+        function sync() {
+          var w = sf.offsetWidth || sf.getBoundingClientRect().width;
+          if (w > 0) {
+            inp.style.setProperty('padding-left', Math.ceil(w + 8) + 'px', 'important');
+          }
+        }
+        sync();
+        if (!inp.__astroPhoneBound) {
+          inp.__astroPhoneBound = true;
+          if (window.jQuery) {
+            try {
+              jQuery(inp).on('countrychange', function () {
+                setTimeout(sync, 0);
+                setTimeout(sync, 50);
+              });
+            } catch (e) {}
+          }
+        }
+      });
+      // Also handle phone inputs not yet wrapped by intlTelInput
+      container.querySelectorAll('input.wpcf7-phonetext').forEach(function (inp) {
+        if (inp.closest('.intl-tel-input')) return;
+        inp.style.setProperty('padding-left', '110px', 'important');
+        inp.style.setProperty('box-sizing', 'border-box', 'important');
+        inp.style.setProperty('width', '100%', 'important');
+      });
+    }
+
+    function openPopup(popupId) {
+      var popup = document.querySelector('[data-elementor-id="' + popupId + '"]');
+      if (!popup) return;
+      var overlay = document.getElementById(OVERLAY_ID) || createOverlay();
+      var clone = popup.cloneNode(true);
+      stylePopupClone(clone);
+      overlay.innerHTML = '';
+      overlay.appendChild(clone);
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+
+      // intlTelInput may re-init on cloned inputs asynchronously; watch for structural changes only
+      var popupObsTimer;
+      var popupObs = new MutationObserver(function (muts) {
+        var structural = muts.some(function (m) { return m.type === 'childList'; });
+        if (structural) {
+          clearTimeout(popupObsTimer);
+          popupObsTimer = setTimeout(function () { fixPhonePadding(overlay); }, 50);
+        }
+      });
+      popupObs.observe(overlay, { childList: true, subtree: true });
+
+      // Initialize intlTelInput on cloned phone inputs if not already wrapped
+      function initAndFix() {
+        if (window.jQuery && jQuery.fn.intlTelInput) {
+          var $phones = jQuery(clone).find('.wpcf7-phonetext');
+          if ($phones.length && !$phones.closest('.intl-tel-input').length) {
+            try {
+              $phones.intlTelInput({
+                autoHideDialCode: true, autoPlaceholder: true,
+                nationalMode: true, separateDialCode: true,
+                hiddenInput: 'full_number', initialCountry: 'ae'
+              });
+              $phones.on('countrychange', function () {
+                var dial = jQuery(this).siblings('.flag-container').find('.selected-flag .selected-dial-code').text();
+                var hName = jQuery(this).attr('name');
+                jQuery("input[name=" + hName + "-country-code]").val(dial);
+                setTimeout(function () { fixPhonePadding(overlay); }, 20);
+              });
+            } catch (e) {}
+          }
+        }
+        fixPhonePadding(overlay);
+      }
+
+      // Use requestAnimationFrame to ensure layout is computed before measuring
+      requestAnimationFrame(function () {
+        initAndFix();
+        setTimeout(initAndFix, 300);
+        setTimeout(initAndFix, 800);
+        setTimeout(initAndFix, 2000);
+      });
+    }
+
+    function closePopup() {
+      var overlay = document.getElementById(OVERLAY_ID);
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.innerHTML = '';
+      }
+      document.body.style.overflow = '';
+    }
+
+    ensurePopupInDom();
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePopup();
+    });
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href*="elementor-action"]');
+      if (!link) return;
+      var popupId = parseActionUrl(link.getAttribute('href'));
+      if (!popupId) return;
+      e.preventDefault();
+      openPopup(popupId);
+    });
+  }
+
   function boot() {
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
@@ -3316,6 +3634,7 @@
     safe(ensureStretchedSections);
     safe(ensureScrollsequence);
     safe(ensureNavMenus);
+    safe(ensureElementorPopups);
     safe(ensureKinzaFormSkin);
     safe(ensureStickySidebarClamp);
     safe(bindStickySidebarClampObservers);

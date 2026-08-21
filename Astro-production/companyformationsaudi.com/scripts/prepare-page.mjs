@@ -21,12 +21,12 @@ const ROOT = join(__dirname, '..');
 const PUBLIC_ASSETS = join(ROOT, 'public');
 const OUT_DIR = join(ROOT, 'src/legacy');
 
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://companyformationsaudi.com',
-  'https://www.companyformationsaudi.com',
-  'http://companyformationsaudi.com',
-  'http://www.companyformationsaudi.com',
+  '',
+  '',
+  '',
+  '',
 ];
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
@@ -141,7 +141,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?companyformationsaudi\.com/gi,
-    'https://companyformationsaudi.com',
+    '',
   );
 }
 
@@ -311,7 +311,7 @@ function cleanHtml(html) {
 function rewriteOriginUrls(text) {
   let out = text.replace(/https?:\\\/\\\/(?:www\.)?companyformationsaudi\.com/gi, '');
   // Absolute origins FIRST. A bare //domain pass before this turns
-  // https://companyformationsaudi.com/x into https:/x (broken — CSS/JS never load).
+  // /x into https:/x (broken — CSS/JS never load).
   out = out.replace(/https?:\/\/(?:www\.)?companyformationsaudi\.com(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );

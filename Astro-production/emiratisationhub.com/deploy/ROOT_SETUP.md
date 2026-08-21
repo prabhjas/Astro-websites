@@ -12,15 +12,13 @@ Unit: `emiratisationhub` · PORT **5107** · user **`site-emiratisationhub`**
 
 ## Host steps (root)
 
-Code + prod build + `.env.prod.staged` are synced by webdev under `/opt/Astro-production/emiratisationhub.com`. Then as **root**:
+The legacy bootstrap is retired and deliberately refuses to make changes.
+Production is managed through the root-owned Astro fleet release boundary; do
+not install service or Caddy fragments from this directory.
 
-```bash
-bash /opt/Astro-production/emiratisationhub.com/deploy/bootstrap-root.sh
-```
-
-That script: creates `site-emiratisationhub`, installs `.env` / `.env.prod`, unit, Caddy site, allowlists `emiratisationhub` in `site-ctl`, enables the service, loopback smoke.
-
-Afterward: Cloudflare origin → server IP, SSL mode **Full** (not Full strict) while origin uses `tls internal`. Register domain + `INTERNAL_JOB_SECRET` in FLOW.
+The reviewed single Caddyfile uses named CA `astro_origin_2026`, paired manual
+certificate loaders and Cloudflare SSL **Full**. Cloudflare changes remain a
+separate owner-controlled operation.
 
 ## Local
 

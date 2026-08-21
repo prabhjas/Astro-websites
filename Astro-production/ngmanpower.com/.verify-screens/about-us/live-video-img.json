@@ -1,0 +1,185 @@
+{
+  "hero": {
+    "tag": "SECTION",
+    "cls": "l-section wpb_row us_custom_5d0a241b height_medium",
+    "display": "block",
+    "position": "relative",
+    "width": "1440px",
+    "height": "586.312px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "0px",
+    "overflow": "visible",
+    "clipPath": "none",
+    "transform": "none",
+    "padding": "72px 45px",
+    "margin": "0px",
+    "bg": "none",
+    "bgColor": "rgb(0, 74, 181)",
+    "rect": {
+      "w": 1440,
+      "h": 586,
+      "t": 0,
+      "l": 0
+    }
+  },
+  "heroAfter": {
+    "clipPath": "none",
+    "borderRadius": "0px",
+    "maskImage": "none",
+    "webkitMask": "none"
+  },
+  "video": {
+    "tag": "DIV",
+    "cls": "ult-video  ult-adjust-bottom-margin ultimate-video-44696a7349a578d9d ultv-1878 ",
+    "display": "block",
+    "position": "static",
+    "width": "573px",
+    "height": "322.312px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "0px",
+    "overflow": "visible",
+    "clipPath": "none",
+    "transform": "none",
+    "padding": "0px",
+    "margin": "20px",
+    "bg": "none",
+    "bgColor": "rgba(0, 0, 0, 0)",
+    "rect": {
+      "w": 573,
+      "h": 322,
+      "t": 172,
+      "l": 767
+    }
+  },
+  "vOuter": {
+    "tag": "DIV",
+    "cls": "ultv-video__outer-wrap",
+    "display": "block",
+    "position": "relative",
+    "width": "573px",
+    "height": "322.312px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "0px",
+    "overflow": "hidden",
+    "clipPath": "none",
+    "transform": "none",
+    "padding": "0px 0px 322.312px",
+    "margin": "0px",
+    "bg": "none",
+    "bgColor": "rgb(0, 0, 0)",
+    "rect": {
+      "w": 573,
+      "h": 322,
+      "t": 172,
+      "l": 767
+    }
+  },
+  "thumb": {
+    "tag": "IMG",
+    "cls": "ultv-video__thumb",
+    "display": "block",
+    "position": "absolute",
+    "width": "573px",
+    "height": "322.312px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "0px",
+    "overflow": "clip",
+    "clipPath": "none",
+    "transform": "none",
+    "padding": "0px",
+    "margin": "0px",
+    "bg": "none",
+    "bgColor": "rgba(0, 0, 0, 0)",
+    "rect": {
+      "w": 573,
+      "h": 322,
+      "t": 172,
+      "l": 767
+    }
+  },
+  "play": {
+    "tag": "DIV",
+    "cls": "ultv-video__play-icon  ultv-animation-none",
+    "display": "block",
+    "position": "absolute",
+    "width": "75px",
+    "height": "60.9375px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "0px",
+    "overflow": "visible",
+    "clipPath": "none",
+    "transform": "matrix(1, 0, 0, 1, -37.5, -30.4688)",
+    "padding": "0px",
+    "margin": "0px",
+    "bg": "none",
+    "bgColor": "rgba(0, 0, 0, 0)",
+    "rect": {
+      "w": 75,
+      "h": 61,
+      "t": 303,
+      "l": 1016
+    }
+  },
+  "roundedWrap": {
+    "tag": "DIV",
+    "cls": "w-image us_custom_04570ec2 align_none",
+    "display": "block",
+    "position": "static",
+    "width": "613px",
+    "height": "437.75px",
+    "maxHeight": "none",
+    "objectFit": "fill",
+    "borderRadius": "15px",
+    "overflow": "visible",
+    "clipPath": "none",
+    "transform": "none",
+    "padding": "0px",
+    "margin": "0px",
+    "bg": "none",
+    "bgColor": "rgba(0, 0, 0, 0)",
+    "rect": {
+      "w": 613,
+      "h": 438,
+      "t": 727,
+      "l": 89
+    }
+  },
+  "imgRules": [
+    {
+      "sel": "img",
+      "height": "auto",
+      "maxHeight": "",
+      "width": "",
+      "href": "https://ngmanpower.com/wp-content/themes/Impreza/css/style.min.css?ver=8.16"
+    },
+    {
+      "sel": ".w-image img",
+      "height": "inherit",
+      "maxHeight": "inherit",
+      "width": "",
+      "href": "https://ngmanpower.com/wp-content/themes/Impreza/css/style.min.css?ver=8.16"
+    },
+    {
+      "sel": ".w-image img:not([src*=\".svg\"]), .w-image[class*=\"ush_image_\"] img",
+      "height": "",
+      "maxHeight": "",
+      "width": "auto",
+      "href": "https://ngmanpower.com/wp-content/themes/Impreza/css/style.min.css?ver=8.16"
+    }
+  ],
+  "stylesheets": [
+    "https://ngmanpower.com/wp-content/themes/Impreza/css/style.min.css?ver=8.16",
+    "https://ngmanpower.com/wp-content/themes/Impreza-child/style.css?ver=8.16",
+    "https://ngmanpower.com/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css?ver=1785940050",
+    "https://ngmanpower.com/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/style.min.css?ver=3.19.9",
+    "https://ngmanpower.com/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/video_module.min.css?ver=3.19.9",
+    "https://ngmanpower.com/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/animate.min.css?ver=3.19.9",
+    "https://ngmanpower.com/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/tooltip.min.css?ver=3.19.9",
+    "https://ngmanpower.com/wp-content/plugins/Ultimate_VC_Addons/assets/min-css/stats-counter.min.css?ver=3.19.9"
+  ]
+}

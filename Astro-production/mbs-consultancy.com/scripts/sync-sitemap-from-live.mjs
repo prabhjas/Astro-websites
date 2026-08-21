@@ -8,13 +8,13 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const LIVE_INDEX =
-  process.env.LIVE_SITEMAP_INDEX || "https://spheavyrental.ae/sitemap_index.xml";
+  process.env.LIVE_SITEMAP_INDEX || "https://mbs-consultancy.com/sitemap_index.xml";
 const OUT = join(process.cwd(), "src/data/sitemap-urls.json");
 
 async function fetchText(url) {
   const res = await fetch(url, {
     headers: {
-      "User-Agent": "SPHeavySitemapSync/1.0",
+      "User-Agent": "MBSConsultancySitemapSync/1.0",
       Accept: "application/xml,text/xml,*/*",
     },
   });

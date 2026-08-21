@@ -24,7 +24,10 @@ export type {
   TagEntry,
 } from "./content-types";
 
-export const site = siteJson as typeof siteJson & {
+export const site = siteJson as unknown as Omit<
+  typeof siteJson,
+  "navigation" | "footerServices" | "footerQuickLinks"
+> & {
   navigation: import("./content-types").NavItem[];
   footerServices: { label: string; href: string }[];
   footerQuickLinks: { label: string; href: string }[];

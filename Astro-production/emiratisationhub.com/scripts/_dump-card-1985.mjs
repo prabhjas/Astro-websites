@@ -1,4 +1,4 @@
-const blog = await (await fetch('https://emiratisationhub.com/blog/')).text();
+const blog = await (await fetch('/blog/')).text();
 const arts = [...blog.matchAll(/<article[^>]*ecs-post-loop[\s\S]*?<\/article>/g)].map((m) => m[0]);
 console.log('articles', arts.length);
 const t1975 = arts.filter((a) => a.includes('elementor-1975')).length;

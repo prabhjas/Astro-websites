@@ -4,8 +4,12 @@
 
 | Priority | Doc | Use |
 |----------|-----|-----|
-| **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** — develop → test → forms → security → git deploy templates → verify → **owner Caddy last** |
-| **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **All 44 domains + ports + scaffolded vs placeholder** (share with developers) |
+| **Publish (live)** | **[DEVELOPER-HANDOFF.md](DEVELOPER-HANDOFF.md)** · **[ASTRO-FLEET-AUTONOMOUS-RELEASE.md](ASTRO-FLEET-AUTONOMOUS-RELEASE.md)** | **Only deploy path:** `/opt/Astro-development` → signed commit → `sudo astro-fleet-release publish` |
+| **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** + **[34-site work queue](00-NEW-SITE-MASTER.md#fleet-work-queue--34-sites)** (geo, nanoid, memory, peer-copy) |
+| **Aaron rules** | **[AARON-RULES.md](AARON-RULES.md)** | Security + deploy + FQ-04 — what we follow (updated for autonomous release) |
+| **Claude** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** | **Paste-ready prompt** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-04 source review · FQ-03 memory |
+| **canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** | Private `:5999` test of a new release before `switch` |
+| **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **42 domains + ports · all scaffolded · 0 placeholders** |
 | **WEBSITE_ID** | **[WEBSITE-ID-REGISTRY.md](WEBSITE-ID-REGISTRY.md)** | FLOW website picker IDs for `.env` / `.env.prod` (`WEBSITE_ID=`) |
 | **verify** | **[10-GO-LIVE-VERIFY-CHECKLIST.md](10-GO-LIVE-VERIFY-CHECKLIST.md)** | Trailing slash, canonical, GTM, forms, APIs, redirects, **404 brand**, content/media parity — before/after cutover |
 | **security** | **[SECURITY-AUDIT-REMEDIATION-2026-08-06.md](SECURITY-AUDIT-REMEDIATION-2026-08-06.md)** | Audit P0–P2: auth, Node enhanced conversions, HTML sanitize, Caddy headers, CA history / ops |

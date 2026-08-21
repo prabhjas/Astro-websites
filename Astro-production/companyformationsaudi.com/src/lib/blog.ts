@@ -10,7 +10,7 @@ import { injectRuntimeGtmLoader } from './gtm/inject';
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 
 export interface TocEntry {
   id: string;

@@ -1,3 +1,4 @@
+# C-01-REFRESH-SCHEMA: named-internal-manual-v1
 # /etc/caddy — production fleet Caddyfile (Aug 2026)
 #
 # THIS FILE IS THE LIVE SERVER TARGET. Install as /etc/caddy/Caddyfile
@@ -6,21 +7,25 @@
 # Source of truth in git: caddy/Caddyfile.production
 # How to add a site: docs/CONNECT-CADDY-DEPLOYMENT.md
 #
-# Cloudflare SSL mode must be Full (not Flexible, not Full strict with tls internal).
+# Cloudflare SSL mode must be Full (not Flexible). The origin uses the named
+# astro_origin_2026 CA, except Payroll's isolated named authority.
 # Validate before reloading:
 #   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
 #   systemctl reload caddy
 #
 # Sites in this file (ports): Evolution 5080, CBSS 5081, SP Heavy 5082, Iberia 5083,
-# Connect HR 5084, Connect Group 5085, Connect Resources 5086, Connect FM 5087,
-# Connect Resources SA 5088, Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091,
-# C-UAE 5092, KinzaHR 5093, Connect Freelance 5094, Redo 5095, Connect FZ 5096,
-# Royal Visa 5097, Connect Resources Int 5098, The Freelancer Gate 5100, NG Manpower 5102,
-# Emirati Guard 5103, Emiratisation Gate 5105, Emiratisation Gateway 5106, Freelancer DXB 5109,
-# Payroll Middleast 5110, Pittant 5111, PEO Middle East 5118, KPM Pro 5124.
+# Connect HR 5084, Connect Group 5085, Connect FM 5087, Connect Resources SA 5088,
+# Iberia EOR 5089, EOR Middle East 5090, Connect Staff 5091, C-UAE 5092, KinzaHR 5093,
+# Connect FZ 5096, Royal Visa 5097, Connect Resources INT 5098, MBS 5099,
+# Connect Zone 5101, Movey 5104, Emiratisation Hub 5107,
+# Company Formation Saudi 5114, Al Buraq 5120.
 # Deploy snippets also live under Astro-production/<domain>/deploy/.
 
 {
+	# Keep the administration API off TCP so site processes cannot control the fleet.
+	# The caddy-owned runtime directory and socket mode restrict access to caddy/root.
+	admin unix//run/caddy/admin.sock|0200
+
 	# The service is intentionally unprivileged. Cloudflare Full does not need
 	# Caddy's private origin CA installed in the host-wide OS trust store.
 	skip_install_trust
@@ -29,14 +34,44 @@
 	# HTTP/1.1 and HTTP/2, reducing exposed protocol surface and UDP listeners.
 	servers {
 		protocols h1 h2
+
+		# Companion to the H-04 firewall: the origin only accepts connections from
+		# Cloudflare, so remote_ip is always an edge address and never the visitor.
+		# Trusting these ranges makes Caddy populate request.client_ip with the real
+		# client, so access logs and any per-IP application rate limiting stop being
+		# keyed on a few thousand shared edge IPs.
+		#
+		# CF-Connecting-IP is Cloudflare's canonical single-valued client header;
+		# Caddy would otherwise read X-Forwarded-For, whose left-hand entries are
+		# not under our control. Keep this list EXACTLY Cloudflare's published
+		# ranges - widening it would make client_ip attacker-supplied.
+		# Maintained by cf-origin-ranges-refresh.timer (firewall side).
+		trusted_proxies static 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 104.16.0.0/13 104.24.0.0/14 \
+			108.162.192.0/18 131.0.72.0/22 141.101.64.0/18 162.158.0.0/15 172.64.0.0/13 173.245.48.0/20 \
+			188.114.96.0/20 190.93.240.0/20 197.234.240.0/22 198.41.128.0/17 2400:cb00::/32 2405:8100::/32 \
+			2405:b500::/32 2606:4700::/32 2803:f800::/32 2a06:98c0::/29 2c0f:f248::/32
+		client_ip_headers CF-Connecting-IP
+	}
+	auto_https ignore_loaded_certs
+	pki {
+		ca astro_origin_2026 {
+			name "Astro Origin Authority 2026"
+			root_cn "Astro Origin Authority 2026 ECC Root"
+			intermediate_cn "Astro Origin Authority 2026 ECC Intermediate"
+		}
+		ca payroll_origin_isolated_2026 {
+			name "Payroll Origin Isolated Authority 2026"
+			root_cn "Payroll Origin Isolated Authority 2026 ECC Root"
+			intermediate_cn "Payroll Origin Isolated Authority 2026 ECC Intermediate"
+		}
 	}
 }
 
 # Astro production fleet. Each domain proxies the complete request surface to
 # its loopback-only Node service, including pages, client assets and /api/*.
-# Cloudflare terminates public TLS; tls internal secures the origin hop without
-# public ACME issuance. Cloudflare SSL mode must be Full, not Flexible or Full
-# (strict). Bare hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
+# Cloudflare terminates public TLS; the origin hop uses named internal CAs and
+# paired manual certificate loaders. Cloudflare remains in Full mode. Bare
+# hostnames enable Caddy's automatic HTTP-to-HTTPS redirects.
 #
 # Validate before reloading:
 #   sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
@@ -45,7 +80,7 @@
 # Collapse HTTP requests on alternate hostnames directly to the canonical HTTPS
 # URL in one permanent redirect. This avoids an HTTP -> HTTPS -> canonical-host
 # chain while preserving the full path and query string.
-http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectresources.ae, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfreelance.ae, http://www.redo.ae, http://www.connectfz.com, http://www.royalvisa.ae, http://www.connectresourcesint.com, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.companyformationsaudi.com, http://www.connectbusinesscenter.com, http://www.movey.ae {
+http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, http://www.iberiaworkforce.com, http://www.connecthr.ae, http://www.connectgroup.co, http://www.connectfm.ae, http://www.connectresources.sa, http://www.iberiaeor.com, http://www.eormiddleast.com, http://www.connectstaff.ae, http://www.c-uae.com, http://www.kinzahr.com, http://www.connectfz.com, http://www.royalvisa.ae, http://connectresourcesint.com, http://www.connectresources.ae, http://www.connectfreelance.ae, http://www.redo.ae, http://www.thefreelancergate.com, http://www.ngmanpower.com, http://www.emiratiguard.com, http://www.emiratisationgate.org, http://www.emiratisationgateway.com, http://www.freelancerdxb.com, http://payrollmiddleast.org, http://www.pittant.com, http://www.peomiddleast.com, http://www.kpmpro.ae, http://www.mbs-consultancy.com, http://www.connectzone.ae, http://www.movey.ae, http://www.emiratisationhub.com, http://www.companyformationsaudi.com, http://www.alburaq.ae, http://www.lladesigners.com, http://www.raadrecruitment.ae, http://www.saudicompanyformation.com, http://www.connectbusinesscenter.com, http://www.theuaegate.com, http://www.izi.ae, http://www.snapsale.ae {
 	@evolution host evolutionmiddleast.com
 	redir @evolution https://www.evolutionmiddleast.com{uri} permanent
 
@@ -94,8 +129,8 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@connectresourcesint host connectresourcesint.com
 	redir @connectresourcesint https://www.connectresourcesint.com{uri} permanent
 
-	@connectresources host www.connectresources.ae
-	redir @connectresources https://connectresources.ae{uri} permanent
+	@connectresources_ae host www.connectresources.ae
+	redir @connectresources_ae https://connectresources.ae{uri} permanent
 
 	@connectfreelance host www.connectfreelance.ae
 	redir @connectfreelance https://connectfreelance.ae{uri} permanent
@@ -121,6 +156,7 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@freelancerdxb host www.freelancerdxb.com
 	redir @freelancerdxb https://freelancerdxb.com{uri} permanent
 
+	# payrollmiddleast.org is www-canonical (apex -> www), unlike its neighbours.
 	@payrollmiddleast host payrollmiddleast.org
 	redir @payrollmiddleast https://www.payrollmiddleast.org{uri} permanent
 
@@ -133,39 +169,124 @@ http://evolutionmiddleast.com, http://www.cbss.ae, http://www.spheavyrental.ae, 
 	@kpmpro host www.kpmpro.ae
 	redir @kpmpro https://kpmpro.ae{uri} permanent
 
+	@mbs host www.mbs-consultancy.com
+	redir @mbs https://mbs-consultancy.com{uri} permanent
+
+	@connectzone host www.connectzone.ae
+	redir @connectzone https://connectzone.ae{uri} permanent
+
+	@movey host www.movey.ae
+	redir @movey https://movey.ae{uri} permanent
+
+	@emiratisationhub host www.emiratisationhub.com
+	redir @emiratisationhub https://emiratisationhub.com{uri} permanent
+
 	@companyformationsaudi host www.companyformationsaudi.com
 	redir @companyformationsaudi https://companyformationsaudi.com{uri} permanent
+
+	@alburaq host www.alburaq.ae
+	redir @alburaq https://alburaq.ae{uri} permanent
+
+
+	@lladesigners host www.lladesigners.com
+	redir @lladesigners https://lladesigners.com{uri} permanent
+
+	@raadrecruitment host www.raadrecruitment.ae
+	redir @raadrecruitment https://raadrecruitment.ae{uri} permanent
+
+	@saudicompanyformation host www.saudicompanyformation.com
+	redir @saudicompanyformation https://saudicompanyformation.com{uri} permanent
 
 	@connectbusinesscenter host www.connectbusinesscenter.com
 	redir @connectbusinesscenter https://connectbusinesscenter.com{uri} permanent
 
-	@movey host www.movey.ae
-	redir @movey https://movey.ae{uri} permanent
+	@theuaegate host www.theuaegate.com
+	redir @theuaegate https://theuaegate.com{uri} permanent
+
+	@izi host www.izi.ae
+	redir @izi https://izi.ae{uri} permanent
+
+	@snapsale host www.snapsale.ae
+	redir @snapsale https://snapsale.ae{uri} permanent
+
 }
 
 # evolutionmiddleast.com -> evolutionmiddleast.service
 evolutionmiddleast.com, www.evolutionmiddleast.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.key
 	encode zstd gzip
 
 	# Canonical host follows PUBLIC_SITE_URL for consistent SEO signals.
 	@noncanonical host evolutionmiddleast.com
 	redir @noncanonical https://www.evolutionmiddleast.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5080
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5080 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5080 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5080 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5080
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/evolutionmiddleast.com-access.log {
@@ -178,26 +299,79 @@ evolutionmiddleast.com, www.evolutionmiddleast.com {
 
 # cbss.ae -> cbss.service
 cbss.ae, www.cbss.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/cbss.ae/cbss.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/cbss.ae/cbss.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.cbss.ae/www.cbss.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.cbss.ae/www.cbss.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.cbss.ae
 	redir @noncanonical https://cbss.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5081
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5081 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5081 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5081 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5081
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/cbss.ae-access.log {
@@ -210,26 +384,79 @@ cbss.ae, www.cbss.ae {
 
 # spheavyrental.ae -> spheavyrental.service
 spheavyrental.ae, www.spheavyrental.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/spheavyrental.ae/spheavyrental.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/spheavyrental.ae/spheavyrental.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.spheavyrental.ae/www.spheavyrental.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.spheavyrental.ae/www.spheavyrental.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.spheavyrental.ae
 	redir @noncanonical https://spheavyrental.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5082
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5082 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5082 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5082 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5082
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/spheavyrental.ae-access.log {
@@ -242,26 +469,79 @@ spheavyrental.ae, www.spheavyrental.ae {
 
 # iberiaworkforce.com -> iberiaworkforce.service
 iberiaworkforce.com, www.iberiaworkforce.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/iberiaworkforce.com/iberiaworkforce.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/iberiaworkforce.com/iberiaworkforce.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.iberiaworkforce.com/www.iberiaworkforce.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.iberiaworkforce.com/www.iberiaworkforce.com.key
 	encode zstd gzip
 
 	@noncanonical host www.iberiaworkforce.com
 	redir @noncanonical https://iberiaworkforce.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5083
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5083 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5083 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5083 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5083
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/iberiaworkforce.com-access.log {
@@ -274,26 +554,79 @@ iberiaworkforce.com, www.iberiaworkforce.com {
 
 # connectgroup.co -> connectgroup.service
 connectgroup.co, www.connectgroup.co {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectgroup.co/connectgroup.co.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectgroup.co/connectgroup.co.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectgroup.co/www.connectgroup.co.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectgroup.co/www.connectgroup.co.key
 	encode zstd gzip
 
 	@noncanonical host www.connectgroup.co
 	redir @noncanonical https://connectgroup.co{uri} permanent
 
-	reverse_proxy 127.0.0.1:5085
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5085 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5085 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5085 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5085
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectgroup.co-access.log {
@@ -306,26 +639,79 @@ connectgroup.co, www.connectgroup.co {
 
 # eormiddleast.com -> eormiddleast.service
 eormiddleast.com, www.eormiddleast.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/eormiddleast.com/eormiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/eormiddleast.com/eormiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.eormiddleast.com/www.eormiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.eormiddleast.com/www.eormiddleast.com.key
 	encode zstd gzip
 
 	@noncanonical host www.eormiddleast.com
 	redir @noncanonical https://eormiddleast.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5090
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5090 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5090 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5090 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5090
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/eormiddleast.com-access.log {
@@ -336,60 +722,81 @@ eormiddleast.com, www.eormiddleast.com {
 	}
 }
 
-# peomiddleast.com -> peomiddleeast.service (PORT 5118) — live on Astro host
-peomiddleast.com, www.peomiddleast.com {
-	tls internal
-	encode zstd gzip
-
-	@noncanonical host www.peomiddleast.com
-	redir @noncanonical https://peomiddleast.com{uri} permanent
-
-	reverse_proxy 127.0.0.1:5118
-
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
-	header {
-		-Server
-		Strict-Transport-Security "max-age=31536000"
-		X-Content-Type-Options nosniff
-		X-Frame-Options SAMEORIGIN
-		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
-	}
-	log {
-		output file /var/log/caddy/peomiddleast.com-access.log {
-			roll_size 100MiB
-			roll_keep 14
-		}
-		format json
-	}
-}
-
 # connectstaff.ae -> connectstaff.service
 connectstaff.ae, www.connectstaff.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectstaff.ae/connectstaff.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectstaff.ae/connectstaff.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectstaff.ae/www.connectstaff.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectstaff.ae/www.connectstaff.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connectstaff.ae
 	redir @noncanonical https://connectstaff.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5091
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5091 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5091 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5091 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5091
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectstaff.ae-access.log {
@@ -402,26 +809,79 @@ connectstaff.ae, www.connectstaff.ae {
 
 # c-uae.com -> cuae.service
 c-uae.com, www.c-uae.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/c-uae.com/c-uae.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/c-uae.com/c-uae.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.c-uae.com/www.c-uae.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.c-uae.com/www.c-uae.com.key
 	encode zstd gzip
 
 	@noncanonical host www.c-uae.com
 	redir @noncanonical https://c-uae.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5092
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5092 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5092 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5092 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5092
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/c-uae.com-access.log {
@@ -434,26 +894,85 @@ c-uae.com, www.c-uae.com {
 
 # kinzahr.com -> kinzahr.service
 kinzahr.com, www.kinzahr.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/kinzahr.com/kinzahr.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/kinzahr.com/kinzahr.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.kinzahr.com/www.kinzahr.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.kinzahr.com/www.kinzahr.com.key
 	encode zstd gzip
 
 	@noncanonical host www.kinzahr.com
 	redir @noncanonical https://kinzahr.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5093
+	@enhanced path /enhanced /enhanced/*
+	header @enhanced {
+		X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
+		Cache-Control "no-store, private"
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5093 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5093 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5093 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5093
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/kinzahr.com-access.log {
@@ -466,26 +985,79 @@ kinzahr.com, www.kinzahr.com {
 
 # connecthr.ae -> connecthr.service
 connecthr.ae, www.connecthr.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connecthr.ae/connecthr.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connecthr.ae/connecthr.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connecthr.ae/www.connecthr.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connecthr.ae/www.connecthr.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connecthr.ae
 	redir @noncanonical https://connecthr.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5084
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5084 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5084 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5084 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5084
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connecthr.ae-access.log {
@@ -498,26 +1070,79 @@ connecthr.ae, www.connecthr.ae {
 
 # connectfm.ae -> connectfm.service
 connectfm.ae, www.connectfm.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfm.ae/connectfm.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfm.ae/connectfm.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfm.ae/www.connectfm.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfm.ae/www.connectfm.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connectfm.ae
 	redir @noncanonical https://connectfm.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5087
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5087 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5087 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5087 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5087
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectfm.ae-access.log {
@@ -530,26 +1155,79 @@ connectfm.ae, www.connectfm.ae {
 
 # connectresources.sa -> connectresources-sa.service
 connectresources.sa, www.connectresources.sa {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.sa/connectresources.sa.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.sa/connectresources.sa.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.sa/www.connectresources.sa.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.sa/www.connectresources.sa.key
 	encode zstd gzip
 
 	@noncanonical host www.connectresources.sa
 	redir @noncanonical https://connectresources.sa{uri} permanent
 
-	reverse_proxy 127.0.0.1:5088
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5088 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5088 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5088 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5088
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectresources.sa-access.log {
@@ -562,26 +1240,79 @@ connectresources.sa, www.connectresources.sa {
 
 # iberiaeor.com -> iberiaeor.service
 iberiaeor.com, www.iberiaeor.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/iberiaeor.com/iberiaeor.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/iberiaeor.com/iberiaeor.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.iberiaeor.com/www.iberiaeor.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.iberiaeor.com/www.iberiaeor.com.key
 	encode zstd gzip
 
 	@noncanonical host www.iberiaeor.com
 	redir @noncanonical https://iberiaeor.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5089
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5089 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5089 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5089 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5089
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/iberiaeor.com-access.log {
@@ -594,26 +1325,79 @@ iberiaeor.com, www.iberiaeor.com {
 
 # connectfz.com -> connectfz.service
 connectfz.com, www.connectfz.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfz.com/connectfz.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfz.com/connectfz.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfz.com/www.connectfz.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfz.com/www.connectfz.com.key
 	encode zstd gzip
 
 	@noncanonical host www.connectfz.com
 	redir @noncanonical https://connectfz.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5096
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5096 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5096 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5096 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5096
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectfz.com-access.log {
@@ -626,26 +1410,79 @@ connectfz.com, www.connectfz.com {
 
 # royalvisa.ae -> royalvisa.service
 royalvisa.ae, www.royalvisa.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/royalvisa.ae/royalvisa.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/royalvisa.ae/royalvisa.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.royalvisa.ae/www.royalvisa.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.royalvisa.ae/www.royalvisa.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.royalvisa.ae
 	redir @noncanonical https://royalvisa.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5097
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5097 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5097 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5097 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5097
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/royalvisa.ae-access.log {
@@ -656,28 +1493,81 @@ royalvisa.ae, www.royalvisa.ae {
 	}
 }
 
-# connectresourcesint.com -> connectresourcesint.service (PORT 5098) — live on Astro host
+# connectresourcesint.com -> connectresourcesint.service
 connectresourcesint.com, www.connectresourcesint.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresourcesint.com/connectresourcesint.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresourcesint.com/connectresourcesint.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresourcesint.com/www.connectresourcesint.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresourcesint.com/www.connectresourcesint.com.key
 	encode zstd gzip
 
 	@noncanonical host connectresourcesint.com
 	redir @noncanonical https://www.connectresourcesint.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5098
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5098 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5098 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5098 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5098
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectresourcesint.com-access.log {
@@ -688,29 +1578,81 @@ connectresourcesint.com, www.connectresourcesint.com {
 	}
 }
 
-
-# connectresources.ae -> connectresources.service (PORT 5086) — live on Astro host
+# connectresources.ae -> connectresources.service
 connectresources.ae, www.connectresources.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.ae/connectresources.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectresources.ae/connectresources.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.ae/www.connectresources.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectresources.ae/www.connectresources.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.connectresources.ae
 	redir @noncanonical https://connectresources.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5086
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5086 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5086 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5086 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5086
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/connectresources.ae-access.log {
@@ -721,28 +1663,828 @@ connectresources.ae, www.connectresources.ae {
 	}
 }
 
-# connectfreelance.ae -> connectfreelance.service (PORT 5094) — live on Astro host
+# connectfreelance.ae split: trusted secret backend + secretless presentation
 connectfreelance.ae, www.connectfreelance.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfreelance.ae/connectfreelance.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectfreelance.ae/connectfreelance.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfreelance.ae/www.connectfreelance.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectfreelance.ae/www.connectfreelance.ae.key
 	encode zstd gzip
 
+	# Root, not candidate code, maps public route suffixes to response MIME.
+	# Unknown suffixes are presentation HTML; API handlers override to JSON.
+	map {path} {front_content_type} {
+		~(?i)\.css$ "text/css; charset=utf-8"
+		~(?i)\.(?:js|mjs)$ "text/javascript; charset=utf-8"
+		~(?i)\.json$ "application/json; charset=utf-8"
+		~(?i)\.xml$ "application/xml; charset=utf-8"
+		~(?i)\.txt$ "text/plain; charset=utf-8"
+		~(?i)\.pdf$ application/pdf
+		~(?i)\.(?:jpg|jpeg)$ image/jpeg
+		~(?i)\.png$ image/png
+		~(?i)\.gif$ image/gif
+		~(?i)\.webp$ image/webp
+		~(?i)\.avif$ image/avif
+		~(?i)\.svg$ image/svg+xml
+		~(?i)\.ico$ image/x-icon
+		~(?i)\.woff2$ font/woff2
+		~(?i)\.woff$ font/woff
+		~(?i)\.ttf$ font/ttf
+		~(?i)\.otf$ font/otf
+		default "text/html; charset=utf-8"
+	}
+
+	# Reject non-origin targets which Caddy exposes to this host route, plus path
+	# forms whose normalization can change ownership. Caddy normalizes absolute
+	# form before host routing; the pinned Cloudflare/firewall boundary covers
+	# that explicitly documented ingress residual. The wrapper repeats the path
+	# checks for direct-UDS/canary defense in depth.
+	@non_origin_target not vars_regexp origin_form {http.request.orig_uri} ^/
+	handle @non_origin_target {
+		header Cache-Control "no-store"
+		respond "Bad request" 400
+	}
+	@ambiguous_path vars_regexp raw_ambiguous {http.request.orig_uri} `(?i)^(?://|[^?]*(?:%25|%2f|%5c|%2e|%3b|%0[0-9a-f]|%1[0-9a-f]|%7f|\\|//|;|(?:^|/)\.{1,2}(?:/|$)))`
+	handle @ambiguous_path {
+		header Cache-Control "no-store"
+		respond "Bad request" 400
+	}
+
+	# Root-owned denies execute before either application. These framework and
+	# retired UI surfaces are not used by the reviewed presentation release.
+	@edge_deny path /_image /_image/ /_image/* /_server-islands /_server-islands/* /internal /internal/*
+	handle @edge_deny {
+		header Cache-Control "no-store"
+		respond "Not found" 404
+	}
+
+	# V1 freezes runtime redirect mutation while presentation bypasses the
+	# backend redirect middleware. A root verifier also requires zero rules.
+	@redirect_mutation_frozen {
+		method POST
+		path /api/internal/redirects/save /api/internal/redirects/save/
+		path /api/internal/redirects/delete /api/internal/redirects/delete/
+		path /api/internal/redirects/bulk-delete /api/internal/redirects/bulk-delete/
+		path /api/internal/redirects/import /api/internal/redirects/import/
+	}
+	handle @redirect_mutation_frozen {
+		header Cache-Control "no-store"
+		header Content-Type "application/json; charset=utf-8"
+		respond `{"error":"redirects_locked","message":"Redirect changes are frozen during the secretless presentation pilot."}` 423
+	}
+
+	# Canonical-host redirection follows the raw-target, framework, and
+	# redirect-mutation guards so the alias cannot bypass those root decisions.
 	@noncanonical host www.connectfreelance.ae
-	redir @noncanonical https://connectfreelance.ae{uri} permanent
+	handle @noncanonical {
+		redir https://connectfreelance.ae{uri} permanent
+	}
 
-	reverse_proxy 127.0.0.1:5094
+	# Secrets, state, PII, runtime configuration, SEO control files, geolocation,
+	# and every reviewed redirect source remain on the manually attested backend.
+	@trusted_backend {
+		path /api/contact /api/contact/ /api/internal /api/internal/*
+		path /api/geo/country /api/geo/country/
+		path /runtime-gtm.js /runtime-gtm.js/
+		path /robots.txt /robots.txt/ /sitemap_index.xml /sitemap_index.xml/
+		path /page-sitemap.xml /page-sitemap.xml/ /post-sitemap.xml /post-sitemap.xml/
+		path /llm.txt /llm.txt/ /llms.txt /llms.txt/
+		path /about /about/ /contact /contact/ /blog /blog/ /home /home/
+		path /index.php /index.php/ /health-insurance /health-insurance/
+		path /services /services/ /become-a-partner /become-a-partner/
+		path /freelance-visa-dubai /freelance-visa-dubai/ /insurance /insurance/
+		path /author/jerryl-lance-alva /author/jerryl-lance-alva/
+		path /author/desery-dandan /author/desery-dandan/
+		path /author/jerryl /author/jerryl/
+		path /https-connectfreelance-ae-freelance-business-ideas-to-launch-in-2023 /https-connectfreelance-ae-freelance-business-ideas-to-launch-in-2023/
+	}
+	handle @trusted_backend {
+		reverse_proxy 127.0.0.1:5094
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	# Preserve Astro's current bare-API canonicalization without trusting a
+	# candidate 3xx. Explicit query placeholders retain the original query.
+	@frontend_api_read_bare {
+		method GET HEAD
+		path /api/blog/listing /api/blog/load-more /api/health
+	}
+	handle @frontend_api_read_bare {
+		redir {path}/?{query} 301
+	}
+	@frontend_blog_post_bare {
+		method POST
+		path /api/blog/listing
+	}
+	handle @frontend_blog_post_bare {
+		redir {path}/?{query} 308
+	}
+
+	# Blog listing is the sole public body-bearing frontend API. Its POST form
+	# is exact-path, JSON-only and bounded. Load-more and health are read-only.
+	@frontend_blog_read {
+		method GET HEAD
+		path /api/blog/listing /api/blog/listing/ /api/blog/load-more /api/blog/load-more/
+	}
+	handle @frontend_blog_read {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type "application/json; charset=utf-8"
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+		}
+	}
+
+	@frontend_blog_post {
+		method POST
+		path /api/blog/listing /api/blog/listing/
+		header_regexp blog_json Content-Type `(?i)^application/json(?:[\t ]*;[\t ]*charset=(?:utf-8|utf8))?$`
+	}
+	handle @frontend_blog_post {
+		request_body {
+			max_size 65536
+		}
+		header Cache-Control "no-store"
+		request_header -Origin
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_up Origin https://connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type "application/json; charset=utf-8"
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+		}
+	}
+
+	@frontend_blog_path path /api/blog/listing /api/blog/listing/ /api/blog/load-more /api/blog/load-more/
+	handle @frontend_blog_path {
+		respond "Method or media type not allowed" 405
+	}
+
+	@frontend_health {
+		method GET HEAD
+		path /api/health /api/health/
+	}
+	handle @frontend_health {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type "application/json; charset=utf-8"
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+		}
+	}
+
+	@frontend_health_path path /api/health /api/health/
+	handle @frontend_health_path {
+		respond "Method not allowed" 405
+	}
+
+	# Fail closed for every current or future API not explicitly carved into
+	# the secretless lane above. Those routes remain on the attested backend.
+	@trusted_api path /api /api/ /api/*
+	handle @trusted_api {
+		reverse_proxy 127.0.0.1:5094
+	}
+
+	# Caddy owns the only redirect permitted in the presentation lane. This
+	# keeps every response generated by developer code from redirecting users.
+	@frontend_needs_slash {
+		method GET HEAD
+		not path /
+		not path */
+		not path *.*
+	}
+	handle @frontend_needs_slash {
+		redir {path}/?{query} permanent
+	}
+
+	# The trusted middleware owns WordPress resized-image fallback redirects.
+	# Existing variants still receive the old status-aware media cache class.
+	@wp_thumbnail_variant {
+		method GET HEAD
+		path_regexp wp_thumbnail_variant ^/wp-content/uploads/.*-\d+x\d+\.(?:jpe?g|png|gif|webp|avif)$
+	}
+	handle @wp_thumbnail_variant {
+		reverse_proxy 127.0.0.1:5094 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	# Cache only successful frontend asset responses. Hash-bearing third-party
+	# bundles use immutable caching; unversioned code/media stays revalidatable.
+	@astro_hashed {
+		method GET HEAD
+		path /_astro/*
+	}
+	handle @astro_hashed {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type {front_content_type}
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media {
+		method GET HEAD
+		path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	}
+	handle @static_media {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type {front_content_type}
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code {
+		method GET HEAD
+		path_regexp static_code \.(css|js|mjs)$
+	}
+	handle @static_code {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type {front_content_type}
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@frontend_read method GET HEAD
+	handle @frontend_read {
+		header Cache-Control "no-store"
+		request_header -X-*
+		reverse_proxy 127.0.0.1:5094 {
+			lb_policy first
+			lb_try_duration 2s
+			lb_try_interval 100ms
+			fail_duration 30s
+			max_fails 1
+			header_up -Authorization
+			header_up -Origin
+			header_up -Referer
+			header_up -CF-*
+			header_up -CDN-Loop
+			header_up -Sec-*
+			header_up -Baggage
+			header_up -DNT
+			header_up -Early-Data
+			header_up -Priority
+			header_up -Traceparent
+			header_up -Tracestate
+			header_up -X-Auth-*
+			header_up -X-Api-Key
+			header_up -Cookie*
+			header_up -Forwarded
+			header_up -Proxy-*
+			header_up -Via
+			header_up -X-Internal-*
+			header_up -X-Real-IP
+			header_up -True-Client-IP
+			header_up X-Forwarded-For 127.0.0.1
+			header_up X-Forwarded-Host connectfreelance.ae
+			header_up X-Forwarded-Proto https
+			header_up Host connectfreelance.ae
+			header_down -Accept-CH
+			header_down -Accept-CH-Lifetime
+			header_down -Access-Control-*
+			header_down -Alt-Svc
+			header_down -Authentication-Info
+			header_down -Cache-Control
+			header_down -CDN-Cache-Control
+			header_down -Clear-Site-Data
+			header_down -Content-Disposition
+			header_down -Content-Security-Policy*
+			header_down -Cross-Origin-*
+			header_down -ETag
+			header_down -Expires
+			header_down -Last-Modified
+			header_down -Link
+			header_down -NEL
+			header_down -Proxy-Authenticate
+			header_down -Report-To
+			header_down -Reporting-Endpoints
+			header_down -WWW-Authenticate
+			header_down -Location
+			header_down -Permissions-Policy
+			header_down -Referrer-Policy
+			header_down -Refresh
+			header_down -Server
+			header_down -Set-Cookie*
+			header_down -Strict-Transport-Security
+			header_down -Surrogate-Control
+			header_down -Timing-Allow-Origin
+			header_down -Trailer
+			header_down -Via
+			header_down -X-Robots-Tag
+			header_down -X-Accel-*
+			header_down -X-Content-Type-Options
+			header_down -X-Frame-Options
+			header_down -X-Permitted-Cross-Domain-Policies
+			header_down -X-Sendfile
+			header_down -X-AspNet-*
+			header_down -X-Powered-By
+			header_down Content-Type {front_content_type}
+			@upstream_redirect status 3xx
+			handle_response @upstream_redirect {
+				respond "Untrusted frontend redirect denied" 502
+			}
+		}
+	}
+
+	respond "Method not allowed" 405
+
 	header {
 		-Server
+		-Via
+		Content-Security-Policy "object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+		Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://dev.connectfreelance.ae https://fonts.googleapis.com; font-src 'self' data: https://dev.connectfreelance.ae https://fonts.gstatic.com; img-src 'self' data: blob: https://arumjournal.com https://dev.connectfreelance.ae https://hoyonline.tv https://i.ytimg.com https://secure.gravatar.com https://www.google-analytics.com https://www.googletagmanager.com https://www.signaturesalonstudios.com; connect-src 'self' https://api.stripe.com https://region1.google-analytics.com https://www.google-analytics.com https://www.googletagmanager.com; frame-src 'self' https://js.stripe.com https://maps.google.com https://www.googletagmanager.com; media-src 'self' blob:; worker-src 'self' blob:; manifest-src 'self'; form-action 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	handle_errors {
+		header {
+			-Server
+			-Via
+			Cache-Control "no-store"
+			Content-Type "text/plain; charset=utf-8"
+			Content-Security-Policy "object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+			Strict-Transport-Security "max-age=31536000"
+			X-Content-Type-Options nosniff
+			X-Frame-Options SAMEORIGIN
+			Referrer-Policy no-referrer
+			Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+			X-Permitted-Cross-Domain-Policies none
+		}
+		respond "Service unavailable" {err.status_code}
 	}
 	log {
 		output file /var/log/caddy/connectfreelance.ae-access.log {
@@ -753,28 +2495,81 @@ connectfreelance.ae, www.connectfreelance.ae {
 	}
 }
 
-# redo.ae -> redo.service (PORT 5095) — live on Astro host
+# redo.ae -> redo.service
 redo.ae, www.redo.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/redo.ae/redo.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/redo.ae/redo.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.redo.ae/www.redo.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.redo.ae/www.redo.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.redo.ae
 	redir @noncanonical https://redo.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5095
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5095 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5095 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5095 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5095
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/redo.ae-access.log {
@@ -785,28 +2580,81 @@ redo.ae, www.redo.ae {
 	}
 }
 
-# thefreelancergate.com -> thefreelancergate.service (PORT 5100) — live on Astro host
+# thefreelancergate.com -> thefreelancergate.service
 thefreelancergate.com, www.thefreelancergate.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/thefreelancergate.com/thefreelancergate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/thefreelancergate.com/thefreelancergate.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.thefreelancergate.com/www.thefreelancergate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.thefreelancergate.com/www.thefreelancergate.com.key
 	encode zstd gzip
 
 	@noncanonical host www.thefreelancergate.com
 	redir @noncanonical https://thefreelancergate.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5100
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5100 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5100 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5100 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5100
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/thefreelancergate.com-access.log {
@@ -817,28 +2665,81 @@ thefreelancergate.com, www.thefreelancergate.com {
 	}
 }
 
-# ngmanpower.com -> ngmanpower.service (PORT 5102) — live on Astro host
+# ngmanpower.com -> ngmanpower.service
 ngmanpower.com, www.ngmanpower.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/ngmanpower.com/ngmanpower.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/ngmanpower.com/ngmanpower.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.ngmanpower.com/www.ngmanpower.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.ngmanpower.com/www.ngmanpower.com.key
 	encode zstd gzip
 
 	@noncanonical host www.ngmanpower.com
 	redir @noncanonical https://ngmanpower.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5102
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5102 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5102 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5102 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5102
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/ngmanpower.com-access.log {
@@ -849,28 +2750,81 @@ ngmanpower.com, www.ngmanpower.com {
 	}
 }
 
-# emiratiguard.com -> emiratiguard.service (PORT 5103) — live on Astro host
+# emiratiguard.com -> emiratiguard.service
 emiratiguard.com, www.emiratiguard.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratiguard.com/emiratiguard.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratiguard.com/emiratiguard.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratiguard.com/www.emiratiguard.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratiguard.com/www.emiratiguard.com.key
 	encode zstd gzip
 
 	@noncanonical host www.emiratiguard.com
 	redir @noncanonical https://emiratiguard.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5103
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5103 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5103 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5103 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5103
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/emiratiguard.com-access.log {
@@ -881,28 +2835,81 @@ emiratiguard.com, www.emiratiguard.com {
 	}
 }
 
-# emiratisationgate.org -> emiratisationgate.service (PORT 5105) — live on Astro host
+# emiratisationgate.org -> emiratisationgate.service
 emiratisationgate.org, www.emiratisationgate.org {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationgate.org/emiratisationgate.org.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationgate.org/emiratisationgate.org.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationgate.org/www.emiratisationgate.org.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationgate.org/www.emiratisationgate.org.key
 	encode zstd gzip
 
 	@noncanonical host www.emiratisationgate.org
 	redir @noncanonical https://emiratisationgate.org{uri} permanent
 
-	reverse_proxy 127.0.0.1:5105
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5105 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5105 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5105 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5105
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/emiratisationgate.org-access.log {
@@ -913,28 +2920,81 @@ emiratisationgate.org, www.emiratisationgate.org {
 	}
 }
 
-# emiratisationgateway.com -> emiratisationgateway.service (PORT 5106) — live on Astro host
+# emiratisationgateway.com -> emiratisationgateway.service
 emiratisationgateway.com, www.emiratisationgateway.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationgateway.com/emiratisationgateway.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationgateway.com/emiratisationgateway.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationgateway.com/www.emiratisationgateway.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationgateway.com/www.emiratisationgateway.com.key
 	encode zstd gzip
 
 	@noncanonical host www.emiratisationgateway.com
 	redir @noncanonical https://emiratisationgateway.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5106
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5106 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5106 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5106 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5106
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/emiratisationgateway.com-access.log {
@@ -945,28 +3005,81 @@ emiratisationgateway.com, www.emiratisationgateway.com {
 	}
 }
 
-# freelancerdxb.com -> freelancerdxb.service (PORT 5109) — live on Astro host
+# freelancerdxb.com -> freelancerdxb.service
 freelancerdxb.com, www.freelancerdxb.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/freelancerdxb.com/freelancerdxb.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/freelancerdxb.com/freelancerdxb.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.freelancerdxb.com/www.freelancerdxb.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.freelancerdxb.com/www.freelancerdxb.com.key
 	encode zstd gzip
 
 	@noncanonical host www.freelancerdxb.com
 	redir @noncanonical https://freelancerdxb.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5109
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5109 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5109 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5109 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5109
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/freelancerdxb.com-access.log {
@@ -977,28 +3090,83 @@ freelancerdxb.com, www.freelancerdxb.com {
 	}
 }
 
-# payrollmiddleast.org -> payrollmiddleast.service (PORT 5110) — live on Astro host (canonical www)
+# payrollmiddleast.org -> payrollmiddleast.service
+# NOTE: this site is www-canonical (apex -> www); every other site here is the
+# reverse. Preserved from its deploy/ snippet — do not "fix" it to match.
 payrollmiddleast.org, www.payrollmiddleast.org {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca payroll_origin_isolated_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/payroll_origin_isolated_2026/payrollmiddleast.org/payrollmiddleast.org.crt /var/lib/caddy/.local/share/caddy/certificates/payroll_origin_isolated_2026/payrollmiddleast.org/payrollmiddleast.org.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/payroll_origin_isolated_2026/www.payrollmiddleast.org/www.payrollmiddleast.org.crt /var/lib/caddy/.local/share/caddy/certificates/payroll_origin_isolated_2026/www.payrollmiddleast.org/www.payrollmiddleast.org.key
 	encode zstd gzip
 
 	@noncanonical host payrollmiddleast.org
 	redir @noncanonical https://www.payrollmiddleast.org{uri} permanent
 
-	reverse_proxy 127.0.0.1:5110
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5110 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5110 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5110 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5110
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/payrollmiddleast.org-access.log {
@@ -1009,28 +3177,81 @@ payrollmiddleast.org, www.payrollmiddleast.org {
 	}
 }
 
-# pittant.com -> pittant.service (PORT 5111) — live on Astro host
+# pittant.com -> pittant.service
 pittant.com, www.pittant.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/pittant.com/pittant.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/pittant.com/pittant.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.pittant.com/www.pittant.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.pittant.com/www.pittant.com.key
 	encode zstd gzip
 
 	@noncanonical host www.pittant.com
 	redir @noncanonical https://pittant.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5111
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5111 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5111 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5111 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5111
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/pittant.com-access.log {
@@ -1041,29 +3262,167 @@ pittant.com, www.pittant.com {
 	}
 }
 
-# kpmpro.ae -> kpmpro.service (PORT 5124) — live on Astro host
-# (5098 reassigned to live connectresourcesint.com)
-kpmpro.ae, www.kpmpro.ae {
-	tls internal
+# peomiddleast.com -> peomiddleeast.service  (unit name is spelled with a double
+# "e" — matches the site's deploy/ template and ROOT_SETUP.md, not the domain.)
+peomiddleast.com, www.peomiddleast.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/peomiddleast.com/peomiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/peomiddleast.com/peomiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.peomiddleast.com/www.peomiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.peomiddleast.com/www.peomiddleast.com.key
 	encode zstd gzip
 
-	@noncanonical host www.kpmpro.ae
-	redir @noncanonical https://kpmpro.ae{uri} permanent
+	@noncanonical host www.peomiddleast.com
+	redir @noncanonical https://peomiddleast.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5124
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5118 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	# Immutable only for content-hashed Astro assets (audit: avoid caching JS/CSS 404s forever).
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5118 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5118 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5118
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		# Report-Only first (audit P1). Tune then flip to Content-Security-Policy.
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/peomiddleast.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# kpmpro.ae -> kpmpro.service
+kpmpro.ae, www.kpmpro.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/kpmpro.ae/kpmpro.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/kpmpro.ae/kpmpro.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.kpmpro.ae/www.kpmpro.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.kpmpro.ae/www.kpmpro.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.kpmpro.ae
+	redir @noncanonical https://kpmpro.ae{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5124 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5124 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5124 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5124
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/kpmpro.ae-access.log {
@@ -1074,29 +3433,84 @@ kpmpro.ae, www.kpmpro.ae {
 	}
 }
 
-# companyformationsaudi.com -> companyformationsaudi.service (PORT 5114) — git template only until owner cutover
-companyformationsaudi.com, www.companyformationsaudi.com {
-	tls internal
+# mbs-consultancy.com -> mbs-consultancy.service
+mbs-consultancy.com, www.mbs-consultancy.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/mbs-consultancy.com/mbs-consultancy.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/mbs-consultancy.com/mbs-consultancy.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.mbs-consultancy.com/www.mbs-consultancy.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.mbs-consultancy.com/www.mbs-consultancy.com.key
 	encode zstd gzip
 
-	@noncanonical host www.companyformationsaudi.com
-	redir @noncanonical https://companyformationsaudi.com{uri} permanent
+	@noncanonical host www.mbs-consultancy.com
+	redir @noncanonical https://mbs-consultancy.com{uri} permanent
 
-	reverse_proxy 127.0.0.1:5114
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5099 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5099 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5099 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5099
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
-		output file /var/log/caddy/companyformationsaudi.com-access.log {
+		output file /var/log/caddy/mbs-consultancy.com-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -1104,29 +3518,84 @@ companyformationsaudi.com, www.companyformationsaudi.com {
 	}
 }
 
-# connectbusinesscenter.com -> connectbusinesscenter.service (PORT 5116) — git template only until owner cutover
-connectbusinesscenter.com, www.connectbusinesscenter.com {
-	tls internal
+# connectzone.ae -> connectzone.service
+connectzone.ae, www.connectzone.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectzone.ae/connectzone.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectzone.ae/www.connectzone.ae.key
 	encode zstd gzip
 
-	@noncanonical host www.connectbusinesscenter.com
-	redir @noncanonical https://connectbusinesscenter.com{uri} permanent
+	@noncanonical host www.connectzone.ae
+	redir @noncanonical https://connectzone.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5116
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5101 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	@hashed path /_astro/*
-	header @hashed Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5101 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5101 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5101
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
-		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-		Content-Security-Policy-Report-Only "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' https:; frame-src 'self' https:; worker-src 'self' blob:"
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
-		output file /var/log/caddy/connectbusinesscenter.com-access.log {
+		output file /var/log/caddy/connectzone.ae-access.log {
 			roll_size 100MiB
 			roll_keep 14
 		}
@@ -1134,24 +3603,81 @@ connectbusinesscenter.com, www.connectbusinesscenter.com {
 	}
 }
 
-# movey.ae -> movey.service (PORT 5104) — git template only until owner cutover
+# movey.ae -> movey.service
 movey.ae, www.movey.ae {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/movey.ae/movey.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/movey.ae/movey.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.movey.ae/www.movey.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.movey.ae/www.movey.ae.key
 	encode zstd gzip
 
 	@noncanonical host www.movey.ae
 	redir @noncanonical https://movey.ae{uri} permanent
 
-	reverse_proxy 127.0.0.1:5104
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5104 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
 
-	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
-	header @static Cache-Control "public, max-age=31536000, immutable"
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5104 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5104 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5104
+	}
+
 	header {
 		-Server
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
 	}
 	log {
 		output file /var/log/caddy/movey.ae-access.log {
@@ -1162,3 +3688,858 @@ movey.ae, www.movey.ae {
 	}
 }
 
+# emiratisationhub.com -> emiratisationhub.service
+emiratisationhub.com, www.emiratisationhub.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationhub.com/emiratisationhub.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/emiratisationhub.com/emiratisationhub.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationhub.com/www.emiratisationhub.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.emiratisationhub.com/www.emiratisationhub.com.key
+	encode zstd gzip
+
+	@noncanonical host www.emiratisationhub.com
+	redir @noncanonical https://emiratisationhub.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5107 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5107 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5107 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5107
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/emiratisationhub.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# companyformationsaudi.com -> companyformationsaudi.service
+companyformationsaudi.com, www.companyformationsaudi.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/companyformationsaudi.com/companyformationsaudi.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/companyformationsaudi.com/companyformationsaudi.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.companyformationsaudi.com/www.companyformationsaudi.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.companyformationsaudi.com/www.companyformationsaudi.com.key
+	encode zstd gzip
+
+	@noncanonical host www.companyformationsaudi.com
+	redir @noncanonical https://companyformationsaudi.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5114 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5114 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5114 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5114
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/companyformationsaudi.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# alburaq.ae -> alburaq.service
+alburaq.ae, www.alburaq.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/alburaq.ae/alburaq.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/alburaq.ae/alburaq.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.alburaq.ae/www.alburaq.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.alburaq.ae/www.alburaq.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.alburaq.ae
+	redir @noncanonical https://alburaq.ae{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5120 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5120 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5120 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5120
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/alburaq.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+# lladesigners.com -> lladesigners.service
+lladesigners.com, www.lladesigners.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/lladesigners.com/lladesigners.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/lladesigners.com/lladesigners.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.lladesigners.com/www.lladesigners.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.lladesigners.com/www.lladesigners.com.key
+	encode zstd gzip
+
+	@noncanonical host www.lladesigners.com
+	redir @noncanonical https://lladesigners.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5112 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5112 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5112 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5112
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/lladesigners.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# raadrecruitment.ae -> raadrecruitment.service
+raadrecruitment.ae, www.raadrecruitment.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/raadrecruitment.ae/raadrecruitment.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/raadrecruitment.ae/raadrecruitment.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.raadrecruitment.ae/www.raadrecruitment.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.raadrecruitment.ae/www.raadrecruitment.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.raadrecruitment.ae
+	redir @noncanonical https://raadrecruitment.ae{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5113 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5113 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5113 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5113
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/raadrecruitment.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# saudicompanyformation.com -> saudicompanyformation.service
+saudicompanyformation.com, www.saudicompanyformation.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/saudicompanyformation.com/saudicompanyformation.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.saudicompanyformation.com/www.saudicompanyformation.com.key
+	encode zstd gzip
+
+	@noncanonical host www.saudicompanyformation.com
+	redir @noncanonical https://saudicompanyformation.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5115 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5115 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5115 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5115
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/saudicompanyformation.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# connectbusinesscenter.com -> connectbusinesscenter.service
+connectbusinesscenter.com, www.connectbusinesscenter.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectbusinesscenter.com/connectbusinesscenter.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/connectbusinesscenter.com/connectbusinesscenter.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectbusinesscenter.com/www.connectbusinesscenter.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.connectbusinesscenter.com/www.connectbusinesscenter.com.key
+	encode zstd gzip
+
+	@noncanonical host www.connectbusinesscenter.com
+	redir @noncanonical https://connectbusinesscenter.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5116 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5116 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5116 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5116
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/connectbusinesscenter.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# theuaegate.com -> theuaegate.service
+theuaegate.com, www.theuaegate.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/theuaegate.com/theuaegate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/theuaegate.com/theuaegate.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.theuaegate.com/www.theuaegate.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.theuaegate.com/www.theuaegate.com.key
+	encode zstd gzip
+
+	@noncanonical host www.theuaegate.com
+	redir @noncanonical https://theuaegate.com{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5117 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5117 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5117 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5117
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/theuaegate.com-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# izi.ae -> izi.service
+izi.ae, www.izi.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/izi.ae/izi.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/izi.ae/izi.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.izi.ae/www.izi.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.izi.ae/www.izi.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.izi.ae
+	redir @noncanonical https://izi.ae{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5121 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5121 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5121 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5121
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/izi.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}
+
+
+# snapsale.ae -> snapsale.service
+snapsale.ae, www.snapsale.ae {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/snapsale.ae/snapsale.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/snapsale.ae/snapsale.ae.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.snapsale.ae/www.snapsale.ae.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.snapsale.ae/www.snapsale.ae.key
+	encode zstd gzip
+
+	@noncanonical host www.snapsale.ae
+	redir @noncanonical https://snapsale.ae{uri} permanent
+
+	# Cache policy is status-aware: long lifetimes are only ever attached to a
+	# 200 response, so a missing or failed asset can no longer be pinned at the
+	# edge (M-01). Only content-hashed build output is "immutable"; unversioned
+	# assets stay revalidatable so a deploy actually reaches returning visitors.
+	@astro_hashed path /_astro/*
+	handle @astro_hashed {
+		reverse_proxy 127.0.0.1:5122 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=31536000, immutable"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_media path_regexp static_media \.(woff|woff2|ttf|otf|webp|jpg|jpeg|png|gif|svg|ico|avif)$
+	handle @static_media {
+		reverse_proxy 127.0.0.1:5122 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=2592000, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	@static_code path_regexp static_code \.(css|js|mjs)$
+	handle @static_code {
+		reverse_proxy 127.0.0.1:5122 {
+			@ok status 200
+			handle_response @ok {
+				header {
+					defer
+					Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+				}
+				copy_response
+			}
+		}
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:5122
+	}
+
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+		# M-08: deny device APIs these marketing sites never use. Autoplay and
+		# fullscreen are deliberately NOT restricted (hero video / galleries).
+		Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+		X-Permitted-Cross-Domain-Policies none
+	}
+	log {
+		output file /var/log/caddy/snapsale.ae-access.log {
+			roll_size 100MiB
+			roll_keep 14
+		}
+		format json
+	}
+}

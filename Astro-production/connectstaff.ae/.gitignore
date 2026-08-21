@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build
-dist/
+# Build (anchor to site root — bare "dist/" also ignores Smart Slider Assets/dist/)
+/dist/
 .astro/
 
 # Env

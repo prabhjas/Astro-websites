@@ -53,18 +53,18 @@ async function pipedriveRequest<T>(
   }
   clearTimeout(timeout);
 
-  let parsed: PipedriveApiResponse<T> | null = null;
+  let parsed: PipedriveApiResponse<T>;
   try {
     parsed = (await response.json()) as PipedriveApiResponse<T>;
   } catch {
     return { ok: false, status: response.status, error: 'Invalid Pipedrive response' };
   }
 
-  if (!response.ok || !parsed?.success) {
+  if (!response.ok || !parsed.success) {
     return {
       ok: false,
       status: response.status,
-      error: parsed?.error || parsed?.error_info || `Pipedrive request failed (${response.status})`,
+      error: parsed.error || parsed.error_info || `Pipedrive request failed (${response.status})`,
     };
   }
 
@@ -109,7 +109,7 @@ function buildCustomFields(env: ServerEnv, form: NormalisedContactForm): Record<
     [keys.source]: env.pipedriveLeadSourceId,
     [keys.website]: env.websiteId,
     [keys.leadSubmittedOn]: form.pageUrl ? `Lead Submitted On: ${form.pageUrl}` : undefined,
-    [keys.userLandedOn]: form.referrerUrl ? `User Landed on: ${form.referrerUrl}` : undefined,
+    [keys.userLandedOn]: form.landingPageUrl ? `User Landed on: ${form.landingPageUrl}` : undefined,
     [keys.nationality]: form.nationality,
     [keys.countryCode]: form.countryCode ? form.countryCode.replace(/^\+/, '') : undefined,
     [keys.companyName]: form.company,

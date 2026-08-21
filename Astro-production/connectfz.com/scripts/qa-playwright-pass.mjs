@@ -137,7 +137,7 @@ for (const p of ["/contact/", "/"]) {
       set("[name='your-message'], [name=message], textarea", "Automated QA submission — please ignore.");
     });
     const [resp] = await Promise.all([
-      page.waitForResponse((r) => r.url().includes("/api/contact"), { timeout: 15000 }).catch(() => null),
+      page.waitForResponse((r) => r.url().includes("/api/contact/"), { timeout: 15000 }).catch(() => null),
       form.locator("input[type=submit], button[type=submit]").first().click(),
     ]);
     await page.waitForTimeout(1000);

@@ -54,4 +54,4 @@ Copy `.env.example` → `.env` for local smoke. On the host: `.env` (build `PUBL
 
 ## Deploy
 
-See `deploy/ROOT_SETUP.md`, `deploy/connectresources.service`, `deploy/connectresources.ae.caddy` (`tls internal`).
+See `deploy/ROOT_SETUP.md`, `deploy/connectresources.service`, `deploy/connectresources.ae.caddy` (named CA `astro_origin_2026` with paired manual cert/key loaders).

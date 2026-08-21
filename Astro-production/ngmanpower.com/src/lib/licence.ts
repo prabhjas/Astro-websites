@@ -57,12 +57,14 @@ export function licenceLlmsSection(siteOrigin: string): string {
   if (hasLicencePdf()) {
     lines.push(`- Licence document (PDF): ${origin}${licence.pdfPath}`);
   }
-  lines.push(
-    "",
-    "Licensed activities:",
-    "",
-    ...licence.activities.map((activity) => `- ${activity} (Active)`),
-    "",
-  );
+  if (licence.activities.length) {
+    lines.push(
+      "",
+      "Licensed activities:",
+      "",
+      ...licence.activities.map((activity) => `- ${activity} (Active)`),
+      "",
+    );
+  }
   return lines.join("\n");
 }

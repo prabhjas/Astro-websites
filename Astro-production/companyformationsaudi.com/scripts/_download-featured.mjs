@@ -23,8 +23,8 @@ for (const u of urls) {
   if (existsSync(dest) && statSync(dest).size > 200) continue;
   mkdirSync(dirname(dest), { recursive: true });
   try {
-    const res = await fetch(`https://companyformationsaudi.com/${rel}`, {
-      headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://companyformationsaudi.com/' },
+    const res = await fetch(`/${rel}`, {
+      headers: { 'User-Agent': 'Mozilla/5.0', Referer: '/' },
     });
     if (!res.ok) {
       miss++;

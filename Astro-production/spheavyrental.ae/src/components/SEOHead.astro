@@ -58,6 +58,10 @@ const schemas = [organizationSchema(), ...meta.schemas];
   crossorigin
 />
 
+{Astro.url.pathname === '/' && (
+  <link rel="preload" as="image" href="/wp-content/uploads/2025/06/HERO-SECTION-MAIN.webp" fetchpriority="high" />
+)}
+
 {
   extraCss.map((href) => (
     <link rel="stylesheet" href={href} />

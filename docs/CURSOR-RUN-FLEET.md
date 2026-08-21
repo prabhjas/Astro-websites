@@ -213,7 +213,7 @@ Bump Astro for everyone: edit catalog in `pnpm-workspace.yaml` → `pnpm install
 |--|--|
 | Host tree | `/opt/Astro-production/` |
 | Process | systemd `site-*` user → `entry.mjs` |
-| Edge | Caddy `sites.d/*.caddy` → `127.0.0.1:<PORT>` |
+| Edge | Guarded canonical Caddyfile → `127.0.0.1:<PORT>` |
 | Restart | `sudo site-ctl restart <unit>` |
 | Backups | `Astro-production/deploy-host/` → restic `/var/backups/astro-fleet` |
 

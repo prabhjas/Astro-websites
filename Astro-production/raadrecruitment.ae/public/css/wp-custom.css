@@ -424,7 +424,8 @@ border: 1px solid #222 !important;
 	
 html, body {
     width: auto!important;
-    overflow-x:hidden !important;
+    /* clip keeps horizontal overflow contained without killing sticky */
+    overflow-x: clip !important;
 }	
 	
 h1.elementor-heading-title.elementor-size-default {

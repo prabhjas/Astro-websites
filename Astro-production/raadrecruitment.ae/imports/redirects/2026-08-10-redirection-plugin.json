@@ -1,0 +1,288 @@
+{
+    "plugin": {
+        "version": "5.8.0",
+        "date": "Mon, 10 Aug 2026 09:01:56 +0000"
+    },
+    "groups": [
+        {
+            "id": 1,
+            "name": "Redirections",
+            "redirects": 4,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        },
+        {
+            "id": 2,
+            "name": "Modified Posts",
+            "redirects": 6,
+            "module_id": 1,
+            "moduleName": "WordPress",
+            "enabled": true
+        }
+    ],
+    "redirects": [
+        {
+            "id": 3,
+            "url": "/hire-emirati-talent-process/2/",
+            "match_url": "/hire-emirati-talent-process/2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/hire-emirati-talent-process/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 367,
+            "regex": false,
+            "group_id": 1,
+            "position": 0,
+            "last_access": "August 7, 2026",
+            "enabled": true
+        },
+        {
+            "id": 4,
+            "url": "/employee-benefits-in-uae/2/",
+            "match_url": "/employee-benefits-in-uae/2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/employee-benefits-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 441,
+            "regex": false,
+            "group_id": 1,
+            "position": 1,
+            "last_access": "August 5, 2026",
+            "enabled": true
+        },
+        {
+            "id": 5,
+            "url": "/common-recruitment-mistakes/2/",
+            "match_url": "/common-recruitment-mistakes/2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/common-recruitment-mistakes/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 302,
+            "regex": false,
+            "group_id": 1,
+            "position": 2,
+            "last_access": "July 23, 2026",
+            "enabled": true
+        },
+        {
+            "id": 6,
+            "url": "/recruitment-process-outsourcing/2/",
+            "match_url": "/recruitment-process-outsourcing/2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/recruitment-process-outsourcing/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 354,
+            "regex": false,
+            "group_id": 1,
+            "position": 3,
+            "last_access": "August 6, 2026",
+            "enabled": true
+        },
+        {
+            "id": 7,
+            "url": "/permanent-recruitment-agency-in-dubai/",
+            "match_url": "/permanent-recruitment-agency-in-dubai",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/permanent-recruitment/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 109,
+            "regex": false,
+            "group_id": 2,
+            "position": 0,
+            "last_access": "April 3, 2025",
+            "enabled": true
+        },
+        {
+            "id": 8,
+            "url": "/emiratisation-percentage-in-private-sector/?page=3",
+            "match_url": "/emiratisation-percentage-in-private-sector",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "/emiratisation-percentage-in-private-sector/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 96,
+            "regex": false,
+            "group_id": 2,
+            "position": 1,
+            "last_access": "August 5, 2026",
+            "enabled": true
+        },
+        {
+            "id": 9,
+            "url": "/esaad-card-for-golden-visa/2/",
+            "match_url": "/esaad-card-for-golden-visa/2",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/esaad-card-for-golden-visa/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 381,
+            "regex": false,
+            "group_id": 2,
+            "position": 2,
+            "last_access": "August 8, 2026",
+            "enabled": true
+        },
+        {
+            "id": 10,
+            "url": "/benefits-of-emiratisation-for-uae-nationals/",
+            "match_url": "/benefits-of-emiratisation-for-uae-nationals",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/benefits-of-emiratisation-in-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 572,
+            "regex": false,
+            "group_id": 2,
+            "position": 3,
+            "last_access": "August 9, 2026",
+            "enabled": true
+        },
+        {
+            "id": 11,
+            "url": "/avoid-emiratisation-penalties/",
+            "match_url": "/avoid-emiratisation-penalties",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "url": "https://raadrecruitment.ae/emiratisation-fines-in-the-uae/"
+            },
+            "match_type": "url",
+            "title": "",
+            "hits": 409,
+            "regex": false,
+            "group_id": 2,
+            "position": 4,
+            "last_access": "August 5, 2026",
+            "enabled": true
+        },
+        {
+            "id": 12,
+            "url": "/?trk=public_post-text",
+            "match_url": "/",
+            "match_data": {
+                "source": {
+                    "flag_query": "exact",
+                    "flag_case": true,
+                    "flag_trailing": true,
+                    "flag_regex": false
+                }
+            },
+            "action_code": 301,
+            "action_type": "url",
+            "action_data": {
+                "server": "https://www.raadrecruitment.ae",
+                "url_from": "http://www.raadrecruitment.ae/",
+                "url_notfrom": ""
+            },
+            "match_type": "server",
+            "title": "",
+            "hits": 0,
+            "regex": false,
+            "group_id": 2,
+            "position": 5,
+            "last_access": "-",
+            "enabled": true
+        }
+    ]
+}

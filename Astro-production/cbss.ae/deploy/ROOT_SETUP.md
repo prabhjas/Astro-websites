@@ -17,7 +17,7 @@ No `HOST`/`PORT` in env files.
 
 1. Create `site-cbss` if missing; own `.data/` for that user.
 2. Install unit from `deploy/cbss.service` (fail-loud `.env.prod`).
-3. Install Caddy from `deploy/cbss.ae.caddy` → `/etc/caddy/sites.d/` (`http://`+`https://`+`tls internal`).
+3. Merge the complete deploy Caddy block into `caddy/Caddyfile.production` and the reviewed single `/etc/caddy/Caddyfile`; do not create a `sites.d` import.
 4. `caddy validate` then reload (keep Caddyfile group-readable).
 5. Build + restart:
 

@@ -2,7 +2,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 
 const L = 'http://127.0.0.1:5107';
-const V = 'https://emiratisationhub.com';
+const V = '';
 
 const live = await (await fetch(V + '/blog/')).text();
 const local = await (await fetch(L + '/blog/')).text();

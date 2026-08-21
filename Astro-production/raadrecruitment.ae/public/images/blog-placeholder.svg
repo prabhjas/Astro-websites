@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Blog image placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A3C6E"/>
+      <stop offset="55%" stop-color="#2E6DA4"/>
+      <stop offset="100%" stop-color="#1A3C6E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="80" y="80" width="1040" height="640" rx="8" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"/>
+  <g transform="translate(600 380)" fill="none" stroke="#FFFFFF" stroke-opacity="0.88" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-130" y="-95" width="260" height="190" rx="18"/>
+    <circle cx="-48" cy="-28" r="28"/>
+    <path d="M-110 70 L-35 5 L15 45 L55 -15 L110 70 Z"/>
+  </g>
+  <text x="600" y="560" text-anchor="middle" fill="#FFFFFF" fill-opacity="0.92" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="600">RAAD Recruitment</text>
+</svg>

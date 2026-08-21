@@ -11,7 +11,7 @@ const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const WP_BLOG_ORDER_PATH = join(ROOT, 'src/data/wp-blog-order.json');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 /** Production host for absolute SEO URLs (canonical / og:url). Prefer env; never leave relative. */
 function siteOrigin(): string {
@@ -472,7 +472,9 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>\n</body>');
+  } else if (!html.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
   html = decodeProtectedEmailsInHtml(html);

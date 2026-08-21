@@ -47,15 +47,13 @@ ALLOWED="evolutionmiddleast cbss iberiaworkforce spheavyrental raadrecruitment"
 ## 5. Caddy
 
 ```bash
-mkdir -p /etc/caddy/sites.d /var/log/caddy
-# Prefer merging into the fleet single-file Caddyfile (git: caddy/Caddyfile.production)
-# which includes raadrecruitment.ae @ 5113 + one-hop www→apex HTTP redirect.
-# Or copy the site-local template:
-cp /opt/Astro-production/raadrecruitment.ae/deploy/raadrecruitment.ae.caddy /etc/caddy/sites.d/
+# Merge raadrecruitment.ae.caddy into caddy/Caddyfile.production and the
+# reviewed root-owned single /etc/caddy/Caddyfile. Never install fragments.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Use production peer pattern (bare hosts + `tls internal` + `@noncanonical` + HSTS) — see `docs/CONNECT-CADDY-DEPLOYMENT.md`. Cloudflare SSL = **Full** (not Flexible).
+Use bare hosts, named CA `astro_origin_2026`, both manual certificate loaders,
+`@noncanonical` and HSTS. Cloudflare SSL remains **Full**; never use Flexible.
 
 ## 6. Deploy loop
 

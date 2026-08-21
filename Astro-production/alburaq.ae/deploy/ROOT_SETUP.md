@@ -4,7 +4,7 @@ App tree: `/opt/Astro-production/alburaq.ae`
 Unit name: `alburaq` · PORT **5120** · Unix user: **`site-alburaq`**  
 Fleet docs: `docs/CONNECT-ASTRO-FLEET-STANDARD.md` · host checklist: `docs/server-ops-only.md`
 
-Templates here match **live Tier 1**: non-root unit, required `.env.prod`, production Caddy pattern (`tls internal`, canonical www redirect, HSTS).
+Templates here match the named-CA production pattern: non-root unit, required `.env.prod`, canonical redirect, HSTS and paired manual certificate loaders.
 
 ## 1. Site unix user
 
@@ -46,12 +46,13 @@ Expect `User=site-alburaq`, `MemoryMax=268435456`, `EnvironmentFiles=…/.env.pr
 ## 4. Caddy
 
 ```bash
-cp deploy/alburaq.ae.caddy /etc/caddy/sites.d/
-# Main Caddyfile: import /etc/caddy/sites.d/*.caddy
+# Merge the complete reviewed site block into caddy/Caddyfile.production and
+# the root-owned single /etc/caddy/Caddyfile. Never install fragment imports.
 caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ```
 
-Cloudflare SSL: **Full** (not Full strict) when origin uses `tls internal`.
+Use named CA `astro_origin_2026` with both manual certificate loaders.
+Cloudflare SSL remains **Full**; never use Flexible.
 
 ## 5. Deploy / build (webdev)
 

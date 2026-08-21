@@ -292,13 +292,50 @@
 
   /** Ensure FA + Swiper stylesheets exist (live often inlines SVG; cards still use .fas). */
   function ensureIconAndSwiperCss() {
-    if (!document.getElementById('astro-fa-css')) {
-      var fa = document.createElement('link');
-      fa.id = 'astro-fa-css';
-      fa.rel = 'stylesheet';
-      fa.href = '/css/fontawesome-all.min.css?v=20260804';
-      document.head.appendChild(fa);
+    // WP Rocket min cache rewrites icon CSS to /wp-content/cache/min/...; relative
+    // webfont paths 404 on the Astro mirror and icons show as empty boxes.
+    document.querySelectorAll('link[href*="/wp-content/cache/min/"]').forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (!href) return;
+      if (
+        href.indexOf('font-awesome/css/') === -1 &&
+        href.indexOf('eicons/css/') === -1 &&
+        href.indexOf('elementor-icons') === -1
+      ) {
+        return;
+      }
+      var fixed = href.replace(/\/wp-content\/cache\/min\/\d+\//, '/');
+      if (fixed && fixed !== href) {
+        link.setAttribute('href', fixed);
+      }
+    });
+
+    function ensureCss(id, href) {
+      if (document.getElementById(id)) return;
+      if (document.querySelector('link[href="' + href + '"]')) return;
+      var link = document.createElement('link');
+      link.id = id;
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
     }
+
+    ensureCss(
+      'astro-fa-core-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css',
+    );
+    ensureCss(
+      'astro-fa-solid-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css',
+    );
+    ensureCss(
+      'astro-fa-regular-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css',
+    );
+    ensureCss(
+      'astro-fa-brands-css',
+      '/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css',
+    );
     if (!document.querySelector('link[href*="eicons"],link[href*="elementor-icons"]') && !document.getElementById('astro-eicons-css')) {
       var ei = document.createElement('link');
       ei.id = 'astro-eicons-css';
@@ -745,13 +782,55 @@
         settings.image_spacing_custom_mobile && settings.image_spacing_custom_mobile.size !== undefined
           ? parseInt(settings.image_spacing_custom_mobile.size, 10) || gapDesktop
           : gapDesktop;
+      // Homepage partner-logo strip: keep logos tighter than inherited Elementor spacing.
+      if (widget.getAttribute('data-id') === '180c51f') {
+        desktop = 5;
+        tablet = 4;
+        mobile = 2;
+        gapDesktop = Math.min(gapDesktop, 8);
+        gapTablet = Math.min(gapTablet, 8);
+        gapMobile = Math.min(gapMobile, 8);
+      }
       var slideCount = wrap.querySelectorAll('.swiper-slide').length;
-      var loop = settings.infinite === 'yes' && slideCount > desktop;
+      var autoplayEnabled = settings.autoplay === 'yes';
+      var isHomepageLogoStrip = widget.getAttribute('data-id') === '180c51f';
+      // Keep at least one hidden slide when autoplay is enabled so the strip can move.
+      var desktopView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(desktop, slideCount - 1)
+          : Math.min(desktop, slideCount || 1);
+      var tabletView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(tablet, slideCount - 1)
+          : Math.min(tablet, slideCount || 1);
+      var mobileView =
+        autoplayEnabled && slideCount > 1 && !isHomepageLogoStrip
+          ? Math.min(mobile, slideCount - 1)
+          : Math.min(mobile, slideCount || 1);
+      desktopView = Math.max(1, desktopView);
+      tabletView = Math.max(1, tabletView);
+      mobileView = Math.max(1, mobileView);
+      if (isHomepageLogoStrip && slideCount > 0 && slideCount <= desktopView) {
+        // Swiper needs more slides than visible items for a smooth loop.
+        var wrapper = wrap.querySelector('.swiper-wrapper');
+        if (wrapper) {
+          var originals = Array.prototype.slice.call(wrapper.children);
+          var guard = 0;
+          while (wrapper.children.length <= desktopView && guard < 3) {
+            originals.forEach(function (node) {
+              wrapper.appendChild(node.cloneNode(true));
+            });
+            guard += 1;
+          }
+          slideCount = wrap.querySelectorAll('.swiper-slide').length;
+        }
+      }
+      var loop = settings.infinite === 'yes' && slideCount > desktopView;
       var slidesToScroll = parseInt(settings.slides_to_scroll || '1', 10) || 1;
       var nextEl = widget.querySelector('.elementor-swiper-button-next, .swiper-button-next');
       var prevEl = widget.querySelector('.elementor-swiper-button-prev, .swiper-button-prev');
       var swiperOptions = {
-        slidesPerView: mobile,
+        slidesPerView: mobileView,
         slidesPerGroup: slidesToScroll,
         spaceBetween: gapMobile,
         loop: loop,
@@ -761,8 +840,8 @@
         observeParents: true,
         allowTouchMove: true,
         breakpoints: {
-          768: { slidesPerView: tablet, spaceBetween: gapTablet, slidesPerGroup: slidesToScroll },
-          1025: { slidesPerView: desktop, spaceBetween: gapDesktop, slidesPerGroup: slidesToScroll },
+          768: { slidesPerView: tabletView, spaceBetween: gapTablet, slidesPerGroup: slidesToScroll },
+          1025: { slidesPerView: desktopView, spaceBetween: gapDesktop, slidesPerGroup: slidesToScroll },
         },
       };
 
@@ -773,7 +852,7 @@
         };
       }
 
-      if (settings.autoplay === 'yes') {
+      if (autoplayEnabled) {
         swiperOptions.autoplay = {
           delay: parseInt(settings.autoplay_speed || '3000', 10) || 3000,
           disableOnInteraction: settings.pause_on_interaction === 'yes',
@@ -1166,6 +1245,14 @@
 
   /** WP Rocket / Elementor / Swiper lazy images: promote data-lazy-src + data-src to real src */
   function ensureLazyImages() {
+    function getNoscriptFallbackSrc(img) {
+      var sibling = img.nextElementSibling;
+      if (!sibling || sibling.tagName !== 'NOSCRIPT') return '';
+      var html = sibling.textContent || sibling.innerHTML || '';
+      var match = html.match(/<img[^>]*\ssrc=['"]([^'"]+)['"]/i);
+      return match ? String(match[1]).trim() : '';
+    }
+
     document.querySelectorAll('img[data-lazy-src], img[data-src], img.swiper-lazy').forEach(function (img) {
       var lazySrc = img.getAttribute('data-lazy-src') || img.getAttribute('data-src');
       if (!lazySrc) return;
@@ -1181,6 +1268,24 @@
       if (lazySizes && !img.getAttribute('sizes')) {
         img.setAttribute('sizes', lazySizes);
       }
+
+      if (img.dataset.astroImgRecover !== '1') {
+        img.dataset.astroImgRecover = '1';
+        img.addEventListener(
+          'error',
+          function () {
+            var fallback =
+              img.getAttribute('data-lazy-src') ||
+              img.getAttribute('data-src') ||
+              getNoscriptFallbackSrc(img);
+            if (!fallback) return;
+            if (img.getAttribute('src') === fallback) return;
+            img.setAttribute('src', fallback);
+          },
+          { once: true },
+        );
+      }
+
       img.removeAttribute('data-lazy-src');
       img.removeAttribute('data-src');
       img.removeAttribute('data-lazy-srcset');
@@ -1260,7 +1365,18 @@
           }
         }
 
-        // 3) Hide broken icons that still 404 (matches live missing uploads)
+        // 3) Blog list cards: fallback image instead of blank broken area
+        if (img.closest('.filter-post .main-post.post-wrap .post-img')) {
+          var fallback = '/wp-content/uploads/2024/02/Contact-banner.png';
+          if (current !== fallback) {
+            img.removeAttribute('srcset');
+            img.removeAttribute('sizes');
+            img.setAttribute('src', fallback);
+            return;
+          }
+        }
+
+        // 4) Non-blog assets: hide irrecoverably broken images
         img.dataset.rvBroken = '1';
         img.setAttribute('data-rv-broken', '1');
         img.removeAttribute('srcset');
@@ -1768,15 +1884,16 @@
     }
 
     function lookupCountryByIp() {
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
       if (window.__astroDetectedCountry && /^[a-z]{2}$/.test(window.__astroDetectedCountry)) {
         return Promise.resolve(window.__astroDetectedCountry);
       }
       // Same-origin first (avoids CORS / hung third-party fetches), then public geo APIs.
       var endpoints = [
         '/api/geo/country',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipinfo.io/json',
       ];
       var i = 0;
       return new Promise(function (resolve) {
@@ -2036,8 +2153,20 @@
       /* Blog Latest Blogs category chips */
       '.catbutton .filter-button{cursor:pointer;}',
       '.catbutton .filter-button.active,.catbutton .filter-button.is-active{background:#5A8C1C!important;color:#fff!important;border-color:#5A8C1C!important;}',
-      '.filter-post .main-post.post-wrap{display:flex;gap:24px;align-items:flex-start;margin-bottom:28px;}',
+      '.filter-post .main-post.post-wrap{display:grid;grid-template-columns:minmax(260px,40%) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:28px;}',
+      '.filter-post .main-post.post-wrap .post-img{min-width:0;}',
+      '.filter-post .main-post.post-wrap .post-img img{width:100%;height:auto;display:block;aspect-ratio:16/9;object-fit:cover;background:#f4f5f7;}',
+      '@media (max-width:767px){.filter-post .main-post.post-wrap{display:block;}}',
       '.filter-post .main-post.post-wrap.is-hidden{display:none!important;}',
+      '.filter-post .main-post.post-wrap.is-load-hidden{display:none!important;}',
+      '.astro-blog-load-more-wrap{text-align:center;margin:32px 0 8px;}',
+      '.astro-blog-load-more{color:#4A4A4A;font-family:Poppins,sans-serif;font-size:14px;font-weight:600;line-height:20.5px;border-radius:100px;border:1px solid #D9D9D9;padding:12px 32px;background:#fff;cursor:pointer;}',
+      '.astro-blog-load-more:hover{background:#121212;color:#fff;border-color:#121212;}',
+      '.astro-blog-load-more.is-hidden{display:none!important;}',
+      /* Recruitment hero heading: keep two lines and centered on desktop */
+      '.astro-recruitment-title-break{display:none;}',
+      '.astro-recruitment-line1,.astro-recruitment-line2{display:inline;white-space:normal;}',
+      '@media (min-width:1025px){body.page-id-1750 .elementor-element-287c2a2f,body.elementor-page-1750 .elementor-element-287c2a2f,body.page-id-1750 .elementor-element-287c2a2f>.elementor-widget-container,body.elementor-page-1750 .elementor-element-287c2a2f>.elementor-widget-container{display:flex!important;justify-content:center!important;text-align:center!important;}body.page-id-1750 .elementor-element-287c2a2f .elementor-heading-title,body.elementor-page-1750 .elementor-element-287c2a2f .elementor-heading-title{display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center!important;max-width:1120px;margin-left:auto!important;margin-right:auto!important;line-height:1.12;}.astro-recruitment-line1,.astro-recruitment-line2{display:block;white-space:nowrap;text-align:center!important;width:auto;max-width:none;margin-left:auto!important;margin-right:auto!important;}.astro-recruitment-title-break{display:none!important;}}',
       /* Sticky form: ancestor overflow must not clip sticky */
       '@media (min-width:768px){.elementor-section:has(.elementor-element-3595752),.elementor-section:has(.elementor-element-3595752)>.elementor-container,.elementor-section:has(.elementor-element-3595752) .elementor-column,.elementor-section:has(.elementor-element-3595752)>.elementor-container>.elementor-column>.elementor-widget-wrap{overflow:visible!important;}}',
       'img[data-rv-broken]{visibility:hidden;max-height:0;margin:0;padding:0;}',
@@ -2250,6 +2379,7 @@
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
     window.__astroLegacyContactFormsWired = true;
+    try { resolveInitialLandingUrl(); } catch (e) {}
 
     function ensureHiddenField(form, name, value) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -2263,6 +2393,67 @@
       return input;
     }
 
+    function getAttrCookie(name) {
+      var nameEQ = name + '=';
+      var parts = document.cookie.split(';');
+      for (var i = 0; i < parts.length; i++) {
+        var c = parts[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+          try {
+            return decodeURIComponent(c.substring(nameEQ.length));
+          } catch (e) {
+            return c.substring(nameEQ.length);
+          }
+        }
+      }
+      return '';
+    }
+
+    function setAttrCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(String(value == null ? '' : value)) +
+        '; expires=' +
+        d.toUTCString() +
+        '; path=/; SameSite=Lax' +
+        secure;
+    }
+
+    function resolveInitialLandingUrl() {
+      var pageUrl = window.location.href;
+      var fromCookie = getAttrCookie('initialUrl') || getAttrCookie('cg_initial_url');
+      if (fromCookie) return fromCookie;
+      try {
+        var fromSession = sessionStorage.getItem('cg_initial_url');
+        if (fromSession) {
+          setAttrCookie('initialUrl', fromSession, 30);
+          return fromSession;
+        }
+      } catch (e) {}
+      setAttrCookie('initialUrl', pageUrl, 30);
+      try {
+        sessionStorage.setItem('cg_initial_url', pageUrl);
+      } catch (e) {}
+      return pageUrl;
+    }
+
+    function pushLeadToDataLayer(email, phone, submissionId) {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'form_submission_lead',
+          email: email || '',
+          phone_number: phone || '',
+          submission_id: submissionId || '',
+        });
+      } catch (e) {}
+    }
+
+
     function ensureLegacyTrackingFields(form) {
       if (!form.dataset.submissionId) {
         form.dataset.submissionId =
@@ -2271,7 +2462,7 @@
             : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
+      var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
       ensureHiddenField(form, 'form_name', 'KPM Pro Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
@@ -2282,21 +2473,29 @@
     }
 
     function captureTrackingFields(form) {
-      var params = new URLSearchParams(window.location.search);
-      var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
-      if (!sessionStorage.getItem('cg_initial_url')) {
-        sessionStorage.setItem('cg_initial_url', pageUrl);
+      var params = new URLSearchParams(window.location.search || '');
+      var hashParams = new URLSearchParams((window.location.hash || '').replace(/^#\??/, ''));
+      function paramHas(key) {
+        return params.has(key) || hashParams.has(key);
       }
-      ensureLegacyTrackingFields(form);
+      function paramGet(key) {
+        if (params.has(key)) return params.get(key) || '';
+        if (hashParams.has(key)) return hashParams.get(key) || '';
+        return '';
+      }
+      var pageUrl = window.location.href;
+      var initial = resolveInitialLandingUrl();
+      if (typeof ensureLegacyTrackingFields === 'function') {
+        ensureLegacyTrackingFields(form);
+      }
 
-      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
       var TRACKING_FIELDS = {
-        gclid: ['gclid'],
+        gclid: ['gclid', 'gbraid', 'wbraid'],
         gbraid: ['gbraid'],
         wbraid: ['wbraid'],
         fbclid: ['fbclid'],
         msclkid: ['msclkid'],
+        twclid: ['twclid'],
         utm_source: ['utm_source'],
         utm_medium: ['utm_medium'],
         utm_campaign: ['utm_campaign'],
@@ -2307,8 +2506,8 @@
         group_id: ['group_id', 'groupid'],
         creative_id: ['creative_id', 'creativeid', 'creative'],
         keyword: ['keyword', 'kw', 'q', 'utm_term'],
-        matchtype: ['matchtype'],
-        device: ['device'],
+        matchtype: ['matchtype', 'match_type'],
+        device: ['device', 'utm_device'],
         network: ['network'],
         placement: ['placement', 'displayad'],
         target: ['target', 'targetid', 'target_id'],
@@ -2322,15 +2521,31 @@
 
       function firstParam(aliases) {
         for (var i = 0; i < aliases.length; i++) {
-          var v = params.get(aliases[i]);
-          if (v) return v;
+          var alias = aliases[i];
+          if (paramHas(alias)) return String(paramGet(alias) || '').trim();
         }
         return '';
       }
 
       Object.keys(TRACKING_FIELDS).forEach(function (name) {
-        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+        var fromUrl = firstParam(TRACKING_FIELDS[name]);
+        var value = fromUrl;
+        if (fromUrl) {
+          setAttrCookie(name, fromUrl, 30);
+        } else {
+          value = getAttrCookie(name) || '';
+        }
+        if (name === 'gclid' && !value) {
+          value = getAttrCookie('gclid') || getAttrCookie('gbraid') || getAttrCookie('wbraid') || '';
+        }
+        ensureHiddenField(form, name, value);
       });
+
+      var urlGclid = String(paramGet('gclid') || paramGet('gbraid') || paramGet('wbraid') || '').trim();
+      if (urlGclid) {
+        setAttrCookie('gclid', urlGclid, 30);
+        ensureHiddenField(form, 'gclid', urlGclid);
+      }
 
       ensureHiddenField(form, 'initial_url', initial);
       ensureHiddenField(form, 'landing_page_url', initial);
@@ -2338,6 +2553,7 @@
       ensureHiddenField(form, 'submission_page_url', pageUrl);
       ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
+
 
     function normalizeNationalPhoneDigits(phone, dialCode) {
       var digits = String(phone.value || '').replace(/\D/g, '');
@@ -3162,25 +3378,150 @@
     setTimeout(onScroll, 500);
   }
 
-  /** Latest Blogs shortcode filters (`.filter-button` → `.filter-post .filter`) */
+  /** Latest Blogs: category filters + client-side Load More (10 posts per batch). */
   function ensureBlogCategoryFilters() {
     var buttons = document.querySelectorAll('.catbutton .filter-button, .filter-button[data-filter]');
-    var posts = document.querySelectorAll('.filter-post .filter, .filter-post .main-post.post-wrap');
+    var posts = Array.prototype.slice.call(
+      document.querySelectorAll('.filter-post .filter, .filter-post .main-post.post-wrap'),
+    );
     if (!buttons.length || !posts.length) return;
 
-    function applyFilter(value) {
-      var slug = String(value || 'all').toLowerCase();
+    var BATCH = 10;
+    var activeFilter = 'all';
+    var visibleLimit = BATCH;
+    var BLOG_CARD_FALLBACK_IMAGE = '/wp-content/uploads/2024/02/Contact-banner.png';
+    var loadMoreBtn =
+      document.querySelector('[data-astro-blog-load-more]') ||
+      document.querySelector('.astro-blog-load-more');
+
+    function getNoscriptFallbackSrc(img) {
+      var sibling = img.nextElementSibling;
+      if (!sibling || sibling.tagName !== 'NOSCRIPT') return '';
+      var html = sibling.textContent || sibling.innerHTML || '';
+      var match = html.match(/<img[^>]*\ssrc=['"]([^'"]+)['"]/i);
+      return match ? String(match[1]).trim() : '';
+    }
+
+    function hydratePostImages(post) {
+      post.querySelectorAll('img').forEach(function (img) {
+        var preferred =
+          img.getAttribute('src') ||
+          img.getAttribute('data-lazy-src') ||
+          img.getAttribute('data-src') ||
+          getNoscriptFallbackSrc(img);
+        var lazySrc = img.getAttribute('data-lazy-src') || img.getAttribute('data-src');
+        var fallback = lazySrc || getNoscriptFallbackSrc(img);
+
+        if (!preferred || preferred.indexOf('data:image') === 0) {
+          preferred = fallback;
+        }
+        if (!preferred && post.matches('.main-post.post-wrap')) {
+          preferred = BLOG_CARD_FALLBACK_IMAGE;
+        }
+        if (preferred && (img.getAttribute('src') || '').indexOf('data:image') === 0) {
+          img.setAttribute('src', preferred);
+        } else if (preferred && !img.getAttribute('src')) {
+          img.setAttribute('src', preferred);
+        }
+
+        var lazySrcset = img.getAttribute('data-lazy-srcset') || img.getAttribute('data-srcset');
+        if (lazySrcset && !img.getAttribute('srcset')) {
+          img.setAttribute('srcset', lazySrcset);
+        }
+        var lazySizes = img.getAttribute('data-lazy-sizes');
+        if (lazySizes && !img.getAttribute('sizes')) {
+          img.setAttribute('sizes', lazySizes);
+        }
+
+        if (img.dataset.astroPostImgRecover !== '1') {
+          img.dataset.astroPostImgRecover = '1';
+          img.addEventListener(
+            'error',
+            function () {
+              var rescue =
+                getNoscriptFallbackSrc(img) ||
+                img.getAttribute('data-lazy-src') ||
+                (post.matches('.main-post.post-wrap') ? BLOG_CARD_FALLBACK_IMAGE : '');
+              if (!rescue || img.getAttribute('src') === rescue) return;
+              img.setAttribute('src', rescue);
+            },
+            { once: true },
+          );
+        }
+
+        if (!img.loading) img.loading = 'lazy';
+      });
+    }
+
+    function ensureLoadMoreButton() {
+      var wrap = document.querySelector('.astro-blog-load-more-wrap');
+      if (!loadMoreBtn && !wrap) {
+        var filterPost = document.querySelector('.filter-post');
+        if (!filterPost) return null;
+        wrap = document.createElement('div');
+        wrap.className = 'astro-blog-load-more-wrap';
+        wrap.innerHTML =
+          '<button type="button" class="astro-blog-load-more btn btn-default" data-astro-blog-load-more>Load More</button>';
+        filterPost.insertAdjacentElement('afterend', wrap);
+      }
+      if (!loadMoreBtn) {
+        loadMoreBtn = document.querySelector('[data-astro-blog-load-more], .astro-blog-load-more');
+      }
+      if (loadMoreBtn && loadMoreBtn.dataset.astroLoadMoreBound !== '1') {
+        loadMoreBtn.dataset.astroLoadMoreBound = '1';
+        loadMoreBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          visibleLimit += BATCH;
+          applyFilter(activeFilter);
+        });
+      }
+      return loadMoreBtn;
+    }
+
+    function matchingPosts() {
+      var slug = String(activeFilter || 'all').toLowerCase();
       var isAll = !slug || slug === 'all';
+      return posts.filter(function (post) {
+        return isAll || post.classList.contains(slug);
+      });
+    }
+
+    function applyFilter(value) {
+      activeFilter = String(value || 'all').toLowerCase();
+      var slug = activeFilter;
+      var isAll = !slug || slug === 'all';
+      var matched = matchingPosts();
+
       posts.forEach(function (post) {
         var match = isAll || post.classList.contains(slug);
         post.classList.toggle('is-hidden', !match);
-        post.style.display = match ? '' : 'none';
+        if (!match) {
+          post.classList.add('is-load-hidden');
+          post.style.display = 'none';
+        }
       });
+
+      matched.forEach(function (post, index) {
+        var show = index < visibleLimit;
+        post.classList.toggle('is-load-hidden', !show);
+        post.style.display = show ? '' : 'none';
+        if (show) hydratePostImages(post);
+      });
+
       buttons.forEach(function (btn) {
-        var active = String(btn.getAttribute('data-filter') || '').toLowerCase() === slug || (isAll && String(btn.getAttribute('data-filter') || '').toLowerCase() === 'all');
+        var active =
+          String(btn.getAttribute('data-filter') || '').toLowerCase() === slug ||
+          (isAll && String(btn.getAttribute('data-filter') || '').toLowerCase() === 'all');
         btn.classList.toggle('active', active);
         btn.classList.toggle('is-active', active);
       });
+
+      var btn = ensureLoadMoreButton();
+      if (btn) {
+        var hasMore = matched.length > visibleLimit;
+        btn.classList.toggle('is-hidden', !hasMore);
+        btn.style.display = hasMore ? '' : 'none';
+      }
     }
 
     buttons.forEach(function (btn) {
@@ -3188,12 +3529,24 @@
       btn.dataset.astroFilterBound = '1';
       btn.addEventListener('click', function (e) {
         e.preventDefault();
+        visibleLimit = BATCH;
         applyFilter(btn.getAttribute('data-filter') || 'all');
       });
     });
 
-    // Default: show all
+    visibleLimit = BATCH;
     applyFilter('all');
+  }
+
+  /** Recruitment page hero title: force two-line desktop wrap. */
+  function ensureRecruitmentTwoLineTitle() {
+    if (!document.body || !(document.body.classList.contains('page-id-1750') || document.body.classList.contains('elementor-page-1750'))) return;
+    var title = document.querySelector('.elementor-element-287c2a2f .elementor-heading-title');
+    if (!title || title.dataset.astroTwoLine === '1') return;
+    title.innerHTML =
+      '<span class="astro-recruitment-line1">How Our Expert <span class="blue">Emiratisation Recruitment</span></span>' +
+      '<span class="astro-recruitment-line2">Services Can Help You</span>';
+    title.dataset.astroTwoLine = '1';
   }
 
   function boot() {
@@ -3220,6 +3573,7 @@
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
     safe(ensureBlogCategoryFilters);
+    safe(ensureRecruitmentTwoLineTitle);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
     safe(ensurePixfortAnimations);
@@ -3246,6 +3600,7 @@
       safe(ensureKinzaFormSkin);
       safe(ensureTaxonomyFilter);
       safe(ensureBlogCategoryFilters);
+      safe(ensureRecruitmentTwoLineTitle);
       safe(ensureStickySidebarClamp);
       safe(bindStickySidebarClampObservers);
     }, 600);
@@ -3267,6 +3622,7 @@
     safe(ensureBootstrapCollapseAccordions);
     safe(ensureNestedAccordion);
     safe(ensureBlogCategoryFilters);
+    safe(ensureRecruitmentTwoLineTitle);
     safe(decodeCloudflareEmails);
     safe(ensureShareButtons);
       safe(ensurePixfortAnimations);

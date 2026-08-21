@@ -11,9 +11,9 @@
   "logo": "/wp-content/uploads/logo.png",
   "logoSvg": "",
   "ogImage": "",
-  "favicon": "/wp-content/uploads/favicon.png",
-  "appleTouchIcon": "/wp-content/uploads/apple-touch-icon.png",
-  "favicon192": "/wp-content/uploads/android-icon-192x192.png",
+  "favicon": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-32x32.png",
+  "appleTouchIcon": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-180x180.png",
+  "favicon192": "/wp-content/uploads/2023/10/cropped-favicon-32x-v1-192x192.png",
   "colors": {
     "primary": "#1A3C6E",
     "secondary": "#2E6DA4",
@@ -22,26 +22,74 @@
     "white": "#FFFFFF"
   },
   "navigation": [
-    { "label": "Home", "href": "/" },
-    { "label": "Emiratisation", "href": "/emiratisation/" },
-    { "label": "Staff Outsourcing", "href": "/staff-outsourcing-in-uae/" },
-    { "label": "Recruitment", "href": "/recruitment/" },
-    { "label": "Mazaya", "href": "/mazaya/" },
-    { "label": "Blog", "href": "/blog/" },
-    { "label": "About Us", "href": "/about-raad-recruitment/" },
-    { "label": "Contact", "href": "/contact-us/" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Emiratisation",
+      "href": "/emiratisation/"
+    },
+    {
+      "label": "Staff Outsourcing",
+      "href": "/staff-outsourcing-in-uae/"
+    },
+    {
+      "label": "Recruitment",
+      "href": "/recruitment/"
+    },
+    {
+      "label": "Mazaya",
+      "href": "/mazaya/"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "About Us",
+      "href": "/about-raad-recruitment/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
   ],
   "footerServices": [
-    { "label": "Emiratisation", "href": "/emiratisation/" },
-    { "label": "Staff Outsourcing", "href": "/staff-outsourcing-in-uae/" },
-    { "label": "Recruitment", "href": "/recruitment/" },
-    { "label": "Mazaya", "href": "/mazaya/" }
+    {
+      "label": "Emiratisation",
+      "href": "/emiratisation/"
+    },
+    {
+      "label": "Staff Outsourcing",
+      "href": "/staff-outsourcing-in-uae/"
+    },
+    {
+      "label": "Recruitment",
+      "href": "/recruitment/"
+    },
+    {
+      "label": "Mazaya",
+      "href": "/mazaya/"
+    }
   ],
   "footerQuickLinks": [
-    { "label": "Home", "href": "/" },
-    { "label": "About Us", "href": "/about-raad-recruitment/" },
-    { "label": "Blog", "href": "/blog/" },
-    { "label": "Contact", "href": "/contact-us/" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About Us",
+      "href": "/about-raad-recruitment/"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact-us/"
+    }
   ],
   "social": {},
   "address": {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Localize remaining absolute / third-party media in cleaned HTML:
- * 1) Rewrite https://emiratisationhub.com/... → /...
+ * 1) Rewrite /... → /...
  * 2) Download third-party image hosts into public/ and rewrite to local paths
  * 3) Download any still-missing /wp-content|/wp-includes assets from live
  */
@@ -13,7 +13,7 @@ import { createHash } from 'node:crypto';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LEGACY = join(ROOT, 'src/legacy');
 const PUBLIC = join(ROOT, 'public');
-const LIVE = 'https://emiratisationhub.com';
+const LIVE = '';
 
 const EXTERNAL_HOSTS = [
   'connectgroup.co',

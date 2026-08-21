@@ -2,6 +2,7 @@
  * Shared Elementor chrome fragments for Connect Staff.
  * Header/footer are theme-builder divs (data-elementor-type), not <header>/<footer> tags.
  */
+// Post-release Cloudflare cache: rely on astro-cloudflare-purge after publish (Aaron auto purge).
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -13,7 +14,7 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css';
+const HEADER_CSS_HREF = '/chrome/header-v2.css?v=navhash13';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 
 /** @type {string | null} */
@@ -275,8 +276,35 @@ function markCurrentMenuItem(headerHtml, slug) {
  * @param {string} html
  * @param {string} slug
  */
+/** Dropdown parents must not use href="#" in HTML (SEO). Keep the <a> so the submenu still opens.
+ *  Drop elementor-item-anchor so Elementor JS cannot put href="#" back. */
+function stripHashParentMenuLinks(html) {
+  return String(html).replace(/<a\b([^>]*?)>/gi, (tag, attrs) => {
+    const isMenu =
+      /\b(?:elementor-item|elementor-sub-item|elementor-item-anchor|e-n-menu-title-container|menu-link|w-nav-anchor|mega-menu-link)\b/.test(
+        attrs,
+      );
+    if (!isMenu) return tag;
+    let next = attrs;
+    let changed = false;
+    if (/\bhref\s*=\s*(["'])#\1/.test(next)) {
+      next = next.replace(/\s*href\s*=\s*(["'])#\1/, '');
+      if (!/\brole\s*=/.test(next)) next += ' role="button"';
+      if (!/\btabindex\s*=/.test(next)) next += ' tabindex="0"';
+      changed = true;
+    }
+    if (/\belementor-item-anchor\b/.test(next)) {
+      next = next.replace(/\s*\belementor-item-anchor\b/g, '');
+      changed = true;
+    }
+    if (!changed) return tag;
+    return '<a' + next + '>';
+  });
+}
+
 export function applySharedChrome(html, slug) {
-  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return html;
+  const withMenuFix = stripHashParentMenuLinks(html);
+  if (SHARED_CHROME_EXCLUDED_SLUGS.has(slug)) return ensureHeaderCss(withMenuFix);
 
   const headerHtml = markCurrentMenuItem(getSharedHeaderHtml(), slug);
   let footerHtml = getSharedFooterHtml();
@@ -285,8 +313,8 @@ export function applySharedChrome(html, slug) {
     footerHtml = stripFooterContactForm(footerHtml);
   }
 
-  let out = ensureHeaderCss(html);
+  let out = ensureHeaderCss(withMenuFix);
   out = replaceThemeBuilderRegion(out, 'data-elementor-type="header"', headerHtml);
   out = replaceThemeBuilderRegion(out, 'data-elementor-type="footer"', footerHtml);
-  return out;
+  return stripHashParentMenuLinks(out);
 }

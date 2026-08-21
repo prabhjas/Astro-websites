@@ -7,14 +7,21 @@
 #   1. Ensure the shared one-hop HTTP alt-host block lists http://www.eormiddleast.com
 #      and redirects to https://eormiddleast.com{uri}
 #   2. Match PUBLIC_SITE_URL=https://eormiddleast.com
-#   3. Cloudflare SSL = Full (not Flexible / not Full strict with tls internal)
+#   3. Cloudflare SSL = Full (not Flexible); Full (strict) is intentionally deferred for this named internal CA.
 #   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 #
 # Local laptop: do NOT run this Caddy block — use fleet-local on :5090 only.
 # Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
 
 eormiddleast.com, www.eormiddleast.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/eormiddleast.com/eormiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/eormiddleast.com/eormiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.eormiddleast.com/www.eormiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.eormiddleast.com/www.eormiddleast.com.key
 	encode zstd gzip
 
 	@noncanonical host www.eormiddleast.com

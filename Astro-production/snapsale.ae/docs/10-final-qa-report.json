@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-08-10T13:08:47.179054Z",
+  "base": "http://127.0.0.1:5122",
+  "verdict": "PASS",
+  "pagesChecked": 63,
+  "pageFails": [],
+  "insight": {
+    "noDateArchiveHrefs": true,
+    "noWpJsonHrefs": true,
+    "noCdnCgi": true
+  },
+  "home": {
+    "noLiveWpAssetSrcHref": true,
+    "runtimeGtm": true
+  },
+  "redirects": {
+    "/blog/": {
+      "status": 301,
+      "location": "/insight/"
+    },
+    "/contact/": {
+      "status": 301,
+      "location": "/contact-us/"
+    },
+    "/about/": {
+      "status": 301,
+      "location": "/about-us/"
+    },
+    "/home/": {
+      "status": 301,
+      "location": "/"
+    }
+  },
+  "wpAdmin": 404,
+  "assets": "verify-local-assets: PASS (503 media refs checked)",
+  "formSuccess": true,
+  "fleetSmoke": "All smoke checks passed",
+  "notes": [
+    "SEO absolute https://snapsale.ae canonical/og:image/Organization are intentional; assets hosted locally at same paths.",
+    "CF7/Elementor may mention /wp-json/ in JS config only; forms use POST /api/contact.",
+    "Localized CSS fonts (rewrote absolute origins), Font Awesome from peer, eael JS from local accordion bundle.",
+    "Rewrote WP date-archive links to post slugs; stripped oembed/wp-json discovery links and Cloudflare email-decode script."
+  ]
+}

@@ -5,6 +5,10 @@ Exported-wp/
 .vscode
 Lana staging
 
+# Local-only git/push notes — never commit or push this file
+push-refer-files.txt
+push-refer-files
+
 # Dependencies
 node_modules/
 .pnpm-store/
@@ -32,11 +36,20 @@ pnpm-debug.log*
 !.env.example
 !.env.*.example
 
+# Private key and Caddy runtime storage — never version credentials or a live
+# certificate-authority namespace. Public certificate examples should use a
+# `.crt.example`/`.pem.example` suffix; real private keys belong outside Git.
+**/*.key
+**/var-lib-caddy/.local/share/caddy/
+**/.local/share/caddy/pki/authorities/
+**/.local/share/caddy/certificates/
+
 # OS files
 .DS_Store
 
 # Editor
 .idea/
+*.code-workspace
 
 # Claude Code local settings
 .claude/settings.local.json
@@ -65,5 +78,24 @@ Astro-production/**/_quarantine-html-masquerade/
 Astro-production/**/.data/
 Astro-production/**/.env
 
+# H-08: this application is live and must have a reviewable Git baseline even
+# on hosts whose local .git/info/exclude predates the import. Keep runtime and
+# generated files excluded explicitly after re-including its source tree.
+!Astro-production/connectresourcesint.com/
+!Astro-production/connectresourcesint.com/**
+Astro-production/connectresourcesint.com/.astro/
+Astro-production/connectresourcesint.com/.data/
+Astro-production/connectresourcesint.com/.env
+Astro-production/connectresourcesint.com/.env.*
+!Astro-production/connectresourcesint.com/.env.example
+Astro-production/connectresourcesint.com/dist/
+Astro-production/connectresourcesint.com/dist.*/
+Astro-production/connectresourcesint.com/node_modules/
+Astro-production/connectresourcesint.com/node_modules.*/
+Astro-production/connectresourcesint.com/package-lock.json
+
 # Local audit / handoff PDFs at repo root (keep findings in docs/)
 /*.pdf
+
+# Fleet monitor evidence (JSONL, reports — runtime data, not source)
+local/monitor-evidence/

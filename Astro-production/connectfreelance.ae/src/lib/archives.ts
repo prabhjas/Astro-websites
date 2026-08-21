@@ -262,7 +262,7 @@ function assembleCategoryHtml(data: ArchivePageData): string {
 
   html = patchArchiveMeta(html, data);
 
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html);
   if (!$('link[href*="cf-category-layout.css"]').length) {
     $('head').append('<link rel="stylesheet" href="/css/cf-category-layout.css" data-cf-category-layout="1" />');
   }

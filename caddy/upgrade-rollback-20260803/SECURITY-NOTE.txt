@@ -1,4 +1,0 @@
-P0-1 (2026-08-06 security audit): private keys previously stored under this tree were
-removed from the working copy. Rotate the Caddy local CA / origin certs on the host,
-and purge keys from git history (filter-repo / BFG) as a separate ops step — do not
-restore these keys into the repository.

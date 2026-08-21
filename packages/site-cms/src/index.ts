@@ -23,15 +23,25 @@ export {
 export { getPostsAdapter, getTaxonomyAdapter } from './adapters.js';
 
 export {
+  createSiteScopedInternalJobAuthHeaders,
+  getInternalJobSecretIssue,
   isInternalJobAuthorized,
   internalJsonHeaders,
   internalJson,
   requireInternalJobAuth,
+  requireSiteScopedInternalJobAuth,
+  verifySiteScopedInternalJobRequest,
 } from './auth/internal-job.js';
 
 export { applyInternalNoIndexHeaders } from './security/internal-response.js';
 
 export { FileLeadStore } from './leads/file-store.js';
+export {
+  PUBLIC_ID_MAX_LENGTH,
+  assertValidPublicId,
+  isValidPublicId,
+  resolveContainedPath,
+} from './leads/public-id.js';
 export { deliverStoredLead } from './leads/service.js';
 export {
   matchesLeadQuery,

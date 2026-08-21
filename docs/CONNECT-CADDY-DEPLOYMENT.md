@@ -22,11 +22,11 @@
 |---------|--------------|-------------------|
 | Caddy | **Not required** | **Required** — single `/etc/caddy/Caddyfile` |
 | How you hit the app | `node scripts/fleet-local.mjs` → `http://127.0.0.1:<PORT>` | Cloudflare → Caddy → `127.0.0.1:<PORT>` |
-| `tls internal` / HSTS / security headers | Skip | Required (see production Caddyfile) |
+| Named origin CA / manual loaders / HSTS / headers | Skip | Required (copy the complete production pattern) |
 | Apex ↔ www canonical redirects | Skip | Required — must match `PUBLIC_SITE_URL` |
 | One-hop HTTP alt-host redirect block | Skip | Required when adding a site |
 | `PUBLIC_SITE_URL` | Must stay `https://<canonical-host>` (fleet-local keeps this; localhost breaks live canonicals) | Must be `https://<canonical-host>` |
-| Cloudflare SSL Full | N/A | **Full** (not Flexible / not Full strict with `tls internal`) |
+| Cloudflare SSL mode | N/A | **Full**; Full (strict) is intentionally deferred for the private origin CAs |
 
 Keep Caddy snippets in git for deploy day; do not try to mirror production Caddy locally unless you are debugging TLS/redirects on purpose.
 
@@ -34,7 +34,7 @@ Keep Caddy snippets in git for deploy day; do not try to mirror production Caddy
 
 ## 1. Inventory — do we have everything?
 
-**Full fleet ports (44 domains, 5080–5123):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
+**Full fleet ports (42 domains, 5080–5124):** [FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md) · `scripts/fleet-sites.json`
 
 Your live production Caddyfile is in git as:
 
@@ -64,7 +64,7 @@ Older iteration files under `caddy/` remain for history only.
 ```text
 Internet → Cloudflare (public TLS, SSL mode Full)
         → origin 178.105.150.67
-             ├─ Caddy :80 / :443  (tls internal, h1+h2 only, skip_install_trust)
+             ├─ Caddy :80 / :443  (named origin CAs, h1+h2, skip_install_trust)
              └─ reverse_proxy → 127.0.0.1:<PORT>
                                 Node (systemd) serves pages + dist/client + /api/*
 ```
@@ -72,8 +72,8 @@ Internet → Cloudflare (public TLS, SSL mode Full)
 ### Hard rules
 
 1. **Full reverse proxy to Node** — never `file_server` for Astro SSR; never proxy only `/api/*`.
-2. **Cloudflare SSL = Full** — Flexible causes redirect loops with origin HTTPS; Full (strict) rejects `tls internal` without an Origin Cert.
-3. **Production site blocks use bare hostnames** (`example.com, www.example.com`) + `tls internal` — Caddy auto HTTP→HTTPS is intentional under Full SSL.
+2. **Cloudflare SSL = Full** — Flexible causes redirect loops with origin HTTPS. Full (strict) is intentionally deferred while the origins use private named CAs.
+3. **Every production site uses its assigned named CA plus two manual loaders** — `astro_origin_2026` for every registered non-Payroll site and `payroll_origin_isolated_2026` for Payroll. Never restore the default `local` CA or a bare internal TLS directive.
 4. **One-hop canonical redirects** — alternate HTTP hosts jump straight to `https://<canonical>{uri}`; HTTPS non-canonical host also redirects. Avoid HTTP → HTTPS → canonical double hops.
 5. **`HOST` / `PORT` in systemd** (or fleet-local), not `.env.prod`.
 6. **`PUBLIC_SITE_URL` must equal the Caddy canonical host** (table above).
@@ -85,6 +85,19 @@ Internet → Cloudflare (public TLS, SSL mode Full)
 	skip_install_trust
 	servers {
 		protocols h1 h2
+	}
+	auto_https ignore_loaded_certs
+	pki {
+		ca astro_origin_2026 {
+			name "Astro Origin Authority 2026"
+			root_cn "Astro Origin Authority 2026 ECC Root"
+			intermediate_cn "Astro Origin Authority 2026 ECC Intermediate"
+		}
+		ca payroll_origin_isolated_2026 {
+			name "Payroll Origin Isolated Authority 2026"
+			root_cn "Payroll Origin Isolated Authority 2026 ECC Root"
+			intermediate_cn "Payroll Origin Isolated Authority 2026 ECC Intermediate"
+		}
 	}
 }
 ```
@@ -102,7 +115,14 @@ Internet → Cloudflare (public TLS, SSL mode Full)
 ```caddy
 # example.com -> 127.0.0.1:5086 (systemd: example.service)
 example.com, www.example.com {
-	tls internal
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/example.com/example.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/example.com/example.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.example.com/www.example.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.example.com/www.example.com.key
 	encode zstd gzip
 
 	# Apex canonical (most sites). Evolution is the opposite: www is canonical.
@@ -175,8 +195,12 @@ Do in order. Root/sudo where noted.
 1. Update **both**:
    - live `/etc/caddy/Caddyfile`
    - git `caddy/Caddyfile.production` + `deploy/<domain>.caddy`
-2. Add site block + one-hop HTTP alt-host entry
-3. Validate + reload:
+2. Add the complete site block + one-hop HTTP alt-host entry. For a new hostname,
+   prewarm both leaves with its named CA before adding the two manual loaders; a
+   loader pointing at a missing file makes validation fail closed.
+3. Keep `astro-caddy-certificate-refresh.timer` enabled so renewed stored leaves
+   are validated and picked up by a graceful reload.
+4. Validate + reload:
 
 ```bash
 sudo -u caddy caddy validate --config /etc/caddy/Caddyfile
@@ -244,7 +268,8 @@ grep -R "127.0.0.1" Astro-production/<domain>/dist/server/entry.mjs && echo FAIL
 ## 7. Anti-patterns
 
 - Bare hostnames + Cloudflare **Flexible**
-- `tls internal` + Cloudflare **Full (strict)** without Origin Cert
+- Restoring the default `local` CA or omitting either manual certificate loader
+- Cloudflare **Full (strict)** while an origin still uses a private named CA
 - Partial `/api/*` proxy + Caddy `file_server` for Astro SSR
 - `PUBLIC_SITE_URL` disagreeing with Caddy `@noncanonical` / one-hop targets (e.g. CBSS must be apex)
 - Editing live Caddy without updating `caddy/Caddyfile.production` and `deploy/*.caddy`
@@ -259,8 +284,8 @@ grep -R "127.0.0.1" Astro-production/<domain>/dist/server/entry.mjs && echo FAIL
 | **Live production target** | `caddy/Caddyfile.production` |
 | Same as historical pending name | `caddy/Caddyfile.canonical-host-redirects.pending` |
 | Pre-consolidation `sites.d` | `caddy/archive-before-single-file-20260803/` |
-| Rollback binary/certs | `caddy/upgrade-rollback-20260803/` (ops only; private keys) |
+| Retired rollback binary/certs | Removed from the current tree; never restore from Git history |
 
 ---
 
-*Updated Aug 2026 — production standard = hardened bare-host Caddyfile with one-hop canonical redirects. Local = fleet ports only.*
+*Updated 10 Aug 2026 — production standard = named CAs, paired manual loaders, graceful certificate refresh, and one-hop canonical redirects. Local = fleet ports only.*

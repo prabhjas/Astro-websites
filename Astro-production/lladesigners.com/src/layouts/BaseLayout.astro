@@ -1,0 +1,134 @@
+---
+/**
+ * Base layout for rebuilt Astro pages + manager demo.
+ * SEO props come from src/data/seo/*.yml (replaces Rank Math after cutover).
+ * Shared Header/Footer from Elementor chrome (skipped on Home + Blog mirrors).
+ */
+import type { PageSeo } from '../lib/seo';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  seo: PageSeo;
+  /** Optional absolute canonical override */
+  canonical?: string;
+  /** When false, omit shared chrome (rare). Default true. */
+  showChrome?: boolean;
+}
+
+const { seo, canonical: canonicalOverride, showChrome = true } = Astro.props;
+
+const title = seo.title;
+const description = seo.description;
+const canonical =
+  canonicalOverride ??
+  seo.canonical ??
+  (Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined);
+
+const robots = seo.robots ?? 'index, follow';
+const og = seo.og ?? {};
+const twitter = seo.twitter ?? {};
+const schema = seo.schema ?? {};
+
+const ogTitle = og.title ?? title;
+const ogDescription = og.description ?? description;
+const ogType = og.type ?? 'website';
+const ogLocale = og.locale ?? 'en_US';
+const ogImage = og.image
+  ? og.image.startsWith('http')
+    ? og.image
+    : Astro.site
+      ? new URL(og.image, Astro.site).href
+      : og.image
+  : undefined;
+
+const twitterCard = twitter.card ?? 'summary_large_image';
+const twitterTitle = twitter.title ?? title;
+const twitterDescription = twitter.description ?? description;
+
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') ?? 'https://lladesigners.com';
+const orgName = schema.organizationName ?? 'LLA Designers';
+const pageUrl = (canonical ?? siteUrl).replace(/\/$/, '') || siteUrl;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: orgName,
+      url: siteUrl,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      url: siteUrl,
+      publisher: { '@id': `${siteUrl}/#organization` },
+      inLanguage: 'en-US',
+    },
+    {
+      '@type': schema.pageType ?? 'WebPage',
+      '@id': `${pageUrl}/#webpage`,
+      url: canonical ?? siteUrl,
+      name: title,
+      description,
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      about: { '@id': `${siteUrl}/#organization` },
+      inLanguage: 'en-US',
+      ...(schema.datePublished ? { datePublished: schema.datePublished } : {}),
+      ...(schema.dateModified ? { dateModified: schema.dateModified } : {}),
+      ...(ogImage
+        ? {
+            primaryImageOfPage: {
+              '@type': 'ImageObject',
+              url: ogImage,
+              ...(og.imageWidth ? { width: og.imageWidth } : {}),
+              ...(og.imageHeight ? { height: og.imageHeight } : {}),
+            },
+          }
+        : {}),
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content={ogLocale} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {og.imageWidth && <meta property="og:image:width" content={String(og.imageWidth)} />}
+    {og.imageHeight && <meta property="og:image:height" content={String(og.imageHeight)} />}
+
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:title" content={twitterTitle} />
+    <meta name="twitter:description" content={twitterDescription} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    <slot name="head" />
+  </head>
+  <body>
+    {showChrome && <Header />}
+    <slot />
+    {showChrome && <Footer />}
+  </body>
+</html>

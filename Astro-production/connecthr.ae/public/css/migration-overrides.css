@@ -473,7 +473,7 @@ div.wpcf7-response-output.sp-status-visible,
   object-fit: cover;
 }
 
-/* Background YouTube embed fill */
+/* Background YouTube embed fill (cover — full-bleed hero sections) */
 .elementor-background-video-container iframe.elementor-background-video-embed {
   position: absolute;
   top: 50%;
@@ -485,6 +485,37 @@ div.wpcf7-response-output.sp-status-visible,
   transform: translate(-50%, -50%);
   border: 0;
   pointer-events: none;
+}
+
+/*
+  Homepage dashboard demo (GSAP animate_box) — fit full frame.
+  Global cover sizing + 100vw crops sides when the box is narrower than viewport.
+*/
+.elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
+.animate_box .elementor-background-video-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+
+.elementor-element.elementor-element-cdbecf6
+  .elementor-background-video-container
+  iframe.elementor-background-video-embed,
+.animate_box
+  .elementor-background-video-container
+  iframe.elementor-background-video-embed {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: min(100cqw, calc(100cqh * 16 / 9));
+  height: min(100cqh, calc(100cqw * 9 / 16));
+  max-width: 100%;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
 }
 .home-header > .elementor-container,
 .elementor-element-e9a775c > .elementor-container {
@@ -652,6 +683,178 @@ div.wpcf7-response-output.sp-status-visible,
   .elementor-2618 .elementor-element-6ff835e .elementor-heading-title a {
     font-size: 20px;
     line-height: 24px;
+  }
+}
+
+/* Asset Management — collapse gap between branches / reporting / FAQ */
+.elementor-271 .elementor-element-d4f31e5 {
+  padding-bottom: 20px !important;
+}
+.elementor-271 .elementor-element-1fb2d08 {
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: hidden;
+  position: relative;
+  padding-top: 0 !important;
+  padding-bottom: 24px !important;
+}
+.elementor-271 .elementor-element-1fb2d08 > .elementor-container {
+  position: relative;
+  z-index: 1;
+}
+.elementor-271 .elementor-element-1fb2d08 .elementor-background-video-container {
+  display: none !important;
+}
+.elementor-271 .elementor-element-1fb2d08 video.elementor-background-video-hosted {
+  display: none !important;
+}
+/* Reporting block was styled for dark video bg — use readable text on white */
+.elementor-271 .elementor-element.elementor-element-c6f8add .elementor-heading-title,
+.elementor-271 .elementor-element.elementor-element-6004f4a,
+.elementor-271 .elementor-element.elementor-element-6004f4a p,
+.elementor-271 .elementor-element.elementor-element-6004f4a .elementor-widget-container {
+  color: #2c2b2c !important;
+  -webkit-text-fill-color: #2c2b2c !important;
+}
+.elementor-271 .elementor-element.elementor-element-eb7d9fc {
+  border-color: #e7e6e7 !important;
+}
+
+/* Hide breadcrumbs if any legacy markup remains */
+.sp-breadcrumbs {
+  display: none !important;
+}
+
+/* Asset Management FAQ — tighten gap between heading + toggle sections */
+.elementor-271 .elementor-element-68f0134 {
+  padding-bottom: 0 !important;
+  padding-top: 10px !important;
+  margin-top: 0 !important;
+}
+.elementor-271 .elementor-element-8fd194e {
+  padding-top: 0 !important;
+}
+
+/* Asset Management — bottom CTA (mirrored from performance-management be95242) */
+.elementor-271 .elementor-element-be95242:not(.elementor-motion-effects-element-type-background),
+.elementor-271 .elementor-element-be95242 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+  background-color: #021340;
+  background-image: url("/wp-content/uploads/2025/07/CTA-Img.png");
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.elementor-271 .elementor-element-be95242 > .elementor-container {
+  max-width: 1200px;
+}
+.elementor-271 .elementor-element-be95242 {
+  padding: 30px 10px;
+}
+.elementor-bc-flex-widget .elementor-271 .elementor-element-b5e3fe1.elementor-column .elementor-widget-wrap {
+  align-items: center;
+}
+.elementor-271 .elementor-element-b5e3fe1.elementor-column.elementor-element[data-element_type="column"] > .elementor-widget-wrap.elementor-element-populated {
+  align-content: center;
+  align-items: center;
+}
+.elementor-271 .elementor-element-0eefc34 .elementor-heading-title {
+  font-family: "General Sans", Sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  color: #7ac5ff;
+}
+.elementor-271 .elementor-element-1287211 .elementor-heading-title {
+  font-family: "General Sans", Sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 57px;
+  letter-spacing: -0.96px;
+  color: #fff;
+}
+.elementor-271 .elementor-element-bc8c46c .elementor-button {
+  font-family: "General Sans", Sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+.elementor-271 .elementor-element-05420c6 {
+  --spacer-size: 400px;
+}
+@media (max-width: 1024px) {
+  .elementor-271 .elementor-element-be95242:not(.elementor-motion-effects-element-type-background),
+  .elementor-271 .elementor-element-be95242 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-position: bottom right;
+  }
+  .elementor-271 .elementor-element-05420c6 {
+    --spacer-size: 200px;
+  }
+  .elementor-271 .elementor-element-1287211 .elementor-heading-title {
+    font-size: 45px;
+    line-height: 50px;
+  }
+}
+@media (max-width: 767px) {
+  .elementor-271 .elementor-element-0eefc34 .elementor-heading-title {
+    font-size: 17px;
+    line-height: 24px;
+  }
+  .elementor-271 .elementor-element-1287211 {
+    text-align: center;
+  }
+  .elementor-271 .elementor-element-1287211 .elementor-heading-title {
+    font-size: 26px;
+    line-height: 38px;
+  }
+  .elementor-271 .elementor-element-bc8c46c {
+    width: 100%;
+    max-width: 100%;
+  }
+  .elementor-271 .elementor-element-bc8c46c .elementor-button .elementor-button-content-wrapper {
+    justify-content: center;
+  }
+}
+
+/* Homepage — client testimonials: one card at a time on mobile */
+@media (max-width: 767px) {
+  .elementor-element.elementor-element-ddba3f9 .swiper-slide {
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+}
+
+/* Homepage — trust cards: stack full width on mobile; 4-col carousel on desktop */
+@media (max-width: 767px) {
+  .elementor-element.elementor-element-238453b .elementor-main-swiper,
+  .elementor-element.elementor-element-238453b .elementor-swiper {
+    overflow: visible;
+  }
+
+  .elementor-element.elementor-element-238453b .swiper-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    transform: none !important;
+    height: auto !important;
+    gap: 16px;
+  }
+
+  .elementor-element.elementor-element-238453b .swiper-slide {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  .elementor-element.elementor-element-238453b .swiper-slide-duplicate {
+    display: none !important;
+  }
+
+  .elementor-element.elementor-element-238453b .elementor-swiper-button-prev,
+  .elementor-element.elementor-element-238453b .elementor-swiper-button-next,
+  .elementor-element.elementor-element-238453b .swiper-pagination {
+    display: none !important;
   }
 }
 

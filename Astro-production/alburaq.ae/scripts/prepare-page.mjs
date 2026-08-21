@@ -15,18 +15,19 @@ import { dirname, join, extname } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { fileURLToPath } from 'node:url';
 import { Readable } from 'node:stream';
+import * as cheerio from 'cheerio';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const PUBLIC_ASSETS = join(ROOT, 'public');
 const OUT_DIR = join(ROOT, 'src/legacy');
 
-const ORIGIN = 'https://alburaq.ae';
+const ORIGIN = '';
 const ORIGIN_ALIASES = [
-  'https://alburaq.ae',
-  'https://www.alburaq.ae',
-  'http://alburaq.ae',
-  'http://www.alburaq.ae',
+  '',
+  '',
+  '',
+  '',
 ];
 const args = process.argv.slice(2).filter((a) => a !== '--');
 const shouldDownload = args.includes('--download');
@@ -97,7 +98,7 @@ function toLocalPath(url) {
 function unescapeElementorUrls(text) {
   return text.replace(
     /https?:\\\/\\\/(?:www\.)?alburaq\.ae/gi,
-    'https://alburaq.ae',
+    '',
   );
 }
 
@@ -175,6 +176,30 @@ function normalizeAssetUrlsInHtml(html) {
   );
 }
 
+function stripChatGptChrome(html) {
+  if (!/gizmo-bot-avatar|data-message-author-role|conversation-turn/.test(html)) {
+    return html;
+  }
+  const $ = cheerio.load(html, { decodeEntities: false });
+  $('.elementor-widget-container').each((_, el) => {
+    const $el = $(el);
+    if (!$el.find('.gizmo-bot-avatar, [data-message-author-role], [data-turn="assistant"]').length) {
+      return;
+    }
+    const md = $el.find('.markdown.prose').first();
+    if (md.length) {
+      $el.html((md.html() || '').trim());
+      return;
+    }
+    const avatar = $el.find('.gizmo-bot-avatar').first();
+    if (avatar.length) {
+      const holder = avatar.children().first().length ? avatar.children().first() : avatar;
+      $el.html((holder.html() || '').trim());
+    }
+  });
+  return $.html();
+}
+
 function cleanHtml(html) {
   let out = html;
 
@@ -243,6 +268,14 @@ function cleanHtml(html) {
   // Never bake GTM/GA4 into mirrors — /runtime-gtm.js loads PUBLIC_GTM_ID / PUBLIC_GA4_ID from .env
   out = stripHardcodedAnalytics(out);
 
+  out = stripChatGptChrome(out);
+
+  // FAQ accordion questions → h3 (SEO). Keep class/attrs so Elementor styles still apply.
+  out = out.replace(
+    /<(div|h2|h4|h5|span)(\s[^>]*\bclass=(['"])[^'"]*\be-n-accordion-item-title-text\b[^'"]*\3[^>]*)>([\s\S]*?)<\/\1>/gi,
+    '<h3$2>$4</h3>',
+  );
+
   out = out.replace(
     /<head([^>]*)>/i,
     `<head$1>\n<!-- Prepared for Astro Phase 1 Â· ${slug} Â· ${new Date().toISOString()} -->`,
@@ -262,7 +295,7 @@ function cleanHtml(html) {
 function rewriteOriginUrls(text) {
   let out = text.replace(/https?:\\\/\\\/(?:www\.)?alburaq\.ae/gi, '');
   // Absolute origins FIRST. A bare //domain pass before this turns
-  // https://alburaq.ae/x into https:/x (broken — CSS/JS never load).
+  // /x into https:/x (broken — CSS/JS never load).
   out = out.replace(/https?:\/\/(?:www\.)?alburaq\.ae(\/[^"'()\s<>]*)/gi, (_, path) =>
     path.replace(/&amp;/g, '&').split('#')[0],
   );

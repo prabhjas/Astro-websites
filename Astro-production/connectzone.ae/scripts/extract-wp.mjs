@@ -10,7 +10,7 @@ const ROOT = path.resolve(__dirname, "..");
 const CRAWL = path.join(ROOT, "_crawl");
 const DATA = path.join(ROOT, "src", "data");
 const PUBLIC = path.join(ROOT, "public");
-const ORIGIN = "https://connectzone.ae";
+const ORIGIN = "";
 
 function ensureDir(p) {
   fs.mkdirSync(p, { recursive: true });
@@ -77,14 +77,14 @@ function localPathFromWpUrl(url) {
 
 function rewriteUrl(url) {
   if (!url) return url;
-  return url.replaceAll(ORIGIN, "").replaceAll("https://connectzone.ae", "");
+  return url.replaceAll(ORIGIN, "").replaceAll("", "");
 }
 
 function stripDomainInHtml(html) {
   if (!html) return html;
   return html
-    .replaceAll("https://connectzone.ae", "")
-    .replaceAll("https://connectzone.ae", "")
+    .replaceAll("", "")
+    .replaceAll("", "")
     .replaceAll("//connectzone.ae", "");
 }
 
@@ -369,7 +369,7 @@ async function main() {
   const site = {
     name: "Connect Zone",
     shortName: "Connect Zone",
-    url: "https://connectzone.ae",
+    url: "",
     description:
       "Business setup, company formation, free zone and mainland licensing services in the UAE.",
     email: "info@connectzone.ae",

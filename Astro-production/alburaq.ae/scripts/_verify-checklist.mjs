@@ -5,7 +5,7 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from '
 import { join } from 'node:path';
 
 const BASE = process.env.BASE_URL || 'http://127.0.0.1:5120';
-const LIVE = 'https://alburaq.ae';
+const LIVE = '';
 const ROOT = process.cwd();
 const report = { checks: [], pass: 0, fail: 0 };
 
@@ -48,7 +48,7 @@ async function get(path, opts = {}) {
     }
     const urls = [...chunk.text.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     totalUrls += urls.length;
-    const nonCanon = urls.filter((u) => !u.startsWith('https://alburaq.ae/'));
+    const nonCanon = urls.filter((u) => !u.startsWith('/'));
     if (nonCanon.length) badChunks.push(`non-canon in ${path}: ${nonCanon.slice(0, 2).join(',')}`);
   }
   log('sitemap chunks ok', badChunks.length === 0, badChunks.slice(0, 5).join(' | ') || `urls=${totalUrls}`);

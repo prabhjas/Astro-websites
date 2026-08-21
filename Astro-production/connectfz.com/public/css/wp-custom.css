@@ -168,7 +168,7 @@ footer p {
     font-size: 15px;
 }
 aside#block-2 {
-    margin-top: 50px;
+    margin-top: 0;
     margin-bottom: 0px;
 }
 aside#block-3 {
@@ -232,6 +232,7 @@ p.author_name {
 }
 .is_header_semitransparent .header-title-breadcrumb-overlay h1 {
     color: #fff !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 .arrow_landing i.fas.fa-chevron-right {
     margin-top: 5px;
@@ -246,7 +247,7 @@ p.author_name {
     
 }
 .is_header_semitransparent .header-title-breadcrumb-overlay h1 {
-    color: #000;
+    color: #fff !important;
 }
 
 .header-title-breadcrumb-overlay {
@@ -352,7 +353,7 @@ h1.elementor-heading-title.elementor-size-default {
 }	
 	
 	footer .footer-top {
-    background: url('https://connectfz.com/wp-content/uploads/2023/03/Footer-Bkg-Mobile.png');
+    background: url('/wp-content/uploads/2023/03/Footer-Bkg-Mobile.png');
 	background-repeat: no-repeat;
     background-attachment: default;
     background-position: top right;
@@ -536,7 +537,7 @@ box-shadow: 4px 4px 8px -2px rgba(0,0,0,0.8);
 		display:none;
 	}
 footer .footer-top {
-    background: url('https://connectfz.com/wp-content/uploads/2023/03/Footer-Bkg-Desktop.png');
+    background: url('/wp-content/uploads/2023/03/Footer-Bkg-Desktop.png');
 	background-repeat: no-repeat;
     background-attachment: default;
     background-position: bottom right;
@@ -650,7 +651,8 @@ div#popmake-31475 {
     font-size: 24px;
     -webkit-font-smoothing: antialiased;
     line-height: unset;
-    -webkit-text-fill-color: #0d3f8669;
+    -webkit-text-fill-color: #0d3f86;
+    color: #0d3f86;
     animation: 1ms ease 0s 1 normal none running native-autofill-in;
     transition: background-color 1e+08s ease 0s, box-shadow 0.1s ease-out 0s;
     box-shadow: rgb(48 77 159 / 78%) 0px 1px;
@@ -670,21 +672,27 @@ input.error {
 
 .stepper_buttons button.next_button {
     background: #00b7fb;
-    padding: 15px 50px;
-    color: #fff;
+    padding: 15px 28px;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
     font-weight: 600;
     border-radius: 3px;
-    border: 1px solid #aaa;
+    border: 1px solid #00b7fb;
     font-family: 'Poppins';
+    white-space: nowrap;
 }
 
 .stepper_buttons button {
     cursor: pointer;
 }
 .stepper_buttons button {
-    width: 200px;
-    height: 51px;
-	    font-weight: 500;
+    min-width: 140px;
+    width: auto;
+    height: auto;
+    min-height: 51px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #0d3f86;
 }
 
 .custom_modal_popup_form h3 {

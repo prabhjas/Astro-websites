@@ -54,4 +54,4 @@ Copy `.env.example` → `.env` for local smoke. On the host: `.env` (build `PUBL
 
 ## Deploy
 
-See `deploy/ROOT_SETUP.md`, `deploy/mbs-consultancy.service`, `deploy/mbs-consultancy.com.caddy` (`tls internal`).
+See `deploy/ROOT_SETUP.md`, `deploy/mbs-consultancy.service`, and the named-CA `deploy/mbs-consultancy.com.caddy`.

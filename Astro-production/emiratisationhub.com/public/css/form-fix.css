@@ -257,6 +257,11 @@
 .elementor-nav-menu .sub-menu .menu-item-has-children > a:after {
   display: none;
 }
+/* Recruitment heading: constrain to 2 lines */
+.elementor-heading-title:has(.blue) {
+  max-width: 720px;
+}
+
 /* Prefer real Elementor/SmartMenus indicators when present */
 .elementor-nav-menu .sub-arrow,
 .elementor-nav-menu .menu-item-has-children > a .sub-arrow {

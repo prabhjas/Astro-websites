@@ -1,12 +1,42 @@
-# evolutionmiddleast.com — Node SSR on 127.0.0.1:5080
-# Prefer: import this from /etc/caddy/sites.d/evolutionmiddleast.com.caddy
-# Behind Cloudflare Flexible: explicit http:// + https:// + tls internal (no bare auto-HTTPS).
-http://evolutionmiddleast.com, http://www.evolutionmiddleast.com, https://evolutionmiddleast.com, https://www.evolutionmiddleast.com {
-	tls internal
-	encode gzip zstd
+# evolutionmiddleast.com -> 127.0.0.1:5080 (systemd: evolutionmiddleast.service)
+#
+# PRODUCTION STANDARD (single /etc/caddy/Caddyfile — see caddy/Caddyfile.production).
+# This file is the site block to keep in sync with the live fleet Caddyfile.
+#
+# When deploying / adding this site on the server you MUST also:
+#   1. Ensure the shared one-hop HTTP alt-host block lists http://evolutionmiddleast.com
+#      and redirects to https://www.evolutionmiddleast.com{uri}
+#   2. Match PUBLIC_SITE_URL=https://www.evolutionmiddleast.com
+#   3. Cloudflare SSL = Full (not Flexible); Full (strict) is intentionally deferred for this named internal CA.
+#   4. sudo -u caddy caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+#
+# Local laptop: do NOT run this Caddy block — use fleet-local on :5080 only.
+# Docs: docs/CONNECT-CADDY-DEPLOYMENT.md
+
+evolutionmiddleast.com, www.evolutionmiddleast.com {
+	tls force_automate {
+		issuer internal {
+			ca astro_origin_2026
+			lifetime 120h
+		}
+	}
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/evolutionmiddleast.com/evolutionmiddleast.com.key
+	tls /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.crt /var/lib/caddy/.local/share/caddy/certificates/astro_origin_2026/www.evolutionmiddleast.com/www.evolutionmiddleast.com.key
+	encode zstd gzip
+
+	# Canonical host follows PUBLIC_SITE_URL for consistent SEO signals.
+	@noncanonical host evolutionmiddleast.com
+	redir @noncanonical https://www.evolutionmiddleast.com{uri} permanent
+
 	reverse_proxy 127.0.0.1:5080
+
+	@static path_regexp static \.(css|js|woff|woff2|webp|jpg|jpeg|png|gif|svg|ico|avif|ttf|otf)$
+	header @static Cache-Control "public, max-age=31536000, immutable"
 	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
 		Referrer-Policy strict-origin-when-cross-origin
 	}
 	log {

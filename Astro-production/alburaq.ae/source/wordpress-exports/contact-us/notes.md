@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | Kind | page |
-| Live URL | https://alburaq.ae/contact-us/ |
+| Live URL | /contact-us/ |
 | File | `index-https.html` |
 | Source | Live fetch via import-from-sitemap.mjs |
 | Added | 2026-08-07 |

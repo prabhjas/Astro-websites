@@ -8,6 +8,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
+import { injectPageBreadcrumbs } from './page-breadcrumbs.js';
 import { applySharedChrome } from './shared-chrome.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://kpmpro.ae')
@@ -58,7 +59,10 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, 'utf-8'));
-  let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
+  let html = absolutizeSeoUrls(
+    injectPageBreadcrumbs(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug),
+    slug,
+  );
 
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
@@ -80,6 +84,12 @@ export function serveLegacyPage(slug) {
   const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
+
+    // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
+  html = html.replace(
+    /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
+    'src=$1/js/astro-mirror-fixes.js?v=contact-slash-20260814$1'
+  );
 
   return new Response(html, {
     headers: {

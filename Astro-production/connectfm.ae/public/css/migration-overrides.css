@@ -66,7 +66,48 @@ body:not(.home) .elementor-4177 .e-n-menu-toggle .e-font-icon-svg {
   color: #000000;
 }
 
-/* Mobile nav styles live in /css/eor-mobile-nav.css */
+/*
+  Mobile mega menu: Elementor export sets --n-menu-dropdown-indicator-space:300px
+  below 767px. That value is used as flex gap on .e-n-menu-title, so the chevron
+  wraps and leaves a ~300px empty band under Services (About clipped off-screen).
+*/
+@media (max-width: 767px) {
+  .elementor-4177 .elementor-element.elementor-element-a3fe7ea {
+    --n-menu-dropdown-indicator-space: 8px;
+  }
+
+  .elementor-4177 .elementor-element-a3fe7ea .e-n-menu-title {
+    flex-wrap: nowrap !important;
+    gap: var(--n-menu-dropdown-indicator-space, 8px) !important;
+  }
+}
+
+/* Mobile mega-menu accordion: keep submenu in-flow when open */
+@media (max-width: 1024px) {
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu[data-layout="dropdown"] .e-n-menu-content > .e-con.e-active {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-block-start: 8px !important;
+  }
+
+  .elementor-widget-n-menu .e-n-menu-wrapper {
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+  }
+
+  .elementor-widget-n-menu .e-n-menu-title-container:not(a) {
+    cursor: pointer;
+  }
+}
 
 .elementor img {
   height: auto;
@@ -506,4 +547,35 @@ div.wpcf7-response-output.sp-status-visible,
   }
 }
 
+/* Hide dummy '#' on submenu / dropdown hover.
+   Elementor pointer ::before and WP heading permalinks must not show on
+   dropdown links. Top-level underline pointers and carets stay intact. */
+.elementor-nav-menu--dropdown a::before,
+.elementor-nav-menu--dropdown .elementor-item::before,
+.elementor-nav-menu--dropdown .elementor-sub-item::before,
+.elementor-sub-item::before,
+.e-n-menu-content a::before,
+.e-n-menu-content .elementor-icon-box-title a::after,
+.e-n-menu-content .elementor-heading-title a::after,
+.w-nav-list.level_2 .w-nav-anchor::before,
+.w-nav-list.level_3 .w-nav-anchor::before,
+.w-nav-list.submenu .w-nav-anchor::before,
+.ast-nav-menu .sub-menu .menu-link::before,
+.main-header-menu .sub-menu .menu-link::before,
+.navbar .dropdown-menu > li > a::before,
+#navbar .sub-menu a::before {
+  content: none !important;
+}
 
+.elementor-location-header h1 a:hover::after,
+.elementor-location-header h2 a:hover::after,
+.elementor-location-header h3 a:hover::after,
+.elementor-location-header h4 a:hover::after,
+.elementor-location-header h5 a:hover::after,
+.elementor-location-header h6 a:hover::after,
+.elementor-location-header .elementor-icon-box-title a:hover::after,
+.elementor-location-header .elementor-heading-title a:hover::after,
+.e-n-menu-content .elementor-icon-box-title a:hover::after,
+.e-n-menu-content .elementor-heading-title a:hover::after {
+  content: none !important;
+}

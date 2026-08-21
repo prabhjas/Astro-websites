@@ -1,10 +1,518 @@
-[
-  { "loc": "https://raadrecruitment.ae/", "changefreq": "weekly", "priority": "1.0" },
-  { "loc": "https://raadrecruitment.ae/about-raad-recruitment/", "changefreq": "monthly", "priority": "0.8" },
-  { "loc": "https://raadrecruitment.ae/blog/", "changefreq": "weekly", "priority": "0.9" },
-  { "loc": "https://raadrecruitment.ae/contact-us/", "changefreq": "monthly", "priority": "0.8" },
-  { "loc": "https://raadrecruitment.ae/staff-outsourcing-in-uae/", "changefreq": "monthly", "priority": "0.9" },
-  { "loc": "https://raadrecruitment.ae/mazaya/", "changefreq": "monthly", "priority": "0.8" },
-  { "loc": "https://raadrecruitment.ae/recruitment/", "changefreq": "monthly", "priority": "0.9" },
-  { "loc": "https://raadrecruitment.ae/emiratisation/", "changefreq": "monthly", "priority": "0.9" }
-]
+{
+  "source": "/sitemap_index.xml",
+  "fetchedAt": "2026-08-10T07:46:27.506Z",
+  "pages": [
+    {
+      "path": "/",
+      "type": "page",
+      "lastmod": "2025-10-10T07:12:23+00:00"
+    },
+    {
+      "path": "/about-raad-recruitment/",
+      "type": "page",
+      "lastmod": "2025-10-30T05:22:17+00:00"
+    },
+    {
+      "path": "/blog/",
+      "type": "page",
+      "lastmod": "2025-10-30T05:17:00+00:00"
+    },
+    {
+      "path": "/contact-us/",
+      "type": "page",
+      "lastmod": "2025-10-30T05:06:59+00:00"
+    },
+    {
+      "path": "/staff-outsourcing-in-uae/",
+      "type": "page",
+      "lastmod": "2025-10-29T10:16:43+00:00"
+    },
+    {
+      "path": "/mazaya/",
+      "type": "page",
+      "lastmod": "2025-10-10T10:50:24+00:00"
+    },
+    {
+      "path": "/recruitment/",
+      "type": "page",
+      "lastmod": "2025-10-10T09:58:28+00:00"
+    },
+    {
+      "path": "/emiratisation/",
+      "type": "page",
+      "lastmod": "2025-10-10T09:34:26+00:00"
+    }
+  ],
+  "posts": [
+    {
+      "path": "/resignation-letter-sample-uae/",
+      "type": "post",
+      "lastmod": "2026-04-08T05:58:08+00:00"
+    },
+    {
+      "path": "/forced-resignation-in-the-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T13:10:08+00:00"
+    },
+    {
+      "path": "/emiratisation-fines-in-the-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T13:09:17+00:00"
+    },
+    {
+      "path": "/benefits-of-emiratisation-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T13:07:22+00:00"
+    },
+    {
+      "path": "/salary-certificate-and-salary-slip/",
+      "type": "post",
+      "lastmod": "2026-01-14T13:05:42+00:00"
+    },
+    {
+      "path": "/important-recruitment-stages/",
+      "type": "post",
+      "lastmod": "2026-01-14T12:57:30+00:00"
+    },
+    {
+      "path": "/common-recruitment-mistakes/",
+      "type": "post",
+      "lastmod": "2026-01-14T12:53:44+00:00"
+    },
+    {
+      "path": "/average-salary-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T12:52:41+00:00"
+    },
+    {
+      "path": "/staff-outsourcing-challenges-in-the-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T12:25:40+00:00"
+    },
+    {
+      "path": "/private-sector-job-benefits-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-14T12:22:29+00:00"
+    },
+    {
+      "path": "/emergency-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:48:04+00:00"
+    },
+    {
+      "path": "/employment-contract-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:45:41+00:00"
+    },
+    {
+      "path": "/limited-vs-unlimited-contract-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:42:13+00:00"
+    },
+    {
+      "path": "/notice-period-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:36:22+00:00"
+    },
+    {
+      "path": "/unlimited-contract-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:35:08+00:00"
+    },
+    {
+      "path": "/differences-between-recruitment-and-selection-process/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:31:03+00:00"
+    },
+    {
+      "path": "/benefits-of-outsourcing-tech-talent/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:28:49+00:00"
+    },
+    {
+      "path": "/benefits-of-workforce-outsourcing/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:27:41+00:00"
+    },
+    {
+      "path": "/emiratisation-services-for-banking-sector/",
+      "type": "post",
+      "lastmod": "2026-01-12T12:24:04+00:00"
+    },
+    {
+      "path": "/compassionate-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-12T11:48:41+00:00"
+    },
+    {
+      "path": "/hiring-trends-what-recruiter-know/",
+      "type": "post",
+      "lastmod": "2026-01-10T10:23:48+00:00"
+    },
+    {
+      "path": "/emiratisation-rule-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-10T10:20:53+00:00"
+    },
+    {
+      "path": "/benefits-of-employee-outsourcing/",
+      "type": "post",
+      "lastmod": "2026-01-10T10:18:03+00:00"
+    },
+    {
+      "path": "/benefits-of-medical-recruitment-agencies-in-dubai/",
+      "type": "post",
+      "lastmod": "2026-01-10T10:13:28+00:00"
+    },
+    {
+      "path": "/emiratisation-in-tourism-and-hospitality/",
+      "type": "post",
+      "lastmod": "2026-01-10T10:07:40+00:00"
+    },
+    {
+      "path": "/types-of-outsourcing/",
+      "type": "post",
+      "lastmod": "2026-01-10T09:45:02+00:00"
+    },
+    {
+      "path": "/uae-labour-law/",
+      "type": "post",
+      "lastmod": "2026-01-10T09:42:17+00:00"
+    },
+    {
+      "path": "/employee-outsourcing-in-healthcare/",
+      "type": "post",
+      "lastmod": "2026-01-10T09:40:53+00:00"
+    },
+    {
+      "path": "/hr-outsourcing-complete-guide/",
+      "type": "post",
+      "lastmod": "2026-01-10T09:39:28+00:00"
+    },
+    {
+      "path": "/annual-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-10T09:36:08+00:00"
+    },
+    {
+      "path": "/working-hours-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T13:12:48+00:00"
+    },
+    {
+      "path": "/employee-benefits-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T13:08:15+00:00"
+    },
+    {
+      "path": "/maternity-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:45:15+00:00"
+    },
+    {
+      "path": "/sick-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:38:23+00:00"
+    },
+    {
+      "path": "/staffing-companies/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:35:59+00:00"
+    },
+    {
+      "path": "/recruitment-vs-talent-acquisition/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:29:12+00:00"
+    },
+    {
+      "path": "/minimum-salary-for-emiratis/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:26:27+00:00"
+    },
+    {
+      "path": "/salary-certificate-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:25:06+00:00"
+    },
+    {
+      "path": "/direct-hire-vs-staffing-agency-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:22:12+00:00"
+    },
+    {
+      "path": "/unemployment-insurance-uae/",
+      "type": "post",
+      "lastmod": "2026-01-09T12:20:30+00:00"
+    },
+    {
+      "path": "/top-recruitment-agencies-in-dubai/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:31:12+00:00"
+    },
+    {
+      "path": "/outsourcing-it-services-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:30:09+00:00"
+    },
+    {
+      "path": "/how-to-improve-recruitment-process/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:28:28+00:00"
+    },
+    {
+      "path": "/employee-outsourcing-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:26:51+00:00"
+    },
+    {
+      "path": "/emiratisation-laws-for-the-private-sector/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:25:16+00:00"
+    },
+    {
+      "path": "/paternity-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:23:51+00:00"
+    },
+    {
+      "path": "/bereavement-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:22:29+00:00"
+    },
+    {
+      "path": "/medical-certificate-for-sick-leave-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:21:12+00:00"
+    },
+    {
+      "path": "/benefits-of-outsourcing-digital-marketing/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:19:56+00:00"
+    },
+    {
+      "path": "/esaad-card-for-golden-visa/",
+      "type": "post",
+      "lastmod": "2026-01-08T10:18:42+00:00"
+    },
+    {
+      "path": "/emiratisation-percentage-in-private-sector/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:53:34+00:00"
+    },
+    {
+      "path": "/role-of-emiratisation-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:51:49+00:00"
+    },
+    {
+      "path": "/tips-for-hiring-the-right-talent/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:50:13+00:00"
+    },
+    {
+      "path": "/manpower-outsourcing-services/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:48:40+00:00"
+    },
+    {
+      "path": "/what-is-nafis-program/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:46:42+00:00"
+    },
+    {
+      "path": "/nafis-emirati-salary-support-scheme/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:44:31+00:00"
+    },
+    {
+      "path": "/what-is-business-process-outsourcing/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:42:42+00:00"
+    },
+    {
+      "path": "/impact-of-emiratisation/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:40:44+00:00"
+    },
+    {
+      "path": "/leave-salary-calculation-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:39:26+00:00"
+    },
+    {
+      "path": "/probation-period-in-uae/",
+      "type": "post",
+      "lastmod": "2026-01-05T08:38:20+00:00"
+    },
+    {
+      "path": "/what-is-wps-in-the-uae/",
+      "type": "post",
+      "lastmod": "2025-12-31T08:54:22+00:00"
+    },
+    {
+      "path": "/employers-end-of-service-benefits-in-the-uae/",
+      "type": "post",
+      "lastmod": "2025-12-31T07:02:57+00:00"
+    },
+    {
+      "path": "/what-is-contract-staffing-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-30T09:59:22+00:00"
+    },
+    {
+      "path": "/contract-staffing-company-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-30T09:43:13+00:00"
+    },
+    {
+      "path": "/headhunters-vs-recruitment-agencies-explained/",
+      "type": "post",
+      "lastmod": "2025-12-24T06:44:24+00:00"
+    },
+    {
+      "path": "/temporary-work-permit-uae/",
+      "type": "post",
+      "lastmod": "2025-12-16T06:55:55+00:00"
+    },
+    {
+      "path": "/recruitment-agencies-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-15T11:05:34+00:00"
+    },
+    {
+      "path": "/manpower-outsourcing-for-startups/",
+      "type": "post",
+      "lastmod": "2025-12-11T10:25:58+00:00"
+    },
+    {
+      "path": "/article-44-uae-labour-law/",
+      "type": "post",
+      "lastmod": "2025-12-11T10:17:01+00:00"
+    },
+    {
+      "path": "/fazaa-card-uae/",
+      "type": "post",
+      "lastmod": "2025-12-11T10:12:49+00:00"
+    },
+    {
+      "path": "/outsourcing-myths/",
+      "type": "post",
+      "lastmod": "2025-12-11T09:29:33+00:00"
+    },
+    {
+      "path": "/types-of-leaves-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-11T09:20:21+00:00"
+    },
+    {
+      "path": "/employee-outsourcing-agreement/",
+      "type": "post",
+      "lastmod": "2025-12-11T09:16:25+00:00"
+    },
+    {
+      "path": "/limited-contract-resignation-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-11T08:57:03+00:00"
+    },
+    {
+      "path": "/what-is-emiratisation/",
+      "type": "post",
+      "lastmod": "2025-12-11T08:33:19+00:00"
+    },
+    {
+      "path": "/emiratisation-in-the-hospitality-industry/",
+      "type": "post",
+      "lastmod": "2025-12-10T09:32:03+00:00"
+    },
+    {
+      "path": "/hire-emirati-talent-process/",
+      "type": "post",
+      "lastmod": "2025-12-10T09:27:31+00:00"
+    },
+    {
+      "path": "/common-recruitment-challenges/",
+      "type": "post",
+      "lastmod": "2025-12-10T09:24:46+00:00"
+    },
+    {
+      "path": "/emiratisation-law-uae-a-complete-guide/",
+      "type": "post",
+      "lastmod": "2025-12-10T08:26:45+00:00"
+    },
+    {
+      "path": "/best-outsourcing-companies-in-dubai/",
+      "type": "post",
+      "lastmod": "2025-12-08T09:03:59+00:00"
+    },
+    {
+      "path": "/reasons-of-hiring-emiratis/",
+      "type": "post",
+      "lastmod": "2025-12-05T06:19:40+00:00"
+    },
+    {
+      "path": "/outsourcing-for-startup/",
+      "type": "post",
+      "lastmod": "2025-12-05T05:59:46+00:00"
+    },
+    {
+      "path": "/recruitment-process-outsourcing/",
+      "type": "post",
+      "lastmod": "2025-12-05T05:50:20+00:00"
+    },
+    {
+      "path": "/how-hr-outsourcing-services-help-your-company/",
+      "type": "post",
+      "lastmod": "2025-12-05T05:45:04+00:00"
+    },
+    {
+      "path": "/labor-card-uae/",
+      "type": "post",
+      "lastmod": "2025-12-05T05:37:49+00:00"
+    },
+    {
+      "path": "/emiratisation-for-small-businesses/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:39:38+00:00"
+    },
+    {
+      "path": "/common-myths-about-accounting-temporary-staffing/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:36:55+00:00"
+    },
+    {
+      "path": "/emiratisation-talent-pool/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:26:29+00:00"
+    },
+    {
+      "path": "/contract-staffing-vs-permanent-recruitment/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:22:11+00:00"
+    },
+    {
+      "path": "/benefits-of-outsourcing-customer-service/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:12:54+00:00"
+    },
+    {
+      "path": "/limited-contract-in-uae/",
+      "type": "post",
+      "lastmod": "2025-12-04T07:06:10+00:00"
+    },
+    {
+      "path": "/termination-of-employment-in-uae/",
+      "type": "post",
+      "lastmod": "2025-11-27T06:41:58+00:00"
+    }
+  ],
+  "guides": [],
+  "country": [],
+  "eor": [],
+  "local": [
+    {
+      "path": "/locations.kml",
+      "type": "local",
+      "lastmod": "2026-02-03T09:24:19+00:00"
+    }
+  ]
+}

@@ -29,7 +29,6 @@
 | 862 | `kpmpro.ae` |
 | 4795 | `emiratisationhub.com` |
 | 4796 | `emiratisationgate.org` |
-| 4797 | `interlibya.com` |
 | 4798 | `lladesigners.com` |
 | 4799 | `mbs-consultancy.com` |
 | 4800 | `movey.ae` |
@@ -41,13 +40,13 @@
 | 5060 | `evolutionmiddleast.com` |
 | 5061 | `payrollmiddleast.org` |
 | 5062 | `emiratisationgateway.com` |
-| 5063 | `emiratisationnafis.org` |
 | 5064 | `izi.ae` |
 | 5065 | `snapsale.ae` |
 | 5067 | `connectresources.sa` |
 | 5158 | `spheavyrental.ae` |
 | 5214 | `connectfm.ae` |
 | 5248 | `cbss.ae` |
+| — | `connectresourcesint.com` (stub — no contact/Pipedrive WEBSITE_ID yet) |
 
 ## Full name → WEBSITE_ID
 
@@ -81,7 +80,6 @@
 | 4744 | None - Interakt |
 | 4795 | Emiratisation Hub |
 | 4796 | Emiratisation Gate |
-| 4797 | Inter Libya |
 | 4798 | LAA Designers |
 | 4799 | MBS Consultancy |
 | 4800 | Movey |
@@ -93,7 +91,6 @@
 | 5060 | Evolution Middle East |
 | 5061 | Payroll Middle east |
 | 5062 | Emiratization getaway |
-| 5063 | Emiratization Nafis |
 | 5064 | IZI |
 | 5065 | Snap Sale |
 | 5066 | Active Work |

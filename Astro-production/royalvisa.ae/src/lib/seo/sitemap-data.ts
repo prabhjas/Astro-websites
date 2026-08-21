@@ -78,13 +78,20 @@ function collectFromInventory(
     if (slug !== '' && slug !== 'blog' && !prepared.has(slug)) continue;
     if (slug === '' && !prepared.has('')) continue;
     pages.push({
-      url: absoluteUrl(siteOrigin, pathForSlug(slug)),
+      url: absoluteUrl(siteOrigin, pathForSlug(slug === 'blog' ? 'blog' : slug)),
       lastmod: lastmodForSlug(slug === 'blog' ? 'blog' : slug),
       changefreq: slug === '' ? 'weekly' : 'monthly',
       priority: slug === '' ? 1.0 : 0.8,
       type: 'page',
     });
   }
+
+  pages.push({
+    url: absoluteUrl(siteOrigin, '/author/'),
+    changefreq: 'monthly',
+    priority: 0.5,
+    type: 'page',
+  });
 
   const posts: SitemapEntry[] = getAllBlogPosts().map((post) => ({
     url: absoluteUrl(siteOrigin, pathForSlug(post.slug)),

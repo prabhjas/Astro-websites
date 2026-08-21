@@ -8,6 +8,12 @@
 
 This is the **one full document** for what engineering shipped, what you must run on the host, and what you **must not** turn on yet because it breaks Elementor / GTM / WP mirrors on the live fleet.
 
+> **C-01 supersession — 2026-08-10:** Never run the old `_incoming/` Caddy
+> installer named `install-caddyfile-security-20260807.sh` and never install its
+> `Caddyfile.production.20260807-security`. Both predate the named-CA replacement.
+> Use only `caddy/Caddyfile.production`, the guarded CI workflow, and
+> [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md).
+
 ---
 
 ## 1. Scope — 15 live Astro sites
@@ -77,13 +83,14 @@ Staged on host under `/opt/Astro-production/_incoming/` (mode `600` for secrets)
 | Step | Action | Files / commands |
 |------|--------|------------------|
 | **A. Deploy app** | Pull `work/astro-sites`, rebuild 15 domains, `site-ctl restart` each unit | See short handoff §0 |
-| **B. Caddy reload** | Install staged Caddyfile → `/etc/caddy/Caddyfile`, validate, reload | `install-caddyfile-security-20260807.sh` |
+| **B. Caddy configuration** | Old staging is retired; future changes use only the reviewed canonical mirror and guarded workflow | `caddy/Caddyfile.production` + owner cutover doc |
 | **C. Unique secrets** | Per-site `INTERNAL_JOB_SECRET` (+ Kinza `ENHANCED_RUN_SECRET`) in `.env.prod`, restart units, then **shred** secrets file | `apply-unique-secrets-as-root.sh` + `unique-secrets.env` |
 | **D. CF-only origin** | Firewall / Tunnel so public cannot hit `178.105.150.67` bypassing Cloudflare; SSL Full (strict) when ready | CF + host firewall |
 | **E. CA rotate** | New Caddy local CA / origin certs (old keys treated compromised) | Root on Astro |
 | **F. History purge** | `git filter-repo` remove leaked `.key` blobs; coordinated force-push; everyone re-clones | `purge-leaked-caddy-keys-from-history.sh` (scheduled window) |
 
-Suggested order: **A → B → C → D**, then schedule **E + F**.
+Suggested order for any remaining non-Caddy items: **A → C → D**, then complete
+the separately reviewed history work. Do not run the retired step B artifacts.
 
 Copy-paste runbook: [SECURITY-OPS-AARON-HANDOFF.md](./SECURITY-OPS-AARON-HANDOFF.md).
 
@@ -133,8 +140,8 @@ curl -sSI https://connectgroup.co/ | grep -i content-security-policy
 | Path | Purpose |
 |------|---------|
 | `caddy/Caddyfile.production` | Git source of truth for headers / CSP-RO |
-| `/opt/Astro-production/_incoming/Caddyfile.production.20260807-security` | Staged for reload |
-| `scripts/ops/install-caddyfile-security-20260807.sh` | Root Caddy install |
+| Retired 20260807 `_incoming/` Caddyfile | **Never install; superseded by the guarded canonical mirror** |
+| `scripts/ops/install-caddyfile-security-20260807.sh` | Fail-closed tombstone; never use for deployment |
 | `scripts/ops/purge-leaked-caddy-keys-from-history.sh` | History rewrite (window only) |
 | `packages/site-cms/src/security/sanitize-html.ts` | `sanitizeCmsHtml` vs `sanitizeMirrorHtml` |
 | `Astro-production/kinzahr.com/src/lib/enhanced/` | Node enhanced conversions |
@@ -143,4 +150,7 @@ curl -sSI https://connectgroup.co/ | grep -i content-security-policy
 
 ## 7. One-line summary for Aaron
 
-**Deploy the app security batch + reload Caddy (Report-Only) + rotate per-site secrets + harden origin/CF; rotate CA and purge git history on a scheduled window. Do not enforce CSP, mass-prerender, full SRI, or aggressive mirror script stripping — those break Elementor/GTM.**
+**Use only the guarded canonical Caddy workflow; never run the retired 20260807
+staging package. Handle any separately approved app, secret, or origin work under
+its current runbook. Do not enforce CSP, mass-prerender, full SRI, or aggressive
+mirror script stripping — those break Elementor/GTM.**

@@ -9,7 +9,7 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 
-const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://companyformationsaudi.com')
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || '')
   .trim()
   .replace(/\/$/, '');
 

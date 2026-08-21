@@ -21,8 +21,8 @@ for (const u of urls) {
     console.log('HAVE', u);
     continue;
   }
-  const res = await fetch('https://emiratisationhub.com' + u, {
-    headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://emiratisationhub.com/author/' },
+  const res = await fetch('' + u, {
+    headers: { 'User-Agent': 'Mozilla/5.0', Referer: '/author/' },
   });
   const buf = Buffer.from(await res.arrayBuffer());
   const t = buf.slice(0, 60).toString('utf8');

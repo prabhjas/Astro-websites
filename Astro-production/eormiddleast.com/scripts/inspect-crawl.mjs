@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ORIGIN = "https://spheavyrental.ae";
 const html = fs.readFileSync("_crawl/homepage.html", "utf8");
 const hrefs = [...html.matchAll(/href=(["'])(.*?)\1/g)].map((m) => m[2]);
 const cssHrefs = hrefs.filter((u) => u.includes(".css"));

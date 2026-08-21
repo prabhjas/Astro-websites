@@ -27,7 +27,7 @@ for (const u of urls) {
   const dest = join(ROOT, 'public', u.replace(/^\//, ''));
   if (existsSync(dest) && statSync(dest).size > 50) continue;
   try {
-    const res = await fetch('https://emiratisationhub.com' + u, {
+    const res = await fetch('' + u, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
     });
     const buf = Buffer.from(await res.arrayBuffer());
@@ -46,7 +46,7 @@ for (const u of urls) {
 console.log('author assets checked', urls.size, 'downloaded', got, 'miss', miss);
 
 const local = await (await fetch('http://127.0.0.1:5107/author/')).text();
-const live = await (await fetch('https://emiratisationhub.com/author/')).text();
+const live = await (await fetch('/author/')).text();
 const h1 = (html) =>
   (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '')
     .replace(/<[^>]+>/g, ' ')

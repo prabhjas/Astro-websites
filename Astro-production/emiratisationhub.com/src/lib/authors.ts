@@ -24,7 +24,7 @@ export { getPostsByAuthorSlug };
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 
 export { LIVE_AUTHOR_ORDER, LIVE_AUTHOR_OVERRIDES } from './author-display.ts';
 
@@ -269,7 +269,7 @@ function wrapInAuthorShell(
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
   $('.elementor-location-archive').html(`<div class="emiratisationhub-author-page">${mainInner}</div>`);
   html = $.html();
 
@@ -295,7 +295,9 @@ function wrapInAuthorShell(
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>\n</body>');
+  } else if (!html.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
   if (options.loadMoreScript && !html.includes('author-load-more.js')) {

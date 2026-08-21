@@ -1,0 +1,13 @@
+---
+/**
+ * WP-style /insights/page/N/ → Astro /insights/N/
+ */
+export const prerender = false;
+
+const raw = Astro.params.page;
+const page = Number.parseInt(String(raw || '1'), 10);
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect('/insights/', 301);
+}
+return Astro.redirect(`/insights/${page}/`, 301);
+---

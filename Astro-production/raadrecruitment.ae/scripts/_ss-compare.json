@@ -1,0 +1,99 @@
+{
+  "local": {
+    "label": "local",
+    "url": "http://127.0.0.1:5113/",
+    "info": {
+      "ssCount": 34,
+      "ssClasses": [
+        "n2-ss-align n2-ss-align-visible",
+        "n2-ss-slider n2-ow n2-has-hover n2-ss-desktopPortrait n2-ss-loaded",
+        "skip-lazy",
+        "n2-font-8ee96a66861e01063c0ce4ad5d739441-hover n2-style-6d5ff64a4062b544c66cbf42722058b0-heading   n2-ss-item-content n2",
+        "n2-font-bf42e8749c88f216d2ac549089bfc361-hover n2-style-c3f6abf8e179b390743ea36828826c34-heading   n2-ss-item-content n2"
+      ],
+      "hasN2": true,
+      "n2Keys": [
+        "_N2",
+        "n2Slow",
+        "n2const",
+        "n2ss",
+        "n2-ss-2",
+        "n2-ss-3"
+      ],
+      "oil": {
+        "src": "/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg",
+        "nw": 700,
+        "rectX": 110,
+        "loading": "eager"
+      },
+      "male": {
+        "src": "/wp-content/uploads/2024/03/Male-01.png",
+        "nw": 1,
+        "complete": true
+      }
+    },
+    "afterScroll": {
+      "nw": 700,
+      "x": 110,
+      "complete": true
+    },
+    "errors": [
+      "ReferenceError: astra is not defined",
+      "ReferenceError: elementorFrontendConfig is not defined",
+      "ReferenceError: ElementorProFrontendConfig is not defined",
+      "ReferenceError: AstraToggleSetup is not defined",
+      "console:wpcf7 is not defined.",
+      "ReferenceError: wpa_field_info is not defined",
+      "TypeError: $ is not a function",
+      "ReferenceError: astraNavMenuToggle is not defined"
+    ]
+  },
+  "live": {
+    "label": "live",
+    "url": "https://raadrecruitment.ae/",
+    "info": {
+      "ssCount": 34,
+      "ssClasses": [
+        "n2-ss-align n2-ss-align-visible",
+        "n2-ss-slider n2-ow n2-has-hover n2-ss-desktopPortrait n2-ss-loaded",
+        "skip-lazy",
+        "n2-font-8ee96a66861e01063c0ce4ad5d739441-hover n2-style-6d5ff64a4062b544c66cbf42722058b0-heading   n2-ss-item-content n2",
+        "n2-font-bf42e8749c88f216d2ac549089bfc361-hover n2-style-c3f6abf8e179b390743ea36828826c34-heading   n2-ss-item-content n2"
+      ],
+      "hasN2": true,
+      "n2Keys": [
+        "_N2",
+        "n2Slow",
+        "n2const",
+        "n2ss",
+        "n2-ss-2",
+        "n2-ss-3"
+      ],
+      "oil": {
+        "src": "//raadrecruitment.ae/wp-content/uploads/2023/08/Oil-and-gas-picture.jpg",
+        "nw": 700,
+        "rectX": 110,
+        "loading": "eager"
+      },
+      "male": {
+        "src": "//raadrecruitment.ae/wp-content/uploads/2024/03/Male-01.png",
+        "nw": 0,
+        "complete": true
+      }
+    },
+    "afterScroll": {
+      "nw": 700,
+      "x": 110,
+      "complete": true
+    },
+    "errors": [
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined"
+    ]
+  }
+}

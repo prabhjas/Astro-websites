@@ -627,83 +627,57 @@
     });
   }
 
-  /** Elementor nested accordion — smooth open/close like live Elementor */
+  /** Elementor nested accordion (`<details>`) — respect Elementor settings */
   function ensureNestedAccordion() {
-    var DURATION = 360;
-
-    function panelOf(item) {
-      return item.querySelector(':scope > .e-con') || item.querySelector('.e-con');
-    }
-
-    function animateOpen(item) {
-      var panel = panelOf(item);
-      if (!panel) {
-        item.setAttribute('open', '');
-        return;
+    function parseSettings(el) {
+      var raw = el && el.getAttribute('data-settings');
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw.replace(/&quot;/g, '"')) || {};
+      } catch (e) {
+        return {};
       }
-      if (item.dataset.astroAnimating === '1') return;
-      item.dataset.astroAnimating = '1';
-      item.setAttribute('open', '');
-      panel.style.overflow = 'hidden';
-      panel.style.height = '0px';
-      panel.style.opacity = '0';
-      panel.offsetHeight;
-      panel.style.transition =
-        'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      panel.style.height = panel.scrollHeight + 'px';
-      panel.style.opacity = '1';
-      window.setTimeout(function () {
-        panel.style.height = '';
-        panel.style.overflow = '';
-        panel.style.transition = '';
-        panel.style.opacity = '';
-        delete item.dataset.astroAnimating;
-      }, DURATION + 30);
     }
 
-    function animateClose(item) {
-      var panel = panelOf(item);
-      if (!panel) {
-        item.removeAttribute('open');
-        return;
-      }
-      if (item.dataset.astroAnimating === '1') return;
-      item.dataset.astroAnimating = '1';
-      panel.style.overflow = 'hidden';
-      panel.style.height = panel.scrollHeight + 'px';
-      panel.style.opacity = '1';
-      panel.offsetHeight;
-      panel.style.transition =
-        'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      panel.style.height = '0px';
-      panel.style.opacity = '0';
-      window.setTimeout(function () {
-        item.removeAttribute('open');
-        panel.style.height = '';
-        panel.style.overflow = '';
-        panel.style.transition = '';
-        panel.style.opacity = '';
-        delete item.dataset.astroAnimating;
-      }, DURATION + 30);
-    }
-
-    document.querySelectorAll('.elementor-widget-n-accordion .e-n-accordion').forEach(function (root) {
-      if (root.dataset.astroNestedAccordion) return;
+    document.querySelectorAll('.elementor-widget-n-accordion').forEach(function (widget) {
+      var root = widget.querySelector('.e-n-accordion');
+      if (!root || root.dataset.astroNestedAccordion) return;
       root.dataset.astroNestedAccordion = '1';
 
-      root.querySelectorAll('.e-n-accordion-item').forEach(function (item) {
-        var summary = item.querySelector('.e-n-accordion-item-title');
-        if (!summary || summary.dataset.astroBound) return;
-        summary.dataset.astroBound = '1';
-        summary.addEventListener('click', function (e) {
-          e.preventDefault();
-          var willOpen = !item.hasAttribute('open');
-          root.querySelectorAll('.e-n-accordion-item[open]').forEach(function (openItem) {
-            if (openItem !== item) animateClose(openItem);
-          });
-          if (willOpen) animateOpen(item);
-          else animateClose(item);
+      var settings = parseSettings(widget);
+      var allowMultiple = String(settings.max_items_expended || 'one') === 'multiple';
+      var defaultExpanded = String(settings.default_state || '') === 'expanded';
+      var items = root.querySelectorAll('.e-n-accordion-item');
+
+      // Match Elementor default_state=expanded (cleaned HTML often only opens the first item).
+      if (defaultExpanded) {
+        items.forEach(function (item) {
+          item.setAttribute('open', '');
+          var title = item.querySelector('.e-n-accordion-item-title');
+          if (title) title.setAttribute('aria-expanded', 'true');
         });
+      }
+
+      // Let the browser handle <details>/<summary>. Only enforce single-open when required.
+      if (!allowMultiple) {
+        items.forEach(function (item) {
+          item.addEventListener('toggle', function () {
+            if (!item.open) return;
+            items.forEach(function (other) {
+              if (other !== item && other.open) other.removeAttribute('open');
+            });
+          });
+        });
+      }
+
+      items.forEach(function (item) {
+        var title = item.querySelector('.e-n-accordion-item-title');
+        if (!title) return;
+        var sync = function () {
+          title.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+        };
+        sync();
+        item.addEventListener('toggle', sync);
       });
     });
   }
@@ -758,6 +732,14 @@
     var DURATION = 360;
 
     function getContent(title) {
+      if (!title) return null;
+      var item = title.closest('.elementor-accordion-item');
+      if (item) {
+        var sibling = title.nextElementSibling;
+        if (sibling && sibling.classList.contains('elementor-tab-content')) return sibling;
+        var nested = item.querySelector('.elementor-tab-content');
+        if (nested) return nested;
+      }
       var contentId = title.getAttribute('aria-controls');
       return contentId ? document.getElementById(contentId) : null;
     }
@@ -769,15 +751,14 @@
       if (!content) return;
       content.classList.add('elementor-active');
       content.hidden = false;
-      content.style.removeProperty('display');
-      content.style.display = 'block';
+      content.style.setProperty('display', 'block', 'important');
       content.style.overflow = 'hidden';
       content.style.height = '0px';
       content.style.opacity = '0';
       content.offsetHeight;
       content.style.transition =
         'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      content.style.height = content.scrollHeight + 'px';
+      content.style.height = Math.max(content.scrollHeight, 1) + 'px';
       content.style.opacity = '1';
       window.setTimeout(function () {
         content.style.height = '';
@@ -803,7 +784,7 @@
       window.setTimeout(function () {
         content.classList.remove('elementor-active');
         content.hidden = true;
-        content.style.display = 'none';
+        content.style.setProperty('display', 'none', 'important');
         content.style.height = '';
         content.style.overflow = '';
         content.style.transition = '';
@@ -820,24 +801,37 @@
         var content = getContent(title);
         title.classList.remove('elementor-active');
         title.setAttribute('aria-expanded', 'false');
+        title.style.cursor = 'pointer';
         if (content) {
           content.classList.remove('elementor-active');
           content.hidden = true;
-          content.style.display = 'none';
+          content.style.setProperty('display', 'none', 'important');
         }
+        // Title text is often an <a> without href — keep it from stealing clicks oddly.
+        title.querySelectorAll('a.elementor-accordion-title').forEach(function (a) {
+          if (!a.getAttribute('href')) a.setAttribute('href', '#');
+          a.addEventListener('click', function (ev) {
+            ev.preventDefault();
+          });
+        });
       });
 
-      root.addEventListener('click', function (e) {
-        var title = e.target.closest('.elementor-tab-title');
-        if (!title || !root.contains(title)) return;
-        e.preventDefault();
-        var willOpen = !title.classList.contains('elementor-active');
-        root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
-          if (t !== title) animateClose(t);
-        });
-        if (willOpen) animateOpen(title);
-        else animateClose(title);
-      });
+      root.addEventListener(
+        'click',
+        function (e) {
+          var title = e.target.closest('.elementor-tab-title');
+          if (!title || !root.contains(title)) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var willOpen = !title.classList.contains('elementor-active');
+          root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
+            if (t !== title) animateClose(t);
+          });
+          if (willOpen) animateOpen(title);
+          else animateClose(title);
+        },
+        true,
+      );
     });
   }
 
@@ -1017,12 +1011,13 @@
     }
 
     function lookupCountryByIp() {
-      // Prefer reliable free endpoints first (ipwho.is often rate-limits)
+      if (window.__GEO_COUNTRY__ && /^[a-z]{2}$/i.test(window.__GEO_COUNTRY__)) {
+        window.__astroDetectedCountry = String(window.__GEO_COUNTRY__).toLowerCase();
+        return Promise.resolve(window.__astroDetectedCountry);
+      }
+      // Same-origin only (cf-ipcountry server-side + AE fallback). No third-party geo (FQ-02).
       var endpoints = [
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipapi.co/json/',
-        'https://ipwho.is/',
-        'https://ipinfo.io/json',
+        '/api/geo/country',
       ];
       var i = 0;
       var lookup = new Promise(function (resolve) {
@@ -1179,11 +1174,34 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prevent horizontal scroll from stretched sections on mobile */
-      'html,body{overflow-x:hidden;max-width:100vw;}',
+      /* Prefer clip so position:sticky (blog sidebar) still works */
+      'html,body{overflow-x:clip;max-width:100vw;}',
       /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas) */
       'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
       'body.astro-blog-post,body.single-post,body.page-id-18840,body.elementor-page-18840,body.blog,body.archive,html:has(body.astro-blog-post),html:has(body.single-post),html:has(body.page-id-18840),html:has(body.elementor-page-18840){background:#f8f9fa!important;background-color:#f8f9fa!important;background-image:none!important;}',
+      /* Blog header stays in normal document flow (do not overlay like marketing heroes) */
+      'body.astro-blog-post .elementor-location-header,body.single-post .elementor-location-header,body.blog .elementor-location-header,body.archive .elementor-location-header,body.page-id-18840 .elementor-location-header{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:100;}',
+      /* Inner post top bar: mailto/tel + icon-box titles must stay white (not post-link red) */
+      'body.astro-blog-post .elementor-location-header .elementor-icon-box-title,body.astro-blog-post .elementor-location-header .elementor-icon-box-title a,body.astro-blog-post .elementor-location-header a[href^="mailto:"],body.astro-blog-post .elementor-location-header a[href^="tel:"],body.single-post .elementor-location-header .elementor-icon-box-title,body.single-post .elementor-location-header .elementor-icon-box-title a,body.single-post .elementor-location-header a[href^="mailto:"],body.single-post .elementor-location-header a[href^="tel:"]{color:#fff!important;}',
+      'body.astro-blog-post .elementor-18825,body.single-post .elementor-18825,body.astro-blog-post .elementor[data-elementor-type="single-post"],body.single-post .elementor[data-elementor-type="single-post"]{padding-top:32px!important;}',
+      '@media (max-width:991px){body.astro-blog-post .elementor-18825,body.single-post .elementor-18825,body.astro-blog-post .elementor[data-elementor-type="single-post"],body.single-post .elementor[data-elementor-type="single-post"]{padding-top:24px!important;}}',
+      /* Inner blog right sidebar (TOC + contact CTA) — sticky while article scrolls */
+      '@media (min-width:768px){',
+      'body.astro-blog-post .elementor-18825 .elementor-element-72119b3,',
+      'body.single-post .elementor-18825 .elementor-element-72119b3{',
+      'position:-webkit-sticky!important;position:sticky!important;',
+      'top:24px!important;align-self:flex-start!important;',
+      'height:auto!important;z-index:5;',
+      '}',
+      'body.astro-blog-post .elementor-18825 .e-con,',
+      'body.astro-blog-post .elementor-18825 .elementor-section,',
+      'body.astro-blog-post .elementor-18825 .elementor-container,',
+      'body.single-post .elementor-18825 .e-con,',
+      'body.single-post .elementor-18825 .elementor-section,',
+      'body.single-post .elementor-18825 .elementor-container{',
+      'overflow:visible!important;',
+      '}',
+      '}',
       /* Contact Us only: restore full-bleed page background (not a second site header) */
       'body.page-id-27093{background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;}',
       'body.page-id-27093 .elementor-27130.elementor-location-header,body.page-id-27093 .elementor-27130 .header-new{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
@@ -1271,6 +1289,8 @@
       /* Footer full bleed */
       '.elementor-location-footer,.elementor-location-footer .elementor-section-stretched{width:100%!important;max-width:none!important;}',
       'body .container:has(> .elementor-location-footer){max-width:none!important;width:100%!important;padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;}',
+      /* Blog/single posts: .single-post a/p/li were forcing red/dark text into the dark footer */
+      'body.astro-blog-post #pix-page-footer,body.astro-blog-post #pix-page-footer p,body.astro-blog-post #pix-page-footer li,body.astro-blog-post #pix-page-footer span,body.astro-blog-post #pix-page-footer a,body.astro-blog-post .elementor-location-footer,body.astro-blog-post .elementor-location-footer p,body.astro-blog-post .elementor-location-footer li,body.astro-blog-post .elementor-location-footer span,body.astro-blog-post .elementor-location-footer a,body.astro-blog-post .elementor-location-footer .elementor-icon-list-text,body.astro-blog-post .elementor-location-footer .elementor-heading-title,body.single-post #pix-page-footer,body.single-post #pix-page-footer p,body.single-post #pix-page-footer li,body.single-post #pix-page-footer span,body.single-post #pix-page-footer a,body.single-post .elementor-location-footer,body.single-post .elementor-location-footer p,body.single-post .elementor-location-footer li,body.single-post .elementor-location-footer span,body.single-post .elementor-location-footer a,body.single-post .elementor-location-footer .elementor-icon-list-text,body.single-post .elementor-location-footer .elementor-heading-title{color:#fff!important;}',
     ].join('');
   }
 
@@ -1861,7 +1881,7 @@
       setSubmitting(form, true);
       showCf7Message(form, 'Sending…', false);
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: buildContactFormData(form),
@@ -2032,83 +2052,113 @@
     }
     killAldLaserLoader();
 
-    // Overlay header on hero (Figma) — Elementor/theme CSS often leaves it static.
-    document
-      .querySelectorAll(
-        'header.elementor-location-header, .elementor-27554.elementor-location-header, .elementor-27130.elementor-location-header',
-      )
-      .forEach(function (el) {
-        el.style.setProperty('position', 'absolute', 'important');
-        el.style.setProperty('top', '0', 'important');
-        el.style.setProperty('left', '0', 'important');
-        el.style.setProperty('right', '0', 'important');
-        el.style.setProperty('width', '100%', 'important');
-        el.style.setProperty('z-index', '100', 'important');
-        el.style.setProperty('background', 'transparent', 'important');
-        el.style.setProperty('background-color', 'transparent', 'important');
-      });
-
-    var mobile = window.matchMedia('(max-width: 991px)').matches;
-    document
-      .querySelectorAll(
-        '.elementor-27554 .elementor-element-cc95ce6.header-new, .elementor-27130 .elementor-element-527f83a.header-new',
-      )
-      .forEach(function (el) {
-        if (mobile) {
-          el.style.setProperty('background', 'rgba(6, 13, 29, 0.4)', 'important');
-          el.style.setProperty('background-color', 'rgba(6, 13, 29, 0.4)', 'important');
-          el.style.setProperty('backdrop-filter', 'blur(12px)');
-          el.style.setProperty('-webkit-backdrop-filter', 'blur(12px)');
-          el.style.setProperty('box-sizing', 'border-box', 'important');
-          el.style.setProperty('height', '80px', 'important');
-          el.style.setProperty('min-height', '80px', 'important');
-          el.style.setProperty('max-height', '80px', 'important');
-          el.style.setProperty('padding', '20px 24px', 'important');
-          el.style.setProperty('border-bottom', '0', 'important');
-          el.style.setProperty('overflow', 'hidden', 'important');
-          el.querySelectorAll('.elementor-widget-wrap').forEach(function (wrap) {
-            wrap.style.setProperty('padding', '0', 'important');
-            wrap.style.setProperty('margin', '0', 'important');
-            wrap.style.setProperty('min-height', '0', 'important');
-          });
-        } else {
+    // Overlay header on hero (Figma) — marketing pages only.
+    // Blog / Insights keep a normal-flow header so content is not flush under it.
+    if (!lightCanvas) {
+      document
+        .querySelectorAll(
+          'header.elementor-location-header, .elementor-27554.elementor-location-header, .elementor-27130.elementor-location-header',
+        )
+        .forEach(function (el) {
+          el.style.setProperty('position', 'absolute', 'important');
+          el.style.setProperty('top', '0', 'important');
+          el.style.setProperty('left', '0', 'important');
+          el.style.setProperty('right', '0', 'important');
+          el.style.setProperty('width', '100%', 'important');
+          el.style.setProperty('z-index', '100', 'important');
           el.style.setProperty('background', 'transparent', 'important');
           el.style.setProperty('background-color', 'transparent', 'important');
-          el.style.removeProperty('backdrop-filter');
-          el.style.removeProperty('-webkit-backdrop-filter');
-          el.style.removeProperty('height');
-          el.style.removeProperty('max-height');
+        });
+    } else {
+      document.querySelectorAll('header.elementor-location-header').forEach(function (el) {
+        el.style.setProperty('position', 'relative', 'important');
+        el.style.removeProperty('top');
+        el.style.removeProperty('left');
+        el.style.removeProperty('right');
+        el.style.setProperty('z-index', '100', 'important');
+        el.style.removeProperty('background');
+        el.style.removeProperty('background-color');
+      });
+    }
+
+    var mobile = window.matchMedia('(max-width: 991px)').matches;
+    if (!lightCanvas) {
+      document
+        .querySelectorAll(
+          '.elementor-27554 .elementor-element-cc95ce6.header-new, .elementor-27130 .elementor-element-527f83a.header-new',
+        )
+        .forEach(function (el) {
+          if (mobile) {
+            el.style.setProperty('background', 'rgba(6, 13, 29, 0.4)', 'important');
+            el.style.setProperty('background-color', 'rgba(6, 13, 29, 0.4)', 'important');
+            el.style.setProperty('backdrop-filter', 'blur(12px)');
+            el.style.setProperty('-webkit-backdrop-filter', 'blur(12px)');
+            el.style.setProperty('box-sizing', 'border-box', 'important');
+            el.style.setProperty('height', '80px', 'important');
+            el.style.setProperty('min-height', '80px', 'important');
+            el.style.setProperty('max-height', '80px', 'important');
+            el.style.setProperty('padding', '20px 24px', 'important');
+            el.style.setProperty('border-bottom', '0', 'important');
+            el.style.setProperty('overflow', 'hidden', 'important');
+            el.querySelectorAll('.elementor-widget-wrap').forEach(function (wrap) {
+              wrap.style.setProperty('padding', '0', 'important');
+              wrap.style.setProperty('margin', '0', 'important');
+              wrap.style.setProperty('min-height', '0', 'important');
+            });
+          } else {
+            el.style.setProperty('background', 'transparent', 'important');
+            el.style.setProperty('background-color', 'transparent', 'important');
+            el.style.removeProperty('backdrop-filter');
+            el.style.removeProperty('-webkit-backdrop-filter');
+            el.style.removeProperty('height');
+            el.style.removeProperty('max-height');
+          }
+        });
+
+      // Keep hero copy clear of the absolute header (Figma spacing).
+      document.querySelectorAll('.elementor-26466 > .elementor-element-127944e').forEach(function (el) {
+        el.style.setProperty('padding-top', mobile ? '110px' : '100px', 'important');
+      });
+
+      // Brand/service heroes (3c859d0): cancel legacy -84px pull under absolute header
+      document.querySelectorAll('.elementor-element-3c859d0').forEach(function (el) {
+        el.style.setProperty('margin-top', '0', 'important');
+        var minPad = mobile ? 110 : 120;
+        var pt = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
+        if (pt < minPad) {
+          el.style.setProperty('padding-top', minPad + 'px', 'important');
+        } else {
+          el.style.setProperty('padding-top', Math.max(pt, minPad) + 'px', 'important');
         }
       });
 
-    // Keep hero copy clear of the absolute header (Figma spacing).
-    document.querySelectorAll('.elementor-26466 > .elementor-element-127944e').forEach(function (el) {
-      el.style.setProperty('padding-top', mobile ? '110px' : '100px', 'important');
-    });
-
-    // Brand/service heroes (3c859d0): cancel legacy -84px pull under absolute header
-    document.querySelectorAll('.elementor-element-3c859d0').forEach(function (el) {
-      el.style.setProperty('margin-top', '0', 'important');
-      var minPad = mobile ? 110 : 120;
-      var pt = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
-      if (pt < minPad) {
-        el.style.setProperty('padding-top', minPad + 'px', 'important');
-      } else {
-        el.style.setProperty('padding-top', Math.max(pt, minPad) + 'px', 'important');
-      }
-    });
-
-    // Shared-chrome inner pages: first content section often already has negative margin; ensure breathing room
-    document.querySelectorAll('.elementor-location-header ~ .elementor[data-elementor-type="wp-page"], .elementor-location-header ~ .elementor[data-elementor-type="page"]').forEach(function (el) {
-      if (el.classList.contains('elementor-26466')) return;
-      var first = el.querySelector(':scope > .elementor-section, :scope > .elementor-top-section, :scope > .e-con');
-      if (!first || first.classList.contains('elementor-element-3c859d0')) return;
-      var mgt = parseFloat(window.getComputedStyle(first).marginTop) || 0;
-      if (mgt < 0) first.style.setProperty('margin-top', '0', 'important');
-      var pt = parseFloat(window.getComputedStyle(first).paddingTop) || 0;
-      var minPad = mobile ? 110 : 120;
-      if (pt < minPad) first.style.setProperty('padding-top', minPad + 'px', 'important');
-    });
+      // Shared-chrome inner pages: first content section often already has negative margin; ensure breathing room
+      document
+        .querySelectorAll(
+          '.elementor-location-header ~ .elementor[data-elementor-type="wp-page"], .elementor-location-header ~ .elementor[data-elementor-type="page"]',
+        )
+        .forEach(function (el) {
+          if (el.classList.contains('elementor-26466')) return;
+          var first = el.querySelector(
+            ':scope > .elementor-section, :scope > .elementor-top-section, :scope > .e-con',
+          );
+          if (!first || first.classList.contains('elementor-element-3c859d0')) return;
+          var mgt = parseFloat(window.getComputedStyle(first).marginTop) || 0;
+          if (mgt < 0) first.style.setProperty('margin-top', '0', 'important');
+          var pt = parseFloat(window.getComputedStyle(first).paddingTop) || 0;
+          var minPad = mobile ? 110 : 120;
+          if (pt < minPad) first.style.setProperty('padding-top', minPad + 'px', 'important');
+        });
+    } else {
+      // Blog / Insights: gap between header chrome and article body
+      document
+        .querySelectorAll(
+          '.elementor-location-header ~ .elementor[data-elementor-type="single-post"], .elementor-location-header ~ .elementor[data-elementor-type="wp-post"], body.astro-blog-post .elementor-18825, body.single-post .elementor-18825',
+        )
+        .forEach(function (el) {
+          el.style.setProperty('padding-top', mobile ? '24px' : '32px', 'important');
+        });
+    }
 
     // Let’s Talk on all breakpoints — Elementor responsive may re-add hidden-* classes.
     document

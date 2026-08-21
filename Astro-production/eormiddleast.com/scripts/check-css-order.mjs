@@ -1,5 +1,3 @@
-import fs from "node:fs";
-
 const html = await (await fetch("http://127.0.0.1:4321/")).text();
 const links = [...html.matchAll(/href="([^"]+\.css[^"]*)"/g)].map((m) => m[1]);
 links.forEach((l, i) => console.log(i, l));

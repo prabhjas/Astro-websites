@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
-const ORIGIN = 'https://emiratisationhub.com';
+const ORIGIN = '';
 const IMAGES_DIR = join(ROOT, 'public/images/authors');
 
 const FEATURED = {

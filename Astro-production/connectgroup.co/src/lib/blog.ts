@@ -88,6 +88,7 @@ export interface BlogPost {
     description?: string;
     image?: string;
   };
+  status?: string;
   schema?: Record<string, unknown>;
   sourceUrl: string;
   migratedAt: string;
@@ -183,7 +184,7 @@ export function sanitizeTocEntry(entry: TocEntry): TocEntry | null {
 
 /** Add/preserve heading IDs and build TOC from H2/H3 in content HTML. */
 export function processContentHeadings(html: string): { html: string; toc: TocEntry[]; headings: BlogPost['headings'] } {
-  const $ = cheerio.load(`<div id="root">${html}</div>`, { decodeEntities: false }, false);
+  const $ = cheerio.load(`<div id="root">${html}</div>`, { xml: { decodeEntities: false } } as any, false);
   const toc: TocEntry[] = [];
   const headings: BlogPost['headings'] = [];
   const usedIds = new Set<string>();
@@ -398,6 +399,10 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 .astro-blog-breadcrumb__item:hover{text-decoration:underline}
 .astro-blog-breadcrumb__item--current{color:#333;font-weight:500}
 .astro-blog-breadcrumb__sep{color:#999}
+@media (min-width:768px){
+.elementor-18825 .elementor-element-72119b3{position:-webkit-sticky;position:sticky;top:24px;align-self:flex-start;height:auto;z-index:5}
+.elementor-18825 .elementor-section,.elementor-18825 .elementor-container,.elementor-18825 .e-con{overflow:visible!important}
+}
 </style>`;
 
 /** Assemble final HTML from shell template + post data. */

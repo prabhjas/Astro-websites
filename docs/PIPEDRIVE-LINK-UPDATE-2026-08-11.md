@@ -1,0 +1,313 @@
+# Pipedrive scheduler link update — 11 Aug 2026
+
+**Old:** `https://connectgroup2.pipedrive.com/scheduler/wODjrKiE/meeting-with-liam-doherty`
+
+**New:** `https://connectgroup2.pipedrive.com/scheduler/lYRJ1mh0/meeting-with-connect-resources`
+
+Replaced across **served** content of 3 sites (raw `source/wordpress-exports/` copies and binary assets left untouched). **Total: 232 files, 645 links.** No occurrences of the old link remain in served files.
+
+---
+
+## connectresources.ae — 1 file, 132 links · 35 pages
+
+`src/data/pages.json` — the link is a shared CTA embedded in these page entries:
+
+- `twitter`
+- `eor-payroll`
+- `united-arab-emirates`
+- `employer-of-record-lp2`
+- `employer-of-record-lp`
+- `outsourcing`
+- `property-visa-new`
+- `uae-silver-visa`
+- `pro-services`
+- `retirement-visa-uae`
+- `uae-residence-visa`
+- `be-freelance-visa-dubai`
+- `family-visa-uae`
+- `it-outsourcing`
+- `professional-employer-organization-dubai`
+- `relocation-employee-dubai`
+- `contract-staffing-dubai`
+- `payroll`
+- `e-services`
+- `staff-outsourcing`
+- `emiratisation`
+- `hr-outsourcing`
+- `recruitment`
+- `hr-consultancy`
+- `eor-transfer`
+- `hr-services`
+- `international-relocation-service-page`
+- `employer-of-record-uae`
+- `insights`
+- `employer-of-record-middle-east`
+- `business-process-outsourcing-bpo`
+- `employer-of-record-saudi-arabia`
+- `bpo-business-process-outsourcing`
+- `uae-staff-outsourcing`
+- `schedule-a-call`
+
+_Note: `src/data/posts.json` already carried the new link (not modified)._
+
+## eormiddleast.com — 2 files, 48 links · 17 pages
+
+`src/data/pages.json` (17) + `src/data/bodies.json` (17) — affected page entries:
+
+- `about-us`
+- `contact-us`
+- `eor-oman`
+- `eor-pedia`
+- `bahrain`
+- `egypt`
+- `israel`
+- `jordan`
+- `kuwait`
+- `lebanon`
+- `libya`
+- `oman`
+- `qatar`
+- `saudi-arabia`
+- `turkey`
+- `uae`
+- `schedule-a-call`
+
+## peomiddleast.com — 229 files, 465 links
+
+Per-page legacy HTML (227 pages) + shared blog shell + 1 blog post JSON.
+
+**Shared / non-page files (affect many pages):**
+
+- `src/content/blog/ministry-of-labour-uae.json`
+- `src/legacy/blog-shell/template.html`
+- `src/legacy/blog-shell/template.html` renders on **every blog post**, so all blog posts are covered.
+
+**Pages (227) — `src/legacy/<slug>.cleaned.html`:**
+
+- 7-hr-functions
+- a-few-things-you-should-know-about-employer-of-record
+- all-you-need-to-know-about-the-hiring-process-in-the-middle-east
+- aso-vs-peo
+- aviation-recruitment-solutions
+- bahrain-employer-of-record
+- bahrain-global-immigration
+- bahrain-hire-contractor
+- bahrain-hire-remote-worker
+- bahrain-hr-management
+- bahrain-labor-law
+- bahrain-payroll-outsourcing
+- bahrain-professional-employment-organization
+- bahrain-relocation-services
+- benefits-of-expanding-your-business-with-a-professional-employer-organization
+- best-hr-outsourcing
+- business-with-peo-services
+- challenges-of-hybrid-workforce
+- challenges-of-payroll-management
+- common-payroll-mistakes-and-how-to-prevent-them
+- corporate-accommodation
+- cost-per-employee-for-peo
+- dha-medical-fitness-result
+- difference-between-a-peo-vs-employee-leasing
+- difference-between-hiring-contractors-and-hiring-remote-workers
+- difference-between-payroll-outsourcing-and-peo-services
+- egypt-employer-of-record
+- egypt-global-immigration
+- egypt-hire-contractor-old
+- egypt-hire-contractor
+- egypt-hire-remote-worker
+- egypt-hr-management
+- egypt-payroll-outsourcing
+- egypt-professional-employment-organization
+- egypt-relocation-services
+- emergency-leave-in-uae
+- emirates-id-fine-check
+- employee-leave-of-absence
+- employee-onboarding-and-offboarding-process
+- employee-payroll-records
+- employee-relocation-policy
+- employee-salary-certificate
+- employee-termination
+- employer-delaying-visa-cancellation
+- employer-of-record-dubai
+- employer-of-record
+- empowering-remote-employees
+- eor-best-practices
+- eor-employment
+- eor-solutions
+- eor-visa-processing-in-the-uae-immigration-and-work-permits
+- equal-employment-opportunity
+- executive-hire
+- exploring-peo-benefits
+- grace-period-after-visa-cancellation-in-uae
+- gratuity-calculator-qatar
+- gratuity-calculator-uae-how-to-estimate
+- guide-to-payroll-outsourcing-all-you-need-to-know-about-it
+- hire-contractor
+- hire-remote-worker
+- hiring-outsourced-staff
+- hiring-risk
+- hiring-strategies
+- homepage
+- how-can-payroll-outsourcing-help-your-business
+- how-does-specialist-recruitment-work
+- how-payroll-outsourcing-increases-productivity-in-hr
+- how-to-calculate-leave-salary-in-uae
+- how-to-calculate-overtime-in-uae
+- how-to-monitor-remote-employees
+- how-to-pay-foreign-independent-contractors-international-payment
+- hr-and-payroll-consulting
+- hr-challenges
+- hr-consultancy-uae
+- hr-consultants-in-dubai
+- hr-consulting
+- hr-management-challenges
+- hr-managements-vital-role
+- hr-outsourcing
+- hr-process-optimization
+- human-resource-strategy
+- immigration-services
+- important-considerations-with-hr-outsourcing-in-the-uae
+- independent-contractors
+- insights
+- international-payroll-outsourcing-a-guide-for-multinationals
+- iqama-renewal-fees-for-1-year
+- key-hr-functions
+- know-about-onboarding-and-how-important-it-is-for-organizations
+- know-all-about-employer-of-record-services
+- know-all-about-global-immigration-and-relocation-services
+- kuwait-employer-of-record
+- kuwait-family-visa-requirements
+- kuwait-global-immigration
+- kuwait-hire-contractor
+- kuwait-hire-remote-worker
+- kuwait-hr-management-old
+- kuwait-hr-management
+- kuwait-labor-law
+- kuwait-payroll-outsourcing
+- kuwait-professional-employment-organization
+- kuwait-relocation-services
+- labor-law-in-uae
+- labor-law-uae
+- leadership-recruitment
+- managing-contractors
+- medical-test-failed-uae
+- minimum-wage-in-bahrain
+- minimum-wage-in-dubai
+- minimum-wage-in-kuwait
+- minimum-wage-in-oman
+- minimum-wage-in-uae
+- ministry-of-labour-oman
+- ministry-of-labour-uae
+- moi-qatar-id-validity-check
+- noc-letter
+- non-renewal-of-contract-letter
+- oman-employer-of-record
+- oman-global-immigration
+- oman-hire-contractor
+- oman-hire-remote-worker
+- oman-hr-management
+- oman-labor-law
+- oman-payroll-outsourcing
+- oman-professional-employment-organization
+- oman-relocation-services
+- onboarding-experience
+- outsourcing-it-staff
+- outsourcing-recruitment
+- outsourcing-services-companies
+- payroll-burden
+- payroll-compliance
+- payroll-management-in-hr
+- payroll-management-system
+- payroll-outsourcing-companies-in-uae
+- payroll-outsourcing-find-the-best-outsourced-payroll-provider
+- payroll-outsourcing-for-small-businesses
+- payroll-outsourcing-services-in-house-payroll
+- payroll-outsourcing
+- payroll-practices
+- payroll-processing-what-happens-during-the-payroll-process
+- payroll-reconciliation-process
+- payroll-services-what-companies-need-to-know
+- payroll-software-features
+- payroll-system-solutions-how-to-select-the-best-for-your-business
+- peo-advantages-and-disadvantages
+- peo-company
+- peo-employee-leasing
+- peo-evaluation
+- peo-for-small-businesses
+- peo-hr-solutions
+- peo-middle-east-basic-plan
+- peo-middle-east-premium-plan
+- peo-middle-east-standard-plan
+- peo-pros-and-cons
+- peo-services-for-startups
+- power-of-peo-services
+- professional-employment-organization
+- professional-pro-and-corporate-services-their-importance-for-businesses
+- qatar-employer-of-record
+- qatar-global-immigration
+- qatar-hire-contractor
+- qatar-hire-remote-worker
+- qatar-hr-management
+- qatar-payroll-outsourcing
+- qatar-payroll-process
+- qatar-professional-employment-organization
+- qatar-relocation-services
+- recruitment-solutions
+- remote-hiring-process
+- remote-work-policy-how-to-set-it-for-remote-workers-from-anywhere
+- remote-work-visa-dubai
+- remote-workforce
+- role-of-hr-in-talent-acquisition
+- salary-check-uae
+- saudi-arabia-employer-of-record
+- saudi-arabia-global-immigration
+- saudi-arabia-hire-contractor
+- saudi-arabia-hire-remote-worker
+- saudi-arabia-hr-management
+- saudi-arabia-payroll-outsourcing-solution
+- saudi-arabia-payroll-outsourcing
+- saudi-arabia-professional-employment-organization
+- saudi-arabia-relocation-services
+- saudi-labor-law
+- schedule-a-call
+- small-business-challenges
+- staff-augmentation
+- staff-outsourcing-benefits
+- staff-outsourcing-services
+- termination-of-employment-contract
+- the-advantages-and-disadvantages-of-employer-of-record-eor-hiring
+- the-crucial-role-of-an-employer-of-record
+- things-to-know-about-an-environmentally-conscious-workplace
+- top-6-reasons-why-businesses-should-outsource-their-payroll
+- turkey-employer-of-record
+- turkey-global-immigration
+- turkey-hire-contractor
+- turkey-hire-remote-worker
+- turkey-hr-management
+- turkey-payroll-outsourcing
+- turkey-professional-employment-organization
+- turkey-relocation-services
+- types-of-payroll-solutions-for-businesses-in-the-uae
+- uae-employer-of-record
+- uae-hire-contractor
+- uae-hire-remote-worker
+- uae-immigration
+- uae-payroll-outsourcing
+- uae-professional-employment-organization
+- uae-relocation-services
+- uae-residence-visa-renewal
+- unemployment-insurance-scheme-uae
+- visa-cancellation-and-final-settlement
+- visa-cancellation-letter
+- what-are-payroll-records-how-long-to-keep-them
+- what-are-peo-services
+- what-are-the-benefits-of-a-human-resources-management-system
+- what-are-the-differences-between-a-peo-and-an-hro
+- what-does-peo-stand-for
+- what-happens-when-you-outsource-payroll
+- what-is-an-employer-of-record
+- what-is-the-difference-between-an-eor-and-a-peo
+- what-is-the-difference-between-eor-and-peo
+- what-you-should-know-about-employee-relocation-to-dubai
+- why-outsourcing-payroll-is-a-wise-business-move
+- wps-salary-check

@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: https://ogp.me/ns#">
+<head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>(()=>{class RocketLazyLoadScripts{constructor(){this.v="2.0.5",this.userEvents=["keydown","keyup","mousedown","mouseup","mousemove","mouseover","mouseout","touchmove","touchstart","touchend","touchcancel","wheel","click","dblclick","input"],this.attributeEvents=["onblur","onclick","oncontextmenu","ondblclick","onfocus","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onmousewheel","onscroll","onsubmit"]}async t(){this.i(),this.o(),/iP(ad|hone)/.test(navigator.userAgent)&&this.h(),this.u(),this.l(this),this.m(),this.k(this),this.p(this),this._(),await Promise.all([this.R(),this.L()]),this.lastBreath=Date.now(),this.S(this),this.P(),this.D(),this.O(),this.M(),await this.C(this.delayedScripts.normal),await this.C(this.delayedScripts.defer),await this.C(this.delayedScripts.async),await this.T(),await this.F(),await this.j(),await this.A(),window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this.everythingLoaded=!0,this.lastTouchEnd&&await new Promise(t=>setTimeout(t,500-Date.now()+this.lastTouchEnd)),this.I(),this.H(),this.U(),this.W()}i(){this.CSPIssue=sessionStorage.getItem("rocketCSPIssue"),document.addEventListener("securitypolicyviolation",t=>{this.CSPIssue||"script-src-elem"!==t.violatedDirective||"data"!==t.blockedURI||(this.CSPIssue=!0,sessionStorage.setItem("rocketCSPIssue",!0))},{isRocket:!0})}o(){window.addEventListener("pageshow",t=>{this.persisted=t.persisted,this.realWindowLoadedFired=!0},{isRocket:!0}),window.addEventListener("pagehide",()=>{this.onFirstUserAction=null},{isRocket:!0})}h(){let t;function e(e){t=e}window.addEventListener("touchstart",e,{isRocket:!0}),window.addEventListener("touchend",function i(o){o.changedTouches[0]&&t.changedTouches[0]&&Math.abs(o.changedTouches[0].pageX-t.changedTouches[0].pageX)<10&&Math.abs(o.changedTouches[0].pageY-t.changedTouches[0].pageY)<10&&o.timeStamp-t.timeStamp<200&&(window.removeEventListener("touchstart",e,{isRocket:!0}),window.removeEventListener("touchend",i,{isRocket:!0}),"INPUT"===o.target.tagName&&"text"===o.target.type||(o.target.dispatchEvent(new TouchEvent("touchend",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new MouseEvent("mouseover",{target:o.target,bubbles:!0})),o.target.dispatchEvent(new PointerEvent("click",{target:o.target,bubbles:!0,cancelable:!0,detail:1,clientX:o.changedTouches[0].clientX,clientY:o.changedTouches[0].clientY})),event.preventDefault()))},{isRocket:!0})}q(t){this.userActionTriggered||("mousemove"!==t.type||this.firstMousemoveIgnored?"keyup"===t.type||"mouseover"===t.type||"mouseout"===t.type||(this.userActionTriggered=!0,this.onFirstUserAction&&this.onFirstUserAction()):this.firstMousemoveIgnored=!0),"click"===t.type&&t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation(),"touchstart"===this.lastEvent&&"touchend"===t.type&&(this.lastTouchEnd=Date.now()),"click"===t.type&&(this.lastTouchEnd=0),this.lastEvent=t.type,t.composedPath&&t.composedPath()[0].getRootNode()instanceof ShadowRoot&&(t.rocketTarget=t.composedPath()[0]),this.savedUserEvents.push(t)}u(){this.savedUserEvents=[],this.userEventHandler=this.q.bind(this),this.userEvents.forEach(t=>window.addEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.addEventListener("visibilitychange",this.userEventHandler,{isRocket:!0})}U(){this.userEvents.forEach(t=>window.removeEventListener(t,this.userEventHandler,{passive:!1,isRocket:!0})),document.removeEventListener("visibilitychange",this.userEventHandler,{isRocket:!0}),this.savedUserEvents.forEach(t=>{(t.rocketTarget||t.target).dispatchEvent(new window[t.constructor.name](t.type,t))})}m(){const t="return false",e=Array.from(this.attributeEvents,t=>"data-rocket-"+t),i="["+this.attributeEvents.join("],[")+"]",o="[data-rocket-"+this.attributeEvents.join("],[data-rocket-")+"]",s=(e,i,o)=>{o&&o!==t&&(e.setAttribute("data-rocket-"+i,o),e["rocket"+i]=new Function("event",o),e.setAttribute(i,t))};new MutationObserver(t=>{for(const n of t)"attributes"===n.type&&(n.attributeName.startsWith("data-rocket-")||this.everythingLoaded?n.attributeName.startsWith("data-rocket-")&&this.everythingLoaded&&this.N(n.target,n.attributeName.substring(12)):s(n.target,n.attributeName,n.target.getAttribute(n.attributeName))),"childList"===n.type&&n.addedNodes.forEach(t=>{if(t.nodeType===Node.ELEMENT_NODE)if(this.everythingLoaded)for(const i of[t,...t.querySelectorAll(o)])for(const t of i.getAttributeNames())e.includes(t)&&this.N(i,t.substring(12));else for(const e of[t,...t.querySelectorAll(i)])for(const t of e.getAttributeNames())this.attributeEvents.includes(t)&&s(e,t,e.getAttribute(t))})}).observe(document,{subtree:!0,childList:!0,attributeFilter:[...this.attributeEvents,...e]})}I(){this.attributeEvents.forEach(t=>{document.querySelectorAll("[data-rocket-"+t+"]").forEach(e=>{this.N(e,t)})})}N(t,e){const i=t.getAttribute("data-rocket-"+e);i&&(t.setAttribute(e,i),t.removeAttribute("data-rocket-"+e))}k(t){Object.defineProperty(HTMLElement.prototype,"onclick",{get(){return this.rocketonclick||null},set(e){this.rocketonclick=e,this.setAttribute(t.everythingLoaded?"onclick":"data-rocket-onclick","this.rocketonclick(event)")}})}S(t){function e(e,i){let o=e[i];e[i]=null,Object.defineProperty(e,i,{get:()=>o,set(s){t.everythingLoaded?o=s:e["rocket"+i]=o=s}})}e(document,"onreadystatechange"),e(window,"onload"),e(window,"onpageshow");try{Object.defineProperty(document,"readyState",{get:()=>t.rocketReadyState,set(e){t.rocketReadyState=e},configurable:!0}),document.readyState="loading"}catch(t){console.log("WPRocket DJE readyState conflict, bypassing")}}l(t){this.originalAddEventListener=EventTarget.prototype.addEventListener,this.originalRemoveEventListener=EventTarget.prototype.removeEventListener,this.savedEventListeners=[],EventTarget.prototype.addEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalAddEventListener.call(this,e,i,o):(t.savedEventListeners.push({target:this,remove:!1,type:e,func:i,options:o}),"mouseenter"!==e&&"mouseleave"!==e||t.originalAddEventListener.call(this,e,t.savedUserEvents.push,o))},EventTarget.prototype.removeEventListener=function(e,i,o){o&&o.isRocket||!t.B(e,this)&&!t.userEvents.includes(e)||t.B(e,this)&&!t.userActionTriggered||e.startsWith("rocket-")||t.everythingLoaded?t.originalRemoveEventListener.call(this,e,i,o):t.savedEventListeners.push({target:this,remove:!0,type:e,func:i,options:o})}}J(t,e){this.savedEventListeners=this.savedEventListeners.filter(i=>{let o=i.type,s=i.target||window;return e!==o||t!==s||(this.B(o,s)&&(i.type="rocket-"+o),this.$(i),!1)})}H(){EventTarget.prototype.addEventListener=this.originalAddEventListener,EventTarget.prototype.removeEventListener=this.originalRemoveEventListener,this.savedEventListeners.forEach(t=>this.$(t))}$(t){t.remove?this.originalRemoveEventListener.call(t.target,t.type,t.func,t.options):this.originalAddEventListener.call(t.target,t.type,t.func,t.options)}p(t){let e;function i(e){return t.everythingLoaded?e:e.split(" ").map(t=>"load"===t||t.startsWith("load.")?"rocket-jquery-load":t).join(" ")}function o(o){function s(e){const s=o.fn[e];o.fn[e]=o.fn.init.prototype[e]=function(){return this[0]===window&&t.userActionTriggered&&("string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=i(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach(t=>{const e=arguments[0][t];delete arguments[0][t],arguments[0][i(t)]=e})),s.apply(this,arguments),this}}if(o&&o.fn&&!t.allJQueries.includes(o)){const e={DOMContentLoaded:[],"rocket-DOMContentLoaded":[]};for(const t in e)document.addEventListener(t,()=>{e[t].forEach(t=>t())},{isRocket:!0});o.fn.ready=o.fn.init.prototype.ready=function(i){function s(){parseInt(o.fn.jquery)>2?setTimeout(()=>i.bind(document)(o)):i.bind(document)(o)}return"function"==typeof i&&(t.realDomReadyFired?!t.userActionTriggered||t.fauxDomReadyFired?s():e["rocket-DOMContentLoaded"].push(s):e.DOMContentLoaded.push(s)),this},s("on"),s("one"),s("off"),t.allJQueries.push(o)}e=o}t.allJQueries=[],o(window.jQuery),Object.defineProperty(window,"jQuery",{get:()=>e,set(t){o(t)}})}P(){const t=new Map;document.write=document.writeln=function(e){const i=document.currentScript,o=document.createRange(),s=i.parentElement;let n=t.get(i);void 0===n&&(n=i.nextSibling,t.set(i,n));const c=document.createDocumentFragment();o.setStart(c,0),c.appendChild(o.createContextualFragment(e)),s.insertBefore(c,n)}}async R(){return new Promise(t=>{this.userActionTriggered?t():this.onFirstUserAction=t})}async L(){return new Promise(t=>{document.addEventListener("DOMContentLoaded",()=>{this.realDomReadyFired=!0,t()},{isRocket:!0})})}async j(){return this.realWindowLoadedFired?Promise.resolve():new Promise(t=>{window.addEventListener("load",t,{isRocket:!0})})}M(){this.pendingScripts=[];this.scriptsMutationObserver=new MutationObserver(t=>{for(const e of t)e.addedNodes.forEach(t=>{"SCRIPT"!==t.tagName||!t.src||t.noModule||t.isWPRocket||this.pendingScripts.push({script:t,promise:new Promise(e=>{const i=()=>{const i=this.pendingScripts.findIndex(e=>e.script===t);i>=0&&this.pendingScripts.splice(i,1),e()};t.addEventListener("load",i,{isRocket:!0}),t.addEventListener("error",i,{isRocket:!0}),setTimeout(i,1e3)})})})}),this.scriptsMutationObserver.observe(document,{childList:!0,subtree:!0})}async F(){await this.X(),this.pendingScripts.length?(await this.pendingScripts[0].promise,await this.F()):this.scriptsMutationObserver.disconnect()}D(){this.delayedScripts={normal:[],async:[],defer:[]},document.querySelectorAll("script[type$=rocketlazyloadscript]").forEach(t=>{t.hasAttribute("data-rocket-src")?t.hasAttribute("async")&&!1!==t.async?this.delayedScripts.async.push(t):t.hasAttribute("defer")&&!1!==t.defer||"module"===t.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(t):this.delayedScripts.normal.push(t):this.delayedScripts.normal.push(t)})}async _(){await this.L();let t=[];document.querySelectorAll("script[type$=rocketlazyloadscript][data-rocket-src]").forEach(e=>{let i=e.getAttribute("data-rocket-src");if(i&&!i.startsWith("data:")){i.startsWith("//")&&(i=location.protocol+i);try{const o=new URL(i).origin;o!==location.origin&&t.push({src:o,crossOrigin:e.crossOrigin||"module"===e.getAttribute("data-rocket-type")})}catch(t){}}}),t=[...new Map(t.map(t=>[JSON.stringify(t),t])).values()],this.Y(t,"preconnect")}async G(t){if(await this.K(),!0!==t.noModule||!("noModule"in HTMLScriptElement.prototype))return new Promise(e=>{let i;function o(){(i||t).setAttribute("data-rocket-status","executed"),e()}try{if(navigator.userAgent.includes("Firefox/")||""===navigator.vendor||this.CSPIssue)i=document.createElement("script"),[...t.attributes].forEach(t=>{let e=t.nodeName;"type"!==e&&("data-rocket-type"===e&&(e="type"),"data-rocket-src"===e&&(e="src"),i.setAttribute(e,t.nodeValue))}),t.text&&(i.text=t.text),t.nonce&&(i.nonce=t.nonce),i.hasAttribute("src")?(i.addEventListener("load",o,{isRocket:!0}),i.addEventListener("error",()=>{i.setAttribute("data-rocket-status","failed-network"),e()},{isRocket:!0}),setTimeout(()=>{i.isConnected||e()},1)):(i.text=t.text,o()),i.isWPRocket=!0,t.parentNode.replaceChild(i,t);else{const i=t.getAttribute("data-rocket-type"),s=t.getAttribute("data-rocket-src");i?(t.type=i,t.removeAttribute("data-rocket-type")):t.removeAttribute("type"),t.addEventListener("load",o,{isRocket:!0}),t.addEventListener("error",i=>{this.CSPIssue&&i.target.src.startsWith("data:")?(console.log("WPRocket: CSP fallback activated"),t.removeAttribute("src"),this.G(t).then(e)):(t.setAttribute("data-rocket-status","failed-network"),e())},{isRocket:!0}),s?(t.fetchPriority="high",t.removeAttribute("data-rocket-src"),t.src=s):t.src="data:text/javascript;base64,"+window.btoa(unescape(encodeURIComponent(t.text)))}}catch(i){t.setAttribute("data-rocket-status","failed-transform"),e()}});t.setAttribute("data-rocket-status","skipped")}async C(t){const e=t.shift();return e?(e.isConnected&&await this.G(e),this.C(t)):Promise.resolve()}O(){this.Y([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}Y(t,e){this.trash=this.trash||[];let i=!0;var o=document.createDocumentFragment();t.forEach(t=>{const s=t.getAttribute&&t.getAttribute("data-rocket-src")||t.src;if(s&&!s.startsWith("data:")){const n=document.createElement("link");n.href=s,n.rel=e,"preconnect"!==e&&(n.as="script",n.fetchPriority=i?"high":"low"),t.getAttribute&&"module"===t.getAttribute("data-rocket-type")&&(n.crossOrigin=!0),t.crossOrigin&&(n.crossOrigin=t.crossOrigin),t.integrity&&(n.integrity=t.integrity),t.nonce&&(n.nonce=t.nonce),o.appendChild(n),this.trash.push(n),i=!1}}),document.head.appendChild(o)}W(){this.trash.forEach(t=>t.remove())}async T(){try{document.readyState="interactive"}catch(t){}this.fauxDomReadyFired=!0;try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(document,"DOMContentLoaded"),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this.K(),this.J(window,"DOMContentLoaded"),window.dispatchEvent(new Event("rocket-DOMContentLoaded"))}catch(t){console.error(t)}}async A(){try{document.readyState="complete"}catch(t){}try{await this.K(),this.J(document,"readystatechange"),document.dispatchEvent(new Event("rocket-readystatechange")),await this.K(),document.rocketonreadystatechange&&document.rocketonreadystatechange(),await this.K(),this.J(window,"load"),window.dispatchEvent(new Event("rocket-load")),await this.K(),window.rocketonload&&window.rocketonload(),await this.K(),this.allJQueries.forEach(t=>t(window).trigger("rocket-jquery-load")),await this.K(),this.J(window,"pageshow");const t=new Event("rocket-pageshow");t.persisted=this.persisted,window.dispatchEvent(t),await this.K(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}catch(t){console.error(t)}}async K(){Date.now()-this.lastBreath>45&&(await this.X(),this.lastBreath=Date.now())}async X(){return document.hidden?new Promise(t=>setTimeout(t)):new Promise(t=>requestAnimationFrame(t))}B(t,e=window){return e===document&&"readystatechange"===t||(e===document&&"DOMContentLoaded"===t||(e===window&&"DOMContentLoaded"===t||(e===window&&"load"===t||e===window&&"pageshow"===t)))}static run(){(new RocketLazyLoadScripts).t()}}RocketLazyLoadScripts.run()})();
+</script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />		<script type="text/rocketlazyloadscript" data-rocket-type="text/javascript"
+				data-rocket-src="https://app.termly.io/resource-blocker/8c6f6736-b658-4322-b4f5-231a87e20dd2" data-rocket-defer defer>
+			</script>
+<!-- Search Engine Optimization by Rank Math PRO - https://rankmath.com/ -->
+<title>How to Start an E-commerce Business in UAE | Step-by-Step</title>
+<meta name="description" content="Learn How to Start an E-commerce Business in UAE with this complete guide. Discover setup steps, legal requirements, and tips for online success."/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How to Start an E-commerce Business in UAE | Step-by-Step" />
+<meta property="og:description" content="Learn How to Start an E-commerce Business in UAE with this complete guide. Discover setup steps, legal requirements, and tips for online success." />
+<meta property="og:url" content="https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide" />
+<meta property="og:site_name" content="The UAE Gate" />
+<meta property="article:section" content="Business" />
+<meta property="og:updated_time" content="2025-12-10T10:19:41+00:00" />
+<meta property="og:image" content="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp" />
+<meta property="og:image:secure_url" content="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp" />
+<meta property="og:image:width" content="600" />
+<meta property="og:image:height" content="318" />
+<meta property="og:image:alt" content="how to start e-commerce business in UAE" />
+<meta property="og:image:type" content="image/webp" />
+<meta property="article:published_time" content="2025-11-10T10:14:41+00:00" />
+<meta property="article:modified_time" content="2025-12-10T10:19:41+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="How to Start an E-commerce Business in UAE | Step-by-Step" />
+<meta name="twitter:description" content="Learn How to Start an E-commerce Business in UAE with this complete guide. Discover setup steps, legal requirements, and tips for online success." />
+<meta name="twitter:image" content="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp" />
+<meta name="twitter:label1" content="Written by" />
+<meta name="twitter:data1" content="muhammad.faieez@vistaoutsourcing.com" />
+<meta name="twitter:label2" content="Time to read" />
+<meta name="twitter:data2" content="6 minutes" />
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","Organization"],"@id":"https://theuaegate.com/#organization","name":"The UAE Gate","url":"https://theuaegate.com","logo":{"@type":"ImageObject","@id":"https://theuaegate.com/#logo","url":"https://theuaegate.com/wp-content/uploads/2025/05/logo-black.png","contentUrl":"https://theuaegate.com/wp-content/uploads/2025/05/logo-black.png","caption":"The UAE Gate","inLanguage":"en-US","width":"325","height":"66"},"openingHours":["Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday 09:00-17:00"],"image":{"@id":"https://theuaegate.com/#logo"}},{"@type":"WebSite","@id":"https://theuaegate.com/#website","url":"https://theuaegate.com","name":"The UAE Gate","publisher":{"@id":"https://theuaegate.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp","url":"https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp","width":"600","height":"318","caption":"how to start e-commerce business in UAE","inLanguage":"en-US"},{"@type":"BreadcrumbList","@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#breadcrumb","itemListElement":[{"@type":"ListItem","position":"1","item":{"@id":"https://theuaegate.com","name":"Home"}},{"@type":"ListItem","position":"2","item":{"@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide","name":"How to Start an E-commerce Business in UAE: A Complete Guide"}}]},{"@type":"WebPage","@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#webpage","url":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide","name":"How to Start an E-commerce Business in UAE | Step-by-Step","datePublished":"2025-11-10T10:14:41+00:00","dateModified":"2025-12-10T10:19:41+00:00","isPartOf":{"@id":"https://theuaegate.com/#website"},"primaryImageOfPage":{"@id":"https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp"},"inLanguage":"en-US","breadcrumb":{"@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#breadcrumb"}},{"@type":"Person","@id":"https://theuaegate.com/author/muhammad-faieezvistaoutsourcing-com","name":"muhammad.faieez@vistaoutsourcing.com","url":"https://theuaegate.com/author/muhammad-faieezvistaoutsourcing-com","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/94322704e0b8d201aa0745467502f695886be687ce424df63950783fa1dc4545?s=96&amp;d=mm&amp;r=g","url":"https://secure.gravatar.com/avatar/94322704e0b8d201aa0745467502f695886be687ce424df63950783fa1dc4545?s=96&amp;d=mm&amp;r=g","caption":"muhammad.faieez@vistaoutsourcing.com","inLanguage":"en-US"},"worksFor":{"@id":"https://theuaegate.com/#organization"}},{"@type":"Article","headline":"How to Start an E-commerce Business in UAE | Step-by-Step","keywords":"How to Start an E-commerce Business in UAE","datePublished":"2025-11-10T10:14:41+00:00","dateModified":"2025-12-10T10:19:41+00:00","author":{"@id":"https://theuaegate.com/author/muhammad-faieezvistaoutsourcing-com","name":"muhammad.faieez@vistaoutsourcing.com"},"publisher":{"@id":"https://theuaegate.com/#organization"},"description":"Learn How to Start an E-commerce Business in UAE with this complete guide. Discover setup steps, legal requirements, and tips for online success.","name":"How to Start an E-commerce Business in UAE | Step-by-Step","@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#richSnippet","isPartOf":{"@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#webpage"},"image":{"@id":"https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#webpage"}}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://theuaegate.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftheuaegate.com%2Fhow-to-start-an-e-commerce-business-in-uae-a-complete-guide" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://theuaegate.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftheuaegate.com%2Fhow-to-start-an-e-commerce-business-in-uae-a-complete-guide&#038;format=xml" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+<meta name="theme-color" content="#f5f5f5">
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='dashicons-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-includes/css/dashicons.min.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='admin-bar-css' href='https://theuaegate.com/wp-includes/css/admin-bar.min.css?ver=7.0.3' media='all' />
+<style id="admin-bar-inline-css">
+
+    /* Hide CanvasJS credits for P404 charts specifically */
+    #p404RedirectChart .canvasjs-chart-credit {
+        display: none !important;
+    }
+    
+    #p404RedirectChart canvas {
+        border-radius: 6px;
+    }
+
+    .p404-redirect-adminbar-weekly-title {
+        font-weight: bold;
+        font-size: 14px;
+        color: #fff;
+        margin-bottom: 6px;
+    }
+
+    #wpadminbar #wp-admin-bar-p404_free_top_button .ab-icon:before {
+        content: "\f103";
+        color: #dc3545;
+        top: 3px;
+    }
+    
+    #wp-admin-bar-p404_free_top_button .ab-item {
+        min-width: 80px !important;
+        padding: 0px !important;
+    }
+    
+    /* Ensure proper positioning and z-index for P404 dropdown */
+    .p404-redirect-adminbar-dropdown-wrap { 
+        min-width: 0; 
+        padding: 0;
+        position: static !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button_dropdown {
+        position: static !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button_dropdown .ab-item {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .p404-redirect-dropdown-container {
+        min-width: 340px;
+        padding: 18px 18px 12px 18px;
+        background: #23282d !important;
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        margin-top: 10px;
+        position: relative !important;
+        z-index: 999999 !important;
+        display: block !important;
+        border: 1px solid #444;
+    }
+    
+    /* Ensure P404 dropdown appears on hover */
+    #wpadminbar #wp-admin-bar-p404_free_top_button .p404-redirect-dropdown-container { 
+        display: none !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover .p404-redirect-dropdown-container { 
+        display: block !important;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover #wp-admin-bar-p404_free_top_button_dropdown .p404-redirect-dropdown-container {
+        display: block !important;
+    }
+    
+    .p404-redirect-card {
+        background: #2c3338;
+        border-radius: 8px;
+        padding: 18px 18px 12px 18px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid #444;
+    }
+    
+    .p404-redirect-btn {
+        display: inline-block;
+        background: #dc3545;
+        color: #fff !important;
+        font-weight: bold;
+        padding: 5px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 17px;
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-top: 8px;
+        box-shadow: 0 2px 8px rgba(220,53,69,0.15);
+        text-align: center;
+        line-height: 1.6;
+    }
+    
+    .p404-redirect-btn:hover {
+        background: #c82333;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(220,53,69,0.25);
+    }
+    
+    /* Prevent conflicts with other admin bar dropdowns */
+    #wpadminbar .ab-top-menu > li:hover > .ab-item,
+    #wpadminbar .ab-top-menu > li.hover > .ab-item {
+        z-index: auto;
+    }
+    
+    #wpadminbar #wp-admin-bar-p404_free_top_button:hover > .ab-item {
+        z-index: 999998 !important;
+    }
+    
+/*# sourceURL=admin-bar-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='contact-form-7-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='nbcpf-intlTelInput-style-css' href='https://theuaegate.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css?ver=7.0.3' media='all' />
+<link rel='stylesheet' id='nbcpf-countryFlag-style-css' href='https://theuaegate.com/wp-content/plugins/country-phone-field-contact-form-7/assets/css/countrySelect.min.css?ver=7.0.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='wpa-css-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/css/wpa.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='widget-image-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='widget-nav-menu-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css?ver=4.0.1' media='all' />
+<link rel='stylesheet' id='e-sticky-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css?ver=4.0.1' media='all' />
+<link rel='stylesheet' id='e-motion-fx-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/modules/motion-fx.min.css?ver=4.0.1' media='all' />
+<link rel='stylesheet' id='widget-heading-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='e-animation-shrink-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='widget-post-info-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/widget-post-info.min.css?ver=4.0.1' media='all' />
+<link rel='stylesheet' id='widget-icon-list-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='elementor-icons-shared-0-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-regular-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css?ver=1786043827' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-solid-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='widget-divider-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=4.0.3' media='all' />
+<link rel='stylesheet' id='widget-share-buttons-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/widget-share-buttons.min.css?ver=4.0.1' media='all' />
+<link rel='stylesheet' id='e-apple-webkit-css' href='https://theuaegate.com/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=4.0.3' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-fa-brands-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='widget-posts-css' href='https://theuaegate.com/wp-content/plugins/elementor-pro/assets/css/widget-posts.min.css?ver=4.0.1' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-icons-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='elementor-post-45-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-45.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='eihe-front-style-css' href='https://theuaegate.com/wp-content/plugins/image-hover-effects-addon-for-elementor/assets/style.min.css?ver=1.4.4' media='all' />
+<link rel='stylesheet' id='elementor-post-87-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-87.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='elementor-post-103-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-103.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='elementor-post-1142-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-1142.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='us-style-css' href='https://theuaegate.com/wp-content/themes/Impreza/css/style.min.css?ver=8.17.4' media='all' />
+<link data-minify="1" rel='stylesheet' id='theme-style-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css?ver=1786043827' media='all' />
+<link data-minify="1" rel='stylesheet' id='bsf-Defaults-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/uploads/smile_fonts/Defaults/Defaults.css?ver=1786043827' media='all' />
+<link data-minify="1" rel='stylesheet' id='ecs-styles-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css?ver=1786043827' media='all' />
+<link rel='stylesheet' id='elementor-post-1158-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-1158.css?ver=1695639954' media='all' />
+<link rel='stylesheet' id='elementor-post-3425-css' href='https://theuaegate.com/wp-content/uploads/elementor/css/post-3425.css?ver=1733836174' media='all' />
+<style id="rocket-lazyload-inline-css">
+.rll-youtube-player{position:relative;padding-bottom:56.23%;height:0;overflow:hidden;max-width:100%;}.rll-youtube-player:focus-within{outline: 2px solid currentColor;outline-offset: 5px;}.rll-youtube-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;z-index:100;background:0 0}.rll-youtube-player img{bottom:0;display:block;left:0;margin:auto;max-width:100%;width:100%;position:absolute;right:0;top:0;border:none;height:auto;-webkit-transition:.4s all;-moz-transition:.4s all;transition:.4s all}.rll-youtube-player img:hover{-webkit-filter:brightness(75%)}.rll-youtube-player .play{height:100%;width:100%;left:0;top:0;position:absolute;background:url(https://theuaegate.com/wp-content/plugins/wp-rocket/assets/img/youtube.png) no-repeat center;background-color: transparent !important;cursor:pointer;border:none;}
+/*# sourceURL=rocket-lazyload-inline-css */
+</style>
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-kumbhsans-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/kumbhsans.css?ver=1786043827' media='all' />
+<link data-minify="1" rel='stylesheet' id='elementor-gf-local-roboto-css' href='https://theuaegate.com/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/roboto.css?ver=1786043827' media='all' />
+<!--n2css--><!--n2js--><script id="jquery-core-js" src="https://theuaegate.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" data-rocket-defer defer></script>
+<script id="ecs_ajax_load-js-extra">
+var ecs_ajax_params = {"ajaxurl":"https://theuaegate.com/wp-admin/admin-ajax.php","posts":"{\"page\":0,\"name\":\"how-to-start-an-e-commerce-business-in-uae-a-complete-guide\",\"error\":\"\",\"m\":\"\",\"p\":0,\"post_parent\":\"\",\"subpost\":\"\",\"subpost_id\":\"\",\"attachment\":\"\",\"attachment_id\":0,\"pagename\":\"\",\"page_id\":0,\"second\":\"\",\"minute\":\"\",\"hour\":\"\",\"day\":0,\"monthnum\":0,\"year\":0,\"w\":0,\"category_name\":\"\",\"tag\":\"\",\"cat\":\"\",\"tag_id\":\"\",\"author\":\"\",\"author_name\":\"\",\"feed\":\"\",\"tb\":\"\",\"paged\":0,\"meta_key\":\"\",\"meta_value\":\"\",\"preview\":\"\",\"s\":\"\",\"sentence\":\"\",\"title\":\"\",\"fields\":\"all\",\"menu_order\":\"\",\"embed\":\"\",\"category__in\":[],\"category__not_in\":[],\"category__and\":[],\"post__in\":[],\"post__not_in\":[],\"post_name__in\":[],\"tag__in\":[],\"tag__not_in\":[],\"tag__and\":[],\"tag_slug__in\":[],\"tag_slug__and\":[],\"post_parent__in\":[],\"post_parent__not_in\":[],\"author__in\":[],\"author__not_in\":[],\"search_columns\":[],\"ignore_sticky_posts\":false,\"suppress_filters\":false,\"cache_results\":true,\"update_post_term_cache\":true,\"update_menu_item_cache\":false,\"lazy_load_term_meta\":true,\"update_post_meta_cache\":true,\"post_type\":\"\",\"posts_per_page\":9,\"nopaging\":false,\"comments_per_page\":\"50\",\"no_found_rows\":false,\"order\":\"DESC\"}"};
+//# sourceURL=ecs_ajax_load-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs_ajax_load-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs_ajax_pagination.js?ver=1767686525" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="ecs-script-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/js/ecs.js?ver=1767686525" data-rocket-defer defer></script>
+<link rel="https://api.w.org/" href="https://theuaegate.com/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://theuaegate.com/wp-json/wp/v2/posts/4443" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://theuaegate.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0.3" />
+<link rel='shortlink' href='https://theuaegate.com/?p=4443' />
+		<script type="text/rocketlazyloadscript">
+			if ( ! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent ) ) {
+				var root = document.getElementsByTagName( 'html' )[ 0 ]
+				root.className += " no-touch";
+			}
+		</script>
+		<meta name="generator" content="Elementor 4.0.3; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+<!-- Google tag (gtag.js) -->
+<script type="text/rocketlazyloadscript" async data-rocket-src="https://www.googletagmanager.com/gtag/js?id=G-7ZDYPQ8D1G"></script>
+<script type="text/rocketlazyloadscript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7ZDYPQ8D1G');
+</script>
+			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+<script type="text/rocketlazyloadscript">(function () {
+  // --- helpers ---
+  function getAllParams() {
+    // Merge query + hash params
+    var q = new URLSearchParams(window.location.search || "");
+    var h = new URLSearchParams((window.location.hash || "").replace(/^#\??/, ""));
+    return {
+      get: function (key) {
+        if (q.has(key)) return q.get(key);
+        if (h.has(key)) return h.get(key);
+        return "";
+      },
+      has: function (key) {
+        return q.has(key) || h.has(key);
+      }
+    };
+  }
+
+  function setCookie(name, value, days) {
+    if (!value) return;
+    var d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      d.toUTCString() +
+      "; path=/; SameSite=Lax" +
+      secure;
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var parts = document.cookie.split(";");
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    }
+    return "";
+  }
+
+  function setFieldValue(selectors, value) {
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (el) el.value = value || "";
+    }
+  }
+
+  function populateGclidFields(value) {
+    // populate both by id and by name (CF7 creates name="gclid")
+    setFieldValue(["#testgclid", 'textarea[name="gclid"]', 'input[name="gclid"]'], value || "");
+  }
+
+  function populateAll() {
+    populateGclidFields(getCookie("gclid"));
+
+    function set(idOrName, cookieName) {
+      setFieldValue(
+        ["#" + idOrName, 'textarea[name="' + idOrName + '"]', 'input[name="' + idOrName + '"]'],
+        getCookie(cookieName)
+      );
+    }
+
+    set("campaign_id", "campaign_id");
+    set("adgroup_id", "adgroup_id");
+    set("creative_id", "creative_id");
+    set("keyword", "keyword");
+    set("matchtype", "matchtype");
+    set("device", "device");
+    set("network", "network");
+    set("placement", "placement");
+    set("target_id", "target_id");
+    set("adposition", "adposition");
+    set("loc_interest_ms", "loc_interest_ms");
+    set("loc_physical_ms", "loc_physical_ms");
+    set("initial_url", "initialUrl");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var params = getAllParams();
+
+    // ✅ Always store landing URL once (first touch)
+    if (!getCookie("initialUrl")) {
+      setCookie("initialUrl", window.location.href, 30);
+    }
+
+    // Read from URL (query or hash) with priority
+    var url_gclid = params.get("gclid") || "";
+    var url_gbraid = params.get("gbraid") || "";
+    var url_wbraid = params.get("wbraid") || "";
+    var url_gclsrc = params.get("gclsrc") || ""; // optional / informational
+
+    // ✅ Decide final click id (gclid > gbraid > wbraid) + fallback to cookie
+    var final_gclid = url_gclid || url_gbraid || url_wbraid || getCookie("gclid") || "";
+
+    // If we got a value from URL (fresh), write cookie and populate immediately
+    if (url_gclid || url_gbraid || url_wbraid) {
+      if (final_gclid) {
+        setCookie("gclid", final_gclid, 30);
+        populateGclidFields(final_gclid); // immediate fill so you SEE it now
+      }
+      if (url_gbraid) setCookie("gbraid", url_gbraid, 30);
+      if (url_wbraid) setCookie("wbraid", url_wbraid, 30);
+
+      // (Optional) store gclsrc too if you want it later
+      if (url_gclsrc) setCookie("gclsrc", url_gclsrc, 30);
+    }
+
+    // Capture the rest (same behavior, cleaner)
+    var captureMap = {
+      campaign_id: ["campaignid", "gad_campaignid", "campaign"],
+      adgroup_id: ["adgroupid"],
+      creative_id: ["creative", "creativeid"],
+      keyword: ["keyword", "q", "kw"],
+      matchtype: ["matchtype"],
+      device: ["device"],
+      network: ["network"],
+      placement: ["placement", "displayad"],
+      target_id: ["targetid"],
+      adposition: ["adposition"],
+      loc_interest_ms: ["loc_interest_ms"],
+      loc_physical_ms: ["loc_physical_ms"]
+    };
+
+    Object.keys(captureMap).forEach(function (field) {
+      var val = "";
+      var keys = captureMap[field];
+
+      for (var i = 0; i < keys.length; i++) {
+        if (params.has(keys[i])) {
+          val = params.get(keys[i]);
+          break;
+        }
+      }
+
+      if (!val) val = getCookie(field);
+      if (val) setCookie(field, val, 30);
+    });
+
+    // Initial full populate (covers cookie-only cases)
+    populateAll();
+
+    // Re-populate on dynamically inserted forms (CF7/AJAX)
+    var mo = new MutationObserver(populateAll);
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+
+    // Debug (optional)
+    // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
+  });
+})();
+</script><link rel="icon" href="https://theuaegate.com/wp-content/uploads/2023/12/cropped-Fav-Icon-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://theuaegate.com/wp-content/uploads/2023/12/cropped-Fav-Icon-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://theuaegate.com/wp-content/uploads/2023/12/cropped-Fav-Icon-180x180.png" />
+<meta name="msapplication-TileImage" content="https://theuaegate.com/wp-content/uploads/2023/12/cropped-Fav-Icon-270x270.png" />
+<style id="wp-custom-css">
+.selected-flag {
+    min-width: 90px !important;
+}
+.separate-dial-code input.wpcf7-validates-as-phonetext {
+    padding-left:110px !important;
+}
+
+
+p.elementor-icon-box-title {
+    margin-bottom: 6px !important;
+}
+
+
+.orange{
+	background: var(--Degradado, linear-gradient(90deg, #FF9D00 0%, #F56B01 100%));
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.steps .elementor-tab-title{
+    margin:0px 50px;
+    position:relative;
+}
+
+.steps .elementor-tab-title.elementor-active{
+    color: #FFFFFF;
+    background: #fe9900;
+    border-radius: 100%;
+    border:2px solid #fe9900 !important;
+}
+
+.steps .elementor-tab-title{
+    color: #FFFFFF;
+    background: #000c17;
+    border-radius: 100%;
+    padding: 20px 32px;
+    border:2px solid #fff !important;
+    width:80px !important;
+    height:80px !important;
+    text-align:center !important;
+}
+
+
+.steps .elementor-tabs-wrapper{
+    position:relative;
+}
+
+.steps .elementor-tabs-wrapper:before{
+    position:absolute;
+    content:"";
+    top:40px;
+    left:120px;
+    color:#ffff;
+    width:750px;
+    height:2px;
+    background:#fff;
+}
+
+
+.steps .elementor-tabs-wrapper {
+    margin-bottom: 20px;
+}
+
+.testi-sec .elementor-testimonial__text img {
+    display:block;
+    margin:0 auto;
+    margin-bottom:20px;
+}
+.testi-sec .elementor-testimonial__text span {
+    display:block;
+    font-size:22px !important;
+    color:#000;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.blog-post .elementor-heading-title {
+ display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-post p{
+ display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-post img {
+    height:160px;
+    width:100%;
+    object-fit:cover;
+}
+
+input.wpcf7-form-control.wpcf7-text.wpcf7-validates-as-required.inside_label {
+	color:#000 !important;
+}
+
+
+/* 991 to 768 */
+
+@media screen and (min-device-width: 768px) and (max-device-width: 991px) { 
+input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.inside_label {
+    padding-left: 6rem !important;
+}
+.steps .elementor-tab-title{
+    margin:0px 30px;
+}
+
+.steps .elementor-tabs-wrapper:before{
+    width:500px;
+}
+	
+.blog-post img {
+    height:unset;
+	  object-fit:unset;
+}
+	
+}
+input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.inside_label {
+    padding-left: 6rem !important;
+}
+
+.process-tab h3{
+	margin-bottom:20px;
+}
+
+/* 767 */
+
+@media only screen and (max-width: 767px) {
+input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.inside_label {
+    padding-left: 6rem !important;
+}
+  div#blog-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 10px !important;
+}
+	.categorytabs {
+		margin-top: 30px !important;
+	}
+
+.blog-post img {
+    height:unset;
+	 object-fit:unset;
+}	
+	
+}
+
+
+
+
+</style>
+<noscript><style> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript><noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript><meta name="generator" content="WP Rocket 3.21.1" data-wpr-features="wpr_delay_js wpr_defer_js wpr_minify_js wpr_lazyload_images wpr_lazyload_iframes wpr_minify_css wpr_desktop" /></head>
+<body class="wp-singular post-template-default single single-post postid-4443 single-format-standard wp-theme-Impreza wp-child-theme-Impreza-child wpb-js-composer js-comp-ver-6.13.0 vc_responsive elementor-default elementor-template-full-width elementor-kit-45 elementor-page-1142">
+		<header data-rocket-location-hash="43acf22e1e55bee322c6141334bed278" data-elementor-type="header" data-elementor-id="87" class="elementor elementor-87 elementor-location-header" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-634aaaff elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="634aaaff" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;sticky&quot;:&quot;top&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_offset&quot;:0,&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}">
+						<div data-rocket-location-hash="82f6c6a00e9a86a2eaa3cc6e8d136714" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-69caa166" data-id="69caa166" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-24e0e822 elementor-widget elementor-widget-image" data-id="24e0e822" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="/">
+							<img width="325" height="66" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20325%2066'%3E%3C/svg%3E" class="attachment-full size-full wp-image-37" alt="" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2023/09/logo-black.png 325w, https://theuaegate.com/wp-content/uploads/2023/09/logo-black-300x61.png 300w" data-lazy-sizes="(max-width: 325px) 100vw, 325px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2023/09/logo-black.png" /><noscript><img width="325" height="66" src="https://theuaegate.com/wp-content/uploads/2023/09/logo-black.png" class="attachment-full size-full wp-image-37" alt="" srcset="https://theuaegate.com/wp-content/uploads/2023/09/logo-black.png 325w, https://theuaegate.com/wp-content/uploads/2023/09/logo-black-300x61.png 300w" sizes="(max-width: 325px) 100vw, 325px" /></noscript>								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-6125ca67" data-id="6125ca67" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2652e190 elementor-widget__width-initial elementor-hidden-tablet elementor-hidden-mobile elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="2652e190" data-element_type="widget" data-e-type="widget" data-settings="{&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;i class=\&quot;fas fa-caret-down\&quot; aria-hidden=\&quot;true\&quot;&gt;&lt;\/i&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+								<nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-fade">
+				<ul id="menu-1-2652e190" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-51"><a href="/" class="elementor-item">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-314"><a href="https://theuaegate.com/about-us" class="elementor-item">About Us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-54"><a class="elementor-item">Our Services</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-313"><a href="https://theuaegate.com/expand-your-business-in-uae" class="elementor-sub-item">Expand your Business in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1754"><a href="https://theuaegate.com/employer-of-record-services-in-uae" class="elementor-sub-item">Employer of Record Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1753"><a href="https://theuaegate.com/employee-relocation-services-in-uae" class="elementor-sub-item">Employee Relocation Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1752"><a href="https://theuaegate.com/immigration-services-in-uae" class="elementor-sub-item">Immigration Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1751"><a href="https://theuaegate.com/payroll-outsourcing-services-in-uae" class="elementor-sub-item">Payroll Outsourcing Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1765"><a href="https://theuaegate.com/hr-management-services-in-uae" class="elementor-sub-item">HR Management Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1766"><a href="https://theuaegate.com/hire-contractor-services-in-uae" class="elementor-sub-item">Hire Contractor Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1771"><a href="https://theuaegate.com/hire-remote-workers-in-uae" class="elementor-sub-item">Hire Remote Workers</a></li>
+	</ul>
+</li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-312"><a href="https://theuaegate.com/start-your-company-in-uae" class="elementor-sub-item">Start your Company in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1624"><a href="https://theuaegate.com/mainland-company-formation-in-uae" class="elementor-sub-item">Mainland Company Formation</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1623"><a href="https://theuaegate.com/freezone-company-formation-in-uae" class="elementor-sub-item">Freezone Company Formation</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1622"><a href="https://theuaegate.com/offshore-company-in-uae" class="elementor-sub-item">Offshore Company Formation</a></li>
+	</ul>
+</li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-311"><a href="https://theuaegate.com/visa-services-in-uae" class="elementor-sub-item">Visa Services in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1668"><a href="https://theuaegate.com/freelance-visa-services-in-uae" class="elementor-sub-item">Freelance Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1667"><a href="https://theuaegate.com/golden-visa-services-in-uae" class="elementor-sub-item">Golden Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1666"><a href="https://theuaegate.com/family-visa-services-in-uae" class="elementor-sub-item">Family Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1683"><a href="https://theuaegate.com/property-visa-services-in-uae" class="elementor-sub-item">Property Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1699"><a href="https://theuaegate.com/multiple-entry-visa-services-in-uae" class="elementor-sub-item">Multiple Entry Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1698"><a href="https://theuaegate.com/residence-visa-services-in-uae" class="elementor-sub-item">Residence Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1709"><a href="https://theuaegate.com/business-visa-services-in-uae" class="elementor-sub-item">Business Visa Services</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-315"><a href="https://theuaegate.com/contact-us" class="elementor-item">Contact Us</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1348"><a href="https://theuaegate.com/blog" class="elementor-item">Blog</a></li>
+</ul>			</nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open eicon-menu-bar"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close eicon-close"></i>		</div>
+					<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true">
+				<ul id="menu-2-2652e190" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-51"><a href="/" class="elementor-item" tabindex="-1">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-314"><a href="https://theuaegate.com/about-us" class="elementor-item" tabindex="-1">About Us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-54"><a class="elementor-item" tabindex="-1">Our Services</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-313"><a href="https://theuaegate.com/expand-your-business-in-uae" class="elementor-sub-item" tabindex="-1">Expand your Business in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1754"><a href="https://theuaegate.com/employer-of-record-services-in-uae" class="elementor-sub-item" tabindex="-1">Employer of Record Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1753"><a href="https://theuaegate.com/employee-relocation-services-in-uae" class="elementor-sub-item" tabindex="-1">Employee Relocation Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1752"><a href="https://theuaegate.com/immigration-services-in-uae" class="elementor-sub-item" tabindex="-1">Immigration Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1751"><a href="https://theuaegate.com/payroll-outsourcing-services-in-uae" class="elementor-sub-item" tabindex="-1">Payroll Outsourcing Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1765"><a href="https://theuaegate.com/hr-management-services-in-uae" class="elementor-sub-item" tabindex="-1">HR Management Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1766"><a href="https://theuaegate.com/hire-contractor-services-in-uae" class="elementor-sub-item" tabindex="-1">Hire Contractor Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1771"><a href="https://theuaegate.com/hire-remote-workers-in-uae" class="elementor-sub-item" tabindex="-1">Hire Remote Workers</a></li>
+	</ul>
+</li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-312"><a href="https://theuaegate.com/start-your-company-in-uae" class="elementor-sub-item" tabindex="-1">Start your Company in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1624"><a href="https://theuaegate.com/mainland-company-formation-in-uae" class="elementor-sub-item" tabindex="-1">Mainland Company Formation</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1623"><a href="https://theuaegate.com/freezone-company-formation-in-uae" class="elementor-sub-item" tabindex="-1">Freezone Company Formation</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1622"><a href="https://theuaegate.com/offshore-company-in-uae" class="elementor-sub-item" tabindex="-1">Offshore Company Formation</a></li>
+	</ul>
+</li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-311"><a href="https://theuaegate.com/visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Visa Services in UAE</a>
+	<ul class="sub-menu elementor-nav-menu--dropdown">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1668"><a href="https://theuaegate.com/freelance-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Freelance Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1667"><a href="https://theuaegate.com/golden-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Golden Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1666"><a href="https://theuaegate.com/family-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Family Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1683"><a href="https://theuaegate.com/property-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Property Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1699"><a href="https://theuaegate.com/multiple-entry-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Multiple Entry Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1698"><a href="https://theuaegate.com/residence-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Residence Visa Services</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1709"><a href="https://theuaegate.com/business-visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Business Visa Services</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-315"><a href="https://theuaegate.com/contact-us" class="elementor-item" tabindex="-1">Contact Us</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1348"><a href="https://theuaegate.com/blog" class="elementor-item" tabindex="-1">Blog</a></li>
+</ul>			</nav>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-74bfcd3 elementor-nav-menu__align-end elementor-hidden-desktop elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu" data-id="74bfcd3" data-element_type="widget" data-e-type="widget" data-settings="{&quot;full_width&quot;:&quot;stretch&quot;,&quot;layout&quot;:&quot;horizontal&quot;,&quot;submenu_icon&quot;:{&quot;value&quot;:&quot;&lt;i class=\&quot;fas fa-caret-down\&quot; aria-hidden=\&quot;true\&quot;&gt;&lt;\/i&gt;&quot;,&quot;library&quot;:&quot;fa-solid&quot;},&quot;toggle&quot;:&quot;burger&quot;}" data-widget_type="nav-menu.default">
+				<div class="elementor-widget-container">
+								<nav aria-label="Menu" class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-fade">
+				<ul id="menu-1-74bfcd3" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-133"><a href="/" class="elementor-item">HOME</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-318"><a href="https://theuaegate.com/about-us" class="elementor-item">About Us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-321"><a href="#" class="elementor-item elementor-item-anchor">SERVICES</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-319"><a href="https://theuaegate.com/expand-your-business-in-uae" class="elementor-sub-item">Expand your Business in UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-317"><a href="https://theuaegate.com/start-your-company-in-uae" class="elementor-sub-item">Start your Company in UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-316"><a href="https://theuaegate.com/visa-services-in-uae" class="elementor-sub-item">Visa Services in UAE</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-320"><a href="https://theuaegate.com/contact-us" class="elementor-item">Contact Us</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1346"><a href="https://theuaegate.com/blog" class="elementor-item">BLOG</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-137"><a href="#" class="elementor-item elementor-item-anchor">CALL US NOW</a></li>
+</ul>			</nav>
+					<div class="elementor-menu-toggle" role="button" tabindex="0" aria-label="Menu Toggle" aria-expanded="false">
+			<i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--open eicon-menu-bar"></i><i aria-hidden="true" role="presentation" class="elementor-menu-toggle__icon--close eicon-close"></i>		</div>
+					<nav class="elementor-nav-menu--dropdown elementor-nav-menu__container" aria-hidden="true">
+				<ul id="menu-2-74bfcd3" class="elementor-nav-menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-133"><a href="/" class="elementor-item" tabindex="-1">HOME</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-318"><a href="https://theuaegate.com/about-us" class="elementor-item" tabindex="-1">About Us</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-321"><a href="#" class="elementor-item elementor-item-anchor" tabindex="-1">SERVICES</a>
+<ul class="sub-menu elementor-nav-menu--dropdown">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-319"><a href="https://theuaegate.com/expand-your-business-in-uae" class="elementor-sub-item" tabindex="-1">Expand your Business in UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-317"><a href="https://theuaegate.com/start-your-company-in-uae" class="elementor-sub-item" tabindex="-1">Start your Company in UAE</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-316"><a href="https://theuaegate.com/visa-services-in-uae" class="elementor-sub-item" tabindex="-1">Visa Services in UAE</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-320"><a href="https://theuaegate.com/contact-us" class="elementor-item" tabindex="-1">Contact Us</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1346"><a href="https://theuaegate.com/blog" class="elementor-item" tabindex="-1">BLOG</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-137"><a href="#" class="elementor-item elementor-item-anchor" tabindex="-1">CALL US NOW</a></li>
+</ul>			</nav>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-88ba6eb" data-id="88ba6eb" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-44b7da2c elementor-align-right elementor-widget__width-initial elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-button" data-id="44b7da2c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-xl" href="tel:+97143316688">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">CALL US NOW</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</header>
+				<div data-rocket-location-hash="8c6f08dadfa545660f95aa8b75c0eb96" data-elementor-type="single-post" data-elementor-id="1142" class="elementor elementor-1142 elementor-location-single post-4443 post type-post status-publish format-standard has-post-thumbnail hentry category-business" data-elementor-post-type="elementor_library">
+					<section data-rocket-location-hash="7ecffa5b59b413c4a0cba48c25611fec" class="elementor-section elementor-top-section elementor-element elementor-element-0c238ad elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="0c238ad" data-element_type="section" data-e-type="section">
+						<div data-rocket-location-hash="6179095e4b4214193a1f2af174dfb622" class="elementor-container elementor-column-gap-no">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-cdbf197" data-id="cdbf197" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-52bd555 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="52bd555" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+															<img fetchpriority="high" width="600" height="318" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20600%20318'%3E%3C/svg%3E" class="attachment-full size-full wp-image-4479" alt="how to start e-commerce business in UAE" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp 600w, https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1-300x159.webp 300w" data-lazy-sizes="(max-width: 600px) 100vw, 600px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp" /><noscript><img fetchpriority="high" width="600" height="318" src="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp" class="attachment-full size-full wp-image-4479" alt="how to start e-commerce business in UAE" srcset="https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1.webp 600w, https://theuaegate.com/wp-content/uploads/2025/11/admin-ajax-1-300x159.webp 300w" sizes="(max-width: 600px) 100vw, 600px" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-rocket-location-hash="5d00551cefdf5d7339666e58d8e66787" class="elementor-section elementor-top-section elementor-element elementor-element-50abc4a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="50abc4a" data-element_type="section" data-e-type="section">
+						<div data-rocket-location-hash="4388568779806390c4fce1bc129c9913" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-66 elementor-top-column elementor-element elementor-element-dcbc419" data-id="dcbc419" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-14c9293 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="14c9293" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h1 class="elementor-heading-title elementor-size-default">How to Start an E-commerce Business in UAE: A Complete Guide</h1>				</div>
+				</div>
+				<section class="elementor-section elementor-inner-section elementor-element elementor-element-a9f523d elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="a9f523d" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-no">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-c5cd738" data-id="c5cd738" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-4aaa41c elementor-widget elementor-widget-post-info" data-id="4aaa41c" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-95cc7e9 elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+							<span class="elementor-post-info__item-prefix">Published on</span>
+										<time>November 10, 2025</time>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-54f43fb" data-id="54f43fb" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-8fdf4ef elementor-align-right elementor-mobile-align-left elementor-widget elementor-widget-post-info" data-id="8fdf4ef" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-95cc7e9 elementor-inline-item">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-custom">
+										Category:					</span>
+								</li>
+				<li class="elementor-icon-list-item elementor-repeater-item-90c9a24 elementor-inline-item" itemprop="about">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+										<span class="elementor-post-info__terms-list">
+				<span class="elementor-post-info__terms-list-item">Business</span>				</span>
+					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-f8ee3cb elementor-widget elementor-widget-theme-post-content" data-id="f8ee3cb" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-content.default">
+				<div class="elementor-widget-container">
+					<p><span style="font-weight: 400;">Do you know that the UAE is experiencing a digital revolution, while e-commerce is at the heart of it? Online shopping has become part of daily life, with internet penetration at 96%, one of the highest rates in the world, and over 11 million active users. The research projections for 2024 reveal that the UAE e-commerce market is expected to reach $10.11 billion by 2029. The shift in consumer behavior has transformed the region into an online shopping powerhouse, from fashion to electronics, beauty products to baby essentials.</span></p>
+<p><span style="font-weight: 400;">Ever wondered </span><b>what an e-commerce business is</b><span style="font-weight: 400;">? And how can you tap into this fast-growing market? In this guide, we walk you through everything to know about </span><b>how to start an e-commerce business in UAE</b><span style="font-weight: 400;">. Keep reading to discover benefits, legal requirements, setup steps, and required documents.</span></p>
+<h2><b>E-commerce Business Explained:</b></h2>
+<p><span style="font-weight: 400;">Clarifying the basics before diving into the process for your better understanding.</span></p>
+<p><span style="font-weight: 400;">Any commercial activity that involves buying and selling goods or services over the internet is termed an e-commerce model, from a small online store run by an individual to a full-fledged multinational platform catering to millions of customers.</span></p>
+<p><span style="font-weight: 400;">An e-commerce business anywhere in the UAE gives entrepreneurs an opportunity to reach a wider customer base without the need for a traditional storefront.</span></p>
+<p><span style="font-weight: 400;">After understanding what an e-commerce business is, we are now moving towards knowing why the e-commerce business shines in the UAE.</span></p>
+<h2><b>Why the UAE is Becoming an E-commerce Market Giant?</b></h2>
+<p><span style="font-weight: 400;">Many factors contribute to the UAE’s strong position in the global e-commerce sector. The high internet penetration has been recorded with 96% connectivity; nearly everyone in the UAE has access to the internet. Moreover, 11 million internet users and still growing. Over 54% actively shop online, making it a thriving market. The diverse demand, including electronics, beauty, healthcare, car accessories, and baby products, dominates online sales. Advanced logistics like AI-powered delivery solutions improve last-mile efficiency and reduce return-to-origin cases. Not only this, but entrepreneurs in </span><b>the e</b><b>-commerce business in Dubai</b><span style="font-weight: 400;"> enjoy tax perks and easy access to MENA markets.</span></p>
+<h2><b>Pros of an E-commerce Business in the UAE:</b></h2>
+<p><span style="font-weight: 400;">For entrepreneurs like you, starting an <a href="https://theuaegate.com/earn-money-online-uae">online business in the UAE</a> comes with multiple advantages. Starting an e-commerce business offers you access to a large customer base, as the UAE market has endless opportunities for businesses selling everything from fashion to furniture, with over 11.1 million internet users. The e-commerce businesses may enjoy nominal tax rates.</span> <span style="font-weight: 400;">The corporate tax is capped at 9%, only applicable above AED 375,000 in taxable income, and 5% VAT applies to most goods and services. Without a doubt, this tax-friendly environment is a major boost for startups.</span></p>
+<p><span style="font-weight: 400;">Moreover, the RAKEZ and JAFZA free zones provide world-class warehousing facilities with advanced technology. They offer support in storage, packaging, and logistics. Entrepreneurs like you can experience streamlined incorporation as the UAE offers a hassle-free incorporation process with minimal red tape as compared to other regions.</span></p>
+<h2><b>What are the Documents Required?</b></h2>
+<p><span style="font-weight: 400;">The required documents vary depending on whether your company has individual or corporate shareholders. For instance, we are going to cover each of them in detail.</span></p>
+<h3><b>For Individual Shareholders:</b></h3>
+<p><span style="font-weight: 400;">Individual shareholders need an Emirates ID and a visa copy if they are UAE residents, a completed application form with UBO (Ultimate Beneficial Owner) details, a passport-sized digital photo, and a passport copy, respectively.</span></p>
+<h3><b>For Corporate Shareholders:</b></h3>
+<ul>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Emirates ID and visa copy of UAE-based shareholders (if any)</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Certificate of incorporation/formation of the corporate shareholder</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Passports of all shareholders and the General Manager</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Application form with UBO details</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Digital passport-sized photos</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Memorandum &amp; Articles of Association (MoA/AoA)</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Board resolution</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Valid trade license (or equivalent)</span></li>
+</ul>
+<h2><b>Procedure to Start a UAE E-commerce Business:</b></h2>
+<p><span style="font-weight: 400;">In this blog section, we uncover the steps involved to start your e-commerce business today. Below is a step-by-step breakdown of the process:</span></p>
+<h3><b>1. Pick the Right Business Structure:</b></h3>
+<p><span style="font-weight: 400;">Your business goals will determine the right structure. If you want to sell to <a href="https://theuaegate.com/mainland-vs-freezone-vs-offshore-companies-in-uae">UAE mainland</a> customers &amp; open a physical store, go for Mainland LLC. <a href="https://theuaegate.com/opening-freezone-company-in-uae">Free Zone Company</a> is best if you run a UAE-based online store with global reach. On the other hand, having an offshore company permits you to operate an international e-commerce site without local market access. Moreover, you can minimize your costs while selling online under a free zone company. If you want to engage in dropshipping, digital services, or global marketplace sales, an offshore Company is the right fit for you.</span></p>
+<h3><b>2. Select a Trade Name:</b></h3>
+<p><span style="font-weight: 400;">Secondly, pick a unique business name and register it with the concerned authority i.e., mainland or free zone. Note that each zone has its own rules for naming and approvals.</span></p>
+<h3><b>3. Gather the Essential Documents:</b></h3>
+<p><span style="font-weight: 400;">Now, it’s time to prepare the necessary paperwork for your business registration. We’ll provide the details in the next section.</span></p>
+<h3><b>4. Obtain an E-commerce License:</b></h3>
+<p><span style="font-weight: 400;">At this step, apply for an </span><b>e-commerce trade license</b><span style="font-weight: 400;">, which is mandatory to legally operate your online business in the UAE.</span></p>
+<h3><b>5. Corporate Bank Account Set up:</b></h3>
+<p><span style="font-weight: 400;">You must select a bank that offers international transaction support, fast processing, and digital features, helping you to match your business needs.</span></p>
+<h3><b>6. Get Payment Gateway &amp; Logistics Setup:</b></h3>
+<p><span style="font-weight: 400;">You can partner with local or global payment processors to enable seamless transactions. It is suggested that you should tie up with reliable courier partners for smooth last-mile delivery.</span></p>
+<h3><b>7. Build Your Online Store:</b></h3>
+<p><span style="font-weight: 400;">Lastly, you’re all set to create a responsive, SEO-optimized e-commerce website. Remember, to be successful, invest in quality design and user-friendly navigation to make the shopping experience smooth for customers.</span></p>
+<h2><b>E-commerce Business in Dubai: Why It’s Special</b></h2>
+<p><span style="font-weight: 400;">While the UAE as a whole offers an excellent environment for e-commerce, </span><b>Dubai is the epicenter</b><span style="font-weight: 400;">. The city provides:</span></p>
+<ul>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Access to </span><b>world-class free zones</b><span style="font-weight: 400;"> with e-commerce-friendly policies.</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">A strong </span><b>digital economy framework</b><span style="font-weight: 400;"> that supports startups.</span></li>
+<li style="font-weight: 400;" aria-level="1"><a href="https://theuaegate.com/tax-free-dubai"><b>Tax advantages</b></a><span style="font-weight: 400;"> and fast business incorporation.</span></li>
+<li style="font-weight: 400;" aria-level="1"><span style="font-weight: 400;">Global connectivity for entrepreneurs targeting MENA, Asia, and Europe.</span></li>
+</ul>
+<h2><b>Wrapping Up:</b></h2>
+<p><span style="font-weight: 400;">For passionate entrepreneurs like you, the UAE’s e-commerce sector is a goldmine. There are many reasons to tap into this business opportunity, including a booming market, tech-driven logistics, tax perks, and easy incorporation. In short, the region makes it simple to establish and grow online ventures.</span></p>
+<p><span style="font-weight: 400;">To recap, here’s </span><b>how to start e-commerce business in the UAE</b><b>:</b><span style="font-weight: 400;"> start by picking the right structure from mainland, free zone, or offshore, then register your trade name and gather the required documents. After that, apply for an e-commerce license and open a corporate bank account. Lastly, set up payment gateways and logistics partners and build your optimized online store.</span></p>
+<p><span style="font-weight: 400;">If you’re planning to launch a global platform or a local </span><b>e-commerce business</b><b> in Dubai</b><span style="font-weight: 400;">, the UAE offers all the tools you need to thrive. Get the support from UAE Gate if you want to step up today and start your e-commerce venture.</span></p>
+<h2><b>FAQs</b></h2>
+<h3><b>1. What is an e-commerce business?</b></h3>
+<p><span style="font-weight: 400;">The business of e-commerce refers to buying and selling products or services online through websites, apps, or marketplaces.</span></p>
+<h3><b>2. How much does it cost to start an e-commerce business in the UAE?</b></h3>
+<p><span style="font-weight: 400;">The costs vary to start an e-commerce business in the UAE. It depends, however, on location mainland or free Zone, license type, and business size. Your newly set up can range between AED 15,000 to AED 50,000 on average.</span></p>
+<h3><b>3. Do I need an office to start an e-commerce business in Dubai?</b></h3>
+<p><span style="font-weight: 400;">Not necessarily, many free zones offer flexi-desk or virtual office options. This makes it cost-effective for startups.</span></p>
+<h3><b>4. Can foreigners start an e-commerce business in the UAE?</b></h3>
+<p><span style="font-weight: 400;">In the UAE, foreign investors can own 100% of their business in many UAE free zones and even in certain mainland activities.</span></p>
+				</div>
+				</div>
+				<div class="elementor-element elementor-element-6a201eb elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="6a201eb" data-element_type="widget" data-e-type="widget" data-widget_type="divider.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-divider">
+			<span class="elementor-divider-separator">
+						</span>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-04b5069 elementor-share-buttons--view-icon elementor-share-buttons--skin-minimal elementor-share-buttons--shape-circle elementor-grid-0 elementor-share-buttons--color-official elementor-widget elementor-widget-share-buttons" data-id="04b5069" data-element_type="widget" data-e-type="widget" data-widget_type="share-buttons.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-grid" role="list">
+								<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_facebook" role="button" tabindex="0" aria-label="Share on facebook">
+															<span class="elementor-share-btn__icon">
+								<i class="fab fa-facebook" aria-hidden="true"></i>							</span>
+																				</div>
+					</div>
+									<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_twitter" role="button" tabindex="0" aria-label="Share on twitter">
+															<span class="elementor-share-btn__icon">
+								<i class="fab fa-twitter" aria-hidden="true"></i>							</span>
+																				</div>
+					</div>
+									<div class="elementor-grid-item" role="listitem">
+						<div class="elementor-share-btn elementor-share-btn_linkedin" role="button" tabindex="0" aria-label="Share on linkedin">
+															<span class="elementor-share-btn__icon">
+								<i class="fab fa-linkedin" aria-hidden="true"></i>							</span>
+																				</div>
+					</div>
+						</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-33 elementor-top-column elementor-element elementor-element-b2df0e8" data-id="b2df0e8" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-bb9f7c9 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="bb9f7c9" data-element_type="section" data-e-type="section">
+						<div data-rocket-location-hash="2aac35cf2c11024fe90c54c8a041fb0e" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-ff56bc5" data-id="ff56bc5" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-0d627b4 elementor-widget elementor-widget-heading" data-id="0d627b4" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Professional Support for<span style="color:#F56B01">  Your Company Growth</span></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-b1f6bbc elementor-widget elementor-widget-heading" data-id="b1f6bbc" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<span class="elementor-heading-title elementor-size-default">Let us assist you to set up your business and obtaining the required UAE visas</span>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<div class="elementor-element elementor-element-54e666b elementor-widget elementor-widget-heading" data-id="54e666b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">Connect with our Experts</h4>				</div>
+				</div>
+				<div class="elementor-element elementor-element-c18b7ae elementor-widget elementor-widget-heading" data-id="c18b7ae" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default">Join Now &amp; Get Exclusive Updates About Business</h4>				</div>
+				</div>
+				<div class="elementor-element elementor-element-e3cbc60 elementor-widget elementor-widget-text-editor" data-id="e3cbc60" data-element_type="widget" data-e-type="widget" data-settings="{&quot;sticky&quot;:&quot;top&quot;,&quot;sticky_offset&quot;:70,&quot;sticky_parent&quot;:&quot;yes&quot;,&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									
+<div class="wpcf7 no-js" id="wpcf7-f107-p4443-o1" lang="en-US" dir="ltr" data-wpcf7-id="107">
+<div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
+<form action="/how-to-start-an-e-commerce-business-in-uae-a-complete-guide#wpcf7-f107-p4443-o1" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+<fieldset class="hidden-fields-container"><input type="hidden" name="_wpcf7" value="107" /><input type="hidden" name="_wpcf7_version" value="6.1.5" /><input type="hidden" name="_wpcf7_locale" value="en_US" /><input type="hidden" name="_wpcf7_unit_tag" value="wpcf7-f107-p4443-o1" /><input type="hidden" name="_wpcf7_container_post" value="4443" /><input type="hidden" name="_wpcf7_posted_data_hash" value="" />
+</fieldset>
+<div class="row_r">
+	<div class="label_r">
+		<div class="label_r">
+			<p><label> Full Name<br />
+<span class="wpcf7-form-control-wrap" data-name="full-name"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required inside_label" aria-required="true" aria-invalid="false" placeholder="Full Name" value="" type="text" name="full-name" /></span> </label>
+			</p>
+		</div>
+		<div style="display:none;" class="gclid_tag" id="transaction_hide">
+			<p><span class="wpcf7-form-control-wrap" data-name="gclid"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="testgclid" aria-invalid="false" placeholder="No Tag" name="gclid"></textarea></span>
+			</p>
+		</div>
+		<div style="display:none;" class="gclid_tag" id="transaction_hide">
+			<p><span class="wpcf7-form-control-wrap" data-name="initial_url"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea" id="initial_url" aria-invalid="false" placeholder="No URL" name="initial_url"></textarea></span>
+			</p>
+		</div>
+		<div class="label_r">
+			<p><label>Email Address<br />
+<span class="wpcf7-form-control-wrap" data-name="your-email"><input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email inside_label" aria-required="true" aria-invalid="false" placeholder="Write your email" value="" type="email" name="your-email" /></span> </label>
+			</p>
+		</div>
+		<div class="label_r">
+			<p><label> Phone Number<br />
+<span class="wpcf7-form-control-wrap" data-name="phonetext-257"><input size="40" class="wpcf7-form-control wpcf7-phonetext wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-phonetext inside_label" data-numberonly="true" aria-required="true" aria-invalid="false" placeholder="123 45678" value="" type="text" name="phonetext-257" /><input type="hidden" name="phonetext-257-country-code" class="wpcf7-phonetext-country-code" /></span></label>
+			</p>
+		</div>
+		<div style="display:none;" class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12" id="transaction_hide">
+			<p><span class="wpcf7-form-control-wrap" data-name="countrytext-787"><input size="40" class="wpcf7-form-control wpcf7-countrytext wpcf7-text wpcf7-validates-as-countrytext" aria-invalid="false" placeholder="Select the Country" value="" type="text" name="countrytext-787" /></span>
+			</p>
+		</div>
+		<div class="label_r">
+			<p><label> Message<br />
+<span class="wpcf7-form-control-wrap" data-name="your-message"><textarea cols="40" rows="10" maxlength="2000" class="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required inside_label" aria-required="true" aria-invalid="false" placeholder="Type your Message..." name="your-message"></textarea></span></label>
+			</p>
+		</div>
+		<div class="button_r">
+			<div class="submit-btn">
+				<p><button id="submit" class="inside_button">Submit Message</button>
+				</p>
+			</div>
+		</div>
+	</div>
+</div><div class="wpcf7-response-output" aria-hidden="true"></div>
+</form>
+</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-rocket-location-hash="d7914a7778874cfc689603b6ecd68cf8" class="elementor-section elementor-top-section elementor-element elementor-element-01e76af elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="01e76af" data-element_type="section" data-e-type="section">
+						<div data-rocket-location-hash="9f3cdebd482219aef067dbc56403b8d3" class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-189dc57" data-id="189dc57" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d182bb2 elementor-widget elementor-widget-heading" data-id="d182bb2" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Relative Articles</h2>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section data-rocket-location-hash="f280f36d31bed9169c0b0a7998770442" class="elementor-section elementor-top-section elementor-element elementor-element-61aefd5 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="61aefd5" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-9f8a9f7" data-id="9f8a9f7" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-c648ae4 elementor-grid-4 elementor-posts--align-center elementor-posts--thumbnail-top elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-widget elementor-widget-posts" data-id="c648ae4" data-element_type="widget" data-e-type="widget" data-settings="{&quot;custom_columns&quot;:&quot;4&quot;,&quot;custom_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0,&quot;sizes&quot;:[]},&quot;custom_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:15,&quot;sizes&quot;:[]},&quot;custom_columns_tablet&quot;:&quot;2&quot;,&quot;custom_columns_mobile&quot;:&quot;1&quot;,&quot;custom_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.custom">
+				<div class="elementor-widget-container">
+					      <div class="ecs-posts elementor-posts-container elementor-posts   elementor-grid elementor-posts--skin-custom" data-settings="{&quot;current_page&quot;:1,&quot;max_num_pages&quot;:&quot;5&quot;,&quot;load_method&quot;:&quot;loadmore&quot;,&quot;widget_id&quot;:&quot;c648ae4&quot;,&quot;post_id&quot;:4443,&quot;theme_id&quot;:1142,&quot;change_url&quot;:false,&quot;reinit_js&quot;:false}">
+      		<article id="post-4511" class="elementor-post elementor-grid-item ecs-post-loop post-4511 post type-post status-publish format-standard has-post-thumbnail hentry category-visa-services">
+				<div data-elementor-type="loop" data-elementor-id="1158" class="elementor elementor-1158 elementor-location-single post-4511 post type-post status-publish format-standard has-post-thumbnail hentry category-visa-services" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-fdfafb3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="fdfafb3" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-93162a2" data-id="93162a2" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a99adcc e-transform elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="a99adcc" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_translateX_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="https://theuaegate.com/property-investment-visa-uae">
+							<img width="1000" height="730" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201000%20730'%3E%3C/svg%3E" class="attachment-full size-full wp-image-4512" alt="Property Investment Visa UAE" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2026/01/125097.webp 1000w, https://theuaegate.com/wp-content/uploads/2026/01/125097-300x219.webp 300w" data-lazy-sizes="(max-width: 1000px) 100vw, 1000px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2026/01/125097.webp" /><noscript><img width="1000" height="730" src="https://theuaegate.com/wp-content/uploads/2026/01/125097.webp" class="attachment-full size-full wp-image-4512" alt="Property Investment Visa UAE" srcset="https://theuaegate.com/wp-content/uploads/2026/01/125097.webp 1000w, https://theuaegate.com/wp-content/uploads/2026/01/125097-300x219.webp 300w" sizes="(max-width: 1000px) 100vw, 1000px" /></noscript>								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-7c56a6b elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="7c56a6b" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default"><a href="https://theuaegate.com/property-investment-visa-uae">Property Investment Visa UAE: How Real Estate, Residency, and Long-term Security Come Together</a></h4>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				<article id="post-4502" class="elementor-post elementor-grid-item ecs-post-loop post-4502 post type-post status-publish format-standard has-post-thumbnail hentry category-visa-services">
+				<div data-elementor-type="loop" data-elementor-id="1158" class="elementor elementor-1158 elementor-location-single post-4502 post type-post status-publish format-standard has-post-thumbnail hentry category-visa-services" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-fdfafb3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="fdfafb3" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-93162a2" data-id="93162a2" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a99adcc e-transform elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="a99adcc" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_translateX_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="https://theuaegate.com/uae-green-visa-eligibility">
+							<img width="510" height="340" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20510%20340'%3E%3C/svg%3E" class="attachment-full size-full wp-image-4507" alt="UAE Green Visa Eligibility" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1.webp 510w, https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1-300x200.webp 300w" data-lazy-sizes="(max-width: 510px) 100vw, 510px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1.webp" /><noscript><img loading="lazy" width="510" height="340" src="https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1.webp" class="attachment-full size-full wp-image-4507" alt="UAE Green Visa Eligibility" srcset="https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1.webp 510w, https://theuaegate.com/wp-content/uploads/2026/01/2149117820-1-300x200.webp 300w" sizes="(max-width: 510px) 100vw, 510px" /></noscript>								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-7c56a6b elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="7c56a6b" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default"><a href="https://theuaegate.com/uae-green-visa-eligibility">UAE Green Visa Eligibility: The Smart Way to Live in the UAE in 2026</a></h4>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				<article id="post-4496" class="elementor-post elementor-grid-item ecs-post-loop post-4496 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+				<div data-elementor-type="loop" data-elementor-id="1158" class="elementor elementor-1158 elementor-location-single post-4496 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-fdfafb3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="fdfafb3" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-93162a2" data-id="93162a2" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a99adcc e-transform elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="a99adcc" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_translateX_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="https://theuaegate.com/uae-residence-visa-renewal-new-rules">
+							<img width="1000" height="667" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201000%20667'%3E%3C/svg%3E" class="attachment-full size-full wp-image-4497" alt="UAE Residence Visa Renewal New Rules" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2025/12/2149117780.webp 1000w, https://theuaegate.com/wp-content/uploads/2025/12/2149117780-300x200.webp 300w" data-lazy-sizes="(max-width: 1000px) 100vw, 1000px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2025/12/2149117780.webp" /><noscript><img loading="lazy" width="1000" height="667" src="https://theuaegate.com/wp-content/uploads/2025/12/2149117780.webp" class="attachment-full size-full wp-image-4497" alt="UAE Residence Visa Renewal New Rules" srcset="https://theuaegate.com/wp-content/uploads/2025/12/2149117780.webp 1000w, https://theuaegate.com/wp-content/uploads/2025/12/2149117780-300x200.webp 300w" sizes="(max-width: 1000px) 100vw, 1000px" /></noscript>								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-7c56a6b elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="7c56a6b" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default"><a href="https://theuaegate.com/uae-residence-visa-renewal-new-rules">UAE Residence Visa Renewal New Rules. Let’s Talk About What Actually Changed</a></h4>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				<article id="post-4491" class="elementor-post elementor-grid-item ecs-post-loop post-4491 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-mainland tag-startup">
+				<div data-elementor-type="loop" data-elementor-id="1158" class="elementor elementor-1158 elementor-location-single post-4491 post type-post status-publish format-standard has-post-thumbnail hentry category-business tag-mainland tag-startup" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-fdfafb3 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="fdfafb3" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-93162a2" data-id="93162a2" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a99adcc e-transform elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="a99adcc" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_transform_translateX_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="https://theuaegate.com/how-to-start-a-mainland-company-in-the-uae">
+							<img width="1000" height="661" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201000%20661'%3E%3C/svg%3E" class="attachment-full size-full wp-image-4492" alt="Mainland Company Setup" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2025/12/49799.webp 1000w, https://theuaegate.com/wp-content/uploads/2025/12/49799-300x198.webp 300w" data-lazy-sizes="(max-width: 1000px) 100vw, 1000px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2025/12/49799.webp" /><noscript><img loading="lazy" width="1000" height="661" src="https://theuaegate.com/wp-content/uploads/2025/12/49799.webp" class="attachment-full size-full wp-image-4492" alt="Mainland Company Setup" srcset="https://theuaegate.com/wp-content/uploads/2025/12/49799.webp 1000w, https://theuaegate.com/wp-content/uploads/2025/12/49799-300x198.webp 300w" sizes="(max-width: 1000px) 100vw, 1000px" /></noscript>								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-7c56a6b elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="7c56a6b" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h4 class="elementor-heading-title elementor-size-default"><a href="https://theuaegate.com/how-to-start-a-mainland-company-in-the-uae">How to Start a Mainland Company in the UAE: How to Open and What You’ll Need in 2026</a></h4>				</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>
+				</div>
+				<nav class="elementor-pagination" role="navigation" aria-label="Pagination">
+					</nav>
+				<nav class="elementor-button-wrapper elementor-pagination ecs-load-more-button" data-settings="{&quot;loading_text&quot;:&quot;Loading...&quot;,&quot;text&quot;:&quot;Load More&quot;,&quot;widget_id&quot;:&quot;c648ae4&quot;}">
+			<a href="https://theuaegate.com/how-to-start-an-e-commerce-business-in-uae-a-complete-guide/?page=2" class="elementor-button-link elementor-button " role="button">
+				<span>Load More</span>
+			</a>
+		</nav>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				<footer data-elementor-type="footer" data-elementor-id="103" class="elementor elementor-103 elementor-location-footer" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-632cd202 elementor-section-content-top elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="632cd202" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-15f0d634" data-id="15f0d634" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-31cefb8d elementor-widget elementor-widget-image" data-id="31cefb8d" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+																<a href="/">
+							<img width="325" height="66" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20325%2066'%3E%3C/svg%3E" class="attachment-full size-full wp-image-38" alt="" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2023/09/logo-white.png 325w, https://theuaegate.com/wp-content/uploads/2023/09/logo-white-300x61.png 300w" data-lazy-sizes="(max-width: 325px) 100vw, 325px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2023/09/logo-white.png" /><noscript><img loading="lazy" width="325" height="66" src="https://theuaegate.com/wp-content/uploads/2023/09/logo-white.png" class="attachment-full size-full wp-image-38" alt="" srcset="https://theuaegate.com/wp-content/uploads/2023/09/logo-white.png 325w, https://theuaegate.com/wp-content/uploads/2023/09/logo-white-300x61.png 300w" sizes="(max-width: 325px) 100vw, 325px" /></noscript>								</a>
+															</div>
+				</div>
+				<div class="elementor-element elementor-element-6377507c elementor-widget elementor-widget-text-editor" data-id="6377507c" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									Elevate your business presence in the UAE through our services – from company setup to hassle-free visa solutions, we pave the way for your success.								</div>
+				</div>
+				<div class="elementor-element elementor-element-53e4a0ef elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-id="53e4a0ef" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<a class="elementor-icon" href="https://www.facebook.com/TheUAEGate.ae">
+			<i aria-hidden="true" class="fab fa-facebook-f"></i>			</a>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-35621a8b elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-id="35621a8b" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<a class="elementor-icon" href="https://www.instagram.com/theuaegate/">
+			<i aria-hidden="true" class="fab fa-instagram"></i>			</a>
+		</div>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-2a955465 elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-id="2a955465" data-element_type="widget" data-e-type="widget" data-widget_type="icon.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-icon-wrapper">
+			<a class="elementor-icon" href="https://www.linkedin.com/company/the-uae-gate-ae/">
+			<i aria-hidden="true" class="fab fa-linkedin-in"></i>			</a>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-22c47782" data-id="22c47782" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-139d405b elementor-widget elementor-widget-heading" data-id="139d405b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Services</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-fbf3a5d elementor-widget elementor-widget-button" data-id="fbf3a5d" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/expand-your-business-in-uae">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Expand your Business in UAE</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-ddf0904 elementor-widget elementor-widget-button" data-id="ddf0904" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/start-your-company-in-uae">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Start your Company in UAE</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-1e8dd9dc elementor-widget elementor-widget-button" data-id="1e8dd9dc" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/visa-services-in-uae">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Visa Services in UAE</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-dd6c0de" data-id="dd6c0de" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-d36793e elementor-widget elementor-widget-heading" data-id="d36793e" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Quick Links</h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-b795cf7 elementor-widget elementor-widget-button" data-id="b795cf7" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/about-us">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">About Us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-6bc58c1 elementor-widget elementor-widget-button" data-id="6bc58c1" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/contact-us">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Contact Us</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+				<div class="elementor-element elementor-element-0a647fa elementor-widget elementor-widget-button" data-id="0a647fa" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://theuaegate.com/blog">
+						<span class="elementor-button-content-wrapper">
+									<span class="elementor-button-text">Blogs</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-25 elementor-top-column elementor-element elementor-element-40051090" data-id="40051090" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-2da27c77 elementor-widget elementor-widget-image" data-id="2da27c77" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
+				<div class="elementor-widget-container">
+															<img width="624" height="451" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20624%20451'%3E%3C/svg%3E" class="attachment-full size-full wp-image-29" alt="" data-lazy-srcset="https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer.png 624w, https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer-300x217.png 300w" data-lazy-sizes="(max-width: 624px) 100vw, 624px" data-lazy-src="https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer.png" /><noscript><img loading="lazy" width="624" height="451" src="https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer.png" class="attachment-full size-full wp-image-29" alt="" srcset="https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer.png 624w, https://theuaegate.com/wp-content/uploads/2023/09/favicon-footer-300x217.png 300w" sizes="(max-width: 624px) 100vw, 624px" /></noscript>															</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				<section class="elementor-section elementor-top-section elementor-element elementor-element-7d46bd2f elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7d46bd2f" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-45fefb9" data-id="45fefb9" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-528c6300 elementor-widget elementor-widget-text-editor" data-id="528c6300" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									<p>© 2026 theuaegate. All rights reserved</p>								</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-64111514" data-id="64111514" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-79c4b3a7 elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-text-editor" data-id="79c4b3a7" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+									Created by <span style="color:#F56B01">ConnectGroup								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</footer>
+		
+<script>if ( window.$us === undefined ) window.$us = {};$us.headerSettings = {"default":{"options":[],"layout":[]},"laptops":{"options":[],"layout":[]},"tablets":{"options":[],"layout":[]},"mobiles":{"options":[],"layout":[]},"is_hidden":true};</script><script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/Impreza-child/*","/wp-content/themes/Impreza/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+			<script type="text/rocketlazyloadscript">
+				const lazyloadRunObserver = () => {
+					const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+					const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+						entries.forEach( ( entry ) => {
+							if ( entry.isIntersecting ) {
+								let lazyloadBackground = entry.target;
+								if( lazyloadBackground ) {
+									lazyloadBackground.classList.add( 'e-lazyloaded' );
+								}
+								lazyloadBackgroundObserver.unobserve( entry.target );
+							}
+						});
+					}, { rootMargin: '200px 0px 200px 0px' } );
+					lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+						lazyloadBackgroundObserver.observe( lazyloadBackground );
+					} );
+				};
+				const events = [
+					'DOMContentLoaded',
+					'elementor/lazyload/observe',
+				];
+				events.forEach( ( event ) => {
+					document.addEventListener( event, lazyloadRunObserver );
+				} );
+			</script>
+			<script type="text/rocketlazyloadscript">// Function to get URL parameters
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+// Function to get a cookie
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Capture gclid, gbraid, or wbraid from URL and store in a cookie if present
+document.addEventListener('DOMContentLoaded', function () {
+    // Capture the initial landing URL
+    var initialUrl = getCookie('initialUrl');
+    if (!initialUrl) {
+        initialUrl = window.location.href;
+        setCookie('initialUrl', initialUrl, 30); // Store the initial URL in a cookie for 30 days
+        console.log("Initial URL stored in cookie:", initialUrl);
+    } else {
+        console.log("Initial URL retrieved from cookie:", initialUrl);
+    }
+
+    // Get URL parameters
+    var gclid = getUrlParameter('gclid');
+    var gbraid = getUrlParameter('gbraid');
+    var wbraid = getUrlParameter('wbraid');
+
+    console.log("gclid from URL:", gclid);
+    console.log("gbraid from URL:", gbraid);
+    console.log("wbraid from URL:", wbraid);
+
+    if (gclid) {
+        setCookie('gclid', gclid, 30); // Store gclid in a cookie for 30 days
+        console.log("gclid stored in cookie:", gclid);
+    } else {
+        gclid = getCookie('gclid'); // Retrieve gclid from cookie if not in URL
+        console.log("gclid retrieved from cookie:", gclid);
+    }
+
+    // If GCLID is not present, check for GBRAID or WBRAID
+    if (!gclid) {
+        if (gbraid) {
+            setCookie('gclid', gbraid, 30); // Store GBRAID in gclid cookie
+            gclid = gbraid;
+            console.log("GBRAID stored in cookie as gclid:", gbraid);
+        } else if (wbraid) {
+            setCookie('gclid', wbraid, 30); // Store WBRAID in gclid cookie
+            gclid = wbraid;
+            console.log("WBRAID stored in cookie as gclid:", wbraid);
+        } else {
+            console.warn("gclid, gbraid, and wbraid not found in URL or cookies.");
+        }
+    }
+
+    // Set gclid in textarea form field if available
+    if (gclid) {
+        var textAreaField = document.querySelector('textarea[name="gclid"]');
+        if (textAreaField) {
+            textAreaField.value = gclid;
+            console.log("gclid set in textarea field:", gclid);
+        } else {
+            console.error("Textarea field with name 'gclid' not found.");
+        }
+    }
+
+    // Set initial URL in a form field if available
+    var initialUrlField = document.querySelector('textarea[name="initial_url"]'); // Assuming an input field for the initial URL
+    if (initialUrlField) {
+        initialUrlField.value = initialUrl;
+        console.log("Initial URL set in input field:", initialUrl);
+    } else {
+        console.error("Input field with name 'initial_url' not found.");
+    }
+});
+</script><script type="text/rocketlazyloadscript" data-minify="1" id="cf7-pipedrive-theme-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7-pipedrive-integration/resources/compiled/theme/js/app.js?ver=1767686525" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wp-hooks-js" data-rocket-src="https://theuaegate.com/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js" data-rocket-src="https://theuaegate.com/wp-includes/js/dist/i18n.min.js?ver=781d11515ad3d91786ec"></script>
+<script type="text/rocketlazyloadscript" id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="swv-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=1767686525" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="contact-form-7-js-before">
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/theuaegate.com\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    },
+    "cached": 1
+};
+//# sourceURL=contact-form-7-js-before
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="contact-form-7-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/contact-form-7/includes/js/index.js?ver=1767686525" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-intlTelInput-script-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script id="nbcpf-countryFlag-script-js-extra">
+var nbcpf = {"ajaxurl":"https://theuaegate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=nbcpf-countryFlag-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js?ver=7.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="nbcpf-countryFlag-script-js-after">window.addEventListener('DOMContentLoaded', function() {
+		(function($) {
+			$(function() {
+
+				function render_country_flags(){
+
+					$(".wpcf7-countrytext").countrySelect({
+						
+					});
+					$(".wpcf7-phonetext").intlTelInput({
+						autoHideDialCode: true,
+						autoPlaceholder: true,
+						nationalMode: true,
+						separateDialCode: true,
+						hiddenInput: "full_number",
+							
+					});
+	
+					$(".wpcf7-phonetext").each(function () {
+
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+
+						var hiddenInput = $(this).attr('name');
+						//console.log(hiddenInput);
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+					});
+					
+					$(".wpcf7-phonetext").on("countrychange", function() {
+						// do something with iti.getSelectedCountryData()
+						//console.log(this.value);
+						var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+						var hiddenInput = $(this).attr("name");
+						$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+						
+					});$(".wpcf7-countrytext").on("keyup", function() {
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+						if(country_name == "")
+						var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+						
+						var value   = $(this).val();
+						//console.log(country_name, value);
+						$(this).val(country_name + value.substring(country_name.length));
+					});
+				}
+
+				var ip_address = "";
+
+				jQuery.ajax({
+					url: "https://ipinfo.io/json",
+					//url: "https://reallyfreegeoip.org/json/",
+					success: function(response){
+						
+						//console.log(response);
+						//var location = JSON.parse(response);
+						console.log(response.country);
+						if( response.country !== undefined){
+							//console.log("here");
+							$(".wpcf7-countrytext").countrySelect({defaultCountry: response.country.toLowerCase(),
+							});
+							$(".wpcf7-phonetext").intlTelInput({
+								autoHideDialCode: true,
+								autoPlaceholder: true,
+								nationalMode: true,
+								separateDialCode: true,
+								hiddenInput: "full_number",initialCountry: response.country.toLowerCase(),	
+							});
+							
+							$(".wpcf7-phonetext").each(function () {
+								var hiddenInput = $(this).attr('name');
+								//console.log(hiddenInput);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+							});
+							
+							$(".wpcf7-phonetext").on("countrychange", function() {
+								// do something with iti.getSelectedCountryData()
+								//console.log(this.value);
+								var dial_code = $(this).siblings(".flag-container").find(".selected-flag .selected-dial-code").text();
+								var hiddenInput = $(this).attr("name");
+								$("input[name="+hiddenInput+"-country-code]").val(dial_code);
+								
+							});$(".wpcf7-countrytext").on("keyup", function() {
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.active span.country-name").text();
+								if(country_name == "")
+								var country_name = $(this).siblings(".flag-dropdown").find(".country-list li.highlight span.country-name").text();
+								
+								var value   = $(this).val();
+								//console.log(country_name, value);
+								$(this).val(country_name + value.substring(country_name.length));
+							});
+
+						} else {
+
+							render_country_flags();
+
+						}
+
+					},
+					error: function(){
+						render_country_flags();
+					}
+				});
+			});
+		})(jQuery);
+//# sourceURL=nbcpf-countryFlag-script-js-after
+});</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="wpascript-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/plugins/honeypot/includes/js/wpa.js?ver=1767686525" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="wpascript-js-after">
+wpa_field_info = {"wpa_field_name":"mfwxbr3723","wpa_field_value":639625,"wpa_add_test":"no"}
+//# sourceURL=wpascript-js-after
+</script>
+<script id="custom-blog-listing-script-js-extra">
+var ajax_object = {"ajax_url":"https://theuaegate.com/wp-admin/admin-ajax.php"};
+//# sourceURL=custom-blog-listing-script-js-extra
+</script>
+<script type="text/rocketlazyloadscript" data-minify="1" id="custom-blog-listing-script-js" data-rocket-src="https://theuaegate.com/wp-content/cache/min/1/wp-content/themes/Impreza-child/custom-scripts.js?ver=1767686525" data-rocket-defer defer></script>
+<script id="us-core-js" src="https://theuaegate.com/wp-content/themes/Impreza/js/us.core.min.js?ver=8.17.4" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-webpack-runtime-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-modules-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.0.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="jquery-ui-core-js" data-rocket-src="https://theuaegate.com/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Share on Facebook","shareOnTwitter":"Share on Twitter","pinIt":"Pin it","download":"Download","downloadImage":"Download image","fullscreen":"Fullscreen","zoom":"Zoom","share":"Share","playVideo":"Play Video","previous":"Previous","next":"Next","close":"Close","a11yCarouselPrevSlideMessage":"Previous slide","a11yCarouselNextSlideMessage":"Next slide","a11yCarouselFirstSlideMessage":"This is the first slide","a11yCarouselLastSlideMessage":"This is the last slide","a11yCarouselPaginationBulletMessage":"Go to slide"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobile Portrait","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobile Landscape","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet Portrait","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet Landscape","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Laptop","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"Widescreen","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.0.3","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"theme_builder_v2":true,"global_classes_should_enforce_capabilities":true,"e_variables":true,"e_opt_in_v4_page":true,"e_components":true,"e_interactions":true,"e_widget_creation":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_variables":true,"e_pro_interactions":true},"urls":{"assets":"https:\/\/theuaegate.com\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/theuaegate.com\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/theuaegate.com\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"620f0539ac","atomicFormsSendForm":"181a8f22d8"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":4443,"title":"How%20to%20Start%20an%20E-commerce%20Business%20in%20UAE%20%7C%20Step-by-Step","excerpt":"","featuredImage":"https:\/\/theuaegate.com\/wp-content\/uploads\/2025\/11\/admin-ajax-1.webp"}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-frontend-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.0.3" data-rocket-defer defer></script>
+<script id="smartmenus-js" src="https://theuaegate.com/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.2.1" data-rocket-defer defer></script>
+<script id="e-sticky-js" src="https://theuaegate.com/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js?ver=4.0.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="imagesloaded-js" data-rocket-src="https://theuaegate.com/wp-includes/js/imagesloaded.min.js?ver=5.0.0" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-webpack-runtime-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=4.0.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/theuaegate.com\/wp-admin\/admin-ajax.php","nonce":"563c6e5698","urls":{"assets":"https:\/\/theuaegate.com\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/theuaegate.com\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"en_US","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/theuaegate.com\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script type="text/rocketlazyloadscript" id="elementor-pro-frontend-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.0.1" data-rocket-defer defer></script>
+<script type="text/rocketlazyloadscript" id="pro-elements-handlers-js" data-rocket-src="https://theuaegate.com/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.0.1" data-rocket-defer defer></script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async src="https://theuaegate.com/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script><script>function lazyLoadThumb(e,alt,l){var t='<img loading="lazy" data-lazy-src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"><noscript><img loading="lazy" src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="" width="480" height="360"></noscript>',a='<button class="play" aria-label="Play Youtube video"></button>';if(l){t=t.replace('data-lazy-','');t=t.replace('loading="lazy"','');t=t.replace(/<noscript>.*?<\/noscript>/g,'');}t=t.replace('alt=""','alt="'+alt+'"');return t.replace("ID",e)+a}function lazyLoadYoutubeIframe(){var e=document.createElement("iframe"),t="ID?autoplay=1";t+=0===this.parentNode.dataset.query.length?"":"&"+this.parentNode.dataset.query;e.setAttribute("src",t.replace("ID",this.parentNode.dataset.src)),e.setAttribute("frameborder","0"),e.setAttribute("allowfullscreen","1"),e.setAttribute("allow","accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"),this.parentNode.parentNode.replaceChild(e,this.parentNode)}document.addEventListener("DOMContentLoaded",function(){var exclusions=[];var e,t,p,u,l,a=document.getElementsByClassName("rll-youtube-player");for(t=0;t<a.length;t++)(e=document.createElement("div")),(u='https://i.ytimg.com/vi/ID/hqdefault.jpg'),(u=u.replace('ID',a[t].dataset.id)),(l=exclusions.some(exclusion=>u.includes(exclusion))),e.setAttribute("data-id",a[t].dataset.id),e.setAttribute("data-query",a[t].dataset.query),e.setAttribute("data-src",a[t].dataset.src),(e.innerHTML=lazyLoadThumb(a[t].dataset.id,a[t].dataset.alt,l)),a[t].appendChild(e),(p=e.querySelector(".play")),(p.onclick=lazyLoadYoutubeIframe)});</script>
+<script>var rocket_beacon_data = {"ajax_url":"https:\/\/theuaegate.com\/wp-admin\/admin-ajax.php","nonce":"8b3f0b7a45","url":"https:\/\/theuaegate.com\/how-to-start-an-e-commerce-business-in-uae-a-complete-guide","is_mobile":false,"width_threshold":1600,"height_threshold":700,"delay":500,"debug":null,"status":{"atf":true,"lrc":true,"preconnect_external_domain":true},"elements":"img, video, picture, p, main, div, li, svg, section, header, span","lrc_threshold":1800,"preconnect_external_domain_elements":["link","script","iframe"],"preconnect_external_domain_exclusions":["static.cloudflareinsights.com","rel=\"profile\"","rel=\"preconnect\"","rel=\"dns-prefetch\"","rel=\"icon\""]}</script><script data-name="wpr-wpr-beacon" src='https://theuaegate.com/wp-content/plugins/wp-rocket/assets/js/wpr-beacon.min.js' async></script><script>(()=>{class RocketElementorPreload{constructor(){this.deviceMode=document.createElement("span"),this.deviceMode.id="elementor-device-mode-wpr",this.deviceMode.setAttribute("class","elementor-screen-only"),document.body.appendChild(this.deviceMode)}t(){let t=getComputedStyle(this.deviceMode,":after").content.replace(/"/g,"");this.animationSettingKeys=this.i(t),document.querySelectorAll(".elementor-invisible[data-settings]").forEach(t=>{const e=t.getBoundingClientRect();if(e.bottom>=0&&e.top<=window.innerHeight)try{this.o(t)}catch(t){}})}o(t){const e=JSON.parse(t.dataset.settings),i=e.m||e.animation_delay||0,n=e[this.animationSettingKeys.find(t=>e[t])];if("none"===n)return void t.classList.remove("elementor-invisible");t.classList.remove(n),this.currentAnimation&&t.classList.remove(this.currentAnimation),this.currentAnimation=n;let o=setTimeout(()=>{t.classList.remove("elementor-invisible"),t.classList.add("animated",n),this.l(t,e)},i);window.addEventListener("rocket-startLoading",function(){clearTimeout(o)})}i(t="mobile"){const e=[""];switch(t){case"mobile":e.unshift("_mobile");case"tablet":e.unshift("_tablet");case"desktop":e.unshift("_desktop")}const i=[];return["animation","_animation"].forEach(t=>{e.forEach(e=>{i.push(t+e)})}),i}l(t,e){this.i().forEach(t=>delete e[t]),t.dataset.settings=JSON.stringify(e)}static run(){const t=new RocketElementorPreload;requestAnimationFrame(t.t.bind(t))}}document.addEventListener("DOMContentLoaded",RocketElementorPreload.run)})();</script></body>
+</html>
+
+<!-- This website is like a Rocket, isn't it? Performance optimized by WP Rocket. Learn more: https://wp-rocket.me - Debug: cached@1786287590 -->

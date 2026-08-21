@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const LEGACY = join(ROOT, 'src/legacy');
 const PUBLIC = join(ROOT, 'public');
-const ORIGIN = 'https://companyformationsaudi.com';
+const ORIGIN = '';
 
 function listCleaned(dir, out = []) {
   for (const name of readdirSync(dir, { withFileTypes: true })) {

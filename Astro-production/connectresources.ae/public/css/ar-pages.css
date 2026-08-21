@@ -1,0 +1,69 @@
+/* Arabic clones of EN Elementor pages — same layout, RTL text */
+main.cr-ar-clone[dir="rtl"],
+main.cr-ar-clone[dir="rtl"] .l-section-h,
+main.cr-ar-clone[dir="rtl"] .wpb_wrapper,
+main.cr-ar-clone[dir="rtl"] .wpb_text_column,
+main.cr-ar-clone[dir="rtl"] .w-text {
+  direction: rtl;
+  text-align: right;
+}
+
+main.cr-ar-clone[dir="rtl"] {
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+}
+
+main.cr-ar-clone[dir="rtl"] h1,
+main.cr-ar-clone[dir="rtl"] h2,
+main.cr-ar-clone[dir="rtl"] h3,
+main.cr-ar-clone[dir="rtl"] h4,
+main.cr-ar-clone[dir="rtl"] p,
+main.cr-ar-clone[dir="rtl"] li,
+main.cr-ar-clone[dir="rtl"] .w-btn-label,
+main.cr-ar-clone[dir="rtl"] label {
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+}
+
+main.cr-ar-clone[dir="rtl"] ul,
+main.cr-ar-clone[dir="rtl"] ol {
+  padding-right: 1.25rem;
+  padding-left: 0;
+}
+
+main.cr-ar-clone[dir="rtl"] .g-cols.via_flex {
+  direction: rtl;
+}
+
+main.cr-ar-clone[dir="rtl"] .wpcf7,
+main.cr-ar-clone[dir="rtl"] .wpcf7-form,
+main.cr-ar-clone[dir="rtl"] input,
+main.cr-ar-clone[dir="rtl"] textarea,
+main.cr-ar-clone[dir="rtl"] select {
+  direction: rtl;
+  text-align: right;
+}
+
+main.cr-ar-clone[dir="rtl"] .w-btn,
+main.cr-ar-clone[dir="rtl"] .us-btn-style_1 {
+  direction: rtl;
+}
+
+/* Legacy simplified AR pages (if any remain) */
+.cr-ar-page {
+  direction: rtl;
+  text-align: right;
+  font-family: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+}
+
+.cr-ar-hero {
+  background: linear-gradient(135deg, #0b092d 0%, #1a1744 55%, #480006 120%);
+  color: #fff;
+}
+
+.cr-ar-hero h1 {
+  color: #fff !important;
+}
+
+.cr-ar-btn {
+  background: #c8102e !important;
+  color: #fff !important;
+}

@@ -87,4 +87,8 @@ export type AuthorEntry = {
   path: string;
   description: string;
   avatar: string;
+  /** Job title shown under the name on author archive banners. */
+  title?: string;
+  /** LinkedIn profile URL; icon shown next to the name when set. */
+  linkedin?: string;
 };

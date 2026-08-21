@@ -1,0 +1,56 @@
+---
+/**
+ * Site layout for rebuilt pages: shared Elementor header/footer + BaseLayout SEO.
+ */
+import BaseLayout from './BaseLayout.astro';
+import type { PageSeo } from '../lib/seo';
+import { getPageHeaderHtml, getSharedFooterHtml } from '../lib/shared-chrome.js';
+
+interface Props {
+  seo: PageSeo;
+  canonical?: string;
+  /** Passed to shared header menu highlighting */
+  chromeSlug?: string;
+  extraSchema?: Record<string, unknown>[];
+  bodyClass?: string;
+}
+
+const {
+  seo,
+  canonical,
+  chromeSlug = 'default',
+  extraSchema = [],
+  bodyClass = '',
+} = Astro.props;
+
+const headerHtml = getPageHeaderHtml(chromeSlug);
+const footerHtml = getSharedFooterHtml();
+---
+
+<BaseLayout seo={seo} canonical={canonical} showChrome={false} extraSchema={extraSchema}>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/chrome/header.css" data-eme-shared-header-css="1" />
+    <link rel="stylesheet" href="/css/kinza-form-fix.css" data-kinza-form-fix="1" />
+    <link rel="stylesheet" href="/css/kpmpro-authors.css" id="kpmpro-authors-css" />
+    <link
+      rel="stylesheet"
+      href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css"
+      media="all"
+    />
+    <slot name="head" />
+  </Fragment>
+  <div class:list={['kpmpro-site-chrome', bodyClass]}>
+    <div set:html={headerHtml} />
+    <slot />
+    <div set:html={footerHtml} />
+  </div>
+  <script src="/js/astro-mirror-fixes.js" defer></script>
+  <slot name="scripts" />
+</BaseLayout>
+
+<script src="/js/menu-no-hash.js" defer></script>

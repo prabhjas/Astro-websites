@@ -12,7 +12,7 @@ const payload = {
   submittedAt: new Date().toISOString(),
 };
 
-for (const path of ['/api/contact', '/api/contact/']) {
+for (const path of ['/api/contact/', '/api/contact/']) {
   const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
     redirect: 'manual',

@@ -5,10 +5,10 @@
  */
 ---
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" is:inline></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" is:inline></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" is:inline></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js" is:inline></script>
+<script defer src="/assets/vendor/jquery/jquery-3.2.1.slim.min.js" is:inline></script>
+<script defer src="/assets/vendor/bootstrap/js/bootstrap.min.js" is:inline></script>
+<script defer src="/assets/vendor/owl-carousel/owl.carousel.min.js" is:inline></script>
+<script defer src="/assets/vendor/intl-tel-input/js/intlTelInput.min.js" is:inline></script>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', function () {
@@ -42,9 +42,6 @@
     function lookupCountryByIp(callback) {
       var endpoints = [
         '/api/geo',
-        'https://ipwho.is/',
-        'https://get.geojs.io/v1/ip/country.json',
-        'https://ipapi.co/json/',
       ];
       var i = 0;
 
@@ -76,7 +73,7 @@
           geoIpLookup: lookupCountryByIp,
           separateDialCode: true,
           preferredCountries: ['ae', 'sa', 'us', 'ca', 'gb', 'in', 'pk'],
-          utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
+          utilsScript: '/assets/vendor/intl-tel-input/js/utils.js',
         });
 
         // Allow digits only in the national number field (no letters/symbols).
@@ -312,7 +309,7 @@
         website: '', // honeypot (must stay empty)
       }, getUrlParams());
 
-      fetch('/api/contact', {
+      fetch('/api/contact/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

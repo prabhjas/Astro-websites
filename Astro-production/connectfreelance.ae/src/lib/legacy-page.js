@@ -77,6 +77,47 @@ function decodeProtectedEmailsInHtml(html) {
   return out;
 }
 
+const PROMO_BANNER_SLUGS = new Set([
+  'homepage',
+  'golden-residency-uae',
+  'freelance-trade-license-dubai',
+  'freelance-license-in-dubai',
+]);
+
+/**
+ * Mid-page / pre-footer campaign banners (Golden Visa + E-Trade).
+ * @param {string} html
+ * @param {string} slug
+ */
+function injectPromoBanners(html, slug) {
+  if (!PROMO_BANNER_SLUGS.has(slug) || html.includes('data-cf-promo-banners')) return html;
+
+  const showGolden = slug === 'homepage' || slug === 'golden-residency-uae';
+  const showEtrade =
+    slug === 'homepage' ||
+    slug === 'freelance-trade-license-dubai' ||
+    slug === 'freelance-license-in-dubai';
+
+  const cards = [
+    showGolden
+      ? `<a class="cf-promo-banners__card" href="/golden-residency-uae/"><img src="/wp-content/uploads/2026/08/CONNECT-FREELANCE-BANNER-GOLDEN-VISA.jpg" width="1024" height="256" alt="Turn your freelance visa into a Golden Visa. Ask us how." decoding="async" /></a>`
+      : '',
+    showEtrade
+      ? `<a class="cf-promo-banners__card" href="/freelance-trade-license-dubai/"><img src="/wp-content/uploads/2026/08/CONNECT-FREELANCE-BANNER-E-TRADE-LICENSE.jpg" width="1024" height="256" alt="Turn your freelance into a business in 48 hours. E-Trade License only AED 4,900." decoding="async" /></a>`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const block = `<section class="cf-promo-banners" data-cf-promo-banners="20260811" aria-label="Current offers">\n${cards}\n</section>`;
+  if (/<footer\b/i.test(html)) return html.replace(/<footer\b/i, `${block}\n<footer`);
+  if (/id="colophon"/i.test(html)) {
+    return html.replace(/(<[^>]+id="colophon"[^>]*>)/i, `${block}\n$1`);
+  }
+  if (/<\/main>/i.test(html)) return html.replace(/<\/main>/i, `${block}\n</main>`);
+  return html;
+}
+
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
@@ -106,6 +147,8 @@ export function serveLegacyPage(slug) {
     );
   }
 
+  html = injectPromoBanners(html, slug);
+
   // Insights listing layout (equal-height cards, load more, category filter)
   if (
     (slug === 'insights' || /ecs-load-more-button|elementor-element-0215441/i.test(html)) &&
@@ -121,10 +164,14 @@ export function serveLegacyPage(slug) {
   html = decodeProtectedEmailsInHtml(html);
 
   // CF7 → /api/contact + Ads/UTM capture (also injected at prepare time; keep as runtime safety).
+  html = html.replace(
+    /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
+    '/js/astro-mirror-fixes.js?v=navhash3',
+  );
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=navhash3" defer></script>\n</body>',
     );
   }
 

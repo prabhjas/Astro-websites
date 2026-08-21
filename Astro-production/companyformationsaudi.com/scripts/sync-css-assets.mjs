@@ -11,7 +11,7 @@ import { Readable } from 'node:stream';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = join(ROOT, 'public');
-const LIVE = 'https://companyformationsaudi.com';
+const LIVE = '';
 
 function walk(dir, acc = []) {
   let names;

@@ -1,6 +1,6 @@
 # Overview — alburaq.ae Astro fleet site
 
-WordPress/Elementor → Astro SSR HTML mirror of **https://alburaq.ae/**
+WordPress/Elementor → Astro SSR HTML mirror of **/**
 
 | | |
 |--|--|

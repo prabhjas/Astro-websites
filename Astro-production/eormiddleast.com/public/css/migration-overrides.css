@@ -229,3 +229,32 @@ div.wpcf7-response-output.sp-status-visible,
   content: "\f1d8";
 }
 
+/* h5-to-p eyebrow migration: keep same visual styling */
+.section-title p,
+.title_tx p {
+  color: #F16722 !important;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 0 15px;
+  font-family: 'Nunito', sans-serif;
+  width: auto !important;
+}
+.section-title.t_center p,
+.title_tx.t_center p {
+  text-align: center !important;
+}
+
+/* About-us feature box headings */
+.title h3 {
+  font-size: 22px;
+  color: #F16722;
+  margin: 0px 0px 10px 0px;
+}
+
+/* Country pages: ensure description paragraphs are visible */
+.elementor-widget-text-editor .elementor-widget-container p {
+  color: #000 !important;
+}
+

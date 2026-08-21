@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { injectPageBreadcrumbs } from './page-breadcrumbs.js';
 import { applySharedChrome } from './shared-chrome.js';
 import {
   ARCHIVE_POSTS_PER_PAGE,
@@ -194,9 +195,17 @@ function getArchiveBasePath(data: ArchivePageData): string {
   return `/tag/${data.slug}/`;
 }
 
+/** Cheerio XML mode emits `<script .../>`, which makes browsers treat the rest of the document as JS. */
+function serializeCheerioHtml($: cheerio.CheerioAPI): string {
+  return String($.html()).replace(
+    /<(script|style|title|textarea|iframe|noscript)(\b[^>]*)\/>/gi,
+    '<$1$2></$1>',
+  );
+}
+
 /** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { decodeEntities: false });
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
   const loopContainer = $('.elementor-loop-container.elementor-grid').first();
 
   if (loopContainer.length) {
@@ -242,7 +251,12 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
     $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260730-nav" defer></script>');
   }
 
-  return injectRuntimeGtmLoader(applySharedChrome($.html(), data.type === 'blog' ? 'blog' : 'default'));
+  return injectPageBreadcrumbs(
+    injectRuntimeGtmLoader(
+      applySharedChrome(serializeCheerioHtml($), data.type === 'blog' ? 'blog' : 'default'),
+    ),
+    data.type === 'blog' ? 'blog' : data.slug || 'default',
+  );
 }
 
 /** Tag pages use live Elementor archive template 24660 (archive_cards skin). */
@@ -265,10 +279,10 @@ function assembleTagHtml(data: ArchivePageData): string {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=contact-slash-20260814" defer></script>\n</body>');
   }
 
-  return injectRuntimeGtmLoader(html);
+  return injectPageBreadcrumbs(injectRuntimeGtmLoader(html), data.slug || 'tag');
 }
 
 function patchArchiveMeta(html: string, data: ArchivePageData): string {
@@ -367,7 +381,7 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
   let html = readFileSync(INSIGHTS_PATH, 'utf8');
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
-  return injectRuntimeGtmLoader(html);
+  return injectPageBreadcrumbs(injectRuntimeGtmLoader(html), data.type === 'blog' ? 'blog' : data.slug || 'default');
 }
 
 export function serveArchivePage(data: ArchivePageData): Response {

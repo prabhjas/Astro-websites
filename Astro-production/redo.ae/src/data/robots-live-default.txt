@@ -10,6 +10,7 @@ Disallow: /wp-admin/
 Disallow: /cdn-cgi/
 Disallow: /category/
 Disallow: /feed/
+Disallow: /best-renovation-company/
 
 User-agent: GPTBot
 Allow: /

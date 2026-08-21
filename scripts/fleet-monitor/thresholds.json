@@ -1,0 +1,18 @@
+{
+  "format": "astro-fleet-monitor-thresholds-v1",
+  "_comment": "Phase 1 defaults. Per-site overrides go under sites.<id>. Body floors and title markers are auto-learned into state.json during the baseline week; set here only to pin them.",
+  "defaults": {
+    "ttfbWarnMs": 1500,
+    "ttfbFailMs": 4000,
+    "minBodyBytes": 2000,
+    "bodyShrinkFailRatio": 0.4,
+    "certWarnDays": 14,
+    "certFailDays": 7,
+    "sitemapDropWarnPct": 5,
+    "consecutiveFails": 2,
+    "consecutiveFailsInPublishWindow": 3,
+    "publishWindowMinutes": 15,
+    "titleMarker": null
+  },
+  "sites": {}
+}
