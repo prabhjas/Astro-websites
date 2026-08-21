@@ -22,6 +22,19 @@ export const PRESS_RELEASE_LEGACY_PREFIX = "/press-release/";
 const INITIAL_VISIBLE_ROWS = 4;
 const PLACEHOLDER_IMG = "/assets/images/2022/02/2-1024x575.png";
 
+function loadHtml(html: string) {
+  // HTML mode (not XML) — XML self-closes empty <div>/<i> and breaks the Impreza layout.
+  return cheerio.load(html, { xml: false, decodeEntities: false } as any);
+}
+
+/** Expand illegal HTML self-closing non-void tags produced by serializers. */
+function fixSelfClosingTags(html: string): string {
+  return html.replace(
+    /<(div|span|i|p|section|a|ul|li|h[1-6]|button|main|article|nav)(\s[^>]*)?\/>/gi,
+    "<$1$2></$1>",
+  );
+}
+
 export { getPressReleasePosts };
 
 export function isPressReleasePost(post: Pick<PostEntry, "type">): boolean {
@@ -91,7 +104,7 @@ export function renderPressReleaseCardHtml(post: PostEntry): string {
 <div class="wpb_text_column us_custom_ec2ef2b2 has_text_color"><div class="wpb_wrapper"><p>${escapeHtml(excerpt)}</p></div></div>
 <div class="g-cols wpb_row via_flex valign_middle type_default stacking_default">
 <div class="vc_col-sm-6 wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper">
-<div class="w-btn-wrapper align_none"><a class="w-btn us-btn-style_6 icon_atright" href="${escapeHtml(href)}"><span class="w-btn-label">Read More</span><i class="fas fa-arrow-right"></i></a></div>
+<div class="w-btn-wrapper align_none"><a class="w-btn us-btn-style_6 icon_atright" href="${escapeHtml(href)}"><span class="w-btn-label">Read More</span><i class="fa fa-arrow-right" aria-hidden="true"></i></a></div>
 </div></div></div>
 <div class="vc_col-sm-6 wpb_column vc_column_container"><div class="vc_column-inner"><div class="wpb_wrapper">
 <div class="wpb_text_column us_custom_ec7802d3 has_text_color"><div class="wpb_wrapper"><p>${escapeHtml(dateLabel)}</p></div></div>
@@ -184,6 +197,19 @@ const SPACING_STYLE = `<style id="cr-press-moved-spacing">
 .cr-press-loadmore #loadMore.noContent { opacity: 0.6; pointer-events: none; }
 </style>`;
 
+function normalizePressIcons($: cheerio.CheerioAPI) {
+  $("i.fas.fa-arrow-right, i.fa.fa-arrow-right").each((_, el) => {
+    const $i = $(el);
+    $i.attr("class", "fa fa-arrow-right");
+    $i.attr("aria-hidden", "true");
+    if (!$i.html()?.trim()) $i.html("");
+  });
+  $(".wpb_wrapper").each((_, wrap) => {
+    const $wrap = $(wrap);
+    if (!$wrap.html()?.trim()) $wrap.html("<!-- -->");
+  });
+}
+
 function updateFeaturedSection($: cheerio.CheerioAPI, featured: FeedCard | null) {
   if (!featured) return;
   const $feat = $("section.us_custom_869a0fec").first();
@@ -213,6 +239,12 @@ function updateFeaturedSection($: cheerio.CheerioAPI, featured: FeedCard | null)
     } else {
       $a.removeAttr("rel").removeAttr("target");
     }
+    let $icon = $a.find("i.fa-arrow-right").first();
+    if (!$icon.length) {
+      $a.append('<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+    } else {
+      $icon.attr("class", "fa fa-arrow-right").attr("aria-hidden", "true");
+    }
   }
 }
 
@@ -221,7 +253,7 @@ function updateFeaturedSection($: cheerio.CheerioAPI, featured: FeedCard | null)
  * press-release posts as internal cards, sort newest-first, one Load More.
  */
 export function rebuildPressListingHtml(bodyHtml: string): string {
-  const $ = cheerio.load(bodyHtml, { xml: { decodeEntities: false } } as any);
+  const $ = loadHtml(bodyHtml);
   const $main = $("#page-content");
   if (!$main.length) return bodyHtml;
 
@@ -235,9 +267,16 @@ export function rebuildPressListingHtml(bodyHtml: string): string {
     const $a = $card.find("a.w-btn").first();
     const href = $a.attr("href") || "";
     const img = $card.find("img").first().attr("src") || "";
+    // Normalize FA5 → FA4 so the loaded Font Awesome CSS can render icons.
+    $card.find("i.fas.fa-arrow-right").attr("class", "fa fa-arrow-right").attr("aria-hidden", "true");
+    // Keep empty wrappers from self-closing during serialize.
+    $card.find(".wpb_wrapper").each((__, wrap) => {
+      const $wrap = $(wrap);
+      if (!$wrap.html()?.trim()) $wrap.html("<!-- -->");
+    });
     externalCards.push({
       date: parseCardDate(dateText),
-      html: $.html($card),
+      html: fixSelfClosingTags($.html($card)),
       title,
       href,
       img,
@@ -297,11 +336,10 @@ export function rebuildPressListingHtml(bodyHtml: string): string {
   });
 
   // Apply featured update on a temporary parse of headers
-  const headerDoc = cheerio.load(`<div id="hdr">${headers.join("")}</div>`, {
-    xml: { decodeEntities: false },
-  } as any);
+  const headerDoc = loadHtml(`<div id="hdr">${headers.join("")}</div>`);
   updateFeaturedSection(headerDoc, featured);
-  const headerHtml = headerDoc("#hdr").html() || headers.join("");
+  normalizePressIcons(headerDoc);
+  const headerHtml = fixSelfClosingTags(headerDoc("#hdr").html() || headers.join(""));
 
   const rows: string[] = [];
   for (let i = 0; i < feed.length; i += 2) {
@@ -311,15 +349,17 @@ export function rebuildPressListingHtml(bodyHtml: string): string {
 
   const parts: string[] = [SPACING_STYLE, headerHtml];
   if (ctaHtml && rows.length >= 2) {
-    parts.push(rows[0], rows[1], ctaHtml, ...rows.slice(2));
+    parts.push(rows[0], rows[1], fixSelfClosingTags(ctaHtml), ...rows.slice(2));
   } else {
     parts.push(...rows);
-    if (ctaHtml) parts.push(ctaHtml);
+    if (ctaHtml) parts.push(fixSelfClosingTags(ctaHtml));
   }
   parts.push(LOAD_MORE_HTML);
-  if (contactHtml) parts.push(contactHtml);
+  if (contactHtml) parts.push(fixSelfClosingTags(contactHtml));
 
-  return `<main id="page-content" class="l-main" itemprop="mainContentOfPage">${parts.join("\n")}</main>`;
+  return fixSelfClosingTags(
+    `<main id="page-content" class="l-main" itemprop="mainContentOfPage">${parts.join("\n")}</main>`,
+  );
 }
 
 /**
@@ -328,7 +368,7 @@ export function rebuildPressListingHtml(bodyHtml: string): string {
  */
 export function extractPressReleaseArticleHtml(bodyHtml: string): string {
   if (!bodyHtml) return "";
-  const $ = cheerio.load(bodyHtml, { xml: { decodeEntities: false } } as any);
+  const $ = loadHtml(bodyHtml);
   const $main = $("#page-content");
   if (!$main.length) return bodyHtml;
 
