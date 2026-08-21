@@ -159,6 +159,64 @@ html body.elementor-page-blog{
 .elementor-244 .elementor-heading-title a{text-decoration:none;color:#0B092D;}
 .elementor-244 .elementor-heading-title a:hover{color:#1C1CD1;}
 .astro-archive-heading{font-size:1.75rem;font-weight:700;margin:0 0 1.5rem;color:#070c13}
+
+/* Equal-height Insights cards (Elementor loop template 5894) */
+.elementor-widget-loop-grid .elementor-loop-container.elementor-grid,
+.elementor-element-6dc4045 .elementor-loop-container.elementor-grid{
+  align-items:stretch !important;
+}
+.elementor-loop-container.elementor-grid > .e-loop-item.elementor-5894,
+.elementor-loop-container.elementor-grid > .elementor-5894{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  background:#fff;
+}
+.elementor-5894 > .elementor-element-d3dabbd,
+.elementor-5894 .elementor-element-d3dabbd > .elementor-container,
+.elementor-5894 .elementor-element-a830b31,
+.elementor-5894 .elementor-element-a830b31 > .elementor-widget-wrap{
+  height:100%;
+  display:flex !important;
+  flex-direction:column;
+  flex:1 1 auto;
+}
+.elementor-5894 .elementor-element-a830b31 > .elementor-widget-wrap{
+  justify-content:flex-start;
+}
+.elementor-5894 .elementor-element-5ee249c img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  display:block;
+}
+.elementor-5894 .elementor-element-f1ba8fd{
+  min-height:4.2em;
+}
+.elementor-5894 .elementor-element-f1ba8fd .elementor-heading-title{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  line-height:1.4em;
+}
+.elementor-5894 .elementor-element-bf5a7f6{
+  min-height:4.2em;
+  flex:1 1 auto;
+}
+.elementor-5894 .elementor-element-bf5a7f6 .elementor-widget-container,
+.elementor-5894 .elementor-element-bf5a7f6 p{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  margin:0;
+  line-height:1.4em;
+}
+.elementor-5894 .elementor-element-b0b500a{
+  margin-top:auto !important;
+  width:100%;
+}
 </style>`;
 
 const TAG_CARD_FIX_STYLES = `<style id="astro-tag-archive-css">
