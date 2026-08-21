@@ -5,6 +5,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { absolutizeMirrorSeoHtml } from "@connect/site-cms";
 import { injectRuntimeGtmLoader } from "./gtm/inject";
+import { injectBlogApbPosts } from "./inject-blog-apb";
 import { notFoundResponse } from "./not-found";
 
 const SITE_ORIGIN = (
@@ -94,6 +95,10 @@ export function serveLegacyPage(slug: string): Response {
   });
   html = injectRuntimeGtmLoader(html);
   html = absolutizeSeoUrls(html, slug);
+  if (slug === "blog") {
+    html = injectBlogApbPosts(html);
+    html = ensureStylesheet(html, "/css/apb-ssr-fallback.css");
+  }
   html = ensureStylesheet(html, "/css/form-mirror-fixes.css");
   // VC plugin assets were never mirrored — backgrounds need this fallback.
   html = ensureStylesheet(html, "/css/vc-background-fallback.css");
