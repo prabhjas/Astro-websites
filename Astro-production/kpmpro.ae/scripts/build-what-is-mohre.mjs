@@ -577,3 +577,16 @@ html = html.replace(
 
 writeFileSync(OUT, html);
 console.log('Wrote', OUT);
+
+// Keep new post first on Insights (/blog/) and homepage Latest Blog.
+const orderPath = join(ROOT, 'src/data/wp-blog-order.json');
+let order = [];
+try {
+  order = JSON.parse(readFileSync(orderPath, 'utf8'));
+  if (!Array.isArray(order)) order = [];
+} catch {
+  order = [];
+}
+order = [SLUG, ...order.filter((s) => s !== SLUG)];
+writeFileSync(orderPath, `${JSON.stringify(order, null, 2)}\n`);
+console.log('Insights order: prepended', SLUG);

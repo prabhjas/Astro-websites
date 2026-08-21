@@ -99,9 +99,8 @@ async function handle(request: Request): Promise<Response> {
     );
   }
 
-  const sorted = getAllBlogPosts()
-    .filter((p) => matchesCategory(p, category))
-    .sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt));
+  // Keep wp-blog-order.json sequence so newly added posts stay first on Insights.
+  const sorted = getAllBlogPosts().filter((p) => matchesCategory(p, category));
 
   const totalPages = Math.max(1, Math.ceil(sorted.length / postsPerPage));
   const safePage = Math.min(page, totalPages);
