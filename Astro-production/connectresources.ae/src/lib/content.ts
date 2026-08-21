@@ -77,7 +77,20 @@ export function getPageByPath(pathname: string): PageEntry | undefined {
 
 export function getPostByPath(pathname: string): PostEntry | undefined {
   const normalized = normalizePath(pathname);
-  return getPosts(true).find((p) => normalizePath(p.path) === normalized);
+  const direct = getPosts(true).find((p) => normalizePath(p.path) === normalized);
+  if (direct) return direct;
+
+  // Legacy /press-release/{slug}/ → same post at /press/{slug}/ (no HTTP redirect).
+  const legacy = normalized.match(/^\/press-release\/([^/]+)\/$/);
+  if (legacy) {
+    const slug = legacy[1];
+    const byType = getPosts(true).find(
+      (p) => p.type === "press-release" && p.slug === slug,
+    );
+    if (byType) return byType;
+    return getPosts(true).find((p) => normalizePath(p.path) === `/press/${slug}/`);
+  }
+  return undefined;
 }
 
 export function getPublishedPostByPath(pathname: string): PostEntry | undefined {
@@ -85,6 +98,18 @@ export function getPublishedPostByPath(pathname: string): PostEntry | undefined 
   if (!post) return undefined;
   if (post.status && post.status !== "published") return undefined;
   return post;
+}
+
+/** Blog listing posts only (excludes press-release + guides). */
+export function getBlogPosts(includeNonPublished = false): PostEntry[] {
+  return getPosts(includeNonPublished).filter((p) => !p.type || p.type === "post");
+}
+
+/** Internal press-release posts at /press/{slug}/. */
+export function getPressReleasePosts(): PostEntry[] {
+  return getPosts()
+    .filter((p) => p.type === "press-release")
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
 
 export function getCategoryBySlug(slug: string): CategoryEntry | undefined {
