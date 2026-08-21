@@ -1,9 +1,51 @@
-# Iberia EOR — Astro
-
 User-agent: *
-Allow: /
-Allow: /licence/
-Disallow: /api/
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-login.php
+Disallow: /wp-json/
+Disallow: /?rest_route=
+
+Disallow: /?s=
+Disallow: /page/*/?s=
 Disallow: /search/
+Disallow: /*?replytocom=
+Disallow: /*?orderby=
+Disallow: /*?filter=
+
+Disallow: /tag/
+Disallow: /category/
+Disallow: /blog/page/
+Disallow: /insights/page/
+Disallow: /feed
+Disallow: /rss
+Disallow: /api/
+
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /old-site-backups/
+
+Disallow: /cart
+Disallow: /checkout
+Disallow: /my-account
+Disallow: /login
+Disallow: /register
+
+
+Allow: /wp-content/
+Allow: /wp-content/uploads/
+Allow: /public
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
 
 Sitemap: https://iberiaeor.com/sitemap_index.xml
