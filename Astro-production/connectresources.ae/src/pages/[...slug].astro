@@ -15,7 +15,6 @@ import {
   isArabicPath,
 } from "../lib/content";
 import {
-  extractPressReleaseArticleHtml,
   isPressReleasePost,
   PRESS_LISTING_PATH,
   rebuildPressListingHtml,
@@ -47,10 +46,6 @@ let html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.
 
 if (page && path === PRESS_LISTING_PATH) {
   html = rebuildPressListingHtml(html);
-}
-
-if (isPressRelease) {
-  html = extractPressReleaseArticleHtml(html);
 }
 
 /** Astro sanitizes `<button>` in set:html; Impreza load-more needs a clickable control. */
@@ -148,9 +143,9 @@ const extraCss = [
 const hasMainShell = /id=["']page-content["']/.test(html);
 const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
 /** Elementor pages must not be wrapped in Impreza .l-section (breaks full-bleed layouts). */
-const renderRawHtml = !isPressRelease && (isImprezaShell || isElementorPage);
-/** Press releases always use the shared blog/post article template. */
-const useBlogPostTemplate = Boolean(post && (isPressRelease || !renderRawHtml));
+/** Press-release singles keep the mirrored Impreza layout (hero + body + related), same as live WP. */
+const renderRawHtml = isImprezaShell || isElementorPage;
+const useBlogPostTemplate = Boolean(post && !renderRawHtml);
 
 const bodyClass = page
   ? isElementorCanvas

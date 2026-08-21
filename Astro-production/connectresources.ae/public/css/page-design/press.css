@@ -1657,3 +1657,19 @@ section.l-section.wpb_row.us_custom_59449b10.height_small.ult-vc-hide-row.vc_row
   color:#1a1a1a!important;
 }
 
+/* Press Read More icon — use FA4 glyph; hide broken tofu if font fails */
+.cr-press-combined .w-btn.icon_atright .fa-arrow-right,
+.box_r2 .w-btn.icon_atright .fa-arrow-right,
+.box_r2 .w-btn.icon_atright .fas.fa-arrow-right{
+  font-family: FontAwesome !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  display: inline-block;
+  speak: never;
+}
+.cr-press-combined .w-btn.icon_atright .fa-arrow-right:before,
+.box_r2 .w-btn.icon_atright .fa-arrow-right:before,
+.box_r2 .w-btn.icon_atright .fas.fa-arrow-right:before{
+  content: "\f061";
+}
+
