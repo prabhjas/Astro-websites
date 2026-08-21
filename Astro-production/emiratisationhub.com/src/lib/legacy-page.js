@@ -9,7 +9,7 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 
-const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || '')
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://emiratisationhub.com')
   .trim()
   .replace(/\/$/, '');
 
@@ -20,9 +20,10 @@ function promoteLazyImages(html) {
       attrs.match(/(?:^|\s)data-src=(['"])(.*?)\1/i);
     if (!lazySrc) return full;
     let next = String(attrs).replace(/\/\s*$/, '').trimEnd();
-    // Avoid matching the "src=" inside "data-src=" / "data-lazy-src="
-    if (/(?:^|\s)src=(['"])/.test(next)) {
-      next = next.replace(/(?:^|\s)src=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}src=${q}${lazySrc[2]}${q}`);
+    // Replace existing src (including SVG placeholders) with the real lazy src.
+    // Use a negative lookbehind to avoid matching inside "data-src=" / "data-lazy-src=".
+    if (/(?<![a-z-])src=(['"])/i.test(next)) {
+      next = next.replace(/(?<![a-z-])src=(['"])(.*?)\1/i, (_m, q) => `src=${q}${lazySrc[2]}${q}`);
     } else {
       next += ` src="${lazySrc[2]}"`;
     }
@@ -30,8 +31,8 @@ function promoteLazyImages(html) {
       next.match(/\bdata-lazy-srcset=(['"])(.*?)\1/i) ||
       next.match(/(?:^|\s)data-srcset=(['"])(.*?)\1/i);
     if (lazySrcset) {
-      if (/(?:^|\s)srcset=(['"])/.test(next)) {
-        next = next.replace(/(?:^|\s)srcset=(['"])(.*?)\1/i, (m, q) => `${m.startsWith(' ') ? ' ' : ''}srcset=${q}${lazySrcset[2]}${q}`);
+      if (/(?<![a-z-])srcset=(['"])/i.test(next)) {
+        next = next.replace(/(?<![a-z-])srcset=(['"])(.*?)\1/i, (_m, q) => `srcset=${q}${lazySrcset[2]}${q}`);
       } else {
         next += ` srcset="${lazySrcset[2]}"`;
       }
@@ -54,6 +55,13 @@ function normalizeLegacyDocumentUrls(html) {
     .replace(/(href|src|data-lazy-src)=(["'])\/\//g, '$1=$2/')
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
 
+  // Some migrated 2024/11 banner "png" assets are actually HTML fallback pages.
+  // Remap known broken service/about hero files to the valid local banner.
+  out = out.replace(
+    /\/wp-content\/uploads\/2024\/11\/(?:BG-min|BG-1-min|BG-2-min|about-banner-min)\.png/g,
+    '/wp-content/uploads/2024/02/Contact-banner.png',
+  );
+
   // Promote WP Rocket lazy images AND Elementor/Swiper lazy (data-src) so carousels paint.
   out = promoteLazyImages(out);
 
@@ -63,6 +71,29 @@ function normalizeLegacyDocumentUrls(html) {
       /<\/head>/i,
       '<link rel="stylesheet" href="/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css" />\n</head>',
     );
+  }
+
+  // WP Rocket min cache breaks icon webfont paths on the Astro mirror.
+  out = out.replace(
+    /\/wp-content\/cache\/min\/\d+\/wp-content\/plugins\/elementor\/assets\/lib\/(font-awesome|eicons)\//gi,
+    '/wp-content/plugins/elementor/assets/lib/$1/',
+  );
+
+  out = out.replace(
+    /\/wp-content\/plugins\/elementor\/assets\/lib\/css\/elementor-icons\.min\.css/gi,
+    '/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css',
+  );
+
+  const iconCss = [
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css',
+    '/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css',
+  ];
+  for (const href of iconCss) {
+    if (!out.includes(href)) {
+      out = out.replace(/<\/head>/i, `<link rel="stylesheet" href="${href}" />\n</head>`);
+    }
   }
 
   // WP Rocket defers CSS behind user-interaction events (data-rocket-async="style").
@@ -83,12 +114,40 @@ function normalizeLegacyDocumentUrls(html) {
     },
   );
 
+  // WP Rocket's bootstrap class hijacks DOMContentLoaded/load/jQuery.ready and waits
+  // for user interaction before firing deferred scripts. Remove it entirely so
+  // Elementor, Swiper, and other widgets initialize immediately on page load.
+  out = out.replace(/<script[^>]*>\s*\(?\(\)\s*=>\s*\{class RocketLazyLoadScripts[\s\S]*?RocketLazyLoadScripts\.run\(\)\s*\}\s*\)?\(\)\s*;?\s*<\/script>/i, '');
+
+  // Convert WP Rocket deferred scripts to real scripts.
+  out = out
+    .replace(/<script\b([^>]*)\btype=["']rocketlazyloadscript["']([^>]*)>/gi, (_m, pre, post) => {
+      let attrs = (pre + post)
+        .replace(/\sdata-rocket-src=["']([^"']*)["']/gi, ' src="$1"')
+        .replace(/\sdata-rocket-defer\b/gi, ' defer');
+      return `<script${attrs}>`;
+    });
+
+  // Also handle data-rocket-type (Elementor modules)
+  out = out.replace(/\sdata-rocket-type=["']([^"']*)["']/gi, ' type="$1"');
+
   return out;
 }
+
+/** Per-page meta descriptions for key service pages missing them. */
+const PAGE_DESCRIPTIONS = {
+  'emiratisation': 'Hire Emirati talent with expert Emiratisation solutions in the UAE. Meet workforce requirements, stay compliant, and build a skilled local team with Emiratisation Hub.',
+  'about-us': 'Learn about Emiratisation Hub — our mission to support UAE businesses in building a strong national workforce through expert Emiratisation services.',
+  'recruitment': 'Top Emiratisation recruitment agency in Dubai. Recruit and hire Emirati nationals for your company with professional recruitment services from Emiratisation Hub.',
+  'staff-outsourcing': 'Premium staff outsourcing services in the UAE. Emiratisation Hub helps you find the perfect staff, handle recruitment, and follow Emiratisation guidelines.',
+  'blog': 'Read the latest articles on Emiratisation, UAE labour laws, recruitment trends, and workforce management from the experts at Emiratisation Hub.',
+  'homepage': 'Emiratisation Hub provides expert Emiratisation solutions, recruitment, and staff outsourcing services in the UAE. Connect with our experts today.',
+};
 
 /** Resolve migrated relative SEO URLs to the canonical production origin. */
 function absolutizeSeoUrls(html, slug = 'homepage') {
   const fallbackPath = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
+  const canonicalTarget = `${SITE_ORIGIN}${fallbackPath}`;
   const absolute = (value) => {
     try {
       return new URL(value || fallbackPath, `${SITE_ORIGIN}/`).href;
@@ -98,14 +157,18 @@ function absolutizeSeoUrls(html, slug = 'homepage') {
   };
 
   let out = html
-    .replace(/(<link\s+rel="canonical"\s+href=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
-      `${before}${absolute(value)}${after}`,
-    )
     .replace(/(<meta\s+property="og:url"\s+content=")([^"]+)("[^>]*>)/i, (_, before, value, after) =>
       `${before}${absolute(value)}${after}`,
     );
-  if (!/rel=["']canonical["']/i.test(out)) {
-    out = out.replace(/<\/head>/i, `<link rel="canonical" href="${absolute(fallbackPath)}" />\n</head>`);
+
+  // Force canonical to an absolute production URL for the current slug.
+  if (/rel=["']canonical["']/i.test(out)) {
+    out = out.replace(
+      /<link\b[^>]*rel=["']canonical["'][^>]*>/i,
+      `<link rel="canonical" href="${canonicalTarget}" />`,
+    );
+  } else {
+    out = out.replace(/<\/head>/i, `<link rel="canonical" href="${canonicalTarget}" />\n</head>`);
   }
   return out;
 }
@@ -127,6 +190,18 @@ export function serveLegacyPage(slug) {
     slug,
   );
 
+  // Enforce per-page meta description (replace if present, insert if absent).
+  if (PAGE_DESCRIPTIONS[slug]) {
+    if (/<meta[^>]*name=["']description["'][^>]*>/i.test(html)) {
+      html = html.replace(
+        /<meta[^>]*name=["']description["'][^>]*>/i,
+        `<meta name="description" content="${PAGE_DESCRIPTIONS[slug]}" />`,
+      );
+    } else {
+      html = html.replace(/<\/head>/i, `<meta name="description" content="${PAGE_DESCRIPTIONS[slug]}" />\n</head>`);
+    }
+  }
+
   // Homepage skips shared chrome — still need form/menu caret CSS.
   if (!html.includes('form-fix.css') && !html.includes('data-eme-form-fix')) {
     const formCss = '<link rel="stylesheet" href="/css/form-fix.css" data-eme-form-fix="1" />';
@@ -147,8 +222,10 @@ export function serveLegacyPage(slug) {
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=20260819-icons3" defer></script>\n</body>',
     );
+  } else if (!html.includes('astro-mirror-fixes.js?v=20260819-icons3')) {
+    html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
   html = sanitizeMirrorHtml(html);

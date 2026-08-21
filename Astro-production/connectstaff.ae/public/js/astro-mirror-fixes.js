@@ -1563,6 +1563,15 @@
       '.elementor-widget-loop-carousel .elementor-loop-container:not(.swiper-initialized) .swiper-slide{flex:0 0 calc(33.333% - 20px);max-width:calc(33.333% - 20px);}',
       '@media (max-width:1024px){.elementor-widget-loop-carousel .elementor-loop-container:not(.swiper-initialized) .swiper-slide{flex:0 0 calc(50% - 15px);max-width:calc(50% - 15px);}}',
       '@media (max-width:767px){.elementor-widget-loop-carousel .elementor-loop-container:not(.swiper-initialized) .swiper-slide{flex:0 0 100%;max-width:100%;}}',
+      /* Insights cards: equal-height boxes (override homepage height:unset) */
+      '.article-2 .elementor-loop-container .swiper-wrapper{align-items:stretch!important;}',
+      '.article-2 .elementor-loop-container .swiper-slide,.article-2 .elementor-loop-container .e-loop-item{height:auto!important;display:flex!important;flex-direction:column!important;}',
+      '.article-2 .elementor-loop-container .e-loop-item>.elementor,.article-2 .elementor-loop-container .e-loop-item>.elementor-section,.article-2 .elementor-loop-container .e-loop-item .elementor-container,.article-2 .elementor-loop-container .height_eql{height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important;}',
+      '.article-2 .elementor-loop-container .height_eql>.elementor-element-populated{height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important;}',
+      '.article-2 .elementor-widget-theme-post-featured-image img{width:100%!important;aspect-ratio:16/10;height:auto!important;object-fit:cover;display:block;}',
+      '.article-2 .elementor-widget-theme-post-title{flex:1 1 auto;}',
+      '.article-2 .elementor-widget-theme-post-title .elementor-heading-title{min-height:calc(1.4em * 3);}',
+      '.article-2 .elementor-widget-theme-post-excerpt{display:none!important;}',
       /* Happy Addons staff carousel: horizontal row before slick boots */
       '.elementor-widget-ha-carousel .hajs-slick:not(.slick-initialized){display:flex;flex-wrap:nowrap;overflow:hidden;gap:12px;}',
       '.elementor-widget-ha-carousel .hajs-slick:not(.slick-initialized) .ha-slick-slide{flex:0 0 20%;max-width:20%;}',
