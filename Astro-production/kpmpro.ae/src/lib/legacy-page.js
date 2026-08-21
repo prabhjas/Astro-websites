@@ -10,6 +10,7 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { injectPageBreadcrumbs } from './page-breadcrumbs.js';
 import { applySharedChrome } from './shared-chrome.js';
+import { injectHomepageLatestBlog } from './blog.ts';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://kpmpro.ae')
   .trim()
@@ -59,8 +60,10 @@ export function serveLegacyPage(slug) {
   }
 
   const raw = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, 'utf-8'));
+  let withLatest =
+    !slug || slug === 'homepage' ? injectHomepageLatestBlog(raw, 3) : raw;
   let html = absolutizeSeoUrls(
-    injectPageBreadcrumbs(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug),
+    injectPageBreadcrumbs(injectRuntimeGtmLoader(applySharedChrome(withLatest, slug)), slug),
     slug,
   );
 
