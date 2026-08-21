@@ -91,7 +91,7 @@ export function renderBlogCardHtml(post: PostEntry): string {
 								<li class="elementor-icon-list-item elementor-repeater-item-06bbfcb elementor-inline-item" itemprop="about">
 													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
 										<span class="elementor-post-info__terms-list">
-				<a href="${escapeAttr(cat.path)}" class="elementor-post-info__terms-list-item">${escapeAttr(cat.name)}</a>				</span>
+				<span class="elementor-post-info__terms-list-item">${escapeAttr(cat.name)}</span>				</span>
 					</span>
 								</li>
 				</ul>
