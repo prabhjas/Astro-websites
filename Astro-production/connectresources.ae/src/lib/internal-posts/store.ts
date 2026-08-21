@@ -148,7 +148,12 @@ function resolveTagIds(tags: InternalPost["tags"]): number[] {
 
 function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
   const slug = safeSlug(post.slug);
-  const path = `/${slug}/`;
+  const isPressRelease =
+    previous?.type === "press-release" ||
+    Boolean(slug && previous?.path?.startsWith("/press/")) ||
+    Boolean((post as { postType?: string }).postType === "press-release") ||
+    Boolean((post as { type?: string }).type === "press-release");
+  const path = isPressRelease ? `/press/${slug}/` : `/${slug}/`;
   const robots = parseRobots(post.robots);
   const authors = readAuthors();
   const author =
@@ -163,7 +168,7 @@ function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
 
   return {
     id: previous?.id || post.id || nextNumericId(readPosts()),
-    type: "post",
+    type: isPressRelease ? "press-release" : "post",
     slug,
     path,
     link: `${SITE_ORIGIN}${path}`,
@@ -198,10 +203,13 @@ function internalToEntry(post: InternalPost, previous?: PostEntry): PostEntry {
       schemas: previous?.seo?.schemas || [],
     },
     elementorCss: previous?.elementorCss,
-    pageCss: previous?.pageCss || [
-      "/wp-content/uploads/elementor/css/post-652.css",
-      "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
-    ],
+    pageCss: previous?.pageCss ||
+      (isPressRelease
+        ? ["/css/impreza-global.css"]
+        : [
+            "/wp-content/uploads/elementor/css/post-652.css",
+            "/wp-content/plugins/elementor/assets/css/widget-spacer.min.css",
+          ]),
     status: post.status || "published",
   };
 }
