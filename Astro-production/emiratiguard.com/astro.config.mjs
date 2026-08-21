@@ -40,7 +40,7 @@ export default defineConfig({
       { hostname: "www.emiratiguard.com", protocol: "http" },
       { hostname: "emiratiguard.com", protocol: "https" },
       { hostname: "emiratiguard.com", protocol: "http" },
-      { hostname: "localhost", protocol: "http" },
+      // Local fleet: FLEET_LOCAL_URL uses 127.0.0.1 only (not localhost).
       { hostname: "127.0.0.1", protocol: "http" },
     ],
   },
