@@ -60,8 +60,11 @@ export default defineConfig({
         name: "emiratiguard-dev-trailing-slash",
         enforce: "post",
         configureServer(server) {
-          /** @type {import('vite').Connect.NextHandleFunction} */
-          const redirectBarePaths = (req, res, next) => {
+          const redirectBarePaths = (
+            /** @type {import('node:http').IncomingMessage} */ req,
+            /** @type {import('node:http').ServerResponse} */ res,
+            /** @type {(err?: unknown) => void} */ next,
+          ) => {
             const raw = req.url || "/";
             const q = raw.indexOf("?");
             const path = q >= 0 ? raw.slice(0, q) : raw;
