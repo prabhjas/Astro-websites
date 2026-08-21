@@ -14,6 +14,12 @@ import {
   smartSliderCssForHtml,
   isArabicPath,
 } from "../lib/content";
+import {
+  extractPressReleaseArticleHtml,
+  isPressReleasePost,
+  PRESS_LISTING_PATH,
+  rebuildPressListingHtml,
+} from "../lib/press";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import {
   isNoIndexNoFollowPath,
@@ -35,8 +41,18 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
+const isPressRelease = Boolean(post && isPressReleasePost(post));
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
 let html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string);
+
+if (page && path === PRESS_LISTING_PATH) {
+  html = rebuildPressListingHtml(html);
+}
+
+if (isPressRelease) {
+  html = extractPressReleaseArticleHtml(html);
+}
+
 /** Astro sanitizes `<button>` in set:html; Impreza load-more needs a clickable control. */
 if (page && path === "/insights/") {
   html = html.replace(
@@ -53,16 +69,32 @@ const pageCrumbs = page
     ]
   : [];
 
-const related = post ? getRelatedPosts(post, 3) : [];
+const related = post
+  ? getRelatedPosts(post, 3).filter((p) =>
+      isPressRelease ? isPressReleasePost(p) : !isPressReleasePost(p),
+    )
+  : [];
+// Fall back if type-filtered related is empty
+const relatedFinal =
+  post && related.length === 0 ? getRelatedPosts(post, 3) : related;
+
 const postCrumbs = post
-  ? [
-      { name: "Home", href: "/" },
-      { name: "Blog", href: "/blog/" },
-      { name: stripHtml(post.title) },
-    ]
+  ? isPressRelease
+    ? [
+        { name: "Home", href: "/" },
+        { name: "Press", href: PRESS_LISTING_PATH },
+        { name: stripHtml(post.title) },
+      ]
+    : [
+        { name: "Home", href: "/" },
+        { name: "Blog", href: "/blog/" },
+        { name: stripHtml(post.title) },
+      ]
   : [];
 
 const lpNoIndex = isNoIndexNoFollowPath(path);
+/** Prefer canonical post.path so legacy /press-release/{slug}/ does not become the SEO URL. */
+const postCanonical = post ? normalizePath(post.path || path) : path;
 
 const seo = page
   ? {
@@ -79,7 +111,7 @@ const seo = page
   : {
       title: post!.seo.title || stripHtml(post!.title),
       description: post!.seo.description || stripHtml(post!.excerpt),
-      canonical: path,
+      canonical: postCanonical,
       ogImage: post!.seo.ogImage || post!.featuredImage,
       ogType: "article" as const,
       publishedTime: post!.date,
@@ -87,11 +119,11 @@ const seo = page
       authorName: post!.authorName,
       schemas: [
         ...(post!.seo.schemas || []),
-        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || postCanonical }))),
         articleSchema({
           title: stripHtml(post!.title),
           description: post!.seo.description || stripHtml(post!.excerpt),
-          url: path,
+          url: postCanonical,
           image: post!.featuredImage || post!.seo.ogImage,
           datePublished: post!.date,
           dateModified: post!.modified,
@@ -116,7 +148,9 @@ const extraCss = [
 const hasMainShell = /id=["']page-content["']/.test(html);
 const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
 /** Elementor pages must not be wrapped in Impreza .l-section (breaks full-bleed layouts). */
-const renderRawHtml = isImprezaShell || isElementorPage;
+const renderRawHtml = !isPressRelease && (isImprezaShell || isElementorPage);
+/** Press releases always use the shared blog/post article template. */
+const useBlogPostTemplate = Boolean(post && (isPressRelease || !renderRawHtml));
 
 const bodyClass = page
   ? isElementorCanvas
@@ -127,6 +161,11 @@ const bodyClass = page
   : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
 
 const arabic = isArabicPath(path);
+const menuActivePath = post
+  ? isPressRelease
+    ? PRESS_LISTING_PATH
+    : "/blog/"
+  : undefined;
 ---
 
 <BaseLayout
@@ -135,7 +174,7 @@ const arabic = isArabicPath(path);
   fallback={entry.seo}
   extraCss={extraCss}
   seo={seo}
-  menuActivePath={post ? "/blog/" : undefined}
+  menuActivePath={menuActivePath}
   loadElementor={isElementorPage}
   hideSiteChrome={isElementorCanvas}
   htmlLang={arabic ? "ar" : "en-AE"}
@@ -143,7 +182,7 @@ const arabic = isArabicPath(path);
   ogLocale={arabic ? "ar_AE" : "en_US"}
 >
   {
-    renderRawHtml ? (
+    renderRawHtml && !useBlogPostTemplate ? (
       <Fragment set:html={html} />
     ) : page ? (
       <main id="page-content" class="l-main">
@@ -182,11 +221,11 @@ const arabic = isArabicPath(path);
             </div>
             <div class="w-blog-post-body" set:html={html} />
             {
-              related.length > 0 && (
+              relatedFinal.length > 0 && (
                 <section class="sp-related" style="margin-top:2rem">
                   <h2>Related</h2>
                   <div class="sp-blog-grid">
-                    {related.map((r) => (
+                    {relatedFinal.map((r) => (
                       <PostCard post={r} />
                     ))}
                   </div>

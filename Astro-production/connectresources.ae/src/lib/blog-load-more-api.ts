@@ -4,7 +4,7 @@ import {
   renderBlogCardsHtml,
   renderImprezaGridCardsHtml,
 } from "./blog-card-html";
-import { getCategories, getPosts, paginate, type PostEntry } from "./content";
+import { getCategories, getBlogPosts, paginate, type PostEntry } from "./content";
 
 /** Category slugs used by the main ajax grid on /insights/ (us_grid_3). */
 function filterInsightsGridPosts(posts: PostEntry[]): PostEntry[] {
@@ -36,7 +36,7 @@ export async function handleBlogLoadMoreGet(url: URL): Promise<Response> {
       .filter((n) => Number.isFinite(n) && n > 0),
   );
 
-  let sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  let sorted = getBlogPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
   if (format === "impreza" && grid === "insights") {
     sorted = filterInsightsGridPosts(sorted);
   }
