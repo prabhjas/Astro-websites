@@ -1,0 +1,11 @@
+---
+/**
+ * /author/ — reuse the /blog/ HTML shell (same header, footer, CSS, scripts
+ * as homepage/blog) and inject the author directory page content.
+ */
+import { serveAuthorHub } from "../../lib/author-hub-page";
+
+export const prerender = false;
+
+return serveAuthorHub();
+---

@@ -157,6 +157,9 @@ function normalizeAssetUrlsInHtml(html) {
 function cleanHtml(html) {
   let out = html;
 
+  // Stray `=Hi` after the WhatsApp button (broken `&text= Hi, …` leftover).
+  out = out.replace(/^\s*=Hi\s*$/gm, '');
+
   out = out.replace(
     /<script type='text\/javascript' src='https?:\/\/(?:www\.)?connectresources\.sa\/oUgCj[^']+'><\/script>/,
     '',

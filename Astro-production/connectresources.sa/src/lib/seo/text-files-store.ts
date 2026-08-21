@@ -1,7 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import { ROBOTS_DISALLOW_PATHS } from './sitemap-config.ts';
-
 export type ManagedTextFile = {
   content: string;
   updatedAt: string;
@@ -16,24 +14,80 @@ function filePath(rootDir: string, kind: ManagedTextKind): string {
 
 export function defaultRobotsContent(siteOrigin: string): string {
   const origin = siteOrigin.replace(/\/$/, '');
-  const disallow = ROBOTS_DISALLOW_PATHS.map((p) => `Disallow: ${p}`);
-  return [
-    '# Connect Resources Saudi robots.txt (fleet default; FLOW can override)',
-    '',
-    `Sitemap: ${origin}/sitemap_index.xml`,
-    '',
-    'User-agent: *',
-    ...disallow,
-    'Allow: /wp-admin/admin-ajax.php',
-    '',
-    'User-agent: Googlebot',
-    'Allow: /',
-    '',
-    'User-agent: Bingbot',
-    'Allow: /',
-    'Crawl-delay: 10',
-    '',
-  ].join('\n');
+  return `# robots.txt for connectresources.sa
+
+User-agent: *
+Allow: /
+
+# Block WordPress admin/system areas
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/uploads/wpforms/
+Disallow: /wp-json/
+Disallow: /xmlrpc.php
+Disallow: /cgi-bin/
+Disallow: /trackback/
+Disallow: /comments/feed/
+Disallow: /?s=
+Disallow: /search/
+Disallow: /*?p=
+Disallow: /*?replytocom=
+Disallow: /*/attachment/
+
+# Block internal/duplicate parameter URLs from being crawled and indexed separately
+Disallow: /*?*utm_
+Disallow: /*?*fbclid
+Disallow: /*?*gclid
+
+# Block low-value archive and feed URLs
+Disallow: /tag/
+Disallow: /category/
+Disallow: /*/feed/
+Disallow: /feed/
+Disallow: /*/embed/
+
+# Explicitly allow major AI crawlers (for visibility in AI-assisted search and answers)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Block aggressive/low-value scrapers known for excessive crawl load
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemap reference
+Sitemap: ${origin}/sitemap_index.xml
+LLMS: ${origin}/llms.txt
+`;
 }
 
 export function defaultLlmContent(): string {

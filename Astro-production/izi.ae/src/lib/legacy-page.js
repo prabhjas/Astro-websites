@@ -11,6 +11,7 @@ import { notFoundResponse } from './not-found.js';
 import { applySharedChrome, injectLicenceSection } from './shared-chrome.js';
 import { resolveSiteOrigin } from './seo/site-url.ts';
 import { hydrateReviewFormFromQuery } from './review-form-hydrate.js';
+import { applyLegacyMirrorHygiene } from './mirror-hygiene.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://izi.ae')
   .trim()
@@ -145,7 +146,10 @@ export function serveLegacyPage(slug, options = {}) {
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slug)));
+  let html = applyLegacyMirrorHygiene(
+    injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slug))),
+    slug,
+  );
 
   // Live WP fills review-form from ?Model=&post-id=&… query (CF7 default:get + car shortcode).
   if (slug === 'review-form' && options.requestUrl) {

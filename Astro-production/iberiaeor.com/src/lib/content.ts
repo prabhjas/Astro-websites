@@ -110,8 +110,13 @@ export function getPostsByTag(tagId: number): PostEntry[] {
 }
 
 export function getPostsByAuthor(authorId: number): PostEntry[] {
+  const author = getAuthors().find((a) => a.id === authorId);
   return getPosts()
-    .filter((p) => p.author === authorId)
+    .filter((p) => {
+      if (p.author === authorId) return true;
+      if (author?.slug && p.authorSlug === author.slug) return true;
+      return false;
+    })
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
 
