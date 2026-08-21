@@ -1,0 +1,74 @@
+/**
+ * Advanced Post Block normally hydrates with React and injects inline layout
+ * styles. Our /blog/ SSR path strips that client bundle (react.min.js is not
+ * mirrored), so thumbs collapse to width:0. Force a usable grid card layout.
+ */
+.wp-block-ap-block-posts .apbGridPosts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+@media (max-width: 991px) {
+  .wp-block-ap-block-posts .apbGridPosts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575px) {
+  .wp-block-ap-block-posts .apbGridPosts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.wp-block-ap-block-posts .apbPost.apbDefault {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  background: #f4f2fc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb {
+  width: 100% !important;
+  max-width: 100% !important;
+  align-self: stretch;
+  flex: 0 0 auto;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb > a,
+.wp-block-ap-block-posts .apbPost .apbThumb img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.wp-block-ap-block-posts .apbPost .apbText {
+  padding: 20px 25px;
+}
+
+.wp-block-ap-block-posts .apbPost .apbTitle h3 {
+  margin: 0 0 0.5em;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta .metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.wp-block-ap-block-posts .apbPost .apbReadMore a {
+  font-weight: 600;
+}

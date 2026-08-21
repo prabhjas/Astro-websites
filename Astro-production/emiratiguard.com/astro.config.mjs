@@ -40,7 +40,7 @@ export default defineConfig({
       { hostname: "www.emiratiguard.com", protocol: "http" },
       { hostname: "emiratiguard.com", protocol: "https" },
       { hostname: "emiratiguard.com", protocol: "http" },
-      { hostname: "localhost", protocol: "http" },
+      // Local fleet: FLEET_LOCAL_URL uses 127.0.0.1 only (not localhost).
       { hostname: "127.0.0.1", protocol: "http" },
     ],
   },
@@ -54,15 +54,48 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       {
-        name: "emiratiguard-serve-swiper",
+        // Astro 7.1+ `trailingSlash: "always"` rejects bare paths with 404 in
+        // `astro dev` (by design). Production app middleware + Caddy 301 instead.
+        // Unshift after Astro's own trailing-slash middleware so local matches live.
+        name: "emiratiguard-dev-trailing-slash",
+        enforce: "post",
         configureServer(server) {
-          server.middlewares.use((req, res, next) => {
-            const url = req.url?.split("?")[0] || "";
-            if (url === "/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js") {
-              req.url = "/scripts/swiper.min.js";
+          /** @type {import('vite').Connect.NextHandleFunction} */
+          const redirectBarePaths = (req, res, next) => {
+            const raw = req.url || "/";
+            const q = raw.indexOf("?");
+            const path = q >= 0 ? raw.slice(0, q) : raw;
+            const search = q >= 0 ? raw.slice(q) : "";
+            const method = req.method || "GET";
+            const skip =
+              path === "/" ||
+              path.endsWith("/") ||
+              path.includes(".") ||
+              path.startsWith("/@") ||
+              path.startsWith("/node_modules") ||
+              path.startsWith("/__");
+            if (!skip && method !== "OPTIONS") {
+              res.statusCode = method === "GET" || method === "HEAD" ? 301 : 308;
+              res.setHeader("Location", `${path}/${search}`);
+              res.end();
+              return;
+            }
+            if (path === "/wp-content/plugins/elementor/assets/lib/swiper/v8/swiper.min.js") {
+              req.url = `/scripts/swiper.min.js${search}`;
             }
             next();
-          });
+          };
+
+          return () => {
+            // Astro unshifts its 404 trailing-slash guard in its post-hook.
+            // Run after that stack mutation so we sit in front and 301 like prod.
+            queueMicrotask(() => {
+              server.middlewares.stack.unshift({
+                route: "",
+                handle: redirectBarePaths,
+              });
+            });
+          };
         },
       },
     ],
