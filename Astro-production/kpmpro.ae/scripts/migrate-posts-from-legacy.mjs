@@ -390,7 +390,9 @@ async function main() {
     }
   }
 
-  await writeTaxonomies(migrated);
+  if (!onlySlug) {
+    await writeTaxonomies(migrated);
+  }
   // New / re-migrated posts go first on Insights (/blog/).
   await prependBlogOrder(migrated.map((p) => p.slug));
   console.log(`\nMigrated ${ok} posts, ${fail} failed/skipped`);
