@@ -1,0 +1,122 @@
+---
+import { Image } from "astro:assets";
+import professionalConversation from "../../assets/images/professional-conversation.webp";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import { getUi } from "../../i18n/copy";
+import { withLocale } from "../../i18n/locale";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+const { lang, t } = getUi(Astro.url.pathname);
+const s = t.services;
+---
+
+<section
+  id="services"
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="services-heading"
+>
+  <div class="section-shell flex flex-col items-start gap-16">
+    <header class="flex w-full flex-col items-start gap-3" data-reveal>
+      <p
+        class="text-caption font-medium tracking-[0.26px] whitespace-nowrap text-text-link"
+      >
+        {s.eyebrow}
+      </p>
+      <h2 id="services-heading" class="text-h2 text-text-primary">
+        {s.heading}
+      </h2>
+    </header>
+
+    <div class="flex w-full flex-col gap-6">
+      <!-- Row 1: anchor card (845px) + tall secondary card (411px) -->
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-stretch">
+        <article
+          class="card-focus relative isolate flex min-h-[440px] flex-1 flex-col items-start gap-6 overflow-hidden rounded-xl border border-transparent bg-navy p-8 lg:p-12"
+          data-reveal
+        >
+          <!-- Flip, duotone and opacity are baked into the export -->
+          <Image
+            src={professionalConversation}
+            alt=""
+            widths={[845, 1690]}
+            sizes="(min-width: 1024px) 845px, 100vw"
+            class="pointer-events-none absolute inset-0 -z-10 size-full object-cover"
+            loading="lazy"
+          />
+          <div class="flex w-full flex-col items-start gap-4 text-text-inverse">
+            <h3 class="text-h2">{s.eorTitle}</h3>
+            <p class="max-w-[560px] text-body-lg opacity-90">
+              {s.eorBody}
+            </p>
+          </div>
+          <div class="mt-auto">
+            {/* `card-link` stretches this anchor over the whole card — see
+                global.css. The card is already `relative isolate`, which is
+                what the overlay resolves against. */}
+            <Button
+              variant="ghost-on-dark"
+              size="md"
+              href={withLocale(s.eorHref, lang)}
+              class="card-link"
+            >
+              {s.eorCta}
+              <Icon src={chevronRight} size={20} tone="current" />
+            </Button>
+          </div>
+        </article>
+
+        <article
+          class="card-focus relative flex flex-col items-start justify-between gap-6 rounded-xl border border-border-subtle bg-bg-surface p-6 lg:w-[411px] lg:shrink-0"
+          data-reveal
+          style="--reveal-i:1"
+        >
+          <div class="flex w-full flex-col items-start gap-2">
+            <h3 class="text-h4 text-text-primary">{s.payrollTitle}</h3>
+            <p class="text-body-sm text-text-secondary">
+              {s.payrollBody}
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            size="md"
+            href={withLocale(s.payrollHref, lang)}
+            class="card-link"
+          >
+            {s.payrollCta}
+            <Icon src={chevronRight} size={20} tone="current" />
+          </Button>
+        </article>
+      </div>
+
+      <!-- Row 2: three equal cards -->
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          s.cards.map((service, i) => (
+            <article
+              class="card-focus relative flex min-h-[208px] flex-col items-start justify-between gap-6 rounded-xl border border-border-subtle bg-bg-surface p-6"
+              data-reveal
+              style={`--reveal-i:${i}`}
+            >
+              <div class="flex w-full flex-col items-start gap-2">
+                <h3 class="text-h4 text-text-primary">{service.title}</h3>
+                <p class="text-body-sm text-text-secondary">
+                  {service.description}
+                </p>
+              </div>
+              <Button
+                variant="ghost"
+                size="md"
+                href={withLocale(service.href, lang)}
+                class="card-link"
+              >
+                {service.cta}
+                <Icon src={chevronRight} size={20} tone="current" />
+              </Button>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,169 +1,51 @@
 ---
 /**
- * Custom 404 for unknown / unprepared URLs.
- * Must return HTTP 404 (not 503) so crawlers drop dead links and visitors
- * never see internal prepare:page instructions.
+ * Not found.
+ *
+ * Without this file Astro ships its own default 404, which carries no brand at
+ * all — the go-live checklist calls that out specifically, because a peer's or
+ * a framework's 404 on a live domain reads as a broken deployment.
+ *
+ * Deliberately plain: no photograph, no shader, no reveal. Someone reaching
+ * this page is looking for a way out of it, and the navbar and footer the
+ * layout already supplies are that way out. It carries `noindex` because a 404
+ * that renders 200-shaped HTML is exactly what a soft-404 is.
  */
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/ui/Button.astro";
+import { getUi } from "../i18n/copy";
+import { withLocale } from "../i18n/locale";
+
 export const prerender = false;
 
+const { lang, t } = getUi(Astro.url.pathname);
+const n = t.notFound;
+
 Astro.response.status = 404;
-Astro.response.statusText = 'Not Found';
+Astro.response.statusText = "Not Found";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Page not found | Iberia Workforce</title>
-    <meta
-      name="description"
-      content="The page you requested could not be found on Iberia Workforce."
-    />
-    <meta name="robots" content="noindex, follow" />
-    <link
-      rel="icon"
-      href="/favicon.svg"
-      sizes="32x32"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
-    <style>
-      :root {
-        --ink: #0b092d;
-        --accent: #e07a52;
-        --mist: #f3f5fb;
-        --line: #d8dcea;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: Manrope, 'Segoe UI', sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(ellipse 80% 50% at 50% -10%, rgba(224, 122, 82, 0.12), transparent),
-          linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
-      }
-
-      .wrap {
-        width: min(40rem, calc(100% - 2.5rem));
-        margin: 0 auto;
-        padding: 3.5rem 0 4rem;
-        text-align: center;
-      }
-
-      .logo {
-        display: inline-block;
-        margin-bottom: 2.5rem;
-      }
-
-      .logo img {
-        display: block;
-        width: min(220px, 55vw);
-        height: auto;
-      }
-
-      .code {
-        display: inline-block;
-        margin: 0 0 0.75rem;
-        padding: 0.2rem 0.65rem;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        background: #fff;
-      }
-
-      h1 {
-        margin: 0 0 0.75rem;
-        font-size: clamp(1.75rem, 4vw, 2.35rem);
-        line-height: 1.15;
-        font-weight: 700;
-      }
-
-      p {
-        margin: 0 auto 1.75rem;
-        max-width: 28rem;
-        font-size: 1.05rem;
-        line-height: 1.55;
-        color: #3a3a55;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        justify-content: center;
-      }
-
-      .actions a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 2.75rem;
-        padding: 0.65rem 1.25rem;
-        border-radius: 0.35rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .actions a.primary {
-        color: #fff;
-        background: var(--accent);
-      }
-
-      .actions a.primary:hover {
-        background: #be6745;
-      }
-
-      .actions a.secondary {
-        color: var(--ink);
-        background: #fff;
-        border: 1px solid var(--line);
-      }
-
-      .actions a.secondary:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-    </style>
-  </head>
-  <body>
-    <main class="wrap">
-      <a class="logo" href="/" aria-label="Iberia Workforce home">
-        <img
-          src="/logo.png"
-          width="300"
-          height="94"
-          alt="Iberia Workforce"
-        />
-      </a>
-      <div class="code">404</div>
-      <h1>Page not found</h1>
-      <p>
-        The page you are looking for may have been moved, renamed, or no longer
-        exists. Try one of the links below.
+<Layout title={n.title} description={n.description} noindex>
+  <section
+    class="flex min-h-[60vh] items-center bg-bg-page py-24 lg:py-32"
+    aria-labelledby="not-found-heading"
+  >
+    <div class="section-shell flex flex-col items-start gap-6">
+      <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+        {n.eyebrow}
       </p>
-      <div class="actions">
-        <a class="primary" href="/">Go to homepage</a>
-        <a class="secondary" href="/services/">Services</a>
-        <a class="secondary" href="/contact/">Contact us</a>
+      <h1 id="not-found-heading" class="text-h1 text-balance text-text-primary">
+        {n.heading}
+      </h1>
+      <p class="max-w-[628px] text-body text-text-secondary">
+        {n.body}
+      </p>
+      <div class="mt-2 flex flex-col gap-4 sm:flex-row">
+        <Button href={withLocale("/", lang)}>{n.home}</Button>
+        <Button href={withLocale("/contact", lang)} variant="secondary-on-light">
+          {n.contact}
+        </Button>
       </div>
-    </main>
-  </body>
-</html>
+    </div>
+  </section>
+</Layout>

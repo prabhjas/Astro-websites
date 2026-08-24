@@ -1,0 +1,115 @@
+---
+/**
+ * Closing CTA band.
+ *
+ * Carries the shared contact form rather than a pair of buttons, matching the
+ * service pages — `#contact-form` is the single destination every CTA on the
+ * site scrolls to, and this section renders on the homepage, /about and
+ * /services, so that anchor resolves on all of them. /contact does not render
+ * this band: the form is that page's subject, and `ContactIntro` carries the id.
+ */
+import Button from "../ui/Button.astro";
+import ContactForm from "../ui/ContactForm.astro";
+import MeshGradient from "../ui/MeshGradient.astro";
+import { getUi } from "../../i18n/copy";
+
+interface Props {
+  heading?: string;
+  body?: string;
+  /**
+   * The secondary action beside the form. Nullable because the About frames
+   * draw the claim and the card alone — the
+   * only control in that band is the form's own submit.
+   */
+  cta?: { label: string; href: string } | null;
+}
+
+const { t } = getUi(Astro.url.pathname);
+
+const {
+  heading = t.closing.heading,
+  body = t.closing.body,
+  cta = { label: t.closing.cta, href: "#book-a-meeting" },
+} = Astro.props;
+---
+
+{/*
+  The padding is shorter than the 160px this band used to carry. That padding
+  was set when the section held two buttons; the form card is now the tallest
+  element on the page, and at the old padding the submit button — the one
+  control here that has to be visible — falls below the fold on a laptop. Same
+  adjustment, same reason, as the service pages.
+
+  (This note sits above the tag, not inside it: a JSX comment between attributes
+  compiles but leaves the language server unable to parse the rest of the file,
+  which is what it was doing here.)
+*/}
+<section
+  id="contact"
+  class="relative isolate bg-text-primary pt-20 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20"
+  aria-labelledby="closing-heading"
+>
+  {/*
+    The same drawn band the service pages' closing section carries — one
+    background for every contact form on the site. It replaces the Iberia
+    contour photograph, which was this section's alone and made the homepage CTA
+    read as a different place from the fourteen service pages'.
+  */}
+  <MeshGradient variant="band" />
+
+  <div
+    class="section-shell flex flex-col items-start gap-12 lg:flex-row lg:gap-20"
+  >
+    <div class="flex w-full flex-col items-start gap-12 lg:flex-1">
+      <div
+        class="flex max-w-[805px] flex-col items-start gap-6 text-text-inverse"
+        data-reveal
+      >
+        {/*
+          H1 scale, not Display — the same reason as the service pages: the
+          claim now shares the band with the form card, and at Display's 64px it
+          wraps far enough to overrun the card beside it.
+        */}
+        <h2
+          id="closing-heading"
+          class="text-h1 text-balance"
+        >
+          {heading}
+        </h2>
+        <p class="max-w-[721px] text-body-lg opacity-80">
+          {body}
+        </p>
+      </div>
+
+      {/*
+        The old "Contact Us" button is gone: the thing it pointed at is now
+        beside it, and a control that scrolls to its own neighbour is noise.
+        Booking a call is a genuinely different action, so it stays.
+      */}
+      {
+        cta && (
+          <div class="w-full sm:w-auto" data-reveal style="--reveal-i:1">
+            <Button
+              variant="secondary"
+              size="lg"
+              href={cta.href}
+              class="w-full border-btn-secondary-bg-hover text-btn-secondary-bg-hover sm:w-auto"
+            >
+              {cta.label}
+            </Button>
+          </div>
+        )
+      }
+    </div>
+
+    {/* 519px is the width Figma draws the card at on the service pages. */}
+    <div
+      id="contact-form"
+      class="w-full lg:w-[519px] lg:shrink-0"
+      data-reveal
+      style="--reveal-i:2"
+    >
+      <ContactForm />
+    </div>
+  </div>
+</section>

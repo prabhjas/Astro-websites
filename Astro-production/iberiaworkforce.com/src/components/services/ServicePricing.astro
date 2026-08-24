@@ -1,0 +1,172 @@
+---
+/**
+ * Pricing band: one priced plan beside one quoted-on-request card.
+ *
+ * Prop-driven, because the homepage and every country page draw the same two
+ * cards with different copy — `src/components/sections/Pricing.astro` is now a
+ * thin wrapper over this with the homepage's text.
+ */
+import type { CollectionEntry } from "astro:content";
+import check from "../../assets/icons/check.svg";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import MeshGradient from "../ui/MeshGradient.astro";
+
+/*
+  The collection's own `pricing` shape, with one correction: `surface` carries a
+  zod default, so it is required on a parsed entry — while the homepage wrapper,
+  which is not a collection entry, legitimately omits it and takes the default
+  below.
+*/
+type Pricing = NonNullable<CollectionEntry<"services">["data"]["pricing"]>;
+type Props = Omit<Pricing, "surface"> & { surface?: Pricing["surface"] };
+
+const {
+  eyebrow,
+  heading,
+  body,
+  plan,
+  custom,
+  footnote,
+  surface = "surface",
+} = Astro.props;
+---
+
+<section
+  id="pricing"
+  class:list={[
+    "py-20 lg:py-30",
+    surface === "page" ? "bg-bg-page" : "bg-bg-surface",
+  ]}
+  aria-labelledby="pricing-heading"
+>
+  <div class="section-shell flex flex-col items-start gap-16">
+    <header
+      class="flex w-full flex-col items-center gap-4 text-center"
+      data-reveal
+    >
+      <div class="flex flex-col items-center gap-3">
+        {
+          eyebrow && (
+            <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2 id="pricing-heading" class="text-h2 text-balance text-text-primary">
+          {heading}
+        </h2>
+      </div>
+      {body && <p class="text-body text-text-secondary">{body}</p>}
+    </header>
+
+    <div
+      class="flex w-full flex-col items-stretch justify-center gap-6 lg:flex-row"
+    >
+      <article
+        class="flex flex-col items-start gap-8 overflow-hidden rounded-xl border border-border-subtle bg-bg-surface px-6 pt-8 pb-8 lg:w-[737px] lg:shrink-0 lg:px-12 lg:pt-16 lg:pb-12"
+        data-reveal
+      >
+        <h3 class="text-h3 text-text-primary">{plan.name}</h3>
+
+        <p class="flex flex-col items-start gap-1.5">
+          {/*
+            `price-gradient` (global.css) carries Figma's 108.54deg ramp and
+            drifts it through the glyphs; the utilities here supply the
+            `background-clip` knockout it is painted into. Paused — under
+            `prefers-reduced-motion` — it is the design's static gradient.
+          */}
+          <span
+            class="price-gradient bg-clip-text text-display text-transparent"
+          >
+            {plan.price}
+          </span>
+          <span class="text-body-sm text-text-secondary">{plan.unit}</span>
+        </p>
+
+        {
+          plan.note && (
+            <p class="text-body-sm text-text-secondary">{plan.note}</p>
+          )
+        }
+
+        <ul class="flex w-full flex-col items-start gap-3">
+          {
+            plan.features.map((item) => (
+              <li class="flex w-full items-center gap-2.5">
+                <Icon src={check} size={16} />
+                <span class="text-body text-text-primary">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <Button
+          variant="accent"
+          size="lg"
+          block
+          href={plan.cta.href}
+          class="bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text"
+        >
+          {plan.cta.label}
+          <Icon src={chevronRight} size={20} tone="current" />
+        </Button>
+      </article>
+
+      <article
+        class="relative isolate flex flex-1 flex-col items-start justify-between gap-10 overflow-hidden rounded-xl border border-bg-surface-secondary bg-bg-surface-secondary p-6 lg:p-12"
+        data-reveal
+        style="--reveal-i:1"
+      >
+        {/*
+          Drawn rather than served. This replaced a flat WebP export of the same
+          artwork: a smooth gradient is the content most prone to banding, and
+          generating it per-pixel sidesteps that entirely while costing no
+          download. It also stops being a fixed 1038x1170 crop, so the card
+          fills correctly at every width instead of object-cover'ing a photo of
+          a gradient.
+        */}
+        <MeshGradient />
+
+        <div class="flex w-full flex-col items-start gap-2 text-text-inverse">
+          {custom.eyebrow && <p class="text-h5">{custom.eyebrow}</p>}
+          <h3 class="text-h1 text-balance">{custom.heading}</h3>
+          {custom.tagline && <p class="text-h3">{custom.tagline}</p>}
+          <p class="text-body-sm">{custom.description}</p>
+        </div>
+
+        <Button variant="secondary" size="lg" block href={custom.cta.href}>
+          {custom.cta.label}
+        </Button>
+      </article>
+    </div>
+
+    {
+      footnote &&
+        (footnote.heading ? (
+          /* Centred under the cards, both lines in `text-tertiary`
+             — a question at Body LG in the regular weight with its answer as
+             a caption under it. It is a quiet aside, not a section header,
+             which is why the question is a `<p>` at 18px rather than the H4
+             this used to set it at. */
+          <div
+            class="mx-auto flex w-full flex-col items-center gap-2 text-center"
+            data-reveal
+          >
+            <p class="text-body-lg text-text-tertiary">{footnote.heading}</p>
+            <p class="max-w-[110ch] text-caption font-medium tracking-[0.26px] text-text-tertiary">
+              {footnote.body}
+            </p>
+          </div>
+        ) : (
+          <p
+            class="mx-auto w-full max-w-[76ch] text-center text-caption font-medium tracking-[0.26px] text-text-tertiary"
+            data-reveal
+          >
+            {footnote.body}
+          </p>
+        ))
+    }
+  </div>
+</section>

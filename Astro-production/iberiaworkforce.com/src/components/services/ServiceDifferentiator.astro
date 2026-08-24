@@ -1,0 +1,305 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["differentiator"]>;
+
+const {
+  heading,
+  highlight,
+  subheading,
+  paragraphs,
+  background,
+  image,
+  imageAlt,
+  tone = "dark",
+  surface = "page",
+  layout = "split",
+  align = "center",
+  ctaPlacement = "claim",
+  spacing = "default",
+  prompt,
+  cta,
+} = Astro.props;
+
+/**
+ * The hub frame sets the claim beside its prose across the full width. The
+ * country frames stack the two in one 845px column instead — Spain lets the
+ * background artwork own the right half behind a left-to-right navy wash
+ * (`stacked`), Portugal drops the photograph to 10% and marks each paragraph
+ * with a terracotta rule (`statements`).
+ */
+const stacked = layout === "stacked" || layout === "statements";
+const statements = layout === "statements";
+
+/**
+ * The Temporary Staffing Spain frames put a
+ * square photograph in its own column and run the claim, the prose and the
+ * button down beside it. A grid rather than a flex row because all three drop
+ * *under* the photograph on the narrow frames while the photograph itself
+ * moves above them — placement that source order cannot express.
+ */
+const photo = layout === "photo";
+
+/**
+ * The Poland frames argue the same point on
+ * the cream page colour with no photograph at all, and hang a second line and
+ * the CTA off the claim. That is a two-column grid rather than the dark split's
+ * flex row, because the CTA sits under the heading on desktop but after the
+ * prose on both narrow frames — placement, not source order.
+ */
+const light = tone === "light";
+
+/**
+ * The Germany frames are light too, but keep the
+ * dark split's shape: the claim holds the left column and the prose, the prompt
+ * and the button run down the right. So the grid above is what a light band
+ * needs *only* when the CTA belongs to the claim.
+ */
+const ctaWithProse = !stacked && !photo && light && ctaPlacement === "prose";
+const lightSplit = !stacked && !photo && light && !ctaWithProse;
+
+/** Which neutral a light band sits on. Ignored when `tone` is dark. */
+const lightSurface =
+  surface === "surface"
+    ? "bg-bg-surface"
+    : surface === "muted"
+      ? "bg-bg-muted"
+      : "bg-bg-page";
+
+/**
+ * One phrase of the claim set in terracotta, the same treatment `whyChoose`
+ * uses. Split here rather than in the template, and a `highlight` that no longer
+ * occurs in `heading` degrades to a plain heading rather than rendering nothing.
+ */
+const at = highlight ? heading.indexOf(highlight) : -1;
+const parts =
+  at === -1 || !highlight
+    ? { before: heading }
+    : {
+        before: heading.slice(0, at),
+        mark: highlight,
+        after: heading.slice(at + highlight.length),
+      };
+---
+
+{/*
+  No `overflow-hidden`: the background is `inset-0 size-full object-cover` so
+  nothing overflows, and an overflow ancestor here would become the scrollport
+  for any sticky descendant added later. See CLAUDE.md.
+*/}
+<section
+  class:list={[
+    "relative isolate",
+    light
+      ? [lightSurface, "py-20 lg:py-30"]
+      : [
+          "bg-text-primary",
+          /* The EOR Spain frame is the tight one: 80px top and
+             bottom, where the rest of the dark frames run 96 and 160. */
+          spacing === "compact" ? "py-20" : "py-24 lg:py-40",
+        ],
+  ]}
+  aria-labelledby="differentiator-heading"
+>
+  {
+    background && (
+      <Image
+        src={background}
+        alt=""
+        widths={[720, 1408]}
+        sizes="100vw"
+        class:list={[
+          "pointer-events-none absolute inset-0 -z-10 size-full object-cover",
+          /* The peninsula sits in the right of the artwork and bleeds off that
+             edge, which is only true of the 1440 crop — anchoring right keeps
+             it in frame once `object-cover` scales the image up on a phone. */
+          layout === "stacked" && "object-right",
+          /* Figma sets this photograph to 10%: it is a texture behind the copy,
+             not a picture, and at full strength the white type sits on faces. */
+          statements && "opacity-10",
+        ]}
+        loading="lazy"
+      />
+    )
+  }
+  {
+    layout === "stacked" && (
+      <div
+        class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-navy from-40% to-navy/0 lg:from-0% lg:to-72%"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <div
+    class:list={[
+      "section-shell flex flex-col items-start",
+      stacked && "gap-8 lg:gap-14",
+      /* The hub frame centres the claim against its prose; the Italy one runs
+         both from the top. It only shows when the two columns are very
+         different heights, which is when the choice is visible at all. */
+      !stacked && !light && "gap-12 lg:flex-row lg:gap-20",
+      !stacked && !light && (align === "start" ? "lg:items-start" : "lg:items-center"),
+      /* Flush at the top over a 24px gutter, not centred across 80: the right
+         column carries a prompt and a button below the prose, so centring it
+         would float the claim away from the copy that answers it. */
+      ctaWithProse && "gap-10 lg:flex-row lg:items-start lg:gap-6",
+      lightSplit && "gap-8 lg:grid lg:grid-cols-2 lg:items-start lg:gap-12",
+      /* The photograph is a fixed 520px square in every frame that draws it, so
+         it is a track width rather than a fraction — the copy takes the rest. */
+      photo &&
+        "gap-10 lg:grid lg:grid-cols-[520px_1fr] lg:items-start lg:gap-x-16 lg:gap-y-10",
+    ]}
+  >
+    <div
+      class:list={[
+        "flex flex-col items-start gap-4",
+        stacked && "max-w-[845px]",
+        (!light || ctaWithProse) && !stacked && "flex-1",
+        lightSplit && "lg:col-start-1 lg:row-start-1",
+        photo && "lg:col-start-2 lg:row-start-1",
+      ]}
+      data-reveal
+    >
+      <h2
+        id="differentiator-heading"
+        class:list={[
+          "text-balance",
+          light ? "text-text-primary" : "text-text-inverse",
+          stacked || lightSplit || photo ? "text-h1" : "text-display",
+        ]}
+      >
+        {parts.before}{parts.mark && <span class="text-terracotta">{parts.mark}</span>}{parts.after}
+      </h2>
+      {
+        subheading && (
+          /* A step below the claim on the cream bands, which pair it with H1
+             prose. The Recruitment Spain frame is the first dark
+             band to draw one and sets it a full H3 in the palest navy — it is
+             the only line between a 48px claim and 16px body copy, so at H4 it
+             reads as part of the prose rather than as the claim's second half. */
+          <p
+            class:list={[
+              "font-normal text-balance",
+              light
+                ? "text-h4 text-text-secondary"
+                : stacked
+                  ? "text-h3 text-text-inverse-tertiary"
+                  : "text-h4 text-text-inverse-muted",
+            ]}
+          >
+            {subheading}
+          </p>
+        )
+      }
+    </div>
+
+    {
+      photo && image && (
+        /* Between the heading and the prose in source order, which is where
+           both narrow frames put it once the grid collapses to one column. */
+        <div
+          class="aspect-square w-full overflow-hidden rounded-xl lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:size-[520px] lg:self-start"
+          data-reveal
+          style="--reveal-i:1"
+        >
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[430, 520, 768, 1040]}
+            sizes="(min-width: 1024px) 520px, 100vw"
+            class="size-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+
+    {/*
+      A wrapper that is only a box when the prompt and the button belong to the
+      prose column. Everywhere else it is `display: contents`, so the three stay
+      direct children of the grid or the stack and their own placement holds.
+    */}
+    <div class:list={[ctaWithProse ? "flex flex-1 flex-col items-start gap-6" : "contents"]}>
+    <div
+      class:list={[
+        "flex flex-col items-start",
+        stacked && "max-w-[845px] gap-8 lg:gap-10",
+        ctaWithProse && "w-full gap-6 lg:gap-8",
+        !stacked && !light && "flex-1 gap-8 lg:gap-10",
+        /* `row-span-2` lets the prose run past the CTA's row, and `self-end`
+           bottom-aligns it against the heading column as the frame draws it. */
+        lightSplit &&
+          "gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-end",
+        photo && "gap-6 lg:col-start-2 lg:row-start-2",
+      ]}
+    >
+      {
+        paragraphs.map((paragraph, i) => (
+          <p
+            class:list={[
+              light && "text-body-lg text-slate-blue",
+              !light && stacked && "text-body text-text-inverse",
+              !light && !stacked && "text-body-lg text-text-inverse-muted",
+              /* The rule is a 4px terracotta bar the full height of the
+                 paragraph — a border rather than an element, so it tracks the
+                 text's own height at every width without a wrapper. */
+              statements && "border-l-4 border-terracotta pl-6 lg:pl-8",
+            ]}
+            data-reveal
+            style={`--reveal-i:${i + 1}`}
+          >
+            {paragraph}
+          </p>
+        ))
+      }
+    </div>
+
+    {
+      prompt && (
+        <p
+          class:list={[
+            "max-w-[845px]",
+            /* H4 scale where the prompt introduces the button in its own
+               column — the Germany frames set it 22px, a step above the prose
+               it follows, so the question reads as the hand-off to the CTA. */
+            ctaWithProse ? "text-h4 font-normal" : "text-body-lg",
+            light ? "text-text-secondary" : "text-text-inverse-muted",
+          ]}
+          data-reveal
+          style={`--reveal-i:${paragraphs.length + 1}`}
+        >
+          {prompt}
+        </p>
+      )
+    }
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props, so
+           `data-reveal` on the component itself would be dropped. */
+        <div
+          class:list={[
+            "w-full sm:w-auto",
+            lightSplit && "lg:col-start-1 lg:row-start-2 lg:self-start",
+            photo && "lg:col-start-2 lg:row-start-3 lg:self-start",
+          ]}
+          data-reveal
+          style={`--reveal-i:${paragraphs.length + 2}`}
+        >
+          <Button
+            variant="accent"
+            size="lg"
+            href={cta.href}
+            class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+    </div>
+  </div>
+</section>

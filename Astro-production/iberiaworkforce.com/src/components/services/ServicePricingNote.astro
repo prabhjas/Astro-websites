@@ -1,0 +1,170 @@
+---
+/**
+ * Pricing as an explanation rather than a quote, in two tones:
+ *
+ * - `dark`: a photographic band carrying the reason there is no flat number,
+ *   and one CTA.
+ * - `light`: the same argument as a quiet cream band with no photograph at all
+ *   — hence a tone rather than a second component, and hence `background`
+ *   being optional.
+ *
+ * The counterpart to `ServicePricing.astro` — a page has one or the other. Use
+ * this wherever the cost genuinely varies with the case, which is most markets;
+ * EOR in Spain is the exception, because its payroll costs are fixed by statute
+ * and a flat rate can honestly be published.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["pricingNote"]>;
+
+const {
+  heading,
+  subheading,
+  paragraphs,
+  background,
+  tone = "dark",
+  backgroundStrength = "half",
+  cta,
+} = Astro.props;
+
+const light = tone === "light";
+
+/**
+ * On cream, `accent`'s #dc8b6f wash with navy ink reads as a disabled control —
+ * the light frames draw the saturated #a44728 fill with white ink, the same
+ * treatment every other CTA on a cream band already uses.
+ */
+const ctaClass = [
+  "w-full sm:w-auto",
+  light &&
+    "bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{/*
+  No `overflow-hidden` — see the note in ServiceDifferentiator.astro and
+  CLAUDE.md on why an overflow ancestor would break any sticky descendant.
+*/}
+<section
+  id="pricing"
+  class:list={[
+    "relative isolate py-20 lg:py-30",
+    light ? "bg-bg-page" : "bg-text-primary",
+  ]}
+  aria-labelledby="pricing-note-heading"
+>
+  {
+    background && (
+      /*
+        The Portugal frames set this photograph to 50% over navy. Reproduced as
+        opacity on the image rather than a scrim over it, so the navy
+        underneath stays the exact token colour and the tile pattern reads as a
+        texture in it.
+
+        `full` is the other half of that: a crop that already ships with the
+        band's navy duotone baked in has nothing left to dim. Halving the
+        Germany skyline put it within 2/255 of the navy behind it, which is a
+        photograph you cannot see. Same reasoning `ServicePricingSummary`
+        records for its own backgrounds.
+      */
+      <Image
+        src={background}
+        alt=""
+        widths={[720, 1440, 2160]}
+        sizes="100vw"
+        class:list={[
+          "pointer-events-none absolute inset-0 -z-10 size-full object-cover",
+          backgroundStrength === "half" && "opacity-50",
+        ]}
+        loading="lazy"
+      />
+    )
+  }
+
+  <div
+    class:list={[
+      "section-shell flex flex-col items-center text-center",
+      light ? "gap-8" : "gap-12",
+    ]}
+  >
+    {/*
+      The light frames set the whole argument as one block — claim, second line
+      and prose 16px apart — and hold the 32px only for the button. The dark
+      band has no second line and spaces all three evenly, so there its wrapper
+      is `display: contents` and the outer gap governs.
+    */}
+    <div
+      class:list={[light ? "flex flex-col items-center gap-4" : "contents"]}
+    >
+      <div class="flex max-w-[800px] flex-col items-center gap-3" data-reveal>
+        {/*
+          Display-scale on the light band, where the section is the only thing
+          on the page colour and the claim is the section. The dark band sets it
+          a step smaller because the photograph behind it already carries
+          weight.
+        */}
+        <h2
+          id="pricing-note-heading"
+          class:list={[
+            "text-balance",
+            light ? "text-h1 text-text-primary" : "text-h2 text-text-inverse",
+          ]}
+        >
+          {heading}
+        </h2>
+        {
+          subheading && (
+            <p class="text-h4 font-normal text-balance text-text-secondary">
+              {subheading}
+            </p>
+          )
+        }
+      </div>
+
+      {/* 800px is the measure Figma sets this prose at — about 90 characters,
+          which is the most a centred paragraph can hold and stay readable. */}
+      <div class="flex max-w-[800px] flex-col items-center gap-6">
+        {
+          paragraphs.map((paragraph, i) => (
+            <p
+              class:list={[
+                light
+                  ? "text-body text-text-secondary"
+                  : "text-body-lg text-text-inverse",
+              ]}
+              data-reveal
+              style={`--reveal-i:${i + 1}`}
+            >
+              {paragraph}
+            </p>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props, so
+           `data-reveal` on the component itself would be dropped. */
+        <div
+          class="w-full sm:w-auto"
+          data-reveal
+          style={`--reveal-i:${paragraphs.length + 1}`}
+        >
+          <Button
+            variant={light ? "accent" : "inverse"}
+            size={light ? "md" : "lg"}
+            href={cta.href}
+            class={ctaClass}
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</section>

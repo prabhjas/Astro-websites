@@ -1,0 +1,316 @@
+# Staff Outsourcing — category hub. Figma nodes 168-1359 (1440),
+# 184-10159 (768) and 184-10160 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Externalización de personal
+
+seo:
+  title: Externalización de personal | Iberia Workforce
+  description: >-
+    Externalización de personal en Europa. Permanente, estacional y de
+    proyecto bajo un solo acuerdo. Tú diriges el trabajo; nosotros, RR. HH.
+    y compliance.
+  schema:
+    serviceName: Servicios de externalización de personal
+    serviceType: Externalización de personal y gestión de plantilla
+    areaServed: Europa
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  heading: Servicios de externalización de personal
+  subheading: Opera sin gestionar los RR. HH. y el compliance de tu plantilla
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: talk
+      label: Complejidad de la extinción resuelta
+    - icon: licence
+      label: Permanente + estacional + ad hoc
+  body: >-
+    Tienes plantilla permanente, picos estacionales y necesidades de proyecto
+    ad hoc. Iberia contrata a todos en su plantilla: nosotros gestionamos
+    RR. HH., nómina, compliance y extinción. Tú diriges el trabajo. No asumes
+    el riesgo jurídico que crea el derecho laboral europeo.
+  image: ../../../assets/images/staff-outsourcing-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/staff-outsourcing-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/staff-outsourcing-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  heading: ¿Qué es la externalización de personal?
+  # Display scale, so the claim keeps the whole 768 frame and the prose
+  # follows under it — which is what 537:6583 draws.
+  headingScale: display
+  paragraphs:
+    - >-
+      La externalización de personal es la delegación de tu plantilla a un
+      empleador externo. Tienes personas que trabajan para tu negocio:
+      plantilla permanente, trabajadores estacionales para picos,
+      especialistas para proyectos. Iberia se convierte en el empleador legal
+      de todos ellos. Tú sigues dirigiendo su trabajo, definiendo puestos y
+      gestionando el rendimiento. Iberia gestiona los contratos de trabajo, la
+      nómina, el alta en la Seguridad Social, la administración de RR. HH. y el
+      riesgo de compliance si algo sale mal. Obtienes flexibilidad de plantilla
+      sin convertirte en experto en derecho laboral.
+
+definition:
+  layout: prose
+  eyebrow: EXTERNALIZACIÓN DE PERSONAL
+  heading: ¿Por qué importa la externalización de personal?
+  image: ../../../assets/images/staff-outsourcing-hub-why-matters.webp
+  imageAlt: >-
+    Un hombre trabajando con un portátil en una oficina de planta abierta, un
+    compañero en un escritorio detrás de él
+  paragraphs:
+    - >-
+      El derecho laboral europeo no permite el despido a voluntad. Despedir
+      exige causas documentadas, plazos de preaviso, cálculo de indemnización
+      y exposición a reclamaciones por despido improcedente si se ejecuta mal.
+      La mayoría de las empresas o bien contratan personal de RR. HH. para
+      gestionarlo (1.500–2.500 €/mes de estructura) o bien improvisan y pagan
+      sanciones cuando se equivocan.
+    - >-
+      Después está la variación estacional. Agricultura, retail, logística,
+      hostelería: la plantilla oscila entre un 30 y un 50 por ciento entre el
+      pico y la valle. Ampliar y reducir sin fricción jurídica es casi
+      imposible si tú eres el employer of record.
+    - >-
+      La externalización de personal resuelve las dos cosas. No necesitas un
+      departamento de RR. HH. No gestionas las extinciones. Núcleo permanente,
+      picos estacionales, proyectos ad hoc: todo bajo un único acuerdo, un
+      único empleador, una única responsabilidad de compliance.
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: ¿Por qué elegir Iberia Workforce para servicios de externalización de personal?
+  highlight: externalización de personal
+  # The divider run on the cream page colour — every earlier `list` frame is
+  # white, and what keeps this page alternating is the white band above it.
+  surface: page
+  items:
+    - title: Asumimos tu equipo actual. Tú no reestructuras.
+      description: >-
+        Ya tienes personas trabajando para ti. Ya no quieres tenerlas en tu
+        plantilla: quieres que otro gestione la nómina, los contratos y el
+        riesgo de extinción. Las incorporamos a la plantilla de Iberia. Las
+        mismas personas, el mismo trabajo, un empleador legal distinto. Sin
+        disrupción.
+    - title: Captamos el resto. Permanente, estacional o ad hoc.
+      description: >-
+        Necesitas 5 ingenieros permanentes. Necesitas 20 trabajadores
+        estacionales para un pico. Necesitas 1 especialista para un proyecto de
+        tres semanas. Lo captamos todo bajo un único acuerdo de
+        externalización de personal: la misma estructura contractual, el mismo
+        compliance, la misma responsabilidad jurídica.
+    - title: Un único acuerdo. Permanente más estacional más ad hoc. Sin malabarismos de servicios.
+      description: >-
+        A diferencia del trabajo temporal (despliegues de duración determinada)
+        o del EOR (nuevas contrataciones permanentes), la externalización de
+        personal es tu socio continuo de plantilla. Todos los escenarios
+        cubiertos. Sin tener que saltar entre proveedores o modelos de
+        servicio.
+    - title: >-
+        Asumimos el riesgo de extinción. La complejidad del derecho laboral
+        europeo pasa a ser nuestro problema.
+      description: >-
+        Cuando alguien tiene que marcharse —fin de temporada, fin de proyecto,
+        problema de rendimiento—, lo gestionamos. Valoramos si las causas son
+        defendibles bajo el derecho local, estructuramos la extinción
+        correctamente, calculamos la indemnización con precisión y defendemos
+        la decisión si se impugna. Tú no te conviertes en experto en derecho
+        laboral.
+    - title: Lo dirigen abogados laboralistas, no solo reclutadores o coordinadores de RR. HH.
+      description: >-
+        Procedimientos de extinción, clasificación laboral, riesgo de
+        compliance: son cuestiones jurídicas. Tenemos expertise interna para
+        acertarlas desde el primer día.
+    - title: 9 años a escala. Más de 10.000 empleados gestionados en Europa.
+      description: >-
+        Construido en los EAU, uno de los entornos laborales con más compliance
+        del mundo. Esa profundidad operativa ahora dirige la externalización de
+        personal en España, con expansión por Europa.
+
+howItWorks:
+  heading: ¿Cómo funciona la externalización de personal?
+  steps:
+    - title: Cuéntanos la estructura de tu plantilla
+      description: >-
+        ¿Cuánta plantilla permanente tienes ahora? ¿Cuál es tu pico y tu valle
+        estacional? ¿Tienes necesidades de proyecto ad hoc? Valoramos la mezcla
+        de plantilla y señalamos cualquier consideración de compliance de
+        antemano.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros revisando un documento juntos en un escritorio de oficina
+    - title: Asumimos tu equipo y cubrimos los huecos
+      description: >-
+        Tu plantilla actual pasa a la de Iberia. Ejecutamos la nómina,
+        gestionamos contratos y asumimos la responsabilidad laboral. Para
+        trabajadores estacionales y de proyecto, los captamos. Todo bajo un
+        único acuerdo de externalización de personal.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato impreso en un escritorio
+    - title: Tú diriges el trabajo. Nosotros gestionamos todo lo demás.
+      description: >-
+        La nómina mensual se ejecuta. La administración de RR. HH. queda en
+        nuestras manos. Los trabajadores estacionales suben y bajan según
+        necesites. Cuando alguien tiene que marcharse —fin de temporada, fin de
+        proyecto, problema de rendimiento—, gestionamos la salida de forma
+        legal y correcta. Tú te centras en tu negocio.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Quieres gestionar la externalización de personal sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  eyebrow: SERVICIOS
+  # The frames read "…in Recruitment services?" at all three widths — a
+  # leftover from the frame they were duplicated from. See CLAUDE.md.
+  heading: ¿Qué incluyen los servicios de externalización de personal?
+  align: center
+  columns: 4
+  items:
+    - icon: candidate-selection
+      title: Traspaso y transición de plantilla permanente
+      description: >-
+        Incorporamos a tus empleados actuales a la plantilla de Iberia.
+        Revisión de contratos, configuración de nómina, alta en la Seguridad
+        Social y notificaciones a las autoridades locales, gestionadas de
+        extremo a extremo para que el traspaso sea fluido.
+    - icon: document-stamp
+      title: Personal estacional y captación
+      description: >-
+        Según tu negocio sube y baja, captamos trabajadores estacionales.
+        Captación, screening, contratos, nómina, compliance: todo incluido bajo
+        tu único acuerdo de externalización de personal.
+    - icon: envelope-seal
+      title: Personal de proyecto ad hoc
+      description: >-
+        ¿Necesitas un especialista durante dos semanas? ¿Un auditor de
+        compliance para una inspección de tres semanas? Captamos personal por
+        proyecto, gestionamos contratos con fechas de fin claras y tramitamos
+        la baja correctamente cuando termina el trabajo.
+    - icon: gavel
+      title: Contratos de trabajo conforme al derecho local
+      description: >-
+        Contratos permanentes, estacionales y de proyecto redactados para
+        cumplir el derecho laboral de cada país en el que se despliega el
+        personal. Clasificaciones de puesto y retribución fijadas al inicio.
+    - icon: money-roll
+      title: Procesamiento de nóminas y alta en la Seguridad Social
+      description: >-
+        Nómina mensual con cotizaciones legales, retención fiscal y
+        deducciones legales, todo calculado conforme al derecho local. Altas y
+        presentaciones tramitadas de forma directa ante las autoridades
+        pertinentes.
+    - icon: person-case
+      title: Administración de RR. HH. y gestión de ausencias
+      description: >-
+        Devengo de vacaciones, baja por enfermedad, días festivos legales,
+        controlados y ajustados en la nómina. Modificaciones de contrato,
+        expedientes de empleados, implantación de políticas, gestionados a lo
+        largo del empleo.
+    - icon: door-exit
+      title: Gestión de extinción e indemnización
+      description: >-
+        El derecho laboral exige un despido justificado. Estructuramos las
+        salidas para cumplir plazos de preaviso, obligaciones de indemnización
+        y protecciones frente al despido. Documentación, cálculo de la
+        liquidación, defensa jurídica si se impugna.
+    - icon: shield-tick
+      title: Compliance continuo y transferencia del riesgo jurídico
+      description: >-
+        Conflictos laborales, impugnaciones de clasificación de trabajadores,
+        incidentes en el trabajo: asumimos el riesgo jurídico y defendemos a tu
+        empresa. Tu plantilla opera bajo el paraguas de compliance de Iberia.
+
+faq:
+  eyebrow: EXTERNALIZACIÓN DE PERSONAL
+  heading: Preguntas frecuentes
+  items:
+    - question: >-
+        ¿Cuál es la diferencia entre la externalización de personal y el
+        trabajo temporal?
+      answer: >-
+        El trabajo temporal es de duración determinada. Necesitas 10
+        trabajadores para la cosecha de agosto, y listo. La externalización de
+        personal es continua. Tienes plantilla permanente, picos estacionales y
+        proyectos ad hoc, todo bajo un único acuerdo. Nosotros contratamos a
+        todos. Tú diriges el trabajo de forma continua, no solo durante un
+        periodo definido.
+    - question: ¿Podemos traspasar a Iberia a nuestros empleados actuales?
+      answer: >-
+        Sí. Ese es uno de los escenarios centrales que resuelve la
+        externalización de personal. Tienes personas. Ya no quieres tenerlas en
+        tu plantilla. Las incorporamos a la de Iberia. Las mismas personas, el
+        mismo trabajo, un empleador legal distinto. Revisión de contratos,
+        configuración de nómina, transición de la Seguridad Social: todo
+        gestionado para que el traspaso sea fluido.
+    - question: ¿Cómo funciona la variación estacional? ¿Pagamos los meses valle?
+      answer: >-
+        Depende de la estructura de tu contrato. Para la plantilla permanente
+        que forma parte de tu núcleo, sí: siguen en nómina incluso en meses
+        flojos (salvo que reestructures). Para trabajadores puramente
+        estacionales, solo están en nómina durante el pico: solo facturamos
+        cuando trabajan. El precio es a medida porque la mezcla de permanente,
+        estacional y ad hoc varía por negocio.
+    - question: ¿Qué ocurre si necesitamos extinguir a alguien?
+      answer: >-
+        El derecho laboral exige causas documentadas y justificadas para
+        extinguir, no el despido a voluntad. Gestionamos el proceso de salida.
+        Valoramos si las causas son defendibles bajo el derecho local,
+        estructuramos la extinción para cumplir plazos de preaviso e
+        indemnización, calculamos el pago final y, si el despido se impugna, lo
+        defendemos jurídicamente. Tú no gestionas nada de esto.
+    - question: ¿Podemos usar la externalización de personal junto con otros servicios?
+      answer: >-
+        Sí. Puedes externalizar tu equipo actual y después usar el EOR para
+        contratar nuevos empleados permanentes en un país sin entidad local. Un
+        acuerdo por servicio, pero funcionan juntos porque gestionamos el
+        cuadro completo.
+    - question: ¿Cómo se determina el precio de la externalización de personal?
+      answer: >-
+        A medida por escenario. La plantilla (permanente, estacional, ad hoc),
+        la mezcla de antigüedad, el sector y si necesitas que Iberia capte
+        trabajadores influyen en el coste. Entregamos un desglose completo
+        antes de que te comprometas: sin partidas ocultas, sin facturas
+        sorpresa.
+    - question: ¿Es legal la externalización de personal en Europa?
+      answer: >-
+        Sí. Externalizar tu plantilla a un proveedor de empleo con licencia es
+        una estructura laboral reconocida. La responsabilidad de compliance
+        recae en la ejecución del proveedor, por eso necesitas un socio que
+        conozca el derecho laboral y los procedimientos de extinción.
+    - question: ¿Quién es Iberia Workforce?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos los servicios
+        de externalización de personal a través de nuestras propias entidades
+        registradas en cada país. Nuestros abogados laboralistas y
+        especialistas de nómina gestionan todos los traspasos de personal, la
+        captación, los contratos, la nómina, la administración de RR. HH. y el
+        compliance de forma directa. Asumimos el riesgo jurídico y laboral.
+
+closing:
+  heading: >-
+    No hace falta que te conviertas en experto en derecho laboral solo para
+    tener una plantilla flexible y estacional.
+  # 18px in all three frames, where the country pages set this at H3 — the
+  # argument has already been made by the time the reader reaches it.
+  bodySize: note
+  body: >-
+    La complejidad europea de las extinciones, los quebraderos de cabeza de la
+    clasificación de puestos, los cálculos de nómina: no deberían ser tu
+    problema. Describe la estructura de tu plantilla —cuántos permanentes, tus
+    oscilaciones estacionales, cualquier necesidad de proyecto ad hoc— y te
+    diremos exactamente cómo funciona la externalización de personal para tu
+    negocio, qué cuesta y en cuánto tiempo podemos asumirla.

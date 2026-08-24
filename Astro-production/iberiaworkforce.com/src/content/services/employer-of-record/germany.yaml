@@ -1,0 +1,290 @@
+# Employer of Record — Germany country page.
+# Figma nodes 100-199 (1440), 184-1755 (768), 184-1756 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The third country page, and the one that proves the shape stretches rather
+# than forks. Four differences from Spain and Portugal, all of them switches on
+# sections that already existed:
+#   - the "what is" band puts its photograph on the right (`imagePosition`);
+#   - "why it works differently" is a light band with no photograph behind it,
+#     and hangs its prompt and CTA off the prose column rather than the claim;
+#   - "why choose us" is two cards on the cream contour texture, not a list;
+#   - pricing is explained rather than quoted, as Portugal's is.
+type: country
+label: Employer of Record in Germany
+
+seo:
+  title: Employer of Record in Germany | Iberia Workforce
+  description: >-
+    Employer of record in Germany. AÜG-licensed, Works Council and equal-pay
+    compliance handled directly — not routed through a local leasing partner.
+  schema:
+    serviceName: Employer of Record Services Germany
+    serviceType: Employer of Record
+    areaServed: Germany
+    # No address: the brief marks this page's office location PENDING, and an
+    # invented city in structured data is worse than an absent one. Add it
+    # here when the client confirms.
+
+hero:
+  tone: light
+  # The gate is centred in its own photograph, so the street-scene default that
+  # anchors the Iberian heroes right would crop the phone hero to a colonnade.
+  imageFocus: center
+  heading: Employer of Record in Germany
+  subheading: AÜG-licensed and built for the deadlines most providers miss
+  badges:
+    - icon: protect
+      label: AÜG Licensed
+    - icon: law
+      label: Law Firm Backed
+    - icon: employee
+      label: Works Council Experienced
+  body: >-
+    No entity needed to hire in Germany. We hold the AÜG licence directly, and we
+    track every statutory deadline your hire triggers—Works Council review, the
+    month-nine equal-pay step-up, the eighteen-month leasing ceiling—so you hear
+    about each one from us first.
+  image: ../../../assets/images/eor-germany-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-germany-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-germany-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  eyebrow: EMPLOYER OF RECORD IN GERMANY
+  heading: What is an Employer of Record in Germany?
+  imagePosition: right
+  image: ../../../assets/images/eor-germany-definition.webp
+  imageAlt: A consultant standing on a walkway in a modern German office atrium
+  paragraphs:
+    - >-
+      In Germany, employer of record sits inside a specific legal category:
+      Arbeitnehmerüberlassung (employee leasing) under the AÜG. That
+      classification means the provider must hold a leasing licence issued by the
+      Agentur für Arbeit to operate at all.
+    - >-
+      You direct the work, set the role, and manage performance. We hold the
+      licence, employ the worker on paper, run payroll through the German social
+      security system, and carry the compliance obligations the AÜG assigns to
+      the leasing employer.
+
+differentiator:
+  # Light and photograph-free: this page argues the point in ink on white, with
+  # the prompt and the button under the prose rather than under the claim.
+  tone: light
+  surface: surface
+  ctaPlacement: prose
+  heading: Why Employer of Record works differently in Germany?
+  highlight: Employer of Record
+  paragraphs:
+    - >-
+      German law classifies EOR as licensed employee leasing, and the licensing
+      requirement sits on the provider, not the client. Some providers active in
+      Germany don't hold that licence directly — they route your hire through a
+      local partner who does, which creates liability neither party usually
+      expects until it surfaces.
+    - >-
+      We hold the licence directly. That's the baseline, not the pitch. The real
+      conversation is what actually catches employers off guard once the hire is
+      live: a Works Council with a say in the decision, an equal-pay
+      recalculation at month nine, a leasing deadline at month eighteen that
+      needs a plan before it arrives.
+  prompt: More questions before you commit?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  layout: cards
+  surface: page
+  background: ../../../assets/images/contour-texture-cream.webp
+  heading: Why choose Iberia Workforce for EOR in Germany?
+  items:
+    - title: We coordinate with Works Councils before they become a blocker.
+      description: >-
+        German companies with an elected Betriebsrat have co-determination
+        rights over certain hiring decisions—and a works council can object to a
+        personnel action, delaying or blocking the hire. Most foreign employers
+        don't know a works council exists until the objection lands. We check for
+        one before the hire moves forward.
+    - title: >-
+        We price the nine-month equal-pay shift into your budget from day one.
+      description: >-
+        The Gleichstellungsgrundsatz means once a leased employee passes nine
+        months on the same assignment, their compensation must match a comparable
+        internal employee at your company—same salary band, same bonuses, same
+        benefits. We model that adjustment into your cost projections at hire
+        time, so month nine is a number you already expected.
+
+howItWorks:
+  heading: How Employer of Record works in Germany?
+  steps:
+    - title: Tell us who you need to hire
+      description: >-
+        Role, location, start date, and salary band. EU/EEA national, or does
+        this hire need a Skilled Worker Visa or EU Blue Card? We flag whether
+        your headcount puts the role within Works Council co-determination scope
+        before anything moves forward.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at an office desk reviewing a document together
+    - title: We handle registration, contract, and clearance
+      description: >-
+        Employment contract drafted to satisfy AÜG leasing requirements.
+        Registration with Deutsche Rentenversicherung and the employee's
+        Krankenkasse. Works Council notification filed where applicable. Visa
+        sponsorship processed for non-EU hires. You approve the terms. We handle
+        the filing.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee starts, and the deadlines become ours to track
+      description: >-
+        Monthly payroll accounts for the full statutory social security
+        split—pension, health, care, and unemployment insurance—plus full salary
+        continuation if illness strikes. We track the nine-month equal-pay date
+        and the eighteen-month leasing ceiling from day one, and bring you a
+        transition plan well before either arrives.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Ready to hire in Germany without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  columns: 3
+  surface: surface
+  align: center
+  heading: What's included in Employer of Record services in Germany?
+  items:
+    - icon: contract-briefcase
+      title: Employment Contracts & AÜG Compliance
+      description: >-
+        Drafted to satisfy the AÜG's leasing requirements, with assignment terms
+        structured to avoid chain-leasing exposure.
+    - icon: pay-envelope
+      title: Payroll & Deutsche Rentenversicherung Registration
+      description: >-
+        Monthly payroll covering the full statutory social security split —
+        pension, health, care, and unemployment insurance, roughly 19–21%
+        employer cost on top of gross salary — registered directly with Deutsche
+        Rentenversicherung and the employee's Krankenkasse.
+    - icon: sick-pay
+      title: Sick Pay & Continued Remuneration
+      description: >-
+        Full salary continuation for up to six weeks per illness
+        (Lohnfortzahlung im Krankheitsfall), calculated and filed correctly from
+        the first day of absence.
+    - icon: works-council
+      title: Works Council Coordination
+      description: >-
+        Notification and consultation with the client's Betriebsrat where
+        co-determination rights apply under the Betriebsverfassungsgesetz —
+        handled before the hire proceeds, not after an objection surfaces.
+    - icon: permit-passport
+      title: Work Permits & Visa Sponsorship
+      description: >-
+        Skilled Worker Visa and EU Blue Card applications for non-EU hires,
+        managed in-house with our immigration lawyers.
+    - icon: probation-support
+      title: Dismissal Protection & Deployment Ceiling Management
+      description: >-
+        Full Kündigungsschutzgesetz protection applies automatically from month
+        seven at qualifying companies — we structure terminations to hold up
+        against a challenge. In parallel, we track the eighteen-month
+        Höchstüberlassungsdauer continuously, and bring you options — reset the
+        contract, convert to direct hire, or restructure the role — before the
+        deadline forces the decision for you.
+
+pricingNote:
+  heading: Employer of Record pricing in Germany
+  paragraphs:
+    - >-
+      Pricing for Germany reflects your hire's specific configuration—visa
+      sponsorship tier, headcount, and Works Council complexity each affect the
+      cost. Get in touch for a quote that maps to your actual hire.
+  background: ../../../assets/images/eor-germany-skyline.webp
+  # The crop ships with the frame's navy duotone baked in — see the note on
+  # `backgroundStrength` in ServicePricingNote.
+  backgroundStrength: full
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied separately by the client, as Portugal's were. Six of the
+# questions arrived worded more fully than the design draws them — "What happens
+# after 18 months?" against "…with the same employer of record?", and so on. The
+# client's wording is the one used here; the design is the one worth updating.
+faq:
+  eyebrow: EMPLOYER OF RECORD GERMANY
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Germany?
+      answer: >-
+        Yes. EOR in Germany operates under the AÜG (Arbeitnehmerüberlassungsgesetz)
+        as a form of employee leasing. The provider must hold a leasing licence
+        issued by the Agentur für Arbeit. We hold ours directly — not through a
+        local partner, which would create an illegal chain-leasing arrangement.
+    - question: What happens after 18 months with the same employer of record?
+      answer: >-
+        German law caps continuous leasing to one client at 18 months
+        (Höchstüberlassungsdauer), reset only by a genuine break of three months
+        and one day. We start planning the transition — contract reset, direct
+        hire, or a restructured role — well before month 18, not as a last-minute
+        scramble.
+    - question: Does a Works Council have to approve my hire?
+      answer: >-
+        If your company has an elected Betriebsrat, it may have co-determination
+        rights over the hire under the Betriebsverfassungsgesetz, and can object
+        to certain personnel decisions. We check this before the hire moves
+        forward, not after an objection stalls it.
+    - question: What happens at nine months under the equal-pay rule?
+      answer: >-
+        Once a leased employee reaches nine months on the same assignment,
+        Germany's equal-pay principle (Gleichstellungsgrundsatz) applies
+        automatically — pay and benefits step up to match a comparable internal
+        employee at your company. We build that step-up into the hire's budget
+        from day one, so month nine isn't new information when it arrives.
+    - question: Can an EOR sponsor a Skilled Worker Visa or EU Blue Card?
+      answer: >-
+        Yes. We handle the application and supporting documentation for the
+        Skilled Worker Visa and EU Blue Card in-house, and manage the ongoing
+        compliance obligations that come with sponsoring a non-EU hire throughout
+        the assignment.
+    - question: >-
+        Could hiring through an EOR create a tax obligation for my company in
+        Germany?
+      answer: >-
+        For most roles, no — the leasing structure keeps the client outside the
+        German tax net. Senior or client-facing roles that make ongoing business
+        decisions on German soil are the exception. We help classify the role
+        correctly so a hire doesn't inadvertently expose your company to a
+        permanent establishment claim.
+    - question: What happens if I need to end someone's employment?
+      answer: >-
+        Full dismissal protection under the Kündigungsschutzgesetz applies
+        automatically from month seven at companies with more than ten employees.
+        Outside probation, terminations need documented, justified grounds. We
+        structure the process to hold up if challenged.
+    - question: Who is Iberia Workforce, and what's your legal structure in Germany?
+      answer: >-
+        Iberia Workforce holds the AÜG leasing licence directly for Germany,
+        issued by the Agentur für Arbeit — no local partner sits in that licensing
+        chain, which is the exact gap flagged earlier on this page. We're part of
+        Connect Group.
+
+closing:
+  heading: >-
+    German employment law runs on deadlines, month seven, month nine, month
+    eighteen, not on judgment calls.
+  body: >-
+    Missing one isn't a minor slip; it's a compliance violation with a fine
+    attached. Describe the hire, and we'll map the AÜG structure, the Works
+    Council process if one applies, and every deadline your business needs to
+    track.

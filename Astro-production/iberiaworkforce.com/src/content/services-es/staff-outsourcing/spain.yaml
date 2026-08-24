@@ -1,0 +1,417 @@
+# Staff Outsourcing — Spain country page.
+# Figma node 169-1483 (1440). No 768 or 430 frame was supplied for this page,
+# so the narrow layouts are the ones the shared components already draw for
+# every other country page rather than anything measured — see CLAUDE.md.
+# Renders through src/pages/[hub]/[country].astro -> CountryTemplate.astro.
+#
+# The first page in the Staff Outsourcing category, and the first to use
+# `pricingVariables` — the fourth pricing shape, documented in
+# content.config.ts. Everything else is a switch that already existed.
+type: country
+label: Externalización de personal en España
+
+seo:
+  title: Externalización de personal en España | Iberia Workforce
+  description: >-
+    Externalización de personal en España. Clasificamos cada puesto en el
+    convenio correcto, gestionamos la nómina y asumimos el riesgo de extinción.
+  schema:
+    serviceName: Servicios de externalización de personal España
+    serviceType: Externalización de personal y gestión de plantilla
+    areaServed: España
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  tone: light
+  heading: Externalización de personal en España
+  subheading: Un único empleador legal para tu plantilla permanente, estacional y de proyecto
+  badges:
+    - icon: employee
+      label: Expertos en clasificación de convenio
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: talk
+      label: Extinción gestionada internamente
+    - icon: global
+      label: Con sede en Barcelona
+  body: >-
+    Distintos puestos suelen encajar en distintos convenios; la mayoría de las
+    empresas no lo comprueba. Clasificamos cada uno correctamente, contratamos
+    a todo tu equipo bajo el derecho laboral español y asumimos el riesgo de
+    extinción cuando alguien se va. Tú sigues dirigiendo el negocio.
+  # One crop rather than the trio: only the 1440 frame exists for this page, so
+  # `ServiceHero` falls back to it at every width and paints its full cream
+  # slab — the case that gradient was written for.
+  image: ../../../assets/images/staff-outsourcing-spain-hero-background.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+# Display scale, so the claim holds the whole left half of the band and the two
+# columns stay stacked until desktop.
+intro:
+  heading: ¿Qué es la externalización de personal en España?
+  headingScale: display
+  paragraphs:
+    - >-
+      En España, la externalización de personal significa que Iberia se convierte
+      en el empleador formal de tu plantilla permanente, trabajadores
+      estacionales y especialistas de proyecto, cada uno clasificado bajo el
+      Convenio Colectivo que realmente corresponde a su puesto. Tú sigues
+      dirigiendo el trabajo: asignar tareas, fijar prioridades, gestionar el
+      rendimiento. Nosotros asumimos la parte legal: contratos conforme al
+      derecho laboral español, alta en la TGSS, nómina mensual y el proceso de
+      extinción si alguien tiene que irse. No hace falta un departamento de
+      RR. HH. local en tu lado.
+
+# The navy band with the Iberian contour artwork bleeding in from the right —
+# the same arrangement, and the same artwork, as the EOR Spain page.
+differentiator:
+  layout: stacked
+  heading: ¿Por qué importa la externalización de personal en España?
+  subheading: El problema de clasificación de convenio que no sabías que tenías
+  paragraphs:
+    - >-
+      Un supervisor permanente y el personal de almacén estacional rara vez
+      encajan en el mismo Convenio Colectivo: distintos mínimos salariales,
+      distintos tramos de horas extra, distintas reglas de indemnización. La
+      mayoría de las empresas no lo comprueba. Asumen que un único marco aplica
+      a todos, y una auditoría detecta el desajuste meses después, con
+      regularizaciones a posteriori.
+    - >-
+      La extinción añade una segunda capa. La ley española exige causas
+      documentadas, preavisos correctos e indemnización calculada según el
+      convenio aplicable: si falla cualquiera de esos puntos, hay exposición a
+      una reclamación por despido improcedente. La externalización de personal
+      resuelve ambos desde el primer día: clasificamos cada puesto antes de
+      cualquier traspaso y asumimos el riesgo de extinción cuando alguien tiene
+      que irse.
+  background: ../../../assets/images/eor-spain-works.webp
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para la externalización de personal en España?
+  highlight: externalización de personal
+  items:
+    - title: Reclasificamos cuando cambia tu equipo, no solo al inicio.
+      description: >-
+        Un puesto estacional que pasa a permanente, un operario de almacén que
+        sube a un cargo de supervisión: el convenio aplicable puede cambiar con
+        el puesto. Revisamos la clasificación cada vez que se mueve la
+        estructura de tu equipo, no solo una vez en la incorporación.
+    - title: Tu equipo sigue igual; nosotros pasamos a ser su empleador legal.
+      description: >-
+        Nadie cambia de mesa, de puesto ni de responsable. Trasladamos a tu
+        plantilla actual a la entidad registrada de Iberia, migramos el alta en
+        la TGSS y asumimos la nómina desde el siguiente ciclo. Lo único que
+        cambia es quién es legalmente responsable de hacerlo bien.
+    - title: >-
+        Captamos personal estacional y de proyecto ya encajado en el convenio
+        correcto.
+      description: >-
+        Da igual que sean 20 operarios de almacén para agosto o un especialista
+        para una auditoría de tres semanas: los incorporamos con contratos
+        construidos para su categoría desde el primer día, no con plantillas
+        genéricas ajustadas después.
+    - title: La indemnización se calcula contra el convenio correcto, no contra una media.
+      description: >-
+        Los preavisos y los mínimos de indemnización varían por convenio y por
+        antigüedad. Cuando alguien se va, calculamos el finiquito contra el
+        acuerdo que realmente aplica a su puesto, no contra un porcentaje plano
+        que se queda corto de lo legalmente debido.
+    - title: Interpretar el convenio es una decisión jurídica, no un checklist de RR. HH.
+      description: >-
+        Si un puesto cae bajo un convenio u otro no siempre es obvio: hace falta
+        alguien que lea derecho laboral español a diario, no alguien que sigue
+        una tabla. Esa es la persona que clasifica a tu equipo y lo defiende si
+        se cuestiona.
+    - title: >-
+        9 años y más de 10.000 empleados gestionados en Europa: España es el
+        mercado más reciente, no el primero.
+      description: >-
+        Construimos este modelo operativo en los EAU, uno de los entornos de
+        empleo con más compliance del mundo. España es donde lo aplicamos ahora.
+
+# Cream, so the band sits between the white "why choose" list and the white
+# "what's included" grid.
+howItWorks:
+  heading: ¿Cómo funciona la externalización de personal en España?
+  surface: page
+  steps:
+    - title: Cuéntanos tu equipo y cómo está clasificado ahora
+      description: >-
+        Plantilla por categoría — permanente, estacional, de proyecto — más cómo
+        se paga cada grupo y bajo qué acuerdo, si lo sabes. Si no tienes claro
+        qué convenio aplica a un puesto, es lo habitual; identificarlo es lo
+        primero que hacemos.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Confirmamos la clasificación y trasladamos a tu equipo
+      description: >-
+        Cada puesto se encaja en su convenio antes de cualquier traspaso. La
+        plantilla actual pasa a la entidad de Iberia con contratos revisados y
+        el alta en la TGSS actualizada. Los huecos estacionales o de proyecto se
+        cubren con nuestra propia captación, bajo el mismo acuerdo.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: La nómina se procesa bien y las bajas se gestionan como toca
+      description: >-
+        Las tablas salariales, pagas y reglas de permisos de cada convenio se
+        aplican automáticamente cada mes. La plantilla estacional escala con tu
+        calendario. Y cuando termina el tiempo de alguien contigo, gestionamos
+        el preaviso, el cálculo de indemnización y el papeleo para que aguante
+        si se cuestiona.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Quieres gestionar la externalización de personal en España sin el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# The mosaic: nine obligations over a six-column grid, tiling 2 / 3 / 2 / 2.
+# White band, so the cards take the grey wash.
+#
+# All nine glyphs are reuse — every export matched an existing file's path data
+# exactly. The last four repeat one drawing because the frame does, which is the
+# same thing the Recruitment hub's last three cards do; it fits "termination and
+# severance" and not the three around it, so it is noted in CLAUDE.md rather
+# than quietly corrected here.
+included:
+  heading: ¿Qué incluye la externalización de personal en España?
+  columns: 3
+  compact: true
+  surface: surface
+  align: center
+  items:
+    - icon: person-scan
+      title: Clasificación de convenio y equipos mixtos
+      description: >-
+        Identificamos qué Convenio Colectivo aplica a puestos permanentes,
+        trabajadores estacionales y personal de proyecto. Mínimos salariales,
+        horas extra, pagas obligatorias y límites de jornada por convenio,
+        confirmados antes de que nadie pase a los libros de Iberia.
+    - icon: contract-signed
+      title: Traspaso y transición de plantilla permanente
+      description: >-
+        La plantilla actual pasa a la nómina de Iberia sin cambiar lo que hace
+        día a día. Contratos revisados conforme al derecho laboral español, alta
+        en la TGSS actualizada en la oficina provincial correcta y las
+        notificaciones exigidas presentadas, para que nada caduque en el
+        traspaso.
+    - icon: envelope-seal
+      title: Personal estacional y captación
+      description: >-
+        Cuando la plantilla tiene que flexionar con la demanda, captamos y
+        colocamos trabajadores estacionales con contratos encajados en el
+        convenio correcto desde el primer día: screening, nómina y compliance
+        incluidos en el mismo acuerdo, sin un servicio aparte.
+    - icon: people-group
+      title: Personal de proyecto ad hoc
+      description: >-
+        Un especialista de auditoría de tres semanas, un responsable de
+        proyecto a corto plazo: los colocamos con contratos de fecha de fin
+        definida, dentro del mismo acuerdo de externalización, y los cerramos
+        correctamente cuando termina el trabajo.
+    - icon: gavel
+      title: Contratos de trabajo conforme al derecho laboral español
+      description: >-
+        Contratos permanentes, estacionales y de proyecto redactados para
+        cumplir la ley española y mapeados al convenio correcto: clasificación
+        del puesto, retribución, permisos, preavisos y cláusulas de extinción
+        incluidos de entrada.
+    - icon: money-roll
+      title: Procesamiento de nóminas y alta en la TGSS
+      description: >-
+        Nómina mensual con cotizaciones del empleador a la TGSS, retención de
+        IRPF y tablas alineadas al convenio, calculadas conforme a la fiscalidad
+        española. Altas y presentaciones gestionadas con la oficina provincial
+        correspondiente. Nóminas emitidas a tiempo, cada mes.
+    - icon: person-case
+      title: Administración de RR. HH. y gestión de ausencias
+      description: >-
+        Vacaciones, baja por enfermedad y días estatutarios seguidos según las
+        reglas de cada convenio y reflejados en la nómina de forma automática.
+        Cuando hay que cambiar condiciones o actualizar registros, sigue siendo
+        nuestra responsabilidad, no una tarea extra en tu mesa.
+    - icon: severance
+      title: Gestión de extinción e indemnización
+      description: >-
+        Cuando termina la relación, la indemnización se calcula contra el
+        convenio que realmente aplica, no se estima. Preavisos, documentación
+        exigida y liquidación final se gestionan para que la salida aguante si
+        se impugna.
+    - icon: shield-tick
+      title: Compliance continuo y transferencia del riesgo jurídico
+      description: >-
+        Si se cuestiona una clasificación o se impugna un despido, nosotros
+        llevamos la defensa, la documentación, la correspondencia y la
+        representación si va más allá. Esa exposición recae en nosotros, no en
+        tu empresa.
+  cta:
+    label: Solicita un presupuesto a medida de externalización de personal
+    href: "#contact-form"
+
+# The fourth pricing shape: no number, but the things that would decide one.
+pricingVariables:
+  heading: Precio de la externalización de personal en España
+  body: >-
+    El precio depende de la estructura de tu plantilla, la complejidad de los
+    convenios y de si captamos personal estacional o ad hoc.
+  card:
+    heading: "Variables clave del precio:"
+    items:
+      - >-
+        Plantilla permanente y complejidad de clasificación de convenio (algunos
+        sectores tienen un convenio; otros, varios)
+      - Plantilla estacional y duración (meses pico frente a núcleo anual)
+      - Necesidades de proyecto ad hoc y especialización
+      - >-
+        Cotizaciones a la TGSS y obligaciones estatutarias (alrededor del 30 %
+        sobre el salario bruto por empleado)
+      - >-
+        Si captamos trabajadores (coste de selección) o tú aportas candidatos
+        para que Iberia los contrate
+    footnote: >-
+      Te damos un desglose completo antes de que te comprometas: sin tasas
+      ocultas, sin facturas sorpresa, sin aproximaciones.
+    cta:
+      label: Solicitar un presupuesto a medida
+      href: "#contact-form"
+  image: ../../../assets/images/staff-outsourcing-spain-pricing.webp
+  imageAlt: Una mujer leyendo una tableta en una oficina moderna
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: EXTERNALIZACIÓN DE PERSONAL EN ESPAÑA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿En qué se diferencia la externalización de personal del trabajo temporal en España?
+      answer: >-
+        El trabajo temporal cubre un periodo fijo: necesitas 15 preparadores
+        para el pico de Navidad y la relación termina cuando acaba la temporada.
+        La externalización de personal no está atada a una fecha de fin. Cubre
+        tu núcleo permanente, los picos estacionales y el trabajo de proyecto
+        juntos, bajo un acuerdo continuo, durante el tiempo que lo necesites.
+    - question: ¿Podemos pasar a nuestros empleados españoles actuales a la nómina de Iberia?
+      answer: >-
+        Sí, es una de las razones más habituales para usar este servicio. Tu
+        equipo mantiene puestos y responsable; solo cambia el empleador legal
+        sobre el papel. Revisamos sus contratos actuales, confirmamos qué
+        convenio aplica, migramos el alta en la TGSS y asumimos la nómina desde
+        el siguiente ciclo.
+    - question: >-
+        ¿Cómo gestionáis la clasificación de convenio cuando el personal cae
+        bajo convenios distintos?
+      answer: >-
+        Valoramos cada categoría de puesto de entrada e identificamos qué
+        Convenio Colectivo aplica. Una empresa de logística puede tener
+        supervisores permanentes bajo un convenio y operarios de almacén
+        estacionales bajo otro. Clasificamos cada grupo correctamente, fijamos
+        los mínimos salariales y las reglas de jornada por acuerdo, y nos
+        aseguramos de que la nómina corra bajo el marco correcto. Se hace antes
+        de que nadie pase a los libros de Iberia, para que no haya sorpresas de
+        auditoría después.
+    - question: ¿Qué ocurre con nuestras altas actuales de nómina y TGSS?
+      answer: >-
+        Revisamos tus altas actuales y las clasificaciones de convenio. Si algo
+        está desalineado, lo señalamos. Después asumimos el alta en la TGSS con
+        la oficina provincial, montamos el procesamiento de nómina bajo los
+        convenios correctos y gestionamos la transición para que no haya hueco
+        de cobertura ni de compliance. Tu equipo sigue cobrando a tiempo, sin
+        interrupciones.
+    - question: ¿Pagamos al personal en los meses valle?
+      answer: >-
+        Depende del puesto. La plantilla permanente sigue en nómina todo el año
+        como parte de tu núcleo. Los trabajadores estacionales solo están en
+        nómina el periodo contratado: no pagas plantilla que no estás usando.
+        Como la mezcla es distinta en cada negocio, cotizamos según tu
+        estructura real, no con una tarifa plana.
+    - question: ¿Qué ocurre si necesitamos extinguir el contrato de alguien?
+      answer: >-
+        La ley española no permite el despido a voluntad: hace falta una causa
+        documentada y justificada, ya sea por causas objetivas, disciplinarias
+        o porque el puesto termina. Valoramos si la causa aguanta, preparamos
+        la documentación, calculamos la liquidación y gestionamos el proceso de
+        extremo a extremo. Si el despido se impugna después, también lo
+        llevamos nosotros.
+    - question: ¿Podemos usar la externalización de personal junto con EOR u otros servicios?
+      answer: >-
+        Sí. Puedes externalizar tu plantilla permanente y estacional actual y
+        usar EOR para contratar empleados permanentes nuevos en un país sin
+        entidad local. O usar Selección para cubrir un puesto permanente nuevo
+        en el mismo equipo. Cada uno corre como su propio acuerdo, coordinado
+        por las mismas personas que ya conocen tu plantilla.
+    - question: ¿Es legal la externalización de personal en España?
+      answer: >-
+        Sí. Delegar el empleo a un proveedor autorizado es una estructura
+        reconocida bajo el derecho español. No se exige una licencia especial
+        de outsourcing: la responsabilidad está en ejecutar bien: clasificación
+        correcta de convenio, alta en la TGSS y procedimiento de extinción. Ahí
+        es donde suelen fallar los proveedores sin equipo jurídico dedicado.
+    - question: >-
+        ¿En cuánto tiempo podemos pasar nuestro equipo actual a la
+        externalización de personal?
+      answer: >-
+        Lo habitual son 2–3 semanas desde la firma del contrato hasta el
+        traspaso, según la documentación y la complejidad del alta en la TGSS.
+        Gestionamos la revisión de contratos, la migración de datos de nómina,
+        la confirmación de clasificación de convenio y la transición formal
+        ante la TGSS. Estamos en contacto estrecho con tu equipo para que no
+        haya huecos de nómina ni lapsos de compliance durante el traspaso.
+    - question: ¿Y si el negocio crece y necesitamos contratar más plantilla permanente?
+      answer: >-
+        Podemos captar nuevas contrataciones permanentes para tu acuerdo de
+        externalización: entran en los libros de Iberia bajo el convenio
+        correcto desde el primer día. O puedes usar nuestros servicios de EOR o
+        Selección para colocar nuevas incorporaciones. Todo se coordina bajo
+        una sola relación.
+    - question: ¿Qué documentación de compliance debemos conservar?
+      answer: >-
+        Mantenemos todos los registros de empleo, clasificaciones de convenio,
+        cálculos de nómina, presentaciones a la TGSS y documentación de
+        extinción. Te damos reporting periódico para que tengas visibilidad, y
+        nos ocupamos de todas las presentaciones ante la administración. Si hay
+        una auditoría, defendemos el expediente de compliance.
+    - question: ¿Quién es Iberia Workforce y cuál es vuestra estructura legal en España?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos la
+        externalización de personal en España desde nuestra oficina de
+        Barcelona a través de nuestra propia entidad registrada, sin
+        intermediarios locales. Nuestros abogados laboralistas y especialistas
+        de nómina gestionan traspasos de plantilla, clasificación de convenio,
+        contratos, alta en la TGSS, procesamiento de nóminas, administración de
+        RR. HH. y extinción de forma directa. Asumimos el riesgo legal y de
+        compliance para que tú no tengas que hacerlo.
+    - question: ¿Podemos escalar el equipo externalizado en varias regiones de España?
+      answer: >-
+        Sí. Si tienes operativa en Barcelona, Madrid, Valencia y Sevilla,
+        gestionamos nómina y compliance en todas las regiones. Altas en la
+        TGSS, variaciones fiscales autonómicas y matices de convenio locales,
+        todo gestionado correctamente. Sin aproximaciones ni un enfoque único
+        para todos.
+
+closing:
+  heading: >-
+    Acertar el convenio al inicio es lo que mantiene esto sencillo después.
+  # 18px, not the H3-scale lead: the frame runs the paragraph to five lines
+  # under a claim that has already made the argument.
+  bodySize: note
+  body: >-
+    Si clasificas mal un puesto, te enfrentas a regularizaciones salariales a
+    posteriori; si lo clasificas bien, la nómina, los permisos y la
+    indemnización siguen las reglas que ya aplican. Cuéntanos el desglose de
+    plantilla — permanente, estacional, de proyecto — y confirmaremos qué
+    convenios aplican, te explicaremos cómo es la transición y te daremos un
+    coste real antes de que te comprometas a nada.

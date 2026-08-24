@@ -1,76 +1,814 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+
+/*
+ * Design tokens from Figma: IbWF Website Design
+ * https://www.figma.com/design/X7E4axD8a2ox5gS6OVgxH4/IbWF-Website-Design
+ *
+ * "Pliant" is declared in astro.config.mjs via the Astro Fonts API, which
+ * self-hosts it from Google Fonts and exposes it here as --font-pliant.
+ */
 
 @theme {
-  --color-brand-50: #eef2f7;
-  --color-brand-100: #d5deea;
-  --color-brand-200: #aabdd3;
-  --color-brand-300: #7593b4;
-  --color-brand-400: #456d94;
-  --color-brand-500: #294f77;
-  --color-brand-600: #1e3d5e;
-  --color-brand-700: #182f49;
-  --color-brand-800: #152b47;
-  --color-brand-900: #0f2036;
-  --color-brand-950: #0a1626;
+  /* Surfaces */
+  --color-bg-page: #f0ebe3;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-secondary: #1b4670;
+  /* Behind the testimonial cards and company pills. */
+  --color-bg-muted: #f3f5f7;
 
-  --color-accent: #e07a52;
-  --color-accent-light: #ec9576;
-  --color-accent-dark: #c15f38;
+  /* Text */
+  --color-text-primary: #102a43;
+  --color-text-secondary: #384f66;
+  --color-text-tertiary: #6b655b;
+  --color-text-inverse: #ffffff;
+  /* Body copy on navy. A warm grey rather than white-at-opacity, so it stays
+     in the cream family the rest of the palette sits in. */
+  --color-text-inverse-muted: #bbb4aa;
+  /* Form labels on the navy CTA — the page cream, used as ink. */
+  --color-text-inverse-secondary: #f0ebe3;
+  /* Input placeholders on navy: dimmer than the label, still above 4.5:1. */
+  --color-text-inverse-tertiary: #9fb3c6;
+  --color-text-link: #a44728;
 
-  --color-ink: #152b47;
-  --color-muted: #5b6b82;
-  --color-line: #e5e9f0;
+  /* Brand */
+  --color-navy: #102a43;
+  /* Palest navy in the ramp — the "Included" chips on Poland's feature list. */
+  --color-navy-50: #f1f5f9;
+  --color-navy-200: #bed4e9;
+  --color-navy-300: #8eb6dc;
+  --color-navy-500: #3177b9;
+  --color-navy-600: #255d93;
+  --color-terracotta: #d9714e;
+  /* The accent button's fill, named separately because the design also uses it
+     as ink on the slate pull-quote card. */
+  --color-terracotta-400: #dc8b6f;
+  /* Figma's slate-blue: a card fill as well as ink. */
+  --color-slate-blue: #486581;
+  /* Palest slate — the "COMING SOON" chip. Figma's #7894b0 ink measures 2.56:1
+     and needs 4.5:1 at 12px, so the chip uses slate-blue (4.93:1) instead. */
+  --color-slate-100: #e3e8ed;
 
-  --font-sans: 'Inter Variable', Inter, system-ui, sans-serif;
-  --max-width-container: 1180px;
-  --shadow-card: 0 1px 3px rgba(10, 31, 61, 0.06), 0 8px 24px -12px rgba(10, 31, 61, 0.18);
+  /* Feedback — the timing chips on the contact page's timeline, and nothing
+     else. They label how long a step takes rather than a state to act on,
+     hence the palest blue rather than a filled status colour. 4.56:1 at 12px. */
+  --color-bg-info-subtle: #e3eff7;
+  --color-text-info: #2b70a1;
+
+  /* Borders + icons */
+  --color-border-subtle: #d3cec5;
+  /* Underline under the contact-form inputs. */
+  --color-border-interactive: #8b8274;
+  --color-icon-primary: #f8fafd;
+  --color-icon-secondary: #64748b;
+
+  /* Buttons */
+  --color-btn-primary-bg: #102a43;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-accent-bg: #dc8b6f;
+  --color-btn-accent-text: #0c1c2c;
+  --color-btn-secondary-text: #ffffff;
+  --color-btn-secondary-border: #ffffff;
+  --color-btn-secondary-bg-hover: #f1f5f9;
+  --color-btn-ghost-text: #bbb4aa;
+
+  /* Typography */
+  --font-sans: var(--font-pliant);
+
+  /*
+   * Fluid type scale. Each step interpolates between a mobile size at 375px and
+   * the Figma desktop size at 1280px, then clamps. The maximum is exactly what
+   * Figma specifies, so desktop is unchanged and only narrow viewports scale
+   * down — no breakpoint jumps, no per-component mobile overrides.
+   *
+   * Letter-spacing is in `em` because Figma reports these as percentages, not
+   * pixels: Display's "-2" is -2%. `em` also keeps the ratio constant as the
+   * fluid sizes shrink, where a fixed -1.28px would read as a cramped -3.5%
+   * once the same heading renders at 36px.
+   */
+  --text-display: clamp(2.25rem, 1.525rem + 3.094vw, 4rem);
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 600;
+
+  --text-h1: clamp(1.875rem, 1.409rem + 1.989vw, 3rem);
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 600;
+
+  --text-h2: clamp(1.5rem, 1.189rem + 1.326vw, 2.25rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: clamp(1.25rem, 1.043rem + 0.884vw, 1.75rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--font-weight: 600;
+
+  --text-h4: clamp(1.125rem, 1.021rem + 0.442vw, 1.375rem);
+  --text-h4--line-height: 1.3;
+  --text-h4--font-weight: 600;
+
+  --text-h5: clamp(1rem, 0.948rem + 0.221vw, 1.125rem);
+  --text-h5--line-height: 1.4;
+  --text-h5--font-weight: 600;
+
+  --text-body-lg: clamp(1rem, 0.948rem + 0.221vw, 1.125rem);
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.4;
+  /* Figma reports this as 2 (percent) — the 0.26px the components use. */
+  --text-caption--letter-spacing: 0.02em;
+  --text-caption--font-weight: 500;
+
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.5;
+
+  --text-btn: 0.9375rem;
+  --text-btn--line-height: 1;
+  --text-btn--letter-spacing: 1px;
+  --text-btn--font-weight: 600;
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    /* The navbar is sticky and 4.5rem tall, so an un-offset anchor jump parks
+       the target underneath it and in-page links look broken. */
+    scroll-padding-top: 6rem;
   }
+
+  /* Smooth anchor scrolling is motion, so it is opt-out like the rest. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   body {
-    @apply bg-white text-ink font-sans antialiased;
-  }
-  h1,
-  h2,
-  h3,
-  h4 {
-    @apply font-sans tracking-tight text-brand-800;
-    text-wrap: balance;
-  }
-  :focus-visible {
-    @apply outline-none ring-2 ring-accent ring-offset-2;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
   }
 }
 
-@layer components {
-  .container-x {
-    @apply mx-auto w-full max-w-container px-5 sm:px-6 lg:px-8;
+/*
+ * Pliant is variable with a wdth axis (100–125); Figma sets the logo wordmark
+ * in "Pliant SemiExpanded", which is wdth 112.5. Addressed directly because
+ * @font-face declares no font-stretch range to map a percentage onto.
+ */
+@utility font-semi-expanded {
+  font-variation-settings: "wdth" 112.5;
+}
+
+/*
+ * Scroll reveal.
+ *
+ * The hidden state is scoped to `.reveal-enabled`, set on <html> by an inline
+ * script only when JS runs and reduced motion is not requested. Without JS the
+ * rule never matches, so content renders plainly rather than being stuck at
+ * opacity 0. The hero is excluded to keep LCP immediate.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-enabled [data-reveal] {
+    opacity: 0;
+    /* Deliberately short travel: this runs on nearly every section, so it is
+       the page settling rather than an event. The geography sequence below is
+       the one authored entrance, and it only reads as authored while this
+       stays quieter than it. */
+    transform: translateY(10px);
+    transition:
+      opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+    /* Siblings cascade rather than landing all at once. */
+    transition-delay: calc(var(--reveal-i, 0) * 70ms);
+    /* No `will-change`, deliberately: this matches ~30 elements per page and
+       holds until each scrolls into view, so the hint would allocate
+       compositor layers for everything below the fold at load. `opacity` and
+       `transform` are composited without it. The `deal` entrance below is the
+       exception — it animates `clip-path`, which does benefit. */
   }
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
-      transition-colors duration-150 focus-visible:ring-offset-2;
+
+  .reveal-enabled [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
   }
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
-      transition-colors duration-150 focus-visible:ring-offset-2
-      bg-accent text-white hover:bg-accent-dark;
+
+  /*
+   * Typewriter — the ETT licence credentials, and nothing else.
+   *
+   * The block is pinned to its resting state: the card behind it already
+   * carries the ambient reveal, and two entrances on one box read as a
+   * stutter. Only the characters are hidden. Same specificity as the base
+   * rule, so this has to stay below it.
+   */
+  .reveal-enabled [data-reveal="type"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
-      transition-colors duration-150 focus-visible:ring-offset-2
-      bg-white text-brand-800 ring-1 ring-line hover:bg-brand-50;
+
+  .reveal-enabled [data-reveal="type"] [data-char] {
+    /* `hidden`, not `opacity: 0` — it keeps the character's box, so the cards
+       are laid out at final width from the first frame and nothing reflows. */
+    visibility: hidden;
   }
-  .btn-light {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold
-      transition-colors duration-150 focus-visible:ring-offset-2
-      bg-white/10 text-white ring-1 ring-white/25 hover:bg-white/20;
+
+  .reveal-enabled [data-reveal="type"].is-revealed [data-char] {
+    visibility: visible;
+    /* `visibility` is discrete, so the delay *is* the animation: each character
+       flips on whole and none of them tween, which is what separates typing
+       from a staggered fade. The offset clears the card's own 520ms reveal. */
+    transition: visibility 0s linear calc(220ms + var(--char-i, 0) * 40ms);
   }
-  .eyebrow {
-    @apply text-sm font-semibold uppercase tracking-wider text-accent;
+
+  /*
+   * The one authored moment: "Spain-first. Europe-ready."
+   *
+   * The claim is an order of operations, so the motion states it — Spain lands
+   * first and settles, then the rest of Europe deals in behind it. The cards
+   * wipe up from their own bottom edge, so each reads as being laid down.
+   */
+  .reveal-enabled [data-reveal="deal"] {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    clip-path: inset(0 0 45% 0 round var(--radius-lg, 0.5rem));
+    transition:
+      opacity 460ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--reveal-i, 0) * 90ms);
+    will-change: opacity, transform, clip-path;
+  }
+
+  .reveal-enabled [data-reveal="deal"].is-revealed {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round var(--radius-lg, 0.5rem));
+    will-change: auto;
+  }
+
+  /*
+   * Disclosure continuity — without this a <details> jumps open and the reader
+   * loses their place on a long FAQ. `interpolate-size` is what makes `auto`
+   * animatable; browsers without it keep the instant open, which is the
+   * intended fallback rather than a regression.
+   */
+  @supports (interpolate-size: allow-keywords) and
+    selector(details::details-content) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+
+    .disclosure::details-content {
+      block-size: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition:
+        block-size 320ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 220ms ease,
+        content-visibility 320ms;
+      transition-behavior: allow-discrete;
+    }
+
+    .disclosure[open]::details-content {
+      block-size: auto;
+      opacity: 1;
+    }
+  }
+}
+
+/*
+ * Header mega menus (Services, Countries).
+ *
+ * Shared here rather than duplicated in two scoped <style> blocks: the close
+ * timeout in `scripts/mega-menu.ts` is tuned to these durations, and one
+ * definition is one thing to keep them agreed on.
+ *
+ * The sheet spans the page gutters, so both menus are the same width and
+ * switching between them shifts nothing. It still scales up from the button
+ * that opened it — the script writes `transform-origin` from the trigger's own
+ * centre. `hidden` still controls display, so a panel that never got its class
+ * back is invisible rather than covering the page.
+ */
+.mega-panel {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.985);
+  transition:
+    opacity 160ms ease-out,
+    transform 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.mega-panel.is-open {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * A material rather than a card: page content ghosts through it, which keeps a
+ * 700px sheet from reading as a second header. The shadow is three layers —
+ * contact, lift and ambient — because a single blur at this size flattens into
+ * a grey halo.
+ */
+.mega-surface {
+  /* 94%, not the 80-ish an Apple menu suggests: theirs sit over mid-tone
+     content and this opens over a near-black navy hero. At 88% the sheet took
+     that navy up through the tertiary ink to 4.3:1 — under the floor, and
+     visibly grey rather than translucent. The blur still does the work. */
+  background: color-mix(in srgb, var(--color-bg-surface) 94%, transparent);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid
+    color-mix(in srgb, var(--color-border-subtle) 65%, transparent);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(16, 42, 67, 0.04),
+    0 12px 28px -14px rgba(16, 42, 67, 0.16),
+    0 44px 88px -44px rgba(16, 42, 67, 0.34);
+}
+
+/*
+ * A hairline segment travelling the divider to sit against the country the
+ * pane belongs to — what connects the two columns, and why the panes
+ * themselves only cross-fade. Height is written once and only `translateY`
+ * animates, so the travel stays on the compositor.
+ */
+.mega-marker {
+  transition: transform 380ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.mega-divider {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-border-subtle) 12%,
+    var(--color-border-subtle) 88%,
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mega-panel [data-menu-pane]:not([hidden]) {
+    animation: mega-pane-in 160ms ease-out both;
+  }
+}
+
+@keyframes mega-pane-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega-panel,
+  .mega-marker {
+    transition: none;
+  }
+}
+
+/*
+ * Translucency is an enhancement, never what legibility rests on: both opt-outs
+ * land on an opaque sheet, and the high-contrast one takes the border to full
+ * strength so the edge survives without the blur behind it.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .mega-surface {
+    background: var(--color-bg-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .mega-surface {
+    background: var(--color-bg-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: var(--color-text-primary);
+  }
+}
+
+/*
+ * Card hover treatments. Opt-in per section, and all three collapse to no
+ * movement under reduced motion — only the colour cue survives.
+ *
+ * All are gated on `(hover: hover) and (pointer: fine)`. A touch screen fires
+ * `:hover` on tap and then has no way to leave it, so on a phone an ungated
+ * lift latches onto the card you last touched and stays — and these are the
+ * carousel cards, the most-tapped things on the site.
+ */
+
+/* Process step cards: a plain lift. */
+@utility card-lift {
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px -12px rgb(16 42 67 / 0.28);
+    }
+  }
+}
+
+/* Country cards: lift plus a terracotta glow bloom. */
+@utility card-glow {
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 0 0 1px rgb(217 113 78 / 0.45),
+        0 10px 24px -8px rgb(217 113 78 / 0.45),
+        0 22px 48px -16px rgb(16 42 67 / 0.35);
+    }
+  }
+}
+
+/* Services bento cards: a terracotta ring drawn on the existing border, so the
+   card does not shift by a pixel when it activates. */
+@utility card-focus {
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 250ms ease;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-3px);
+      border-color: rgb(217 113 78 / 0.65);
+      box-shadow:
+        0 0 0 3px rgb(217 113 78 / 0.14),
+        0 14px 30px -14px rgb(16 42 67 / 0.3);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift:hover,
+  .card-glow:hover,
+  .card-focus:hover {
+    transform: none;
+  }
+}
+
+/*
+ * Orbit — a warm glint travelling the rim of the "Most Requested" pill.
+ *
+ * Registered rather than a plain custom property, because an unregistered one
+ * cannot be interpolated: the animation would step 0deg → 360deg at the
+ * halfway mark and the glint would jump once a cycle instead of travelling.
+ *
+ * The registration doubles as the feature test. Without @property the variable
+ * has no value at all, so `var()` makes the whole `background` invalid at
+ * computed-value time and the ring simply never paints — which is why it is
+ * never given a value in the ruleset below.
+ */
+@property --badge-orbit-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@utility badge-orbit {
+  position: relative;
+
+  /* The whole treatment lives inside the motion query, not just the animation.
+     The hover utilities keep their colour cue when motion is off because the
+     colour is the affordance; here the effect *is* the travelling, and a
+     frozen asymmetric arc reads as a rendering fault. */
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      content: "";
+      position: absolute;
+      /* Just outside the pill, so the glint rides the edge of the terracotta
+         rather than sitting on it. */
+      inset: -1.5px;
+      border-radius: inherit;
+      padding: 1.5px;
+      pointer-events: none;
+
+      /* A conic sweep is uniform in angle, not in arc length, so it does not
+         travel the perimeter at constant speed. On this pill the mismatch is
+         about 2x between the long edges and the end caps — small enough to
+         read as one continuous orbit. It would not be on a square.
+
+         The core is a warm cream, not white: a white glint reads as chrome
+         once its falloff crosses the navy, and the flanking terracotta is what
+         keeps the whole arc inside the palette. */
+      background: conic-gradient(
+        from var(--badge-orbit-angle),
+        transparent 0deg,
+        rgb(217 113 78 / 0.45) 18deg,
+        rgb(255 231 208 / 0.95) 40deg,
+        rgb(217 113 78 / 0.45) 62deg,
+        transparent 88deg
+      );
+
+      /* Punch the middle out so only the rim survives: the element masked to
+         itself, minus itself inset by the padding. */
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+
+      /* `drop-shadow` follows the alpha left after masking, so the glow blooms
+         from the bright arc alone and travels with it — a `box-shadow` would
+         halo the whole pill and sit still. */
+      filter: drop-shadow(0 0 2px rgb(255 240 230 / 0.7))
+        drop-shadow(0 0 6px rgb(217 113 78 / 0.55));
+
+      /* Slow enough to be ambient: this runs forever on a page the reader is
+         scrolling past, so it is closer to a candle than to a spinner. */
+      animation: badge-orbit 5s linear infinite;
+    }
+  }
+}
+
+@keyframes badge-orbit {
+  to {
+    --badge-orbit-angle: 360deg;
+  }
+}
+
+/*
+ * Mobile carousel.
+ *
+ * A CSS scroll-snap strip — no JS, no library, and it degrades to a plain
+ * scrollable row if anything fails. Negative inline margin cancels the
+ * `section-shell` gutter so the strip bleeds to the viewport edge, while the
+ * matching padding keeps the first card on the gutter and leaves the next card
+ * peeking, which is what signals the row scrolls.
+ *
+ * The rules live inside a media query and use doubled class selectors so they
+ * beat whatever single-class utilities the element carries for its desktop
+ * layout (`grid`, `flex-1`, `w-[238px]` …). Above the breakpoint they do not
+ * exist at all, so the desktop classes apply untouched and there is no "off"
+ * utility to pair with.
+ *
+ * The track takes `self-stretch`, never `w-full`. `width: 100%` resolves
+ * against the containing block *before* the negative margins apply, so the box
+ * never grows to absorb them and the right edge lands a gutter short of the
+ * viewport. `align-self: stretch` sizes the box as "line cross size minus its
+ * own margins", which folds them in and bleeds flush on both sides.
+ */
+@media (width < 64rem) {
+  .carousel.carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    padding-inline: 1.5rem;
+    margin-inline: -1.5rem;
+    scroll-padding-inline: 1.5rem;
+    /* Room for the cards' hover lift shadow, which would otherwise clip. */
+    padding-block: 0.25rem;
+    /* The peeking next card is the affordance; a scrollbar would double up. */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .carousel.carousel::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * The same strip ending one breakpoint earlier, for the "What's included" grid
+ * — the tablet design draws that section 2-across at 768px, where every other
+ * carousel is still a strip. The declarations are repeated rather than shared
+ * because the two differ only in their media query and CSS has nowhere to
+ * hoist that to. Keep the two blocks in step.
+ */
+@media (width < 48rem) {
+  .carousel-until-md.carousel-until-md {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    padding-inline: 1.5rem;
+    margin-inline: -1.5rem;
+    scroll-padding-inline: 1.5rem;
+    padding-block: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .carousel-until-md.carousel-until-md::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (width < 64rem) {
+  /* Card width is "the track, less a deliberate peek", so the sliver of the
+     next card is a designed amount rather than whatever is left over —
+     otherwise the strip reads as a clipped layout. */
+  .carousel-item.carousel-item {
+    scroll-snap-align: start;
+    flex: 0 0 calc(100% - var(--carousel-peek, 3.25rem));
+    width: auto;
+    max-width: none;
+    /* The peek only reads as "more content" when the peeking card is visibly a
+       raised surface, and `card-lift`/`card-focus` only shadow on `:hover`,
+       which touch never fires. A white card on cream otherwise reads as the
+       strip having simply ended. */
+    box-shadow: 0 6px 16px -10px rgb(16 42 67 / 0.35);
+  }
+}
+
+/* Tablet shows two cards plus the peek — one 620px card looks unfinished. */
+@media (40rem <= width < 64rem) {
+  .carousel-item.carousel-item {
+    flex: 0 0 calc(50% - var(--carousel-peek, 3.25rem));
+  }
+}
+
+/*
+ * Both strips, not just `.carousel`. `CarouselControls` passes
+ * `behavior: "auto"` to `scrollTo` under reduced motion, but per spec "auto"
+ * defers to the element's computed `scroll-behavior` — so a strip left at
+ * `smooth` keeps animating for a visitor who asked it not to. Any new carousel
+ * variant has to be added here too.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .carousel,
+  .carousel-until-md {
+    scroll-behavior: auto;
+  }
+}
+
+/*
+ * Step-card numerals. The design trims the text box to the cap height and the
+ * baseline, so the numeral sits flush on the bottom edge of the photo band with
+ * no padding under it; untrimmed, the line box carries the font's descender
+ * space and the numeral appears to float.
+ *
+ * Doubled selector so this beats whatever font-size utility sits alongside it.
+ */
+.step-numeral.step-numeral {
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-box: trim-both cap alphabetic;
+}
+
+@supports not (text-box: trim-both cap alphabetic) {
+  .step-numeral.step-numeral {
+    /* The same result by hand, from Pliant's metrics at line-height 0.9: the
+       cap top sits 0.1531em below the line-box top, the baseline 0.1843em
+       above its bottom. */
+    margin-block: -0.1531em -0.1843em;
+  }
+}
+
+@utility section-shell {
+  /* 1440px frame with 80px gutters, fluid below that. */
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1.5rem;
+
+  @media (width >= 64rem) {
+    padding-inline: 5rem;
+  }
+}
+
+/*
+ * The headline rate — €299 on the homepage and EOR Spain, the "starting from"
+ * lines on Poland and Italy — knocked out of the brand gradient. Figma draws
+ * that gradient at a fixed angle across the glyphs; this keeps the angle and
+ * drifts the ramp through them, so the number reads as lit, not as animated.
+ *
+ * Four things are load-bearing:
+ *
+ * - The ramp is stated three times over, so there is gradient to spare either
+ *   side of the visible window at every point in the travel. A two-stop ramp
+ *   on an oversized box runs out and flattens to a solid at one end.
+ * - It alternates rather than loops. Seamlessly looping a shift means matching
+ *   the phase at both ends, and the phase of an *angled* gradient depends on
+ *   the box's height as well as its width — which differs between "€299" and a
+ *   whole sentence. Reversing sidesteps the arithmetic and cannot seam.
+ * - It drives `background-position`, never a transform: the knockout is the
+ *   type itself, so a transform would move the glyphs rather than the light.
+ * - The resting frame is the design's, so a visitor who asked for less motion
+ *   sees exactly the static artwork rather than an arbitrary frame of this.
+ *
+ * 14s and `ease-in-out` because the ends are turning points — at a linear rate
+ * the reversal reads as a bounce.
+ */
+.price-gradient {
+  /* The first third of the image is the design's own ramp stop for stop, which
+     is what `--price-gradient-start` and `--end` are: the Figma stops divided
+     by three. The pricing card ramps the whole way (0% → 97.7%); the
+     pricing-summary band holds navy for its first 30% before it starts, and
+     losing that hold is visible — the claim reads brown from its first letter.
+     The remaining two thirds are the run-off the travel moves into. */
+  background-image: linear-gradient(
+    var(--price-gradient-angle, 108.54deg),
+    var(--color-navy) var(--price-gradient-start, 0%),
+    var(--color-terracotta) var(--price-gradient-end, 32.6%),
+    var(--color-navy) 66.3%,
+    var(--color-terracotta) 100%
+  );
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .price-gradient {
+    animation: price-gradient-drift 14s ease-in-out infinite alternate;
+  }
+}
+
+/* 20%, not the full 100%: at the far end the window has travelled a whole ramp
+   and the number reads terracotta-left, navy-right — the design inverted. */
+@keyframes price-gradient-drift {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 20% 50%;
+  }
+}
+
+/*
+ * Makes the whole card the link, where the design draws a button inside it.
+ *
+ * The overlay belongs to the anchor rather than to the card: no click handler,
+ * no second tab stop, the link keeps its own href and text for assistive tech,
+ * and hovering anywhere on the card puts the *button* in its hover state
+ * because the pointer really is over the anchor.
+ *
+ * The card must be `relative` and must not clip — `inset: 0` resolves against
+ * the nearest positioned ancestor, so a `relative` on the button itself would
+ * shrink the target back to the button.
+ *
+ * The known cost is that text inside the card can no longer be selected by
+ * dragging; do not put this on a card carrying copy anyone would quote.
+ */
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Above the card's background art, below anything the card positions
+     deliberately (a badge with its own z-index still takes the pointer). */
+  z-index: 1;
+}
+
+/*
+ * The one thing that silently breaks the pattern, and it fails in a way no
+ * screenshot shows: `Button`'s base classes carry `active:translate-y-px`, and
+ * a transform on the anchor makes the anchor the containing block for its own
+ * `::after` — so on mousedown the overlay snaps back to the button. `mouseup`
+ * then lands on the card, the two targets disagree, and the browser fires
+ * `click` on their common ancestor instead. The card does nothing.
+ *
+ * Unlayered, so it beats the Tailwind utility whatever order the classes are
+ * written in. Both properties, because Tailwind v4 writes `translate-y-px` to
+ * `translate` rather than into `transform`, and either one is enough.
+ */
+.card-link:active {
+  translate: none;
+  transform: none;
+}
+
+/*
+ * The caret travelling through the Poland pull-quote as it types itself in
+ * (`ServiceIntro.astro`). An inline element rather than a `::after` on the
+ * line, because it has to sit at the point the typing has reached — the
+ * characters after it are already laid out and merely transparent, so a caret
+ * anchored to the end of the line would sit a sentence ahead of itself.
+ */
+.quote-caret {
+  display: inline-block;
+  width: 0.08em;
+  /* Cap height rather than the full line box: a caret as tall as the leading
+     reads as a rule between the lines. */
+  height: 0.78em;
+  translate: 0 0.06em;
+  background: currentColor;
+  animation: quote-caret-blink 900ms steps(2, jump-none) infinite;
+}
+
+@keyframes quote-caret-blink {
+  to {
+    opacity: 0;
   }
 }

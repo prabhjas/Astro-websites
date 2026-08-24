@@ -1,0 +1,114 @@
+---
+/**
+ * A photograph beside the answer to a question about the service.
+ *
+ * The arrangement is the same in both layouts and is the reason they share a
+ * component: the tablet and mobile frames lead with the copy and drop the
+ * photograph below it, and only the desktop frame puts it on the left. What
+ * differs is the register — `quote` pull-quotes one sentence (the EOR hub's
+ * "What is EOR"), `prose` runs an argument in ordinary paragraphs under an
+ * eyebrow (the Staff Outsourcing hub's "Why Staff Outsourcing matters?").
+ *
+ * The heading scale and the photo's crop follow the layout rather than being
+ * their own props: a band that argues wants a 3:2 photograph and a 36px claim,
+ * a band that states one line wants the taller crop and 48px.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["definition"]>;
+
+const {
+  eyebrow,
+  heading,
+  body,
+  paragraphs,
+  layout = "quote",
+  image,
+  imageAlt,
+} = Astro.props;
+
+const prose = layout === "prose";
+---
+
+<section
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="definition-heading"
+>
+  {/*
+    Source order follows the narrow layout — the heading is what the section is
+    about — and `lg:order-first` moves the image back across on desktop.
+  */}
+  <div class="section-shell flex flex-col items-center gap-12 lg:flex-row">
+    <div
+      class:list={[
+        "w-full shrink-0 overflow-hidden rounded-xl lg:order-first",
+        prose
+          ? /* 600×400 in both the desktop and tablet frames; the mobile one
+               takes the full measure, which is narrower than the cap anyway. */
+            "aspect-[3/2] max-w-[600px] lg:w-[600px]"
+          : "aspect-[519/480] lg:aspect-auto lg:h-[480px] lg:w-[519px]",
+      ]}
+      data-reveal
+      style="--reveal-i:1"
+    >
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={prose ? [430, 600, 768, 1200] : [430, 519, 768, 1038]}
+        sizes={prose ? "(min-width: 1024px) 600px, 100vw" : "(min-width: 1024px) 519px, 100vw"}
+        class="size-full object-cover"
+        loading="lazy"
+      />
+    </div>
+
+    <div
+      class:list={[
+        "order-first flex flex-1 flex-col items-start",
+        prose ? "gap-6" : "gap-10",
+      ]}
+      data-reveal
+    >
+      <div class="flex flex-col items-start gap-3">
+        {
+          eyebrow && (
+            <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2
+          id="definition-heading"
+          class:list={[
+            "text-balance text-text-primary",
+            prose ? "text-h2" : "text-h1",
+          ]}
+        >
+          {heading}
+        </h2>
+      </div>
+
+      {
+        prose ? (
+          <div class="flex flex-col items-start gap-2">
+            {paragraphs?.map((paragraph, i) => (
+              <p
+                class="text-body text-text-secondary"
+                data-reveal
+                style={`--reveal-i:${i + 1}`}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        ) : (
+          /* Terracotta rule down the left edge, as the design draws it —
+             thinner on a phone, where an 8px rule eats the narrow measure. */
+          <p class="border-l-[6px] border-terracotta pl-5 text-xl leading-[1.25] font-normal text-text-secondary lg:border-l-8 lg:pl-12 lg:text-h3 lg:font-normal">
+            {body}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+/**
+ * Service category hubs — `/employer-of-record/`, `/payroll-outsourcing/`, etc.
+ * Split from a catch-all so the fleet publisher does not see `[...slug]`.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import HubTemplate from "../../components/services/HubTemplate.astro";
+import { heroLcpSrc } from "../../lib/lcp";
+import { faqPage, organization, pageUrl, service } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("services");
+  return entries
+    .filter((entry) => entry.data.type === "hub")
+    .map((entry) => ({
+      params: { hub: entry.id },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { seo, faq } = entry.data;
+const url = pageUrl(entry.id);
+const lcpImage = await heroLcpSrc(entry.data.hero.image);
+
+const schema = [
+  organization(url, seo.schema.address),
+  service({
+    url,
+    name: seo.schema.serviceName,
+    serviceType: seo.schema.serviceType,
+    areaServed: seo.schema.areaServed,
+    areaType: "Place",
+    description: seo.description,
+  }),
+  ...(faq?.items.length ? [faqPage(url, faq.items)] : []),
+];
+---
+
+<Layout title={entry.data.seo.title} description={entry.data.seo.description} schema={schema} lcpImage={lcpImage}>
+  <HubTemplate data={entry.data} />
+</Layout>

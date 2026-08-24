@@ -1,0 +1,27 @@
+---
+/**
+ * Contact page.
+ *
+ * No `Closing` band: the form this page is built around *is* the one that band
+ * carries, so `#contact-form` — the single destination every CTA on the site
+ * scrolls to — is the id on the form wrapper inside `ContactIntro` here. The
+ * ETT licence card is not repeated either; the footer already carries it on
+ * every route, and the frames end on the terracotta band.
+ */
+import Layout from "../layouts/Layout.astro";
+import ContactIntro from "../components/sections/ContactIntro.astro";
+import ContactProcess from "../components/sections/ContactProcess.astro";
+import { getUi } from "../i18n/copy";
+import { siteOrganization } from "../lib/schema";
+
+const { lang, t } = getUi(Astro.url.pathname);
+---
+
+<Layout
+  title={t.contactPage.title}
+  description={t.contactPage.description}
+  schema={[siteOrganization(lang)]}
+>
+  <ContactIntro />
+  <ContactProcess />
+</Layout>

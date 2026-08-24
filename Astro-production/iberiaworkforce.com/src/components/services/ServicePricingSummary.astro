@@ -1,0 +1,159 @@
+---
+/**
+ * Pricing as a floor plus its variables: one white card floating over a photograph, carrying a headline
+ * rate in the brand gradient and a row of cards saying what moves it.
+ *
+ * The third of the three pricing shapes, and a page carries exactly one:
+ * `ServicePricing` quotes a flat rate as two plan cards, `ServicePricingNote`
+ * explains why there is no number at all, and this one publishes a starting
+ * number that is honestly a floor.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import checkCircle from "../../assets/icons/check-circle.svg";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["pricingSummary"]>;
+
+const { eyebrow, heading, body, cards, background, cta } = Astro.props;
+---
+
+{/*
+  No `overflow-hidden` — see the note in ServiceDifferentiator.astro and
+  CLAUDE.md on why an overflow ancestor would break any sticky descendant.
+*/}
+<section
+  id="pricing"
+  class="relative isolate bg-bg-page py-20 lg:py-30"
+  aria-labelledby="pricing-summary-heading"
+>
+  {/*
+    Figma anchors the photograph to the bottom of the band. `object-bottom`
+    reproduces that: the rooflines are the subject and the sky above them is
+    filler, so a centred crop on a phone frames the sky and loses the buildings
+    entirely.
+
+    No opacity here. These backgrounds ship as the terracotta wash the frames
+    draw rather than as the photograph underneath it, so the treatment is
+    already in the file — dimming again put the band ~30/255 lighter than the
+    design at every sampled point.
+  */}
+  <Image
+    src={background}
+    alt=""
+    widths={[720, 1440, 2160]}
+    sizes="100vw"
+    class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom"
+    loading="lazy"
+  />
+
+  <div class="section-shell">
+    <div
+      class="flex w-full flex-col items-center gap-8 rounded-xl border border-border-subtle bg-bg-surface p-6 md:p-12 lg:px-12 lg:pt-16 lg:pb-12"
+      data-reveal
+    >
+      <header class="flex w-full flex-col items-center gap-3 text-center">
+        {
+          eyebrow && (
+            <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+              {eyebrow}
+            </p>
+          )
+        }
+        {/*
+          `price-gradient` (global.css) with this band's own angle — 93.13deg
+          rather than the pricing card's 108.54, which is what Figma draws for
+          a claim running the width of the card rather than four glyphs.
+        */}
+        <h2
+          id="pricing-summary-heading"
+          class="price-gradient max-w-[894px] bg-clip-text text-display text-balance text-transparent"
+          style="--price-gradient-angle: 93.13deg; --price-gradient-start: 10%; --price-gradient-end: 33.3%;"
+        >
+          {heading}
+        </h2>
+      </header>
+
+      {body && <p class="text-center text-body-lg text-text-secondary">{body}</p>}
+
+      {/*
+        The `outline` card is the aside rather than a variable, so the frame
+        gives it a fixed 480px and lets the variables share what is left. Below
+        lg they all stack, which is what both narrow frames draw.
+      */}
+      <ul class="flex w-full flex-col items-stretch gap-4 lg:flex-row">
+        {
+          cards.map((card, i) => (
+            <li
+              class:list={[
+                "flex flex-col gap-6 rounded-xl p-6",
+                card.chips ? "items-center" : "items-start",
+                card.variant === "outline"
+                  ? [
+                      "border border-border-subtle",
+                      /* A chip card is the whole answer rather than an aside
+                         beside the variables, so it takes the full width the
+                         480px track would otherwise hold back. */
+                      card.chips ? "lg:flex-1" : "lg:w-[480px] lg:shrink-0",
+                    ]
+                  : "bg-bg-muted lg:flex-1",
+              ]}
+              data-reveal
+              style={`--reveal-i:${i}`}
+            >
+              <h3
+                class:list={[
+                  "text-h3 text-balance",
+                  card.chips && "text-center",
+                  card.variant === "outline"
+                    ? /* A question, not a plan name — the design sets it in
+                         terracotta and at regular weight to say so. */
+                      "font-normal text-text-link"
+                    : "text-text-primary",
+                ]}
+              >
+                {card.title}
+              </h3>
+              {card.description && (
+                <p class="text-body text-text-secondary">{card.description}</p>
+              )}
+              {
+                card.chips && (
+                  /* Ticked pills rather than a sentence: each is one variable,
+                     and the row wraps and re-centres itself at every width,
+                     which is what all three frames draw. */
+                  <ul class="flex flex-wrap justify-center gap-3">
+                    {card.chips.map((chip) => (
+                      <li class="flex items-center gap-3 rounded-xl bg-bg-muted py-3 pr-4 pl-3 text-body-sm text-text-secondary">
+                        <Icon src={checkCircle} size={24} paint="fill" />
+                        {chip}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              }
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        cta && (
+          /* Wrapped rather than annotated directly: Button declares its props,
+             so `data-reveal` on the component itself would be dropped. */
+          <div class="w-full sm:w-auto" data-reveal>
+            <Button
+              variant="accent"
+              size="lg"
+              href={cta.href}
+              class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+            >
+              {cta.label}
+            </Button>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

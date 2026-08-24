@@ -1,0 +1,135 @@
+---
+/**
+ * Closing CTA band.
+ *
+ * The design replaced the old pair of buttons with a contact form: the claim
+ * and the Connect Group footnote hold the left column, the form card the right.
+ * Below lg the two stack, form last.
+ */
+import type { CollectionEntry } from "astro:content";
+import ContactForm from "../ui/ContactForm.astro";
+import MeshGradient from "../ui/MeshGradient.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["closing"]>;
+
+const {
+  heading,
+  subheading,
+  highlight,
+  body,
+  bodySize = "lead",
+  footnote,
+  form,
+} = Astro.props;
+
+/**
+ * The Payroll hub breaks its claim across two colours mid-sentence
+ * rather than adding a terracotta second line. Split here so the template stays
+ * free of string arithmetic; a `highlight` that no longer occurs in `heading`
+ * falls back to a plain heading rather than rendering nothing.
+ */
+const at = highlight ? heading.indexOf(highlight) : -1;
+const parts =
+  at === -1 || !highlight
+    ? { before: heading }
+    : {
+        before: heading.slice(0, at),
+        mark: highlight,
+        after: heading.slice(at + highlight.length),
+      };
+---
+
+{/*
+  The padding is shorter than the 120px the desktop frame draws. The form card
+  is the tallest element on the page, and at the designed padding the band
+  overflows a laptop viewport — the submit button falls below the fold, which is
+  the one control in the section that has to be visible.
+
+  (This note sits above the tag, not inside it: a JSX comment between attributes
+  compiles but leaves the language server unable to parse the rest of the file.)
+*/}
+<section
+  id="contact"
+  class="relative isolate bg-text-primary pt-20 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20"
+  aria-labelledby="service-closing-heading"
+>
+  {/*
+    Figma composes this background from stacked blurred ellipses. Drawn rather
+    than exported: a wash like this is exactly the content that bands in a flat
+    WebP, and it is the same artwork the closing band on every other route
+    carries — one shared component, so the CTA reads as one place on the site.
+    Its warm zone is anchored in pixels from the top, which is why it holds the
+    heading at 1440 and on a phone alike where a fixed export would not.
+  */}
+  <MeshGradient variant="band" />
+
+  <div
+    class="section-shell flex flex-col items-start gap-10 lg:flex-row lg:gap-20"
+  >
+    <div class="flex w-full flex-col items-start gap-10 lg:flex-1">
+      {/*
+        H1 scale, not Display. The claim shares the band with the form card, so
+        Figma sets it 48px across a 681px column — four lines. At Display's 64px
+        it wraps to six and overruns the card beside it.
+      */}
+      {/* The claim and its terracotta second line are one sentence broken across
+          two colours, so they share a block and its reveal rather than
+          staggering apart. */}
+      <div class="flex flex-col gap-6" data-reveal>
+        <h2
+          id="service-closing-heading"
+          class="text-h1 text-balance text-text-inverse"
+        >
+          {parts.before}{parts.mark && <span class="text-terracotta">{parts.mark}</span>}{parts.after}
+        </h2>
+        {subheading && <p class="text-h2 text-balance text-terracotta">{subheading}</p>}
+      </div>
+
+      {
+        body && (
+          <p
+            class:list={[
+              "font-normal text-text-inverse-tertiary",
+              /* A step down where the terracotta line above has already taken
+                 the lead — see `bodySize` in content.config.ts. */
+              bodySize === "note" ? "text-body-lg" : "text-h3",
+            ]}
+            data-reveal
+            style="--reveal-i:1"
+          >
+            {body}
+          </p>
+        )
+      }
+
+      {
+        footnote && (
+          <div
+            class="flex w-full flex-col gap-3 border-t border-text-inverse/25 pt-3"
+            data-reveal
+            style="--reveal-i:1"
+          >
+            <p class="text-caption font-normal tracking-normal text-text-inverse-muted">
+              {footnote}
+            </p>
+          </div>
+        )
+      }
+    </div>
+
+    {/* 519px is the width Figma draws the card at on desktop. */}
+    <div
+      id="contact-form"
+      class="w-full lg:w-[519px] lg:shrink-0"
+      data-reveal
+      style="--reveal-i:2"
+    >
+      <ContactForm
+        heading={form?.heading}
+        body={form?.body}
+        submitLabel={form?.submitLabel}
+        action={form?.action}
+      />
+    </div>
+  </div>
+</section>

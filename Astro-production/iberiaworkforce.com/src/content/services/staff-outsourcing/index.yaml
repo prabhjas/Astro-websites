@@ -1,0 +1,298 @@
+# Staff Outsourcing — category hub. Figma nodes 168-1359 (1440),
+# 184-10159 (768) and 184-10160 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Staff Outsourcing
+
+seo:
+  title: Staff Outsourcing | Iberia Workforce
+  description: >-
+    Staff outsourcing across Europe. Permanent, seasonal and project staff
+    under one agreement. You direct the work; we handle HR, compliance and
+    exits.
+  schema:
+    serviceName: Staff Outsourcing Services
+    serviceType: Staff Outsourcing & Workforce Management
+    areaServed: Europe
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  heading: Staff Outsourcing Services
+  subheading: Operate without managing your workforce HR and compliance
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: talk
+      label: Termination Complexity Solved
+    - icon: licence
+      label: Permanent + Seasonal + Ad-Hoc
+  body: >-
+    You have permanent staff, seasonal peaks, and ad-hoc project needs. Iberia
+    employs everyone on Iberia books - we handle HR, payroll, compliance, and
+    termination. You direct the work. You do not deal with the legal risk that
+    European employment law creates.
+  image: ../../../assets/images/staff-outsourcing-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/staff-outsourcing-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/staff-outsourcing-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  heading: What is Staff Outsourcing?
+  # Display scale, so the claim keeps the whole 768 frame and the prose
+  # follows under it — which is what 537:6583 draws.
+  headingScale: display
+  paragraphs:
+    - >-
+      Staff outsourcing is the delegation of your workforce to an external
+      employer. You have people who work for your business - permanent staff,
+      seasonal workers for peaks, specialists for projects. Iberia becomes the
+      legal employer of all of them. You continue to direct their work, set
+      roles, manage performance. Iberia handles employment contracts, payroll,
+      social security registration, HR administration, and the compliance risk
+      if something goes wrong. You get workforce flexibility without becoming
+      an employment law expert.
+
+definition:
+  layout: prose
+  eyebrow: STAFF OUTSOURCING
+  heading: Why Staff Outsourcing matters?
+  image: ../../../assets/images/staff-outsourcing-hub-why-matters.webp
+  imageAlt: >-
+    A man working at a laptop in an open-plan office, a colleague at a desk
+    behind him
+  paragraphs:
+    - >-
+      European employment law does not allow at-will termination. Firing
+      requires documented grounds, notice periods, severance calculations, and
+      exposure to unfair dismissal claims if executed incorrectly. Most
+      companies either hire HR staff to manage this (1,500-2,500 EUR/month
+      overhead) or muddle through and pay fines when they get it wrong.
+    - >-
+      Then there is seasonal variation. Agriculture, retail, logistics,
+      hospitality - headcount swings 30-50 percent between peak and off-peak.
+      Scaling up and down without legal friction is nearly impossible if you
+      are the employer of record.
+    - >-
+      Staff outsourcing solves both. You do not need an HR department. You do
+      not manage terminations. Permanent core, seasonal peaks, ad-hoc projects,
+      all under one agreement, one employer, one compliance responsibility.
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: Why choose Iberia Workforce for Staff Outsourcing services?
+  highlight: Staff Outsourcing
+  # The divider run on the cream page colour — every earlier `list` frame is
+  # white, and what keeps this page alternating is the white band above it.
+  surface: page
+  items:
+    - title: We take on your existing team. You do not restructure.
+      description: >-
+        You already have people working for you. You do not want them on your
+        books anymore - you want someone else managing payroll, contracts, and
+        termination risk. We take them onto Iberia books. Same people, same
+        work, different legal employer. No disruption.
+    - title: We source the rest. Permanent, seasonal, or ad-hoc.
+      description: >-
+        You need 5 permanent engineers. You need 20 seasonal workers for a
+        peak. You need 1 specialist for a three-week project. We source all of
+        it under one Staff Outsourcing agreement - same contract structure,
+        same compliance, same legal responsibility.
+    - title: One agreement. Permanent plus seasonal plus ad-hoc. No service juggling.
+      description: >-
+        Unlike temporary staffing (fixed-term deployments) or EOR (new
+        permanent hires), Staff Outsourcing is your ongoing workforce partner.
+        All scenarios covered. No need to bounce between providers or service
+        models.
+    - title: >-
+        We carry the termination risk. European employment law complexity
+        becomes our problem.
+      description: >-
+        When someone needs to leave end of season, project completion,
+        performance issue, we handle it. We assess whether grounds are
+        defensible under local law, we structure the termination correctly, we
+        calculate severance accurately, and we defend the decision if
+        challenged. You do not become an employment law expert.
+    - title: We are run by employment lawyers, not just recruiters or HR coordinators.
+      description: >-
+        Termination procedures, employment classification, compliance risk -
+        these are legal questions. We have in-house expertise to get them right
+        from day one.
+    - title: 9 years at scale. 10,000+ employees managed across Europe.
+      description: >-
+        Built in the UAE, one of the worlds most compliance-heavy employment
+        environments. That operational depth now runs Staff Outsourcing in
+        Spain, with expansion across Europe.
+
+howItWorks:
+  heading: How Staff Outsourcing works?
+  steps:
+    - title: Tell us about your workforce structure
+      description: >-
+        How many permanent staff do you have now? What is your seasonal peak
+        and trough? Do you have ad-hoc project needs? We assess your headcount
+        mix and flag any compliance considerations upfront.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues reviewing a document together at an office desk
+    - title: We take on your team and fill the gaps
+      description: >-
+        Your existing staff transfer onto Iberia books. We run payroll, manage
+        contracts, and assume employment responsibility. For seasonal workers
+        and project staff, we source them. All under one Staff Outsourcing
+        agreement.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed contract at a desk
+    - title: You direct work. We manage everything else.
+      description: >-
+        Monthly payroll runs. HR administration stays in our hands. Seasonal
+        workers ramp up and down as you need. When anyone needs to leave -
+        season end, project completion, performance issue - we manage the exit
+        legally and correctly. You focus on your business.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage staff outsourcing without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  eyebrow: SERVICES
+  # The frames read "…in Recruitment services?" at all three widths — a
+  # leftover from the frame they were duplicated from. See CLAUDE.md.
+  heading: What is included in Staff Outsourcing services?
+  align: center
+  columns: 4
+  items:
+    - icon: candidate-selection
+      title: Permanent staff takeover and transition
+      description: >-
+        We take on your existing employees onto Iberia books. Contract review,
+        payroll setup, social security registration, and notifications to local
+        authorities, handled end-to-end so the transfer runs smoothly.
+    - icon: document-stamp
+      title: Seasonal staffing and sourcing
+      description: >-
+        As your business peaks and troughs, we source seasonal workers.
+        Sourcing, screening, contracts, payroll, compliance, all included under
+        your one Staff Outsourcing agreement.
+    - icon: envelope-seal
+      title: Ad-hoc project staffing
+      description: >-
+        Need a specialist for two weeks? A compliance auditor for a three-week
+        inspection? We source project-based staff, manage contracts with clear
+        end dates, and off-board correctly when work ends.
+    - icon: gavel
+      title: Employment contracts under local law
+      description: >-
+        Permanent, seasonal, and project contracts drafted to comply with
+        employment law in each country where staff are deployed. Role
+        classifications and compensation locked in at the start.
+    - icon: money-roll
+      title: Payroll processing and social security registration
+      description: >-
+        Monthly payroll with statutory contributions, tax withholding, and
+        statutory deductions, all calculated per local law. Registration and
+        filings handled directly with relevant authorities.
+    - icon: person-case
+      title: HR administration and leave management
+      description: >-
+        Annual leave accrual, sick leave, statutory days off, tracked and
+        adjusted in payroll. Contract amendments, employee records, policy
+        implementation, managed throughout employment.
+    - icon: door-exit
+      title: Termination and severance handling
+      description: >-
+        Employment law requires justified termination. We structure exits to
+        comply with notice periods, severance obligations, and dismissal
+        protections. Documentation, settlement calculation, legal defense if
+        challenged.
+    - icon: shield-tick
+      title: Ongoing compliance and legal risk transfer
+      description: >-
+        Employment disputes, worker classification challenges, workplace
+        incidents, we carry the legal exposure and defend your company. Your
+        workforce operates under Iberia compliance umbrella.
+
+faq:
+  eyebrow: STAFF OUTSOURCING
+  heading: Frequently asked questions
+  items:
+    - question: >-
+        What is the difference between Staff Outsourcing and Temporary
+        Staffing?
+      answer: >-
+        Temporary staffing is fixed-term. You need 10 workers for August
+        harvest, done. Staff outsourcing is ongoing. You have permanent staff,
+        seasonal peaks, and ad-hoc projects - all under one agreement. We
+        employ everyone. You direct the work continuously, not just for a
+        defined period.
+    - question: Can we transfer our existing employees to Iberia?
+      answer: >-
+        Yes. That is one of the core scenarios Staff Outsourcing solves. You
+        have people. You do not want them on your books anymore. We take them
+        onto Iberia books. Same people, same work, different legal employer.
+        Contract review, payroll setup, social security transition - all
+        handled so the transfer is seamless.
+    - question: How does seasonal variation work? Do we pay for off-peak months?
+      answer: >-
+        Depends on your contract structure. For permanent staff who are part of
+        your core team, yes, they stay on payroll even in slow months (unless
+        you restructure). For purely seasonal workers, they are on payroll only
+        during the peak, we only bill when they are working. Pricing is custom
+        because the mix of permanent vs. seasonal vs. ad-hoc varies per
+        business.
+    - question: What happens if we need to terminate someone?
+      answer: >-
+        Employment law requires documented, justified grounds for termination -
+        not at-will. We manage the exit process. We assess whether the grounds
+        are defensible under local law, we structure the termination to comply
+        with notice periods and severance, we calculate the final payment, and
+        if the dismissal gets challenged, we defend it legally. You do not
+        handle any of this.
+    - question: Can we use Staff Outsourcing alongside other services?
+      answer: >-
+        Yes. You can Staff Outsource your existing team, then use EOR to hire
+        new permanent employees in a country with no local entity. One
+        agreement per service, but they work together because we manage the
+        whole picture.
+    - question: How is Staff Outsourcing pricing determined?
+      answer: >-
+        Custom per scenario. Headcount (permanent, seasonal, ad-hoc), tenure
+        mix, industry, and whether you need Iberia to source workers all affect
+        the cost. We provide a full breakdown before you commit, no hidden line
+        items, no surprise bills.
+    - question: Is Staff Outsourcing legal across Europe?
+      answer: >-
+        Yes. Outsourcing your workforce to a licensed employment provider is a
+        recognized employment structure. The compliance responsibility sits on
+        the provider execution, which is why you need a partner who knows
+        employment law and termination procedures.
+    - question: Who is Iberia Workforce?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate Staff Outsourcing
+        services through our own registered entities in each country. Our
+        employment lawyers and payroll specialists handle all staff takeovers,
+        sourcing, contracts, payroll, HR administration, and compliance
+        directly. We carry the legal and employment risk.
+
+closing:
+  heading: >-
+    You do not need to become an employment law expert just to have a flexible,
+    seasonal workforce.
+  # 18px in all three frames, where the country pages set this at H3 — the
+  # argument has already been made by the time the reader reaches it.
+  bodySize: note
+  body: >-
+    European termination complexity, role classification headaches, payroll
+    calculations — these should not be your problem. Describe your workforce
+    structure — how many permanent, your seasonal swings, any ad-hoc project
+    needs — and we will tell you exactly how Staff Outsourcing works for your
+    business, what it costs, and how quickly we can take over.

@@ -1,0 +1,406 @@
+# Staff Outsourcing — Spain country page.
+# Figma node 169-1483 (1440). No 768 or 430 frame was supplied for this page,
+# so the narrow layouts are the ones the shared components already draw for
+# every other country page rather than anything measured — see CLAUDE.md.
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first page in the Staff Outsourcing category, and the first to use
+# `pricingVariables` — the fourth pricing shape, documented in
+# content.config.ts. Everything else is a switch that already existed.
+type: country
+label: Staff Outsourcing in Spain
+
+seo:
+  title: Staff Outsourcing in Spain | Iberia Workforce
+  description: >-
+    Staff outsourcing in Spain. We employ your team, classify each role
+    under the right CBA, run payroll, and carry termination risk.
+  schema:
+    serviceName: Staff Outsourcing Services Spain
+    serviceType: Staff Outsourcing & Workforce Management
+    areaServed: Spain
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  tone: light
+  heading: Staff Outsourcing in Spain
+  subheading: One legal employer for your permanent, seasonal, and project Staff
+  badges:
+    - icon: employee
+      label: CBA Classification Experts
+    - icon: law
+      label: Law Firm Backed
+    - icon: talk
+      label: Termination Handled In-House
+    - icon: global
+      label: Barcelona-Based
+  body: >-
+    Different roles usually sit under different Convenios, most companies never
+    check. We classify each one correctly, employ your whole team under Spanish
+    law, and carry the termination risk when someone leaves. You keep running
+    the business.
+  # One crop rather than the trio: only the 1440 frame exists for this page, so
+  # `ServiceHero` falls back to it at every width and paints its full cream
+  # slab — the case that gradient was written for.
+  image: ../../../assets/images/staff-outsourcing-spain-hero-background.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+# Display scale, so the claim holds the whole left half of the band and the two
+# columns stay stacked until desktop.
+intro:
+  heading: What is Staff Outsourcing in Spain?
+  headingScale: display
+  paragraphs:
+    - >-
+      In Spain, staff outsourcing means Iberia becomes the formal employer for
+      your permanent staff, seasonal workers, and project specialists, each
+      classified under the Convenio Colectivo that actually applies to their
+      role. You keep directing the work: assigning tasks, setting priorities,
+      managing performance. We take on the legal side: contracts under Spanish
+      labour law, TGSS registration, monthly payroll, and the termination
+      process if someone needs to leave. No local HR department required on your
+      end.
+
+# The navy band with the Iberian contour artwork bleeding in from the right —
+# the same arrangement, and the same artwork, as the EOR Spain page.
+differentiator:
+  layout: stacked
+  heading: Why Staff Outsourcing matters in Spain?
+  subheading: The CBA classification problem you did not know you had
+  paragraphs:
+    - >-
+      A permanent supervisor and seasonal warehouse staff rarely sit under the
+      same Convenio Colectivo, different salary minimums, different overtime
+      tiers, different severance rules. Most companies do not check. They assume
+      one framework applies to everyone, then an audit catches the mismatch
+      months later and they owe retrospective adjustments.
+    - >-
+      Termination adds a second layer. Spanish law requires documented grounds,
+      correct notice periods, and severance calculated per the applicable CBA —
+      get any of it wrong and you are exposed to an unfair dismissal claim.
+      Staff Outsourcing solves both from day one: we classify every role
+      correctly before anyone transfers, and we carry the termination risk when
+      someone needs to leave.
+  background: ../../../assets/images/eor-spain-works.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    Why choose Iberia Workforce for Staff Outsourcing services in Spain?
+  highlight: Staff Outsourcing
+  items:
+    - title: We reclassify as your team changes, not just at the start.
+      description: >-
+        A seasonal role that becomes permanent, a warehouse worker who moves
+        into a supervisory position, the applicable Convenio can change with the
+        role. We review classification whenever your team's structure shifts,
+        not just once at onboarding.
+    - title: Your team stays exactly as it is, we just become their legal employer.
+      description: >-
+        Nobody changes desks, roles, or manager. We move your existing staff
+        onto Iberia's registered entity, migrate their TGSS registration, and
+        take over payroll from the next cycle. The only thing that changes is
+        who is legally responsible for getting it right.
+    - title: >-
+        We source seasonal and project staff already matched to the right
+        Convenio.
+      description: >-
+        Whether it's 20 warehouse workers for August or a specialist for a
+        three-week audit, we bring people in under contracts built for their
+        specific role category from day one, not generic templates adjusted
+        later.
+    - title: Severance gets calculated against the right Convenio, not an average.
+      description: >-
+        Notice periods and severance minimums vary by CBA and by tenure. When
+        someone leaves, we calculate the settlement against the agreement that
+        actually applies to their role, not a flat percentage that undercounts
+        what is legally owed.
+    - title: Convenio interpretation is a legal call, not an HR checklist item.
+      description: >-
+        Whether a role falls under one Convenio or another isn't always obvious,
+        it takes someone who reads Spanish labour law for a living, not someone
+        following a lookup table. That's who classifies your team and defends it
+        if questioned.
+    - title: >-
+        9 years and 10,000+ employees managed across Europe — Spain is the
+        newest market, not the first.
+      description: >-
+        We built this operating model in the UAE, one of the most
+        compliance-heavy employment environments globally. Spain is where we're
+        applying it now.
+
+# Cream, so the band sits between the white "why choose" list and the white
+# "what's included" grid.
+howItWorks:
+  heading: How Staff Outsourcing works in Spain?
+  surface: page
+  steps:
+    - title: Tell us about your team and how it's currently classified
+      description: >-
+        Headcount by category, permanent, seasonal, project-based, plus how each
+        group is currently paid and under which agreement, if you know it. If
+        you're not sure which Convenio applies to a role, that's normal;
+        identifying it is the first thing we do.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We confirm classification, then move your team over
+      description: >-
+        Each role gets matched to its Convenio before anything transfers.
+        Existing staff move onto Iberia's entity with contracts reviewed and
+        TGSS registration updated. Any seasonal or project gaps get filled
+        through our own sourcing, on the same agreement.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Payroll runs correctly, and exits get handled properly
+      description: >-
+        Each Convenio's pay rates, bonuses, and leave rules are applied
+        automatically every month. Seasonal headcount scales with your calendar.
+        And when someone's time with you ends, we manage the notice period,
+        severance calculation, and paperwork so it holds up if questioned.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage staff outsourcing in Spain without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# The mosaic: nine obligations over a six-column grid, tiling 2 / 3 / 2 / 2.
+# White band, so the cards take the grey wash.
+#
+# All nine glyphs are reuse — every export matched an existing file's path data
+# exactly. The last four repeat one drawing because the frame does, which is the
+# same thing the Recruitment hub's last three cards do; it fits "termination and
+# severance" and not the three around it, so it is noted in CLAUDE.md rather
+# than quietly corrected here.
+included:
+  heading: What's included in Staff Outsourcing services in Spain?
+  columns: 3
+  compact: true
+  surface: surface
+  align: center
+  items:
+    - icon: person-scan
+      title: CBA classification and mixed team structure
+      description: >-
+        We identify which Convenio Colectivo applies to permanent roles,
+        seasonal workers, and project staff. Salary minimums, overtime rates,
+        mandatory bonuses, and working hour limits per CBA, confirmed before
+        anyone transfers onto Iberia's books.
+    - icon: contract-signed
+      title: Permanent staff takeover and transition
+      description: >-
+        Existing staff move onto Iberia's payroll without changing what they do
+        day to day. Contracts reviewed against Spanish labour law, TGSS
+        registration updated at the correct regional office, and the required
+        notifications filed, so nothing lapses during the transfer.
+    - icon: envelope-seal
+      title: Seasonal staffing and sourcing
+      description: >-
+        When headcount needs to flex with demand, we source and place seasonal
+        workers under contracts matched to the correct Convenio from day one,
+        screening, payroll, and compliance included in the same agreement, no
+        separate service needed.
+    - icon: people-group
+      title: Ad-hoc project staffing
+      description: >-
+        A three-week audit specialist, a short-term project lead, we place them
+        on contracts with a defined end date, built into the same Staff
+        Outsourcing agreement, and close them out correctly when the work is
+        done.
+    - icon: gavel
+      title: Employment contracts under Spanish labour law
+      description: >-
+        Permanent, seasonal, and project contracts drafted to comply with
+        Spanish law and mapped to the correct Convenio — role classification,
+        compensation, leave entitlements, notice periods, and termination
+        clauses built in upfront.
+    - icon: money-roll
+      title: Payroll processing and TGSS registration
+      description: >-
+        Monthly payroll with employer TGSS contributions, IRPF withholding, and
+        CBA-aligned rates, all calculated per Spanish tax law. Registration and
+        filings handled directly with the relevant regional office. Nóminas
+        issued on time, every month.
+    - icon: person-case
+      title: HR administration and leave management
+      description: >-
+        Annual leave, sick leave, and statutory days tracked against each
+        Convenio's rules and reflected in payroll automatically. When contract
+        terms need to change or records need updating, that stays our
+        responsibility, not an extra task on your desk.
+    - icon: severance
+      title: Termination and severance handling
+      description: >-
+        When employment ends, severance is calculated against the Convenio that
+        actually applies, not estimated. Notice periods, required documentation,
+        and the final settlement are handled so the exit holds up if it's ever
+        challenged.
+    - icon: shield-tick
+      title: Ongoing compliance and legal risk transfer
+      description: >-
+        If a classification gets questioned or a dismissal gets disputed, we
+        handle the defense, documentation, correspondence, and representation if
+        it goes further. That exposure sits with us, not your company.
+  cta:
+    label: Get a Custom Quote for Staff Outsourcing
+    href: "#contact-form"
+
+# The fourth pricing shape: no number, but the things that would decide one.
+pricingVariables:
+  heading: Staff outsourcing pricing in Spain
+  body: >-
+    Our pricing depends on your workforce structure, CBA complexity, and whether
+    we are sourcing seasonal or ad-hoc staff.
+  card:
+    heading: "Key pricing variables:"
+    items:
+      - >-
+        Permanent headcount and CBA classification complexity (some industries
+        have one CBA; others have multiple)
+      - Seasonal headcount and duration (peak months vs. year-round core)
+      - Ad-hoc project needs and specialization
+      - >-
+        TGSS contributions and statutory obligations (roughly 30 percent on top
+        of gross salary per employee)
+      - >-
+        Whether we source workers (recruitment cost) or you provide candidates
+        for Iberia employment
+    footnote: >-
+      We provide a full breakdown before you commit, no hidden fees, no surprise
+      invoices, no approximations.
+    cta:
+      label: Get a Custom Quote
+      href: "#contact-form"
+  image: ../../../assets/images/staff-outsourcing-spain-pricing.webp
+  imageAlt: A woman reading a tablet in a modern office
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: STAFF OUTSOURCING IN SPAIN
+  heading: Frequently asked questions
+  items:
+    - question: How is Staff Outsourcing different from Temporary Staffing in Spain?
+      answer: >-
+        Temporary staffing covers a fixed period, you need 15 pickers for the
+        Christmas peak, and the relationship ends when the season does. Staff
+        Outsourcing isn't tied to an end date. It covers your permanent core,
+        seasonal swings, and project work together, under one ongoing agreement,
+        for as long as you need it.
+    - question: Can we move our existing Spanish employees onto Iberia's payroll?
+      answer: >-
+        Yes, this is one of the most common reasons companies use this service.
+        Your team keeps their roles and manager; only the legal employer changes
+        on paper. We review their current contracts, confirm which Convenio
+        applies, migrate TGSS registration, and take over payroll from the next
+        cycle.
+    - question: >-
+        How do you handle CBA classification when staff fall under different
+        Convenios?
+      answer: >-
+        We assess each role category upfront and identify which Convenio
+        Colectivo applies. A logistics company might have permanent supervisory
+        staff under one CBA and seasonal warehouse workers under another. We
+        classify each group correctly, lock in the salary minimums and working
+        rules per agreement, and ensure payroll runs under the right framework.
+        This is done before anyone transfers onto Iberia books, so there are no
+        audit surprises later.
+    - question: What happens to our existing payroll and TGSS registrations?
+      answer: >-
+        We review your current registrations and CBA classifications. If
+        anything is misaligned, we flag it. We then take over TGSS registration
+        with the regional office, set up new payroll processing under the
+        correct Convenios, and manage the transition so there is no gap in
+        coverage or compliance. Your team keeps getting paid on time without any
+        disruption.
+    - question: Do we pay for staff during off-peak months?
+      answer: >-
+        It depends on the role. Permanent staff stay on payroll year-round as
+        part of your core team. Seasonal workers are only on payroll for the
+        period they're contracted, you're not paying for headcount you're not
+        using. Because the mix is different for every business, we quote based
+        on your actual structure rather than a flat rate.
+    - question: What happens if we need to end someone's employment?
+      answer: >-
+        Spanish law doesn't allow at-will termination, dismissal needs
+        documented, justified grounds, whether that's redundancy, conduct, or a
+        role ending. We assess whether the grounds hold up, prepare the required
+        documentation, calculate the settlement, and manage the process end to
+        end. If the dismissal is challenged afterward, we handle that too.
+    - question: Can we use Staff Outsourcing alongside EOR or other services?
+      answer: >-
+        Yes. You can Staff Outsource your existing permanent and seasonal team,
+        then use EOR to hire new permanent employees in a country with no local
+        entity. Or use Recruitment to source a new permanent role for the same
+        team. Each runs as its own agreement, coordinated by the same people who
+        already know your workforce.
+    - question: Is Staff Outsourcing legal in Spain?
+      answer: >-
+        Yes. Delegating employment to a licensed provider is a recognized
+        structure under Spanish law. There's no special outsourcing licence
+        required, the responsibility sits on getting the execution right:
+        correct Convenio classification, TGSS registration, and termination
+        procedure. That's where providers without dedicated legal teams tend to
+        fall short.
+    - question: >-
+        How quickly can we transition our existing team to Staff Outsourcing?
+      answer: >-
+        Typically 2–3 weeks from contract signature to takeover, depending on
+        documentation readiness and TGSS registration complexity. We handle
+        contract review, payroll data migration, CBA classification
+        confirmation, and formal TGSS transition. We stay in close contact with
+        your team to ensure there are no payroll gaps or compliance lapses
+        during handover.
+    - question: What if our business grows and we need to hire more permanent staff?
+      answer: >-
+        We can source new permanent hires for your Staff Outsourcing agreement,
+        they come onto Iberia's books under the correct CBA from day one. Or you
+        can use our EOR or Recruitment services to place new hires. Everything
+        coordinates under one relationship.
+    - question: What compliance documentation do we need to keep?
+      answer: >-
+        We maintain all employment records, CBA classifications, payroll
+        calculations, TGSS filings, and termination documentation. We provide you
+        with regular reporting so you have visibility, and we handle all
+        government filings. If audited, we defend the compliance record.
+    - question: Who is Iberia Workforce, and what is your legal structure in Spain?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate Staff Outsourcing
+        services in Spain from our Barcelona office through our own registered
+        entity, no local partner intermediaries. Our employment lawyers and
+        payroll specialists handle workforce takeovers, CBA classification,
+        contracts, TGSS registration, payroll processing, HR administration, and
+        termination directly. We carry the legal and compliance risk so you do
+        not have to.
+    - question: Can we scale our outsourced team across multiple Spanish regions?
+      answer: >-
+        Yes. If you have operations in Barcelona, Madrid, Valencia, and Seville,
+        we manage payroll and compliance across all regions. TGSS registrations,
+        regional tax variations, and local Convenio nuances, all handled
+        correctly. No approximation, no one-size-fits-all approach.
+
+closing:
+  heading: >-
+    Getting the Convenio right at the start is what keeps this simple later.
+  # 18px, not the H3-scale lead: the frame runs the paragraph to five lines
+  # under a claim that has already made the argument.
+  bodySize: note
+  body: >-
+    Misclassify a role and you're looking at retrospective pay adjustments;
+    classify it correctly and payroll, leave, and severance all just follow the
+    rules that already apply. Tell us your headcount split, permanent, seasonal,
+    project, and we'll confirm which Convenios apply, walk you through what the
+    transition looks like, and give you a real cost before you commit to
+    anything.
