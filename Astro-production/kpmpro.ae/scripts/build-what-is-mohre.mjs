@@ -205,7 +205,7 @@ ${h2('What Does MOHRE Stand For?')}
 ${h3('MOHRE Full Form &amp; Official Name')}
 ${p('MOHRE stands for the Ministry of Human Resources and Emiratisation. The ministry regulates workers\' employment matters and protects their rights. Overseeing employer compliance and supporting the workforce development strategy are also its major functions.')}
 ${h3('Brief History: From Ministry of Labour to MOHRE')}
-${p('Previously known as the Ministry of Labour (MOL), it was renamed MOHRE in 2016. Over time, its role has been expanded in promoting emiratisation, modernising labour regulations, and improving employment services.')}
+${p('Previously known as the <a href="/mol-uae/">Ministry of Labour (MOL)</a>, it was renamed MOHRE in 2016. Over time, its role has been expanded in promoting emiratisation, modernising labour regulations, and improving employment services.')}
 ${h3('Role of MOHRE in the UAE\'s Federal Government')}
 ${p('They act as the primary regulator for private-sector employment in the UAE. Among many, their prime obligations include')}
 ${ul([
