@@ -13,6 +13,7 @@ import type {
   PostEntry,
   TagEntry,
 } from "./content-types";
+import { enhanceLatestPostFilterHtml } from "./eor-latest-post-filter";
 
 export type {
   AuthorEntry,
@@ -68,9 +69,19 @@ export const tags = readTags().filter((t) => !t.status || t.status === "active")
 /** @deprecated Prefer getAuthors() */
 export const authors = readAuthors();
 
+/** SSR “Latest Post” filter cards — keep out of `[...slug].astro` (fleet unsafe-path rule). */
+function withLatestPostFilterHtml<T extends PageEntry | PostEntry>(entry: T): T {
+  const raw = (entry.bodyHtml || entry.content || "") as string;
+  if (!raw) return entry;
+  const enhanced = enhanceLatestPostFilterHtml(raw);
+  if (enhanced === raw) return entry;
+  return { ...entry, bodyHtml: enhanced, content: enhanced };
+}
+
 export function getPageByPath(pathname: string): PageEntry | undefined {
   const normalized = normalizePath(pathname);
-  return getPages().find((p) => normalizePath(p.path) === normalized);
+  const page = getPages().find((p) => normalizePath(p.path) === normalized);
+  return page ? withLatestPostFilterHtml(page) : undefined;
 }
 
 export function getPostByPath(pathname: string): PostEntry | undefined {
@@ -82,7 +93,7 @@ export function getPublishedPostByPath(pathname: string): PostEntry | undefined 
   const post = getPostByPath(pathname);
   if (!post) return undefined;
   if (post.status && post.status !== "published") return undefined;
-  return post;
+  return withLatestPostFilterHtml(post);
 }
 
 export function getCategoryBySlug(slug: string): CategoryEntry | undefined {

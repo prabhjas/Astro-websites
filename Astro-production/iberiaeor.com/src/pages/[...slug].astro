@@ -12,7 +12,6 @@ import {
   stripHtml,
   normalizePath,
 } from "../lib/content";
-import { enhanceLatestPostFilterHtml } from "../lib/eor-latest-post-filter";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -30,9 +29,7 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = enhanceLatestPostFilterHtml(
-  (("bodyHtml" in entry && entry.bodyHtml) || entry.content) as string,
-);
+const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
