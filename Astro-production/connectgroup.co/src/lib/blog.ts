@@ -260,7 +260,7 @@ function buildFeaturedImageHtml(img: BlogImage | null): string {
     return '<!-- no featured image -->';
   }
   const alt = escapeHtml(img.alt || '');
-  return `<img width="1536" height="1024" src="${img.src}" class="attachment-full size-full" alt="${alt}" loading="eager" decoding="async" />`;
+  return `<img width="1200" height="800" src="${img.src}" class="attachment-full size-full" alt="${alt}" loading="eager" decoding="async" />`;
 }
 
 const USER_ICON_SVG =
@@ -383,6 +383,21 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     } else {
       out = out.replace('</head>', `<meta property="og:image" content="${ogImage}" />\n</head>`);
     }
+    out = out.replace(
+      /<meta\s+property="og:image:secure_url"\s+content="[^"]*"\s*\/?>/i,
+      `<meta property="og:image:secure_url" content="${ogImage}" />`,
+    );
+    out = out.replace(/<meta\s+property="og:image:width"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image:width" content="1200" />`);
+    out = out.replace(/<meta\s+property="og:image:height"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image:height" content="800" />`);
+    out = out.replace(/<meta\s+property="og:image:type"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image:type" content="image/webp" />`);
+  }
+  const twitterImage = post.twitter.image ? absoluteSeoUrl(post.twitter.image, post.twitter.image) : ogImage;
+  if (twitterImage) {
+    if (out.includes('name="twitter:image"')) {
+      out = out.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:image" content="${twitterImage}" />`);
+    } else {
+      out = out.replace('</head>', `<meta name="twitter:image" content="${twitterImage}" />\n</head>`);
+    }
   }
   return out;
 }
@@ -399,6 +414,10 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 .astro-blog-breadcrumb__item:hover{text-decoration:underline}
 .astro-blog-breadcrumb__item--current{color:#333;font-weight:500}
 .astro-blog-breadcrumb__sep{color:#999}
+.elementor-18825 .elementor-element-c03a3f4{overflow:hidden;line-height:0}
+.elementor-18825 .elementor-element-c03a3f4 img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover;object-position:center center;border-radius:5px}
+.elementor-24831 .elementor-element-a49ff4b{overflow:hidden;line-height:0}
+.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:3/2;object-position:center center}
 @media (min-width:768px){
 .elementor-18825 .elementor-element-72119b3{position:-webkit-sticky;position:sticky;top:24px;align-self:flex-start;height:auto;z-index:5}
 .elementor-18825 .elementor-section,.elementor-18825 .elementor-container,.elementor-18825 .e-con{overflow:visible!important}
@@ -544,7 +563,7 @@ export function buildPostCardHtml(post: BlogPost): string {
   const catClass = category?.name ? ` category-${(category.slug || category.name).toLowerCase().replace(/\s+/g, '-')}` : '';
 
   const imgTag = imgSrc
-    ? `<img loading="lazy" width="640" height="427" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" />`
+    ? `<img loading="lazy" width="1200" height="800" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" />`
     : '';
 
   return `<article class="elementor-post elementor-grid-item ecs-post-loop post type-post status-publish format-standard has-post-thumbnail hentry${catClass}">
@@ -624,7 +643,7 @@ export function buildArchiveCardHtml(post: BlogPost): string {
     : '';
 
   const imgTag = imgSrc
-    ? `<img loading="lazy" width="1920" height="1080" src="${imgSrc}" class="attachment-full size-full" alt="${imgAlt}" decoding="async" />`
+    ? `<img loading="lazy" width="1200" height="800" src="${imgSrc}" class="attachment-full size-full" alt="${imgAlt}" decoding="async" />`
     : '';
 
   return `<article class="elementor-post elementor-grid-item post type-post status-publish format-standard has-post-thumbnail hentry${catClass}" role="listitem">
