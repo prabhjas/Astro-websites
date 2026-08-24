@@ -1,0 +1,40 @@
+---
+/**
+ * The homepage pricing band.
+ *
+ * Same two cards the country pages draw, so the markup lives in
+ * `services/ServicePricing.astro` and this file is only the homepage's copy —
+ * closing the "section components hardcode their copy" gap for this section
+ * without moving the homepage's text into the services content collection,
+ * which describes service pages, not the homepage.
+ */
+import { getUi } from "../../i18n/copy";
+import { withLocale } from "../../i18n/locale";
+import ServicePricing from "../services/ServicePricing.astro";
+
+const { lang, t } = getUi(Astro.url.pathname);
+const p = t.pricing;
+---
+
+<ServicePricing
+  eyebrow={p.eyebrow}
+  heading={p.heading}
+  body={p.body}
+  plan={{
+    name: p.planName,
+    price: "€299",
+    unit: p.unit,
+    note: p.note,
+    features: [...p.features],
+    cta: { label: p.planCta, href: withLocale("/employer-of-record", lang) },
+  }}
+  custom={{
+    eyebrow: p.customEyebrow,
+    heading: p.customHeading,
+    description: p.customBody,
+    cta: { label: p.customCta, href: "#contact-form" },
+  }}
+  footnote={{
+    body: p.footnote,
+  }}
+/>

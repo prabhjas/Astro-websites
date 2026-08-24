@@ -1,0 +1,324 @@
+# Payroll Outsourcing — Spain country page.
+# Figma nodes 171-1359 (1440), 184-6805 (768), 184-6806 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first page outside the EOR category, and it needed no new section: every
+# band below is a switch on a component the EOR country pages already
+# generalised. Two of those switches are new — `pricingNote.tone: light` and
+# `closing.bodySize: note` — and both are documented in content.config.ts.
+type: country
+label: Payroll Outsourcing in Spain
+
+seo:
+  title: Payroll Outsourcing in Spain | Iberia Workforce
+  description: >-
+    Payroll outsourcing in Spain. CBA classification, TGSS compliance, and
+    audit-proof processing handled by lawyers, not software templates.
+  schema:
+    serviceName: Payroll Outsourcing Services Spain
+    serviceType: Payroll Processing & Administration
+    areaServed: Spain
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  tone: light
+  heading: Payroll Outsourcing in Spain
+  subheading: Full compliance. Lower costs. One service.
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: licence
+      label: CBA Classification Specialists
+    - icon: employee
+      label: TGSS + IRPF Experts
+  body: >-
+    Your payroll processes fine until an auditor opens the file and asks: "What
+    CBA framework are you actually under?" Most companies don't know. Six months
+    of retrospective salary adjustments and fines later, they wish they'd known.
+    We know before it becomes a problem.
+  # One crop, not the trio the EOR heroes ship: all three frames position the
+  # same overhead flatlay rather than cropping it three ways, so `ServiceHero`
+  # falls back to this file at every width and paints its full cream slab under
+  # the copy — which is the case that gradient was written for.
+  image: ../../../assets/images/payroll-spain-hero-background.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+# The light split: claim and CTA in the left column, the prose bottom-aligned in
+# the right. On white rather than cream, because the band below it is cream.
+differentiator:
+  tone: light
+  surface: surface
+  ctaPlacement: claim
+  heading: Why Payroll Outsourcing matters in Spain?
+  subheading: The CBA misclassification problem
+  paragraphs:
+    - >-
+      Most companies self-classify their CBA. A tech startup thinks they're
+      under "Offices and Booths" (Oficinas y Despachos). They're not. They
+      should be under the Engineering/IT framework — higher minimum salaries.
+      Six months in, an audit catches it. Now you owe retrospective salary
+      adjustments across your entire tech team, plus fines.
+    - >-
+      Your payroll software doesn't know which Convenio you're actually under.
+      It just processes whatever you tell it. If you tell it wrong, it runs
+      wrong for months. That's why you need payroll specialists who actually
+      know Spanish law — not software templates.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Four long reasons, so the Germany arrangement: cream band, white cards, the
+# contour texture behind both. No terracotta phrase — this frame sets the whole
+# claim in navy.
+whyChoose:
+  layout: cards
+  surface: page
+  background: ../../../assets/images/contour-texture-cream.webp
+  heading: >-
+    Why choose Iberia Workforce for Payroll Outsourcing services in Spain?
+  items:
+    - title: >-
+        We know Spain's Convenio landscape, including the grey areas your sector
+        falls into.
+      description: >-
+        Tech, hybrid work, logistics, fast-growing startups — we see the
+        classification mistakes. We catch them at onboarding, not at audit. Our
+        legal team reviews your actual role structure and confirms the correct
+        CBA upfront, so payroll runs under the right framework from month one.
+    - title: >-
+        CBA compliance lives inside your monthly payroll, not as a separate
+        checkbox.
+      description: >-
+        Every payroll run, we verify your team's roles against their assigned
+        Convenios. Salary minimums, overtime tiers, mandatory bonuses — all
+        calculated under the correct agreement. That's not a one-time review.
+        That's ongoing enforcement.
+    - title: We carry the audit risk, so you don't.
+      description: >-
+        Misclassified payroll. TGSS registration gaps. IRPF withholding errors.
+        If an audit flags it, we defend it and cover the cost of corrections.
+        That's what "carrying compliance risk" actually means.
+    - title: >-
+        We've done this at scale, 10,000+ employees across Europe, now focused
+        on Spain.
+      description: >-
+        9 years running payroll in one of the world's most compliance-heavy
+        environments (UAE). That operational depth now ensures your Spanish
+        payroll doesn't become a retrospective nightmare.
+
+howItWorks:
+  heading: How Payroll Outsourcing works?
+  steps:
+    - title: Tell us about your team
+      description: >-
+        Headcount, roles, locations within Spain, any visa or work permit
+        categories. We assess your company structure and identify the applicable
+        Convenio(s) for each role before we take over processing.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We take over the monthly process
+      description: >-
+        Every month: salary calculation under the correct CBA, TGSS registration
+        and contributions, IRPF withholding, statutory deductions, nóminas
+        delivered. You provide hours, role changes, leave. We process everything
+        else.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed document at a desk
+    - title: Compliance stays our responsibility
+      description: >-
+        Payroll runs correctly. TGSS filings go out on time. Your team gets paid
+        under the right Convenio. If something flags — a role classification
+        that doesn't fit the agreement, a salary below the legal minimum, a
+        regional allowance that wasn't accounted for — we catch it before it
+        becomes a fine.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage payroll in Spain without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# The icon grid on white, so the cards take the grey wash. The tablet and mobile
+# frames head this section "What's included in an Employer of Record service?" —
+# a leftover from the frame they were duplicated from. The desktop wording is
+# followed here; see the note in CLAUDE.md's known gaps.
+included:
+  # The frame centres the header and the trailing button over the grid.
+  align: center
+  ctaAlign: center
+  eyebrow: COMPREHENSIVE SUPPORT
+  heading: What's included in Payroll Outsourcing services in Spain?
+  surface: surface
+  columns: 4
+  items:
+    - icon: employment-contracts
+      title: Convenio Colectivo Classification & Verification
+      description: >-
+        Identification of the applicable CBA for each role. Salary minimums,
+        overtime rates, mandatory bonuses, working hour limits — all confirmed
+        and locked in at onboarding, verified every payroll cycle.
+    - icon: shield-tick
+      title: Monthly TGSS Registration & Contributions
+      description: >-
+        Employer and employee social security contributions calculated and filed
+        correctly with the relevant regional office. No approximation, no delays.
+    - icon: calculator
+      title: IRPF Withholding & Income Tax Compliance
+      description: >-
+        Personal income tax withholding calculated per role, location, and
+        regional deduction variances. Filed accurately to avoid future
+        corrections or fines.
+    - icon: document-shield
+      title: Nómina Processing & Payslip Generation
+      description: >-
+        Gross-to-net calculation, statutory deductions, CBA-aligned rates, and
+        compliant payslips issued every month in the format Spanish authorities
+        expect.
+    - icon: hand-star
+      title: Bonus & Allowance Management
+      description: >-
+        Mandatory extra salary months (pagas extraordinarias), regional holiday
+        allowances, meal vouchers, transport subsidies — structured and paid in
+        compliance with the applicable Convenio.
+    - icon: severance
+      title: Termination & Severance Calculation
+      description: >-
+        Spanish employment law requires justified termination. We calculate
+        severance correctly, file final settlements, and ensure exit compliance
+        so a dismissal doesn't trigger an unfair termination claim.
+    - icon: beach-parasol
+      title: Leave & Absence Tracking
+      description: >-
+        Annual leave accrual, sick leave, maternity/paternity, statutory days —
+        tracked per Convenio rules and payroll adjusted accordingly.
+    - icon: person-archive
+      title: Audit-Proof Documentation & Record Keeping
+      description: >-
+        Every payroll decision documented: CBA classification rationale, salary
+        calculation per agreement, all withholdings and contributions filed. If
+        audited, the paper trail is there.
+  cta:
+    label: Get Your CBA Confirmed
+    href: "#contact-form"
+
+# Pricing explained rather than quoted, and on cream with no photograph behind
+# it. Unlike EOR in Spain, payroll cost here moves with headcount and structure,
+# so there is no flat number to publish.
+pricingNote:
+  tone: light
+  # 547:6894 — the redrawn band puts a terracotta-washed courtyard behind the
+  # copy. The export carries the wash, so it is drawn at full strength.
+  background: ../../../assets/images/payroll-spain-pricing.webp
+  backgroundStrength: full
+  heading: Payroll Outsourcing pricing in Spain
+  subheading: >-
+    Pay by headcount or monthly retainer, whichever works for your structure.
+  paragraphs:
+    - >-
+      Tell us about your team and we'll send you the most cost-efficient
+      solution.
+  cta:
+    label: Get Your Custom Quote
+    href: "#contact-form"
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: PAYROLL OUTSOURCING SPAIN
+  heading: Frequently asked questions
+  items:
+    - question: How do you know which Convenio Colectivo applies to our company?
+      answer: >-
+        We review your company type, industry classification, and actual role
+        breakdown. Then we confirm the applicable CBA(s) upfront. For example:
+        tech company, 25 people, Barcelona-based, primarily engineers and
+        product roles → Engineering/IT framework (not Offices and Booths). We
+        make that call before payroll starts, not after an audit questions it.
+    - question: What happens if we're currently using the wrong Convenio?
+      answer: >-
+        We catch it at transition. If you've been paying under the wrong
+        Convenio, we flag the exposure, calculate what you owe in retrospective
+        adjustments, and either adjust going forward or recommend a corrective
+        filing with authorities. We don't hide it.
+    - question: Why is CBA classification such a big deal?
+      answer: >-
+        Because the wrong Convenio means the wrong salary minimums, the wrong
+        overtime rates, the wrong mandatory bonuses. Auditors flag it. You owe
+        back pay plus fines. It's not a compliance box to check — it's the
+        difference between payroll that holds up and payroll that becomes a
+        liability.
+    - question: Can payroll outsourcing software just handle this automatically?
+      answer: >-
+        No. Software processes whatever you tell it. It doesn't know your
+        company's actual industry classification or which Convenio you should be
+        under. That's a legal question, not a processing question. That's why you
+        need lawyers reviewing the structure, not just accountants running the
+        numbers.
+    - question: What exactly does TGSS cover, and why does it cost so much?
+      answer: >-
+        TGSS is employer social security — pension contributions, healthcare,
+        disability, workplace accident insurance. Employer cost runs roughly 30%
+        on top of gross salary. It's mandatory and non-negotiable. We calculate
+        it correctly, file it by the deadline, and track it per employee and per
+        month. If your current payroll person is guessing at the rate, that's
+        where problems start.
+    - question: How does IRPF withholding work, and does location matter?
+      answer: >-
+        IRPF is personal income tax withholding. The rate depends on employee
+        gross salary and regional deduction variances. An employee in Barcelona
+        might have a slightly different withholding than one in Madrid for the
+        same salary. We track location-specific rates and withhold correctly.
+        It's filed monthly and reconciled annually.
+    - question: >-
+        What's the difference between nómina processing and payroll outsourcing?
+      answer: >-
+        Nómina is the monthly payslip and calculation. Payroll outsourcing is the
+        full service: CBA classification, nómina generation, TGSS filings, IRPF
+        handling, bonus management, leave tracking, severance planning. Nómina is
+        one piece. Payroll outsourcing is the entire responsibility.
+    - question: If we're audited, who handles it?
+      answer: >-
+        We do. If the audit flags a misclassification or filing error on our
+        watch, we defend the position, file corrections if needed, and cover the
+        cost of remediation. That's what carrying compliance risk means.
+    - question: Can we transition mid-year, or do we have to wait until January?
+      answer: >-
+        You can transition any month. We handle the data migration, confirm CBA
+        classification for your existing team, and calculate any pro-rata
+        adjustments for the transition month. Most clients transition within 2–3
+        weeks of signing.
+    - question: What if we're a foreign company hiring in Spain for the first time?
+      answer: >-
+        Tell us the role, location, and whether the hire is EU or non-EU. We
+        confirm the applicable Convenio, run payroll correctly from day one, and
+        handle TGSS/IRPF as if you'd been operating in Spain for years.
+    - question: Who is Iberia Workforce, and how do you operate in Spain?
+      answer: >-
+        Iberia Workforce operates as a payroll outsourcing provider in Spain from
+        our Barcelona office. We're part of Connect Group. Our in-house legal
+        team and payroll specialists handle CBA classification, nómina
+        processing, and TGSS/IRPF filings directly — no outsourced local
+        partners. The team structuring your payroll is the same team that ensures
+        it's legally sound.
+
+closing:
+  heading: Spain's payroll is a test.
+  subheading: >-
+    Get the CBA classification right, and the rest of it runs smoothly. Get it
+    wrong, and you're defending retrospective salary adjustments two years later.
+  # The terracotta line above runs to three lines and is doing the lead's job,
+  # so this drops to 18px rather than the H3 the EOR country frames set.
+  bodySize: note
+  body: >-
+    You already have employees. Your job is managing them, not decoding Convenios
+    and TGSS codes. Tell us your headcount, roles, and current setup — and we'll
+    quote you exactly what payroll outsourcing costs to get it audit-proof from
+    here forward.

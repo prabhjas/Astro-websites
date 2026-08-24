@@ -1,0 +1,332 @@
+# Temporary Staffing — Spain country page.
+# Figma nodes 165-1140 (1440), 184-6811 (768), 184-6812 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first page to carry both an `intro` and a `differentiator`: it asks "what
+# is this" and "why does it matter" as two separate bands, where the EOR country
+# pages fold the second into the first. Three switches are new and all three are
+# documented in content.config.ts — `intro.splitAt`, `differentiator.layout:
+# photo` (with `surface: muted`) and `pricingSummary.cards[].chips`.
+type: country
+label: Trabajo temporal en España
+
+seo:
+  title: Trabajo temporal en España | Iberia Workforce
+  description: >-
+    Trabajo temporal en España. Socio con licencia: TGSS, contratos, nómina
+    y riesgo jurídico. Tú contratas. Nosotros gestionamos la parte legal.
+  schema:
+    serviceName: Servicios de trabajo temporal España
+    serviceType: Trabajo temporal
+    areaServed: España
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  tone: light
+  heading: Trabajo temporal en España
+  subheading: El socio conforme para la contratación estacional y por proyecto.
+  badges:
+    - icon: protect
+      label: Licencia ETT (España)
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: talk
+      label: Más de 10.000 empleados gestionados
+  body: >-
+    Picos estacionales en turismo, retail, logística. Trabajo urgente por
+    proyecto en tecnología, ingeniería, construcción. Tú contratas a las
+    personas. Nosotros asumimos el riesgo jurídico: contratos, TGSS, nómina,
+    compliance. Eso es lo que significa ser un socio.
+  # The full trio, produced the way the EOR and hub heroes are: `download_assets`
+  # at `defaultScale: 2` against each frame's own image rectangle, which Figma
+  # returns already clipped to its parent frame. The three frames position the
+  # same photograph rather than recropping it, but they position it to three
+  # different aspect ratios, so the clips are genuinely different pictures.
+  image: ../../../assets/images/temporary-staffing-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/temporary-staffing-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/temporary-staffing-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+# The claim holds the left column and the prose the right, but only from `lg` —
+# unlike the EOR country pages, this 48px heading still keeps the whole 768
+# frame to itself, which is what `splitAt` is for.
+intro:
+  heading: ¿Qué es el trabajo temporal en España?
+  splitAt: lg
+  paragraphs:
+    - >-
+      El trabajo temporal es cómo amplías capacidad sin plantilla permanente.
+      Tú diriges el trabajo. Nosotros asumimos el riesgo jurídico: contratos de
+      trabajo conforme al derecho laboral español, alta en la TGSS,
+      procesamiento de nóminas, riesgo de compliance. Cargamos con eso para que
+      tú puedas centrarte en contratar a las personas adecuadas.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# "Why this matters", argued beside a photograph rather than over one: the grey
+# band between two white ones, so the page keeps alternating.
+differentiator:
+  tone: light
+  surface: muted
+  layout: photo
+  heading: ¿Por qué importa el trabajo temporal en España?
+  image: ../../../assets/images/temporary-staffing-spain-matters.webp
+  imageAlt: Un profesional trabajando con un portátil en un espacio luminoso en España
+  paragraphs:
+    - >-
+      Necesitas capacidad temporal por dos motivos: picos estacionales (oleada
+      de verano en turismo, Navidad/Black Friday en retail, cierre de año en
+      logística) y trabajo por proyecto (necesidades urgentes de ingeniería,
+      sprints tecnológicos, fases de construcción, puestos especializados de
+      corta duración).
+    - >-
+      La mayoría de las agencias de trabajo temporal encuentran personas
+      rápido. Tú te quedas gestionando el riesgo de compliance, el alta en la
+      TGSS, lagunas contractuales y sanciones si algo no está bien.
+    - >-
+      Un socio conforme hace las dos cosas: rapidez Y certeza jurídica.
+      Nosotros gestionamos la parte legal. Tú diriges el trabajo.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    ¿Por qué elegir Iberia Workforce como socio de personal en España?
+  highlight: Iberia Workforce
+  items:
+    - title: Tenemos licencia. El compliance está integrado, no añadido a posteriori.
+      description: >-
+        Solo un proveedor con licencia ETT puede ceder trabajadores de forma
+        legal en España. Tenemos la nuestra de forma directa. La mayoría de las
+        agencias de trabajo temporal no, lo que significa que operan al margen
+        de la ley y te exponen a responsabilidad. Ser un socio conforme empieza
+        por tener la licencia adecuada.
+    - title: Vamos rápido sin recortar atajos.
+      description: >-
+        Los buenos candidatos salen del mercado en días. Tenemos talento
+        preseleccionado listo para desplegar en tus picos estacionales o
+        necesidades de proyecto. Rapidez no significa saltarse el compliance:
+        las dos cosas ocurren a la vez.
+    - title: Lo dirigen abogados laboralistas, no solo reclutadores.
+      description: >-
+        Alta en la TGSS, clasificaciones de convenio, apoyo en visados para
+        temporales de fuera de la UE, riesgo laboral, baja: no son
+        ocurrencias tardías. Están integrados en cómo trabajamos como tu socio.
+
+howItWorks:
+  heading: ¿Cómo funciona el trabajo temporal en España?
+  surface: page
+  steps:
+    - title: Cuéntanos qué necesitas
+      description: >-
+        Puesto, duración (semanas, meses, pico estacional), plantilla, fecha de
+        inicio. ¿Es un pico puntual o estacional recurrente? Valoramos tu
+        necesidad y señalamos cualquier consideración de compliance de
+        antemano.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Nosotros gestionamos la selección, el screening y el encuadre jurídico español
+      description: >-
+        Captamos candidatos, verificamos cualificaciones, hacemos
+        comprobaciones de antecedentes. Redactamos contratos de trabajo
+        temporal conforme al derecho laboral español, con fechas de inicio y
+        fin claras. Damos de alta en la TGSS (Seguridad Social española).
+        Configuramos el procesamiento de la nómina. Tú apruebas. Nosotros
+        ejecutamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tus trabajadores empiezan, con pleno cumplimiento
+      description: >-
+        Ejecutamos la nómina mes a mes con cotizaciones a la TGSS, retención de
+        IRPF, deducciones legales y nóminas. Administramos los RR. HH. de forma
+        continua. Cuando termina el periodo temporal, gestionamos la baja para
+        que no quede responsabilidad residual. Tú te centras en el trabajo.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Quieres gestionar el trabajo temporal en España sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Three across on white, so the cards take the grey wash.
+included:
+  # Header stays left; only the button is centred under the grid.
+  ctaAlign: center
+  eyebrow: SOPORTE INTEGRAL
+  heading: ¿Qué incluyen los servicios de trabajo temporal en España?
+  surface: surface
+  columns: 3
+  items:
+    - icon: candidate-selection
+      title: Selección y screening de candidatos
+      description: >-
+        Captación, evaluación de competencias, verificación de antecedentes y
+        referencias, adaptadas a tu necesidad estacional o al alcance del
+        proyecto (turismo, retail, logística, tecnología, ingeniería,
+        construcción), no solo a cubrir huecos.
+    - icon: contract-signed
+      title: Contratos de trabajo temporal
+      description: >-
+        Redactados en español conforme al derecho laboral español, con fechas
+        de inicio y fin claras, alcance del puesto y condiciones de compliance.
+        Estructurados según el convenio colectivo aplicable si uno rige en tu
+        sector.
+    - icon: envelope-seal
+      title: Alta en la TGSS y procesamiento de nóminas
+      description: >-
+        Nómina mensual con cotizaciones empresariales a la TGSS (Seguridad
+        Social), retención de IRPF (impuesto sobre la renta), deducciones
+        legales y nóminas. Todo calculado conforme a la normativa fiscal
+        española. El alta se tramita de forma directa ante la TGSS.
+    - icon: risk-shield
+      title: Evaluación del riesgo laboral
+      description: >-
+        Responsabilidad por accidentes de trabajo, notificación de incidentes
+        y riesgo laboral: lo gestionamos nosotros desde el primer día, no se
+        reparte entre tú y el trabajador.
+    - icon: gavel
+      title: Compliance y riesgo jurídico
+      description: >-
+        Conflictos laborales, incidencias de salarios y jornada, impugnaciones
+        por mala clasificación: asumimos el riesgo jurídico y defendemos a tu
+        empresa si hay una auditoría.
+    - icon: door-exit
+      title: Administración continua de RR. HH. y baja
+      description: >-
+        Control de ausencias, baja por enfermedad, documentación de
+        rendimiento, cierre de contratos estacionales: gestionados
+        correctamente para que el periodo temporal termine sin lastre.
+  cta:
+    label: Solicita presupuesto para tu necesidad de personal
+    href: "#contact-form"
+
+# The floating card over a defocused photograph, but with no number on it: this
+# page has variables and no floor, so the single card names the cost drivers as
+# ticked chips rather than spelling each one out in prose.
+pricingSummary:
+  eyebrow: PRECIOS DE TRABAJO TEMPORAL EN ESPAÑA
+  heading: Precios de trabajo temporal en España
+  body: >-
+    El precio depende de la complejidad del puesto, el sector, la plantilla y
+    de si la contratación necesita apoyo de visado u otra especialización. Te
+    explicaremos el desglose exacto antes de cualquier compromiso.
+  background: ../../../assets/images/temporary-staffing-spain-pricing.webp
+  cards:
+    - variant: outline
+      title: "Factores de coste que afectan a tu presupuesto:"
+      chips:
+        - Sector y nivel de cualificación
+        - Plantilla y duración (pico estacional frente a continuo)
+        - Requisitos de visado de fuera de la UE
+        - Rapidez de cobertura
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: TRABAJO TEMPORAL ESPAÑA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el trabajo temporal en España? ¿Hace falta una licencia ETT?
+      answer: >-
+        Sí, es legal, pero solo si el proveedor tiene una licencia ETT (Empresa
+        de Trabajo Temporal). Nosotros tenemos la nuestra. La mayoría de las
+        agencias que operan en España no, lo que significa que operan al margen
+        de la ley y te exponen a responsabilidad.
+    - question: >-
+        ¿Cuál es la diferencia entre vuestro servicio y otras agencias de
+        trabajo temporal en España?
+      answer: >-
+        Tenemos la licencia ETT de forma directa. Nuestro equipo jurídico
+        gestiona contratos, alta en la TGSS y nómina internamente. La mayoría
+        de las otras agencias o bien no tienen licencia ETT (ilegal) o bien
+        canalizan tu contratación a través de un socio local (responsabilidad
+        oculta). Nosotros asumimos el riesgo jurídico; tú no.
+    - question: >-
+        ¿Gestionáis la contratación estacional? ¿Turismo, retail, hostelería,
+        logística, tecnología, ingeniería?
+      answer: >-
+        Sí. Los sectores estacionales (picos de turismo en verano, retail en
+        Navidad/Black Friday, logística a cierre de año) y el trabajo por
+        proyecto (sprints tecnológicos, fases de ingeniería, proyectos de
+        construcción) son exactamente lo que resuelve el trabajo temporal.
+        Estructuramos los contratos correctamente para que puedas ampliar y
+        reducir sin obligaciones de indemnización.
+    - question: ¿En cuánto tiempo podéis cubrir un puesto en España?
+      answer: >-
+        En perfiles estándar con especificaciones claras, normalmente 1–2
+        semanas desde la solicitud hasta el inicio. Los perfiles
+        especializados o de alta cualificación pueden tardar más según la
+        disponibilidad de candidatos. Te damos un plazo realista según la
+        complejidad de tu puesto.
+    - question: ¿Cómo funciona la TGSS para los trabajadores temporales?
+      answer: >-
+        El alta en la TGSS (Seguridad Social española) es obligatoria para
+        todos los empleados. Las cotizaciones empresariales rondan el 30 %
+        sobre el salario bruto. Lo calculamos correctamente, damos de alta al
+        trabajador y presentamos las cotizaciones mensuales en el plazo legal.
+    - question: ¿Qué ocurre si un trabajador temporal se accidenta en el trabajo?
+      answer: >-
+        Los accidentes laborales siguen el derecho laboral español. Asumimos la
+        responsabilidad jurídica, gestionamos la notificación del incidente y
+        tramitamos las reclamaciones de compensación. Tu empresa queda
+        protegida de la exposición laboral directa.
+    - question: ¿Podéis gestionar trabajadores temporales de fuera de la UE para España?
+      answer: >-
+        Sí. Los trabajadores de fuera de la UE con permiso de trabajo o visado
+        pueden adscribirse a asignaciones temporales. Verificamos la
+        clasificación de visado de antemano y nos aseguramos de que la
+        asignación coincida para que no haya incumplimiento.
+    - question: >-
+        ¿Qué ocurre con las normas de convenio colectivo para los trabajadores
+        temporales?
+      answer: >-
+        Los trabajadores temporales quedan bajo los convenios aplicables por
+        sector, igual que los empleados permanentes. Identificamos el convenio
+        correcto para tu sector y puesto, y construimos el contrato para cumplir
+        los salarios mínimos, la jornada y los beneficios.
+    - question: ¿Podemos usar el trabajo temporal para contrataciones que dependen de visado?
+      answer: >-
+        Sí. Si tu trabajador temporal es nacional de fuera de la UE con visado
+        o permiso de trabajo, gestionamos la clasificación de visado y el
+        compliance continuo. La categoría de visado determina qué puestos están
+        permitidos; nos aseguramos de que la asignación coincida.
+    - question: ¿Qué ocurre al final del contrato temporal?
+      answer: >-
+        Cuando llega la fecha de fin contratada, gestionamos la baja: pago
+        final, liquidación de vacaciones devengadas, cierre del expediente
+        laboral. Si el periodo hay que prorrogarlo, renovamos el contrato con
+        el preaviso adecuado.
+    - question: ¿Quién es Iberia Workforce y cuál es vuestra estructura jurídica en España?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos los servicios
+        de trabajo temporal en España desde nuestra oficina de Barcelona a
+        través de nuestra propia estructura con licencia ETT, sin
+        intermediarios locales. Nuestros equipos jurídicos y de RR. HH.
+        gestionan la selección, los contratos, la TGSS, la nómina y el
+        compliance de forma directa. Nosotros asumimos el riesgo jurídico y de
+        compliance; tú diriges el trabajo.
+
+closing:
+  heading: >-
+    El trabajo temporal en España no va solo de encontrar personas rápido. Va
+    de tener un socio que asume el riesgo jurídico para que tú no tengas que
+    hacerlo.
+  body: >-
+    Cuéntanos tu necesidad estacional o el alcance del proyecto —qué puestos,
+    cuántos, en qué plazo— y te daremos un calendario realista, un desglose de
+    costes y la confirmación de que todo corre bajo la ley española.

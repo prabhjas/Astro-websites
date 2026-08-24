@@ -1,0 +1,520 @@
+---
+/**
+ * Contact form card, shared by the CTA band at the foot of every page.
+ *
+ * Designed for a dark backdrop, so every colour here assumes one: a translucent
+ * card over the terracotta bloom, cream labels, and inputs drawn as a single
+ * underline rather than a boxed field. The blur is a deliberate addition on top
+ * of what the design draws.
+ *
+ * Validation is native constraint validation (`required`, `type="email"`,
+ * `pattern`) surfaced through our own messages: `novalidate` keeps the
+ * browser's bubbles out of the way, but every rule is still a real HTML
+ * constraint, so a JS-less submit is still stopped by the browser.
+ *
+ * Posts JSON to the fleet `/api/contact/` route (file store + Pipedrive).
+ */
+import Button from "./Button.astro";
+import { DEFAULT_DIAL_ISO, DIAL_CODE_GROUPS } from "../../lib/dial-codes";
+import { getUi } from "../../i18n/copy";
+
+interface Props {
+  heading?: string;
+  body?: string;
+  submitLabel?: string;
+  /** Where the form posts. Defaults to the fleet contact API. */
+  action?: string;
+  method?: "post" | "get";
+  /** Cap on the message field, enforced live and on submit. */
+  maxWords?: number;
+  /**
+   * `band` is the closing CTA's card: a 519px column, 24px padding at every
+   * width, a submit that fills it. `page` is the contact page's 845px card,
+   * which drops to 16px padding on the phone frame and centres the submit at
+   * 240px from `lg` — a full-width button on an 845px card is a slab rather
+   * than a control. The switch is at `lg`, not `sm`: the narrow frames both run
+   * the button the full width of the card.
+   */
+  layout?: "band" | "page";
+  class?: string;
+}
+
+const { t } = getUi(Astro.url.pathname);
+const f = t.form;
+
+const {
+  heading: headingProp,
+  body: bodyProp,
+  submitLabel: submitLabelProp,
+  action: actionProp,
+  method: methodProp,
+  maxWords: maxWordsProp,
+  layout: layoutProp,
+  class: classNameProp,
+} = Astro.props;
+
+const heading = headingProp ?? f.heading;
+const body = bodyProp ?? f.body;
+const submitLabel = submitLabelProp ?? f.submit;
+const action = actionProp ?? "/api/contact/";
+const method = methodProp ?? "post";
+const maxWords = maxWordsProp ?? 250;
+const layout = layoutProp ?? "band";
+const className = classNameProp ?? "";
+
+const page = layout === "page";
+
+const FIELD_PLACEHOLDER = "\0FIELD\0";
+const COUNT_PLACEHOLDER = 99999;
+
+const formI18n = {
+  words: f.words,
+  honeypot: f.honeypot,
+  emailInvalid: f.emailInvalid,
+  phoneInvalid: f.phoneInvalid,
+  checkField: f.checkField,
+  thisField: f.thisField,
+  oneField: f.oneField,
+  sending: f.sending,
+  thanks: f.thanks,
+  fail: f.fail,
+  wordLimit: f.wordLimit(maxWords),
+  requiredTemplate: f.required(FIELD_PLACEHOLDER),
+  tooShortTemplate: f.tooShort(FIELD_PLACEHOLDER, COUNT_PLACEHOLDER),
+  tooLongTemplate: f.tooLong(FIELD_PLACEHOLDER, COUNT_PLACEHOLDER),
+  nFieldsTemplate: f.nFields(COUNT_PLACEHOLDER),
+  fieldPlaceholder: FIELD_PLACEHOLDER,
+  countPlaceholder: String(COUNT_PLACEHOLDER),
+};
+
+const label =
+  "text-caption font-medium tracking-[0.26px] text-text-inverse-secondary";
+
+/*
+ * One shared underline treatment, so no field can drift from the others.
+ * `aria-invalid` is the styling hook as well as the semantic one.
+ *
+ * Deliberately carries no width. A `w-full` here broke the phone row: Tailwind
+ * emits `.w-full` after `.w-[7.5rem]`, so the country select won the cascade at
+ * full width and squeezed the number input out. Sizing belongs to each usage.
+ */
+const field =
+  "border-b border-border-interactive bg-transparent text-body text-text-inverse placeholder:text-text-inverse-tertiary transition-colors duration-200 outline-none focus:border-terracotta aria-[invalid=true]:border-terracotta motion-reduce:transition-none";
+
+const error = "text-micro text-terracotta empty:hidden";
+
+const textFields = [
+  {
+    name: "name",
+    label: f.name,
+    type: "text",
+    placeholder: f.namePlaceholder,
+    autocomplete: "name",
+    // Two characters is the shortest real name; the rule exists to catch a
+    // stray keystroke, not to adjudicate what a name may be.
+    minlength: 2,
+    maxlength: 80,
+  },
+  {
+    name: "email",
+    label: f.email,
+    type: "email",
+    placeholder: "you@example.com",
+    autocomplete: "email",
+    maxlength: 120,
+    // `type="email"` alone accepts `a@b` — spec-valid, but never a real
+    // address. This narrows it to something@something.tld without straying
+    // into the unmaintainable full RFC 5322 pattern.
+    pattern: "[^@\\s]+@[^@\\s]+\\.[a-zA-Z]{2,}",
+  },
+] as const;
+---
+
+<form
+  class:list={[
+    "flex w-full flex-col gap-6 rounded-xl border border-white/10 bg-black/10 backdrop-blur-[50px]",
+    page ? "p-4 md:p-6" : "p-6",
+    className,
+  ]}
+  action={action}
+  method={method}
+  novalidate
+  data-contact-form
+  data-max-words={maxWords}
+  data-form-i18n={JSON.stringify(formI18n)}
+>
+  <div class="hidden" aria-hidden="true">
+    <label>{f.honeypot}<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <input type="hidden" name="form_name" value="Iberia Workforce Contact Form" />
+  <input type="hidden" name="form_id" value="iberiaworkforce-contact" />
+  <input type="hidden" name="countryCode" value="" />
+
+  <div class="flex flex-col gap-2">
+    <h2 class="text-h3 text-text-inverse">{heading}</h2>
+    <p class="text-body-sm text-text-inverse-secondary">{body}</p>
+  </div>
+
+  <div class="flex flex-col gap-5">
+    {
+      textFields.map((f) => (
+        <div class="flex flex-col gap-2">
+          <label class={label} for={`contact-${f.name}`}>
+            {f.label}
+          </label>
+          <input
+            class:list={[field, "h-[52px] w-full"]}
+            id={`contact-${f.name}`}
+            name={f.name}
+            type={f.type}
+            placeholder={f.placeholder}
+            autocomplete={f.autocomplete}
+            minlength={"minlength" in f ? f.minlength : undefined}
+            maxlength={f.maxlength}
+            pattern={"pattern" in f ? f.pattern : undefined}
+            required
+            aria-describedby={`contact-${f.name}-error`}
+          />
+          <p class={error} id={`contact-${f.name}-error`} aria-live="polite" />
+        </div>
+      ))
+    }
+
+    {/*
+      Phone is a country-code select plus a digits-only input. The select owns
+      the `+` so the text field never has to parse one, and the script strips
+      anything that is not a digit, space or dash as it is typed — letters
+      cannot survive a paste either.
+    */}
+    <div class="flex flex-col gap-2">
+      <label class={label} for="contact-phone">{f.phone}</label>
+      <div class="flex items-end gap-3">
+        <select
+          class:list={[
+            field,
+            "h-[52px] w-[7.5rem] shrink-0 cursor-pointer [&>optgroup]:bg-navy [&>option]:bg-navy [&>option]:text-text-inverse",
+          ]}
+          id="contact-phone-country"
+          name="phoneCountry"
+          aria-label={f.phoneAria}
+        >
+          {
+            DIAL_CODE_GROUPS.map((group) => (
+              <optgroup label={group.label}>
+                {group.options.map((c) => (
+                  <option
+                    value={`${c.iso} ${c.dial}`}
+                    selected={c.iso === DEFAULT_DIAL_ISO}
+                    label={`${c.flag} ${c.dial}`}
+                  >
+                    {`${c.flag} ${c.name} (${c.dial})`}
+                  </option>
+                ))}
+              </optgroup>
+            ))
+          }
+        </select>
+        <input
+          class:list={[field, "h-[52px] w-full min-w-0 flex-1"]}
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          placeholder="000 000 000"
+          autocomplete="tel-national"
+          maxlength="20"
+          pattern="[0-9][0-9\s-]{5,19}"
+          required
+          aria-describedby="contact-phone-error"
+        />
+      </div>
+      <p class={error} id="contact-phone-error" aria-live="polite"></p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div class="flex items-baseline justify-between gap-3">
+        <label class={label} for="contact-message">{f.message}</label>
+        {/*
+          A live count rather than a hard stop at the limit: truncating
+          mid-sentence loses what someone just wrote. Typing past the cap turns
+          the counter terracotta and blocks the submit instead.
+        */}
+        <p
+          class="text-micro text-text-inverse-tertiary tabular-nums"
+          data-word-count
+          aria-live="polite"
+        >
+          0 / {maxWords} {f.words}
+        </p>
+      </div>
+      {/*
+        `resize-y` with a capped height: the card is a fixed slot in the CTA
+        band's two-column layout, so it may grow a little but not enough to
+        push the heading column out of alignment. 140px is the drawn height.
+      */}
+      <textarea
+        class:list={[field, "h-[140px] max-h-[280px] min-h-[140px] w-full resize-y py-2 leading-[1.6]"]}
+        id="contact-message"
+        name="message"
+        placeholder={f.messagePlaceholder}
+        minlength="10"
+        required
+        aria-describedby="contact-message-error"></textarea>
+      <p class={error} id="contact-message-error" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <Button
+    variant="terracotta"
+    size="lg"
+    type="submit"
+    block={!page}
+    class={page ? "w-full lg:mx-auto lg:w-[240px]" : ""}
+  >
+    {submitLabel}
+  </Button>
+
+  {/* Submit-time status: validation summary or server response. */}
+  <p
+    class="text-body-sm text-text-inverse-secondary empty:hidden"
+    data-form-status
+    role="status"
+    aria-live="polite"
+  >
+  </p>
+</form>
+
+<script>
+  import { captureAttribution, populateAttributionFields } from "../../lib/attribution/client";
+
+  type FormI18n = {
+    words: string;
+    honeypot: string;
+    emailInvalid: string;
+    phoneInvalid: string;
+    checkField: string;
+    thisField: string;
+    oneField: string;
+    sending: string;
+    thanks: string;
+    fail: string;
+    wordLimit: string;
+    requiredTemplate: string;
+    tooShortTemplate: string;
+    tooLongTemplate: string;
+    nFieldsTemplate: string;
+    fieldPlaceholder: string;
+    countPlaceholder: string;
+  };
+
+  const readI18n = (form: HTMLFormElement): FormI18n =>
+    JSON.parse(form.dataset.formI18n || "{}") as FormI18n;
+
+  const countWords = (value: string) =>
+    value.trim() ? value.trim().split(/\s+/).length : 0;
+
+  const setup = (form: HTMLFormElement) => {
+    const formI18n = readI18n(form);
+    const requiredMsg = (field: string) =>
+      formI18n.requiredTemplate.replace(formI18n.fieldPlaceholder, field);
+    const tooShortMsg = (field: string, n: number) =>
+      formI18n.tooShortTemplate
+        .replace(formI18n.fieldPlaceholder, field)
+        .replace(formI18n.countPlaceholder, String(n));
+    const tooLongMsg = (field: string, n: number) =>
+      formI18n.tooLongTemplate
+        .replace(formI18n.fieldPlaceholder, field)
+        .replace(formI18n.countPlaceholder, String(n));
+    const nFieldsMsg = (n: number) =>
+      formI18n.nFieldsTemplate.replace(formI18n.countPlaceholder, String(n));
+
+    const fieldName = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      const label = el.form?.querySelector(`label[for="${el.id}"]`);
+      return label?.textContent?.trim() || formI18n.thisField;
+    };
+
+    const MESSAGES: Record<
+      string,
+      (el: HTMLInputElement | HTMLTextAreaElement) => string
+    > = {
+      valueMissing: (el) => requiredMsg(fieldName(el)),
+      typeMismatch: () => formI18n.emailInvalid,
+      patternMismatch: (el) =>
+        el.name === "email" ? formI18n.emailInvalid : formI18n.phoneInvalid,
+      tooShort: (el) => tooShortMsg(fieldName(el), el.minLength),
+      tooLong: (el) => tooLongMsg(fieldName(el), el.maxLength),
+    };
+
+    const maxWords = Number(form.dataset.maxWords) || 250;
+    const status = form.querySelector<HTMLElement>("[data-form-status]");
+    const counter = form.querySelector<HTMLElement>("[data-word-count]");
+    const message = form.querySelector<HTMLTextAreaElement>("#contact-message");
+    const phone = form.querySelector<HTMLInputElement>("#contact-phone");
+    const controls = [
+      ...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        "input:not([type=hidden]), textarea",
+      ),
+    ];
+
+    const errorFor = (el: Element) =>
+      form.querySelector<HTMLElement>(`#${el.id}-error`);
+
+    const showError = (
+      el: HTMLInputElement | HTMLTextAreaElement,
+      text: string,
+    ) => {
+      el.setAttribute("aria-invalid", "true");
+      const slot = errorFor(el);
+      if (slot) slot.textContent = text;
+    };
+
+    const clearError = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      el.removeAttribute("aria-invalid");
+      const slot = errorFor(el);
+      if (slot) slot.textContent = "";
+    };
+
+    /**
+     * The word cap is not expressible as an HTML constraint, so it is pushed
+     * into the same validity object with `setCustomValidity` — that keeps
+     * `checkValidity()` the single source of truth for whether the form may be
+     * submitted, instead of a second parallel check that can disagree with it.
+     */
+    const syncWordCount = () => {
+      if (!message || !counter) return;
+      const words = countWords(message.value);
+      counter.textContent = `${words} / ${maxWords} ${formI18n.words}`;
+      const over = words > maxWords;
+      counter.classList.toggle("text-terracotta", over);
+      counter.classList.toggle("text-text-inverse-tertiary", !over);
+      message.setCustomValidity(over ? formI18n.wordLimit : "");
+    };
+
+    const validate = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      if (el.validity.valid) {
+        clearError(el);
+        return true;
+      }
+      if (el.validity.customError) {
+        showError(el, el.validationMessage);
+        return false;
+      }
+      const key = (
+        Object.keys(MESSAGES) as (keyof ValidityState)[]
+      ).find((k) => el.validity[k]);
+      showError(el, key ? MESSAGES[key](el) : formI18n.checkField);
+      return false;
+    };
+
+    // Digits, spaces and dashes only — typed or pasted. Doing it on `input`
+    // rather than blocking keystrokes keeps autofill and IME input working.
+    phone?.addEventListener("input", () => {
+      const cleaned = phone.value.replace(/[^\d\s-]/g, "");
+      if (cleaned === phone.value) return;
+      // Pull the caret back by however many characters were dropped, so pasting
+      // "+34 abc 600" leaves the cursor where the text now ends rather than
+      // jumping to the end of the field.
+      const removed = phone.value.length - cleaned.length;
+      const at = Math.max(0, (phone.selectionStart ?? cleaned.length) - removed);
+      phone.value = cleaned;
+      phone.setSelectionRange(at, at);
+    });
+
+    message?.addEventListener("input", syncWordCount);
+    syncWordCount();
+
+    // Errors appear on blur, not on every keystroke — nobody wants to be told
+    // their email is invalid while they are still typing the domain. Once a
+    // field has an error, it re-validates live so the message clears the moment
+    // it is fixed.
+    controls.forEach((el) => {
+      el.addEventListener("blur", () => validate(el));
+      el.addEventListener("input", () => {
+        if (el.hasAttribute("aria-invalid")) validate(el);
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      syncWordCount();
+      const invalid = controls.filter((el) => !validate(el));
+
+      if (invalid.length) {
+        if (status)
+          status.textContent =
+            invalid.length === 1
+              ? formI18n.oneField
+              : nFieldsMsg(invalid.length);
+        invalid[0].focus();
+        return;
+      }
+
+      if (status) status.textContent = "";
+
+      const endpoint = form.getAttribute("action") || "/api/contact/";
+      const countrySelect = form.querySelector<HTMLSelectElement>(
+        "[name=phoneCountry]",
+      );
+      const countryCodeInput = form.querySelector<HTMLInputElement>(
+        "[name=countryCode]",
+      );
+      const dial = countrySelect?.value.match(/(\+\d[\d-]*)/)?.[1];
+      if (countryCodeInput && dial) countryCodeInput.value = dial;
+
+      const formId =
+        form.querySelector<HTMLInputElement>("[name=form_id]")?.value ||
+        "iberiaworkforce-contact";
+      const formName =
+        form.querySelector<HTMLInputElement>("[name=form_name]")?.value ||
+        "Iberia Workforce Contact Form";
+      const captured = captureAttribution(formId, formName);
+      populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+
+      const payload = Object.fromEntries(new FormData(form).entries());
+      payload.form_name = formName;
+      payload.form_id = formId;
+      payload.landed_url = location.href;
+      payload.page_url = location.href;
+      payload.submission_page_url = location.href;
+      payload.landing_page_url = payload.landing_page_url || location.href;
+      payload.referrer_url = document.referrer || payload.referrer_url || "";
+      payload.submitted_at = new Date().toISOString();
+      payload.submission_id =
+        crypto.randomUUID?.() ||
+        `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+      const submitBtn = form.querySelector<HTMLButtonElement>(
+        "button[type=submit]",
+      );
+      if (submitBtn) submitBtn.disabled = true;
+      if (status) status.textContent = formI18n.sending;
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && (out.success || out.ok)) {
+          form.reset();
+          syncWordCount();
+          if (status) status.textContent = out.message || formI18n.thanks;
+        } else if (status) {
+          status.textContent = out.message || out.error || formI18n.fail;
+        }
+      } catch {
+        if (status) status.textContent = formI18n.fail;
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  };
+
+  document
+    .querySelectorAll<HTMLFormElement>("form[data-contact-form]")
+    .forEach(setup);
+</script>

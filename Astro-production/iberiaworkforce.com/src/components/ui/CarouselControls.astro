@@ -1,0 +1,184 @@
+---
+/**
+ * Arrows + dots for a `.carousel` scroll-snap strip.
+ *
+ * The strip itself stays a plain scrollable list — this only adds affordances on
+ * top, so touch scrolling, keyboard scrolling and the no-JS case all keep
+ * working untouched. Hidden from `lg`, where the carousel reverts to a grid.
+ *
+ * The dots are the status readout, so they are not focusable; the arrows are the
+ * control surface. Screen-reader users get the underlying list, which is already
+ * a labelled scrollable region.
+ */
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import { getUi } from "../../i18n/copy";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** id of the `.carousel` element these controls drive. */
+  for: string;
+  /** Number of cards, for the dot count. */
+  count: number;
+  /**
+   * Breakpoint at which the strip reverts to a grid and the controls go away.
+   * Must match the strip's own class — `carousel` ends at lg, `carousel-until-md`
+   * at md.
+   */
+  until?: "md" | "lg";
+  /** Extra classes on the wrapper. */
+  class?: string;
+}
+
+const {
+  for: target,
+  count,
+  until = "lg",
+  class: className = "",
+} = Astro.props;
+
+const { t } = getUi(Astro.url.pathname);
+---
+
+<div
+  class:list={[
+    "mt-6 flex items-center justify-between gap-4",
+    until === "md" ? "md:hidden" : "lg:hidden",
+    className,
+  ]}
+  data-carousel-controls={target}
+>
+  <div class="flex items-center gap-2" aria-hidden="true">
+    {
+      Array.from({ length: count }).map((_, i) => (
+        <span
+          class="dot h-1.5 rounded-full bg-current opacity-25 transition-all duration-300"
+          data-dot={i}
+        />
+      ))
+    }
+  </div>
+
+  <div class="flex items-center gap-2">
+    <button
+      type="button"
+      data-carousel-prev
+      class="flex size-11 items-center justify-center rounded-full border border-current/25 text-current transition-opacity duration-200 disabled:pointer-events-none disabled:opacity-30"
+    >
+      <span class="sr-only">{t.carousel.prev}</span>
+      <span class="rotate-180"><Icon src={chevronRight} size={20} tone="current" /></span>
+    </button>
+    <button
+      type="button"
+      data-carousel-next
+      class="flex size-11 items-center justify-center rounded-full border border-current/25 text-current transition-opacity duration-200 disabled:pointer-events-none disabled:opacity-30"
+    >
+      <span class="sr-only">{t.carousel.next}</span>
+      <Icon src={chevronRight} size={20} tone="current" />
+    </button>
+  </div>
+</div>
+
+<style>
+  .dot {
+    width: 0.375rem;
+  }
+  /* The active card's dot stretches rather than just brightening — readable at
+     a glance without relying on colour alone. */
+  .dot[data-active] {
+    width: 1.25rem;
+    opacity: 0.9;
+  }
+</style>
+
+<script>
+  type Controls = {
+    root: HTMLElement;
+    track: HTMLElement;
+    prev: HTMLButtonElement;
+    next: HTMLButtonElement;
+    dots: HTMLElement[];
+  };
+
+  const setup = (root: HTMLElement) => {
+    const id = root.dataset.carouselControls;
+    const track = id ? document.getElementById(id) : null;
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    if (!track || !prev || !next) return;
+
+    const c: Controls = {
+      root,
+      track,
+      prev,
+      next,
+      dots: [...root.querySelectorAll<HTMLElement>("[data-dot]")],
+    };
+
+    const cards = () => [...c.track.children] as HTMLElement[];
+
+    // Index of the card nearest the left edge of the scrollport.
+    const activeIndex = () => {
+      const items = cards();
+      if (!items.length) return 0;
+      const origin = c.track.scrollLeft;
+      let best = 0;
+      let bestGap = Infinity;
+      items.forEach((card, i) => {
+        const gap = Math.abs(card.offsetLeft - c.track.offsetLeft - origin);
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const scrollToIndex = (i: number) => {
+      const items = cards();
+      const card = items[Math.max(0, Math.min(items.length - 1, i))];
+      if (!card) return;
+      c.track.scrollTo({
+        left: card.offsetLeft - c.track.offsetLeft,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    };
+
+    const sync = () => {
+      const i = activeIndex();
+      c.dots.forEach((dot, di) => {
+        if (di === i) dot.setAttribute("data-active", "");
+        else dot.removeAttribute("data-active");
+      });
+      // 2px tolerance: fractional scroll widths never land exactly on the end.
+      const maxScroll = c.track.scrollWidth - c.track.clientWidth;
+      c.prev.disabled = c.track.scrollLeft <= 2;
+      c.next.disabled = c.track.scrollLeft >= maxScroll - 2;
+    };
+
+    prev.addEventListener("click", () => scrollToIndex(activeIndex() - 1));
+    next.addEventListener("click", () => scrollToIndex(activeIndex() + 1));
+
+    let frame = 0;
+    c.track.addEventListener(
+      "scroll",
+      () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          sync();
+        });
+      },
+      { passive: true }
+    );
+
+    // Card widths change across the breakpoints, so recompute on resize.
+    window.addEventListener("resize", sync, { passive: true });
+    sync();
+  };
+
+  document
+    .querySelectorAll<HTMLElement>("[data-carousel-controls]")
+    .forEach(setup);
+</script>

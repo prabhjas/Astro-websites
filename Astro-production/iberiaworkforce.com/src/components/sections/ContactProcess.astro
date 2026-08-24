@@ -1,0 +1,84 @@
+---
+/**
+ * "What happens after you send this" — the contact page's process timeline.
+ *
+ * Deliberately not `ServiceSteps`, the service pages' photographic step cards:
+ * those show the work, this commits to a schedule. Each step carries a timing
+ * chip rather than an image, and the numerals sit in bubbles on a rule.
+ *
+ * The rule turns with the layout: from `md` a horizontal connector runs out of
+ * each bubble across its own column, and below that the steps become a vertical
+ * timeline with the connector as a 2px spine down the left. The last step has
+ * no connector at either width — a line out of the final bubble promises a
+ * fourth step. (The 768 frame draws one anyway; the other two do not, so it
+ * reads as a leftover.)
+ */
+import { getUi } from "../../i18n/copy";
+
+const { t } = getUi(Astro.url.pathname);
+const p = t.contactProcess;
+---
+
+<section
+  class="bg-bg-surface py-14 md:py-16 lg:py-24"
+  aria-labelledby="contact-process-heading"
+>
+  <div class="section-shell flex flex-col gap-10 md:gap-12 lg:gap-14">
+    <div class="flex flex-col gap-3" data-reveal>
+      <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+        {p.eyebrow}
+      </p>
+      <h2 id="contact-process-heading" class="text-h2 text-text-primary">
+        {p.heading}
+      </h2>
+    </div>
+
+    <ol class="flex flex-col gap-8 md:flex-row md:gap-6 lg:gap-8">
+      {
+        p.steps.map((step, i) => (
+          <li
+            class="flex gap-4 md:flex-1 md:flex-col md:gap-5"
+            data-reveal
+            style={`--reveal-i:${i + 1}`}
+          >
+            {/*
+              The indicator. A column on a phone, where the connector has to
+              reach the foot of the step's own copy — hence `grow`, which in a
+              column takes the leftover height and in the `md` row takes the
+              leftover width, so one utility serves both directions.
+            */}
+            <div class="flex shrink-0 flex-col items-center md:w-full md:flex-row md:items-center md:gap-3">
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-navy text-[1rem] leading-none font-semibold text-text-inverse">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              {i < p.steps.length - 1 && (
+                <span
+                  class="mt-2 w-0.5 grow rounded-full bg-border-subtle md:mt-0 md:h-px md:w-auto"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+
+            <div class="flex flex-col gap-3">
+              {/*
+                Title over chip until `lg`: both narrow frames stack them, and
+                at 1440 the chip sits beside the title on one line.
+              */}
+              <div class="flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:gap-3">
+                <h3 class="text-h5 text-text-primary">{step.title}</h3>
+                <span class="rounded-md bg-bg-info-subtle px-2.5 py-1 text-micro leading-normal font-medium text-text-info">
+                  {step.chip}
+                </span>
+              </div>
+              <p class="text-body-sm text-text-secondary">{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="text-[0.8125rem] leading-normal text-text-tertiary" data-reveal>
+      {p.footnote}
+    </p>
+  </div>
+</section>

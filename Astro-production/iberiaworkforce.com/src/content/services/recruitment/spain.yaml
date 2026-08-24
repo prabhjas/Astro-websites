@@ -1,0 +1,382 @@
+# Recruitment — Spain country page.
+# Figma nodes 167-1369 (1440), 184-6817 (768), 184-6818 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first country page with no pricing band of any kind — the fee is stated
+# in `whyChoose`, in the steps and in the FAQ rather than in a card, so all four
+# pricing keys are simply absent. It adds one section, `coverage`, and two
+# switches: `included.ctaAlign` and the dark `stacked` differentiator's
+# subheading. Everything else is an arrangement an earlier page established.
+type: country
+label: Recruitment in Spain
+
+seo:
+  title: Recruitment in Spain | Iberia Workforce
+  description: >-
+    Recruitment in Spain. We find talent, validate CBA and visa fit, then
+    you decide. 10% of salary after they start, with a 60-day replacement.
+  schema:
+    serviceName: Recruitment Services Spain
+    serviceType: Recruitment & Talent Acquisition
+    areaServed: Spain
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  tone: light
+  heading: Recruitment agency in Spain
+  subheading: We make sure your hiring choices do not cost you later.
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: employee
+      label: CBA Classification Experts
+    - icon: visa
+      label: Visa & Legal Validation
+    - icon: global
+      label: Barcelona-Based
+  body: >-
+    We find the right person for your permanent team. Then we validate upfront
+    that they can actually start - CBA classification locked in, visa category
+    confirmed if they are international. No surprises after you have made an
+    offer.
+  # The full trio, exported the way the Payroll and Temporary Staffing heroes
+  # are: `download_assets` at `defaultScale: 2` against each frame's own BKG
+  # frame, which Figma returns already clipped to its parent — 2880x1232,
+  # 1536x1436 and 860x1358. Going through the image *fill* instead would have
+  # given the untreated photograph at 1x: these three carry the frames' cream
+  # wash and terracotta cast baked in, which is what the crops are.
+  image: ../../../assets/images/recruitment-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/recruitment-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/recruitment-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+# `headingScale: display` is the Payroll hub's arrangement: the 64px claim keeps
+# the whole 768 frame to itself and the prose follows under it, splitting into
+# two columns only at 1440.
+intro:
+  heading: What is Recruitment in Spain?
+  headingScale: display
+  paragraphs:
+    - >-
+      Recruitment in Spain means finding qualified candidates and validating
+      they can take the permanent role under Spanish law. We do both. Most
+      recruiters stop at placement. We do not. Before you make an offer, our
+      legal team confirms: the role fits the correct Convenio Colectivo (CBA),
+      visa category is verified for international hires, and no existing
+      employment agreements will block them. You choose from the candidates we
+      find. We ensure they can onboard without legal friction.
+
+# The navy contour band, `stacked` as EOR Spain draws it. The artwork is the
+# Recruitment hub's own crop of the Iberian contour map — same file, and the
+# right one rather than EOR's, because it is cut to this band's 2.45:1.
+differentiator:
+  layout: stacked
+  heading: Why Recruitment matters in Spain?
+  subheading: The hiring mistakes that cost you
+  paragraphs:
+    - >-
+      Most recruiters find you someone and hope for the best. We find and
+      validate. Two things break permanent hires in Spain: CBA misclassification
+      (wrong salary framework, audit risk months later) and visa category
+      mismatch (visa stalls, offer falls through).
+    - >-
+      Right recruitment means finding someone qualified and validating upfront
+      that they fit both the legal structure and the visa requirements. No
+      surprises after.
+  background: ../../../assets/images/recruitment-hub-matters.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: Why choose Iberia Workforce for Recruitment in Spain?
+  highlight: Recruitment
+  items:
+    - title: We validate CBA classification before you hire.
+      description: >-
+        Most recruiters send you a CV. We find the candidate, then our legal
+        team confirms: which Convenio Colectivo does this role actually fall
+        under? What are the salary minimums, overtime tiers, mandatory bonuses,
+        and working hour limits for that framework? You know upfront whether you
+        have budgeted correctly. You do not find out months later during an
+        audit.
+    - title: We handle visa validation so international hires actually work.
+      description: >-
+        If your candidate is from outside the EU, we confirm the visa category
+        upfront - HQP, Digital Nomad, Skilled Worker, or standard work permit.
+        We flag timelines, costs, and requirements before you make an offer. No
+        visa surprises. No offers that fall through because the immigration
+        details were not checked.
+    - title: We move fast without cutting corners.
+      description: >-
+        Good candidates are off the market within days. We have the sourcing
+        depth and network to find talent quickly. Speed does not mean skipping
+        the legal validation - both happen in parallel. Your offer goes out
+        while our legal team runs the checks.
+    - title: We hunt permanent and executive talent with dedicated expertise.
+      description: >-
+        Standard permanent roles in tech, fintech, engineering: 1–2 weeks from
+        brief to shortlist. C-level and director-level positions: we headhunt.
+        We know the market, we know who is available, and we know who might be
+        open to conversations. Not a job posting. Strategic recruitment.
+    - title: >-
+        You do not pay until they start. If it does not work in 60 days, we find
+        you someone else free.
+      description: >-
+        Most recruiters take a fee upfront and disappear. We take 10% of annual
+        salary, but only after the candidate has worked 15 days and you have
+        decided they are the right fit. If they do not work out in the first two
+        months or they leave, we source a replacement at zero cost. You already
+        invested; we back the hire.
+    - title: 9 years at scale. 10,000+ employees placed across Europe.
+      description: >-
+        Built in the UAE, one of the world's most compliance-heavy hiring
+        environments. That operational depth now runs recruitment across Spain
+        and four other European countries.
+
+# Four steps, so `ServiceSteps` tiles them 2×2 at 1440 — derived from the count,
+# as the numerals are. The first two photographs are the Recruitment hub's; the
+# last two are this page's own.
+howItWorks:
+  heading: How Recruitment works?
+  surface: page
+  steps:
+    - title: Tell us what you need to hire
+      description: >-
+        Role, seniority, location within Spain, salary range, urgency. Is this a
+        permanent position, executive search, or specialist hire? Are you hiring
+        EU nationals or international candidates who need visa support? We
+        assess the complexity and give you realistic timelines upfront - no
+        promises we cannot keep.
+      image: ../../../assets/images/step-role-briefing.webp
+      imageAlt: A hiring manager briefing two colleagues across a meeting table
+    - title: We source and screen
+      description: >-
+        We tap our network, use our sourcing tools, and headhunt where the role
+        demands it. We screen candidates for fit: skills, experience, cultural
+        alignment. For international hires, we run initial visa category checks
+        upfront so we only present candidates who can actually take the role in
+        Spain. You get a shortlist of qualified candidates, not noise.
+      image: ../../../assets/images/step-candidate-screening.webp
+      imageAlt: A recruiter in conversation with a candidate in an open office
+    - title: You choose. We validate. They onboard.
+      description: >-
+        You select the candidate you want. Our legal team validates the full
+        picture: which Convenio Colectivo applies to their role, visa category
+        and timeline if they are international, non-compete clauses or
+        employment agreements that might restrict them. Once validated, they are
+        cleared to onboard. We stay involved through their first weeks to ensure
+        the transition runs smoothly.
+      image: ../../../assets/images/step-offer-signing.webp
+      imageAlt: A new hire signing an offer at a desk beside an open laptop
+    - title: Payment and the 60-day safety net
+      description: >-
+        15 days after they start working, you pay us 10% of their annual gross
+        salary - one-time fee. If the hire does not work out in the first 60
+        days or they decide to leave, we source a replacement candidate at no
+        charge. You already invested in the first hire; we find the right person
+        the second time.
+      image: ../../../assets/images/step-team-welcome.webp
+      imageAlt: Colleagues welcoming a new starter in an office
+  prompt: Looking to manage recruitment without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# The third `mosaic`, and the first left-aligned one: seven obligations tile
+# 2 / 3 / 2 across the six-track grid exactly. The eyebrow is "SEERVICES" in all
+# three frames — a typo, corrected here as every other page spells it.
+included:
+  eyebrow: SERVICES
+  heading: What is included in Recruitment services in Spain?
+  layout: mosaic
+  surface: surface
+  ctaAlign: center
+  items:
+    - icon: candidate-selection
+      title: Candidate sourcing & screening
+      description: >-
+        Active sourcing through our network, passive candidate identification,
+        skills assessment, and cultural fit evaluation. For niche or specialist
+        roles, dedicated headhunting and direct outreach to high-potential
+        candidates in your field. For executive positions, strategic recruitment
+        through known market relationships.
+    - icon: contract-signed
+      title: CBA classification & permanent role structuring
+      description: >-
+        We identify which Convenio Colectivo applies to the role upfront. Salary
+        minimums, overtime tiers, mandatory bonuses, working hours - confirmed
+        before you make an offer. This protects you from retrospective audit
+        risk and ensures your budget is accurate from day one.
+    - icon: passport-globe
+      title: Visa category & work permit assessment for international hires
+      description: >-
+        For non-EU candidates, we identify the correct visa category upfront
+        (HQP, Digital Nomad, Skilled Worker, or standard work permit). We flag
+        timelines, sponsorship requirements, and restrictions so you know what
+        you are committing to before the hire is live.
+    - icon: document-lines
+      title: Non-compete & employment agreement review
+      description: >-
+        Our legal team reviews existing employment agreements, non-compete
+        clauses, and key-person restrictions that might block a hire. You know
+        upfront if there is friction and how to navigate it before making an
+        offer.
+    - icon: search-person
+      title: Executive search & headhunting
+      description: >-
+        C-level, director-level, and board positions sourced through our
+        network. We know who is strong, who is available, and who might be open
+        to the right opportunity. Not job posting. Strategic recruitment for
+        senior talent.
+    - icon: door-exit
+      title: Offer support & onboarding coordination
+      description: >-
+        We help structure the permanent offer, coordinate first-week logistics,
+        and ensure the legal and payroll side are set up correctly so the hire
+        starts without friction.
+    - icon: swap-arrows
+      title: Candidate replacement guarantee
+      description: >-
+        If the hire does not fit within 60 days or they leave early, we source a
+        replacement candidate at no additional cost. You have already paid the
+        fee; we find the right person the second time.
+  cta:
+    label: Get Started with Your Recruitment Need
+    href: "#contact-form"
+
+coverage:
+  badge: AVAILABLE NOW
+  heading: Recruitment across Spain
+  body: >-
+    Barcelona-based team, serving companies across Spain. Permanent hiring,
+    executive search, and international talent acquisition. Legal validation
+    built into every hire.
+  cta:
+    label: Explore Spain
+    href: "#contact-form"
+
+faq:
+  eyebrow: RECRUITMENT
+  heading: Frequently asked questions
+  items:
+    - question: How long does permanent recruitment in Spain actually take?
+      answer: >-
+        Standard permanent roles (mid-level tech, fintech, engineering,
+        product): 1–2 weeks from brief to shortlist. Executive or specialist
+        roles (director-level, niche expertise): 3–4 weeks because we are being
+        selective and the candidate pool is smaller. We give you a realistic
+        timeline upfront based on your specific role, not an optimistic one.
+    - question: >-
+        What is the difference between CBA classification and just posting a
+        job?
+      answer: >-
+        Most recruiters find you a candidate. They do not confirm which Convenio
+        Colectivo the role actually belongs to. You assume, you hire, months
+        later an audit flags you under the wrong agreement and you owe
+        retrospective salary adjustments. We confirm the correct CBA upfront
+        before you make an offer, so payroll runs under the right framework from
+        day one.
+    - question: Can you recruit for executive and C-level roles in Spain?
+      answer: >-
+        Yes. For director-level, C-suite, and board positions, we headhunt. We
+        know the Spanish market, we know candidates, and we know who is
+        available or open to conversations. These roles do not get filled by
+        posting a job, they get filled by relationships and strategic outreach.
+    - question: How do you handle international hires and Spanish visas?
+      answer: >-
+        We identify the correct visa category upfront - HQP for highly qualified
+        professionals, Digital Nomad if they have passive income, Skilled Worker
+        if the role meets Spanish skill thresholds, or standard work permit. We
+        flag timelines and costs so you know what you are committing to. For
+        visa sponsorship, our legal team manages the paperwork.
+    - question: >-
+        What if the candidate I want has a non-compete from their previous
+        employer?
+      answer: >-
+        We review it upfront. Some non-competes are enforceable under Spanish
+        law; some are not (depending on industry, duration, and geographic
+        scope). If there is friction, we flag it before you make an offer so you
+        can decide how to navigate it, renegotiate, wait out the period, or move
+        to another candidate. No surprises.
+    - question: >-
+        How do you source permanent candidates in Spain? Is it just job posting?
+      answer: >-
+        We use a combination of active sourcing (job platforms, our network),
+        passive candidate identification (we know who is strong in your field),
+        and direct headhunting for senior roles. Passive sourcing often surfaces
+        better talent because good people are not always actively looking. It
+        takes longer but gets you better candidates.
+    - question: >-
+        What exactly does "CBA classification review" mean for a permanent hire?
+      answer: >-
+        We confirm which Convenio Colectivo your role falls under - for example,
+        tech roles might be "Engineering/IT" not "Offices and Booths." Once we
+        identify it, we lock in the salary minimums, overtime rates, mandatory
+        bonuses, and working hour limits that apply. This goes into your offer
+        and payroll calculation so there are no surprises after.
+    - question: >-
+        Can you find permanent candidates in niche or specialized fields in
+        Spain?
+      answer: >-
+        Yes. Niche specialists (AI researchers, specialized logistics experts,
+        domain experts in emerging sectors) are where our sourcing depth matters
+        most. It takes longer than posting a standard role - sometimes 3–4
+        weeks, but we find the person. We are honest about timelines instead of
+        promising speed we cannot deliver.
+    - question: >-
+        What if an international candidate's visa gets rejected after you have
+        validated it?
+      answer: >-
+        We validate the visa category and flag realistic timelines based on
+        Spanish immigration processing. We do not control government processing,
+        but we flag upfront if there are complexity factors (new visa category,
+        less common nationality, documentation-heavy requirements) that might
+        lengthen timelines. Once you make an offer, we stay involved in the visa
+        process so you have real-time visibility.
+    - question: What is the fee structure? When do I pay?
+      answer: >-
+        10% of the candidate's annual gross salary, paid 15 days after they
+        start working in the permanent role. One-time payment. If the hire does
+        not work out in the first 60 days or they leave early, you do not pay
+        for a replacement, we source one free because you already invested in
+        the first hire.
+    - question: >-
+        What happens if the permanent hire does not work out after 60 days?
+      answer: >-
+        After 60 days, the replacement guarantee expires. However, if there is a
+        genuine misalignment on the role requirements (you discover the role
+        needs different skills) or something in your company environment, we
+        will discuss what went wrong and how to adjust for the next search.
+    - question: >-
+        Who is Iberia Workforce, and how do you operate recruitment in Spain?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate recruitment
+        services in Spain from our Barcelona office with an in-house team of
+        headhunters, sourcers, and employment lawyers. We do not outsource
+        sourcing to local partners, the same team finding your candidate is the
+        same team validating their CBA classification and visa eligibility. We
+        carry the responsibility for the quality and fit of every hire.
+
+closing:
+  heading: >-
+    Good recruitment is more than a name and a resume. It is finding someone who
+    fits.
+  bodySize: note
+  body: >-
+    Validating they fit the legal structure (CBA classification), confirming
+    they can actually take the job (visa category), and backing that commitment
+    with a 60-day guarantee. You do not pay until they start. If it does not
+    work in 60 days, we find you someone else free. Describe the permanent role
+    you are hiring and we will tell you exactly how long sourcing will take. No
+    obligation.

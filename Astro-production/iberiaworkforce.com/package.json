@@ -3,31 +3,31 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Iberia Workforce Solutions — Astro site (EN/ES)",
+  "description": "Iberia Work Force — Astro site",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
   },
   "scripts": {
-    "dev": "astro dev --port 4325 --host",
+    "dev": "astro dev --port 5083 --host",
+    "check": "astro check",
     "build": "astro build",
-    "preview": "astro preview --port 4325 --host",
+    "preview": "astro preview --port 5083 --host",
     "start": "node ./dist/server/entry.mjs",
     "test": "node --import tsx --test tests/contact-form.test.mjs"
   },
   "dependencies": {
     "@astrojs/node": "catalog:",
-    "@astrojs/sitemap": "catalog:",
-    "@fontsource-variable/inter": "catalog:",
-    "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "nodemailer": "catalog:",
+    "sharp": "0.35.3",
     "tailwindcss": "catalog:",
     "yaml": "catalog:",
     "@connect/site-cms": "workspace:*"
   },
   "devDependencies": {
+    "@astrojs/check": "catalog:",
     "@types/node": "catalog:",
     "@types/nodemailer": "catalog:",
     "tsx": "catalog:",

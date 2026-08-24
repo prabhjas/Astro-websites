@@ -1,0 +1,53 @@
+---
+/**
+ * The service *country page* template — the second of the two shapes every
+ * service page takes (see the IA in CLAUDE.md).
+ *
+ * It shares six sections with `HubTemplate` and differs in four: a light hero
+ * rather than a navy one, a two-column intro in place of the definition
+ * photograph, a "why choose us" list, an editorial feature list in place of the
+ * icon grid, and a pricing band. As with the hub, every section is optional and
+ * driven entirely by the content file, so the remaining eight country pages
+ * need only their own YAML.
+ */
+import type { CollectionEntry } from "astro:content";
+import ServiceHero from "./ServiceHero.astro";
+import ServiceIntro from "./ServiceIntro.astro";
+import ServiceDefinition from "./ServiceDefinition.astro";
+import ServiceDifferentiator from "./ServiceDifferentiator.astro";
+import ServiceWhyChoose from "./ServiceWhyChoose.astro";
+import ServiceSteps from "./ServiceSteps.astro";
+import ServiceFeatureList from "./ServiceFeatureList.astro";
+import ServiceIncluded from "./ServiceIncluded.astro";
+import ServiceAudience from "./ServiceAudience.astro";
+import ServicePricing from "./ServicePricing.astro";
+import ServicePricingNote from "./ServicePricingNote.astro";
+import ServicePricingSummary from "./ServicePricingSummary.astro";
+import ServicePricingVariables from "./ServicePricingVariables.astro";
+import ServiceCoverage from "./ServiceCoverage.astro";
+import ServiceFaq from "./ServiceFaq.astro";
+import ServiceClosing from "./ServiceClosing.astro";
+
+interface Props {
+  data: CollectionEntry<"services">["data"];
+}
+
+const { data } = Astro.props;
+---
+
+<ServiceHero {...data.hero} />
+{data.intro && <ServiceIntro {...data.intro} />}
+{data.definition && <ServiceDefinition {...data.definition} />}
+{data.differentiator && <ServiceDifferentiator {...data.differentiator} />}
+{data.whyChoose && <ServiceWhyChoose {...data.whyChoose} />}
+{data.howItWorks && <ServiceSteps {...data.howItWorks} />}
+{data.audience && <ServiceAudience {...data.audience} />}
+{data.featureList && <ServiceFeatureList {...data.featureList} />}
+{data.included && <ServiceIncluded {...data.included} />}
+{data.pricing && <ServicePricing {...data.pricing} />}
+{data.pricingNote && <ServicePricingNote {...data.pricingNote} />}
+{data.pricingSummary && <ServicePricingSummary {...data.pricingSummary} />}
+{data.pricingVariables && <ServicePricingVariables {...data.pricingVariables} />}
+{data.coverage && <ServiceCoverage {...data.coverage} />}
+{data.faq && <ServiceFaq {...data.faq} />}
+{data.closing && <ServiceClosing {...data.closing} />}

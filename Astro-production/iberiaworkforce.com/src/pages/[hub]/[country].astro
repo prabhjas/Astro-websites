@@ -1,0 +1,47 @@
+---
+/**
+ * Country service pages — `/employer-of-record/spain/`, etc.
+ * Split from a catch-all so the fleet publisher does not see `[...slug]`.
+ */
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import CountryTemplate from "../../components/services/CountryTemplate.astro";
+import { heroLcpSrc } from "../../lib/lcp";
+import { faqPage, organization, pageUrl, service } from "../../lib/schema";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("services");
+  return entries
+    .filter((entry) => entry.data.type === "country")
+    .map((entry) => {
+      const [hub, country] = entry.id.split("/");
+      return {
+        params: { hub, country },
+        props: { entry },
+      };
+    })
+    .filter((path) => path.params.hub && path.params.country);
+}
+
+const { entry } = Astro.props;
+const { seo, faq } = entry.data;
+const url = pageUrl(entry.id);
+const lcpImage = await heroLcpSrc(entry.data.hero.image);
+
+const schema = [
+  organization(url, seo.schema.address),
+  service({
+    url,
+    name: seo.schema.serviceName,
+    serviceType: seo.schema.serviceType,
+    areaServed: seo.schema.areaServed,
+    areaType: "Country",
+    description: seo.description,
+  }),
+  ...(faq?.items.length ? [faqPage(url, faq.items)] : []),
+];
+---
+
+<Layout title={entry.data.seo.title} description={entry.data.seo.description} schema={schema} lcpImage={lcpImage}>
+  <CountryTemplate data={entry.data} />
+</Layout>

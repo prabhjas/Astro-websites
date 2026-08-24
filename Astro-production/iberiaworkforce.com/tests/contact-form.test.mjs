@@ -195,6 +195,22 @@ describe('parseContactFormBody', () => {
     });
     assert.equal(parsed.honeypot, 'spam');
   });
+
+  it('parses phoneCountry select values into a dial code', () => {
+    const parsed = parseContactFormBody({
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      phone: '600 111 222',
+      phoneCountry: 'ES +34',
+      message: 'Need help with compliance in Spain please',
+    });
+    assert.equal(parsed.countryCode, '+34');
+    const result = validateContactForm(parsed);
+    assert.equal(result.valid, true);
+    if (result.valid) {
+      assert.match(result.data.phone, /^\+34/);
+    }
+  });
 });
 
 describe('maskSensitiveValue', () => {

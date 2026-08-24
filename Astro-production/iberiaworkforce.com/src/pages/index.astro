@@ -1,4 +1,35 @@
 ---
-import HomePage from '../components/pages/HomePage.astro';
+import { getImage } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/sections/Hero.astro";
+import EttLicence from "../components/sections/EttLicence.astro";
+import Services from "../components/sections/Services.astro";
+import Differentiators from "../components/sections/Differentiators.astro";
+import Process from "../components/sections/Process.astro";
+import Geography from "../components/sections/Geography.astro";
+import Pricing from "../components/sections/Pricing.astro";
+import SocialProof from "../components/sections/SocialProof.astro";
+import Closing from "../components/sections/Closing.astro";
+import { siteOrganization } from "../lib/schema";
+import { getUi } from "../i18n/copy";
+import heroBackground from "../assets/images/hero-background.webp";
+
+const { lang } = getUi(Astro.url.pathname);
+const lcp = await getImage({
+  src: heroBackground,
+  width: 1440,
+  format: "webp",
+});
 ---
-<HomePage lang="en" />
+
+<Layout schema={[siteOrganization(lang)]} lcpImage={lcp.src}>
+  <Hero />
+  <EttLicence />
+  <Services />
+  <Differentiators />
+  <Process />
+  <Geography />
+  <Pricing />
+  <SocialProof />
+  <Closing />
+</Layout>

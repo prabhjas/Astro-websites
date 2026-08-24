@@ -1,0 +1,507 @@
+---
+/**
+ * Animated mesh gradient, drawn in WebGL.
+ *
+ * A domain-warped fbm field ramped through the brand palette. Domain warping
+ * (each noise field distorting the next) is what gives it folded, marbled
+ * structure rather than the round blobs a blurred-blob gradient produces.
+ *
+ * It is a background layer: absolutely positioned, `-z-10`, pointer-events
+ * none. Put it inside a `relative isolate` parent.
+ *
+ * Degrades in three steps, so nothing here is load-bearing for legibility:
+ *   - no WebGL           -> the CSS gradient on the wrapper stays visible
+ *   - reduced motion     -> one static frame, no animation loop
+ *   - scrolled offscreen -> the loop stops entirely
+ */
+interface Props {
+  /** Extra classes for the wrapper (positioning, radius). */
+  class?: string;
+  /** Peak strength of the darkening scrim, at the top of the element. */
+  scrim?: number;
+  /**
+   * `card` is the pricing card's full-height ramp: cold at the foot, running up
+   * through slate and mauve into terracotta. `band` is the closing CTA's: deep
+   * navy with one iridescent warm band across the top.
+   *
+   * Two shaders rather than one parameterised field, because they are different
+   * compositions and not the same one at two strengths — `card` fills its box
+   * with the ramp, `band` leaves most of the section calm so a form and four
+   * paragraphs can sit on it.
+   */
+  variant?: "card" | "band";
+  /**
+   * How deep the `band` variant's warm zone reaches, in CSS pixels, before the
+   * cap in `resize()` takes over. Ignored by `card`.
+   *
+   * Pixels rather than a fraction because the warm has to hold the same amount
+   * of *type* whatever the section's height. 340 covers the closing band's
+   * heading and nothing else; a taller section — the contact page's intro, with
+   * hero copy, a form and a trust rail on one background — needs more, or the
+   * warm reads as a stripe rather than as sky.
+   */
+  bandDepth?: number;
+}
+
+const {
+  class: className = "",
+  variant = "card",
+  scrim,
+  bandDepth = 340,
+}: Props = Astro.props;
+
+/*
+  Scrim stops, measured rather than guessed.
+
+  card — with the scrim off, the brightest pixel behind each text run was
+  sampled and solved for the black alpha that lifts white type to its AA
+  threshold:
+
+    eyebrow      8-13%  18px  needs 4.5:1  ->  0.37
+    heading     14-52%  48px  needs 3:1    ->  0.21
+    description 53-60%  14px  needs 4.5:1  ->  0.07
+    button      83-92%  15px  needs 4.5:1  ->  0
+
+  These carry ~0.05 of headroom, because the field drifts and a brighter fold
+  can move under a given line. Everything below the midpoint is doing almost
+  nothing, which is why the card still reads as full-strength colour.
+
+  band — this one carries type at every height with the field drifting beneath
+  it, so it was measured in place at 1440/768/430 rather than solved once. 0.20
+  is where the tightest case — the heading at 430, where the section padding is
+  smallest — clears 3:1 with headroom (3.2, against 6:1 and up on wide frames).
+  What keeps type off the hottest top edge is the section's asymmetric top
+  padding, not this. Holding full strength to the halfway mark is not slack:
+  `uBand` caps the warm at 55% of the section.
+*/
+const PRESETS = {
+  card: {
+    scrim: 0.42,
+    stops: [
+      [0, 1],
+      [14, 1],
+      [52, 0.62],
+      [66, 0.33],
+      [100, 0.19],
+    ],
+    /* The no-WebGL fallback, and the first paint before the shader compiles. */
+    fallback:
+      "linear-gradient(178deg,#8a5f63 0%,#7c6377 22%,#55547a 48%,#1b4a78 76%,#0f3357 100%)",
+  },
+  band: {
+    scrim: 0.2,
+    /* The last stop is 0, not a token amount: the band has to arrive at the
+       footer's own navy, and a scrim still active there is a visible step. */
+    stops: [
+      [0, 1],
+      [50, 1],
+      [72, 0.45],
+      [100, 0],
+    ],
+    fallback:
+      "radial-gradient(125% 58% at 34% 0%,rgba(217,113,78,0.62) 0%,rgba(217,113,78,0.14) 46%,rgba(217,113,78,0) 72%),linear-gradient(180deg,#12293f 0%,#0a1b2c 48%,#102a43 100%)",
+  },
+} as const;
+
+const preset = PRESETS[variant];
+
+const stops = preset.stops
+  .map(
+    ([pos, factor]) =>
+      `rgba(9,22,38,${((scrim ?? preset.scrim) * factor).toFixed(3)}) ${pos}%`,
+  )
+  .join(", ");
+---
+
+<div
+  class:list={[
+    "pointer-events-none absolute inset-0 -z-10 overflow-hidden",
+    className,
+  ]}
+  style={`background:${preset.fallback}`}
+  data-mesh
+  data-mesh-variant={variant}
+  data-mesh-band-depth={variant === "band" ? bandDepth : undefined}
+  aria-hidden="true"
+>
+  <canvas class="absolute inset-0 block size-full" data-mesh-canvas></canvas>
+
+  {/*
+    The scrim, weighted to the top: that is where the palette runs hottest and
+    where the smallest type sits. By the foot the gradient has gone navy on its
+    own and the scrim is almost nothing.
+  */}
+  <div class="absolute inset-0" style={`background:linear-gradient(to bottom, ${stops})`}>
+  </div>
+</div>
+
+<script>
+  const VERT = `
+    attribute vec2 p;
+    void main(){ gl_Position = vec4(p, 0.0, 1.0); }
+  `;
+
+  /*
+    Shared prelude: the uniforms and the hash. The noise stack is deliberately
+    *not* shared — the card wants a soft field with no visible structure (4
+    octaves, cubic), the band wants weather (5 octaves, quintic, so the octaves
+    stack without creasing at the cell boundaries). Giving the band the card's
+    noise is what made it read as a flat haze.
+
+    No backticks anywhere in this file's GLSL: the shaders live in JS template
+    literals, and one would end the string and take the build with it.
+  */
+  const PRELUDE = `
+    precision highp float;
+    uniform vec2  uRes;
+    uniform float uTime;
+    /* Depth of the band's warm zone, as a fraction of the element. Unused by
+       the card variant, whose ramp fills its whole box. */
+    uniform float uBand;
+
+    float hash(vec2 p){
+      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+    }
+  `;
+
+  const FRAG_CARD =
+    PRELUDE +
+    `
+    float noise(vec2 p){
+      vec2 i = floor(p), f = fract(p);
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+    }
+
+    /* 4 octaves. The fifth is below a pixel once the field is this soft, so it
+       costs fragment time and shows nothing. */
+    float fbm(vec2 p){
+      float v = 0.0, a = 0.5;
+      mat2 rot = mat2(0.80, 0.60, -0.60, 0.80);
+      for(int i = 0; i < 4; i++){
+        v += a * noise(p);
+        p = rot * p * 2.0;
+        a *= 0.5;
+      }
+      return v;
+    }
+
+    /* Brand palette: the navy ramp through slate and mauve into terracotta. */
+    const vec3 INK   = vec3(0.059, 0.200, 0.341);
+    const vec3 NAVY  = vec3(0.106, 0.290, 0.471);
+    const vec3 SLATE = vec3(0.333, 0.329, 0.478);
+    const vec3 MAUVE = vec3(0.486, 0.388, 0.467);
+    const vec3 CLAY  = vec3(0.788, 0.435, 0.322);
+    const vec3 EMBER = vec3(0.878, 0.573, 0.427);
+
+    void main(){
+      vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+      vec2 st = gl_FragCoord.xy / uRes;
+
+      float t = uTime * 0.06;
+
+      /* Domain warping: q distorts the field, r distorts q. */
+      vec2 q = vec2(fbm(uv * 1.6 + vec2(0.0, t)),
+                    fbm(uv * 1.6 + vec2(5.2, 1.3 - t)));
+
+      vec2 r = vec2(fbm(uv * 1.6 + 3.0 * q + vec2(1.7, 9.2) + 0.35 * t),
+                    fbm(uv * 1.6 + 3.0 * q + vec2(8.3, 2.8) - 0.28 * t));
+
+      float f = fbm(uv * 1.6 + 3.2 * r);
+      f = clamp(f * 1.35 - 0.12, 0.0, 1.0);
+
+      /* Warm at the top, cold at the foot; the noise modulates that rather than
+         replacing it. gl_FragCoord.y counts upward, so st.y = 1 is the top and
+         this reads straight. Inverting it flips the artwork and parks the
+         hottest ember under the smallest type. */
+      float h = smoothstep(0.05, 0.95, st.y);
+      float m = clamp(f * 0.62 + h * 0.58, 0.0, 1.0);
+
+      vec3 col = INK;
+      col = mix(col, NAVY,  smoothstep(0.05, 0.32, m));
+      col = mix(col, SLATE, smoothstep(0.28, 0.52, m));
+      col = mix(col, MAUVE, smoothstep(0.46, 0.68, m));
+      col = mix(col, CLAY,  smoothstep(0.62, 0.85, m));
+      col = mix(col, EMBER, smoothstep(0.80, 1.00, m));
+
+      /* Lift where the warp folds tightly — reads as depth, not blur. */
+      float fold = smoothstep(0.55, 1.0, length(r));
+      col += EMBER * fold * 0.16;
+
+      /* Grain, so the mauve-to-navy transition does not band. */
+      float g = hash(gl_FragCoord.xy + fract(uTime) * 100.0);
+      col += (g - 0.5) * 0.030;
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const FRAG_BAND =
+    PRELUDE +
+    `
+    /* Quintic interpolation, 5 octaves. The quintic is not a refinement — with
+       the cubic the octaves crease along the noise lattice and the field turns
+       into a smooth blur instead of cloud. */
+    float noise(vec2 p){
+      vec2 i = floor(p), f = fract(p);
+      vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+      return mix(mix(hash(i + vec2(0.0, 0.0)), hash(i + vec2(1.0, 0.0)), u.x),
+                 mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+    }
+
+    float fbm(vec2 p){
+      float v = 0.0, a = 0.5;
+      mat2 rot = mat2(0.80, 0.60, -0.60, 0.80);
+      for(int i = 0; i < 5; i++){
+        v += a * noise(p);
+        p = rot * p * 2.0;
+        a *= 0.5;
+      }
+      return v;
+    }
+
+    /* One warm family in three hues rather than one flat orange: the band
+       drifts rose -> coral -> gold as the field moves.
+
+       FLOOR is bg-navy exactly — the footer's fill. The band has to arrive at
+       it at st.y = 0 or the two meet as a visible seam. DEEP is the trough
+       under the warm, which stops the ground reading as a flat rectangle. */
+    const vec3 FLOOR = vec3(0.063, 0.165, 0.263);
+    const vec3 DEEP  = vec3(0.031, 0.098, 0.161);
+    const vec3 PLUM  = vec3(0.380, 0.278, 0.337);
+    const vec3 ROSE  = vec3(0.812, 0.435, 0.396);
+    const vec3 CLAY  = vec3(0.843, 0.455, 0.325);
+    const vec3 GOLD  = vec3(0.902, 0.620, 0.435);
+    const vec3 EMBER = vec3(0.933, 0.667, 0.545);
+
+    void main(){
+      vec2 st = gl_FragCoord.xy / uRes;
+      float ar = uRes.x / uRes.y;
+
+      /* x scaled by the aspect ratio, so a noise cell stays square whether the
+         band is a 1440x620 letterbox or a 430x1400 column. */
+      vec2 P = vec2(st.x * ar, st.y);
+
+      /* Fast enough to be legible as motion. The card's field can drift almost
+         imperceptibly because it is a small box seen once; this is 900px of sky
+         across the foot of every page, and at the reference sketch's 0.035
+         nobody can tell it is running at all. */
+      float t = uTime * 0.11;
+
+      /* Domain warping: q distorts the field, r distorts q. */
+      vec2 q = vec2(fbm(P * 1.45 + vec2(0.0, t)),
+                    fbm(P * 1.45 + vec2(5.2, 1.3 - t)));
+      vec2 r = vec2(fbm(P * 1.45 + 2.0 * q + vec2(1.7, 9.2) + 0.45 * t),
+                    fbm(P * 1.45 + 2.0 * q + vec2(8.3, 2.8) - 0.38 * t));
+      float f = fbm(P * 1.45 + 2.2 * r);
+      f = clamp(f * 1.05 - 0.02, 0.0, 1.0);
+
+      /* The warm zone occupies the top uBand of the element, its lower boundary
+         wavering on its own noise so it reads as weather rather than a ruled
+         line. st.y = 1 is the top, so the mask opens toward 1 — inverting it
+         parks the band under the footnote and leaves the heading on bare navy.
+
+         The ramp is normalised over uBand rather than run to a fixed stop, so
+         it reaches full strength at the top edge and nothing at its base
+         whatever depth it is given; a raw smoothstep to a fixed far stop
+         collapses into the top tenth on a tall section. */
+      float edge = (1.0 - uBand) + 0.09 * (fbm(vec2(P.x * 1.1 + t * 0.6, 3.0)) - 0.5);
+      float d = clamp((st.y - edge) / max(uBand, 0.08), 0.0, 1.0);
+      float top = smoothstep(0.0, 0.92, d);
+
+      /* The noise gets most of the say here, not a third of it: it is what
+         turns a vertical ramp into cloud, with wisps reaching down and navy
+         reaching back up through them. */
+      float mesh = clamp(top * (0.44 + 0.62 * f), 0.0, 1.0);
+
+      /* The iridescence: a slower, independent field shifts the hue across the
+         band, so it is one warm mass with colour depth rather than flat orange. */
+      float iri = smoothstep(0.30, 0.72,
+                             fbm(P * 0.95 + 1.4 * r + vec2(t * 0.5, -t * 0.35)));
+      vec3 warm = mix(ROSE, CLAY, smoothstep(0.0, 0.55, iri));
+      warm = mix(warm, GOLD, smoothstep(0.50, 1.0, iri));
+
+      /* The ground: the footer's navy at the foot, deepening upward into the
+         trough the warm sits on. Reading it the other way round — deepest at
+         the bottom, as the sketch does — is what put a hard step between this
+         section and the footer. */
+      vec3 col = mix(FLOOR, DEEP, smoothstep(0.0, 0.66, st.y));
+      /* PLUM only bridges navy to warm, held to the narrow crossing where the
+         two would otherwise meet through grey. Spread wide it turns the whole
+         band muddy brown. */
+      col = mix(col, PLUM, smoothstep(0.08, 0.52, mesh) * 0.78);
+      col = mix(col, warm, smoothstep(0.24, 0.82, mesh));
+      col = mix(col, EMBER, smoothstep(0.70, 1.02, mesh) * 0.55);
+
+      /* Sheen on the folds, band only and deliberately faint. */
+      col += EMBER * smoothstep(0.68, 1.0, length(r)) * top * 0.075;
+
+      /* Nothing settles the ground toward the trough here, on purpose: the
+         FLOOR -> DEEP ramp above already is the ground, and top is 0 below the
+         band. A second mix toward DEEP used to sit here on a *descending*
+         smoothstep, which reads 1 at st.y = 0 rather than 0, and was quietly
+         dragging the last rows 10/255 below the footer. */
+
+      /* Vignette, so the band does not run to the corners as a hard edge. Faded
+         out over the bottom third: at full strength it takes the two bottom
+         corners 8% darker than the footer they sit against, which is the same
+         seam in a different place. */
+      float vig = smoothstep(1.30, 0.38, length((st - 0.5) * vec2(ar, 1.0) * 1.6));
+      col *= 1.0 - 0.08 * (1.0 - vig) * smoothstep(0.0, 0.32, st.y);
+
+      float g = hash(gl_FragCoord.xy + fract(uTime) * 100.0);
+      col += (g - 0.5) * 0.020;
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const start = (root: HTMLElement) => {
+    const canvas = root.querySelector<HTMLCanvasElement>("[data-mesh-canvas]");
+    if (!canvas) return;
+
+    const gl =
+      canvas.getContext("webgl", { antialias: false, alpha: false, depth: false }) ||
+      (canvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
+    // No context: the wrapper's CSS gradient is already painted underneath.
+    if (!gl) return;
+
+    const compile = (type: number, src: string) => {
+      const s = gl.createShader(type)!;
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s));
+        return null;
+      }
+      return s;
+    };
+
+    const vs = compile(gl.VERTEX_SHADER, VERT);
+    const fs = compile(
+      gl.FRAGMENT_SHADER,
+      root.dataset.meshVariant === "band" ? FRAG_BAND : FRAG_CARD,
+    );
+    if (!vs || !fs) return;
+
+    const prog = gl.createProgram()!;
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(prog));
+      return;
+    }
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
+    const loc = gl.getAttribLocation(prog, "p");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, "uRes");
+    const uTime = gl.getUniformLocation(prog, "uTime");
+    // Null on the card variant, which does not declare it. `uniform1f(null, …)`
+    // is a defined no-op, so this needs no branch.
+    const uBand = gl.getUniformLocation(prog, "uBand");
+
+    const bandDepth = Number(root.dataset.meshBandDepth) || 340;
+
+    const resize = () => {
+      // DPR capped at 1.5, not the usual 2: this is a soft field with no edges
+      // to keep crisp and the shader is fragment-bound, so dropping from 2.0
+      // removes ~44% of the fragments for no visible difference.
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const w = Math.max(1, Math.round(canvas.clientWidth * dpr));
+      const h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+        gl.viewport(0, 0, w, h);
+      }
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+
+      /*
+        The band's depth is anchored in CSS pixels, not in a fraction of the
+        section: the closing band is ~620px tall at 1440 and ~1400px on a phone,
+        where the same fraction would put the heading, the body copy and the
+        button all inside the warm. The cap is for a short section, where a
+        literal 340px would be most of it — and the scrim is solved for that
+        worst case.
+      */
+      gl.uniform1f(
+        uBand,
+        Math.min(0.55, bandDepth / Math.max(1, canvas.clientHeight)),
+      );
+    };
+
+    let running = false;
+    let frameId = 0;
+    let origin = performance.now();
+
+    const draw = (now: number) => {
+      resize();
+      // Reduced motion gets a fixed sample of the field, not a frozen frame 0.
+      gl.uniform1f(uTime, still.matches ? 12 : (now - origin) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      if (running && !still.matches) frameId = requestAnimationFrame(draw);
+    };
+
+    const play = () => {
+      if (running) return;
+      running = true;
+      frameId = requestAnimationFrame(draw);
+    };
+
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(frameId);
+    };
+
+    // A resize while paused would otherwise leave a stale, wrongly-scaled frame.
+    window.addEventListener("resize", () => {
+      if (!running) requestAnimationFrame(draw);
+    });
+
+    canvas.addEventListener("webglcontextlost", (event) => {
+      event.preventDefault();
+      stop();
+    });
+    canvas.addEventListener("webglcontextrestored", () => {
+      origin = performance.now();
+      play();
+    });
+
+    still.addEventListener("change", () => {
+      origin = performance.now();
+      requestAnimationFrame(draw);
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            // Resume mid-field rather than restarting the animation from zero.
+            origin = performance.now() - 12000;
+            play();
+          } else {
+            stop();
+          }
+        }
+      }).observe(canvas);
+    } else {
+      play();
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-mesh]").forEach(start);
+</script>

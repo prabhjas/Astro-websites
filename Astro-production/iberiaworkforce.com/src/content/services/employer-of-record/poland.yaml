@@ -1,0 +1,288 @@
+# Employer of Record — Poland country page.
+# Figma nodes 414-4528 (1440), 184-1758 (768), 184-1753 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The third country page, and the one that stretched the shape furthest. Four
+# sections take an arrangement no earlier page used, each of them a switch on an
+# existing component rather than a new one:
+#
+#   intro.quote          the slate pull-quote card beside the prose
+#   differentiator.tone  the same argument on cream, with no photograph
+#   whyChoose.layout     two filled cards instead of a divider list
+#   featureList.layout   heading + CTA in their own column, eyebrows as pills
+#
+# Two sections are genuinely new: `audience` ("who we work with") and
+# `pricingSummary`, the third pricing shape — Poland can publish a starting
+# number the way Spain can, but it is a floor rather than a flat rate, so the
+# cards beside it exist to say what moves it.
+type: country
+label: Employer of Record in Poland
+
+seo:
+  title: Employer of Record in Poland | Iberia Workforce
+  description: >-
+    Employer of record services in Poland. Kodeks pracy compliance, ZUS + PPK
+    managed correctly. Lower cost than building your own legal team — all
+    included.
+  schema:
+    serviceName: Employer of Record Services Poland
+    serviceType: Employer of Record
+    areaServed: Poland
+    address:
+      locality: Warsaw
+      country: Poland
+
+hero:
+  tone: light
+  heading: Employer of Record in Poland
+  subheading: Hire employees without opening a company
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: licence
+      label: Kodeks Pracy Experts
+    - icon: money
+      label: In-House Polish Payroll Team
+  body: >-
+    Hire employees in Poland without opening a company. All compliance handled —
+    employment contracts, social insurance, mandatory retirement savings,
+    statutory leave. Priced lower than hiring your own legal and payroll team.
+  image: ../../../assets/images/eor-poland-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-poland-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-poland-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  heading: What is an Employer of Record in Poland?
+  paragraphs:
+    - >-
+      An employer of record in Poland is a legal structure that becomes the
+      formal employer of your workers under a Polish employment contract. You
+      direct the work, set the role, manage performance. We handle the employment
+      contract in Polish, register with ZUS (Poland's social insurance system),
+      manage mandatory retirement savings enrolment, run monthly payroll with
+      income tax and social contributions, and carry the legal exposure for
+      compliance.
+  quote:
+    statements:
+      - No Polish company registration required.
+      - No weeks spent with tax authorities.
+
+differentiator:
+  # Cream with no photograph — the only frame so far to argue this point without
+  # a navy band behind it. Hence `tone`, and hence no `background` key.
+  tone: light
+  heading: Why Employer of Record works differently in Poland?
+  subheading: The law is clean. The execution is detailed.
+  paragraphs:
+    - >-
+      Polish employment law reads simpler than most places — no Works Council
+      politics, no Beckham Law complications. That simplicity tricks foreign
+      employers into thinking they don't need lawyers. Then month two hits: a
+      retirement savings compliance fine, a tax residency trigger that nobody
+      flagged, or a contractor misclassification audit.
+    - >-
+      Most global EOR platforms treat Poland as a checklist — registration
+      number, payroll running, done. We treat it as what it is: cost-efficient
+      hiring if you execute it right, catastrophic if you don't. That's why you
+      need in-house payroll specialists, not templates.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  layout: cards
+  heading: >-
+    Why choose Iberia Workforce for Employer of Record services in Poland?
+  items:
+    - title: >-
+        We're run by employment lawyers and immigration specialists, not account
+        managers.
+      description: >-
+        Most EOR platforms outsource compliance to local partners. We handle it
+        directly — employment law, visa processing, payroll. For EU hires, that
+        means speed. For non-EU hires, it means your visa doesn't get stuck.
+    # The desktop frame breaks this into three short lines; both narrow frames
+    # run them together, which is what is followed here.
+    - title: Your cost is lower than hiring your own team.
+      description: >-
+        Employment lawyer, immigration specialist, payroll expert, compliance
+        accountant — that's €700–€1,500/month in overhead. Our EOR price is less.
+        PPK is handled in-house, never outsourced. Auto-enrolment, opt-out
+        tracking, monthly management — no separate vendor, no fine bills.
+
+howItWorks:
+  heading: How Employer of Record works in Poland?
+  steps:
+    - title: Tell us about the hire
+      description: >-
+        Role, location, start date, salary, EU or non-EU. If non-EU, what visa
+        category? We assess the right structure and flag any complexity upfront.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at an office desk reviewing a document together
+    - title: We draft and register
+      description: >-
+        Employment contract in Polish with all legally required clauses.
+        Registration with social insurance, tax setup, payroll system
+        configuration, retirement savings enrolment and opt-out tracking. You
+        approve. We file.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee starts — payroll runs correctly
+      description: >-
+        Monthly payroll: gross-to-net calculation, income tax withholding, social
+        security contributions, retirement savings deductions, leave tracking,
+        sick pay accrual. We file monthly payroll reports by the 15th.
+        Termination and severance structured to hold.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Ready to hire in Poland without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+audience:
+  heading: Built for international companies hiring in Poland
+  items:
+    - icon: laptop
+      title: Remote-first companies
+      description: Hire Polish talent without local infrastructure
+    - icon: world-globe
+      title: Expanding EU businesses
+      description: Compliant from day one, no surprise obligations
+    - icon: team-people
+      title: Project-based teams
+      description: Scale headcount up or down without restructuring risk
+
+featureList:
+  layout: aside
+  # The heading and its button travel with the list, as the homepage does it.
+  sticky: true
+  heading: What's included in Employer of Record services in Poland?
+  items:
+    - eyebrow: Included
+      title: Employment Contracts & Legal Compliance
+      description: >-
+        Written in Polish, structured under Polish labour law with all required
+        clauses: job description, compensation, working hours, probation period
+        (max 3 months), notice periods by tenure, data protection. Bilingual
+        versions available.
+    - eyebrow: Included
+      title: Payroll, Social Security & Income Tax
+      description: >-
+        Monthly payroll with employer social security contributions (pension,
+        disability, sickness, accident, health), employee deduction withholding,
+        income tax withholding, and employer fund contributions. Filed by the
+        15th of the following month.
+    - eyebrow: Included
+      title: Mandatory Retirement Savings (PPK) Management
+      description: >-
+        Setup with financial institution, 1.5% employer minimum contribution,
+        employee 2% deduction, opt-out tracking, and the March 2027 re-enrolment
+        cycle managed end to end.
+    - eyebrow: Included
+      title: Annual Leave & Sick Pay
+      description: >-
+        20 or 26 working days per year depending on tenure. Sick leave at 80%
+        salary for the first 33 days per calendar year, then state insurance
+        takes over. All calculated and documented correctly.
+    - eyebrow: Included
+      title: Termination & Severance Support
+      description: >-
+        Notice periods by tenure (2 weeks to 3 months), justified grounds,
+        severance calculations, proper documentation so a dismissal holds if
+        challenged.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+pricingSummary:
+  eyebrow: EMPLOYER OF RECORD PRICING IN POLAND
+  heading: Starting from €290/month for EU hires
+  body: "The main variable is whether you're hiring EU or non-EU workers:"
+  background: ../../../assets/images/eor-poland-wroclaw-facades.webp
+  cards:
+    - title: EU Hires
+      description: >-
+        Base EOR fee covers everything — contract, registration, social security,
+        income tax, payroll, retirement savings management.
+    - title: Non-EU Hires
+      description: >-
+        Add costs for visa handling and immigration compliance. We provide a full
+        breakdown based on the visa category before any commitment.
+    - variant: outline
+      title: Why transparent pricing matters?
+      description: >-
+        Polish payroll has no hidden lines. Every cost is mandated by law. We
+        show you the calculation, not a rounded number that looks wrong when the
+        first invoice arrives.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client.
+faq:
+  eyebrow: EMPLOYER OF RECORD POLAND
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Poland?
+      answer: >-
+        Yes. EOR is a recognised employment structure under Polish law. No
+        special licence is required to operate as an EOR provider in Poland — the
+        compliance responsibility sits on the EOR's execution, not on a
+        regulatory credential.
+    - question: What exactly is PPK (mandatory retirement savings), and why does it matter?
+      answer: >-
+        PPK is a mandatory retirement savings programme. Employers must enrol
+        eligible employees; you contribute a minimum 1.5% of salary, employees
+        contribute 2%. Non-compliance carries fines up to PLN 1,000,000. It sits
+        outside standard payroll, so it's where compliance breaks down for
+        providers without dedicated payroll teams managing it month to month.
+    - question: How much does social security actually cost?
+      answer: >-
+        Employer social security contributions total roughly 19–21% of gross
+        salary on top of base pay. The exact rate depends on the role. We
+        calculate it precisely per hire; there's no "approximate" with Polish
+        social security.
+    - question: What happens if my employee stays more than 183 days in Poland?
+      answer: >-
+        If they stay more than 183 days in a calendar year, they become a Polish
+        tax resident and must file Polish taxes on worldwide income. We flag this
+        threshold upfront.
+    - question: Can we hire someone remotely and have them work outside Poland?
+      answer: >-
+        If the work is habitually performed outside Poland, the labour law of
+        that country applies, not Polish law. If they're in Poland 183+ days,
+        they're a Polish tax resident regardless. Tell us the scenario and we'll
+        clarify the tax and labour implications before hire.
+    - question: What's the difference between fixed-term and indefinite contracts?
+      answer: >-
+        Polish law allows fixed-term contracts up to 3 years total (including
+        renewals). Indefinite contracts have no end date. Termination notice
+        periods differ by tenure, not contract type. We structure the right type
+        based on your hiring need.
+    - question: Who is Iberia Workforce, and what's your legal structure in Poland?
+      answer: >-
+        Iberia Workforce operates as an employer of record in Poland through our
+        own registered entity based in Warsaw — no local partner intermediary.
+        We're part of Connect Group. Our in-house legal and payroll team handles
+        your contract, social security filings, and visa work directly.
+
+closing:
+  heading: Poland's hiring advantage is efficiency. Get it right.
+  # The desktop and tablet frames draw this two-paragraph lead; the mobile frame
+  # substitutes a one-liner. The full copy is followed here — the component sets
+  # it at the same scale at every width, so nothing is gained by truncating it.
+  body: >-
+    Social security compliance, retirement savings enrolment, tax residency
+    triggers, contractor classification — these don't happen by accident. They
+    require lawyers and payroll specialists who know what they're doing. Tell us
+    what you need to hire. We'll walk you through the right structure, the real
+    monthly cost, and every deadline between now and day one.

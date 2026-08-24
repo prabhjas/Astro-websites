@@ -1,0 +1,256 @@
+# Employer of Record — category hub. Figma node 8-89.
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Employer of Record
+
+seo:
+  title: Employer of Record Services in Europe | Iberia Workforce
+  description: >-
+    Employer of record services across Spain, Germany, Portugal, Poland and
+    Italy. Run by employment lawyers — not account managers. ETT licensed. Law
+    firm backed.
+  schema:
+    serviceName: Employer of Record Services
+    serviceType: Employer of Record
+    areaServed: Europe
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  heading: Employer of Record Services for companies hiring in Europe
+  badges:
+    - icon: protect
+      label: ETT Licensed
+    - icon: law
+      label: Law Firm Backed
+    - icon: employee
+      label: 30 Years Spanish Law
+    - icon: global
+      label: 5 European Countries
+  body: >-
+    Most EOR providers in Europe are platforms with local partners. We are a law
+    firm-backed operation with 30 years of Spanish employment law practice and we
+    handle the cases other providers decline. If compliant hiring in Europe
+    actually matters to you, this is the difference.
+  image: ../../../assets/images/eor-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+definition:
+  heading: What is an Employer of Record?
+  body: >-
+    An employer of record is a company that employs workers on behalf of another
+    business. The EOR handles the employment contract, payroll, tax
+    registration, and statutory compliance while the client directs the
+    day-to-day work. It is the legal route for hiring in a country where you
+    have no registered entity and do not want to set one up.
+  image: ../../../assets/images/eor-hub-eor-definition.webp
+  imageAlt: Two colleagues reviewing a document together on an office terrace
+
+differentiator:
+  heading: Hire legally in Europe without setting up a local entity
+  paragraphs:
+    - >-
+      Most global EOR platforms work well enough — until you hit a country where
+      the compliance layer actually matters. European labour law is not uniform.
+      CBAs, statutory severance, social security structures, work permit
+      categories — these vary by country, and the gap between getting it right
+      and getting it wrong is not small.
+    - >-
+      Our EOR is run by in-house lawyers and immigration specialists. Not account
+      managers working from a compliance checklist. If you are already with a
+      global EOR provider and something has broken down - a visa issue, a
+      contract dispute, a compliance gap nobody flagged in time - we get those
+      calls regularly. We know what went wrong and how to fix it.
+  background: ../../../assets/images/eor-hub-local-entity.webp
+
+howItWorks:
+  heading: How Employer of Record works?
+  steps:
+    - title: Tell us who you need to hire
+      description: >-
+        Share the role, location, start date. We identify the right employment
+        structure and flag compliance considerations before anything is signed.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We handle the legal and compliance work
+      description: >-
+        Employment contract, payroll registration, social security enrolment,
+        work permit processing. Our lawyers handle it — not a third-party local
+        partner.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee starts work. Fully compliant.
+      description: >-
+        We run payroll, manage HR administration, and remain the employer of
+        record. You manage the work. We carry the legal exposure.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Ready to hire in Europe without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  eyebrow: COMPREHENSIVE SUPPORT
+  heading: What’s included in an Employer of Record service?
+  items:
+    - icon: employment-contracts
+      title: Employment contracts
+      description: >-
+        Drafted under local labour law for each country. Compliant with
+        collective bargaining agreements where applicable.
+    - icon: payroll
+      title: Payroll processing
+      description: >-
+        Full payroll management including tax withholding, statutory deductions,
+        and payslips in the local format.
+    - icon: social-security
+      title: Social security registration
+      description: >-
+        Employee registration with the relevant national social security
+        authority, handled from day one.
+    - icon: work-permits
+      title: Work permits and visa support
+      description: >-
+        Non-EU nationals and non-Schengen visa categories handled by in-house
+        immigration lawyers — not outsourced to a third party.
+    - icon: cba-compliance
+      title: CBA compliance
+      description: >-
+        We identify the applicable CBA for each role and build it into the
+        employment structure from the start.
+    - icon: expenses
+      title: Expense management
+      description: >-
+        Employee expenses processed and reimbursed in line with local tax rules
+        and company policy.
+    - icon: severance
+      title: Severance and offboarding
+      description: >-
+        Terminations handled in full compliance with local law - notice periods,
+        statutory severance, and final settlements calculated correctly.
+    - icon: hr-admin
+      title: Ongoing HR administration
+      description: >-
+        Contract amendments, salary reviews, leave management, and HR
+        documentation managed throughout the employment relationship.
+
+countries:
+  eyebrow: GLOBAL COVERAGE
+  heading: Employer of Record services across Europe
+  featured:
+    name: Spain
+    badge: MOST REQUESTED
+    description: >-
+      Spain has more employment law complexity than most EOR providers are built
+      for. We hold the ETT licence, we have the law firm, and we have handled the
+      cases other providers turned away. If Spain is where your hire needs to
+      happen, this is where to start.
+    cta:
+      label: Explore EOR in Spain
+      href: /employer-of-record/spain
+  others:
+    - name: Germany
+      tagline: EOR and payroll for companies entering the German market.
+      description: >-
+        We handle employment contracts, social security registration, and payroll
+        under German labour law - no local entity required.
+      cta:
+        label: Learn More
+        href: /employer-of-record/germany
+    - name: Portugal
+      tagline: Compliant hiring without a Portuguese entity
+      description: >-
+        Employment contracts, payroll, and social security managed under
+        Portuguese labour law for companies hiring without a local presence.
+      cta:
+        label: Learn More
+        href: /employer-of-record/portugal
+    - name: Poland
+      tagline: EOR in one of Europe’s largest labour markets
+      description: >-
+        Cost-effective compliant hiring in Poland - contracts, payroll, and
+        ongoing HR administration handled end to end.
+      cta:
+        label: Learn More
+        href: /employer-of-record/poland
+    - name: Italy
+      tagline: Employment and payroll in a high-regulation environment
+      description: >-
+        Italian labour law is among the most complex in Europe. We manage
+        contracts, CBA compliance, payroll, and HR administration for companies
+        hiring without an Italian entity.
+      cta:
+        label: Learn More
+        href: /employer-of-record/italy
+
+# The Figma accordion is drawn closed, so it specifies the questions but no
+# answers. Copy supplied by the client. Two answers point at the Spain country
+# page, which does not exist yet — see the known gaps in CLAUDE.md.
+faq:
+  eyebrow: EMPLOYER OF RECORD EUROPE
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Europe?
+      answer: >-
+        Yes. EOR is a recognised and widely used employment structure across
+        Europe. The legal requirements differ by country - in Spain, for
+        example, the law requires an ETT licence to legally supply workers to a
+        third party. Most providers don’t hold one. We do. Full details on our
+        Spain EOR page.
+      link:
+        label: Spain EOR
+        href: /employer-of-record/spain
+    - question: How much does an employer of record cost?
+      answer: >-
+        Our EOR service in Spain is priced at €299 per employee per month - flat
+        rate, no setup fees for standard EU hires. Pricing for other countries
+        depends on headcount and employment structure. We provide a full
+        breakdown before any commitment. No obligation.
+    - question: How quickly can I hire through an EOR?
+      answer: >-
+        For EU nationals in a standard employment structure, most clients are
+        onboarded within a few business days of receiving the necessary
+        documents. Non-EU hires or work permit cases take longer, timelines
+        depend on the visa category and the employee’s nationality. We will give
+        you a realistic estimate upfront, not an optimistic one.
+    - question: What’s the difference between an EOR and a PEO?
+      answer: >-
+        A PEO (Professional Employer Organisation) co-employs workers alongside
+        the client company, which requires the client to have a registered
+        entity in the country. An EOR employs the worker directly, making it the
+        sole legal employer. That distinction matters when you have no local
+        entity and don’t want one.
+    - question: Can an EOR handle non-EU work permits?
+      answer: >-
+        Yes. We have in-house immigration lawyers who handle non-Schengen visas,
+        work permits, and complex documentation for non-EU nationals. This
+        includes nationalities that other providers routinely decline to take
+        on.
+    - question: Does EOR work alongside the Beckham Law?
+      answer: >-
+        It can, but the interaction between EOR and the Beckham Law tax regime
+        requires careful structuring. The full answer is on our Spain EOR page.
+      link:
+        label: Spain EOR
+        href: /employer-of-record/spain
+
+# The band now carries the shared contact form instead of a pair of buttons.
+# `form` is omitted because the ContactForm defaults already match the design;
+# add it only where a page needs different labels or a different endpoint.
+closing:
+  heading: >-
+    Most hiring problems in Europe are not complicated, they just need someone
+    who actually knows the law.
+  footnote: >-
+    Iberia Work Force is based in Barcelona and operates as part of Connect
+    Group.

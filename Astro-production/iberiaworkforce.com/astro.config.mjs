@@ -1,6 +1,5 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import node from '@astrojs/node';
-import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 const siteUrl = (
@@ -20,14 +19,12 @@ try {
 
 export default defineConfig({
   site: siteUrl,
-  // Static by default; API routes set prerender = false.
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   trailingSlash: 'always',
   build: {
     format: 'directory',
   },
-  // Caddy terminates TLS and proxies over HTTP — allowedDomains keeps Origin checks working.
   security: {
     checkOrigin: true,
     allowedDomains: [
@@ -41,19 +38,37 @@ export default defineConfig({
       { hostname: '127.0.0.1', protocol: 'http' },
     ],
   },
-  integrations: [
-    sitemap({
-      i18n: {
-        defaultLocale: 'en',
-        locales: { en: 'en', es: 'es' },
-      },
-    }),
-  ],
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'es'],
-    routing: { prefixDefaultLocale: false },
+  redirects: {
+    '/es/services/eor': '/es/employer-of-record/spain/',
+    '/es/services/payroll': '/es/payroll-outsourcing/spain/',
+    '/es/services/labour-legal': '/es/services/',
+    '/es/services/compliance': '/es/services/',
+    '/es/services/staff-outsourcing': '/es/staff-outsourcing/spain/',
+    '/services/eor': '/employer-of-record/spain/',
+    '/services/payroll': '/payroll-outsourcing/spain/',
+    '/services/labour-legal': '/services/',
+    '/services/compliance': '/services/',
+    '/services/staff-outsourcing': '/staff-outsourcing/spain/',
   },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        webp: { quality: 92, effort: 6 },
+      },
+    },
+  },
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Pliant',
+      cssVariable: '--font-pliant',
+      weights: [400, 500, 600, 700],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

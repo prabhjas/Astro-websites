@@ -1,0 +1,356 @@
+# Employer of Record — Italy country page.
+# Figma nodes 128-1141 (1440), 184-1761 (768), 184-1750 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The fifth country page, and the last EOR market. It needed no new section —
+# only three switches on components earlier pages had already generalised:
+#
+#   differentiator.align  the dark split run from the top rather than centred
+#   whyChoose.cta         a button hung off the claim's column
+#   included.layout       the icon grid with the heading and CTA in an aside
+#
+# The one genuinely new asset is the `verified` glyph, which the frames draw
+# six times over rather than giving each obligation its own icon.
+type: country
+label: Employer of Record en Italia
+
+seo:
+  title: Employer of Record en Italia | Iberia Workforce
+  description: >-
+    Contrata en Italia sin abrir sociedad. Contratos italianos, nómina INPS,
+    CCNL y visados, gestionados por abogados que saben dónde fallan las
+    plantillas.
+  schema:
+    serviceName: Servicios de Employer of Record Italia
+    serviceType: Employer of Record
+    areaServed: Italia
+    address:
+      locality: Milán
+      country: Italia
+
+hero:
+  tone: light
+  heading: Employer of Record en Italia
+  subheading: >-
+    Contrata empleados sin constituir una sociedad. Nosotros nos encargamos de
+    la parte jurídica que se complica.
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: institute
+      label: Abogados laboralistas italianos
+    - icon: money
+      label: Equipo de nóminas sobre el terreno
+  body: >-
+    El derecho laboral italiano no solo exige compliance: exige conocer el CCNL
+    (normas salariales del sector), el alta en el INPS (Seguridad Social), el
+    devengo del TFR (indemnización) y unos procedimientos de extinción
+    estrictos. Nos aseguramos de que tus contratos y tu nómina los naveguen
+    correctamente desde el primer día, para que las aprobaciones de visado no
+    se atasquen y la contratación no se convierta después en un problema
+    jurídico.
+  image: ../../../assets/images/eor-italy-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-italy-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-italy-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  heading: ¿Qué es un Employer of Record en Italia?
+  paragraphs:
+    - >-
+      En Italia, un employer of record es una empresa que se convierte en el
+      empleador legal de tus trabajadores. Tú los contratas, diriges su trabajo
+      y defines lo que hacen. Nosotros gestionamos el contrato de trabajo
+      conforme al derecho italiano, los damos de alta en el INPS, ejecutamos su
+      nómina cada mes, tramitamos visados si hace falta y asumimos la
+      responsabilidad jurídica si algo sale mal. Tú no necesitas constituir una
+      sociedad italiana.
+
+differentiator:
+  # The dark split, as the hub draws it — but run from the top rather than
+  # centred: the claim is three lines against seven of prose, and centring
+  # drops it ~100px below the copy it introduces.
+  align: start
+  heading: ¿Por qué el Employer of Record funciona de otra manera en Italia?
+  paragraphs:
+    - >-
+      El derecho laboral italiano está estrictamente regulado desde el primer
+      día. No hay un salario mínimo legal fijado a escala nacional: el mínimo
+      legal lo determina tu sector a través del CCNL. Además hay que devengar
+      el TFR (indemnización) a lo largo de toda la relación laboral, más las
+      cotizaciones al INPS (Seguridad Social), las pagas extraordinarias
+      obligatorias y unas normas de extinción estrictas.
+    - >-
+      Los empleadores extranjeros se saltan estos requisitos porque están
+      acostumbrados a países con normas más simples. Usan la misma plantilla de
+      contrato en todas partes y entonces el visado se rechaza porque el
+      contrato no encaja con las normas del CCNL de ese sector. La nómina sale
+      mal porque no presupuestaron TFR e INPS. La extinción se impugna porque
+      no siguieron los procedimientos italianos de despido. La mayoría de las
+      plataformas globales de EOR detectan estos problemas a posteriori.
+      Nosotros los detectamos antes de que firmes nada.
+  background: ../../../assets/images/contour-map-europe.webp
+
+whyChoose:
+  # The claim and its button travel with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para servicios de Employer of Record en
+    Italia?
+  items:
+    - title: >-
+        Sabemos dónde se rompen las plantillas globales de EOR: sobre todo en
+        el cumplimiento del CCNL y en la contabilidad del TFR.
+      description: >-
+        Tu contrato se rechaza porque no respeta los mínimos salariales del
+        CCNL. El visado se atasca. La primera nómina te sorprende con costes de
+        TFR e INPS que nadie presupuestó. Estructuramos los contratos para
+        superar la revisión italiana a la primera.
+    - title: Gestionamos los plazos del visado y el papeleo que conlleva.
+      description: >-
+        El proceso de visado en Italia se mueve con un calendario: las ventanas
+        de solicitud se abren en momentos concretos, los cupos se agotan y
+        esperar a la siguiente ventana puede costar meses. Conocemos los plazos
+        y qué documentos hacen que la solicitud se apruebe antes de que se
+        cierre la ventana. También sabemos qué categorías de visado encajan con
+        estructuras de EOR y cuáles no.
+    - title: Abogados de extranjería, no coordinadores.
+      description: >-
+        Las contrataciones de fuera de la UE no son un trabajo secundario para
+        nosotros. Tenemos abogados especializados en visados de trabajo
+        italianos que entienden qué hace que una solicitud prospere o falle.
+        Sin terceros, sin «lo consultamos con nuestro socio local».
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+howItWorks:
+  surface: page
+  heading: ¿Cómo funciona el Employer of Record en Italia?
+  steps:
+    - title: Cuéntanos la contratación
+      description: >-
+        Puesto, rango salarial, fecha de incorporación. ¿Esta persona ya está
+        en Italia o necesita un visado? Si es una contratación de fuera de la
+        UE, ¿cuál es su nacionalidad? Valoramos la estructura adecuada,
+        identificamos el CCNL correcto para el puesto y señalamos cualquier
+        duda jurídica antes de firmar nada.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un escritorio de oficina revisando un documento juntos
+    - title: Redactamos y tramitamos el alta del contrato
+      description: >-
+        Contrato de trabajo en italiano, estructurado para cumplir el derecho
+        italiano y los requisitos del CCNL de ese sector. Alta en el INPS
+        (Seguridad Social), presentación del visado si hace falta, toda la
+        documentación que esperan las autoridades italianas. Tú revisas y das
+        el visto bueno. Nosotros tramitamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu empleado empieza
+      description: >-
+        Nómina mensual con todos los componentes obligatorios: cotizaciones al
+        INPS (Seguridad Social), devengo del TFR (indemnización), retención del
+        impuesto sobre la renta, salario alineado con el CCNL y las pagas
+        extraordinarias que exige la ley italiana. Presentamos todos los
+        informes a tiempo. Si la relación laboral tiene que terminar,
+        gestionamos la liquidación de la indemnización y el proceso de
+        extinción para que resista si se impugna.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Listo para contratar en Italia sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  # The icon grid rather than Spain's photo-and-list, and in the `aside`
+  # arrangement: the heading and the button hold their own column at 1440,
+  # while both narrow frames put the heading on top and the button at the
+  # bottom. Every card carries the same `verified` mark, because these six are
+  # a list of what is covered rather than six different things.
+  layout: aside
+  surface: surface
+  columns: 3
+  heading: ¿Qué incluyen los servicios de Employer of Record en Italia?
+  items:
+    - icon: verified
+      title: Contratos de trabajo conforme al derecho italiano y al CCNL
+      description: >-
+        Redactados en italiano, estructurados para cumplir los requisitos
+        legales italianos y asignados al CCNL correcto de tu sector. Incluyen
+        los mínimos salariales obligatorios, derechos de ausencia, cláusulas de
+        indemnización y plazos de preaviso. No es una plantilla global adaptada
+        a Italia. Es un contrato pensado para Italia.
+    - icon: verified
+      title: Nómina y alta en el INPS
+      description: >-
+        Nómina mensual con cotizaciones al INPS (Seguridad Social a cargo de
+        la empresa), retención del impuesto sobre la renta y todas las
+        deducciones calculadas correctamente conforme al derecho italiano. Alta
+        en el INPS y presentaciones mensuales continuas.
+    - icon: verified
+      title: Devengo y gestión del TFR
+      description: >-
+        La ley italiana exige a los empleadores devengar la indemnización (TFR)
+        a lo largo de toda la relación laboral: aproximadamente un 7,4 % del
+        salario reservado cada mes. Lo rastreamos y gestionamos para que la
+        liquidación final se calcule correctamente y se pague cuando termina el
+        empleo.
+    - icon: verified
+      title: Pagas extraordinarias
+      description: >-
+        La ley italiana exige pagas salariales adicionales más allá de los 12
+        meses base (normalmente las pagas de los meses 13.º y 14.º). Las
+        calculamos y tramitamos correctamente según el CCNL de tu puesto.
+    - icon: verified
+      title: Apoyo en visados para contrataciones de fuera de la UE
+      description: >-
+        Solicitudes de visado de fuera de la UE, coordinación de plazos y
+        gestión documental para que tu contratación se apruebe cuando la
+        ventana de solicitud está abierta. Sin retrasos porque faltaba
+        documentación o no coincidía con el contrato de trabajo.
+    - icon: verified
+      title: Gestión de extinción e indemnización
+      description: >-
+        El derecho laboral italiano exige causas justificadas para extinguir.
+        Estructuramos las salidas para que cumplan la ley italiana, calculamos
+        la indemnización final correctamente y no te exponemos a conflictos.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+pricingSummary:
+  eyebrow: PRECIOS DE EMPLOYER OF RECORD EN ITALIA
+  heading: Desde 350 €/mes para contrataciones de la UE
+  body: "La variable principal es si contratas trabajadores de la UE o de fuera:"
+  background: ../../../assets/images/eor-italy-florence-skyline.webp
+  cards:
+    - title: Contrataciones de la UE
+      description: >-
+        La tarifa base de EOR cubre el contrato de trabajo, el alta en el INPS,
+        la nómina mensual con cotizaciones al INPS, el devengo del TFR y la
+        administración de RR. HH.
+    - title: Contrataciones de fuera de la UE
+      description: >-
+        Se añaden los costes de visado. Presupuestamos por separado después de
+        valorar tu caso.
+    - variant: outline
+      title: ¿Por qué este precio?
+      description: >-
+        La ley italiana impone el INPS, el devengo del TFR y las pagas
+        extraordinarias además del salario base. Te mostramos el desglose
+        completo de antemano para que el primer mes no sea una sorpresa.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client. The eyebrow is corrected here: all three
+# frames still read "EMPLOYER OF RECORD POLAND", a leftover from the frame they
+# were duplicated from.
+faq:
+  eyebrow: EMPLOYER OF RECORD ITALIA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en Italia?
+      answer: >-
+        Sí. El EOR es una estructura laboral reconocida y legal en el derecho
+        italiano. No se exige una licencia especial para operar como proveedor
+        de EOR en Italia: la responsabilidad recae en hacer el trabajo
+        correctamente, no en ostentar una credencial.
+    - question: ¿Qué es un CCNL y por qué importa para mi contratación?
+      answer: >-
+        CCNL significa Contratti Collettivi Nazionali di Lavoro: convenios
+        colectivos sectoriales. Italia no tiene un único salario mínimo
+        nacional. En su lugar, cada sector tiene acuerdos negociados que fijan
+        salarios mínimos, clasificaciones de puesto, beneficios y derechos de
+        ausencia. El puesto de tu empleado debe clasificarse en el CCNL
+        correcto, o el contrato se rechaza y las solicitudes de visado se
+        atascan. Asignamos tu puesto al CCNL adecuado desde el primer día.
+    - question: ¿Por qué fallan las plantillas globales de EOR en Italia?
+      answer: >-
+        Las plantillas globales se escribieron para países con normas
+        salariales más simples. No contemplan los mínimos específicos del CCNL,
+        no presupuestan correctamente el TFR (devengo de indemnización) ni las
+        cotizaciones al INPS, y a menudo se saltan los procedimientos italianos
+        de extinción. El contrato o bien lo rechazan las autoridades italianas
+        o la nómina te sorprende.
+    - question: ¿En cuánto tiempo puedo contratar a alguien en Italia?
+      answer: >-
+        Para nacionales de la UE/EEE con documentación estándar: normalmente
+        1–2 semanas. Las contrataciones de fuera de la UE que necesitan visado
+        tardan más: depende de su nacionalidad y de la categoría de visado.
+        Italia tiene ventanas concretas de solicitud de visado que se abren en
+        fechas fijas cada año, así que el calendario importa. Te daremos un
+        plazo realista de antemano según tu situación.
+    - question: ¿Cómo es el proceso de visado para contrataciones de fuera de la UE?
+      answer: >-
+        El sistema de visados italiano funciona con un calendario de
+        solicitudes: las ventanas se abren en momentos concretos (normalmente
+        enero–febrero de cada año), presentas la solicitud en esa ventana y el
+        cupo se agota por orden de llegada. Gestionamos el papeleo y los plazos
+        para que tu solicitud entre cuando la ventana está abierta. Si se pierde
+        una ventana, esperas a la siguiente: por eso importan la preparación y
+        el calendario.
+    - question: ¿Qué es el TFR y por qué suma a mis costes?
+      answer: >-
+        El TFR (Trattamento di Fine Rapporto) es la indemnización que la ley
+        italiana exige a los empleadores devengar a lo largo de la relación
+        laboral: aproximadamente un 7,4 % del salario al año. Se paga al
+        empleado al finalizar el empleo, bien como liquidación final o bien
+        incorporado a un fondo de pensiones. No se paga todo de entrada: lo
+        devengamos mensualmente como parte de tus costes totales de empleo.
+        Cuando el empleado se marcha, el TFR se calcula y se paga conforme a la
+        ley italiana.
+    - question: ¿Por qué el coste de la nómina es más alto en Italia que en otros países?
+      answer: >-
+        La ley italiana exige a los empleadores pagar cotizaciones al INPS
+        (Seguridad Social, aproximadamente un 30 % de coste empresarial),
+        devengo del TFR (aproximadamente un 7,4 %), pagas extraordinarias
+        (pagas del 13.er y 14.º mes impuestas por el CCNL), más el propio
+        salario base. No son opcionales: los exige la ley y el CCNL del sector.
+        Así que el coste total de emplear a alguien en Italia es realmente más
+        alto que en países sin estos requisitos.
+    - question: ¿Quién es Iberia Workforce y cómo operáis en Italia?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos en Italia desde
+        Milán con nuestro propio equipo jurídico y de nóminas, sin intermediario
+        local. Estamos aquí, gestionamos tus contratos y solicitudes de visado
+        de forma directa y asumimos la responsabilidad jurídica del compliance.
+        Los servicios de empleo los prestan abogados y especialistas de nómina
+        que trabajan cada día con el derecho laboral italiano y entienden la
+        asignación al CCNL, la contabilidad del TFR y el cumplimiento del INPS.
+    - question: ¿Podemos contratar a alguien en remoto en Italia si está basado en otro sitio?
+      answer: >-
+        Si está en Italia más de 183 días al año, se convierte en residente
+        fiscal y se aplica la ley italiana a toda la relación laboral. Si
+        trabaja fuera de Italia, se aplica el derecho laboral de ese país. Y si
+        es una contratación de fuera de la UE, su categoría de visado también
+        puede restringir dónde puede trabajar. Cuéntanos el planteamiento:
+        país de origen, dónde trabajará realmente, situación de visado si
+        aplica, y confirmaremos qué rige antes de que contrates.
+    - question: ¿Qué ocurre si necesito poner fin a la relación laboral de alguien?
+      answer: >-
+        La ley italiana no permite el despido a voluntad. El despido exige o
+        bien una conducta documentada o bien la acreditación de una necesidad
+        económica (como una reestructuración). Gestionamos el proceso para que
+        la extinción se tramité correctamente, se documente como es debido, la
+        indemnización final y el TFR se calculen bien y no te exponga a
+        conflictos jurídicos después.
+
+closing:
+  heading: >-
+    El derecho laboral italiano no es más difícil porque esté mal escrito. Es
+    detallado porque las protecciones del empleado están integradas en la base
+  subheading: A través de las normas del CCNL, los requisitos del INPS y las salvaguardas del TFR
+  body: >-
+    Cuéntanos a quién quieres contratar, quién es esa persona y dónde está
+    basada. Asignaremos el CCNL correcto y la vía de visado si hace falta,
+    construiremos el contrato como corresponde y te diremos exactamente cuáles
+    son los costes, antes de que te comprometas a nada.

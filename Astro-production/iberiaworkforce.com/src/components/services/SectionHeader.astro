@@ -1,0 +1,50 @@
+---
+/**
+ * Eyebrow + H1-scale heading, the header used by most service-page sections.
+ * `align="center"` matches the Countries and How-It-Works sections in Figma.
+ */
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  id?: string;
+  align?: "start" | "center";
+  /** Figma caps some headings short of the full column width. */
+  maxWidth?: string;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  heading,
+  id,
+  align = "start",
+  maxWidth,
+  class: className = "",
+} = Astro.props;
+---
+
+<header
+  class:list={[
+    "flex w-full flex-col gap-3",
+    align === "center" ? "items-center text-center" : "items-start",
+    className,
+  ]}
+  data-reveal
+>
+  {
+    eyebrow && (
+      <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+        {eyebrow}
+      </p>
+    )
+  }
+  <h2
+    id={id}
+    class:list={[
+      "text-h1 text-balance text-text-primary",
+      maxWidth,
+    ]}
+  >
+    {heading}
+  </h2>
+</header>
