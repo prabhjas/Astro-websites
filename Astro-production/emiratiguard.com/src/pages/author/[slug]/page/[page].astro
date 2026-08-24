@@ -1,0 +1,29 @@
+---
+import { authors, getPostsByAuthor } from "../../../../lib/content";
+import { APB_POSTS_PER_PAGE } from "../../../../lib/apb-card-html";
+import { serveAuthorArchive } from "../../../../lib/author-archive-page";
+import { notFoundResponse } from "../../../../lib/not-found";
+
+export function getStaticPaths() {
+  const paths: { params: { slug: string; page: string } }[] = [];
+
+  for (const author of authors) {
+    const total = getPostsByAuthor(author.id).length;
+    const totalPages = Math.max(1, Math.ceil(total / APB_POSTS_PER_PAGE));
+    for (let page = 2; page <= totalPages; page += 1) {
+      paths.push({
+        params: { slug: author.slug, page: String(page) },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const slug = String(Astro.params.slug || "");
+const pageNum = Math.max(1, Number(Astro.params.page || "1") || 1);
+if (!slug || pageNum < 2) {
+  return notFoundResponse();
+}
+return serveAuthorArchive(slug, pageNum);
+---

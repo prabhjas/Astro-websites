@@ -25,9 +25,10 @@ if (hasMore) {
     /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
     `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
   );
+  // Keep Load More on /insights/ — never expose /insights/page/N/ in the link href.
   html = html.replace(
-    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
-    `$1/insights/page/2/$2`,
+    /(<nav[^>]*ecs-load-more-button[^>]*>[\s\S]*?<a\s+)href="[^"]*"/i,
+    `$1href="/insights/"`,
   );
 } else {
   html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");

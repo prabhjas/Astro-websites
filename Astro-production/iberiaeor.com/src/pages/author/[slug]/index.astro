@@ -1,57 +1,71 @@
 ---
 export const prerender = false;
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
+import AuthorHero from "../../../components/AuthorHero.astro";
 import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
-import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import {
+  INSIGHTS_POSTS_PER_PAGE,
+  renderInsightsCardsHtml,
+} from "../../../lib/blog-card-html";
+import {
+  getAuthorBySlug,
+  getPostsByAuthor,
+  paginate,
+  stripHtml,
+} from "../../../lib/content";
 import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
 
-export function getStaticPaths() {
-  return authors.map((author) => ({
-    params: { slug: author.slug },
-    props: { author },
-  }));
+const slug = String(Astro.params.slug || "");
+const author = getAuthorBySlug(slug);
+if (!author) {
+  return notFoundResponse();
 }
 
-const { author } = Astro.props;
 const sorted = getPostsByAuthor(author.id);
-const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const { items, page, totalPages } = paginate(sorted, 1, INSIGHTS_POSTS_PER_PAGE);
+const name = stripHtml(author.name);
+const bio = stripHtml(author.description || "").trim();
+const cardsHtml = items.length ? renderInsightsCardsHtml(items) : "";
 ---
 
 <BaseLayout
   currentPath={author.path}
+  bodyClass={`archive author author-page author-${author.slug} author-${author.id} elementor-default elementor-page elementor-page-author`}
+  extraCss={[
+    "/wp-content/uploads/elementor/css/post-213.css",
+    "/css/author-page.css",
+  ]}
   seo={{
-    title: `Author: ${stripHtml(author.name)} | Iberia EOR`,
-    description: author.description || `Articles by ${author.name}.`,
+    title: `Author: ${name} | Iberia EOR`,
+    description: bio || `Articles by ${name}.`,
     canonical: author.path,
+    ogImage: author.avatar || undefined,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: author.name, url: author.path },
+        { name, url: author.path },
       ]),
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
+  <AuthorHero author={author} />
+
+  <section class="author-page-articles">
+    <div class="author-page-articles__inner">
+      <h2 class="author-page-articles__title">Articles By {name}</h2>
+      {
+        items.length ? (
+          <div
+            class="ecs-posts elementor-posts-container elementor-posts elementor-grid elementor-posts--skin-custom"
+            data-sp-author-grid="1"
+            set:html={cardsHtml}
+          />
+        ) : (
+          <p class="author-page-empty">No posts by this author.</p>
+        )
+      }
+      <Pagination page={page} totalPages={totalPages} basePath={author.path} />
     </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts by this author.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
   </section>
 </BaseLayout>

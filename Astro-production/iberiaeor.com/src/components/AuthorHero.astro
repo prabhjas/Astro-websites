@@ -1,0 +1,62 @@
+---
+import type { AuthorEntry } from "../lib/content-types";
+import { stripHtml } from "../lib/content";
+
+interface Props {
+  author: AuthorEntry;
+}
+
+const { author } = Astro.props;
+const name = stripHtml(author.name);
+const title = stripHtml(author.title || "").trim();
+const bio = stripHtml(author.description || "").trim();
+const linkedin = (author.linkedin || "").trim();
+---
+
+<section class="author-page-hero">
+  <div class="author-page-hero__inner">
+    <div class="author-page-hero__profile">
+      {
+        author.avatar ? (
+          <img
+            class="author-page-avatar"
+            src={author.avatar}
+            alt={name}
+            width="160"
+            height="160"
+            loading="eager"
+            decoding="async"
+          />
+        ) : (
+          <div class="author-page-avatar author-page-avatar--placeholder" aria-hidden="true" />
+        )
+      }
+      <div class="author-page-hero__text">
+        <div class="author-page-hero__name-row">
+          <h1 class="author-page-name">{name}</h1>
+          {
+            linkedin ? (
+              <a
+                class="author-page-linkedin"
+                href={linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${name} on LinkedIn`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect width="24" height="24" rx="3" fill="#0A66C2"></rect>
+                  <path
+                    fill="#fff"
+                    d="M7.1 9.4H4.7V19h2.4V9.4zM5.9 4.9c-.8 0-1.4.6-1.4 1.4 0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4c0-.8-.6-1.4-1.4-1.4zM19.3 12.7c0-2.1-1.1-3.5-3.3-3.5-1.1 0-1.9.5-2.3 1.2h-.1V9.4h-2.3c0 .5 0 9.6 0 9.6h2.3v-5.4c0-.3 0-.5.1-.7.2-.5.7-1 1.5-1 1.1 0 1.5.8 1.5 2v5.1h2.4v-5.3z"
+                  ></path>
+                </svg>
+              </a>
+            ) : null
+          }
+        </div>
+        {title ? <p class="author-page-role">{title}</p> : null}
+        {bio ? <p class="author-page-bio">{bio}</p> : null}
+      </div>
+    </div>
+  </div>
+</section>

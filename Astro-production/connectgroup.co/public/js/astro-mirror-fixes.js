@@ -627,83 +627,57 @@
     });
   }
 
-  /** Elementor nested accordion — smooth open/close like live Elementor */
+  /** Elementor nested accordion (`<details>`) — respect Elementor settings */
   function ensureNestedAccordion() {
-    var DURATION = 360;
-
-    function panelOf(item) {
-      return item.querySelector(':scope > .e-con') || item.querySelector('.e-con');
-    }
-
-    function animateOpen(item) {
-      var panel = panelOf(item);
-      if (!panel) {
-        item.setAttribute('open', '');
-        return;
+    function parseSettings(el) {
+      var raw = el && el.getAttribute('data-settings');
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw.replace(/&quot;/g, '"')) || {};
+      } catch (e) {
+        return {};
       }
-      if (item.dataset.astroAnimating === '1') return;
-      item.dataset.astroAnimating = '1';
-      item.setAttribute('open', '');
-      panel.style.overflow = 'hidden';
-      panel.style.height = '0px';
-      panel.style.opacity = '0';
-      panel.offsetHeight;
-      panel.style.transition =
-        'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      panel.style.height = panel.scrollHeight + 'px';
-      panel.style.opacity = '1';
-      window.setTimeout(function () {
-        panel.style.height = '';
-        panel.style.overflow = '';
-        panel.style.transition = '';
-        panel.style.opacity = '';
-        delete item.dataset.astroAnimating;
-      }, DURATION + 30);
     }
 
-    function animateClose(item) {
-      var panel = panelOf(item);
-      if (!panel) {
-        item.removeAttribute('open');
-        return;
-      }
-      if (item.dataset.astroAnimating === '1') return;
-      item.dataset.astroAnimating = '1';
-      panel.style.overflow = 'hidden';
-      panel.style.height = panel.scrollHeight + 'px';
-      panel.style.opacity = '1';
-      panel.offsetHeight;
-      panel.style.transition =
-        'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      panel.style.height = '0px';
-      panel.style.opacity = '0';
-      window.setTimeout(function () {
-        item.removeAttribute('open');
-        panel.style.height = '';
-        panel.style.overflow = '';
-        panel.style.transition = '';
-        panel.style.opacity = '';
-        delete item.dataset.astroAnimating;
-      }, DURATION + 30);
-    }
-
-    document.querySelectorAll('.elementor-widget-n-accordion .e-n-accordion').forEach(function (root) {
-      if (root.dataset.astroNestedAccordion) return;
+    document.querySelectorAll('.elementor-widget-n-accordion').forEach(function (widget) {
+      var root = widget.querySelector('.e-n-accordion');
+      if (!root || root.dataset.astroNestedAccordion) return;
       root.dataset.astroNestedAccordion = '1';
 
-      root.querySelectorAll('.e-n-accordion-item').forEach(function (item) {
-        var summary = item.querySelector('.e-n-accordion-item-title');
-        if (!summary || summary.dataset.astroBound) return;
-        summary.dataset.astroBound = '1';
-        summary.addEventListener('click', function (e) {
-          e.preventDefault();
-          var willOpen = !item.hasAttribute('open');
-          root.querySelectorAll('.e-n-accordion-item[open]').forEach(function (openItem) {
-            if (openItem !== item) animateClose(openItem);
-          });
-          if (willOpen) animateOpen(item);
-          else animateClose(item);
+      var settings = parseSettings(widget);
+      var allowMultiple = String(settings.max_items_expended || 'one') === 'multiple';
+      var defaultExpanded = String(settings.default_state || '') === 'expanded';
+      var items = root.querySelectorAll('.e-n-accordion-item');
+
+      // Match Elementor default_state=expanded (cleaned HTML often only opens the first item).
+      if (defaultExpanded) {
+        items.forEach(function (item) {
+          item.setAttribute('open', '');
+          var title = item.querySelector('.e-n-accordion-item-title');
+          if (title) title.setAttribute('aria-expanded', 'true');
         });
+      }
+
+      // Let the browser handle <details>/<summary>. Only enforce single-open when required.
+      if (!allowMultiple) {
+        items.forEach(function (item) {
+          item.addEventListener('toggle', function () {
+            if (!item.open) return;
+            items.forEach(function (other) {
+              if (other !== item && other.open) other.removeAttribute('open');
+            });
+          });
+        });
+      }
+
+      items.forEach(function (item) {
+        var title = item.querySelector('.e-n-accordion-item-title');
+        if (!title) return;
+        var sync = function () {
+          title.setAttribute('aria-expanded', item.open ? 'true' : 'false');
+        };
+        sync();
+        item.addEventListener('toggle', sync);
       });
     });
   }
@@ -758,6 +732,14 @@
     var DURATION = 360;
 
     function getContent(title) {
+      if (!title) return null;
+      var item = title.closest('.elementor-accordion-item');
+      if (item) {
+        var sibling = title.nextElementSibling;
+        if (sibling && sibling.classList.contains('elementor-tab-content')) return sibling;
+        var nested = item.querySelector('.elementor-tab-content');
+        if (nested) return nested;
+      }
       var contentId = title.getAttribute('aria-controls');
       return contentId ? document.getElementById(contentId) : null;
     }
@@ -769,15 +751,14 @@
       if (!content) return;
       content.classList.add('elementor-active');
       content.hidden = false;
-      content.style.removeProperty('display');
-      content.style.display = 'block';
+      content.style.setProperty('display', 'block', 'important');
       content.style.overflow = 'hidden';
       content.style.height = '0px';
       content.style.opacity = '0';
       content.offsetHeight;
       content.style.transition =
         'height ' + DURATION + 'ms ease, opacity ' + DURATION + 'ms ease';
-      content.style.height = content.scrollHeight + 'px';
+      content.style.height = Math.max(content.scrollHeight, 1) + 'px';
       content.style.opacity = '1';
       window.setTimeout(function () {
         content.style.height = '';
@@ -803,7 +784,7 @@
       window.setTimeout(function () {
         content.classList.remove('elementor-active');
         content.hidden = true;
-        content.style.display = 'none';
+        content.style.setProperty('display', 'none', 'important');
         content.style.height = '';
         content.style.overflow = '';
         content.style.transition = '';
@@ -820,24 +801,37 @@
         var content = getContent(title);
         title.classList.remove('elementor-active');
         title.setAttribute('aria-expanded', 'false');
+        title.style.cursor = 'pointer';
         if (content) {
           content.classList.remove('elementor-active');
           content.hidden = true;
-          content.style.display = 'none';
+          content.style.setProperty('display', 'none', 'important');
         }
+        // Title text is often an <a> without href — keep it from stealing clicks oddly.
+        title.querySelectorAll('a.elementor-accordion-title').forEach(function (a) {
+          if (!a.getAttribute('href')) a.setAttribute('href', '#');
+          a.addEventListener('click', function (ev) {
+            ev.preventDefault();
+          });
+        });
       });
 
-      root.addEventListener('click', function (e) {
-        var title = e.target.closest('.elementor-tab-title');
-        if (!title || !root.contains(title)) return;
-        e.preventDefault();
-        var willOpen = !title.classList.contains('elementor-active');
-        root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
-          if (t !== title) animateClose(t);
-        });
-        if (willOpen) animateOpen(title);
-        else animateClose(title);
-      });
+      root.addEventListener(
+        'click',
+        function (e) {
+          var title = e.target.closest('.elementor-tab-title');
+          if (!title || !root.contains(title)) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var willOpen = !title.classList.contains('elementor-active');
+          root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
+            if (t !== title) animateClose(t);
+          });
+          if (willOpen) animateOpen(title);
+          else animateClose(title);
+        },
+        true,
+      );
     });
   }
 

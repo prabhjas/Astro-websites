@@ -1,0 +1,85 @@
+---
+import { sanitizeMirrorHtml } from "@connect/site-cms";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  getPageByPath,
+  stripHtml,
+  smartSliderCssForHtml,
+} from "../../lib/content";
+import { PRESS_LISTING_PATH, rebuildPressListingHtml } from "../../lib/press";
+import { breadcrumbSchema } from "../../lib/seo";
+import {
+  isNoIndexNoFollowPath,
+  NOINDEX_NOFOLLOW_ROBOTS,
+} from "../../lib/seo/sitemap-config";
+import { notFoundResponse } from "../../lib/not-found";
+
+export const prerender = false;
+
+const path = PRESS_LISTING_PATH;
+const page = getPageByPath(path);
+if (!page) {
+  return notFoundResponse();
+}
+
+let html = sanitizeMirrorHtml((page.bodyHtml || page.content || "") as string);
+html = rebuildPressListingHtml(html);
+
+const pageCrumbs = [
+  { name: "Home", href: "/" },
+  { name: stripHtml(page.title), href: undefined as string | undefined },
+];
+
+const lpNoIndex = isNoIndexNoFollowPath(path);
+const seo = {
+  title: page.seo.title,
+  description: page.seo.description,
+  canonical: path,
+  ogImage: page.seo.ogImage,
+  ...(lpNoIndex ? { robots: NOINDEX_NOFOLLOW_ROBOTS } : {}),
+  schemas: [
+    ...(page.seo.schemas || []),
+    breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+  ],
+};
+
+const isElementorPage = /data-elementor-type=["']wp-page["']/.test(html);
+const entryElementorCss = page.elementorCss;
+
+const extraCss = [
+  ...smartSliderCssForHtml(html),
+  ...((page.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
+  ...(entryElementorCss ? [entryElementorCss] : []),
+];
+
+const hasMainShell = /id=["']page-content["']/.test(html);
+const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
+const renderRawHtml = isImprezaShell || isElementorPage;
+
+const bodyClass = isElementorPage
+  ? `page wp-singular page-template-default page-id-${page.id} elementor-default elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`
+  : `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`;
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={bodyClass}
+  fallback={page.seo}
+  extraCss={extraCss}
+  seo={seo}
+  loadElementor={isElementorPage}
+>
+  {
+    renderRawHtml ? (
+      <Fragment set:html={html} />
+    ) : (
+      <main id="page-content" class="l-main">
+        <section class="l-section">
+          <div class="l-section-h i-cf">
+            <Fragment set:html={html} />
+          </div>
+        </section>
+      </main>
+    )
+  }
+</BaseLayout>

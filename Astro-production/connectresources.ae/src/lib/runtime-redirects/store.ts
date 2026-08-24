@@ -87,12 +87,13 @@ export async function persistManagedRedirects(
   await syncRuntimeRedirectsToYaml(projectRoot, deduped);
 }
 
-export function readCanonicalRedirectsYaml(projectRoot: string): RuntimeRedirectRule[] {
+export function readCanonicalRedirectsYaml(projectRoot: string, serverRoot?: string): RuntimeRedirectRule[] {
+  // Primary: YAML source (available in dev and local builds)
   try {
     const yamlPath = join(projectRoot, 'src/data/redirects.yml');
     const parsed = parse(readFileSync(yamlPath, 'utf8')) ?? {};
     const list = Array.isArray(parsed.redirects) ? parsed.redirects : [];
-    return list
+    const rules = list
       .filter((row) => row?.from && row?.to)
       .map((row) => ({
         from: String(row.from),
@@ -100,9 +101,32 @@ export function readCanonicalRedirectsYaml(projectRoot: string): RuntimeRedirect
         status: Number(row.status || 301),
         source: 'repo',
       }));
+    if (rules.length > 0) return rules;
   } catch {
-    return [];
+    // YAML not available — try JSON fallback
   }
+
+  // Fallback: built _redirects.json (production immutable releases lack src/)
+  const roots = [projectRoot, ...(serverRoot ? [serverRoot] : [])];
+  for (const root of roots) {
+    for (const rel of ['dist/client/_redirects.json', 'client/_redirects.json', 'public/_redirects.json']) {
+      try {
+        const raw = JSON.parse(readFileSync(join(root, rel), 'utf8'));
+        const list = Array.isArray(raw) ? raw : [];
+        return list
+          .filter((row: any) => row?.from && row?.to)
+          .map((row: any) => ({
+            from: String(row.from),
+            to: String(row.to),
+            status: Number(row.status || 301),
+            source: 'repo-json',
+          }));
+      } catch {
+        // try next candidate
+      }
+    }
+  }
+  return [];
 }
 
 export async function syncRuntimeRedirectsToYaml(projectRoot: string, redirects: RuntimeRedirectRule[]): Promise<void> {
