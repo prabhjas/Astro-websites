@@ -1,0 +1,114 @@
+---
+import { sanitizeMirrorHtml } from "@connect/site-cms";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import {
+  getPublishedPostByPath,
+  getRelatedPosts,
+  normalizePath,
+  smartSliderCssForHtml,
+  stripHtml,
+} from "../../lib/content";
+import { isPressReleasePost, PRESS_LISTING_PATH } from "../../lib/press";
+import { articleSchema, breadcrumbSchema } from "../../lib/seo";
+import { notFoundResponse } from "../../lib/not-found";
+
+export const prerender = false;
+
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam) ? slugParam.join("/") : String(slugParam || "");
+const path = normalizePath(`/press/${slug}/`);
+
+const post = getPublishedPostByPath(path);
+if (!post || !isPressReleasePost(post)) {
+  return notFoundResponse();
+}
+
+const html = sanitizeMirrorHtml((post.bodyHtml || post.content || "") as string);
+const postCanonical = normalizePath(post.path || path);
+
+const related = getRelatedPosts(post, 3).filter((p) => isPressReleasePost(p));
+const relatedFinal = related.length > 0 ? related : getRelatedPosts(post, 3);
+
+const postCrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Press", href: PRESS_LISTING_PATH },
+  { name: stripHtml(post.title) },
+];
+
+const seo = {
+  title: post.seo.title || stripHtml(post.title),
+  description: post.seo.description || stripHtml(post.excerpt),
+  canonical: postCanonical,
+  ogImage: post.seo.ogImage || post.featuredImage,
+  ogType: "article" as const,
+  publishedTime: post.date,
+  modifiedTime: post.modified,
+  authorName: post.authorName,
+  schemas: [
+    ...(post.seo.schemas || []),
+    breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || postCanonical }))),
+    articleSchema({
+      title: stripHtml(post.title),
+      description: post.seo.description || stripHtml(post.excerpt),
+      url: postCanonical,
+      image: post.featuredImage || post.seo.ogImage,
+      datePublished: post.date,
+      dateModified: post.modified,
+      authorName: post.authorName,
+    }),
+  ],
+};
+
+const isElementorPage = /data-elementor-type=["']wp-page["']/.test(html);
+const entryElementorCss = post.elementorCss;
+
+const extraCss = [
+  ...smartSliderCssForHtml(html),
+  ...((post.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
+  ...(entryElementorCss ? [entryElementorCss] : []),
+];
+
+const hasMainShell = /id=["']page-content["']/.test(html);
+const isImprezaShell = hasMainShell || /class=["'][^"']*l-section/.test(html);
+/** Press singles keep mirrored Impreza layout (hero + body), same as live WP. */
+const renderRawHtml = isImprezaShell || isElementorPage;
+
+const bodyClass = `single single-${post.type || "post"} postid-${post.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
+---
+
+<BaseLayout
+  currentPath={path}
+  bodyClass={bodyClass}
+  fallback={post.seo}
+  extraCss={extraCss}
+  seo={seo}
+  menuActivePath={PRESS_LISTING_PATH}
+  loadElementor={isElementorPage}
+>
+  {
+    renderRawHtml ? (
+      <Fragment set:html={html} />
+    ) : (
+      <main id="page-content" class="l-main">
+        <article class="l-section">
+          <div class="l-section-h i-cf">
+            <div class="w-blog-post-body" set:html={html} />
+            {
+              relatedFinal.length > 0 && (
+                <section class="sp-related" style="margin-top:2rem">
+                  <h2>Related</h2>
+                  <div class="sp-blog-grid">
+                    {relatedFinal.map((r) => (
+                      <PostCard post={r} />
+                    ))}
+                  </div>
+                </section>
+              )
+            }
+          </div>
+        </article>
+      </main>
+    )
+  }
+</BaseLayout>
