@@ -1,8 +1,13 @@
 import './cms';
 import { defineMiddleware } from 'astro:middleware';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { getServerEnv } from './env/server';
 import { logInfo } from './services/logger';
 import { readRuntimeRedirects, readCanonicalRedirectsYaml, recordRedirectHit } from './lib/runtime-redirects/store';
+
+const __serverDir = dirname(fileURLToPath(import.meta.url));
+const __projectRoot = resolve(__serverDir, '..');
 
 function normalisePath(pathname: string): string {
   if (!pathname || pathname === '/') return '/';
@@ -60,7 +65,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     try {
       const env = getServerEnv();
       const runtime = await readRuntimeRedirects(env.internalAdminDir);
-      const canonical = readCanonicalRedirectsYaml(process.cwd());
+      const canonical = readCanonicalRedirectsYaml(process.cwd(), __projectRoot);
       const all = [...canonical, ...runtime];
       const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
       if (match) {
