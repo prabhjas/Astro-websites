@@ -53,14 +53,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
     });
   }
 
-  // Legacy @astrojs/sitemap URLs → hand-rolled /sitemap.xml
-  if (
-    pathname === '/sitemap-index.xml' ||
-    pathname === '/sitemap-index.xml/' ||
-    pathname === '/sitemap-0.xml' ||
-    pathname === '/sitemap-0.xml/'
-  ) {
-    return Response.redirect(new URL('/sitemap.xml', context.url), 301);
+  // Live crawlers use `/sitemap-index.xml` (→ `/sitemap-0.xml`). Keep /sitemap.xml
+  // as a 301 so nothing that still asks for the short name 404s.
+  if (pathname === '/sitemap.xml' || pathname === '/sitemap.xml/') {
+    return new Response(null, {
+      status: method === 'GET' || method === 'HEAD' ? 301 : 308,
+      headers: { Location: `/sitemap-index.xml${context.url.search}` },
+    });
   }
 
   // Per-site dashboard UI removed — leads managed via central CMS → /api/internal/*

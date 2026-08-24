@@ -334,7 +334,7 @@ Disallow: /
 # ============================================================
 # 5. SITEMAP & LLM
 # ============================================================
-Sitemap: ${origin}/sitemap.xml
+Sitemap: ${origin}/sitemap-index.xml
 LLM: ${origin}/llms.txt
 `;
 }
