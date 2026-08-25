@@ -32,6 +32,7 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 | 2026-08-25 | KPM Pro DED guide + MOL link; CR EOR cost post; Connect Group Insights featured images 3:2 | Fleet `400d7360b` |
 | 2026-08-25 | Kinza `/recruitment/` → LP; CR alt/robots frontend; Iberia sitemap-index routes (front) | Fleet `58159d653` (and earlier Iberia sitemap commits) |
 | 2026-08-25 | PR #83 (`rajpal-branch`) closed — cherry-picked 4 commits only; mega-merge reverted | Superseded |
+| 2026-08-25 | Tabish PR #87 closed — cherry-pick `0252a285f` → `0326b7c5f` (emiratisationgate + emiratisationgateway only; not whole branch) | Laptop `work/astro-sites` |
 | 2026-08-25 | Connect FM Figma CSS/assets (via `pageCss`); Iberia EOR layout/data; Royal Visa OG PNGs | Fleet `af2566b94` — **not** included: catch-all slug wiring, Iberia chrome hide, Redo/`site-cms` |
 
 ---
