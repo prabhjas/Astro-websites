@@ -1,6 +1,6 @@
 # Aaron pending — fleet owner / security-maintenance lane
 
-**Updated:** 2026-08-25 (OG / sharp)  
+**Updated:** 2026-08-25 (Iberia backend switch cleared)  
 **Owner lane:** Aaron (not developer generic `astro-fleet-release publish`)  
 **Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
 **Related:** [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)
@@ -15,13 +15,14 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 |---|---|---|---|---|
 | AP-01 | High | Classify / allow `scripts/fleet-monitor/` (esp. `lib.mjs`) for signed commits | Host Host-probe fix (`probeWithExplicitHost`) cannot ship via generic publish until path is classified; dirty host copy blocked publishes before | Code on laptop `work/astro-sites`; may still be absent from fleet tip |
 | AP-02 | High | Connect Resources managed robots override | Live `/robots.txt` still served from `.data` store (short managed body) so dynamic `robots.txt.ts` does not win | Frontend robots route exists; store ownership needs Aaron/backend policy |
-| AP-03 | High | Iberia Workforce trusted backend pin | Front can be on fleet tip while trusted backend (`iberiaworkforce.service`) stays on older release — robots/sitemap/llms/forms lag | Switch backend unit/release to current fleet tip when ready |
 | AP-04 | High | `packages/site-cms` — mirror SEO normalize | Mushtaq Redo commit adds `normalize-mirror-content-seo.ts` + wires it through `absolutizeMirrorSeoHtml` (`contentKind`). **Redo.ae cannot publish in presentation lane until this package change is allowed / released** | On `work/astro-sites` @ `f865df993` (and tip). Do **not** include in site-only signed publish until Aaron clears package lane |
 | AP-07 | High | Iberia Workforce — site-local **`sharp`** / drop passthrough | Iberia uses `passthroughImageService()` so publish works **without** lockfile `sharp`. Real Astro image optimization needs site (or catalog) `sharp` + Linux lockfile | `astro.config.mjs` comment documents this; pair with AP-08 |
 | AP-08 | High | Fleet **`sharp`** catalog + OG automation | Team standardizing branded OG (kit in `~/Downloads/og pictures`). Needs `sharp` in `pnpm-workspace.yaml` catalogs + site deps + one lockfile install. Royal Visa is the pilot (scripts + committed PNGs can ship site-only; build-time regen needs Aaron) | See [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md). Do **not** `pnpm install` / lockfile bump in developer publish lane |
-| AP-09 | High | Allowlist presentation edits to `src/pages/[...slug].astro` (and similar catch-alls) | Publisher blocked Connect FM CSS wiring + Iberia `/eor-services/` chrome hide as “unsafe path”. CFM worked around via `pages.json` `pageCss`; Iberia chrome hide now also worked around in **`BaseLayout.astro`** (path-based) so catch-all edit is optional | Also blocked `iberiaeor.com/src/pages/api/blog/load-more.ts` as protected API. Note: `emiratisationgate.org` middleware favicon redirects + `robots.txt.ts` **did publish** on `f33d46778` — catch-all `[...slug].astro` remains the main AP-09 pain |
+| AP-09 | High | Allowlist presentation edits to `src/pages/[...slug].astro` (and similar catch-alls) | Publisher blocked Connect FM CSS wiring + Iberia `/eor-services/` chrome hide as “unsafe path”. CFM worked around via `pages.json` `pageCss`; Iberia chrome hide worked around in **`BaseLayout.astro`** (path-based) so catch-all edit is optional | Also blocked `iberiaeor.com/src/pages/api/blog/load-more.ts` as protected API. Note: `emiratisationgate.org` middleware favicon redirects + `robots.txt.ts` **did publish** on `f33d46778` — catch-all `[...slug].astro` remains the main AP-09 pain |
 | AP-05 | Med | PR hygiene / base branch | Devs should target `work/astro-sites` or rebase onto latest fleet often; mega PRs into stale `dev` cause 460+ file conflicts | Process note for Connect Group GitHub |
 | AP-06 | Low | Stashed fleet robots wave | Laptop stash `wip-robots-wave-before-pr83-merge` — multi-site `robots.txt.ts` / delete `public/robots.txt` / `text-files-store` — not on branch | Decide whether to revive after AP-02 policy |
+| AP-10 | Low | Iberia `/sitemap.xml` true HTTP 301 | Aaron: path is **unadvertised**; currently Astro static meta-redirect, not a real 301. Advertised index/child routes are correct | Optional polish; do not confuse with working `/sitemap-index.xml` + `/sitemap-0.xml` |
+| AP-11 | Ops | `astro-caddy-certificate-refresh.service` failed | Aaron: unit already failed since ~00:23 UTC **before** Iberia backend switch; he did not alter it | Owner/ops follow-up; unrelated to developer publish lane |
 
 ---
 
@@ -29,31 +30,34 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | When | What | Tip |
 |---|---|---|
+| 2026-08-25 | **AP-03 cleared (Aaron):** Iberia Workforce trusted backend switch — 9 env values active; shared Pipedrive token preserved (matched fleet fingerprint); commit `2cf19b99c` already inside release `58159d65` (no extra presentation publish); **presentation + trusted backend both on `58159d65`**; public robots / sitemap index / sitemap child **backend-owned HTTP 200**; sitemap 36 unique canonicals all public 200; contact tests 17/17; fleet audit 42 sites / 0 errors (1 existing CR International warning); no production form submit; no token rotation / CF-DNS-Caddy / cache purge / other-site restart; developer checkout left clean. Evidence: `/var/lib/astro-fleet/transactions/iberiaworkforce-backend-switch-1787658125-0fbce3a2b5a64dd49bde628cf22ea813/RESULT.json` · reviewed source `/opt/ops/iberiaworkforce-backend-switch-20260825/README.md` | Iberia artifact `58159d653` (site); fleet tip later advanced independently |
 | 2026-08-25 | KPM Pro DED guide + MOL link; CR EOR cost post; Connect Group Insights featured images 3:2 | Fleet `400d7360b` |
 | 2026-08-25 | Kinza `/recruitment/` → LP; CR alt/robots frontend; Iberia sitemap-index routes (front) | Fleet `58159d653` (and earlier Iberia sitemap commits) |
 | 2026-08-25 | PR #83 (`rajpal-branch`) closed — cherry-picked 4 commits only; mega-merge reverted | Superseded |
 | 2026-08-25 | Tabish PR #87 closed + **published** emiratisationgate.org + emiratisationgateway.com (cherry-pick `0252a285f`; full tip incl. middleware favicon redirects + robots.txt.ts — **not blocked**) | Fleet `f33d46778` |
-| 2026-08-25 | Connect FM Figma CSS/assets (via `pageCss`); Iberia EOR layout/data; Royal Visa OG PNGs | Fleet `af2566b94` — **not** included: catch-all slug wiring, Iberia chrome hide, Redo/`site-cms` |
+| 2026-08-25 | Connect FM Figma CSS/assets (via `pageCss`); Iberia EOR layout/data; Royal Visa OG PNGs | Fleet `af2566b94` — catch-all slug wiring / Redo `site-cms` still Aaron |
+| 2026-08-25 | Iberia EOR `/eor-services/` shared chrome hide via BaseLayout path check | Fleet `8b110f9f2` |
+| 2026-08-25 | Royal Visa branded OG on legacy mirrors (`legacy-page.js`) | Fleet `c278d123c` |
 
 ---
 
-## Developer queue (presentation lane — no Aaron required for code)
+## Developer queue (presentation lane)
 
-Ready on laptop `work/astro-sites` after Mushtaq cherry-picks (publish only **site trees**, not packages):
-
-| Site | Package | Source commits | Publish? |
-|---|---|---|---|
-| **connectfm.ae** | `connectfm-astro` | `ca3822f8e` / `1e68461f2` — Security + Landscaping Figma CSS | Yes — site-only |
-| **iberiaeor.com** | `iberiaeor-astro` | `05a074ea2` / `24073e23c` — hide chrome on `/eor-services/`, © 2026 | Yes — site-only |
-| **royalvisa.ae** | `royalvisa-ae-astro` | Branded OG pilot (`public/og/**` + blog prefers cards) | Yes — site-only PNGs/scripts; **not** lockfile/`sharp` (AP-08) |
-| **redo.ae** | `redo-ae-astro` | `cb3d86586` / `f865df993` — redirects, routing, SEO calls | **Blocked on AP-04** until `packages/site-cms` is cleared |
+| Site | Package | Status |
+|---|---|---|
+| **connectfm.ae** | `connectfm-astro` | **Published** (`af2566b94` via `pageCss`) |
+| **iberiaeor.com** | `iberiaeor-astro` | **Published** chrome hide (`8b110f9f2`) |
+| **royalvisa.ae** | `royalvisa-ae-astro` | **Published** OG pilot PNGs + legacy inject (`c278d123c`) — build-time `sharp` still AP-08 |
+| **emiratisationgate.org** / **emiratisationgateway.com** | gate + gateway packages | **Published** (`f33d46778`) |
+| **redo.ae** | `redo-ae-astro` | **Blocked on AP-04** until `packages/site-cms` cleared |
+| **iberiaworkforce.com** | `iberiaworkforce-astro` | **AP-03 cleared** — front+backend on `58159d65`; further presentation publishes are normal site-only when needed |
 
 ---
 
 ## Message template (paste to Aaron)
 
 ```text
-Aaron — pending from developer lane (2026-08-25):
+Aaron — remaining from developer lane (2026-08-25; Iberia backend switch received — thank you):
 
 1) Classify scripts/fleet-monitor/ so we can commit the Host-header probe fix
    (probeWithExplicitHost) without dirtying the host worktree.
@@ -61,24 +65,28 @@ Aaron — pending from developer lane (2026-08-25):
 2) Connect Resources: live robots still comes from managed .data store;
    frontend robots.txt.ts does not win until store policy changes.
 
-3) Iberia Workforce: please switch trusted backend (iberiaworkforce.service)
-   to the current fleet tip so sitemap/robots/llms match the front.
-
-4) packages/site-cms: Mushtaq added normalize-mirror-content-seo + contentKind
+3) packages/site-cms: Mushtaq added normalize-mirror-content-seo + contentKind
    on absolutizeMirrorSeoHtml. Needed before Redo.ae SEO publish.
    Code is on work/astro-sites (f865df993); waiting on package/security lane.
 
-5) sharp / pnpm (Iberia + fleet OG):
+4) sharp / pnpm (Iberia + fleet OG):
    - Add sharp to pnpm-workspace.yaml catalogs.default
    - Allow Iberia to drop passthroughImageService() and declare sharp
    - Same catalog sharp unlocks Royal Visa / fleet OG automation
      (team kit; pilot docs in docs/OG-AUTOMATION-PILOT.md)
    - One Linux pnpm install + lockfile commit in your lane
+
+5) Optional / ops (your notes):
+   - Iberia /sitemap.xml → real HTTP 301 (unadvertised; index/child already OK)
+   - astro-caddy-certificate-refresh.service failed since ~00:23 UTC (pre-existing)
+
+Also still useful when convenient: allowlist presentation edits to
+src/pages/[...slug].astro (we worked around Iberia EOR + Connect FM without it).
 ```
 
 ---
 
-## How we handle Mushtaq / Rajpal PRs going forward
+## How we handle Mushtaq / Rajpal / Tabish PRs going forward
 
 1. Do **not** merge mega `*-branch` PRs into `dev` / `work/astro-sites` wholesale.  
 2. Cherry-pick the named feature commits only.  
