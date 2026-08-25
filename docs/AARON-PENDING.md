@@ -43,6 +43,7 @@ Ready on laptop `work/astro-sites` after Mushtaq cherry-picks (publish only **si
 |---|---|---|---|
 | **connectfm.ae** | `connectfm-astro` | `ca3822f8e` / `1e68461f2` — Security + Landscaping Figma CSS | Yes — site-only |
 | **iberiaeor.com** | `iberiaeor-astro` | `05a074ea2` / `24073e23c` — hide chrome on `/eor-services/`, © 2026 | Yes — site-only |
+| **royalvisa.ae** | `royalvisa-ae-astro` | Branded OG pilot (`public/og/**` + blog prefers cards) | Yes — site-only PNGs/scripts; **not** lockfile/`sharp` (AP-08) |
 | **redo.ae** | `redo-ae-astro` | `cb3d86586` / `f865df993` — redirects, routing, SEO calls | **Blocked on AP-04** until `packages/site-cms` is cleared |
 
 ---
