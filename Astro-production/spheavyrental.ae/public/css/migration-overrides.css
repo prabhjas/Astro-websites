@@ -71,6 +71,18 @@ body {
   z-index: 99;
 }
 
+/* Keep Elementor header above page content; logo sizing matches live post-153.css */
+.elementor-153 .elementor-element.elementor-element-cb48c1e img {
+  width: 78px;
+  height: auto;
+  display: block;
+}
+
+.sp-elementor-header {
+  position: relative;
+  z-index: 100;
+}
+
 /* Accordion FAQ visual defaults when Elementor widget CSS is light */
 .elementor-accordion .elementor-tab-content:not(.elementor-active) {
   display: none;
@@ -136,6 +148,7 @@ div.wpcf7-response-output.sp-status-visible,
   border-radius: 8px !important;
   font-size: 0.95rem !important;
   font-weight: 600 !important;
+  text-align: center !important;
   color: #ffffff !important;
   background: transparent !important;
   border: 1px solid #ffffff !important;

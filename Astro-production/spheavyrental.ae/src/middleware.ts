@@ -22,12 +22,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
-    // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
+    // Enforce trailingSlash: 'always' for all non-file paths (308 keeps POST body)
     if (
       pathname !== '/' &&
       !pathname.endsWith('/') &&
-      !pathname.includes('.') &&
-      (pathname.startsWith('/api/') || pathname.startsWith('/internal/'))
+      !pathname.includes('.')
     ) {
       const target = `${pathname}/${context.url.search}`;
       return context.redirect(target, 308);
@@ -56,8 +55,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const runtime = await readRuntimeRedirects(env.internalAdminDir);
       const canonical = readCanonicalRedirectsYaml(process.cwd());
       const all = [...canonical, ...runtime];
-      const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
-      if (match) {
+      const match = all.find(
+        (rule) => rule.from === pathname || normalisePath(rule.from) === normalisePath(pathname),
+      );
+      // Skip no-op / self redirects (e.g. normalised `/author` ↔ `/author/` collisions).
+      if (match && match.to !== pathname) {
         await recordRedirectHit(env.internalAdminDir, match.from);
         return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);
       }
