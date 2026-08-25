@@ -1,0 +1,321 @@
+# Payroll Outsourcing — category hub.
+# Figma nodes 130-988 (1440) / 184-6802 (768) / 184-6803 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Externalización de nóminas
+
+seo:
+  title: Externalización de nóminas | Iberia Workforce
+  description: >-
+    Externalización de nóminas para empresas en crecimiento. Procesada
+    conforme al derecho laboral por abogados y especialistas, no solo por
+    software.
+  schema:
+    serviceName: Servicios de externalización de nóminas
+    serviceType: Procesamiento y administración de nóminas
+    areaServed: Europa
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  heading: Servicios de externalización de nóminas
+  subheading: Construidos sobre certeza jurídica, no solo sobre procesamiento
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: money
+      label: Especialistas de nómina internos
+    - icon: global
+      label: Operaciones en toda Europa
+  body: >-
+    Externalizar la nómina significa que tus salarios, impuestos y compliance
+    los gestionan profesionales, no una lista de comprobación. Empleamos
+    abogados y especialistas de nómina que trabajan juntos, de modo que cuando
+    un pago no encaja con el derecho laboral, el especialista no se limita a
+    decir que no. El abogado encuentra la estructura jurídica que lo resuelve.
+  image: ../../../assets/images/payroll-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/payroll-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/payroll-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+# `headingScale: display` rather than the country pages' H1 — the frames set
+# this claim at 64px, which is also why the two columns do not split until
+# desktop. See the note on the prop in content.config.ts.
+intro:
+  heading: ¿Qué es la externalización de nóminas?
+  headingScale: display
+  paragraphs:
+    - >-
+      La externalización de nóminas es ceder el procesamiento salarial, el
+      cálculo fiscal, las presentaciones a la Seguridad Social y las
+      deducciones legales a un proveedor externo. Tú sigues siendo el
+      empleador: defines puestos, retribución y expectativas de rendimiento. El
+      proveedor ejecuta la nómina mes a mes, se asegura de que todos los pagos
+      cumplan el derecho laboral local, presenta los impuestos correctamente y
+      asume el riesgo de compliance si algo sale mal.
+
+scenario:
+  heading: ¿Por qué importa la externalización de nóminas?
+  body: >-
+    La mayoría de las empresas o bien contratan un contable de nómina interno
+    (1.500–2.500 €/mes) o bien externalizan a una plataforma de software que
+    procesa lo que le indiques. Ninguna de las dos resuelve el problema real:
+    el riesgo de compliance.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  example:
+    eyebrow: Escenario
+    quote: >-
+      «Una empresa reduce un salario un 10 % por debajo del mínimo legal. El
+      software de nómina lo procesa. Seis meses después, un empleado demanda.
+      La sanción es 10 veces lo que se ahorró.»
+    lesson: >-
+      Una externalización de nóminas bien hecha significa que alguien con
+      criterio jurídico revisa las cifras antes de que salgan.
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: ¿Por qué elegir Iberia para servicios de externalización de nóminas?
+  items:
+    - title: No separamos al abogado del contable
+      description: >-
+        La mayoría de los proveedores de externalización de nóminas son
+        software más un contable local de terceros en cada país. Envías datos,
+        recibes una nómina procesada y el compliance es cosa de otro. Nosotros
+        empleamos al abogado y al especialista internamente. El mismo
+        escritorio. La misma responsabilidad. Cuando tu nómina plantea una
+        duda de compliance —«¿podemos estructurarlo de otra manera?», «¿esta
+        categoría de visado afecta al cálculo salarial?», «¿este bonus es
+        conforme?»—, el especialista no lo valida por inercia. El abogado
+        encuentra la estructura jurídica que lo resuelve.
+    - title: Hemos gestionado más de 10.000 empleados en 5 países europeos.
+      description: >-
+        Duración del periodo de prueba, clasificación de convenio, causas de
+        extinción: se fijan en el momento de la contratación y rara vez se
+        revisan hasta que algo va mal. Acertarlas desde el primer día es lo que
+        evita que una extinción se convierta en un litigio meses después.
+    - title: Tu coste es inferior al de contratar tu propio equipo.
+      description: >-
+        Un especialista de nómina más un abogado laboralista equivalen a
+        2.000–3.500 €/mes de estructura. Nuestros servicios de nómina
+        externalizada empiezan por una fracción de eso.
+
+# The three step photographs are the same ones the EOR hub uses — Figma reuses
+# the frames, prompts included.
+howItWorks:
+  heading: ¿Cómo funciona la externalización de nóminas?
+  surface: page
+  steps:
+    - title: Cuéntanos tu equipo
+      description: >-
+        Plantilla, puestos, bandas salariales, ubicación(es), categorías de
+        visado o permiso de trabajo. Valoramos la complejidad y cotizamos un
+        nivel de servicio que encaje.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Asumimos el proceso mensual
+      description: >-
+        Cada recibo, cada presentación fiscal, cada deducción legal: procesados
+        conforme a los requisitos del derecho laboral de cada país. Tú no
+        envías cálculos. Envías horas y cambios de puesto. Nosotros nos
+        encargamos del resto.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un documento impreso en un escritorio
+    - title: El compliance sigue siendo nuestra responsabilidad
+      description: >-
+        La nómina se ejecuta correctamente, las presentaciones salen a tiempo,
+        tu equipo cobra. Si algo salta —un salario que no cumple el mínimo, una
+        categoría de visado que afecta a la fiscalidad, una estructura de
+        beneficios que hay que reordenar—, lo detectamos antes de que se
+        convierta en un problema.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Quieres gestionar la nómina sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  # The frame centres the header and the trailing button over the grid.
+  align: center
+  ctaAlign: center
+  eyebrow: SERVICIOS
+  heading: ¿Qué incluye la externalización de nóminas?
+  items:
+    - icon: employment-contracts
+      title: Procesamiento mensual de la nómina
+      description: >-
+        Cálculo bruto-neto, retención fiscal, deducciones legales,
+        cotizaciones empresariales: calculados correctamente según el derecho
+        laboral de cada país, no aproximados desde una plantilla global.
+    - icon: calculator
+      title: Compliance legal y presentación de impuestos
+      description: >-
+        Impuesto sobre la renta, cotizaciones a la Seguridad Social, inscripción
+        en pensiones cuando corresponda. Todas las presentaciones se envían a
+        tiempo a las autoridades pertinentes.
+    - icon: work-permits
+      title: Compliance de permisos de trabajo y visados
+      description: >-
+        Si tu contratación es de fuera de la UE, señalamos disparadores de
+        residencia fiscal, el impacto de la categoría de visado en el salario y
+        cualquier requisito documental que afecte al procesamiento de la
+        nómina.
+    - icon: envelope-document
+      title: Estructuración salarial y revisión jurídica
+      description: >-
+        Peticiones de reducción de costes, estructuras de bonus, clasificación
+        de beneficios: revisados para el cumplimiento del derecho laboral antes
+        de implantarlos, no después de que llegue una sanción.
+    - icon: document-cross
+      title: Gestión de ausencias y permisos
+      description: >-
+        Devengo de vacaciones, baja por enfermedad, maternidad/paternidad, días
+        festivos legales: controlados correctamente y con la nómina ajustada en
+        consecuencia.
+    - icon: money-hand
+      title: Nómina en varios países
+      description: >-
+        ¿Empleados en varios países? La nómina de cada ubicación se ejecuta
+        conforme a sus propios requisitos legales: TGSS en España, INPS en
+        Italia, ZUS en Polonia. Sin aproximaciones.
+    - icon: severance
+      title: Extinción y liquidación final
+      description: >-
+        Cálculo de indemnizaciones, pagos finales, obligaciones posteriores al
+        fin del empleo: estructurados para cumplir la ley local.
+    - icon: person-archive
+      title: Administración continua de RR. HH.
+      description: >-
+        Revisiones salariales, modificaciones de contrato, documentación de
+        ausencias, expedientes de empleados: gestionados a lo largo de toda la
+        relación laboral.
+  cta:
+    label: Solicita un desglose de costes
+    href: "#contact-form"
+
+# Only Spain has a page, so the other four carry a "COMING SOON" chip and no
+# link rather than pointing at a 404 — see the `badge` note in content.config.ts.
+countries:
+  eyebrow: DÓNDE OPERAMOS
+  heading: ¿Dónde ofrecemos servicios de externalización de nóminas?
+  lead:
+    heading: Externalización de nóminas en Europa
+    body: >-
+      Actualmente gestionamos nóminas en España. Expansión a Alemania,
+      Portugal, Polonia e Italia a lo largo de 2024–2025.
+  featured:
+    name: España
+    badge: DISPONIBLE YA
+    description: >-
+      Alta en la TGSS, procesamiento de nóminas, retención de IRPF,
+      cumplimiento de convenio, deducciones legales, coordinación en varios
+      países.
+    cta:
+      label: Explorar
+      href: /payroll-outsourcing/spain
+  others:
+    - name: Alemania
+      badge: PRÓXIMAMENTE
+      description: >-
+        Nómina de la Deutsche Rentenversicherung, cumplimiento de la AÜG,
+        continuación del salario en baja, coordinación con el comité de
+        empresa, seguimiento de igualdad salarial al noveno mes.
+    - name: Portugal
+      badge: PRÓXIMAMENTE
+      description: >-
+        Alta en la Segurança Social, estructura salarial de 14 pagas, control
+        del plus de comida, seguro de accidentes, cumplimiento del Código do
+        Trabalho.
+    - name: Poland
+      badge: PRÓXIMAMENTE
+      description: >-
+        Cotizaciones a ZUS, gestión del ahorro para la jubilación PPK,
+        cumplimiento del Kodeks Pracy, retención del impuesto sobre la renta,
+        devengo de permisos legales.
+    - name: Italia
+      badge: PRÓXIMAMENTE
+      description: >-
+        Cotizaciones al INPS, devengo del TFR, cumplimiento salarial del CCNL,
+        pagas extraordinarias, gestión de extinción e indemnización.
+
+# The design draws the accordion closed, so it specifies the questions only.
+# Answers supplied separately by the client, as on the EOR hub. Two questions
+# are worded more fully here than in Figma ("Is it cheaper than hiring in-house?"
+# against "…than hiring a payroll accountant in-house?", and the payroll-person
+# one) — the client's wording is the one that ships.
+faq:
+  eyebrow: EXTERNALIZACIÓN DE NÓMINAS EUROPA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Cuánto cuesta la externalización de nóminas?
+      answer: >-
+        El precio depende de la plantilla y de los países en los que operas.
+        Para empresas de menos de 50 empleados, cotizamos tarifas mensuales por
+        empleado. Para empresas con 50 o más empleados en varios países,
+        ofrecemos una retainer mensual. Cuéntanos tu escenario y te daremos un
+        desglose exacto, sin obligación.
+    - question: ¿Es más barato que contratar un contable de nómina interno?
+      answer: >-
+        Sí. Un especialista o contable de nómina interno cuesta 1.500–2.500 €
+        al mes solo en salario, más reclutamiento, formación, beneficios y
+        riesgo de rotación. Los servicios de externalización de nóminas
+        empiezan por debajo y escalan con tu plantilla.
+    - question: ¿Y si ya tengo una persona de nómina? ¿Podéis trabajar con ella?
+      answer: >-
+        Sí. Algunas empresas mantienen la nómina internamente pero necesitan
+        apoyo en varios países. Otras externalizan por primera vez. Trabajamos
+        con la estructura que tenga sentido para tu negocio.
+    - question: ¿En cuánto tiempo podemos pasar a vuestros servicios de externalización de nóminas?
+      answer: >-
+        Para empresas que procesan la nómina internamente, normalmente 2–3
+        semanas de transición si la documentación está lista. Si cambias de
+        otro proveedor, el plazo depende de la complejidad de la migración de
+        datos. Te daremos una estimación realista de antemano.
+    - question: ¿Qué ocurre si mi empresa opera en varios países?
+      answer: >-
+        Gestionamos la nómina en España, Alemania, Portugal, Polonia e Italia.
+        La de cada ubicación se ejecuta conforme al derecho laboral de su país,
+        sin aproximaciones. Si tienes empleados en países en los que aún no
+        operamos, podemos coordinarnos con socios locales en esas geografías.
+    - question: >-
+        ¿Podéis gestionar la documentación de visados y permisos de trabajo
+        como parte de la externalización de nóminas?
+      answer: >-
+        Sí. Contrataciones de fuera de la UE, patrocinio de visados,
+        tramitación de permisos de trabajo: si afecta a la nómina (residencia
+        fiscal, categorización salarial, elegibilidad de beneficios), lo
+        gestionamos como parte del servicio. Forma parte del trabajo de nuestro
+        equipo jurídico, no se externaliza a un tercero.
+    - question: ¿Qué ocurre si necesitamos cambiar el salario o las condiciones contractuales de un empleado?
+      answer: >-
+        Nos lo comunicas. Lo revisamos para el cumplimiento del derecho laboral
+        —sueldos mínimos, impacto de la categoría de visado, implicaciones
+        fiscales— y o bien lo aprobamos o bien proponemos una alternativa
+        conforme que logre el mismo objetivo de negocio.
+    - question: ¿Quién es Iberia Workforce y cómo operáis?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos la
+        externalización de nóminas a través de un equipo interno de abogados
+        laboralistas y especialistas de nómina en Europa. Sin procesamiento
+        offshore. Sin socios locales de terceros. El equipo que estructura tu
+        nómina es el mismo que se asegura de que sea jurídicamente sólida.
+
+closing:
+  heading: >-
+    Contratas a personas para que hagan su trabajo. No deberías tener que
+    convertirte en un experto en nóminas solo para evitar una sanción.
+  highlight: experto en nóminas
+  body: >-
+    Describe tu equipo —tamaño, ubicaciones, cualquier complejidad de permiso
+    de trabajo— y te diremos exactamente cuánto cuesta la externalización de
+    nóminas y qué incluye.

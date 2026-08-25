@@ -1,0 +1,106 @@
+---
+import { Image } from "astro:assets";
+import step01 from "../../assets/images/step-01-brief.webp";
+import step02 from "../../assets/images/step-02-contract.webp";
+import step03 from "../../assets/images/step-03-onboarding.webp";
+import { getUi } from "../../i18n/copy";
+import Button from "../ui/Button.astro";
+import CarouselControls from "../ui/CarouselControls.astro";
+
+const { t } = getUi(Astro.url.pathname);
+const p = t.process;
+
+const stepImages = [step01, step02, step03];
+const steps = p.steps.map((step, i) => ({
+  number: String(i + 1).padStart(2, "0"),
+  image: stepImages[i]!,
+  ...step,
+}));
+---
+
+<section
+  id="how-it-works"
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="process-heading"
+>
+  <div class="section-shell flex flex-col items-start gap-16">
+    <header
+      class="flex w-full flex-col items-center gap-3 text-center"
+      data-reveal
+    >
+      <p
+        class="text-caption font-medium tracking-[0.26px] whitespace-nowrap text-text-link"
+      >
+        {p.eyebrow}
+      </p>
+      <h2
+        id="process-heading"
+        class="max-w-[900px] text-h1 text-text-primary"
+        set:html={p.headingHtml}
+      />
+    </header>
+
+    {/*
+      No `min-h`: the cards were forced to 480px, which left a large dead area
+      under the copy. Grid items (and flex items in the carousel) stretch to the
+      tallest sibling anyway, so they stay equal while sizing to their content.
+    */}
+    <ol
+      id="process-carousel"
+      class="carousel self-stretch lg:grid lg:grid-cols-3 lg:gap-10"
+      tabindex="0"
+      role="group"
+      aria-label={p.aria}
+    >
+      {
+        steps.map((step, i) => (
+          <li
+            class="carousel-item card-lift flex flex-col items-start overflow-hidden rounded-xl border border-border-subtle bg-bg-surface"
+            data-reveal
+            style={`--reveal-i:${i}`}
+          >
+            <div class="relative isolate flex h-[160px] w-full flex-col items-start justify-end overflow-hidden bg-navy px-6 lg:h-[200px] lg:px-8">
+              <Image
+                src={step.image}
+                alt={step.alt}
+                widths={[400, 800]}
+                sizes="(min-width: 1024px) 400px, 86vw"
+                class="pointer-events-none absolute inset-0 -z-10 size-full object-cover"
+                loading="lazy"
+              />
+              <span
+                class="step-numeral text-[64px] font-semibold text-text-inverse sm:text-[80px] lg:text-[96px]"
+              >
+                {step.number}
+              </span>
+            </div>
+            <div class="flex flex-1 flex-col items-start gap-3 p-6 lg:p-8">
+              <h3 class="text-h4 text-text-primary">{step.title}</h3>
+              <p class="text-body-sm text-text-secondary">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <CarouselControls
+      for="process-carousel"
+      count={steps.length}
+      class="w-full text-text-primary"
+    />
+
+    <div class="flex w-full flex-col items-center gap-6">
+      <p class="text-center text-h3 font-normal text-text-secondary">
+        {p.ready}
+      </p>
+      <Button
+        variant="accent"
+        size="lg"
+        href="#contact-form"
+        class="bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text"
+      >
+        {p.cta}
+      </Button>
+    </div>
+  </div>
+</section>

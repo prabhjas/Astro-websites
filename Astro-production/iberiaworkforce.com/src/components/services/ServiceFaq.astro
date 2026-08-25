@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from "astro:content";
+import plus from "../../assets/icons/plus.svg";
+import Icon from "../ui/Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["faq"]>;
+
+const { eyebrow, heading, items } = Astro.props;
+
+/**
+ * Split each answer around its linked phrase, if it has one. Doing it here
+ * keeps the template free of string arithmetic, and an answer whose `label`
+ * does not actually occur in the text falls back to plain prose rather than
+ * rendering a broken link.
+ */
+const answers = items.map((item) => {
+  const at = item.link ? item.answer.indexOf(item.link.label) : -1;
+  if (!item.link || at === -1) return { before: item.answer };
+  return {
+    before: item.answer.slice(0, at),
+    link: item.link,
+    after: item.answer.slice(at + item.link.label.length),
+  };
+});
+---
+
+<section class="bg-bg-surface py-20 lg:py-30" aria-labelledby="faq-heading">
+  <div class="section-shell flex flex-col items-start gap-10 lg:gap-16">
+    <SectionHeader id="faq-heading" eyebrow={eyebrow} heading={heading} />
+
+    {/*
+      Native <details>, so the accordion works before — and without — any
+      JavaScript, and each answer stays in the document for search engines.
+      The plus rotates 45 degrees into a cross on open.
+
+      The shared `name` is what keeps one answer open at a time: it is the
+      platform's own exclusive-accordion grouping, so no script arbitrates it and
+      a browser too old to know the attribute degrades to the multi-open
+      accordion this was before rather than to a broken one. Only one FAQ renders
+      per page — the section hardcodes `faq-heading` — so a single group name is
+      safe.
+    */}
+    <div class="w-full">
+      {
+        items.map((item, i) => (
+          <details
+            name="service-faq"
+            class="disclosure group border-b border-border-subtle"
+          >
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between gap-6 py-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta [&::-webkit-details-marker]:hidden"
+            >
+              <h3 class="text-h5 text-text-primary">{item.question}</h3>
+              <Icon
+                src={plus}
+                size={20}
+                tone="current"
+                class="text-text-tertiary transition-transform duration-200 group-open:rotate-45 motion-reduce:transition-none"
+              />
+            </summary>
+            <p class="max-w-[68ch] pb-8 text-body text-text-secondary">
+              {answers[i].before}
+              {answers[i].link && (
+                <a
+                  href={answers[i].link.href}
+                  class="text-text-link underline underline-offset-2 transition-colors duration-200 hover:text-terracotta focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta motion-reduce:transition-none"
+                >
+                  {answers[i].link.label}
+                </a>
+              )}
+              {answers[i].after}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

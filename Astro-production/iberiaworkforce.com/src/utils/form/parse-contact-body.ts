@@ -11,6 +11,12 @@ function findFieldValue(raw: Record<string, FormDataEntryValue>, prefix: string)
   return undefined;
 }
 
+function parsePhoneCountry(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const match = value.trim().match(/(\+\d[\d\s-]*)/);
+  return match ? match[1].replace(/[\s-]/g, '') : undefined;
+}
+
 function findCountryCode(raw: Record<string, FormDataEntryValue>): string | undefined {
   for (const [key, value] of Object.entries(raw)) {
     if (key.includes('country-code') && typeof value === 'string' && isMeaningfulValue(value)) {
@@ -71,7 +77,12 @@ export function parseContactFormBody(
     fbclid: get('fbclid'),
     msclkid: get('msclkid'),
     nationality: get('nationality'),
-    countryCode: get('countryCode') ?? get('country_code') ?? get('phone-country-code') ?? findCountryCode(raw),
+    countryCode:
+      get('countryCode') ??
+      get('country_code') ??
+      get('phone-country-code') ??
+      parsePhoneCountry(get('phoneCountry') ?? get('phone_country')) ??
+      findCountryCode(raw),
     professionSector:
       get('professionSector') ?? get('profession_sector') ?? get('service') ?? experience,
     locPhysicalMs: get('locPhysicalMs') ?? get('loc_physical_ms') ?? get('locphysicalms'),

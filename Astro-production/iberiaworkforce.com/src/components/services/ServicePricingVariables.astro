@@ -1,0 +1,123 @@
+---
+/**
+ * Pricing as a named list of variables: the
+ * claim and its one-line answer over a white card that itemises what moves the
+ * number, with a photograph holding its own column beside them.
+ *
+ * The fourth pricing shape, and a page carries exactly one:
+ * `ServicePricing` quotes a flat rate as two plan cards, `ServicePricingNote`
+ * explains why there is no number at all, `ServicePricingSummary` publishes a
+ * floor and says what lifts it, and this one publishes no number but answers
+ * the same question the reader actually has — *what is it that I do not know
+ * yet?* Deliberately not a `pricingSummary` variant: that band floats one
+ * centred card over a full-bleed photograph, where this one is a two-column
+ * band whose photograph is a column rather than a backdrop.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import check from "../../assets/icons/check.svg";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<
+  CollectionEntry<"services">["data"]["pricingVariables"]
+>;
+
+const { heading, body, card, image, imageAlt } = Astro.props;
+---
+
+<section
+  id="pricing"
+  class="bg-bg-page py-20 lg:py-30"
+  aria-labelledby="pricing-variables-heading"
+>
+  {/*
+    `items-end` is what the frame draws: the copy column is shorter than the
+    640px photograph, and the two are aligned on their baseline rather than
+    their tops. The photograph is a track of what is left over rather than a
+    fraction, because the copy column is a fixed 800px in the frame.
+  */}
+  <div
+    class="section-shell grid gap-10 lg:grid-cols-[minmax(0,800px)_minmax(0,1fr)] lg:items-end"
+  >
+    <div class="flex flex-col items-start gap-10">
+      <header class="flex flex-col items-start gap-4" data-reveal>
+        <h2 id="pricing-variables-heading" class="text-h1 text-balance text-text-primary">
+          {heading}
+        </h2>
+        {body && <p class="text-body-lg text-text-secondary">{body}</p>}
+      </header>
+
+      <div
+        class="flex w-full flex-col items-start gap-8 rounded-lg bg-bg-surface p-6 md:p-10"
+        data-reveal
+        style="--reveal-i:1"
+      >
+        <h3 class="text-h3 text-text-primary">{card.heading}</h3>
+
+        {/*
+          `items-start` rather than the centred row `ServicePricing` uses for its
+          plan features: these lines run to a full measure and wrap on both
+          narrow frames, where a centred tick drifts to the middle of a
+          two-line item. The nudge is what keeps it on the cap line of the
+          first line at 16px in a 21px row — the same 2.5px Figma sets.
+        */}
+        <ul class="flex w-full flex-col items-start gap-4">
+          {
+            card.items.map((item) => (
+              <li class="flex w-full items-start gap-3">
+                <Icon src={check} size={16} class="mt-[0.15rem]" />
+                <span class="text-body-sm text-text-secondary">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          card.footnote && (
+            <p class="text-micro text-text-tertiary">{card.footnote}</p>
+          )
+        }
+
+        {
+          card.cta && (
+            /* Wrapped rather than annotated directly: Button declares its
+               props, so `data-reveal` on the component itself would be
+               dropped. */
+            <div class="w-full sm:w-auto">
+              <Button
+                variant="accent"
+                size="lg"
+                href={card.cta.href}
+                class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+              >
+                {card.cta.label}
+              </Button>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    {/*
+      Last in source order, so the photograph falls under the copy once the two
+      columns stack — it illustrates the band rather than introducing it, which
+      is the opposite of the `differentiator` photo layout, where the picture is
+      the subject and leads.
+    */}
+    <div
+      class="aspect-[11/16] w-full overflow-hidden rounded-xl sm:aspect-[3/2] lg:aspect-auto lg:h-[640px]"
+      data-reveal
+      style="--reveal-i:2"
+    >
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[430, 640, 880, 1280]}
+        sizes="(min-width: 1024px) 440px, 100vw"
+        class="size-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>

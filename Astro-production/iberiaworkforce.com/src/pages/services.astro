@@ -1,0 +1,27 @@
+---
+/**
+ * Placeholder route. Composed from homepage sections that already carry real
+ * copy — no invented content. Replace with the dedicated Services design when
+ * it exists in Figma.
+ */
+import Layout from "../layouts/Layout.astro";
+import Services from "../components/sections/Services.astro";
+import Pricing from "../components/sections/Pricing.astro";
+import Closing from "../components/sections/Closing.astro";
+import { getUi } from "../i18n/copy";
+import { siteOrganization } from "../lib/schema";
+
+const { lang, t } = getUi(Astro.url.pathname);
+---
+
+<Layout
+  title={t.servicesPage.title}
+  description={t.servicesPage.description}
+  schema={[siteOrganization(lang)]}
+>
+  {/* See the note in about.astro — interim h1 until this page has a design. */}
+  <h1 class="sr-only">{t.servicesPage.h1}</h1>
+  <Services />
+  <Pricing />
+  <Closing />
+</Layout>

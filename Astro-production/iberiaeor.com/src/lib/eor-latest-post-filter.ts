@@ -1,10 +1,25 @@
-import {
-  formatDate,
-  getCategories,
-  getPosts,
-  stripHtml,
-  type PostEntry,
-} from "./content";
+import { readCategories, readPosts } from "./data-store";
+import type { PostEntry } from "./content-types";
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function formatDate(date: string): string {
+  return new Date(date).toLocaleDateString("en-AE", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function getCategories() {
+  return readCategories().filter((c) => !c.status || c.status === "active");
+}
+
+function getPosts() {
+  return readPosts().filter((p) => !p.status || p.status === "published");
+}
 
 const FILTER_SLUGS = [
   "employee-relocation",

@@ -1,0 +1,255 @@
+# Employer of Record — Spain country page.
+# Figma nodes 86-22 (1440), 184-3960 (768), 184-1762 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+type: country
+label: Employer of Record in Spain
+
+seo:
+  title: Employer of Record in Spain — Iberia Work Force
+  description: >-
+    ETT-licensed, law firm-backed EOR in Spain. Hire without a company —
+    TGSS, CBA, non-EU permits and severance in-house. From €299 per employee
+    per month.
+  schema:
+    serviceName: Employer of Record Services Spain
+    serviceType: Employer of Record
+    areaServed: Spain
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  tone: light
+  heading: Employer of Record in Spain
+  subheading: Built to handle what global EOR platforms can't
+  badges:
+    - icon: protect
+      label: ETT Licensed
+    - icon: law
+      label: Law Firm Backed
+    - icon: employee
+      label: 30 Years Spanish Employment Law
+  body: >-
+    Hire employees in Spain without opening a company. Non-Schengen visas,
+    Beckham Law structures, CBA classifications — we handle the complexity most
+    providers escalate or decline.
+  image: ../../../assets/images/eor-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  eyebrow: WHAT IS AN EMPLOYER OF RECORD?
+  heading: You hire. We handle everything else.
+  paragraphs:
+    - >-
+      An employer of record is a company that becomes the legal employer of your
+      workers. You hire them, direct their work, set compensation. We handle the
+      employment contract, payroll processing, taxes, social security, and all
+      compliance.
+    - >-
+      In Spain, an EOR provider must hold an ETT licence to operate legally —
+      most global platforms don't.
+
+differentiator:
+  layout: stacked
+  # 86:58 sets 80px top and bottom, where the dark band normally runs 96/160.
+  spacing: compact
+  heading: Why Employer of Record works differently in Spain?
+  paragraphs:
+    - >-
+      EOR works fine in countries with shallow employment law. Spain is not one
+      of those countries. The gap between getting employment structure right and
+      getting it wrong is not small — severance obligations, collective
+      bargaining classifications, work permits for non-EU nationals, TGSS
+      registration that impacts your costs. These aren't edge cases. These are
+      decisions that get made at hire time.
+    - >-
+      Most global EOR platforms handle these with account managers working from
+      a checklist. We handle them with lawyers. That's the difference. When your
+      hire needs a Digital Nomad Visa, a Beckham Law tax structure, or a CBA
+      classification that doesn't fit the template — those are the cases we built
+      this service for. Not edge cases. Our standard cases.
+  background: ../../../assets/images/eor-spain-works.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  heading: >-
+    Why choose Iberia Workforce for Employer of Record services in Spain?
+  highlight: Employer of Record
+  items:
+    - title: We have the licence. Most EOR providers don't.
+      description: >-
+        Spanish law requires an ETT licence to legally supply workers to a third
+        party. We hold it. Global platforms don't. That difference matters.
+    - title: We're built for Spain's legal complexity.
+      description: >-
+        Non-Schengen visas for Chinese, Indian, and other non-EU nationals.
+        Beckham Law tax structure. CBA classifications that don't fit the
+        template. These aren't edge cases we escalate, they're what we're built
+        for.
+
+howItWorks:
+  # 219:2192 draws this band on the cream page colour with white cards.
+  surface: page
+  heading: How Employer of Record works in Spain?
+  steps:
+    - title: Tell us who you need to hire
+      description: >-
+        Role, location, start date. EU or non-EU nationality. We assess the
+        employment structure and flag compliance considerations upfront.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We handle all legal work
+      description: >-
+        Our lawyers prepare the employment contract under Spanish labour law. We
+        register with TGSS. We manage visa or work permit processing if required.
+        We classify the role under the applicable collective bargaining
+        agreement. You sign off. We execute.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee is live
+      description: >-
+        We run payroll month to month (TGSS contributions, IRPF withholding,
+        CBA-aligned rates). We manage ongoing HR administration. We carry the
+        legal exposure for severance, termination, and compliance violations. You
+        manage the work.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Ready to hire in Spain without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# The tablet and mobile frames swap the eyebrow and the headline of each item
+# and shorten the last two descriptions. The desktop frame is followed here, as
+# it is the one that carries the full copy.
+featureList:
+  heading: What's included in Employer of Record Services in Spain?
+  image: ../../../assets/images/eor-spain-included.webp
+  imageAlt: Colleagues talking in a bright Spanish office
+  items:
+    - eyebrow: Payroll Administration
+      title: Payroll & TGSS Compliance
+      description: >-
+        Monthly payroll processing with TGSS contributions (employer social
+        security), IRPF withholding (income tax), and statutory deductions. All
+        handled per Spanish tax law, not approximated from a global template.
+    - eyebrow: CBA Classification
+      title: CBA Classification & Employment Contracts
+      description: >-
+        We identify the applicable collective bargaining agreement for each role.
+        Contracts are drafted under Spanish labour law with CBA terms locked in
+        at hire time.
+    - eyebrow: Immigration Support
+      title: Work Permits & Visa Support
+      description: >-
+        Non-EU visas (HQP, Digital Nomad, standard work permits) handled in-house
+        with our immigration lawyers. Not outsourced to a third party.
+    - eyebrow: Termination Management
+      title: Severance & Termination Compliance
+      description: >-
+        Spanish law requires justified termination. We structure exits to comply
+        with notice periods, severance obligations, and unfair dismissal
+        protections.
+
+pricing:
+  # 219:2287 draws it on cream, like the band above it.
+  surface: page
+  eyebrow: PRICING
+  heading: Transparent pricing. No hidden costs.
+  plan:
+    name: Standard EOR
+    price: "€299"
+    unit: / employee / month
+    note: Flat rate. No setup fees for standard EU hires. No surprises.
+    features:
+      - No setup fees for EU nationals
+      - Employment contract & TGSS
+      - Payroll processing
+      - CBA compliance
+      - HR Administration
+    # Figma reuses the homepage card here, label and all. "See Full EOR Details"
+    # points at the hub rather than this page's own form, so the label stays
+    # true — see the note in CLAUDE.md's known gaps.
+    cta:
+      label: See Full EOR Details
+      href: /employer-of-record
+  custom:
+    eyebrow: Non-EU Work Permits
+    heading: Custom Quote
+    tagline: No hidden costs.
+    description: >-
+      HQP visas, Digital Nomad Visas, and standard work permits vary by
+      nationality and visa category. We quote after assessing your specific case.
+    cta:
+      label: Talk to an expert
+      href: "#contact-form"
+  footnote:
+    heading: Why transparent pricing matters?
+    body: >-
+      Spanish payroll costs are fixed by law (TGSS rates, IRPF withholding). The
+      only variable is visa complexity. We tell you upfront what you're paying
+      for.
+
+# The Figma accordion is drawn closed: it specifies the seven questions and no
+# answers. Both the questions and the answers below are the client's copy, which
+# expands several of the questions past the label Figma draws — the design gives
+# the order, the client gives the words.
+faq:
+  eyebrow: EMPLOYER OF RECORD SPAIN
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Spain?
+      answer: >-
+        Yes. EOR is a recognised employment structure in Spanish law. The EOR
+        provider must hold an ETT licence to operate legally. We do.
+    - question: How does EOR work with Beckham Law in Spain?
+      answer: >-
+        Beckham Law (the 5-year flat 24% tax regime for new residents) and EOR
+        can work together, but they require careful structuring. Your employment
+        contract and tax residency status must align to protect Beckham
+        eligibility. We ensure that from day one.
+    - question: Can you handle HQP and Digital Nomad Visas?
+      answer: >-
+        Yes. HQP (Highly Qualified Professional) visas and Digital Nomad Visas
+        are increasingly common. We handle the visa application, manage payroll
+        compliance, and ensure ongoing documentation requirements are met
+        throughout the visa term.
+    - question: How quickly can I hire someone in Spain?
+      answer: >-
+        EU nationals with standard documentation: 5–10 business days. Non-EU
+        nationals with work permits: longer, depending on visa category and how
+        fast the administration processes. We give realistic timelines upfront.
+    - question: What about severance in Spain? Is my hire at risk?
+      answer: >-
+        Spanish law requires justified termination. Unfair dismissal claims can
+        be costly. We structure employment from hire to potential exit to protect
+        you. If termination is challenged, we have lawyers to defend it.
+    - question: Do you handle remote work across borders?
+      answer: >-
+        If your employee is based in Spain, Spanish law applies. If they're
+        remote outside Spain, different rules apply depending on their location
+        and visa status. Tell us the scenario and we'll clarify before hire.
+    - question: Who is Iberia Workforce? What's your legal structure in Spain?
+      answer: >-
+        Iberia Workforce operates as an ETT-licensed employer of record in Spain.
+        We are based in Barcelona and part of Connect Group. Employment services
+        are delivered through an in-house legal structure backed by a Spanish law
+        firm with 30 years of employment law experience.
+
+closing:
+  heading: >-
+    Most hiring problems in Spain aren't complicated. They just need someone who
+    actually knows Spanish employment law.
+  body: >-
+    Tell us what you're trying to do — one hire, visa case, multi-country setup —
+    and we'll tell you exactly how it works. No jargon. No surprises.

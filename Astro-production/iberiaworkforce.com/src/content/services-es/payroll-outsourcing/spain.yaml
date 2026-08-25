@@ -1,0 +1,345 @@
+# Payroll Outsourcing — Spain country page.
+# Figma nodes 171-1359 (1440), 184-6805 (768), 184-6806 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first page outside the EOR category, and it needed no new section: every
+# band below is a switch on a component the EOR country pages already
+# generalised. Two of those switches are new — `pricingNote.tone: light` and
+# `closing.bodySize: note` — and both are documented in content.config.ts.
+type: country
+label: Externalización de nóminas en España
+
+seo:
+  title: Externalización de nóminas en España | Iberia Workforce
+  description: >-
+    Externalización de nóminas en España. Clasificación de convenio, TGSS y
+    procesamiento a prueba de auditorías, gestionados por abogados.
+  schema:
+    serviceName: Servicios de externalización de nóminas España
+    serviceType: Procesamiento y administración de nóminas
+    areaServed: España
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  tone: light
+  heading: Externalización de nóminas en España
+  subheading: Pleno cumplimiento. Menores costes. Un solo servicio.
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: licence
+      label: Especialistas en clasificación de convenio
+    - icon: employee
+      label: Expertos en TGSS + IRPF
+  body: >-
+    Tu nómina se procesa bien hasta que un auditor abre el expediente y
+    pregunta: «¿En qué convenio estáis realmente?» La mayoría de las empresas
+    no lo saben. Seis meses de regularizaciones salariales retrospectivas y
+    sanciones después, desearían haberlo sabido. Nosotros lo sabemos antes de
+    que se convierta en un problema.
+  # One crop, not the trio the EOR heroes ship: all three frames position the
+  # same overhead flatlay rather than cropping it three ways, so `ServiceHero`
+  # falls back to this file at every width and paints its full cream slab under
+  # the copy — which is the case that gradient was written for.
+  image: ../../../assets/images/payroll-spain-hero-background.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+# The light split: claim and CTA in the left column, the prose bottom-aligned in
+# the right. On white rather than cream, because the band below it is cream.
+differentiator:
+  tone: light
+  surface: surface
+  ctaPlacement: claim
+  heading: ¿Por qué importa la externalización de nóminas en España?
+  subheading: El problema de la mala clasificación de convenio
+  paragraphs:
+    - >-
+      La mayoría de las empresas se auto-clasifican el convenio. Una startup
+      tecnológica cree que está en «Oficinas y Despachos». No es así. Debería
+      estar en el convenio de Ingeniería/IT, con salarios mínimos más altos. A
+      los seis meses, una auditoría lo detecta. Ahora debes regularizaciones
+      salariales retrospectivas de todo el equipo técnico, más sanciones.
+    - >-
+      Tu software de nómina no sabe en qué Convenio estás realmente. Solo
+      procesa lo que le indiques. Si le indicas mal, corre mal durante meses.
+      Por eso necesitas especialistas de nómina que de verdad conozcan el
+      derecho español, no plantillas de software.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Four long reasons, so the Germany arrangement: cream band, white cards, the
+# contour texture behind both. No terracotta phrase — this frame sets the whole
+# claim in navy.
+whyChoose:
+  layout: cards
+  surface: page
+  background: ../../../assets/images/contour-texture-cream.webp
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para servicios de externalización de
+    nóminas en España?
+  items:
+    - title: >-
+        Conocemos el mapa de Convenios de España, incluidas las zonas grises en
+        las que cae tu sector.
+      description: >-
+        Tecnología, trabajo híbrido, logística, startups en rápido
+        crecimiento: vemos los errores de clasificación. Los detectamos en el
+        onboarding, no en la auditoría. Nuestro equipo jurídico revisa la
+        estructura real de puestos y confirma el convenio correcto de
+        antemano, para que la nómina corra bajo el marco adecuado desde el
+        primer mes.
+    - title: >-
+        El cumplimiento del convenio vive dentro de tu nómina mensual, no como
+        una casilla aparte.
+      description: >-
+        En cada ciclo de nómina, verificamos los puestos de tu equipo frente a
+        los Convenios asignados. Salarios mínimos, tramos de horas extra,
+        pagas obligatorias: todo calculado bajo el acuerdo correcto. No es una
+        revisión puntual. Es un control continuo.
+    - title: Asumimos el riesgo de auditoría, para que tú no lo asumas.
+      description: >-
+        Nómina mal clasificada. Lagunas de alta en la TGSS. Errores de
+        retención de IRPF. Si una auditoría lo señala, lo defendemos y
+        cubrimos el coste de las correcciones. Eso es lo que significa de
+        verdad «asumir el riesgo de compliance».
+    - title: >-
+        Lo hemos hecho a escala: más de 10.000 empleados en Europa, ahora
+        centrados en España.
+      description: >-
+        9 años ejecutando nómina en uno de los entornos con más compliance del
+        mundo (EAU). Esa profundidad operativa ahora evita que tu nómina
+        española se convierta en una pesadilla retrospectiva.
+
+howItWorks:
+  heading: ¿Cómo funciona la externalización de nóminas?
+  steps:
+    - title: Cuéntanos tu equipo
+      description: >-
+        Plantilla, puestos, ubicaciones dentro de España, categorías de visado
+        o permiso de trabajo. Valoramos la estructura de tu empresa e
+        identificamos el Convenio o Convenios aplicables a cada puesto antes
+        de asumir el procesamiento.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Asumimos el proceso mensual
+      description: >-
+        Cada mes: cálculo salarial bajo el convenio correcto, alta y
+        cotizaciones a la TGSS, retención de IRPF, deducciones legales,
+        nóminas entregadas. Tú aportas horas, cambios de puesto, ausencias.
+        Nosotros procesamos todo lo demás.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un documento impreso en un escritorio
+    - title: El compliance sigue siendo nuestra responsabilidad
+      description: >-
+        La nómina se ejecuta correctamente. Las presentaciones a la TGSS salen
+        a tiempo. Tu equipo cobra bajo el Convenio adecuado. Si algo salta —una
+        clasificación de puesto que no encaja en el acuerdo, un salario por
+        debajo del mínimo legal, un plus regional que no se tuvo en cuenta—,
+        lo detectamos antes de que se convierta en una sanción.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Quieres gestionar la nómina en España sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# The icon grid on white, so the cards take the grey wash. The tablet and mobile
+# frames head this section "What's included in an Employer of Record service?" —
+# a leftover from the frame they were duplicated from. The desktop wording is
+# followed here; see the note in CLAUDE.md's known gaps.
+included:
+  # The frame centres the header and the trailing button over the grid.
+  align: center
+  ctaAlign: center
+  eyebrow: SOPORTE INTEGRAL
+  heading: ¿Qué incluyen los servicios de externalización de nóminas en España?
+  surface: surface
+  columns: 4
+  items:
+    - icon: employment-contracts
+      title: Clasificación y verificación del Convenio Colectivo
+      description: >-
+        Identificación del convenio aplicable a cada puesto. Salarios mínimos,
+        tipos de horas extra, pagas obligatorias, límites de jornada: todo
+        confirmado y fijado en el onboarding, verificado en cada ciclo de
+        nómina.
+    - icon: shield-tick
+      title: Alta mensual en la TGSS y cotizaciones
+      description: >-
+        Cotizaciones empresariales y del empleado a la Seguridad Social
+        calculadas y presentadas correctamente ante la oficina regional
+        correspondiente. Sin aproximaciones, sin retrasos.
+    - icon: calculator
+      title: Retención de IRPF y cumplimiento del impuesto sobre la renta
+      description: >-
+        Retención del IRPF calculada por puesto, ubicación y variaciones
+        regionales de deducción. Presentada con precisión para evitar
+        correcciones o sanciones posteriores.
+    - icon: document-shield
+      title: Procesamiento de nóminas y generación de recibos
+      description: >-
+        Cálculo bruto-neto, deducciones legales, retribuciones alineadas con
+        el convenio y recibos conformes emitidos cada mes en el formato que
+        esperan las autoridades españolas.
+    - icon: hand-star
+      title: Gestión de pagas y pluses
+      description: >-
+        Pagas extraordinarias, pluses regionales de vacaciones, cheques
+        restaurante, ayudas de transporte: estructurados y abonados conforme
+        al Convenio aplicable.
+    - icon: severance
+      title: Cálculo de extinción e indemnización
+      description: >-
+        El derecho laboral español exige un despido justificado. Calculamos la
+        indemnización correctamente, presentamos las liquidaciones finales y
+        aseguramos el cumplimiento de la salida para que un despido no
+        desencadene una reclamación por despido improcedente.
+    - icon: beach-parasol
+      title: Control de ausencias y permisos
+      description: >-
+        Devengo de vacaciones, baja por enfermedad, maternidad/paternidad, días
+        festivos: controlados según las normas del Convenio y con la nómina
+        ajustada en consecuencia.
+    - icon: person-archive
+      title: Documentación a prueba de auditorías y archivo
+      description: >-
+        Cada decisión de nómina queda documentada: fundamento de la
+        clasificación de convenio, cálculo salarial por acuerdo, todas las
+        retenciones y cotizaciones presentadas. Si hay auditoría, el rastro
+        documental está ahí.
+  cta:
+    label: Confirma tu convenio
+    href: "#contact-form"
+
+# Pricing explained rather than quoted, and on cream with no photograph behind
+# it. Unlike EOR in Spain, payroll cost here moves with headcount and structure,
+# so there is no flat number to publish.
+pricingNote:
+  tone: light
+  # 547:6894 — the redrawn band puts a terracotta-washed courtyard behind the
+  # copy. The export carries the wash, so it is drawn at full strength.
+  background: ../../../assets/images/payroll-spain-pricing.webp
+  backgroundStrength: full
+  heading: Precios de externalización de nóminas en España
+  subheading: >-
+    Paga por plantilla o con una retainer mensual, lo que mejor encaje con tu
+    estructura.
+  paragraphs:
+    - >-
+      Cuéntanos tu equipo y te enviaremos la solución más eficiente en costes.
+  cta:
+    label: Solicita tu presupuesto a medida
+    href: "#contact-form"
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: EXTERNALIZACIÓN DE NÓMINAS ESPAÑA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Cómo sabéis qué Convenio Colectivo aplica a nuestra empresa?
+      answer: >-
+        Revisamos el tipo de empresa, la clasificación sectorial y el desglose
+        real de puestos. Después confirmamos el convenio o convenios aplicables
+        de antemano. Por ejemplo: empresa tecnológica, 25 personas, con sede
+        en Barcelona, sobre todo ingenieros y perfiles de producto → convenio
+        de Ingeniería/IT (no Oficinas y Despachos). Tomamos esa decisión antes
+        de que arranque la nómina, no después de que una auditoría la
+        cuestione.
+    - question: ¿Qué ocurre si ahora mismo estamos usando el Convenio equivocado?
+      answer: >-
+        Lo detectamos en la transición. Si has estado pagando bajo el Convenio
+        equivocado, señalamos la exposición, calculamos lo que debes en
+        regularizaciones retrospectivas y o bien ajustamos hacia adelante o
+        bien recomendamos una presentación correctora ante las autoridades. No
+        lo ocultamos.
+    - question: ¿Por qué es tan importante la clasificación de convenio?
+      answer: >-
+        Porque el Convenio equivocado significa los salarios mínimos
+        equivocados, los tipos de horas extra equivocados, las pagas
+        obligatorias equivocadas. Los auditores lo señalan. Debes atrasos más
+        sanciones. No es una casilla de compliance que marcar: es la diferencia
+        entre una nómina que resiste y una nómina que se convierte en un
+        pasivo.
+    - question: ¿Puede un software de externalización de nóminas resolver esto automáticamente?
+      answer: >-
+        No. El software procesa lo que le indiques. No conoce la clasificación
+        sectorial real de tu empresa ni en qué Convenio deberías estar. Eso es
+        una cuestión jurídica, no de procesamiento. Por eso hace falta que
+        abogados revisen la estructura, no solo contables que ejecuten las
+        cifras.
+    - question: ¿Qué cubre exactamente la TGSS y por qué cuesta tanto?
+      answer: >-
+        La TGSS es la Seguridad Social a cargo de la empresa: cotizaciones de
+        pensiones, asistencia sanitaria, incapacidad, seguro de accidentes de
+        trabajo. El coste empresarial ronda el 30 % sobre el salario bruto. Es
+        obligatorio e innegociable. Lo calculamos correctamente, lo presentamos
+        en plazo y lo rastreamos por empleado y por mes. Si tu persona de
+        nómina actual está adivinando el tipo, ahí empiezan los problemas.
+    - question: ¿Cómo funciona la retención de IRPF y importa la ubicación?
+      answer: >-
+        El IRPF es la retención del impuesto sobre la renta de las personas
+        físicas. El tipo depende del salario bruto del empleado y de las
+        variaciones regionales de deducción. Un empleado en Barcelona puede
+        tener una retención ligeramente distinta que uno en Madrid por el mismo
+        salario. Rastreamos los tipos específicos de cada ubicación y retenemos
+        correctamente. Se presenta mensualmente y se concilia anualmente.
+    - question: >-
+        ¿Cuál es la diferencia entre procesar la nómina y externalizar la
+        nómina?
+      answer: >-
+        La nómina es el recibo mensual y el cálculo. La externalización de
+        nóminas es el servicio completo: clasificación de convenio, generación
+        de nóminas, presentaciones a la TGSS, gestión del IRPF, pagas,
+        control de ausencias, planificación de indemnizaciones. La nómina es
+        una pieza. La externalización de nóminas es toda la responsabilidad.
+    - question: Si nos auditan, ¿quién se encarga?
+      answer: >-
+        Nosotros. Si la auditoría señala una mala clasificación o un error de
+        presentación bajo nuestra vigilancia, defendemos la posición,
+        presentamos correcciones si hace falta y cubrimos el coste de la
+        reparación. Eso es lo que significa asumir el riesgo de compliance.
+    - question: ¿Podemos hacer la transición a mitad de año o hay que esperar a enero?
+      answer: >-
+        Puedes hacer la transición cualquier mes. Gestionamos la migración de
+        datos, confirmamos la clasificación de convenio de tu equipo actual y
+        calculamos los ajustes prorrateados del mes de transición. La mayoría
+        de los clientes transitan en 2–3 semanas desde la firma.
+    - question: ¿Y si somos una empresa extranjera que contrata en España por primera vez?
+      answer: >-
+        Cuéntanos el puesto, la ubicación y si la contratación es de la UE o de
+        fuera. Confirmamos el Convenio aplicable, ejecutamos la nómina
+        correctamente desde el primer día y gestionamos TGSS/IRPF como si
+        llevaras años operando en España.
+    - question: ¿Quién es Iberia Workforce y cómo operáis en España?
+      answer: >-
+        Iberia Workforce opera como proveedor de externalización de nóminas en
+        España desde nuestra oficina de Barcelona. Formamos parte de Connect
+        Group. Nuestro equipo jurídico interno y los especialistas de nómina
+        gestionan la clasificación de convenio, el procesamiento de nóminas y
+        las presentaciones de TGSS/IRPF de forma directa, sin socios locales
+        externalizados. El equipo que estructura tu nómina es el mismo que se
+        asegura de que sea jurídicamente sólida.
+
+closing:
+  heading: La nómina en España es una prueba.
+  subheading: >-
+    Acierte la clasificación de convenio y el resto fluye. Equivóquela y estará
+    defendiendo regularizaciones salariales retrospectivas dos años después.
+  # The terracotta line above runs to three lines and is doing the lead's job,
+  # so this drops to 18px rather than the H3 the EOR country frames set.
+  bodySize: note
+  body: >-
+    Ya tienes empleados. Tu trabajo es gestionarlos, no descifrar Convenios y
+    códigos de la TGSS. Cuéntanos tu plantilla, puestos y configuración actual,
+    y te cotizaremos exactamente lo que cuesta la externalización de nóminas
+    para dejarla a prueba de auditorías a partir de ahora.

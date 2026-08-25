@@ -1,0 +1,278 @@
+# Employer of Record — Portugal country page.
+# Figma nodes 101-332 (1440), 184-1752 (768), 184-1759 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# Portugal and Spain are the same page shape with two deliberate differences:
+# the "what's included" band is the icon grid rather than the photo-and-list,
+# and pricing is explained rather than quoted (`pricingNote`, not `pricing`) —
+# Spanish payroll costs are fixed by statute, Portuguese ones are not.
+type: country
+label: Employer of Record en Portugal
+
+seo:
+  title: Employer of Record en Portugal | Iberia Workforce
+  description: >-
+    Employer of Record en Portugal. Código do Trabalho, visados de fuera de
+    la UE y costes de nómina transparentes. Dirigido por abogados, no por
+    plantillas.
+  schema:
+    serviceName: Servicios de Employer of Record Portugal
+    serviceType: Employer of Record
+    areaServed: Portugal
+    # No address: the brief marks this page's office location PENDING, and an
+    # invented city in structured data is worse than an absent one. Add it
+    # here when the client confirms.
+
+hero:
+  tone: light
+  heading: Employer of Record en Portugal
+  subheading: Estructurado en torno al Código do Trabalho, no a una plantilla global
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: licence
+      label: Expertos en el Código do Trabalho
+    - icon: global
+      label: Portugal + 4 países europeos
+  body: >-
+    Contrata empleados en Portugal sin abrir una sociedad. Cumplimiento del
+    Código do Trabalho, permisos de trabajo por varias vías para
+    contrataciones de fuera de la UE, procedimientos estrictos de extinción:
+    estructurado correctamente desde el inicio.
+  image: ../../../assets/images/eor-portugal-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-portugal-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-portugal-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  heading: ¿Qué es un Employer of Record en Portugal?
+  image: ../../../assets/images/eor-portugal-definition.webp
+  imageAlt: Dos compañeros conversando junto a un portátil en una oficina de Lisboa
+  paragraphs:
+    - >-
+      En Portugal, un employer of record es una estructura jurídica que gestiona
+      el contrato de trabajo al amparo del Código do Trabalho, administra el
+      sistema salarial obligatorio de 14 pagas, coordina los permisos de
+      trabajo para contrataciones de fuera de la UE y asume el riesgo de
+      compliance de unos procedimientos de extinción estrictos, mientras tú
+      conservas el control operativo del trabajo del día a día.
+
+differentiator:
+  layout: statements
+  heading: ¿Por qué el Employer of Record funciona de otra manera en Portugal?
+  paragraphs:
+    - >-
+      El código laboral portugués no deja mucho margen para la improvisación.
+      El sistema de 14 pagas, las normas estrictas de periodo de prueba y
+      extinción, la cobertura de convenio colectivo, los permisos de trabajo
+      para contrataciones de fuera de la UE: no son detalles que se parcheen
+      después de haber contratado. Son decisiones que fijan tu exposición
+      jurídica desde el primer día.
+    - >-
+      Una lista de comprobación no detecta lo que ocurre cuando termina el
+      periodo de prueba y se impugna la extinción, o cuando la categoría de
+      visado de una contratación de fuera de la UE no coincide con el puesto
+      que realmente ofreces. El nuestro es un equipo jurídico, no una cola de
+      soporte: las personas que estructuran tu contrato son las mismas que lo
+      defenderían si alguna vez se impugnara.
+  prompt: >-
+    ¿Reservas una llamada de 20 minutos para aclarar qué periodo de prueba
+    aplica a tu contratación?
+  background: ../../../assets/images/eor-portugal-lisbon-office.webp
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para servicios de Employer of Record en
+    Portugal?
+  highlight: Employer of Record
+  items:
+    - title: Encajamos la contratación en la vía de visado correcta.
+      description: >-
+        D1, D3, la Tarjeta Azul UE, un esquema de empleador extranjero: cada
+        uno encaja en una realidad distinta, y el equivocado se impugna en la
+        AIMA, no en nuestro lado. Te decimos cuál necesitas antes de que te
+        comprometas.
+    - title: >-
+        Redactamos contratos que resisten una impugnación, no solo contratos
+        que se firman.
+      description: >-
+        Duración del periodo de prueba, clasificación de convenio, causas de
+        extinción: se fijan en el momento de la contratación y rara vez se
+        revisan hasta que algo va mal. Acertarlas desde el primer día es lo que
+        evita que una extinción se convierta en un litigio meses después.
+
+howItWorks:
+  # Cream rather than white here: the bands either side of it are white, so this
+  # is what keeps the page alternating. The Spain page is the other way round.
+  surface: page
+  heading: ¿Cómo funciona el Employer of Record en Portugal?
+  steps:
+    - title: Cuéntanos la contratación
+      description: >-
+        Puesto, salario, fecha de incorporación y si esta persona vive en
+        Portugal o necesita un visado. En contrataciones de fuera de la UE,
+        confirmamos de antemano si aplica D1, D3, la Tarjeta Azul UE u otra vía,
+        antes de que empiece ningún trámite.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un escritorio de oficina revisando un documento juntos
+    - title: Redactamos el contrato y tramitamos el alta
+      description: >-
+        Contrato de trabajo al amparo del Código do Trabalho, inscripción en la
+        Segurança Social, la clasificación de convenio colectivo aplicable y la
+        tramitación de visado o permiso de residencia si hace falta. Tú
+        apruebas las condiciones. Nosotros tramitamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu empleado empieza
+      description: >-
+        La nómina mensual contempla la estructura salarial de 14 pagas y el
+        plus de comida, calculado por día efectivamente trabajado. Periodo de
+        prueba, rendimiento y, si llega el caso, la extinción: gestionamos el
+        proceso para que resista.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  # Figma's prompt here still reads "Ready to hire in Spain…" at all three
+  # widths — a leftover from the Spain frame it was duplicated from.
+  prompt: ¿Listo para contratar en Portugal sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  columns: 3
+  surface: surface
+  align: center
+  heading: ¿Qué incluyen los servicios de EOR en Portugal?
+  items:
+    - icon: contract-briefcase
+      title: Contratos de trabajo y compliance
+      description: >-
+        Redactados en portugués, estructurados al amparo del Código do
+        Trabalho, con la clasificación del puesto alineada al convenio
+        colectivo pertinente desde el primer día.
+    - icon: pay-envelope
+      title: Nómina y sistema de 14 pagas
+      description: >-
+        Nómina mensual que contempla las pagas extraordinarias obligatorias de
+        Navidad y vacaciones, las cotizaciones empresariales a la Segurança
+        Social y la retención de IRS, calculadas correctamente desde el primer
+        recibo.
+    - icon: meal-allowance
+      title: Plus de comida, calculado por día
+      description: >-
+        Se paga además del salario, no se integra en él. El importe varía de un
+        mes a otro según los días efectivamente trabajados: se muestra de
+        antemano, no se promedia en una cifra plana.
+    - icon: permit-passport
+      title: Permisos de trabajo y estructuración de visados
+      description: >-
+        D1, D3, Tarjeta Azul UE o un esquema de empleador extranjero:
+        identificamos qué estructura encaja realmente con tu contratación y
+        gestionamos la tramitación ante la AIMA.
+    - icon: accident-insurance
+      title: Seguro obligatorio de accidentes
+      description: >-
+        Cada empleado está cubierto frente a lesiones profesionales con una
+        póliza de accidentes de trabajo, facturada como parte de tu coste
+        mensual, no como una factura anual aparte.
+    - icon: probation-support
+      title: Apoyo en periodo de prueba y extinción
+      description: >-
+        El periodo de prueba se ajusta a la complejidad del puesto. Si hay que
+        poner fin a una relación laboral, gestionamos el proceso de extremo a
+        extremo: causas, documentación, plazos.
+  cta:
+    label: Solicita un desglose de costes de tu contratación
+    href: "#contact-form"
+
+pricingNote:
+  heading: Precios de Employer of Record en Portugal
+  paragraphs:
+    - >-
+      No cotizamos una cifra plana para Portugal, porque las variables que de
+      verdad mueven tu coste —contratación de la UE o de fuera, categoría de
+      visado, clasificación del puesto en el convenio— cambian la estructura lo
+      bastante como para que una tarifa plana o bien sobrecargue las
+      contrataciones simples o bien infravalore las complejas.
+    - >-
+      Lo que siempre recibirás antes de comprometerte: un desglose completo de
+      la tarifa base, los costes de nómina incluida la estructura de 14 pagas,
+      el rango del plus de comida según tu patrón de trabajo y el seguro
+      obligatorio; sin partidas aparte que aparezcan después.
+  background: ../../../assets/images/eor-portugal-azulejo.webp
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client.
+faq:
+  eyebrow: EMPLOYER OF RECORD PORTUGAL
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en Portugal?
+      answer: >-
+        Sí. El EOR es una vía reconocida y legalmente establecida para
+        contratar en Portugal. Aquí no se exige una licencia especial para
+        operar como proveedor: la complejidad está en el propio Código do
+        Trabalho, no en un régimen de licencias.
+    - question: ¿Cuánto cuesta un employer of record en Portugal?
+      answer: >-
+        Depende de la plantilla, el tipo de contrato y de si la contratación
+        necesita patrocinio de visado. La estructura de costes de Portugal
+        tiene demasiadas piezas móviles para que una sola cifra plana sea
+        honesta. Cuéntanos tu escenario y te explicaremos exactamente lo que
+        cuesta.
+    - question: ¿En cuánto tiempo puedo contratar a alguien en Portugal?
+      answer: >-
+        Nacionales de la UE/EEE con documentación estándar: normalmente 1–2
+        semanas. Las contrataciones de fuera de la UE que necesitan D1, D3 o
+        Tarjeta Azul añaden semanas más mientras la AIMA tramita el permiso de
+        residencia: el plazo exacto depende de la categoría de visado y de la
+        nacionalidad. Te damos una estimación realista, no una optimista.
+    - question: ¿Puedo usar un EOR si mi contratación tiene un visado de nómada digital (D8)?
+      answer: >-
+        No exactamente, y conviene ser directos. El D8 está pensado para
+        personas que siguen empleadas por una empresa fuera de Portugal; no
+        está diseñado en torno a una relación de EOR basada en Portugal. Si tu
+        contratación tiene que ser un empleado genuino en Portugal, D1 o D3
+        suele ser la vía correcta según sus cualificaciones. Te diremos qué
+        estructura encaja de verdad en tu situación, en lugar de forzar una
+        contratación en el visado que sea más fácil de tramitar.
+    - question: ¿Qué ocurre si necesito poner fin a la relación laboral de alguien?
+      answer: >-
+        Portugal no reconoce el despido a voluntad. Cada extinción necesita
+        causas documentadas y justificadas: causa disciplinaria, despido
+        objetivo o mutuo acuerdo. En la práctica, lo que hace prosperar una
+        impugnación es un paso procedimental omitido, no la decisión de fondo.
+        Integramos esa disciplina de proceso en el contrato desde el inicio, no
+        como un arreglo a posteriori.
+    - question: ¿Por qué varía el coste mensual de la nómina?
+      answer: >-
+        Sobre todo el plus de comida: se paga por día efectivamente trabajado,
+        así que un mes con vacaciones o ausencias mostrará un total más bajo
+        que un mes laboral completo. Lo advertimos de antemano para que nunca
+        sea una sorpresa en la factura.
+    - question: ¿Quién es Iberia Workforce y cuál es vuestra estructura jurídica?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. No hay intermediario
+        local entre tú y las personas que hacen el trabajo: el mismo equipo que
+        redacta tu contrato, gestiona la nómina y tramita visados ante la AIMA
+        es con quien estás en contacto durante todo el proceso.
+
+closing:
+  heading: No hace falta que te conviertas en experto en el Código do Trabalho.
+  subheading: Necesitas a alguien que ya lo sea.
+  body: >-
+    Todos los escenarios de esta página empiezan igual: describe la
+    contratación y trazaremos la vía de visado, las condiciones del contrato y
+    el coste mensual real antes de que te comprometas a nada.

@@ -1,0 +1,166 @@
+---
+import { Image } from "astro:assets";
+import countrySpain from "../../assets/images/country-spain.webp";
+import countryGermany from "../../assets/images/country-germany.webp";
+import countryPortugal from "../../assets/images/country-portugal.webp";
+import countryPoland from "../../assets/images/country-poland.webp";
+import countryItaly from "../../assets/images/country-italy.webp";
+import flagSpain from "../../assets/flags/flag-spain.svg";
+import flagGermany from "../../assets/flags/flag-germany.svg";
+import flagPortugal from "../../assets/flags/flag-portugal.svg";
+import flagPoland from "../../assets/flags/flag-poland.svg";
+import flagItaly from "../../assets/flags/flag-italy.svg";
+import { getUi } from "../../i18n/copy";
+import CarouselControls from "../ui/CarouselControls.astro";
+
+const { t } = getUi(Astro.url.pathname);
+const g = t.geography;
+
+const countryAssets = [
+  {
+    photo: countrySpain,
+    flag: flagSpain,
+    primary: true,
+    width: "lg:w-[280px]",
+    overlay: "to-[rgba(12,28,44,0.72)]",
+  },
+  {
+    photo: countryGermany,
+    flag: flagGermany,
+    primary: false,
+    width: "lg:w-[238px]",
+    overlay: "to-[rgba(12,28,44,0.56)]",
+  },
+  {
+    photo: countryPortugal,
+    flag: flagPortugal,
+    primary: false,
+    width: "lg:w-[238px]",
+    overlay: "to-[rgba(12,28,44,0.72)]",
+  },
+  {
+    photo: countryPoland,
+    flag: flagPoland,
+    primary: false,
+    width: "lg:w-[238px]",
+    overlay: "to-[rgba(12,28,44,0.72)]",
+  },
+  {
+    photo: countryItaly,
+    flag: flagItaly,
+    primary: false,
+    width: "lg:w-[238px]",
+    overlay: "to-[rgba(12,28,44,0.72)]",
+  },
+];
+
+const countries = g.countries.map((country, i) => ({
+  ...countryAssets[i]!,
+  name: country.name,
+  alt: country.alt,
+}));
+---
+
+<section
+  id="industries"
+  class="bg-bg-page py-20"
+  aria-labelledby="geography-heading"
+>
+  <div class="section-shell flex flex-col items-start gap-12">
+    <header class="flex flex-col items-start gap-3" data-reveal>
+      <div class="flex flex-col items-start gap-3">
+        <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+          {g.eyebrow}
+        </p>
+        <h2
+          id="geography-heading"
+          class="text-h2 text-text-primary"
+        >
+          {g.heading}
+        </h2>
+      </div>
+      <p class="text-body text-text-secondary">
+        {g.body}
+      </p>
+    </header>
+
+    {/*
+      Scroll-snap strip below lg, five-across row at lg. The cards are tall
+      portraits, so squeezing five onto a phone is the wrong trade — scrolling
+      keeps each one at its designed proportions.
+    */}
+    <ul
+      id="countries-carousel"
+      class="carousel self-stretch lg:flex lg:gap-3"
+      tabindex="0"
+      role="group"
+      aria-label={g.aria}
+    >
+      {
+        countries.map((country, i) => (
+          <li
+            data-reveal="deal"
+            style={`--reveal-i:${i}`}
+            class:list={[
+              "carousel-item card-glow relative isolate flex h-[360px] flex-col justify-end overflow-hidden rounded-lg",
+              // `flex-1` only from lg: in a column/carousel context it would
+              // zero the flex-basis on the main axis and collapse the height.
+              "lg:flex-1",
+              country.width,
+            ]}
+          >
+            <Image
+              src={country.photo}
+              alt={country.alt}
+              widths={[238, 476, 560]}
+              sizes="(min-width: 1024px) 280px, 86vw"
+              class="pointer-events-none absolute inset-0 -z-10 size-full object-cover"
+              loading="lazy"
+            />
+            <div
+              class:list={[
+                "pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(12,28,44,0)]",
+                country.overlay,
+              ]}
+              aria-hidden="true"
+            />
+
+            {country.primary && (
+              <span class="absolute top-3 right-0 rounded-tl-[4px] rounded-bl-xl bg-bg-surface px-2.5 py-1 text-caption font-medium tracking-[0.26px] whitespace-nowrap text-text-primary">
+                {g.primary}
+              </span>
+            )}
+
+            {/*
+              Flag chip, matching the design: a 40x40 flag (rx 2) inside a 10px
+              cream ring (rx 7), 60x60 overall. The ring lives here rather than
+              in the artwork so all five countries render identically — the
+              Figma exports were inconsistent about baking it in.
+            */}
+            <span class="absolute top-5 left-5 rounded-[7px] bg-bg-page p-2.5">
+              <Image
+                src={country.flag}
+                alt=""
+                width={40}
+                height={40}
+                loading="lazy"
+                decoding="async"
+                class="block size-10 rounded-[2px]"
+              />
+            </span>
+
+            <span class="p-5 text-h3 whitespace-nowrap text-text-inverse">
+              {country.name}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <CarouselControls
+      for="countries-carousel"
+      count={countries.length}
+      class="w-full text-text-primary"
+    />
+  </div>
+</section>

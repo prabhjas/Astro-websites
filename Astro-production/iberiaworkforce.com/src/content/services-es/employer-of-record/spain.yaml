@@ -1,0 +1,271 @@
+# Employer of Record — Spain country page.
+# Figma nodes 86-22 (1440), 184-3960 (768), 184-1762 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+type: country
+label: Employer of Record en España
+
+seo:
+  title: Employer of Record en España — Iberia Work Force
+  description: >-
+    EOR en España con licencia ETT y respaldo de un despacho. Contrata sin
+    abrir sociedad: TGSS, convenio, visados e indemnizaciones. Desde 299 €
+    por empleado/mes.
+  schema:
+    serviceName: Servicios de Employer of Record España
+    serviceType: Employer of Record
+    areaServed: España
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  tone: light
+  heading: Employer of Record en España
+  subheading: Hecho para lo que las plataformas globales de EOR no pueden resolver
+  badges:
+    - icon: protect
+      label: Licencia ETT
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: employee
+      label: 30 años de derecho laboral español
+  body: >-
+    Contrata empleados en España sin abrir una sociedad. Visados no Schengen,
+    estructuras de la Ley Beckham, clasificaciones de convenio: gestionamos la
+    complejidad que la mayoría de los proveedores escalan o rechazan.
+  image: ../../../assets/images/eor-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  eyebrow: ¿QUÉ ES UN EMPLOYER OF RECORD?
+  heading: Tú contratas. Nosotros nos encargamos del resto.
+  paragraphs:
+    - >-
+      Un employer of record es una empresa que se convierte en el empleador
+      legal de tus trabajadores. Tú los contratas, diriges su trabajo y fijas
+      la retribución. Nosotros gestionamos el contrato de trabajo, la nómina,
+      los impuestos, la Seguridad Social y todo el compliance.
+    - >-
+      En España, un proveedor de EOR debe tener licencia ETT para operar de
+      forma legal: la mayoría de las plataformas globales no la tienen.
+
+differentiator:
+  layout: stacked
+  # 86:58 sets 80px top and bottom, where the dark band normally runs 96/160.
+  spacing: compact
+  heading: ¿Por qué el Employer of Record funciona de otra manera en España?
+  paragraphs:
+    - >-
+      El EOR funciona bien en países con un derecho laboral poco profundo.
+      España no es uno de esos países. La diferencia entre acertar la
+      estructura laboral y equivocarse no es pequeña: obligaciones de
+      indemnización, clasificaciones de convenio colectivo, permisos de trabajo
+      para nacionales de fuera de la UE, altas en la TGSS que impactan en tus
+      costes. No son casos excepcionales. Son decisiones que se toman en el
+      momento de la contratación.
+    - >-
+      La mayoría de las plataformas globales de EOR las resuelven con gestores
+      de cuentas que siguen una lista de comprobación. Nosotros las resolvemos
+      con abogados. Esa es la diferencia. Cuando tu contratación necesita un
+      visado de nómada digital, una estructura fiscal de la Ley Beckham o una
+      clasificación de convenio que no encaja en la plantilla, esos son los
+      casos para los que construimos este servicio. No son excepciones. Son
+      nuestros casos habituales.
+  background: ../../../assets/images/eor-spain-works.webp
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para servicios de Employer of Record en
+    España?
+  highlight: Employer of Record
+  items:
+    - title: Tenemos la licencia. La mayoría de los proveedores de EOR no.
+      description: >-
+        La ley española exige una licencia ETT para ceder trabajadores a un
+        tercero de forma legal. Nosotros la tenemos. Las plataformas globales
+        no. Esa diferencia importa.
+    - title: Estamos pensados para la complejidad jurídica de España.
+      description: >-
+        Visados no Schengen para nacionales chinos, indios y de otros países
+        fuera de la UE. Estructura fiscal de la Ley Beckham. Clasificaciones de
+        convenio que no encajan en la plantilla. No son casos que escalemos:
+        son para lo que estamos hechos.
+
+howItWorks:
+  # 219:2192 draws this band on the cream page colour with white cards.
+  surface: page
+  heading: ¿Cómo funciona el Employer of Record en España?
+  steps:
+    - title: Cuéntanos a quién necesitas contratar
+      description: >-
+        Puesto, ubicación, fecha de incorporación. Nacionalidad de la UE o de
+        fuera. Valoramos la estructura laboral y señalamos las consideraciones
+        de compliance desde el principio.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Nosotros nos encargamos de todo lo jurídico
+      description: >-
+        Nuestros abogados preparan el contrato de trabajo conforme al derecho
+        laboral español. Damos de alta en la TGSS. Gestionamos el visado o el
+        permiso de trabajo si hace falta. Clasificamos el puesto en el convenio
+        colectivo aplicable. Tú das el visto bueno. Nosotros ejecutamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu empleado está operativo
+      description: >-
+        Gestionamos la nómina mes a mes (cotizaciones a la TGSS, retención de
+        IRPF, retribuciones alineadas con el convenio). Administramos los
+        RR. HH. de forma continua. Asumimos el riesgo jurídico de
+        indemnizaciones, extinciones e incumplimientos. Tú diriges el trabajo.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Listo para contratar en España sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# The tablet and mobile frames swap the eyebrow and the headline of each item
+# and shorten the last two descriptions. The desktop frame is followed here, as
+# it is the one that carries the full copy.
+featureList:
+  heading: ¿Qué incluyen los servicios de Employer of Record en España?
+  image: ../../../assets/images/eor-spain-included.webp
+  imageAlt: Compañeros conversando en una oficina luminosa en España
+  items:
+    - eyebrow: Administración de nóminas
+      title: Nómina y cumplimiento TGSS
+      description: >-
+        Nómina mensual con cotizaciones a la TGSS (Seguridad Social a cargo de
+        la empresa), retención de IRPF (impuesto sobre la renta) y deducciones
+        legales. Todo conforme a la normativa fiscal española, no aproximado
+        desde una plantilla global.
+    - eyebrow: Clasificación de convenio
+      title: Clasificación de convenio y contratos de trabajo
+      description: >-
+        Identificamos el convenio colectivo aplicable a cada puesto. Los
+        contratos se redactan conforme al derecho laboral español, con las
+        condiciones del convenio fijadas en el momento de la contratación.
+    - eyebrow: Apoyo en extranjería
+      title: Permisos de trabajo y apoyo en visados
+      description: >-
+        Visados de fuera de la UE (HQP, nómada digital, permisos de trabajo
+        ordinarios) gestionados internamente con nuestros abogados de
+        extranjería. No externalizado a un tercero.
+    - eyebrow: Gestión de extinciones
+      title: Indemnización y cumplimiento en la extinción
+      description: >-
+        La ley española exige un despido justificado. Estructuramos las salidas
+        para cumplir plazos de preaviso, obligaciones de indemnización y
+        protecciones frente al despido improcedente.
+
+pricing:
+  # 219:2287 draws it on cream, like the band above it.
+  surface: page
+  eyebrow: PRECIOS
+  heading: Precios transparentes. Sin costes ocultos.
+  plan:
+    name: EOR estándar
+    price: "€299"
+    unit: / empleado / mes
+    note: Tarifa plana. Sin costes de alta para contrataciones estándar de la UE. Sin sorpresas.
+    features:
+      - Sin costes de alta para nacionales de la UE
+      - Contrato de trabajo y TGSS
+      - Gestión de nóminas
+      - Cumplimiento de convenio
+      - Administración de RR. HH.
+    # Figma reuses the homepage card here, label and all. "See Full EOR Details"
+    # points at the hub rather than this page's own form, so the label stays
+    # true — see the note in CLAUDE.md's known gaps.
+    cta:
+      label: Ver todos los detalles de EOR
+      href: /employer-of-record
+  custom:
+    eyebrow: Permisos de trabajo de fuera de la UE
+    heading: Presupuesto a medida
+    tagline: Sin costes ocultos.
+    description: >-
+      Los visados HQP, los visados de nómada digital y los permisos de trabajo
+      ordinarios varían según la nacionalidad y la categoría de visado.
+      Presupuestamos después de valorar tu caso concreto.
+    cta:
+      label: Habla con un experto
+      href: "#contact-form"
+  footnote:
+    heading: ¿Por qué importa un precio transparente?
+    body: >-
+      Los costes de nómina en España están fijados por ley (tipos de TGSS,
+      retención de IRPF). La única variable es la complejidad del visado. Te
+      decimos de antemano por qué estás pagando.
+
+# The Figma accordion is drawn closed: it specifies the seven questions and no
+# answers. Both the questions and the answers below are the client's copy, which
+# expands several of the questions past the label Figma draws — the design gives
+# the order, the client gives the words.
+faq:
+  eyebrow: EMPLOYER OF RECORD ESPAÑA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en España?
+      answer: >-
+        Sí. El EOR es una estructura laboral reconocida en el derecho español.
+        El proveedor de EOR debe tener licencia ETT para operar de forma legal.
+        Nosotros la tenemos.
+    - question: ¿Cómo encaja el EOR con la Ley Beckham en España?
+      answer: >-
+        La Ley Beckham (el régimen de tipo fijo del 24 % durante 5 años para
+        nuevos residentes) y el EOR pueden combinarse, pero exigen una
+        estructuración cuidadosa. El contrato de trabajo y la residencia fiscal
+        deben alinearse para proteger la elegibilidad Beckham. Lo garantizamos
+        desde el primer día.
+    - question: ¿Podéis gestionar visados HQP y de nómada digital?
+      answer: >-
+        Sí. Los visados HQP (Highly Qualified Professional) y los visados de
+        nómada digital son cada vez más habituales. Gestionamos la solicitud de
+        visado, el cumplimiento de la nómina y nos aseguramos de que se cumplan
+        los requisitos documentales a lo largo de toda la vigencia del visado.
+    - question: ¿En cuánto tiempo puedo contratar a alguien en España?
+      answer: >-
+        Nacionales de la UE con documentación estándar: 5–10 días hábiles.
+        Nacionales de fuera de la UE con permiso de trabajo: más tiempo, según
+        la categoría de visado y la rapidez de la Administración. Damos plazos
+        realistas de antemano.
+    - question: ¿Qué ocurre con la indemnización en España? ¿Mi contratación está en riesgo?
+      answer: >-
+        La ley española exige un despido justificado. Las reclamaciones por
+        despido improcedente pueden ser costosas. Estructuramos la relación
+        laboral desde la contratación hasta una posible salida para protegerte.
+        Si la extinción se impugna, tenemos abogados para defenderla.
+    - question: ¿Gestionáis el teletrabajo transfronterizo?
+      answer: >-
+        Si tu empleado está basado en España, se aplica la ley española. Si
+        teletrabaja fuera de España, rigen normas distintas según su ubicación
+        y su situación de visado. Cuéntanos el escenario y lo aclararemos antes
+        de contratar.
+    - question: ¿Quién es Iberia Workforce? ¿Cuál es vuestra estructura jurídica en España?
+      answer: >-
+        Iberia Workforce opera como employer of record con licencia ETT en
+        España. Tenemos nuestra sede en Barcelona y formamos parte de Connect
+        Group. Los servicios de empleo se prestan a través de una estructura
+        jurídica interna respaldada por un despacho de abogados español con 30
+        años de experiencia en derecho laboral.
+
+closing:
+  heading: >-
+    La mayoría de los problemas de contratación en España no son complicados.
+    Solo hace falta alguien que de verdad conozca el derecho laboral español.
+  body: >-
+    Cuéntanos qué quieres hacer —una contratación, un caso de visado, un
+    despliegue en varios países— y te diremos exactamente cómo funciona. Sin
+    jerga. Sin sorpresas.

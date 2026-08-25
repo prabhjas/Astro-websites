@@ -1,0 +1,68 @@
+---
+/**
+ * "Would you rather talk first?" — the short terracotta band under the contact
+ * page's timeline.
+ *
+ * A heavily defocused office photograph sits over the terracotta fill in
+ * `mix-blend-screen`, which is what stops the band reading as a flat rectangle
+ * of brand colour: the blur lifts a soft bloom out of the fill rather than
+ * showing a scene. The photograph is far taller than the band (720px over a
+ * ~164px strip at 1440), so only a slice of its middle is visible — positioned
+ * with `object-cover` rather than the frame's absolute offsets, which would
+ * mean re-deriving the top edge from the band's height at every width.
+ *
+ * The claim stays navy on terracotta, as drawn: 4.48:1 at 36px. The button is
+ * `accent-deep`, because the lighter accent wash has nothing to contrast with
+ * here.
+ */
+import { Image } from "astro:assets";
+import bloom from "../../assets/images/contact-alternate-bloom.webp";
+import { getUi } from "../../i18n/copy";
+import Button from "../ui/Button.astro";
+
+const { t } = getUi(Astro.url.pathname);
+const c = t.contactAlternate;
+---
+
+<section
+  class="relative isolate overflow-hidden bg-terracotta py-14"
+  aria-labelledby="contact-alternate-heading"
+>
+  <Image
+    src={bloom}
+    alt=""
+    widths={[768, 1024, 1440, 1536]}
+    sizes="100vw"
+    class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-[center_62%] mix-blend-screen"
+    loading="lazy"
+    aria-hidden="true"
+  />
+
+  {/*
+    Centred and stacked until `lg` — both narrow frames put the claim over the
+    button on the centre line, and only the 1440 frame runs them as a row with
+    the button at the right margin.
+  */}
+  <div
+    class="section-shell flex flex-col items-center gap-8 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:text-left"
+  >
+    <h2
+      id="contact-alternate-heading"
+      class="text-h2 text-balance text-text-primary lg:max-w-[500px]"
+      data-reveal
+    >
+      {c.heading}
+    </h2>
+
+    <div class="w-full sm:w-auto" data-reveal style="--reveal-i:1">
+      <Button
+        variant="accent-deep"
+        size="lg"
+        href="#book-a-meeting"
+        class="w-full sm:w-auto"
+      >
+        {c.cta}
+      </Button>
+    </div>
+  </div>
+</section>

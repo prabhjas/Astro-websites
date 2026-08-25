@@ -1,0 +1,199 @@
+---
+import type { CollectionEntry } from "astro:content";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import Button from "../ui/Button.astro";
+import CarouselControls from "../ui/CarouselControls.astro";
+import Icon from "../ui/Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["countries"]>;
+
+const {
+  eyebrow,
+  heading,
+  lead,
+  featured,
+  others,
+  align = "center",
+} = Astro.props;
+
+/** The Temporary Staffing frames run the header and its lead from the left. */
+const start = align === "start";
+---
+
+<section
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="countries-heading"
+>
+  <div
+    class:list={[
+      "section-shell flex flex-col gap-12 lg:gap-20",
+      start ? "items-start" : "items-center",
+    ]}
+  >
+    {/*
+      The header and its lead are one block, 24px apart, and the section's own
+      gap holds them off the cards. They were all three loose in the same
+      `gap-12 lg:gap-20` column, which put the lead as far from the heading it
+      belongs to as from the cards it introduces — so it read as a third
+      element rather than as the header's second line.
+    */}
+    <div
+      class:list={[
+        "flex w-full flex-col gap-6",
+        start ? "items-start" : "items-center",
+      ]}
+    >
+      <SectionHeader
+        id="countries-heading"
+        eyebrow={eyebrow}
+        heading={heading}
+        align={align}
+      />
+
+      {
+        /* Centred claim between the header and the cards. Set at H3 in the
+           regular weight — it restates the section rather than heading it, and
+           the section already has its H2 above. */
+        lead && (
+          <div
+            class:list={[
+              "flex w-full flex-col gap-3",
+              start ? "items-start" : "items-center text-center",
+            ]}
+            data-reveal
+          >
+            {/* A centred lead is a claim in its own right and is set at H3; a
+                left one is a sub-line under the heading it sits beneath, and
+                the frames that draw it set it at body scale. */}
+            <p
+              class:list={[
+                "text-balance text-text-secondary",
+                start ? "text-body-lg" : "text-h3 font-normal",
+              ]}
+            >
+              {lead.heading}
+            </p>
+            {lead.body && (
+              <p class="text-body-sm text-text-tertiary">{lead.body}</p>
+            )}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="flex w-full flex-col gap-6 lg:flex-row">
+      {/* Featured market: dark card, full-height, CTA pinned to the bottom. */}
+      <article
+        class="card-glow relative flex flex-col justify-between gap-10 rounded-xl bg-navy p-5 md:p-10 lg:w-[411px] lg:shrink-0"
+        data-reveal
+      >
+        <div class="flex flex-col items-start gap-10">
+          <div class="flex w-full items-start justify-between gap-4">
+            <h3
+              class="text-h2 whitespace-nowrap text-text-inverse"
+            >
+              {featured.name}
+            </h3>
+            {
+              /* Navy ink, matching the terracotta button: white on this fill
+                 measures 3.27:1 and this is 12px type. */
+              featured.badge && (
+                <span class="badge-orbit rounded-full bg-terracotta px-3 py-1 text-micro font-bold whitespace-nowrap text-btn-accent-text">
+                  {featured.badge}
+                </span>
+              )
+            }
+          </div>
+          <p class="text-body-lg text-text-inverse-muted">
+            {featured.description}
+          </p>
+        </div>
+        {/* `card-link` stretches the anchor over the card — see global.css.
+            Hovering anywhere on the card is genuinely hovering the button, so
+            its own hover state still plays. */}
+        <Button
+          variant="secondary"
+          size="md"
+          href={featured.cta.href}
+          class="card-link"
+          block
+        >
+          {featured.cta.label}
+          <Icon src={chevronRight} size={20} tone="current" />
+        </Button>
+      </article>
+
+      {/*
+        The flagship market keeps its full-width card on mobile — it is the
+        section's anchor. The remaining markets become a scroll-snap strip so
+        four secondary cards do not push the FAQ a screen and a half down.
+      */}
+      <ul
+        id="countries-carousel"
+        class="carousel lg:grid lg:flex-1 lg:grid-cols-2 lg:gap-6"
+        tabindex="0"
+        role="group"
+        aria-label="Other markets — scroll for more"
+      >
+        {
+          others.map((country, i) => (
+            <li
+              class="carousel-item card-focus relative flex flex-col justify-between gap-5 rounded-xl border border-transparent bg-bg-muted p-5 lg:min-h-[240px]"
+              data-reveal
+              style={`--reveal-i:${i + 1}`}
+            >
+              <div class="flex flex-col items-start gap-5">
+                {/* Status chip, drawn right-aligned above the name. Ink is
+                    `slate-blue`, not the #7894b0 Figma sets: that measures
+                    2.56:1 on this fill and the chip is 12px type. */}
+                {country.badge && (
+                  <span class="self-end rounded-full bg-slate-100 px-3 py-1 text-micro font-bold whitespace-nowrap text-slate-blue">
+                    {country.badge}
+                  </span>
+                )}
+                {/* Name and tagline are one typographic unit — 8px apart — set
+                    away from the description below them. */}
+                <div class="flex flex-col items-start gap-2">
+                  <h3 class="text-h4 text-text-primary">{country.name}</h3>
+                  {country.tagline && (
+                    <p class="text-body-sm text-text-secondary">
+                      {country.tagline}
+                    </p>
+                  )}
+                </div>
+                <p class="text-body-sm text-text-secondary">
+                  {country.description}
+                </p>
+              </div>
+              {/*
+                `h-auto` collapses the button to its 20px content row, which is
+                how the design draws these — a bare link, not a control. The
+                padding is pulled back out with a matching negative margin, so
+                the tap target clears 24px (WCAG 2.5.8) without the link
+                sitting any lower than the design draws it.
+              */}
+              {country.cta && (
+                <Button
+                  variant="ghost"
+                  size="md"
+                  href={country.cta.href}
+                  class="card-link -my-1.5 h-auto self-start py-1.5"
+                >
+                  {country.cta.label}
+                  <Icon src={chevronRight} size={20} tone="current" />
+                </Button>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <CarouselControls
+      for="countries-carousel"
+      count={others.length}
+      class="w-full text-text-primary"
+    />
+  </div>
+</section>

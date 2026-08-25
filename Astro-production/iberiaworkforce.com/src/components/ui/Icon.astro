@@ -1,0 +1,60 @@
+---
+/**
+ * Renders a Figma-exported icon at its true intrinsic size, centred inside the
+ * bounding box the design gives it.
+ *
+ * Figma exports icons as the glyph "leaf" only — a chevron comes out 7.5x13.75,
+ * not 20x20 — while the design positions that leaf inside a larger square
+ * frame. Forcing the leaf to the frame size stretches it. Keeping the two
+ * separate preserves both the glyph's aspect ratio and the spacing the frame
+ * contributes to the surrounding flex row.
+ *
+ * The SVG is rendered inline (not via <img>) so `tone="current"` can make the
+ * glyph follow the parent's text colour. Icons inside buttons and links must do
+ * this, otherwise their baked-in colour survives a hover state that changes the
+ * text — leaving the icon invisible or mismatched.
+ */
+import type { SvgComponent } from "astro/types";
+
+interface Props {
+  /**
+   * An imported `.svg`. Astro types these as a renderable component *and* as
+   * image metadata — both halves are real, and typing it as metadata alone is
+   * what made `<Glyph />` below fail `astro check`.
+   */
+  src: SvgComponent & ImageMetadata;
+  /** The icon frame from Figma, in px (16, 20 or 24). */
+  size?: number;
+  /** `current` repaints the glyph in the inherited text colour. */
+  tone?: "original" | "current";
+  /** Whether the artwork is drawn with strokes or fills. */
+  paint?: "stroke" | "fill";
+  class?: string;
+}
+
+const {
+  src: Glyph,
+  size = 20,
+  tone = "original",
+  paint = "stroke",
+  class: className = "",
+} = Astro.props;
+
+const toneClass =
+  tone === "current"
+    ? paint === "stroke"
+      ? "[&_*]:stroke-current"
+      : "[&_*]:fill-current"
+    : "";
+---
+
+<span
+  class:list={[
+    "inline-flex shrink-0 items-center justify-center",
+    toneClass,
+    className,
+  ]}
+  style={`width:${size}px;height:${size}px`}
+>
+  <Glyph />
+</span>

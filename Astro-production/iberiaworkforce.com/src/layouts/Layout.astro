@@ -1,0 +1,297 @@
+---
+import { Font } from "astro:assets";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { getUi } from "../i18n/copy";
+import { canonicalHref } from "../i18n/locale";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /**
+   * JSON-LD nodes for this page. Emitted as a single `@graph` rather than one
+   * script per type, so the `Service`'s `provider` can reference the
+   * `Organization` by `@id` instead of repeating it — see `src/lib/schema.ts`.
+   */
+  schema?: Record<string, unknown>[];
+  /** Keeps a page out of the index. Only the 404 sets it. */
+  noindex?: boolean;
+  /** Preload URL for the page LCP image (homepage / service heroes). */
+  lcpImage?: string;
+}
+
+const { lang, t } = getUi(Astro.url.pathname);
+const {
+  title = t.meta.defaultTitle,
+  description = t.meta.defaultDescription,
+  schema,
+  noindex = false,
+  lcpImage,
+} = Astro.props;
+
+/*
+  Always with a trailing slash, because that is what the static build emits —
+  every route is a directory with an `index.html` — and a canonical that
+  disagrees with the served URL is worse than none. Bare paths still need a 301
+  to the slashed form at the edge: internal links are written bare, so without
+  that redirect both spellings resolve and only this tag says which counts.
+*/
+const canonical = new URL(
+  Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`,
+  Astro.site,
+).href;
+
+/*
+  A plain file in `public/`, not an `src/assets` import: assets get a content
+  hash in their filename, and a card URL that changes on every rebuild is one
+  every platform has already cached under its old name. JPEG rather than WebP
+  for the same class of reason — some scrapers still will not fetch WebP, and
+  the failure is a blank card rather than an error.
+*/
+const ogImage = new URL("/og-image.jpg", Astro.site).href;
+
+const jsonLd = schema?.length
+  ? JSON.stringify({ "@context": "https://schema.org", "@graph": schema })
+  : null;
+
+const enHref = new URL(canonicalHref(Astro.url.pathname, "en"), Astro.site).href;
+const esHref = new URL(canonicalHref(Astro.url.pathname, "es"), Astro.site).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    {/*
+      Order matters: where several `rel="icon"` candidates are equally valid,
+      Chrome takes the last one it can use. With the .ico last it won every
+      time, so the SVG is declared second and `sizes` pins the .ico to the one
+      size it is being offered for. Both files carry the brand mark either way —
+      whichever a client picks, it must not be able to pick a wrong logo.
+    */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Iberia Work Force" />
+    <meta property="og:locale" content={lang === "es" ? "es_ES" : "en_GB"} />
+    <meta property="og:locale:alternate" content={lang === "es" ? "en_GB" : "es_ES"} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.meta.ogImageAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={t.meta.ogImageAlt} />
+    {lcpImage && (
+      <link rel="preload" as="image" href={lcpImage} fetchpriority="high" />
+    )}
+    <script is:inline src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    <Font cssVariable="--font-pliant" preload />
+    <title>{title}</title>
+    {
+      /* `set:html` rather than interpolation: Astro escapes `&`, `<` and `>` in
+         a text node, and an escaped entity inside a script block is not valid
+         JSON — the whole graph is then dropped by every consumer. The content
+         is our own `JSON.stringify` output, never user input. */
+      jsonLd && (
+        <script type="application/ld+json" is:inline set:html={jsonLd} />
+      )
+    }
+    {/*
+      Pre-paint, so revealed elements never flash in first. Inline and
+      unminified, so keep it short — it ships verbatim on every page. Without
+      JS the class is never added and the CSS hidden state never matches.
+    */}
+    <script is:inline>
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("reveal-enabled");
+      }
+    </script>
+  </head>
+  {/*
+    `overflow-x: clip`, not `hidden`. `hidden` forces overflow-y to `auto`,
+    turning <body> into a scroll container — which silently breaks
+    `position: sticky` for every descendant. `clip` suppresses sideways
+    overflow without establishing a scrollport.
+  */}
+  <body class="overflow-x-clip">
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const targets = document.querySelectorAll("[data-reveal]");
+
+      if (
+        !document.documentElement.classList.contains("reveal-enabled") ||
+        !("IntersectionObserver" in window)
+      ) {
+        // Nothing to animate — put everything in its resting state.
+        targets.forEach((el) => el.classList.add("is-revealed"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-revealed");
+              observer.unobserve(entry.target);
+            }
+          },
+          // Trigger a little before the top edge arrives, so the motion finishes
+          // about when the element reaches comfortable reading position.
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.05 },
+        );
+
+        targets.forEach((el) => {
+          // Anything already on screen at load reveals immediately rather than
+          // waiting for a scroll that may never come.
+          const box = el.getBoundingClientRect();
+          if (box.top < window.innerHeight && box.bottom > 0) {
+            el.classList.add("is-revealed");
+          } else {
+            observer.observe(el);
+          }
+        });
+      }
+    </script>
+
+    <script>
+      /*
+       * Wheel easing.
+       *
+       * Frame timing here is already clean (median 16.6ms, nothing over 50ms at
+       * 4x CPU throttle) — the roughness is that a mouse wheel scrolls in
+       * discrete ~100px jumps, so this interpolates toward the wheel's target
+       * instead of snapping to it. It deliberately does not take over scrolling
+       * in general: trackpads already stream continuous deltas, scroll-snap
+       * carousels keep their native behaviour, and keyboard, scrollbar and
+       * anchor scrolling are untouched. It drives `window.scrollTo` rather than
+       * a transform, so `position: sticky` still works, and it is off entirely
+       * under reduced motion and on touch.
+       */
+      const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      if (fine.matches && !still.matches) {
+        let target = window.scrollY;
+        let running = false;
+
+        const limit = () =>
+          document.documentElement.scrollHeight - window.innerHeight;
+
+        /*
+         * Hand the page back to the browser. Every path that decides NOT to
+         * ease has to call this: bailing out while `running` is still true
+         * deadlocks the page, because the rAF loop keeps dragging back toward a
+         * stale target while the `scroll` listener, gated on `!running`, cannot
+         * resync. Neither side wins and no later wheel recovers it.
+         */
+        const release = () => {
+          running = false;
+          target = window.scrollY;
+        };
+
+        const step = () => {
+          const from = window.scrollY;
+          const diff = target - from;
+          if (Math.abs(diff) < 1) {
+            // Land exactly on the target rather than leaving the last pixel
+            // behind — otherwise scrolling to the top stops just short of it.
+            window.scrollTo({ top: target, behavior: "instant" });
+            running = false;
+            return;
+          }
+          // Never ask for a sub-pixel move: browsers quantise scroll offsets, so
+          // the tail of the ease rounds to no movement at all, which the
+          // boundary guard below would misread as "cannot scroll".
+          const move = diff * 0.18;
+          const next = from + (Math.abs(move) < 1 ? Math.sign(diff) : move);
+          // `instant` matters: the CSS scroll-behavior is smooth, and letting
+          // that animate each step too would fight this one and lag behind.
+          window.scrollTo({ top: next, behavior: "instant" });
+          // `instant` applies synchronously, so a position that did not change
+          // after a whole-pixel request means we are pulling against a boundary
+          // that no longer exists — the document got shorter after the target
+          // was clamped. Stop rather than spin a rAF loop forever.
+          if (window.scrollY === from) {
+            release();
+            return;
+          }
+          requestAnimationFrame(step);
+        };
+
+        window.addEventListener(
+          "wheel",
+          (event) => {
+            if (event.ctrlKey || event.defaultPrevented) return release();
+            if (still.matches) return release();
+
+            const el = event.target;
+            if (
+              el instanceof Element &&
+              el.closest("#mobile-nav, [data-lang-menu]")
+            ) {
+              return release();
+            }
+            // A carousel only owns the wheel while it is actually a scrollable
+            // strip. Both classes stay on the element above their breakpoint,
+            // where the layout is a grid with nothing to scroll — and that grid
+            // covers much of the page, so matching on the class alone silently
+            // opted whole sections out of the easing.
+            if (el instanceof Element) {
+              const strip = el.closest(".carousel, .carousel-until-md");
+              if (strip && strip.scrollWidth > strip.clientWidth) {
+                return release();
+              }
+            }
+
+            // Pixel deltas this small come from a trackpad, which is already
+            // continuous — easing it a second time feels like drag.
+            if (event.deltaMode === 0 && Math.abs(event.deltaY) < 45) {
+              return release();
+            }
+
+            event.preventDefault();
+            if (!running) target = window.scrollY;
+            const delta = event.deltaMode === 1 ? event.deltaY * 33 : event.deltaY;
+            target = Math.max(0, Math.min(limit(), target + delta));
+
+            if (!running) {
+              running = true;
+              requestAnimationFrame(step);
+            }
+          },
+          { passive: false },
+        );
+
+        // Anything that moves the page by other means owns the position again.
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!running) target = window.scrollY;
+          },
+          { passive: true },
+        );
+      }
+    </script>
+  </body>
+</html>
