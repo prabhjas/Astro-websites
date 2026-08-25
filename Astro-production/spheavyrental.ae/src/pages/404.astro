@@ -3,11 +3,21 @@
  * Custom 404 for unknown / unprepared URLs.
  * Must return HTTP 404 (not 503) so crawlers drop dead links and visitors
  * never see internal prepare:page instructions.
+ *
+ * Also recovers bare paths missing a trailing slash (trailingSlash: 'always')
+ * — those never reach Astro middleware, so we redirect here instead.
  */
 export const prerender = false;
 
+const pathname = Astro.url.pathname;
+// Bare paths (no trailing slash) never match `trailingSlash: 'always'` routes and
+// land here instead of Astro middleware — bounce them to the canonical URL.
+if (pathname !== "/" && !pathname.endsWith("/") && !pathname.includes(".")) {
+  return Astro.redirect(`${pathname}/${Astro.url.search}`, 308);
+}
+
 Astro.response.status = 404;
-Astro.response.statusText = 'Not Found';
+Astro.response.statusText = "Not Found";
 ---
 
 <!doctype html>
@@ -21,11 +31,14 @@ Astro.response.statusText = 'Not Found';
       content="The page you requested could not be found on S&amp;P Heavy Machinery Rental."
     />
     <meta name="robots" content="noindex, follow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link
       rel="icon"
+      type="image/png"
       href="/wp-content/uploads/2026/01/output-onlinepngtools-Picsart-BackgroundChanger-150x150.png"
       sizes="32x32"
     />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

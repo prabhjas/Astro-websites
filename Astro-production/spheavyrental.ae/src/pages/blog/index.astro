@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
 import { getPageByPath, getPosts } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
@@ -45,6 +46,11 @@ html = html.replace(
   },
 );
 
+const blogCrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Blog" },
+];
+
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
@@ -72,6 +78,11 @@ const extraCss = [
     ],
   }}
 >
+  <div class="sp-page-breadcrumbs">
+    <div class="sp-container">
+      <Breadcrumbs items={blogCrumbs} />
+    </div>
+  </div>
   <div class="sp-page-content" set:html={html} />
   <script is:inline src="/scripts/blog-load-more.js"></script>
 </BaseLayout>

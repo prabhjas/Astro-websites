@@ -3,54 +3,121 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PostCard from "../../../components/PostCard.astro";
 import Pagination from "../../../components/Pagination.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
-import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import {
+  getAuthorBySlug,
+  getPostsByAuthor,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../lib/content";
 import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
 
-export function getStaticPaths() {
-  return authors.map((author) => ({
-    params: { slug: author.slug },
-    props: { author },
-  }));
+export const prerender = false;
+
+function displayName(raw: string) {
+  const name = stripHtml(raw).trim();
+  let base = name.includes("@") ? name.split("@")[0] || name : name;
+  base = base.replace(/[._-]+/g, " ").trim();
+  return base.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-const { author } = Astro.props;
+const slug = String(Astro.params.slug || "");
+const author = getAuthorBySlug(slug);
+if (!author) {
+  return notFoundResponse();
+}
+
+const name = displayName(author.name);
 const sorted = getPostsByAuthor(author.id);
 const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const totalPosts = sorted.length;
 ---
 
 <BaseLayout
   currentPath={author.path}
+  menuActivePath="/blog/"
+  bodyClass="sp-archive-page"
   seo={{
-    title: `Author: ${stripHtml(author.name)} | SP Heavy Rental`,
-    description: author.description || `Articles by ${author.name}.`,
+    title: `Author: ${name} | SP Heavy Rental`,
+    description: author.description || `Articles by ${name} on S&P Heavy Machinery Rental.`,
     canonical: author.path,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: author.name, url: author.path },
+        { name: "Authors", url: "/author/" },
+        { name: name, url: author.path },
       ]),
     ],
   }}
 >
-  <section class="sp-archive-hero">
+  <section class="sp-archive-hero sp-author-hero">
     <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Authors", href: "/author/" },
+          { name },
+        ]}
+      />
+      <div class="sp-author-profile">
+        <div class="sp-author-profile__avatar">
+          {
+            author.avatar ? (
+              <img
+                src={author.avatar}
+                alt={`${name} avatar`}
+                width="112"
+                height="112"
+                loading="eager"
+                decoding="async"
+              />
+            ) : (
+              <span class="sp-author-profile__initial" aria-hidden="true">
+                {name.slice(0, 1)}
+              </span>
+            )
+          }
+        </div>
+        <div class="sp-author-profile__copy">
+          <p class="sp-archive-kicker">Author</p>
+          <h1>{name}</h1>
+          {
+            author.description ? (
+              <p class="sp-author-profile__bio" set:html={author.description} />
+            ) : (
+              <p class="sp-author-profile__bio">
+                Articles and equipment rental insights from {name}.
+              </p>
+            )
+          }
+          <p class="sp-author-profile__count">
+            {totalPosts === 1 ? "1 article" : `${totalPosts} articles`}
+          </p>
+        </div>
+      </div>
     </div>
   </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts by this author.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+
+  <section class="sp-archive-body">
+    <div class="sp-container">
+      {
+        items.length ? (
+          <>
+            <div class="sp-blog-grid">
+              {items.map((post) => (
+                <PostCard post={post} />
+              ))}
+            </div>
+            <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+          </>
+        ) : (
+          <div class="sp-archive-empty-panel">
+            <p class="sp-archive-empty">No posts by this author yet.</p>
+            <a class="sp-archive-empty__cta" href="/blog/">Browse the blog</a>
+          </div>
+        )
+      }
+    </div>
   </section>
 </BaseLayout>
