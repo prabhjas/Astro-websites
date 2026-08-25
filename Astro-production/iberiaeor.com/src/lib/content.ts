@@ -71,25 +71,30 @@ export const tags = readTags().filter((t) => !t.status || t.status === "active")
 export const authors = readAuthors();
 
 /**
- * SSR HTML enhancements for pages/posts — keep out of `[...slug].astro`
- * (fleet unsafe-path rule). Includes Latest Post filter cards + single-post H1
- * placement under the featured image (Mushtaq 2285cd746, publisher-safe wiring).
+ * SSR HTML enhancements — keep out of `[...slug].astro` (fleet unsafe-path rule).
+ * - Pages: Latest Post filter cards only
+ * - Posts: filter cards + H1 under featured image (Mushtaq 2285cd746) — never on pages
  */
-function withEnhancedEntryHtml<T extends PageEntry | PostEntry>(entry: T): T {
+function withLatestPostFilterHtml<T extends PageEntry | PostEntry>(entry: T): T {
   const raw = (entry.bodyHtml || entry.content || "") as string;
   if (!raw) return entry;
-  let enhanced = enhanceLatestPostFilterHtml(raw);
-  if ("title" in entry && /data-elementor-type=/.test(enhanced)) {
-    enhanced = placeSinglePostTitleAfterFeaturedImage(enhanced, String(entry.title || ""));
-  }
+  const enhanced = enhanceLatestPostFilterHtml(raw);
   if (enhanced === raw) return entry;
   return { ...entry, bodyHtml: enhanced, content: enhanced };
+}
+
+function withSinglePostTitleHtml(post: PostEntry): PostEntry {
+  const raw = (post.bodyHtml || post.content || "") as string;
+  if (!raw || !/data-elementor-type=/.test(raw)) return post;
+  const enhanced = placeSinglePostTitleAfterFeaturedImage(raw, String(post.title || ""));
+  if (enhanced === raw) return post;
+  return { ...post, bodyHtml: enhanced, content: enhanced };
 }
 
 export function getPageByPath(pathname: string): PageEntry | undefined {
   const normalized = normalizePath(pathname);
   const page = getPages().find((p) => normalizePath(p.path) === normalized);
-  return page ? withEnhancedEntryHtml(page) : undefined;
+  return page ? withLatestPostFilterHtml(page) : undefined;
 }
 
 export function getPostByPath(pathname: string): PostEntry | undefined {
@@ -101,7 +106,7 @@ export function getPublishedPostByPath(pathname: string): PostEntry | undefined 
   const post = getPostByPath(pathname);
   if (!post) return undefined;
   if (post.status && post.status !== "published") return undefined;
-  return withEnhancedEntryHtml(post);
+  return withSinglePostTitleHtml(withLatestPostFilterHtml(post));
 }
 
 export function getCategoryBySlug(slug: string): CategoryEntry | undefined {
