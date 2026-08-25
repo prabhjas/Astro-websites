@@ -19,6 +19,10 @@ interface Props {
   menuActivePath?: string;
   bodyClass?: string;
   htmlLang?: string;
+  /** When false, omit shared Elementor header. Default true. */
+  showHeader?: boolean;
+  /** When false, omit shared Elementor footer (incl. newsletter). Default true. */
+  showFooter?: boolean;
 }
 
 const {
@@ -33,6 +37,8 @@ const {
     : currentPath.startsWith("/es/")
       ? "es"
       : "en",
+  showHeader = true,
+  showFooter = true,
 } = Astro.props;
 
 /** Live Iberia Elementor kit is post-6 (Manrope / Lato) — never load SP kit post-19. */
@@ -127,13 +133,15 @@ const stylesheets = [
     ]}
   >
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    {showHeader && (
+      <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    )}
     <main id="content" class="site-main">
       <div class="page-content">
         <slot />
       </div>
     </main>
-    <ElementorFooter />
+    {showFooter && <ElementorFooter />}
     <ElementorScripts />
   </body>
 </html>
