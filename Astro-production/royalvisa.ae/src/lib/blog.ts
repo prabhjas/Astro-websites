@@ -369,10 +369,9 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     `<meta property="og:description" content="${escapeHtml(post.og.description || metaDescription)}" />`,
   );
   out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${post.canonical}" />`);
-  // Prefer fleet-standard branded OG card when generated (public/og/blog/{slug}.png).
-  const brandedOg = existsSync(join(ROOT, 'public/og/blog', `${post.slug}.png`))
-    ? `${ORIGIN}/og/blog/${post.slug}.png`
-    : null;
+  // Fleet-standard branded OG cards live at /og/blog/{slug}.png (committed PNGs).
+  // Do not existsSync(public/) at runtime — production cwd has no public tree.
+  const brandedOg = `${ORIGIN}/og/blog/${post.slug}.png`;
   const ogImage = brandedOg || post.og.image;
   if (ogImage) {
     if (out.includes('property="og:image"')) {
@@ -380,31 +379,29 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     } else {
       out = out.replace('</head>', `<meta property="og:image" content="${ogImage}" />\n</head>`);
     }
-    if (brandedOg) {
-      if (out.includes('property="og:image:width"')) {
-        out = out.replace(
-          /<meta\s+property="og:image:width"\s+content="[^"]*"\s*\/?>/i,
-          `<meta property="og:image:width" content="1200" />`,
-        );
-      } else {
-        out = out.replace('</head>', `<meta property="og:image:width" content="1200" />\n</head>`);
-      }
-      if (out.includes('property="og:image:height"')) {
-        out = out.replace(
-          /<meta\s+property="og:image:height"\s+content="[^"]*"\s*\/?>/i,
-          `<meta property="og:image:height" content="630" />`,
-        );
-      } else {
-        out = out.replace('</head>', `<meta property="og:image:height" content="630" />\n</head>`);
-      }
-      if (out.includes('name="twitter:image"')) {
-        out = out.replace(
-          /<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i,
-          `<meta name="twitter:image" content="${ogImage}" />`,
-        );
-      } else {
-        out = out.replace('</head>', `<meta name="twitter:image" content="${ogImage}" />\n</head>`);
-      }
+    if (out.includes('property="og:image:width"')) {
+      out = out.replace(
+        /<meta\s+property="og:image:width"\s+content="[^"]*"\s*\/?>/i,
+        `<meta property="og:image:width" content="1200" />`,
+      );
+    } else {
+      out = out.replace('</head>', `<meta property="og:image:width" content="1200" />\n</head>`);
+    }
+    if (out.includes('property="og:image:height"')) {
+      out = out.replace(
+        /<meta\s+property="og:image:height"\s+content="[^"]*"\s*\/?>/i,
+        `<meta property="og:image:height" content="630" />`,
+      );
+    } else {
+      out = out.replace('</head>', `<meta property="og:image:height" content="630" />\n</head>`);
+    }
+    if (out.includes('name="twitter:image"')) {
+      out = out.replace(
+        /<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i,
+        `<meta name="twitter:image" content="${ogImage}" />`,
+      );
+    } else {
+      out = out.replace('</head>', `<meta name="twitter:image" content="${ogImage}" />\n</head>`);
     }
   }
   return out;
