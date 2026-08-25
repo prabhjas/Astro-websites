@@ -18,7 +18,9 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 | AP-04 | High | `packages/site-cms` — mirror SEO normalize | Mushtaq Redo commit adds `normalize-mirror-content-seo.ts` + wires it through `absolutizeMirrorSeoHtml` (`contentKind`). **Redo.ae cannot publish in presentation lane until this package change is allowed / released** | On `work/astro-sites` @ `f865df993` (and tip). Do **not** include in site-only signed publish until Aaron clears package lane |
 | AP-07 | High | Iberia Workforce — site-local **`sharp`** / drop passthrough | Iberia uses `passthroughImageService()` so publish works **without** lockfile `sharp`. Real Astro image optimization needs site (or catalog) `sharp` + Linux lockfile | `astro.config.mjs` comment documents this; pair with AP-08 |
 | AP-08 | High | Fleet **`sharp`** catalog + OG automation | Team standardizing branded OG (kit in `~/Downloads/og pictures`). Needs `sharp` in `pnpm-workspace.yaml` catalogs + site deps + one lockfile install. Royal Visa is the pilot (scripts + committed PNGs can ship site-only; build-time regen needs Aaron) | See [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md). Do **not** `pnpm install` / lockfile bump in developer publish lane |
-| AP-09 | High | Allowlist presentation edits to `src/pages/[...slug].astro` (and similar catch-alls) | Publisher blocked Connect FM CSS wiring + Iberia `/eor-services/` chrome hide as “unsafe path”. CFM worked around via `pages.json` `pageCss`; Iberia chrome hide worked around in **`BaseLayout.astro`** (path-based) so catch-all edit is optional | Also blocked `iberiaeor.com/src/pages/api/blog/load-more.ts` and **`kpmpro.ae` `api/blog/listing.ts` + `load-more.ts`** (equal-height publish `bfb528620` shipped libs only; API sort/order deferred). Note: `emiratisationgate.org` middleware favicon redirects + `robots.txt.ts` **did publish** on `f33d46778` — catch-all `[...slug].astro` remains the main AP-09 pain |
+| AP-09 | High | Allowlist presentation edits to `src/pages/[...slug].astro` (and similar catch-alls) + blog **API** paths | Publisher blocked Connect FM CSS wiring + Iberia `/eor-services/` chrome hide as “unsafe path”. Workarounds used: CFM `pageCss`; Iberia chrome hide via **BaseLayout**; Iberia post titles via **content.ts**. Still blocked: `iberiaeor` / **`kpmpro`** `api/blog/*` | **New (Tabish):** SP Heavy page breadcrumbs need `[...slug].astro` (blog breadcrumbs already on `blog/index.astro` — shippable). Connect Freelance blog API move to `listing/index.ts` + `load-more/index.ts` + middleware API bypass likely blocked — see AP-12 |
+| AP-12 | High | Connect Freelance blog listing/load-more trailing-slash API routes | Tabish `f703c7c53`: renames `api/blog/listing.ts` → `listing/index.ts` (and load-more) + middleware skips `/api/` slash redirects so Load More works with `trailingSlash: always`. Same class of path that blocked KPM Pro API | Prefer Aaron allowlist for CF `api/blog/**` + middleware; interim publish can ship favicon / residence-visa CSS / `blog.ts` JSON harden / BaseLayout **without** API+middleware |
+| AP-13 | Med | SP Heavy `astro.config.mjs` vite trailing-slash plugin + middleware broaden | Tabish SP commit adds **dev-server** vite plugin + middleware trailing-slash for all non-file paths + safer redirect matching. `astro.config` / middleware may be owner-classified | Production can rely on middleware alone if allowed; vite plugin is local-dev DX. Try middleware in publish; if blocked, park here. `public/robots.txt` may also conflict with managed-store policy (see AP-02 pattern) |
 | AP-05 | Med | PR hygiene / base branch | Devs should target `work/astro-sites` or rebase onto latest fleet often; mega PRs into stale `dev` cause 460+ file conflicts | Process note for Connect Group GitHub |
 | AP-06 | Low | Stashed fleet robots wave | Laptop stash `wip-robots-wave-before-pr83-merge` — multi-site `robots.txt.ts` / delete `public/robots.txt` / `text-files-store` — not on branch | Decide whether to revive after AP-02 policy |
 | AP-10 | Low | Iberia `/sitemap.xml` true HTTP 301 | Aaron: path is **unadvertised**; currently Astro static meta-redirect, not a real 301. Advertised index/child routes are correct | Optional polish; do not confuse with working `/sitemap-index.xml` + `/sitemap-0.xml` |
@@ -46,12 +48,45 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | Site | Package | Status |
 |---|---|---|
-| **connectfm.ae** | `connectfm-astro` | **Published** (`af2566b94` via `pageCss`) |
-| **iberiaeor.com** | `iberiaeor-astro` | **Published** chrome hide (`8b110f9f2`) |
-| **royalvisa.ae** | `royalvisa-ae-astro` | **Published** OG pilot PNGs + legacy inject (`c278d123c`) — build-time `sharp` still AP-08 |
-| **emiratisationgate.org** / **emiratisationgateway.com** | gate + gateway packages | **Published** (`f33d46778`) |
-| **redo.ae** | `redo-ae-astro` | **Blocked on AP-04** until `packages/site-cms` cleared |
-| **iberiaworkforce.com** | `iberiaworkforce-astro` | **AP-03 cleared** — front+backend on `58159d65`; further presentation publishes are normal site-only when needed |
+| **connectfm.ae** | `connectfm-astro` | **Published** smart-home post (`ef225494c`) |
+| **iberiaeor.com** | `iberiaeor-astro` | **Published** chrome hide + titles under image (`ef225494c`) |
+| **royalvisa.ae** | `royalvisa-ae-astro` | **Published** OG pilot — build-time `sharp` still AP-08 |
+| **emiratisationgate.org** / **emiratisationgateway.com** | gate + gateway | **Published** (`f33d46778`) |
+| **kpmpro.ae** | `kpmpro-ae-astro` | **Published** equal-height libs (`bfb528620`); API deferred AP-09 |
+| **spheavyrental.ae** | SP Heavy package | **On laptop** `64430603d` (= Tabish `fbfc48c7a` cherry-pick) — **not published**. Ship plan below |
+| **connectfreelance.ae** | connectfreelance package | Tabish **`f703c7c53`** is on GitHub `tabish-branch` tip (earlier “not found” was stale tip at `fbfc48c7a`). **Not yet on `work/astro-sites`** |
+| **redo.ae** | `redo-ae-astro` | **Blocked on AP-04** |
+| **iberiaworkforce.com** | `iberiaworkforce-astro` | **AP-03 cleared** — front+backend on `58159d65` |
+
+### SP Heavy (`64430603d` / source `fbfc48c7a`) — what we have
+
+Author: Dev-Tabish · `Astro-production/spheavyrental.ae` only (35 files).
+
+| Area | Intent | Publish? |
+|---|---|---|
+| Author directory + pagination | `src/pages/author/**` + archive CSS | **Yes** — dedicated routes |
+| Blog breadcrumbs | `src/pages/blog/index.astro` | **Yes** |
+| Favicon / SEO head | `public/favicon*`, `SEOHead.astro`, build script | **Yes** |
+| Header / footer chrome | header/footer HTML + logo CSS | **Yes** |
+| Form UX | centered CF7 success message | **Yes** |
+| GTM seed script | `scripts/seed-gtm.mjs` (GTM-PL2CQ48T) | Script **yes** |
+| Data hygiene | pages/posts/redirects/licence/seo/… | **Yes** |
+| Page breadcrumbs on all CMS pages | `[...slug].astro` | **Skip / AP-09** (blog+author already covered) |
+| Trailing-slash + redirect harden | `middleware.ts` + `astro.config.mjs` vite plugin | **Try middleware; drop vite if config blocked (AP-13)** |
+| `public/robots.txt` | robots updates | **Caution** (managed-store pattern AP-02) |
+
+### Connect Freelance (`f703c7c53`) — corrected hash status + ship plan
+
+Confirmed on GitHub: `https://github.com/prabhjas/Astro-websites/commit/f703c7c53582e646e59ace6ebd3b81aa61dcfb7d`
+
+| Area | Intent | Publish? |
+|---|---|---|
+| Favicon + BaseLayout icons | Brand favicon | **Yes** |
+| Residence-visa hover polish | CSS + legacy HTML | **Yes** |
+| `blog.ts` JSON harden | Safer parse | **Yes** |
+| Blog shell / contact legacy | Small HTML tweaks | **Yes** |
+| `api/blog/listing` + `load-more` → `*/index.ts` | Trailing-slash API routes | **Likely blocked AP-12** |
+| `middleware.ts` skip `/api/` redirects | Needed so API move works | **Try once; else AP-12** |
 
 ---
 
