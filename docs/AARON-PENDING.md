@@ -101,10 +101,3 @@ Aaron — remaining from developer lane (2026-08-25; Iberia backend switch recei
 ```
 
 ---
-
-## How we handle contributor PRs going forward
-
-1. Do **not** merge mega `*-branch` PRs into `dev` / `work/astro-sites` wholesale.  
-2. Cherry-pick the named feature commits only.  
-3. Anything under `packages/`, `caddy/`, lockfile, CI, deploy scripts → this file (Aaron).  
-4. Publish from host `astro-fleet-development` with SSH-signed site-only commits (1–8 sites).
