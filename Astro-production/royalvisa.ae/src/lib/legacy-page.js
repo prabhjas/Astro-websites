@@ -15,6 +15,58 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
+/**
+ * Live posts prefer Elementor mirrors (`src/legacy/*.cleaned.html`), not blog.ts.
+ * Many mirrors ship without og:image — inject committed branded cards when the
+ * slug has a JSON blog post (same set as public/og/blog/*.png). Do not
+ * existsSync(public/) at runtime — production cwd has no public tree.
+ * @param {string} html
+ * @param {string} slug
+ */
+function preferBrandedBlogOg(html, slug) {
+  if (!slug || slug === 'homepage' || slug === 'blog') return html;
+  const blogJson = join(process.cwd(), 'src/content/blog', `${slug}.json`);
+  if (!existsSync(blogJson)) return html;
+
+  const ogImage = `${SITE_ORIGIN}/og/blog/${slug}.png`;
+  let out = html;
+
+  const upsert = (pattern, tag) => {
+    if (pattern.test(out)) {
+      out = out.replace(pattern, tag);
+    } else {
+      out = out.replace(/<\/head>/i, `${tag}\n</head>`);
+    }
+  };
+
+  upsert(
+    /<meta\s+property=["']og:image["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta property="og:image" content="${ogImage}" />`,
+  );
+  upsert(
+    /<meta\s+property=["']og:image:secure_url["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta property="og:image:secure_url" content="${ogImage}" />`,
+  );
+  upsert(
+    /<meta\s+property=["']og:image:width["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta property="og:image:width" content="1200" />`,
+  );
+  upsert(
+    /<meta\s+property=["']og:image:height["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta property="og:image:height" content="630" />`,
+  );
+  upsert(
+    /<meta\s+property=["']og:image:type["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta property="og:image:type" content="image/png" />`,
+  );
+  upsert(
+    /<meta\s+name=["']twitter:image["']\s+content=["'][^"']*["'][^>]*>/i,
+    `<meta name="twitter:image" content="${ogImage}" />`,
+  );
+
+  return out;
+}
+
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
   const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
@@ -48,7 +100,10 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  html = sanitizeMirrorHtml(applyMirrorHygiene(inferMissingImgAlts(html, slug)));
+  html = preferBrandedBlogOg(
+    sanitizeMirrorHtml(applyMirrorHygiene(inferMissingImgAlts(html, slug))),
+    slug,
+  );
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

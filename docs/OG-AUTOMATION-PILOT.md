@@ -39,7 +39,8 @@ so the generic publisher could ship **without** a lockfile/`sharp` site dep. Ass
 | Kit assumption | Royal Visa reality |
 |---|---|
 | `getCollection()` markdown | `src/content/blog/*.json` |
-| Drop-in `Base.astro` | Existing `BaseLayout.astro` + mirror `blog.ts` OG rewrite |
+| Drop-in `Base.astro` | Most posts are **legacy mirrors** (`legacy-page.js`); JSON shell is `blog.ts` fallback only |
+| OG preference | Inject `/og/blog/{slug}.png` in **both** `legacy-page.js` and `blog.ts` (no `public/` existsSync) |
 | `npm install sharp` | Fleet **pnpm** + Aaron catalog (AP-08) |
 
 ## Rollout order
