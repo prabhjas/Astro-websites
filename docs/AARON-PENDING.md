@@ -30,6 +30,7 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | When | What | Tip |
 |---|---|---|
+| 2026-08-25 | KPM Pro Insights equal-height cards + new-posts-first (Rajpal `b28067ea8` already on `work/astro-sites`; published libs only — `api/blog/listing` + `load-more` **blocked**) | Fleet `bfb528620` |
 | 2026-08-25 | **AP-03 cleared (Aaron):** Iberia Workforce trusted backend switch — 9 env values active; shared Pipedrive token preserved (matched fleet fingerprint); commit `2cf19b99c` already inside release `58159d65` (no extra presentation publish); **presentation + trusted backend both on `58159d65`**; public robots / sitemap index / sitemap child **backend-owned HTTP 200**; sitemap 36 unique canonicals all public 200; contact tests 17/17; fleet audit 42 sites / 0 errors (1 existing CR International warning); no production form submit; no token rotation / CF-DNS-Caddy / cache purge / other-site restart; developer checkout left clean. Evidence: `/var/lib/astro-fleet/transactions/iberiaworkforce-backend-switch-1787658125-0fbce3a2b5a64dd49bde628cf22ea813/RESULT.json` · reviewed source `/opt/ops/iberiaworkforce-backend-switch-20260825/README.md` | Iberia artifact `58159d653` (site); fleet tip later advanced independently |
 | 2026-08-25 | KPM Pro DED guide + MOL link; CR EOR cost post; Connect Group Insights featured images 3:2 | Fleet `400d7360b` |
 | 2026-08-25 | Kinza `/recruitment/` → LP; CR alt/robots frontend; Iberia sitemap-index routes (front) | Fleet `58159d653` (and earlier Iberia sitemap commits) |
