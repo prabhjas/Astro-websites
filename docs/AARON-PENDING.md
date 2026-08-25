@@ -1,6 +1,6 @@
 # Aaron pending — fleet owner / security-maintenance lane
 
-**Updated:** 2026-08-25 (SP Heavy + Connect Freelance published; parked API/config remain)  
+**Updated:** 2026-08-25 (Rajpal queue ready: CR Lana / CHR SEO / CG audit / KPM redirects)  
 **Owner lane:** Aaron (not developer generic `astro-fleet-release publish`)  
 **Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
 **Related:** [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)
@@ -56,9 +56,21 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 | **iberiaeor.com** | `iberiaeor-astro` | **Published** chrome hide + titles under image (`ef225494c` / posts-only fix `6554a7b66`) |
 | **royalvisa.ae** | `royalvisa-ae-astro` | **Published** OG pilot — build-time `sharp` still AP-08 |
 | **emiratisationgate.org** / **emiratisationgateway.com** | gate + gateway | **Published** (`f33d46778`) |
-| **kpmpro.ae** | `kpmpro-ae-astro` | **Published** equal-height libs (`bfb528620`); API deferred AP-09 |
+| **kpmpro.ae** | `kpmpro-ae-astro` | Equal-height libs live (`bfb528620`); **ready** duplicate-post redirects (`9506c693f` ← `fa107894d`); still omit `api/blog/*` + `astro.config` (AP-09) |
+| **connectresources.ae** | `connectresources-astro` | **Ready** Lana URL cleanup + mega-menu banners (`8a8600977` ← `5b96451b9`); robots still AP-02 |
+| **connecthr.ae** | `connecthr-astro` | **Ready** SEO audit (`dfbd33b73` ← `62c009ef5`) |
+| **connectgroup.co** | `connectgroup-astro` | **Ready** audit + restore `/mbs-tax-consultancy/` + `/uaegate/` (`05908c663` ← `0cf915a13`) |
 | **redo.ae** | `redo-ae-astro` | **Blocked on AP-04** |
 | **iberiaworkforce.com** | `iberiaworkforce-astro` | **AP-03 cleared** — front+backend on `58159d65` |
+
+### Rajpal batch (personal `rajpal-branch`) — ship plan
+
+| Source | Work tip | Site | Ship? |
+|---|---|---|---|
+| `5b96451b9` | `8a8600977` | Connect Resources | **Yes** — redirects, pages purge (40 Lana-deleted), header promo images/CSS. Do **not** sync whole CR tree from work (robots/middleware/press noise diverged). |
+| `62c009ef5` | `dfbd33b73` | Connect HR | **Yes** — full commit (H1s/links/alts/JS) |
+| `0cf915a13` | `05908c663` | Connect Group | **Yes** — omit `AGENTS.md` if not already on fleet; dedicated `.astro` brand pages OK |
+| `fa107894d` | `9506c693f` | KPM Pro | **Yes** — blog JSON/legacy/redirects/`blog.ts` only; **omit** `api/blog/*` + `astro.config.mjs` |
 
 ---
 
