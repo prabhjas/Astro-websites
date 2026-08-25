@@ -19,12 +19,20 @@ export const EXCLUDED_PAGE_SLUGS = new Set([
 
 /** Paid / campaign LPs — noindex, nofollow (not for organic search). */
 export const NOINDEX_NOFOLLOW_PAGE_SLUGS = new Set([
+  // Existing paid / campaign LPs
   'corporate-pro-services',
   'outsourcing',
   'recruitment',
   'payroll-outsourcing-uae',
   'freelance-journey',
   'lp-page-cr',
+  // Lana sheet — Landing Page column (keep live, noindex)
+  'employer-of-record-lp',
+  'employer-of-record-lp2',
+  'landing-page-international-relocation',
+  'landing-page-employee-mobility',
+  'family-residency',
+  'residency-uae',
 ]);
 
 export function isNoIndexNoFollowPageSlug(slug: string): boolean {

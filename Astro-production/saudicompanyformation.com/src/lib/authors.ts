@@ -4,8 +4,10 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
+import { sanitizeMirrorHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 import { applySharedChrome } from './shared-chrome.js';
+import { normalizeLegacyDocumentUrls } from './legacy-page.js';
 import {
   LIVE_AUTHOR_ORDER,
   LIVE_AUTHOR_OVERRIDES,
@@ -269,13 +271,18 @@ function wrapInAuthorShell(
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
+  // HTML mode — avoid XML self-closing tags that break in browsers.
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
   $('.elementor-location-archive').html(`<div class="saudicompanyformation-author-page">${mainInner}</div>`);
   html = $.html();
   html = html
     .replace(/https?:\/\/dev\.saudicompanyformation\.com\//gi, '/')
     .replace(/https?:\/\/(?:www\.)?saudicompanyformation\.com\//gi, '/')
-    .replace(/https?:\/\/redo\.ae\/wp-content\/uploads\/2024\/03\/whatsapp-button\.png/gi, '/images/whatsapp-button.png');
+    .replace(/https?:\/\/redo\.ae\/wp-content\/uploads\/2024\/03\/whatsapp-button\.png/gi, '/images/whatsapp-button.png')
+    .replace(/<meta\b[^>]*name=["']generator["'][^>]*>/gi, '')
+    .replace(/<!--\s*This website is like a Rocket[\s\S]*?-->/gi, '')
+    .replace(/\s*mso-[a-z-]+:[^;"]*;?/gi, '')
+    .replace(/font-family:\s*['"]?Calibri['"]?[^;"]*;?/gi, '');
 
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(meta.title)}</title>`);
 
@@ -390,8 +397,7 @@ export function assembleAuthorDirectoryHtml(): string {
   // Prefer the live Elementor /author/ mirror for pixel parity.
   const dirPath = join(ROOT, 'src/legacy/author-directory.cleaned.html');
   if (existsSync(dirPath)) {
-    let html = readFileSync(dirPath, 'utf8');
-    html = html.replace(/https?:\/\/dev\.saudicompanyformation\.com\//gi, '/');
+    let html = sanitizeMirrorHtml(normalizeLegacyDocumentUrls(readFileSync(dirPath, 'utf8')));
     if (!html.includes('astro-mirror-fixes.js')) {
       html = html.replace(
         /<\/body>/i,

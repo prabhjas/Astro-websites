@@ -139,6 +139,12 @@
 .elementor-28308 .elementor-element.elementor-element-47e46ab .elementor-heading-title{font-family:"SF Pro Display", SF Pro Display;font-size:18px;font-weight:400;line-height:28px;color:#FFFFFF;}
 .elementor-28308 .elementor-element.elementor-element-ff0197e{width:auto;max-width:auto;margin:0px 40px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
 .elementor-28308 .elementor-element.elementor-element-ff0197e .elementor-heading-title{font-family:"SF Pro Display", SF Pro Display;font-size:18px;font-weight:400;line-height:28px;color:#FFFFFF;}
+.elementor-28308 .elementor-element.elementor-element-cgfaq01,
+.elementor-28308 .elementor-element.elementor-element-cgpriv01,
+.elementor-28308 .elementor-element.elementor-element-cgterms01{width:auto;max-width:auto;margin:0px 40px calc(var(--kit-widget-spacing, 0px) + 0px) 0px;}
+.elementor-28308 .elementor-element.elementor-element-cgfaq01 .elementor-heading-title,
+.elementor-28308 .elementor-element.elementor-element-cgpriv01 .elementor-heading-title,
+.elementor-28308 .elementor-element.elementor-element-cgterms01 .elementor-heading-title{font-family:"SF Pro Display", SF Pro Display;font-size:18px;font-weight:400;line-height:28px;color:#FFFFFF;}
 .elementor-28308 .elementor-element.elementor-element-ab80082{--grid-template-columns:repeat(0, auto);text-align:left;margin:40px 0px calc(var(--kit-widget-spacing, 0px) + 40px) 0px;--grid-column-gap:8px;--grid-row-gap:0px;}
 .elementor-28308 .elementor-element.elementor-element-ab80082 .elementor-social-icon{background-color:#02010100;--icon-padding:0em;}
 .elementor-28308 .elementor-element.elementor-element-ab80082 .elementor-social-icon i{color:#02010100;}
@@ -483,7 +489,10 @@
   background: transparent;
 }
 #pix-page-footer .elementor-element-47e46ab,
-#pix-page-footer .elementor-element-ff0197e {
+#pix-page-footer .elementor-element-ff0197e,
+#pix-page-footer .elementor-element-cgfaq01,
+#pix-page-footer .elementor-element-cgpriv01,
+#pix-page-footer .elementor-element-cgterms01 {
   width: auto !important;
   display: inline-block;
 }
@@ -503,7 +512,10 @@
 
 /* Resources + About Us on one row */
 #pix-page-footer .elementor-element-47e46ab,
-#pix-page-footer .elementor-element-ff0197e {
+#pix-page-footer .elementor-element-ff0197e,
+#pix-page-footer .elementor-element-cgfaq01,
+#pix-page-footer .elementor-element-cgpriv01,
+#pix-page-footer .elementor-element-cgterms01 {
   width: auto !important;
   max-width: none !important;
   flex: 0 0 auto !important;

@@ -53,15 +53,18 @@ function resolveImageSrc(path: string): string {
   return stripped.startsWith("/") ? stripped : `/${stripped}`;
 }
 
-function categoryMeta(post: PostEntry): { name: string } {
+function categoryMeta(post: PostEntry): { name: string; path: string } {
   const cats = getCategories();
   for (const id of post.categories || []) {
     const hit = cats.find((c) => c.id === id);
     if (hit?.name) {
-      return { name: plainText(hit.name) };
+      return {
+        name: plainText(hit.name),
+        path: hit.path || `/category/${hit.slug}/`,
+      };
     }
   }
-  return { name: "Blog" };
+  return { name: "Blog", path: "/blog/" };
 }
 
 function authorMeta(post: PostEntry): { name: string; path: string } {
@@ -106,7 +109,7 @@ export function renderApbCardHtml(post: PostEntry): string {
 		<div class="apbMeta">
 			<span class="metaItem apbPostAuthor">${APB_ICON_AUTHOR}<span><a href="${escapeAttr(author.path)}">${escapeAttr(author.name)}</a></span></span>
 			<span class="metaItem apbPostDate">${APB_ICON_DATE}<span>${escapeAttr(dateLabel)}</span></span>
-			<span class="metaItem apbPostCategory">${APB_ICON_CATEGORY}<span>${escapeAttr(cat.name)}</span></span>
+			<span class="metaItem apbPostCategory">${APB_ICON_CATEGORY}<span><a href="${escapeAttr(cat.path)}">${escapeAttr(cat.name)}</a></span></span>
 		</div>
 		<div class="apbReadMore">
 			<a href="${escapeAttr(href)}">Read More</a>

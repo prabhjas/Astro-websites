@@ -1,16 +1,16 @@
-# Permanent redirects (301) — SEO / migration source of truth
-# Format: from → to
-# Paths should start with /. Prefer trailing-slash style matching live WordPress.
-
+# Merged redirects (PR #83 + work/astro-sites)
 redirects:
-  # Move legacy business-formation slug to new company setup slug
   - from: /business-formation-uae/
     to: /uae-company-setup/
     status: 301
-
-  # Pages not marked Done in Connect group asrto.xlsx (column D)
   - from: /dubai-free-zone/
     to: /
+    status: 301
+  - from: /dubai-mainland
+    to: /uae-mainland-company-setup/
+    status: 301
+  - from: /dubai-mainland/
+    to: /uae-mainland-company-setup/
     status: 301
   - from: /dubai-offshore/
     to: /

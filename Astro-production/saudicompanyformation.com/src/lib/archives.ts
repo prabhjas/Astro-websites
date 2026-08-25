@@ -5,6 +5,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { sanitizeMirrorHtml } from '@connect/site-cms';
+import { normalizeLegacyDocumentUrls } from './legacy-page.js';
 import { applySharedChrome } from './shared-chrome.js';
 import {
   ARCHIVE_POSTS_PER_PAGE,
@@ -198,20 +200,48 @@ function getArchiveBasePath(data: ArchivePageData): string {
 
 const INSIGHTS_GRID_STYLES = `
 <style data-astro-insights-grid="1">
+/* Override broken Elementor CAF skins (white overlay + negative image margins). */
 #caf-post-layout-container .astro-caf-posts{display:flex;flex-wrap:wrap;width:100%;margin:0 -1%;}
-#caf-post-layout-container .astro-caf-posts > article{box-sizing:border-box;}
+#caf-post-layout-container .astro-caf-posts > article{
+  box-sizing:border-box;position:relative;flex:0 0 31.33%;max-width:31.33%;
+  height:auto!important;margin:12px 1%!important;overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,.12)!important;border-radius:14px;background:#fff;
+}
+#caf-post-layout-container .astro-caf-posts > article > .caf-post-layout3{
+  position:relative;width:100%;height:auto!important;margin:0!important;overflow:hidden;
+  box-shadow:none!important;border-radius:0;padding:0;
+}
+body #caf-post-layout-container .astro-caf-posts .caf-featured-img-box,
+body #caf-post-layout-container .astro-caf-posts .caf-post-layout3 .caf-featured-img-box{
+  display:block!important;width:100%!important;height:220px!important;min-height:220px!important;
+  margin:0!important;border-radius:0!important;
+  background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;
+}
+body #caf-post-layout-container .astro-caf-posts #manage-post-area,
+body #caf-post-layout-container .astro-caf-posts .manage-post-area{
+  position:static!important;width:100%!important;padding:14px 16px 16px!important;bottom:auto!important;
+  background:#fff!important;background-image:none!important;
+}
+#caf-post-layout-container .astro-caf-posts .caf-meta-content-cats{margin:0 0 8px;}
+#caf-post-layout-container .astro-caf-posts .caf-meta-content-cats ul{display:none;}
+#caf-post-layout-container .astro-caf-posts .caf-post-title{padding:0!important;}
+#caf-post-layout-container .astro-caf-posts .caf-post-title h2{margin:0;line-height:1.35;}
+#caf-post-layout-container .astro-caf-posts .caf-post-title h2 a{
+  color:#0d0d0d!important;font-size:18px!important;font-weight:700;text-decoration:none;
+}
+#caf-post-layout-container .astro-caf-posts .caf-post-title h2 a:hover{color:#f94d1c!important;}
 @media (max-width:921px){
-  #caf-post-layout-container .astro-caf-posts > article.caf-col-md-4{width:48%!important;}
+  #caf-post-layout-container .astro-caf-posts > article.caf-col-md-4{flex-basis:48%!important;max-width:48%!important;width:48%!important;}
 }
 @media (max-width:544px){
   #caf-post-layout-container .astro-caf-posts > article.caf-col-md-4,
-  #caf-post-layout-container .astro-caf-posts > article.caf-col-md-tablet6{width:98%!important;}
-  #caf-post-layout-container .caf-post-layout3 .caf-featured-img-box{height:260px!important;}
+  #caf-post-layout-container .astro-caf-posts > article.caf-col-md-tablet6{flex-basis:98%!important;max-width:98%!important;width:98%!important;}
+  body #caf-post-layout-container .astro-caf-posts .caf-featured-img-box{height:200px!important;min-height:200px!important;}
 }
 #caf-post-layout-container .caf-filter-layout a[data-astro-filter]{cursor:pointer;}
 #caf-post-layout-container .astro-caf-empty{padding:2rem;text-align:center;color:#444;}
 #caf-post-layout-container .astro-caf-cat-badge{
-  display:inline-block;margin:0.5rem 0 0;padding:4px 12px;border-radius:999px;
+  display:inline-block;margin:0;padding:4px 12px;border-radius:999px;
   background:#f94d1c;color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
 }
 #caf-post-layout-container .astro-caf-meta{
@@ -277,7 +307,9 @@ const INSIGHTS_FILTER_SCRIPT = `
 
 /** Blog + category pages use the Insights Elementor template + CAF-compatible cards. */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
+  // HTML mode (not xml): empty <a></a> / <i></i> must stay paired. XML self-closing
+  // tags are treated as unclosed in browsers and collapse the Insights grid.
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
   const caf = $('#caf-post-layout-container').first();
 
   if (caf.length) {
@@ -350,7 +382,7 @@ function assembleTagHtml(data: ArchivePageData): string {
     throw new Error('Tag shell missing. Run: node scripts/prepare-tag-shell.mjs');
   }
 
-  let html = readFileSync(TAG_SHELL_PATH, 'utf8');
+  let html = sanitizeMirrorHtml(normalizeLegacyDocumentUrls(readFileSync(TAG_SHELL_PATH, 'utf8')));
   const postsHtml = data.posts.map((p) => buildArchiveCardHtml(p)).join('\n');
   const pagination = buildPaginationHtml(getArchiveBasePath(data), data.currentPage, data.totalPages);
 
@@ -466,8 +498,7 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
   }
 
   let html = readFileSync(shellPath, 'utf8');
-  // Normalize staging host leftovers before injection
-  html = html.replace(/https?:\/\/dev\.saudicompanyformation\.com\//gi, '/');
+  html = sanitizeMirrorHtml(normalizeLegacyDocumentUrls(html));
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
   return injectRuntimeGtmLoader(html);
