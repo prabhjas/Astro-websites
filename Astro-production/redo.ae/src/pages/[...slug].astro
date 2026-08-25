@@ -30,6 +30,11 @@ if (slug === 'blog' || slug === 'insights') {
   return Astro.redirect('/insights/', 301);
 }
 
+// Slug migration: keep original page content, now canonical at /house-renovation/.
+if (slug === 'house-renovation') {
+  return serveLegacyPage('redo-house-renovation', 'house-renovation');
+}
+
 if (isPageSlug(slug) || hasLegacyMirror) {
   return serveLegacyPage(slug);
 }
