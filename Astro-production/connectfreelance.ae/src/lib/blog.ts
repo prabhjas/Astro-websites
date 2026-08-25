@@ -128,7 +128,16 @@ export function getAllBlogSlugs(): string[] {
 export function getRawBlogPost(slug: string): BlogPost | null {
   const path = join(BLOG_DIR, `${slug}.json`);
   if (!existsSync(path)) return null;
-  return JSON.parse(readFileSync(path, 'utf8')) as BlogPost;
+  try {
+    return JSON.parse(readFileSync(path, 'utf8')) as BlogPost;
+  } catch (error) {
+    // Keep one malformed post JSON from breaking listing/load-more APIs.
+    console.error(
+      `[blog] Failed to parse ${path}:`,
+      error instanceof Error ? error.message : String(error),
+    );
+    return null;
+  }
 }
 
 /**
