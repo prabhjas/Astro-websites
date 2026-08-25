@@ -148,7 +148,8 @@ span.bg-yellow {
 .single-post #top-header,
 body.single-post #top-header,
 body.post #top-header,
-body.elementor-page-652 #top-header {
+body.elementor-page-652 #top-header,
+body.sp-archive-page #top-header {
     background: #000 !important;
     background-color: #000 !important;
 }

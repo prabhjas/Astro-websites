@@ -1,3 +1,5 @@
 # Generated from src/data/redirects.yml — do not edit by hand
 # Run: npm run redirects:generate
 
+/power-generator-rental/  /generator-rental/  301
+/power-generator-rental  /generator-rental/  301

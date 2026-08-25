@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import PostCard from "../../../../components/PostCard.astro";
+import Pagination from "../../../../components/Pagination.astro";
+import Breadcrumbs from "../../../../components/Breadcrumbs.astro";
+import {
+  getAuthorBySlug,
+  getAuthors,
+  getPostsByAuthor,
+  paginate,
+  POSTS_PER_PAGE,
+  stripHtml,
+} from "../../../../lib/content";
+import { breadcrumbSchema } from "../../../../lib/seo";
+import { notFoundResponse } from "../../../../lib/not-found";
+
+export function getStaticPaths() {
+  const paths: { params: { slug: string; page: string } }[] = [];
+
+  for (const author of getAuthors()) {
+    const total = getPostsByAuthor(author.id).length;
+    const totalPages = Math.max(1, Math.ceil(total / POSTS_PER_PAGE));
+    for (let page = 2; page <= totalPages; page += 1) {
+      paths.push({
+        params: { slug: author.slug, page: String(page) },
+      });
+    }
+  }
+
+  return paths;
+}
+
+function displayName(raw: string) {
+  const name = stripHtml(raw).trim();
+  let base = name.includes("@") ? name.split("@")[0] || name : name;
+  base = base.replace(/[._-]+/g, " ").trim();
+  return base.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+const slug = String(Astro.params.slug || "");
+const pageNum = Math.max(1, Number(Astro.params.page) || 1);
+const author = getAuthorBySlug(slug);
+if (!author) {
+  return notFoundResponse();
+}
+
+const name = displayName(author.name);
+const sorted = getPostsByAuthor(author.id);
+const { items, page, totalPages } = paginate(sorted, pageNum, POSTS_PER_PAGE);
+if (pageNum > totalPages && totalPages > 0) {
+  return notFoundResponse();
+}
+
+const canonical = pageNum <= 1 ? author.path : `${author.path}page/${pageNum}/`;
+---
+
+<BaseLayout
+  currentPath={author.path}
+  menuActivePath="/blog/"
+  bodyClass="sp-archive-page"
+  seo={{
+    title: `Author: ${name} — Page ${page} | SP Heavy Rental`,
+    description: author.description || `Articles by ${name} on S&P Heavy Machinery Rental.`,
+    canonical,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Authors", url: "/author/" },
+        { name: name, url: author.path },
+        { name: `Page ${page}`, url: canonical },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-archive-hero sp-author-hero">
+    <div class="sp-container">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Authors", href: "/author/" },
+          { name: name, href: author.path },
+          { name: `Page ${page}` },
+        ]}
+      />
+      <div class="sp-author-profile">
+        <div class="sp-author-profile__avatar">
+          {
+            author.avatar ? (
+              <img
+                src={author.avatar}
+                alt={`${name} avatar`}
+                width="112"
+                height="112"
+                loading="eager"
+                decoding="async"
+              />
+            ) : (
+              <span class="sp-author-profile__initial" aria-hidden="true">
+                {name.slice(0, 1)}
+              </span>
+            )
+          }
+        </div>
+        <div class="sp-author-profile__copy">
+          <p class="sp-archive-kicker">Author</p>
+          <h1>{name}</h1>
+          <p class="sp-author-profile__bio">
+            Page {page} of {totalPages}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp-archive-body">
+    <div class="sp-container">
+      {
+        items.length ? (
+          <>
+            <div class="sp-blog-grid">
+              {items.map((post) => (
+                <PostCard post={post} />
+              ))}
+            </div>
+            <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+          </>
+        ) : (
+          <div class="sp-archive-empty-panel">
+            <p class="sp-archive-empty">No posts on this page.</p>
+            <a class="sp-archive-empty__cta" href={author.path}>Back to author</a>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
