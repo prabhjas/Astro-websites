@@ -19,6 +19,7 @@ const BLOG_DIR = join(ROOT, 'src/content/blog');
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const TAX_DIR = join(ROOT, 'src/content/taxonomies');
 const INVENTORY = join(ROOT, 'src/data/sitemap-inventory.json');
+const BLOG_ORDER = join(ROOT, 'src/data/wp-blog-order.json');
 const ORIGIN = 'https://kpmpro.ae';
 
 const args = process.argv.slice(2);
@@ -333,6 +334,24 @@ async function writeTaxonomies(posts) {
   );
 }
 
+async function prependBlogOrder(slugs) {
+  const unique = [...new Set(slugs.filter(Boolean))];
+  if (!unique.length) return;
+  let existing = [];
+  if (existsSync(BLOG_ORDER)) {
+    try {
+      const raw = JSON.parse(await readFile(BLOG_ORDER, 'utf8'));
+      if (Array.isArray(raw)) existing = raw.filter((s) => typeof s === 'string');
+    } catch {
+      existing = [];
+    }
+  }
+  const seen = new Set(unique);
+  const merged = [...unique, ...existing.filter((s) => !seen.has(s))];
+  await writeFile(BLOG_ORDER, `${JSON.stringify(merged, null, 2)}\n`, 'utf8');
+  console.log(`Insights order: prepended ${unique.join(', ')} → first on /blog/`);
+}
+
 async function main() {
   const inventory = JSON.parse(await readFile(INVENTORY, 'utf8'));
   let slugs = inventory.posts.map((p) => p.slug);
@@ -371,7 +390,11 @@ async function main() {
     }
   }
 
-  await writeTaxonomies(migrated);
+  if (!onlySlug) {
+    await writeTaxonomies(migrated);
+  }
+  // New / re-migrated posts go first on Insights (/blog/).
+  await prependBlogOrder(migrated.map((p) => p.slug));
   console.log(`\nMigrated ${ok} posts, ${fail} failed/skipped`);
   console.log(`Blog JSON files: ${readdirSync(BLOG_DIR).filter((f) => f.endsWith('.json')).length}`);
 }
