@@ -19,7 +19,7 @@ chown -R site-spheavyrental:site-spheavyrental /opt/Astro-production/spheavyrent
 
 | File | Mode / owner | Contents |
 |------|----------------|----------|
-| `.env.prod` | `root:site-spheavyrental` **0640** | Runtime secrets. **Required** (`EnvironmentFile=` no `-`). Include `PUBLIC_GTM_ID=GTM-PL2CQ48T` (or run `node scripts/seed-gtm.mjs` after setting `INTERNAL_ADMIN_DIR`). |
+| `.env.prod` | `root:site-spheavyrental` **0640** | Runtime secrets. **Required** (`EnvironmentFile=` no `-`). |
 | `.env` | `root:webdev` **0644** | Build-only `PUBLIC_SITE_URL` (no secrets). |
 
 ## 3. Systemd (Tier 1)
