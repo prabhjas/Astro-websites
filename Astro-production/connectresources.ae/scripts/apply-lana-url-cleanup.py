@@ -29,7 +29,7 @@ DELETED_REDIRECTS = [
     ("/emiratisation-recruitment/", "/emiratisation/"),
     ("/emiratisation-in-uae/", "/emiratisation/"),
     ("/relocation-employee-services-uae/", "/relocation-employee-dubai/"),
-    # /relocation-consultant-dubai/ is KEEP — skip
+    ("/relocation-consultant-dubai/", "/relocation-employee-dubai/"),
     ("/uae-payroll-outsourcing/", "/payroll/"),
     ("/eor-payroll/", "/payroll/"),
     ("/pro-service-page/", "/pro-services/"),
@@ -126,7 +126,7 @@ def update_pages_json() -> dict:
     stats = {
         "landing_noindex": 0,
         "bahrain_renamed": False,
-        "deleted_noindex_backup": 0,
+        "deleted_removed": 0,
     }
 
     # Rename bahrain-visa-outsourcing-2 → bahrain-visa-outsourcing (Keep URL)
@@ -150,19 +150,16 @@ def update_pages_json() -> dict:
         p["seo"] = seo
         stats["landing_noindex"] += 1
 
-    # Deleted sources: backup noindex if somehow served (redirects should win)
+    # Deleted sources: remove page records (301 redirects remain in redirects.yml)
     deleted_srcs = {src for src, _ in DELETED_REDIRECTS + EXPLICIT_REDIRECTS}
-    for path in deleted_srcs:
-        p = by_path.get(path)
-        if not p:
+    remaining = []
+    for p in pages:
+        path = p.get("path")
+        if path in deleted_srcs:
+            stats["deleted_removed"] += 1
             continue
-        # skip if this page was renamed away
-        if p.get("path") != path:
-            continue
-        seo = p.get("seo") or {}
-        seo["robots"] = {"index": "noindex", "follow": "nofollow"}
-        p["seo"] = seo
-        stats["deleted_noindex_backup"] += 1
+        remaining.append(p)
+    pages = remaining
 
     PAGES.write_text(json.dumps(pages, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return stats
@@ -177,7 +174,7 @@ def main() -> None:
         print(f"  {src} → {dst}")
     print(f"landing noindex: {stats['landing_noindex']}")
     print(f"bahrain renamed: {stats['bahrain_renamed']}")
-    print(f"deleted noindex backup: {stats['deleted_noindex_backup']}")
+    print(f"deleted pages removed: {stats['deleted_removed']}")
 
 
 if __name__ == "__main__":
