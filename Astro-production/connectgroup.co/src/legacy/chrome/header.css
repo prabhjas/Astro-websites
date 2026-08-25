@@ -2151,6 +2151,11 @@ li#mega-menu-item-31469 { display: none !important; }
   padding: 12px 0 0 !important;
   overflow: visible !important;
   z-index: 9999 !important;
+  /* Position here — NOT on #cd (transform + backdrop-filter on same node = Chrome ghost double panel) */
+  left: 50% !important;
+  transform: translateX(-41%) !important;
+  width: min(1100px, 92vw) !important;
+  max-width: 1100px !important;
 }
 #mega-menu-item-35463.mega-toggle-on > ul.mega-sub-menu,
 #mega-menu-item-35463:hover > ul.mega-sub-menu {
@@ -2224,21 +2229,21 @@ li#mega-menu-item-31469 { display: none !important; }
   background: transparent !important;
 }
 
-/* Match homepage Services glass panel exactly */
+/* Match homepage Services glass panel exactly.
+   Keep blur on #cd only — no transform here (avoids Chrome double-background bug). */
 #cd, div#cd {
   background: rgba(6, 13, 29, 0.40) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 20px !important;
-  overflow: visible !important;
-  isolation: isolate;
+  overflow: hidden !important;
   position: relative !important;
-  left: 50% !important;
-  transform: translateX(-41%) !important;
+  left: auto !important;
+  transform: none !important;
   top: 0 !important;
-  width: min(1100px, 92vw) !important;
-  max-width: 1100px !important;
+  width: 100% !important;
+  max-width: none !important;
   box-shadow: 0px 4px 12px 0px rgba(250, 250, 250, 0.09) !important;
 }
 
@@ -2315,9 +2320,15 @@ li#mega-menu-item-31469 { display: none !important; }
   }
 }
 @media screen and (max-width: 992px) {
-  div#cd {
-    position: unset !important;
+  #mega-menu-item-35463 > ul.mega-sub-menu {
     left: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+  div#cd {
+    position: relative !important;
+    left: auto !important;
     transform: none !important;
     width: 100% !important;
     max-width: none !important;

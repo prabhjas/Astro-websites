@@ -22,10 +22,10 @@ const stats = [
 ];
 
 const brands = [
-  { src: `${img}/logo-connect.svg`, alt: 'Connect Resources' },
-  { src: `${img}/logo-kinza.svg`, alt: 'Kinza HR' },
-  { src: `${img}/logo-connectstaff.svg`, alt: 'Connect Staff' },
-  { src: `${img}/logo-crsaudi.svg`, alt: 'Connect Resources Saudi' },
+  { src: `${img}/logo-connect.svg`, alt: 'Connect Resources', href: '/connect-resources/' },
+  { src: `${img}/logo-kinza.svg`, alt: 'Kinza HR', href: '/kinza-hr/' },
+  { src: `${img}/logo-connectstaff.svg`, alt: 'Connect Staff', href: '/connect-staff/' },
+  { src: `${img}/logo-crsaudi.svg`, alt: 'Connect Resources Saudi', href: '/connect-resources-ksa/' },
 ];
 
 const risks = [
@@ -144,8 +144,8 @@ const faqs = [
       <div class="chire-wrap">
         <div class="chire-hero-grid">
           <div>
-            <p class="chire-eyebrow">Contractor Hire UAE</p>
-            <h1><span class="gold">Specialist talent.</span><span class="white">On your terms.</span></h1>
+            <h1 class="chire-eyebrow">Hire Contractor UAE</h1>
+            <h2><span class="gold">Specialist talent.</span><span class="white">On your terms.</span></h2>
             <p class="chire-hero-lead">
               You have a project. You have the right person. The only thing standing between you and
               getting started is a compliant way to engage them in the UAE. That is exactly what
@@ -165,7 +165,11 @@ const faqs = [
           <h2>Our Specialist Brands</h2>
           <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
           <div class="chire-brand-row">
-            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+            {brands.map((b) => (
+              <a href={b.href} target="_blank" rel="noopener noreferrer">
+                <img src={b.src} alt={b.alt} loading="lazy" />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -385,14 +389,15 @@ const faqs = [
 
   /* HERO — pre-composed background export (Figma 5691:11347), icon layered on top */
   .chire-hero {
-    color: #fff; padding: 70px 0 80px; overflow: hidden; position: relative;
+    color: #fff; padding: 120px 0 80px; overflow: hidden; position: relative;
     background: #1e2166 url('/contractor-hire/img/hero-bg.png') center top / cover no-repeat;
   }
   .chire-hero .chire-wrap { position: relative; z-index: 2; }
   .chire-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
-  .chire-hero h1 { font-size: 60px; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 24px; }
-  .chire-hero h1 .gold { color: var(--c-gold); display: block; }
-  .chire-hero h1 .white { color: #fff; display: block; }
+  .chire-hero h2 { font-size: 60px; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 24px; }
+  .chire-hero h2 .gold { color: var(--c-gold); display: block; }
+  .chire-hero h2 .white { color: #fff; display: block; }
+  .chire-hero h1.chire-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 14px; color: #c9d0ff; }
   .chire-hero-lead { color: rgba(255, 255, 255, 0.86); font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 620px; }
   .chire-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
   /* Icon at the design's proportion: 424px at 1440 viewport (~29.5vw), scales down with screen */
@@ -401,6 +406,7 @@ const faqs = [
   .chire-brands h2 { font-size: 26px; font-weight: 600; margin: 0 0 8px; color: #fff; }
   .chire-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
   .chire-brand-row { display: flex; align-items: center; justify-content: center; gap: 60px; flex-wrap: wrap; }
+  .chire-brand-row a { display: inline-flex; align-items: center; }
   .chire-brand-row img { height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.92; }
   .chire-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 54px; }
   .chire-stat { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 26px 28px; text-align: center; }
@@ -508,11 +514,14 @@ const faqs = [
     .chire-ctav1-artwrap { height: 230px; }
     .chire .chire-ctav1-art { width: 120%; margin-left: -10%; }
   }
+  @media (max-width: 991px) {
+    .chire-hero { padding-top: 110px; }
+  }
   @media (max-width: 860px) {
     .chire-wrap { padding: 0 24px; }
     .chire-section { padding: 60px 0; }
     .chire-h2 { font-size: 30px; }
-    .chire-hero h1 { font-size: 42px; }
+    .chire-hero h2 { font-size: 42px; }
     .chire-ctav1 h2 { font-size: 30px; }
     .chire-pricing h2 { font-size: 30px; }
     .chire-finalcta { padding: 60px 28px; }
@@ -521,7 +530,7 @@ const faqs = [
   }
   /* RESPONSIVE — mobile (Figma 5521:9940) */
   @media (max-width: 560px) {
-    .chire-hero h1 { font-size: 34px; }
+    .chire-hero h2 { font-size: 34px; }
     .chire-btn-row { flex-direction: column; }
     .chire-btn-row .chire-btn { width: 100%; }
     .chire-stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
