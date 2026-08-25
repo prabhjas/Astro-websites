@@ -57,6 +57,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Plain-text routes (robots.txt, sitemaps) have no <link rel="icon"> — browsers
+    // fall back to /favicon.ico. Keep the WordPress brand icon, not Astro's default.
+    const SITE_FAVICON =
+      '/wp-content/uploads/2023/07/cropped-favicon-emiratisationgate-512px-32x32.png';
+    const faviconRedirects: Record<string, string> = {
+      '/favicon.ico': SITE_FAVICON,
+      '/favicon.svg': SITE_FAVICON,
+      '/favicon.png': SITE_FAVICON,
+    };
+    if (faviconRedirects[pathname]) {
+      return context.redirect(faviconRedirects[pathname], 302);
+    }
+
     if (pathname.startsWith('/api/internal/') || pathname === '/api/health') {
       return next();
     }

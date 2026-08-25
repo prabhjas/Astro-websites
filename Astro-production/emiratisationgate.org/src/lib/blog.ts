@@ -128,7 +128,12 @@ export function getAllBlogSlugs(): string[] {
 export function getRawBlogPost(slug: string): BlogPost | null {
   const path = join(BLOG_DIR, `${slug}.json`);
   if (!existsSync(path)) return null;
-  return JSON.parse(readFileSync(path, 'utf8')) as BlogPost;
+  try {
+    return JSON.parse(readFileSync(path, 'utf8')) as BlogPost;
+  } catch (err) {
+    console.warn(`[blog] Skipping invalid JSON for "${slug}":`, err instanceof Error ? err.message : err);
+    return null;
+  }
 }
 
 /**
