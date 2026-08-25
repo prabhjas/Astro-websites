@@ -41,6 +41,12 @@ const {
   showFooter = true,
 } = Astro.props;
 
+/** Ads landing: page body already has logo + CTA — omit shared chrome (publisher-safe vs [...slug].astro). */
+const normalizedPath = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;
+const landingHideChrome = normalizedPath === "/eor-services/";
+const renderHeader = showHeader && !landingHideChrome;
+const renderFooter = showFooter && !landingHideChrome;
+
 /** Live Iberia Elementor kit is post-6 (Manrope / Lato) — never load SP kit post-19. */
 const KIT_CSS = "/wp-content/uploads/elementor/css/post-6.css";
 const SP_KIT_BLOCKLIST = new Set([
@@ -133,7 +139,7 @@ const stylesheets = [
     ]}
   >
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    {showHeader && (
+    {renderHeader && (
       <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
     )}
     <main id="content" class="site-main">
@@ -141,7 +147,7 @@ const stylesheets = [
         <slot />
       </div>
     </main>
-    {showFooter && <ElementorFooter />}
+    {renderFooter && <ElementorFooter />}
     <ElementorScripts />
   </body>
 </html>
