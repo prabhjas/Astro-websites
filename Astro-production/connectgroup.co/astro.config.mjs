@@ -34,11 +34,9 @@ function loadRedirects() {
 // Rank Math–style robots/sitemaps are custom endpoints under src/pages/
 // (robots.txt.ts, sitemap_index.xml.ts, page-sitemap*.xml.ts, post-sitemap*.xml.ts).
 // Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
-// trailingSlash: 'ignore' so /about-us and /about-us/ both serve (Astro 'always'
-// 404s the bare path in dev before middleware can 301).
 export default defineConfig({
   site: siteUrl,
-  trailingSlash: 'ignore',
+  trailingSlash: 'always',
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   security: {

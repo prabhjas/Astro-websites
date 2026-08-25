@@ -95,16 +95,14 @@ html body.elementor-page-18840{
   background-image:none !important;
 }
 .e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle}
-.elementor-24831 .elementor-element-a49ff4b{overflow:hidden;line-height:0}
-.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:3/2;object-position:center center}
+.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:16/9;object-position:center center}
 .ecs-posts.elementor-posts-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px}
 @media (max-width:767px){.ecs-posts.elementor-posts-container{grid-template-columns:1fr}}
 .astro-archive-heading{font-size:1.75rem;font-weight:700;margin:0 0 1.5rem;color:#070c13}
 </style>`;
 
 const TAG_CARD_FIX_STYLES = `<style id="astro-tag-archive-css">
-.elementor-posts--skin-cards .elementor-post__thumbnail{overflow:hidden;line-height:0}
-.elementor-posts--skin-cards .elementor-post__thumbnail img{width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:3/2;object-position:center center}
+.elementor-posts--skin-cards .elementor-post__thumbnail img{width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:16/9}
 .elementor-posts--skin-cards .elementor-post__card{position:relative;overflow:hidden;background:#fff;box-shadow:0 0 10px rgba(0,0,0,.08);height:100%}
 .elementor-posts--skin-cards .elementor-post__badge{position:absolute;top:12px;left:0;background:#23369b;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;z-index:2}
 .elementor-posts--skin-cards .elementor-post__text{padding:16px 18px 20px}

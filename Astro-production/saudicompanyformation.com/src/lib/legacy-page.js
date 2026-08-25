@@ -14,65 +14,8 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .replace(/\/$/, '');
 const LEGACY_DIR = join(process.cwd(), 'src/legacy');
 
-function decodeCfEmail(hex) {
-  if (!hex || hex.length < 4) return '';
-  const key = parseInt(hex.slice(0, 2), 16);
-  if (Number.isNaN(key)) return '';
-  let out = '';
-  for (let i = 2; i < hex.length; i += 2) {
-    out += String.fromCharCode(parseInt(hex.slice(i, i + 2), 16) ^ key);
-  }
-  return out;
-}
-
-/** Decode Cloudflare email-protection placeholders left in WP mirrors. */
-function decodeProtectedEmailsInHtml(html) {
-  let out = html.replace(
-    /<span class="__cf_email__" data-cfemail="([^"]+)">[^<]*<\/span>/gi,
-    (full, enc) => {
-      const mail = decodeCfEmail(enc);
-      return mail || full;
-    },
-  );
-  out = out.replace(
-    /<a([^>]*?)href="\/cdn-cgi\/l\/email-protection(?:#([0-9a-f]+))?"([^>]*)class="__cf_email__" data-cfemail="([^"]+)"([^>]*)>[^<]*<\/a>/gi,
-    (full, pre, _hash, mid, enc, post) => {
-      const mail = decodeCfEmail(enc);
-      if (!mail) return full;
-      return `<a${pre}href="mailto:${mail}"${mid}${post}>${mail}</a>`;
-    },
-  );
-  out = out.replace(
-    /<a([^>]*?)href="\/cdn-cgi\/l\/email-protection#([0-9a-f]+)"([^>]*)>/gi,
-    (full, pre, hex, post) => {
-      const mail = decodeCfEmail(hex);
-      if (!mail) return full;
-      return `<a${pre}href="mailto:${mail}"${post}>`;
-    },
-  );
-  out = out.replace(/\/cdn-cgi\/l\/email-protection[^"'\s>]*/gi, '#');
-  out = out.replace(
-    /<script\b[^>]*cdn-cgi\/scripts\/[^>]*email-decode[^>]*>\s*<\/script>/gi,
-    '',
-  );
-  return out;
-}
-
-/**
- * Strip Word/Outlook paste chrome (Calibri + mso-* spans) so body text
- * inherits the site font like surrounding Elementor paragraphs.
- */
-function stripWordPasteFonts(html) {
-  return html
-    .replace(/\s*mso-[a-z-]+:[^;"]*;?/gi, '')
-    .replace(/font-family:\s*['"]?Calibri['"]?[^;"]*;?/gi, '')
-    .replace(/font-family:\s*['"]?Times New Roman['"]?[^;"]*;?/gi, '')
-    .replace(/\s*style="\s*"/gi, '')
-    .replace(/\s*style='\s*'/gi, '');
-}
-
 export function normalizeLegacyDocumentUrls(html) {
-  let out = html
+  return html
     // Live footer logo still points at the old staging host — rewrite to local assets.
     .replace(/https?:\/\/dev\.saudicompanyformation\.com\//gi, '/')
     .replace(/https:\/\/saudicompanyformation\.com\//g, '/')
@@ -82,10 +25,6 @@ export function normalizeLegacyDocumentUrls(html) {
     .replace(/https?:\/\/redo\.ae\/wp-content\/uploads\/2024\/03\/whatsapp-button\.png/gi, '/images/whatsapp-button.png')
     .replace(/(href|src|data-lazy-src)=(["'])\/\//g, '$1=$2/')
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
-
-  out = stripWordPasteFonts(out);
-  out = decodeProtectedEmailsInHtml(out);
-  return out;
 }
 
 /**

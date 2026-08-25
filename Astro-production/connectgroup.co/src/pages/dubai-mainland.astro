@@ -1,6 +1,10 @@
 ---
 /**
- * Legacy Dubai Mainland URL — canonical page is /uae-mainland-company-setup/.
+ * Phase 1: static mirror of WordPress Dubai Mainland page.
+ * Live URL: https://connectgroup.co/dubai-mainland/
+ * Source: source/wordpress-exports/dubai-mainland/index-https.html
  */
-return Astro.redirect('/uae-mainland-company-setup/', 301);
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+return serveLegacyPage('dubai-mainland');
 ---

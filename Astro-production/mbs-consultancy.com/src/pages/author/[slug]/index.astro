@@ -32,10 +32,9 @@ function listingDate(date: string) {
 }
 
 function primaryCat(post: { categories: number[] }) {
+  // lightweight label for card overlay
   return "Insights";
 }
-
-const authorName = stripHtml(author.name);
 ---
 
 <BaseLayout
@@ -43,54 +42,32 @@ const authorName = stripHtml(author.name);
   menuActivePath="/insights/"
   bodyClass={`archive author author-${author.slug} wp-theme-Impreza wp-child-theme-Impreza-child l-body`}
   seo={{
-    title: `Author: ${authorName} | MBS Consultancy`,
-    description: author.description || `Articles by ${authorName}.`,
+    title: `Author: ${stripHtml(author.name)} | MBS Consultancy`,
+    description: author.description || `Articles by ${author.name}.`,
     canonical: author.path,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: "Author", url: "/author/" },
-        { name: authorName, url: author.path },
+        { name: "Insights", url: "/insights/" },
+        { name: author.name, url: author.path },
       ]),
     ],
   }}
-  extraCss={["/css/page-design/authors.css"]}
 >
   <main id="page-content" class="l-main">
-    <section class="author-detail-hero">
-      <div class="author-detail-banner">
-        <img
-          src="/wp-content/uploads/authors/authors-hero-banner.jpg"
-          alt=""
-          loading="eager"
+    <section class="l-section height_small">
+      <div class="l-section-h i-cf">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Insights", href: "/insights/" },
+            { name: author.name },
+          ]}
         />
+        <h1 set:html={author.name} />
+        {author.description && <p set:html={author.description} />}
       </div>
     </section>
-
-    <section class="author-detail-card">
-      {author.avatar && (
-        <div class="author-detail-card__avatar">
-          <img src={author.avatar} alt={authorName} width="252" height="252" />
-        </div>
-      )}
-      <div class="author-detail-card__info">
-        <div class="author-detail-card__name-row">
-          <h1 class="author-detail-card__name">{authorName}</h1>
-          {author.linkedin && (
-            <a href={author.linkedin} class="author-detail-card__linkedin" target="_blank" rel="noopener">
-              <img src="/wp-content/uploads/authors/linkedin-icon.svg" alt="LinkedIn" />
-            </a>
-          )}
-        </div>
-        {author.title && <p class="author-detail-card__title">{author.title}</p>}
-        {author.description && <p class="author-detail-card__bio">{author.description}</p>}
-      </div>
-    </section>
-
-    <h2 class="author-articles-heading">
-      <span>Articles By </span><strong>{authorName}</strong>
-    </h2>
-
     <section class="l-section">
       <div class="l-section-h i-cf">
         <div id="blog-list" class="mbs-archive-list">

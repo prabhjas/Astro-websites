@@ -1,82 +1,53 @@
-# Merged redirects (PR #83 + work/astro-sites)
+# Lana CR Issue sheet — Deleted → Keep / Landing + explicit Redirect
+# Generated/maintained for connectresources.ae URL cleanup
 redirects:
-  - from: /bahrain-visa-outsourcing-2/
-    to: /bahrain-visa-outsourcing/
-    status: 301
-  - from: /contact-us-new/
-    to: /contact/
-    status: 301
-  - from: /corporate-social-responsibility-connect-resources/
-    to: /csr-activity/
-    status: 301
-  - from: /emiratisation-in-uae/
-    to: /emiratisation/
-    status: 301
-  - from: /emiratisation-recruitment/
-    to: /emiratisation/
-    status: 301
-  - from: /employee-feedback-and-business-review/
-    to: /contact/
-    status: 301
-  - from: /employer-of-record-egypt/
-    to: /employer-of-record/egypt/
-    status: 301
-  - from: /employer-of-record-eor-uae/
-    to: /employer-of-record/united-arab-emirates/
-    status: 301
-  - from: /employer-of-record-ksa/
-    to: /employer-of-record/saudi-arabia/
-    status: 301
   - from: /employer-of-record-main/
     to: /employer-of-record/
     status: 301
-  - from: /employer-of-record-middle-east/
-    to: /employer-of-record/
+  - from: /professional-employer-organization-peo-uae/
+    to: /professional-employer-organization-uae/
     status: 301
-  - from: /employer-of-record-qatar/
-    to: /employer-of-record/qatar/
+  - from: /professional-employer-organization-dubai-old/
+    to: /professional-employer-organization-dubai/
     status: 301
-  - from: /employer-of-record-saudi-arabia/
-    to: /employer-of-record/saudi-arabia/
+  - from: /staff-outsourcing-main-page-r/
+    to: /staff-outsourcing/
     status: 301
-  - from: /employer-of-record-uae/
-    to: /employer-of-record/united-arab-emirates/
+  - from: /uae-staff-outsourcing/
+    to: /staff-outsourcing/
     status: 301
-  - from: /eor-main/
-    to: /employer-of-record/
-    status: 301
-  - from: /eor-middle-east/
-    to: /employer-of-record/
-    status: 301
-  - from: /eor-payroll/
-    to: /payroll/
-    status: 301
-  - from: /get-your-uae-recidency-landing-page/
-    to: /uae-residence-visa/
-    status: 301
-  - from: /golden-visa-uae/
-    to: /uae-golden-visa/
-    status: 301
-  - from: /golden-visa-uae1212/
-    to: /uae-golden-visa/
-    status: 301
-  - from: /golden-visa-uae222/
-    to: /uae-golden-visa/
+  - from: /staff-outsourcing-uae/
+    to: /staff-outsourcing/
     status: 301
   - from: /hr-consultancy-service-page/
     to: /hr-consultancy/
     status: 301
-  - from: /international-relocation-service-page/
-    to: /global-mobility-dubai/
+  - from: /emiratisation-recruitment/
+    to: /emiratisation/
     status: 301
-  - from: /it-service-providers-in-dubai/
-    to: /it-outsourcing/
+  - from: /emiratisation-in-uae/
+    to: /emiratisation/
     status: 301
-  - from: /leadership/
-    to: /meet-our-team/
+  - from: /relocation-employee-services-uae/
+    to: /relocation-employee-dubai/
     status: 301
-  - from: /manpower-outsourcing-services/
-    to: /staff-outsourcing/
+  - from: /uae-payroll-outsourcing/
+    to: /payroll/
+    status: 301
+  - from: /eor-payroll/
+    to: /payroll/
+    status: 301
+  - from: /pro-service-page/
+    to: /pro-services/
+    status: 301
+  - from: /corporate-social-responsibility-connect-resources/
+    to: /csr-activity/
+    status: 301
+  - from: /get-your-uae-recidency-landing-page/
+    to: /uae-residence-visa/
+    status: 301
+  - from: /questions-for-customer-feedback-and-business-review/
+    to: /contact/
     status: 301
   - from: /outsourcing-services-uae/
     to: /staff-outsourcing/
@@ -84,6 +55,74 @@ redirects:
   - from: /partner-program-2/
     to: /partner-program/
     status: 301
+  - from: /contact-us-new/
+    to: /contact/
+    status: 301
+  - from: /employer-of-record-eor-uae/
+    to: /employer-of-record/united-arab-emirates/
+    status: 301
+  - from: /leadership/
+    to: /meet-our-team/
+    status: 301
+  - from: /manpower-outsourcing-services/
+    to: /staff-outsourcing/
+    status: 301
+  - from: /professional-employer-organization/
+    to: /professional-employer-organization-uae/
+    status: 301
+  - from: /golden-visa-uae1212/
+    to: /uae-golden-visa/
+    status: 301
+  - from: /golden-visa-uae222/
+    to: /uae-golden-visa/
+    status: 301
+  - from: /golden-visa-uae/
+    to: /uae-golden-visa/
+    status: 301
+  - from: /eor-main/
+    to: /employer-of-record/
+    status: 301
+  - from: /eor-middle-east/
+    to: /employer-of-record/
+    status: 301
+  - from: /employer-of-record-middle-east/
+    to: /employer-of-record/
+    status: 301
+  - from: /employer-of-record-uae/
+    to: /employer-of-record/united-arab-emirates/
+    status: 301
+  - from: /employer-of-record-saudi-arabia/
+    to: /employer-of-record/saudi-arabia/
+    status: 301
+  - from: /employer-of-record-ksa/
+    to: /employer-of-record/saudi-arabia/
+    status: 301
+  - from: /employer-of-record-qatar/
+    to: /employer-of-record/qatar/
+    status: 301
+  - from: /employer-of-record-egypt/
+    to: /employer-of-record/egypt/
+    status: 301
+  - from: /international-relocation-service-page/
+    to: /global-mobility-dubai/
+    status: 301
+  - from: /it-service-providers-in-dubai/
+    to: /it-outsourcing/
+    status: 301
+  - from: /employee-feedback-and-business-review/
+    to: /contact/
+    status: 301
+  - from: /bahrain-visa-outsourcing-2/
+    to: /bahrain-visa-outsourcing/
+    status: 301
+  - from: /property-visa-new/
+    to: /uae-property-visa/
+    status: 301
+  - from: /uae-residency-visa-new/
+    to: /uae-residence-visa/
+    status: 301
+
+  # Press-release CPT → /press/ (archive + singles)
   - from: /press-release/
     to: /press/
     status: 301
@@ -131,43 +170,4 @@ redirects:
     status: 301
   - from: /press-release/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/
     to: /press/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/
-    status: 301
-  - from: /pro-service-page/
-    to: /pro-services/
-    status: 301
-  - from: /professional-employer-organization-dubai-old/
-    to: /professional-employer-organization-dubai/
-    status: 301
-  - from: /professional-employer-organization-peo-uae/
-    to: /professional-employer-organization-uae/
-    status: 301
-  - from: /professional-employer-organization/
-    to: /professional-employer-organization-uae/
-    status: 301
-  - from: /property-visa-new/
-    to: /uae-property-visa/
-    status: 301
-  - from: /questions-for-customer-feedback-and-business-review/
-    to: /contact/
-    status: 301
-  - from: /relocation-consultant-dubai/
-    to: /relocation-employee-dubai/
-    status: 301
-  - from: /relocation-employee-services-uae/
-    to: /relocation-employee-dubai/
-    status: 301
-  - from: /staff-outsourcing-main-page-r/
-    to: /staff-outsourcing/
-    status: 301
-  - from: /staff-outsourcing-uae/
-    to: /staff-outsourcing/
-    status: 301
-  - from: /uae-payroll-outsourcing/
-    to: /payroll/
-    status: 301
-  - from: /uae-residency-visa-new/
-    to: /uae-residence-visa/
-    status: 301
-  - from: /uae-staff-outsourcing/
-    to: /staff-outsourcing/
     status: 301

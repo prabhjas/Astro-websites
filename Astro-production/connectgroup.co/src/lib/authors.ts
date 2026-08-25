@@ -383,8 +383,7 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
   const loopCss = existsSync(loopCssPath) ? readFileSync(loopCssPath, 'utf8') : '';
   const authorFixCss = `<style id="astro-author-archive-css">
 .e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle;fill:currentColor}
-.elementor-24831 .elementor-element-a49ff4b{overflow:hidden;line-height:0}
-.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:3/2;object-position:center center}
+.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:16/9;object-position:center center}
 .ecs-posts.elementor-posts-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px}
 @media (max-width:767px){.ecs-posts.elementor-posts-container{grid-template-columns:1fr}}
 .astro-author-profile-section,

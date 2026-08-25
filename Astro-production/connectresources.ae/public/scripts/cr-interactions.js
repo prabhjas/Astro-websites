@@ -196,46 +196,6 @@
     });
   }
 
-  function bindEzTocToggle(root) {
-    var scope = root || document;
-    scope.querySelectorAll("#ez-toc-container, .ez-toc-container, .ez-toc-v2_0_85").forEach(function (container) {
-      if (container.getAttribute("data-cr-toc-bound")) return;
-      var nav = container.querySelector("nav");
-      var header = container.querySelector(".ez-toc-title-container");
-      var toggle = container.querySelector(".ez-toc-toggle, .ez-toc-title-toggle");
-      if (!nav || (!header && !toggle)) return;
-      container.setAttribute("data-cr-toc-bound", "1");
-
-      var trigger = header || toggle;
-      trigger.setAttribute("role", "button");
-      trigger.setAttribute("tabindex", "0");
-      trigger.setAttribute("aria-expanded", "true");
-      trigger.style.cursor = "pointer";
-
-      function setOpen(open) {
-        container.classList.toggle("ez-toc-collapsed", !open);
-        nav.style.display = open ? "" : "none";
-        trigger.setAttribute("aria-expanded", open ? "true" : "false");
-      }
-
-      function onToggle(e) {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        setOpen(container.classList.contains("ez-toc-collapsed"));
-      }
-
-      trigger.addEventListener("click", onToggle);
-      trigger.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onToggle();
-        }
-      });
-    });
-  }
-
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn);
@@ -248,7 +208,6 @@
     applyUpbColors();
     bindTabs(document);
     bindExclusiveMegaMenus(document);
-    bindEzTocToggle(document);
     bindSmartSliderRefresh();
     refreshSmartSliders();
     // Re-apply after Ultimate / theme JS mutate DOM
