@@ -48,13 +48,16 @@ export function serveLegacyPage(slug) {
 
   const path = !slug || slug === 'homepage' || slug === 'Home' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = readFileSync(cleanedPath, 'utf-8');
-  const html = sanitizeMirrorHtml(
+  let html = sanitizeMirrorHtml(
     absolutizeMirrorSeoHtml(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), {
       siteOrigin: SITE_ORIGIN,
       path,
       defaultOgImage: slug === 'homepage' || slug === 'Home' ? DEFAULT_OG_IMAGE : undefined,
     }),
   );
+  if (!html.includes('astro-mirror-fixes.js')) {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  }
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

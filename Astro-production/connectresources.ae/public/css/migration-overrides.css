@@ -442,6 +442,13 @@ div#transaction_hide,
   color: #ffffff !important;
 }
 
+/* Mega-menu promo / featured images */
+#page-header .w-nav-list.level_2 .w-image img,
+#page-header .w-nav-list.level_2 .wpb_text_column img,
+#page-header .w-nav-list.level_2 img[src*="/assets/images/2026/08/header-"] {
+  border-radius: 4px;
+}
+
 main#page-content .w-iconbox-text a[href^="tel:"],
 main#page-content .w-iconbox-text a[href^="mailto:"],
 .l-main .w-iconbox-text a[href^="tel:"],
