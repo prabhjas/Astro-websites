@@ -1,6 +1,6 @@
 # Aaron pending — fleet owner / security-maintenance lane
 
-**Updated:** 2026-08-25 (Rajpal queue ready: CR Lana / CHR SEO / CG audit / KPM redirects)  
+**Updated:** 2026-08-25 (Rajpal CR/CHR/CG/KPM published `882a45e5d`)  
 **Owner lane:** Aaron (not developer generic `astro-fleet-release publish`)  
 **Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
 **Related:** [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)
@@ -32,6 +32,7 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | When | What | Tip |
 |---|---|---|
+| 2026-08-25 | **Rajpal batch:** Connect Resources Lana page purge + mega-menu banners; Connect HR SEO audit; Connect Group audit + restore `/mbs-tax-consultancy/` + `/uaegate/`; KPM Pro duplicate blog redirects (`blog.ts`/JSON only — API still AP-09) | Fleet **`882a45e5d`** (live all four) |
 | 2026-08-25 | **SP Heavy** author pages/pagination, blog breadcrumbs, favicon, header/footer, form UX, GTM seed, data tweaks, **middleware** trailing-slash; **Connect Freelance** favicon/BaseLayout, residence-visa hover, `blog.ts` harden, legacy HTML. Omitted: SP `[...slug]` / `astro.config` / `robots.txt` / `deploy/ROOT_SETUP.md`; CF `api/blog/**` + middleware (AP-12) | Fleet **`427e68f3b`** (live both sites) |
 | 2026-08-25 | Iberia EOR titles under featured image — posts only (fix Home H1 bug on pages) | Fleet `6554a7b66` → tip advanced; still live via ancestry |
 | 2026-08-25 | KPM Pro Insights equal-height cards + new-posts-first (Rajpal `b28067ea8` already on `work/astro-sites`; published libs only — `api/blog/listing` + `load-more` **blocked**) | Fleet `bfb528620` |
