@@ -132,5 +132,6 @@ export function placeSinglePostTitleAfterFeaturedImage(bodyHtml: string, title: 
     return html.slice(0, content.start) + titleWidget + html.slice(content.start);
   }
 
-  return titleWidget + html;
+  // No featured image / post content widgets — leave HTML alone (never prepend page titles).
+  return html;
 }
