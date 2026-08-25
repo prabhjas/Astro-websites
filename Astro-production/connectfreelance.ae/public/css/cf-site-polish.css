@@ -136,3 +136,19 @@ body:not(:has([data-cf-insights-layout]))
   height: auto;
   display: block;
 }
+
+/* Residence visa cards — keep gradient buttons static on hover/focus */
+.elementor-402 .elementor-element-5230a4a .elementor-button:hover,
+.elementor-402 .elementor-element-5230a4a .elementor-button:focus,
+.elementor-402 .elementor-element-c9d82f9 .elementor-button:hover,
+.elementor-402 .elementor-element-c9d82f9 .elementor-button:focus {
+  background-color: transparent !important;
+  color: #000000 !important;
+}
+
+.elementor-402 .elementor-element-5230a4a .elementor-button:hover svg,
+.elementor-402 .elementor-element-5230a4a .elementor-button:focus svg,
+.elementor-402 .elementor-element-c9d82f9 .elementor-button:hover svg,
+.elementor-402 .elementor-element-c9d82f9 .elementor-button:focus svg {
+  fill: #000000 !important;
+}

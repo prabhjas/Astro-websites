@@ -3,7 +3,7 @@ import {
   ARCHIVE_POSTS_PER_PAGE,
   buildInsightsCardHtml,
   getAllBlogPosts,
-} from '../../../lib/blog';
+} from '../../../../lib/blog';
 
 export const prerender = false;
 
@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ url }) => {
     24,
     Math.max(1, Number(url.searchParams.get('perPage') || DEFAULT_PER_PAGE) || DEFAULT_PER_PAGE),
   );
-  // Skip cards already rendered in the static page-1 HTML (12 in f2c45fb)
+  // Skip cards already rendered in the static page-1 HTML.
   const offset = Math.max(
     0,
     Number(url.searchParams.get('offset') || String(DEFAULT_OFFSET)) || DEFAULT_OFFSET,
@@ -47,7 +47,7 @@ export const GET: APIRoute = async ({ url }) => {
       hasMore,
       nextPage: hasMore ? page + 1 : null,
       html,
-      // keep ARCHIVE_POSTS_PER_PAGE referenced for consistency with archive routes
+      // Keep ARCHIVE_POSTS_PER_PAGE referenced for consistency with archive routes.
       archivePerPage: ARCHIVE_POSTS_PER_PAGE,
     }),
     {
