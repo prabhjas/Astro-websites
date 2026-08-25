@@ -66,3 +66,10 @@ export {
   absolutizeMirrorSeoHtml,
   type AbsolutizeMirrorSeoOptions,
 } from './seo/absolutize-mirror-seo.js';
+export {
+  normalizeMirrorContentSeoHtml,
+  isArticleContentPage,
+  isCommercialServicePage,
+  type MirrorContentKind,
+  type NormalizeMirrorContentSeoOptions,
+} from './seo/normalize-mirror-content-seo.js';

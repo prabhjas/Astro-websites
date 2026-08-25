@@ -4,6 +4,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
+import { absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 
 const ROOT = process.cwd();
@@ -370,6 +371,14 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     `<meta property="og:description" content="${escapeHtml(post.og.description || metaDescription)}" />`,
   );
   out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${post.canonical}" />`);
+  if (/property="og:type"/i.test(out)) {
+    out = out.replace(
+      /<meta\s+property="og:type"\s+content="[^"]*"\s*\/?>/i,
+      `<meta property="og:type" content="article" />`,
+    );
+  } else {
+    out = out.replace('</head>', `<meta property="og:type" content="article" />\n</head>`);
+  }
   if (post.og.image) {
     if (out.includes('property="og:image"')) {
       out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${post.og.image}" />`);
@@ -461,6 +470,13 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   }
 
   html = decodeProtectedEmailsInHtml(html);
+
+  const postPath = `/${String(post.slug).replace(/^\/|\/$/g, '')}/`;
+  html = absolutizeMirrorSeoHtml(html, {
+    siteOrigin: ORIGIN,
+    path: postPath,
+    contentKind: 'article',
+  });
 
   return injectRuntimeGtmLoader(html);
 }
