@@ -31,6 +31,9 @@ pnpm-debug.log*
 .env.*
 !.env.example
 !.env.*.example
+# Also catch oddly named env files (e.g. PEO.env, freelancerdxb.env)
+Astro-production/**/*.env
+!Astro-production/**/*.env.example
 
 # Private key and Caddy runtime storage — never version credentials or a live
 # certificate-authority namespace. Public certificate examples should use a
@@ -92,3 +95,9 @@ Astro-production/connectresourcesint.com/package-lock.json
 
 # Local audit / handoff PDFs at repo root (keep findings in docs/)
 /*.pdf
+
+# Local-only tooling / audit scratch (node tarballs, audit dumps) — never commit
+.local/
+
+# Cursor IDE local project settings (rules may also live in ~/.cursor/rules)
+.cursor/

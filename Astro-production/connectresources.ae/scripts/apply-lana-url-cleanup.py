@@ -73,11 +73,77 @@ LANDING_SLUGS = [
 
 LANDING_PATHS = [f"/{s}/" for s in LANDING_SLUGS]
 
+# Non-Lana redirects that must survive regenerate (press-release CPT → /press/).
+# write_redirects_yml() previously overwrote the whole file and dropped these.
+PRESERVED_REDIRECTS = [
+    ("/press-release/", "/press/"),
+    (
+        "/press-release/aaron-portero-managing-director-of-connect-group-appears-in-an-article-by-khaleej-times/",
+        "/press/aaron-portero-managing-director-of-connect-group-appears-in-an-article-by-khaleej-times/",
+    ),
+    (
+        "/press-release/aaron-portero-managing-director-of-connect-group-gives-insight-for-agbi-article/",
+        "/press/aaron-portero-managing-director-of-connect-group-gives-insight-for-agbi-article/",
+    ),
+    (
+        "/press-release/aaron-portero-talk-about-europeans-are-flocking-to-uae-in-khaleej-times/",
+        "/press/aaron-portero-talk-about-europeans-are-flocking-to-uae-in-khaleej-times/",
+    ),
+    (
+        "/press-release/connect-hr-has-been-appraised-by-one-of-the-worlds-biggest-reviewers/",
+        "/press/connect-hr-has-been-appraised-by-one-of-the-worlds-biggest-reviewers/",
+    ),
+    (
+        "/press-release/connect-resources-has-appeared-on-one-of-the-top-news-portals-of-the-region/",
+        "/press/connect-resources-has-appeared-on-one-of-the-top-news-portals-of-the-region/",
+    ),
+    (
+        "/press-release/connect-resources-has-been-awarded-at-the-mea-business-awards/",
+        "/press/connect-resources-has-been-awarded-at-the-mea-business-awards/",
+    ),
+    (
+        "/press-release/connect-resources-has-been-featured-in-bloomberg/",
+        "/press/connect-resources-has-been-featured-in-bloomberg/",
+    ),
+    (
+        "/press-release/connect-resources-has-recently-appeared-in-one-of-the-biggest-news-websites-of-the-region/",
+        "/press/connect-resources-has-recently-appeared-in-one-of-the-biggest-news-websites-of-the-region/",
+    ),
+    (
+        "/press-release/connect-resources-is-joining-forces-with-the-manzil-center-to-give-back-to-the-community/",
+        "/press/connect-resources-is-joining-forces-with-the-manzil-center-to-give-back-to-the-community/",
+    ),
+    (
+        "/press-release/connect-resources-success-story-is-featured-on-mea-markets-magazine/",
+        "/press/connect-resources-success-story-is-featured-on-mea-markets-magazine/",
+    ),
+    (
+        "/press-release/connect-resources-team-visit-manzil-center/",
+        "/press/connect-resources-team-visit-manzil-center/",
+    ),
+    (
+        "/press-release/euronews-appreciated-employment-services-of-connect-resources/",
+        "/press/euronews-appreciated-employment-services-of-connect-resources/",
+    ),
+    (
+        "/press-release/introducing-connect-resources-hiring-partner-and-talent-marketplace-thetalentpoint/",
+        "/press/introducing-connect-resources-hiring-partner-and-talent-marketplace-thetalentpoint/",
+    ),
+    (
+        "/press-release/managing-director-of-connect-group-aaron-portero-joins-the-israel-emirates-business-summit-2022-event/",
+        "/press/managing-director-of-connect-group-aaron-portero-joins-the-israel-emirates-business-summit-2022-event/",
+    ),
+    (
+        "/press-release/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/",
+        "/press/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/",
+    ),
+]
+
 
 def write_redirects_yml() -> list[tuple[str, str]]:
     seen: set[str] = set()
     rows: list[tuple[str, str]] = []
-    for src, dst in EXPLICIT_REDIRECTS + DELETED_REDIRECTS:
+    for src, dst in EXPLICIT_REDIRECTS + DELETED_REDIRECTS + PRESERVED_REDIRECTS:
         if src in seen:
             continue
         seen.add(src)
@@ -85,13 +151,17 @@ def write_redirects_yml() -> list[tuple[str, str]]:
 
     lines = [
         "# Lana CR Issue sheet — Deleted → Keep / Landing + explicit Redirect",
+        "# Plus preserved press-release CPT → /press/ (do not drop on regenerate)",
         "# Generated/maintained for connectresources.ae URL cleanup",
         "redirects:",
     ]
     for src, dst in rows:
+        if src == "/press-release/":
+            lines.append("  # Press-release CPT → /press/ (archive + singles)")
         lines.append(f"  - from: {src}")
         lines.append(f"    to: {dst}")
         lines.append("    status: 301")
+
     REDIRECTS_YML.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return rows
 
