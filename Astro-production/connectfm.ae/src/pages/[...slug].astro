@@ -127,6 +127,19 @@ if (path === "/security/smart-homes/" && !extraCss.includes("/css/page-design/sm
   extraCss.push("/css/page-design/smart-homes-sec2-4.css");
 }
 
+// Figma redesign for Landscaping Services — node 39:6330
+if (
+  path === "/property-maintenance/landscaping-services/" &&
+  !extraCss.includes("/css/page-design/landscaping-services.css")
+) {
+  extraCss.push("/css/page-design/landscaping-services.css");
+}
+
+// Figma visual system for Security Systems — node 42:793 (style only; content unchanged)
+if (path === "/security/" && !extraCss.includes("/css/page-design/security-systems.css")) {
+  extraCss.push("/css/page-design/security-systems.css");
+}
+
 const postUsesElementor =
   !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
 const postElementorId =
