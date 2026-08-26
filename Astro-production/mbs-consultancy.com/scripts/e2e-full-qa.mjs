@@ -441,7 +441,7 @@ async function interactiveAudit(browser) {
         await form.locator("textarea").first().fill("Automated E2E QA form submission — please ignore.").catch(() => {});
         // intercept contact API
         const [response] = await Promise.all([
-          page.waitForResponse((r) => r.url().includes("/api/contact/"), { timeout: 15000 }).catch(() => null),
+          page.waitForResponse((r) => r.url().includes("/api/contact"), { timeout: 15000 }).catch(() => null),
           submitBtn.click(),
         ]);
         await page.waitForTimeout(1500);

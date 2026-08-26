@@ -157,20 +157,7 @@
   border-color: #df790d;
 }
 
-.sp-breadcrumbs {
-  font-size: 0.875rem;
-  color: #bdbdbd;
-  margin: 0 0 1.25rem;
-}
-
-.sp-breadcrumbs a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.sp-breadcrumbs a:hover {
-  color: #ffdd04;
-}
+/* Breadcrumb colors/layout — migration-overrides.css (.breadcrumbs live parity) */
 
 .sp-archive-hero {
   padding: 4.5rem 1.25rem 2.5rem;

@@ -2,8 +2,9 @@
  * Read/write helpers for src/data/*.json used by the public site + dashboard.
  * Always reads from disk so dashboard edits apply without a rebuild.
  */
-import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type {
   AuthorEntry,
   CategoryEntry,
@@ -12,24 +13,27 @@ import type {
   TagEntry,
 } from "./content-types";
 
-const DATA_DIR = join(process.cwd(), "src/data");
+/** Resolve src/data even when process.cwd() is not the site package root (bundled SSR). */
+function resolveDataDir(): string {
+  let dir = dirname(fileURLToPath(import.meta.url));
+  for (let i = 0; i < 8; i++) {
+    const candidate = join(dir, "src/data");
+    if (existsSync(join(candidate, "pages.json"))) return candidate;
+    const parent = dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return join(process.cwd(), "src/data");
+}
 
-type CacheEntry = { mtimeMs: number; data: unknown[] };
-const arrayCache = new Map<string, CacheEntry>();
+const DATA_DIR = resolveDataDir();
 
 function readArray<T>(fileName: string): T[] {
   const path = join(DATA_DIR, fileName);
   if (!existsSync(path)) return [];
   try {
-    const mtimeMs = statSync(path).mtimeMs;
-    const cached = arrayCache.get(path);
-    if (cached && cached.mtimeMs === mtimeMs) {
-      return cached.data as T[];
-    }
     const parsed = JSON.parse(readFileSync(path, "utf8"));
-    const data = Array.isArray(parsed) ? parsed : [];
-    arrayCache.set(path, { mtimeMs, data });
-    return data as T[];
+    return Array.isArray(parsed) ? (parsed as T[]) : [];
   } catch {
     return [];
   }
@@ -38,7 +42,6 @@ function readArray<T>(fileName: string): T[] {
 function writeArray<T>(fileName: string, rows: T[]): void {
   const path = join(DATA_DIR, fileName);
   writeFileSync(path, `${JSON.stringify(rows, null, 2)}\n`, "utf8");
-  arrayCache.delete(path);
 }
 
 export function readPages(): PageEntry[] {
