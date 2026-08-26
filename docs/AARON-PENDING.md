@@ -1,6 +1,6 @@
 # Aaron pending — fleet owner / security-maintenance lane
 
-**Updated:** 2026-08-26 (Aaron clearances: AP-01/02/06–13; sharp `bfc113c0f`; AP-04 remains)  
+**Updated:** 2026-08-26 (published CF API + IW/RV sharp `4176034f6`; SP deferred; AP-04 remains)  
 **Owner lane:** Aaron (not developer generic `astro-fleet-release publish`)  
 **Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
 **Related:** [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)
@@ -24,14 +24,14 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | ID | Item | Action |
 |---|---|---|
-| AP-01 | `scripts/fleet-monitor/` Host probe | **Not blocked.** Live policy already classifies path. Local dry-run lied (stale policy). Ship tidy signed publish of `probeWithExplicitHost` in `lib.mjs` |
+| AP-01 | `scripts/fleet-monitor/` Host probe | **Shipped** in `4176034f6` (`probeWithExplicitHost`). Trust real publish, not local dry-run |
 | AP-02 | Connect Resources managed robots | **Closed.** Managed overrides removed; robots is plain source — our edits win |
 | AP-06 | Stashed fleet robots wave | **Go ahead.** Dynamic robots route + `public/robots.txt` both pass. Revive stash when ready |
 | AP-07 / AP-08 | Iberia + Royal Visa `sharp` | **Done by Aaron** on fleet tip **`bfc113c0f`** (site-local `sharp@0.35.3`, lockfile, Iberia dropped `passthroughImageService()`). Goes live on those sites’ **next publish**. RV OG pilot may use build-time sharp |
 | AP-09 | `[...slug].astro` catch-all | **Fixed.** Traversal guard no longer matches `..` inside `[...slug]`. Catch-all presentation edits publish normally; BaseLayout / `pageCss` workarounds optional to retire |
 | AP-10 | Iberia `/sitemap.xml` real 301 | Optional — ours if we want; `middleware.ts` publishable |
 | AP-11 | Caddy cert refresh unit | **Resolved** — clean since; last success 01:49; prior failure transient |
-| AP-12 | Blog API `listing`/`load-more` + middleware API slash skip | **Unblocked** for `/src/pages/api/blog/` only. Ship CF rename + middleware. Other `/api/` (lead/contact/submission) still Aaron |
+| AP-12 | Blog API `listing`/`load-more` + middleware API slash skip | **Shipped** CF in `4176034f6`. Other `/api/` (lead/contact/submission) still Aaron |
 | AP-13 | SP `astro.config.mjs` + `public/robots.txt` | **Never blocked.** Publish whenever. Only `deploy/ROOT_SETUP.md` stays protected |
 
 ---
@@ -40,6 +40,7 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | When | What | Tip |
 |---|---|---|
+| 2026-08-26 | CF blog API slash routes + middleware; Host probe; Iberia/RV sharp live notes (SP omitted — check baseline) | Fleet **`4176034f6`** |
 | 2026-08-26 | **Aaron:** sharp pinned on Iberia Workforce + Royal Visa; Iberia passthrough dropped; gate fixes (catch-all + blog API carve-out) on server control plane; managed robots overrides removed | Fleet **`bfc113c0f`** (code); gate/robots runtime on host |
 | 2026-08-25 | Connect Resources Lana page purge + mega-menu banners; Connect HR SEO audit; Connect Group audit + restore `/mbs-tax-consultancy/` + `/uaegate/`; KPM Pro duplicate blog redirects (`blog.ts`/JSON only) | Fleet **`882a45e5d`** (live all four) |
 | 2026-08-25 | **SP Heavy** author/chrome/favicon + middleware; **Connect Freelance** presentation (API deferred at the time) | Fleet **`427e68f3b`** |
@@ -57,9 +58,9 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | Site | Package | Status |
 |---|---|---|
-| **iberiaworkforce.com** / **royalvisa.ae** | workforce + royalvisa | Aaron sharp commit on fleet — **publish next** to go live |
-| **connectfreelance.ae** | connectfreelance | Presentation live; **ship** blog API + middleware (AP-12) |
-| **spheavyrental.ae** | SP Heavy | Middleware live; **ship** `astro.config` + `robots.txt` (+ catch-all breadcrumbs if wanted) |
+| **iberiaworkforce.com** / **royalvisa.ae** | workforce + royalvisa | **Published** sharp live `4176034f6` |
+| **connectfreelance.ae** | connectfreelance | **Published** blog API + middleware `4176034f6` (AP-12) |
+| **spheavyrental.ae** | SP Heavy | Middleware live; config/robots/catch-all **deferred** — Astro check 21→24 (email module resolution noise); retry separately |
 | **kpmpro.ae** | kpmpro | Duplicate redirects live; **can ship** previously deferred `api/blog/*` if still needed |
 | **connectresources.ae** | CR | Lana live; robots source-wins now (AP-02 closed) |
 | **redo.ae** | redo | **Still AP-04** — send package change to Aaron |
