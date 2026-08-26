@@ -33,8 +33,12 @@ function categoryClass(post: PostEntry): string {
   return "category-blog";
 }
 
+function resolveImage(post: PostEntry): string {
+  return (post.featuredImage || post.seo?.ogImage || "").trim();
+}
+
 function cardImage(post: PostEntry): string {
-  const src = (post.featuredImage || post.seo?.ogImage || "").trim();
+  const src = resolveImage(post);
   if (!src) {
     return `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#1f1f1f;" aria-hidden="true"></div>`;
   }
@@ -53,7 +57,8 @@ export function renderBlogCardHtml(post: PostEntry): string {
   const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
   const cat = categoryLabel(post);
   const catClass = categoryClass(post);
-  const thumbClass = post.featuredImage ? "has-post-thumbnail" : "";
+  const img = resolveImage(post);
+  const thumbClass = img ? "has-post-thumbnail" : "";
   const excerpt = excerptText(post);
   const tagClasses = (post.tags || [])
     .map((id) => `tag-${id}`)
@@ -112,6 +117,117 @@ export function renderBlogCardHtml(post: PostEntry): string {
 				</article>`;
 }
 
+/** Featured horizontal list card (Elementor loop template 534 — image as left column background). */
+export function renderBlogListCardHtml(post: PostEntry): string {
+  const title = stripHtml(post.title);
+  const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+  const cat = categoryLabel(post);
+  const catClass = categoryClass(post);
+  const img = resolveImage(post);
+  const thumbClass = img ? "has-post-thumbnail" : "";
+  const excerpt = excerptText(post);
+  const bgUrl = img ? escapeAttr(img) : "";
+  const bgStyle = `<style>#post-${post.id} .elementor-534 .elementor-element.elementor-element-de6bda7:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap, #post-${post.id} .elementor-534 .elementor-element.elementor-element-de6bda7 > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image: url("${bgUrl}");}</style>`;
+
+  return `<article id="post-${post.id}" class="elementor-post elementor-grid-item ecs-post-loop post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass}">
+				<div data-elementor-type="loop" data-elementor-id="534" class="elementor elementor-534 post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-185c6d5 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="185c6d5" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+						<div class="elementor-container elementor-column-gap-no">
+			${bgStyle}		<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-de6bda7" data-id="de6bda7" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-714011e elementor-widget elementor-widget-spacer" data-id="714011e" data-element_type="widget" data-widget_type="spacer.default">
+				<div class="elementor-widget-container">
+							<div class="elementor-spacer">
+			<div class="elementor-spacer-inner"></div>
+		</div>
+						</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-2d3c9fd col-hov" data-id="2d3c9fd" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-5a49495 elementor-align-left elementor-widget elementor-widget-post-info" data-id="5a49495" data-element_type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-ef9c6cb elementor-inline-item" itemprop="about">
+										<span class="elementor-icon-list-icon">
+								${CATEGORY_ICON}							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+										<span class="elementor-post-info__terms-list">
+				<span class="elementor-post-info__terms-list-item">${escapeAttr(cat)}</span>				</span>
+					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-38cc21b elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="38cc21b" data-element_type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default"><a href="${escapeAttr(href)}">${escapeAttr(title)}</a></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-cae1a6c elementor-widget elementor-widget-theme-post-excerpt" data-id="cae1a6c" data-element_type="widget" data-widget_type="theme-post-excerpt.default">
+				<div class="elementor-widget-container">
+					<p>${escapeAttr(excerpt)}				</p></div>
+				</div>
+				<div class="elementor-element elementor-element-a9d9c0e elementor-widget elementor-widget-button" data-id="a9d9c0e" data-element_type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="${escapeAttr(href)}">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				${ARROW_ICON}			</span>
+									<span class="elementor-button-text">Read MORE</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>`;
+}
+
 export function renderBlogCardsHtml(posts: PostEntry[]): string {
   return posts.map(renderBlogCardHtml).join("\n");
+}
+
+export function renderBlogListCardsHtml(posts: PostEntry[]): string {
+  return posts.map(renderBlogListCardHtml).join("\n");
+}
+
+/** Replace inner HTML of the Nth `.ecs-posts` container (1-based). */
+export function replaceEcsPostsInner(html: string, nth: number, innerHtml: string): string {
+  const re = /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi;
+  const opens: { index: number; length: number }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) {
+    opens.push({ index: m.index, length: m[0].length });
+  }
+  const target = opens[nth - 1];
+  if (!target) return html;
+
+  let pos = target.index + target.length;
+  let depth = 1;
+  while (pos < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", pos);
+    const nextClose = html.indexOf("</div>", pos);
+    if (nextClose < 0) break;
+    if (nextOpen >= 0 && nextOpen < nextClose) {
+      depth += 1;
+      pos = nextOpen + 4;
+    } else {
+      depth -= 1;
+      if (depth === 0) {
+        return (
+          html.slice(0, target.index + target.length) +
+          `\n${innerHtml}\n` +
+          html.slice(nextClose)
+        );
+      }
+      pos = nextClose + 6;
+    }
+  }
+  return html;
 }

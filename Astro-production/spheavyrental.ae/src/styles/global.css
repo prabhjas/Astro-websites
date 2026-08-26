@@ -231,11 +231,12 @@
 }
 
 .sp-archive-kicker {
-  margin: 0 0 0.5rem !important;
+  margin: 0 auto 0.5rem !important;
   font-family: "Bebas Neue", Impact, sans-serif;
   font-size: 0.95rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
   color: #ffdd04 !important;
 }
 
