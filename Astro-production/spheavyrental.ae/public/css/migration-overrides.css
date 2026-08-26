@@ -3,16 +3,15 @@
 html,
 body {
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0;
 }
 
-/* Kill the thin white strip above the dark Elementor header */
-.elementor-location-header,
-body > .elementor-153,
-.sp-elementor-header,
-#top-header {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+/*
+  Header column widget-wrap must keep Elementor gap padding.
+  Without it, a white strip shows above the dark header bar.
+*/
+.elementor-column-gap-default > .elementor-column > .elementor-element-populated {
+  padding: 8px !important;
 }
 
 #wpadminbar {
