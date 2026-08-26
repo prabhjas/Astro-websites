@@ -8,6 +8,7 @@ import {
   normalizePath,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { dedupeFaqSchema } from "../lib/faq-schema";
 import { notFoundResponse } from "../lib/not-found";
 import { injectProcessTimeline } from "../lib/process-timeline";
 
@@ -26,7 +27,13 @@ if (!page && !post) {
 
 const entry = page || post!;
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
-const html = page ? injectProcessTimeline(String(rawHtml || ""), path) : String(rawHtml || "");
+const preparedHtml = page
+  ? injectProcessTimeline(String(rawHtml || ""), path)
+  : String(rawHtml || "");
+const { html, schemas: dedupedSchemas } = dedupeFaqSchema(
+  preparedHtml,
+  entry.seo.schemas || [],
+);
 
 const pageCrumbs = page
   ? (() => {
@@ -60,7 +67,7 @@ const seo = page
       canonical: path,
       ogImage: page.seo.ogImage,
       schemas: [
-        ...(page.seo.schemas || []),
+        ...dedupedSchemas,
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
       ],
     }
@@ -74,7 +81,7 @@ const seo = page
       modifiedTime: post!.modified,
       authorName: post!.authorName,
       schemas: [
-        ...(post!.seo.schemas || []),
+        ...dedupedSchemas,
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
         articleSchema({
           title: stripHtml(post!.title),
@@ -146,7 +153,7 @@ const pageBodyClass = page
     page ? (
       <div class:list={["sp-page-content", isListingArchive && "cfz-listing-archive-wrap"]} set:html={html} />
     ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
+      <div class="sp-page-content" set:html={html} />
     ) : (
       <ConnectFzSinglePost post={post!} html={html} />
     )
