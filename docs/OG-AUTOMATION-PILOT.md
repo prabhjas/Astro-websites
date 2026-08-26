@@ -1,9 +1,10 @@
 # OG automation pilot — Royal Visa first
 
-**Updated:** 2026-08-25  
+**Updated:** 2026-08-26  
 **Kit source:** `~/Downloads/og pictures` (team OG automation pack)  
 **Pilot site:** `Astro-production/royalvisa.ae`  
-**Aaron blockers:** [AARON-PENDING.md](AARON-PENDING.md) → **AP-07** (Iberia `sharp`), **AP-08** (fleet OG / catalog `sharp`)
+**Aaron blockers:** [AARON-PENDING.md](AARON-PENDING.md) → **AP-07** (Iberia `sharp`), **AP-08** (fleet OG / catalog `sharp`)  
+**Note:** AP-01 (`scripts/fleet-monitor/` Host probe) is unrelated to this OG pilot — do not block OG work on it. Dirty host worktrees are developer-cleanable; OG still waits only on catalog/`sharp` (AP-07/08).
 
 ---
 

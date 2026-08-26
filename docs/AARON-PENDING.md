@@ -1,6 +1,6 @@
 # Aaron pending — fleet owner / security-maintenance lane
 
-**Updated:** 2026-08-25 (CR/CHR/CG/KPM published `882a45e5d`)  
+**Updated:** 2026-08-26 (AP-01 clarified vs tidy-worktree rule)  
 **Owner lane:** Aaron (not developer generic `astro-fleet-release publish`)  
 **Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
 **Related:** [OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)
@@ -13,7 +13,7 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 
 | ID | Priority | Item | Why it needs Aaron | Status / notes |
 |---|---|---|---|---|
-| AP-01 | High | Classify / allow `scripts/fleet-monitor/` (esp. `lib.mjs`) for signed commits | Host Host-probe fix (`probeWithExplicitHost`) cannot ship via generic publish until path is classified; dirty host copy blocked publishes before | Code on laptop `work/astro-sites`; may still be absent from fleet tip |
+| AP-01 | High | Classify `scripts/fleet-monitor/` for signed publish (Host-header probe in `lib.mjs`) | Exact publisher text was **`FLEET PLAN BLOCKED: scripts/fleet-monitor/*: unclassified repository path`** (not an “unsafe path” deny-list). Separate rule: publish also requires a **tidy/clean worktree** — leftover dirty files we **can clean ourselves** (restore/stash/discard) before publish | Host-probe (`probeWithExplicitHost`) is on `work/astro-sites`; **not** on current fleet tip `lib.mjs`. Dirty-worktree side is developer-owned; remaining ask is confirm classify / allow retry |
 | AP-02 | High | Connect Resources managed robots override | Live `/robots.txt` still served from `.data` store (short managed body) so dynamic `robots.txt.ts` does not win | Frontend robots route exists; store ownership needs Aaron/backend policy |
 | AP-04 | High | `packages/site-cms` — mirror SEO normalize | Redo commit adds `normalize-mirror-content-seo.ts` + wires it through `absolutizeMirrorSeoHtml` (`contentKind`). **Redo.ae cannot publish in presentation lane until this package change is allowed / released** | On `work/astro-sites` @ `f865df993` (and tip). Do **not** include in site-only signed publish until Aaron clears package lane |
 | AP-07 | High | Iberia Workforce — site-local **`sharp`** / drop passthrough | Iberia uses `passthroughImageService()` so publish works **without** lockfile `sharp`. Real Astro image optimization needs site (or catalog) `sharp` + Linux lockfile | `astro.config.mjs` comment documents this; pair with AP-08 |
@@ -69,35 +69,25 @@ Track items that block or sit outside the ordinary 1–8 site presentation publi
 ## Message template (paste to Aaron)
 
 ```text
-Aaron — remaining from developer lane (2026-08-25; Iberia backend switch received — thank you):
+Aaron — reply on AP-01 + remaining (2026-08-26):
 
-1) Classify scripts/fleet-monitor/ so we can commit the Host-header probe fix
-   (probeWithExplicitHost) without dirtying the host worktree.
+AP-01 exact error (fleet-monitor Host probe), for your tidy vs classify note:
 
-2) Connect Resources: live robots still comes from managed .data store;
-   frontend robots.txt.ts does not win until store policy changes.
+  FLEET PLAN BLOCKED: scripts/fleet-monitor/*: unclassified repository path
 
-3) packages/site-cms: normalize-mirror-content-seo + contentKind
-   on absolutizeMirrorSeoHtml. Needed before Redo.ae SEO publish.
-   Code is on work/astro-sites (f865df993); waiting on package/security lane.
+Agreed: dirty/messy worktree is our side — we clean that before publish
+(restore/stash/discard). That is separate from the unclassified-path block.
 
-4) sharp / pnpm (Iberia + fleet OG):
-   - Add sharp to pnpm-workspace.yaml catalogs.default
-   - Allow Iberia to drop passthroughImageService() and declare sharp
-   - Same catalog sharp unlocks Royal Visa / fleet OG automation
-     (team kit; pilot docs in docs/OG-AUTOMATION-PILOT.md)
-   - One Linux pnpm install + lockfile commit in your lane
+Host-probe fix (probeWithExplicitHost in scripts/fleet-monitor/lib.mjs) is on
+work/astro-sites; not on current fleet tip. Please confirm scripts/fleet-monitor/
+is classified so we can retry a tidy signed publish, or tell us the preferred path.
 
-5) Blog API / catch-all allowlist (same class as KPM Pro):
-   - Connect Freelance api/blog listing+load-more → */index.ts + middleware
-     API slash skip (AP-12) — presentation already live without it
-   - Optional: [...slug].astro presentation edits (SP page breadcrumbs, etc.)
-
-6) Optional / ops (your notes):
-   - Iberia /sitemap.xml → real HTTP 301 (unadvertised; index/child already OK)
-   - astro-caddy-certificate-refresh.service failed since ~00:23 UTC (pre-existing)
-   - SP Heavy: allow astro.config vite trailing-slash plugin + public/robots.txt
-     if desired (middleware already shipped); deploy/ROOT_SETUP.md is protected
+Still open otherwise:
+2) Connect Resources managed robots store vs frontend robots.txt.ts (AP-02)
+3) packages/site-cms normalize-mirror-content-seo for Redo (AP-04)
+4) sharp catalog + Iberia drop passthrough (AP-07/08; OG pilot doc)
+5) Blog API / catch-all paths when convenient (AP-09/12)
+6) Optional: Iberia /sitemap.xml real 301; caddy cert refresh unit; SP astro.config/robots
 ```
 
 ---
