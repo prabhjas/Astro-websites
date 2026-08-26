@@ -62,7 +62,11 @@ export default defineConfig({
           return () => {
             server.middlewares.stack.unshift({
               route: "",
-              handle(req, res, next) {
+              handle(
+                /** @type {import('node:http').IncomingMessage} */ req,
+                /** @type {import('node:http').ServerResponse} */ res,
+                /** @type {(err?: unknown) => void} */ next,
+              ) {
                 const raw = req.url || "/";
                 const q = raw.indexOf("?");
                 const pathOnly = q === -1 ? raw : raw.slice(0, q);
