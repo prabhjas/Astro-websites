@@ -88,15 +88,6 @@ body.l-body {
 .jltma-advanced-accordion .jltma-accordion-tab-content {
   overflow: hidden;
 }
-.jltma-advanced-accordion h3.jltma-accordion-title-text,
-.ma-advanced-accordion h3.jltma-accordion-title-text {
-  margin: 0;
-  padding: 0;
-  font: inherit;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.45;
-}
 
 /* Archive / insights listing cards (match live wp-custom) */
 #blog-list .post,
@@ -104,12 +95,11 @@ body.l-body {
   margin-bottom: 2rem;
 }
 
-/* Insights / blog listing — meta bar sits below thumb (live translate 48px) */
+/* Insights / blog listing — fill fixed-height thumbs; meta sits below image (live translate) */
 #blog-list .articlepostthumbnailurl,
 .mbs-archive-list .articlepostthumbnailurl {
   position: relative;
   overflow: visible;
-  margin-bottom: 48px;
   background: #1a1a1a;
 }
 #blog-list .articlepostthumbnailurl img,
@@ -124,11 +114,8 @@ body.l-body {
 .mbs-archive-list .articlepostthumbnailurl .category_and_date_wrapper,
 #blog-list .post .category_and_date_wrapper,
 .mbs-archive-list .post .category_and_date_wrapper {
-  position: absolute;
+  transform: translate(0px, 48px);
   bottom: 0;
-  left: 0;
-  width: 100%;
-  transform: translateY(48px);
   z-index: 2;
 }
 
@@ -487,17 +474,15 @@ h1.single_wp_heading {
 }
 .wpcf7 .intl-tel-input.separate-dial-code .selected-dial-code,
 .intl-tel-input.separate-dial-code .selected-dial-code,
-.customsinglepagetemplate .intl-tel-input.separate-dial-code .selected-dial-code,
-.wpcf7 .iti--separate-dial-code .iti__selected-dial-code {
-  display: table-cell !important;
+.customsinglepagetemplate .intl-tel-input.separate-dial-code .selected-dial-code {
+  display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
   color: #1a1a1a !important;
   font-size: 16px !important;
   line-height: 1.2 !important;
-  padding-left: 28px !important;
+  padding-left: 6px !important;
   white-space: nowrap !important;
-  vertical-align: middle;
 }
 .wpcf7 .intl-tel-input .iti-flag,
 .intl-tel-input .iti-flag,
@@ -511,216 +496,4 @@ h1.single_wp_heading {
 .customsinglepagetemplate .intl-tel-input.separate-dial-code input[type="text"],
 .customsinglepagetemplate .intl-tel-input.separate-dial-code input[type="tel"] {
   padding-left: 150px !important;
-}
-
-/* Breadcrumbs — live .breadcrumbs parity (author, category, tag, all archives) */
-.breadcrumbs,
-.sp-breadcrumbs.breadcrumbs,
-nav.sp-breadcrumbs {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1;
-  padding-top: 30px;
-  margin: 0 0 1.25rem;
-  color: #bababa;
-}
-
-.breadcrumbs ol,
-.sp-breadcrumbs.breadcrumbs ol,
-nav.sp-breadcrumbs ol {
-  list-style: none;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  white-space: nowrap;
-}
-
-.breadcrumbs li,
-.sp-breadcrumbs.breadcrumbs li,
-nav.sp-breadcrumbs li {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  line-height: 1;
-  margin: 0;
-  padding: 0;
-}
-
-/* Legacy markup shipped sep spans — hide; separators come from ::before only */
-.breadcrumbs .sep,
-.sp-breadcrumbs .sep {
-  display: none !important;
-}
-
-.breadcrumbs li + li::before,
-.sp-breadcrumbs.breadcrumbs li + li::before,
-nav.sp-breadcrumbs li + li::before {
-  content: "/";
-  color: #bababa;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1;
-  margin: 0 0.4rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.breadcrumbs a,
-.sp-breadcrumbs.breadcrumbs a,
-nav.sp-breadcrumbs a {
-  color: #2e3a8b !important;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1;
-  display: inline;
-  white-space: nowrap;
-}
-
-.breadcrumbs a:hover,
-.sp-breadcrumbs.breadcrumbs a:hover,
-nav.sp-breadcrumbs a:hover {
-  color: #333 !important;
-}
-
-.breadcrumbs [aria-current="page"],
-.sp-breadcrumbs.breadcrumbs [aria-current="page"],
-nav.sp-breadcrumbs [aria-current="page"] {
-  color: #bababa;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 1;
-  display: inline;
-  white-space: nowrap;
-}
-
-/* Homepage hero — reduce header-to-hero gap (live ~3rem not 6rem) */
-.elementor-298 .elementor-element.elementor-element-9c1869b {
-  padding-top: 3rem !important;
-}
-
-/* FAQ section spacing above heading */
-.elementor-element-ab14fd2 {
-  margin-top: 2rem !important;
-}
-.elementor-element-e937701 {
-  padding-top: 2rem !important;
-}
-.elementor-733 .elementor-element-227f9b1 {
-  padding-top: 2rem !important;
-}
-
-/* Single post: date/category bar above featured image (not overlaid) */
-.customsinglepagetemplate .categoryanddatewrappersingle {
-  position: static !important;
-  transform: none !important;
-  margin-bottom: 0 !important;
-}
-.customsinglepagetemplate .single_post_thumbnail {
-  margin-top: 0 !important;
-  margin-bottom: 30px !important;
-}
-
-/*
- * Contact page (1358) — post-1358.css loads after contact-us-figma.css and
- * re-applies margin-top:7px on the phone field + wp-custom adds input margins.
- * These rules load last and match live spacing.
- */
-.elementor-1358 .row_r.contactpageform {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 20px;
-  row-gap: 20px;
-  align-items: end;
-  margin-top: 18px;
-}
-
-@media (max-width: 767px) {
-  .elementor-1358 .row_r.contactpageform {
-    grid-template-columns: 1fr;
-  }
-}
-
-.elementor-1358 .row_r.contactpageform > .display_grid.two_column {
-  display: contents;
-}
-
-.elementor-1358 .row_r.contactpageform > .display_grid.two_column > .label_r {
-  display: flex;
-  flex-direction: column;
-}
-
-.elementor-1358 .row_r.contactpageform > .display_grid.two_column:first-child > .label_r .c_label {
-  margin-top: 0 !important;
-}
-
-.elementor-1358 .row_r.contactpageform > .label_r.mt20,
-.elementor-1358 .row_r.contactpageform > .button_r {
-  grid-column: 1 / -1;
-}
-
-.elementor-1358 .row_r.contactpageform > .label_r.mt20 {
-  margin-top: 4px;
-}
-
-.elementor-1358 .row_r.contactpageform .label_r > p {
-  margin: 0 !important;
-}
-
-.elementor-1358 .contactpageform .c_label,
-.elementor-1358 .row_r.contactpageform .c_label {
-  margin-top: 15px !important;
-  margin-bottom: 0 !important;
-}
-
-.elementor-1358 .row_r.contactpageform .wpcf7 input[type="text"],
-.elementor-1358 .row_r.contactpageform .wpcf7 input[type="email"],
-.elementor-1358 .row_r.contactpageform .wpcf7 input[type="tel"],
-.elementor-1358 .row_r.contactpageform .wpcf7 input[type="number"] {
-  height: 42px !important;
-  min-height: 42px !important;
-  max-height: 42px !important;
-  line-height: 42px !important;
-  margin: 0 !important;
-  padding: 0 12px 0 20px !important;
-}
-
-.row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext {
-  margin-top: 0 !important;
-}
-
-.elementor-1358 .row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext,
-.elementor-1358 .row_r.contactpageform input.wpcf7-phonetext {
-  margin-top: 0 !important;
-  padding-left: 110px !important;
-  height: 42px !important;
-  line-height: 42px !important;
-}
-
-.elementor-1358 .row_r.contactpageform .intl-tel-input.separate-dial-code,
-.elementor-1358 .row_r.contactpageform .iti--separate-dial-code {
-  height: 42px !important;
-}
-
-.elementor-1358 .row_r.contactpageform .intl-tel-input.separate-dial-code .flag-container,
-.elementor-1358 .row_r.contactpageform .iti--separate-dial-code .iti__flag-container {
-  height: 42px !important;
-}
-
-.elementor-1358 .row_r.contactpageform .intl-tel-input.separate-dial-code .selected-flag,
-.elementor-1358 .row_r.contactpageform .iti--separate-dial-code .iti__selected-flag {
-  height: 42px !important;
-  display: flex;
-  align-items: center;
-}
-
-.elementor-1358 .row_r.contactpageform .wpcf7 textarea {
-  margin: 0 !important;
-  padding: 12px 20px !important;
-  min-height: 110px !important;
-  height: 110px !important;
-  line-height: 1.45 !important;
 }

@@ -92,28 +92,22 @@ function hasActiveChild(item: NavItem, current: string): boolean {
               {item.label}
             </a>
             {item.children?.length ? (
-              <Fragment>
-                <button class="sp-mobile__arrow" type="button" aria-label="Expand submenu">&#9662;</button>
-                <ul>
-                  {item.children.map((child) => (
-                    <li>
-                      <a href={child.href}>{child.label}</a>
-                      {child.children?.length ? (
-                        <Fragment>
-                          <button class="sp-mobile__arrow" type="button" aria-label="Expand submenu">&#9662;</button>
-                          <ul>
-                            {child.children.map((grand) => (
-                              <li>
-                                <a href={grand.href}>{grand.label}</a>
-                              </li>
-                            ))}
-                          </ul>
-                        </Fragment>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              </Fragment>
+              <ul>
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.href}>{child.label}</a>
+                    {child.children?.length ? (
+                      <ul>
+                        {child.children.map((grand) => (
+                          <li>
+                            <a href={grand.href}>{grand.label}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
             ) : null}
           </li>
         ))
@@ -285,31 +279,6 @@ function hasActiveChild(item: NavItem, current: string): boolean {
 
   .sp-mobile ul ul {
     padding-left: 1rem;
-    display: none;
-  }
-
-  .sp-mobile li.is-open > ul {
-    display: block;
-  }
-
-  .sp-mobile__arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    float: right;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.2rem;
-    padding: 0;
-    margin-top: -0.15rem;
-  }
-
-  .sp-mobile li.is-open > .sp-mobile__arrow {
-    transform: rotate(180deg);
   }
 
   .sp-header__cta--mobile {
@@ -366,13 +335,5 @@ function hasActiveChild(item: NavItem, current: string): boolean {
       if (open) mobile.setAttribute("hidden", "");
       else mobile.removeAttribute("hidden");
     }
-  });
-
-  mobile?.querySelectorAll(".sp-mobile__arrow").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const li = btn.parentElement;
-      li?.classList.toggle("is-open");
-    });
   });
 </script>

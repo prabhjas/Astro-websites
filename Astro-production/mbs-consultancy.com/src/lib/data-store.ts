@@ -3,8 +3,7 @@
  * Always reads from disk so dashboard edits apply without a rebuild.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import type {
   AuthorEntry,
   CategoryEntry,
@@ -13,20 +12,7 @@ import type {
   TagEntry,
 } from "./content-types";
 
-/** Resolve src/data even when process.cwd() is not the site package root (bundled SSR). */
-function resolveDataDir(): string {
-  let dir = dirname(fileURLToPath(import.meta.url));
-  for (let i = 0; i < 8; i++) {
-    const candidate = join(dir, "src/data");
-    if (existsSync(join(candidate, "pages.json"))) return candidate;
-    const parent = dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  return join(process.cwd(), "src/data");
-}
-
-const DATA_DIR = resolveDataDir();
+const DATA_DIR = join(process.cwd(), "src/data");
 
 function readArray<T>(fileName: string): T[] {
   const path = join(DATA_DIR, fileName);

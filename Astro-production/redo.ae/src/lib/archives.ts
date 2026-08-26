@@ -4,7 +4,6 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
-import { absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 import {
   ARCHIVE_POSTS_PER_PAGE,
@@ -337,34 +336,18 @@ export function getTagPageData(slug: string, page = 1): ArchivePageData | null {
 }
 
 export function assembleArchiveHtml(data: ArchivePageData): string {
-  let html;
   if (data.type === 'tag') {
-    html = assembleTagHtml(data);
-  } else {
-    if (!existsSync(INSIGHTS_PATH)) {
-      throw new Error('Insights shell missing. Run: npm run prepare:insights');
-    }
-    html = readFileSync(INSIGHTS_PATH, 'utf8');
-    html = injectInsightsContent(html, data);
-    html = patchArchiveMeta(html, data);
-    html = injectRuntimeGtmLoader(html);
+    return assembleTagHtml(data);
   }
 
-  try {
-    const path = new URL(data.canonical).pathname;
-    html = absolutizeMirrorSeoHtml(html, {
-      siteOrigin: ORIGIN,
-      path,
-      contentKind: 'website',
-    });
-  } catch {
-    html = absolutizeMirrorSeoHtml(html, {
-      siteOrigin: ORIGIN,
-      path: '/insights/',
-      contentKind: 'website',
-    });
+  if (!existsSync(INSIGHTS_PATH)) {
+    throw new Error('Insights shell missing. Run: npm run prepare:insights');
   }
-  return html;
+
+  let html = readFileSync(INSIGHTS_PATH, 'utf8');
+  html = injectInsightsContent(html, data);
+  html = patchArchiveMeta(html, data);
+  return injectRuntimeGtmLoader(html);
 }
 
 export function serveArchivePage(data: ArchivePageData): Response {

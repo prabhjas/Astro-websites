@@ -14,27 +14,18 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
   .trim()
   .replace(/\/$/, '');
 
-/**
- * @param {string} slugSource - cleaned HTML filename slug in src/legacy
- * @param {string} [slugPublic] - public URL slug (defaults to slugSource)
- */
-export function serveLegacyPage(slugSource, slugPublic = slugSource) {
-  const cleanedPath = join(process.cwd(), 'src/legacy', `${slugSource}.cleaned.html`);
+/** @param {string} slug */
+export function serveLegacyPage(slug) {
+  const cleanedPath = join(process.cwd(), 'src/legacy', `${slug}.cleaned.html`);
 
   if (!existsSync(cleanedPath)) {
     // Public visitors must get a real 404 â€” never 503 or internal prepare:page hints.
-    console.warn(`[legacy-page] Missing prepared HTML for "${slugSource}" â†’ 404`);
+    console.warn(`[legacy-page] Missing prepared HTML for "${slug}" â†’ 404`);
     return notFoundResponse();
   }
 
   const raw = readFileSync(cleanedPath, 'utf-8');
-  let html = injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slugPublic)));
-
-  if (slugSource !== slugPublic) {
-    const fromPath = `/${String(slugSource).replace(/^\/|\/$/g, '')}/`;
-    const toPath = `/${String(slugPublic).replace(/^\/|\/$/g, '')}/`;
-    html = html.split(fromPath).join(toPath);
-  }
+  let html = injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(raw, slug)));
 
   // Normalize CF7 form actions to the Astro contact endpoint (trailingSlash: always).
   html = html.replace(
@@ -64,10 +55,7 @@ export function serveLegacyPage(slugSource, slugPublic = slugSource) {
   }
 
   
-  const path =
-    !slugPublic || slugPublic === 'homepage'
-      ? '/'
-      : `/${String(slugPublic).replace(/^\/|\/$/g, '')}/`;
+  const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
 
