@@ -1,26 +1,31 @@
 # Aaron pending — fleet tracker
 
-**Updated:** 2026-08-26 post-publish tip **`6edd7f7c5`**  
+**Updated:** 2026-08-26 evening (Aaron reply)  
 **Final Aaron doc:** [AARON-FINAL-HANDOFF.md](AARON-FINAL-HANDOFF.md)  
-**Owner-only:** [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md) · Redo package: [AARON-REDO-SITE-CMS.md](AARON-REDO-SITE-CMS.md)
+**Owner-only:** [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md)
 
 ---
 
-## Live this wave
+## Live
 
-| Site | Tip | Notes |
-|---|---|---|
-| SP / Iberia WF / Iberia EOR / KPM | `6edd7f7c5` | SP redirect OK; IW `/sitemap.xml` + SP robots still **backend** (Aaron) |
+| Tip | Notes |
+|---|---|
+| Front sites | `fb7070fdc` (SP padding + Connect FM WA) and later tips as published |
+| `packages/site-cms` AP-04 | On `astro-fleet-development` as `159ff7081` — **already in every site build**; no separate package publish |
 
-## Waiting on Aaron
+## Waiting on Aaron (backend refresh — do not Caddy-workaround)
 
-- `packages/site-cms` (publisher blocks automatic lane)
-- SP GTM env seed
-- Robots / IW sitemap edge → front
-- CF favicon cache
-- Leads APIs + Caddy
+- `/robots.txt`, `/llms.txt`, sitemaps, `/runtime-gtm.js` are **backend by design**
+- Backends pinned to old releases (systemd drop-in); front publish does not update them
+- Aaron deciding gated backend refresh (Pipedrive token + lead store)
+- **No action** from developer until Aaron says backends refreshed
 
-## Ready on `work/astro-sites` (not live yet)
+## Cleared / not Aaron
 
-- Redo site SEO (needs package first)
-- MBS authors/contact (Astro check 23→25 — fix types then publish)
+- Connect Freelance favicon — hashes match; local cache only
+- SP `/css/migration-overrides.css` — CF purged; SP now auto-purges `/css/` on publish
+- Sticky `public/` assets elsewhere — tell Aaron exact path for purge + site purge list
+
+## Developer next
+
+- Ship **Redo.ae site files** (SEO / redirects / favicon) — package already available in builds

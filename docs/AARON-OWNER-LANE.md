@@ -1,50 +1,61 @@
-# Aaron — owner lane only (envs / leads / Caddy)
+# Aaron — owner lane only (envs / leads / Caddy / backend pins)
 
-**Updated:** 2026-08-26  
-**Developer note:** You cleared presentation + packages for us; **only envs, leads, and Caddy** stay with you. Anything below still needs your lane.
+**Updated:** 2026-08-26 evening (Aaron confirmed)  
+**Related:** [AARON-PENDING.md](AARON-PENDING.md) · [AARON-REDO-SITE-CMS.md](AARON-REDO-SITE-CMS.md)
 
-Related: [AARON-REDO-SITE-CMS.md](AARON-REDO-SITE-CMS.md) (package change we can now ship ourselves unless you prefer to review first) · [AARON-PENDING.md](AARON-PENDING.md)
+---
+
+## Confirmed design (do not “fix” at Caddy)
+
+These paths are routed to the **backend by design** and never reach the front:
+
+- `/robots.txt`, `/llms.txt`
+- all sitemaps (incl. `/sitemap.xml`)
+- `/runtime-gtm.js`
+
+**Cause of stale robots / sitemap bodies:** every backend is pinned to an **old release** via a systemd drop-in that `astro-fleet-release publish` never touches. Correct `public/robots.txt` can sit in the front release while the backend still serves its old copy.
+
+**Ask:** Aaron owns a gated **backend refresh** (backends hold Pipedrive token + lead store). Developer waits for that — **no Caddy 301 / front-route** for `/sitemap.xml` or robots (would hide the design).
 
 ---
 
 ## Still yours
 
-| Item | Why | Ask |
-|---|---|---|
-| **SP Heavy GTM `GTM-PL2CQ48T`** | Needs `PUBLIC_GTM_ID` in prod `.env` and/or `INTERNAL_ADMIN_DIR/gtm.json` via `scripts/seed-gtm.mjs` | Seed GTM on host (env or admin JSON). Code already loads `/runtime-gtm.js` |
-| **Leads / contact `/api/`** (non-blog) | Lead storage + rate limit + submission APIs | Keep as today |
-| **Caddy / TLS / route ownership** | Edge routing | See robots note below |
-| **Prod `.env` / secrets** | Never in developer commits | Same |
+| Item | Ask |
+|---|---|
+| Backend refresh | When decided — refresh pins so robots/sitemaps/llms/runtime-gtm match current tip |
+| SP Heavy GTM `GTM-PL2CQ48T` | `PUBLIC_GTM_ID` and/or `gtm.json` seed (if not already) |
+| Leads / contact `/api/` (non-blog) | Keep as today |
+| Prod `.env` / secrets | Never in developer commits |
+| CF purge gaps | Stable `public/` paths outside `/` + `wp-content/` can stay HIT after publish; purge + add to that site’s release purge list when reported |
 
 ---
 
-## Observed live issues that look like edge / backend ownership
+## Cleared
 
-### 1) `spheavyrental.ae/robots.txt` still old backend body
-
-- Live: `x-astro-fleet-route: backend`, `last-modified: Thu, 13 Aug 2026`, short Allow/Disallow body (~338 bytes)
-- Git tip (`astro-fleet-development` / work): full Tabish robots (`Sitemap: …/sitemap_index.xml`, licence header, GPTBot blocks, etc.)
-- After AP-02 (“source robots win”), we expected front/`public/robots.txt`. Live still backend.
-
-**Ask:** Confirm Caddy / managed robots for SP (and other sites) actually serve `public/robots.txt` from the published front, or clear the stale backend override.
-
-### 2) Favicon / static assets lag (CF example)
-
-- `connectfreelance.ae/favicon.ico` live ~655 bytes; git tip **1257** bytes (same on fleet tip)
-- Homepage commit header can be newer than favicon bytes → CDN or asset switch lag
-
-**Ask:** If republish does not refresh, check CF/edge cache for `/favicon.ico`.
+| Item | Status |
+|---|---|
+| `packages/site-cms` AP-04 | On tip `159ff7081`; copied into every build — **no separate package publish** |
+| Connect Freelance favicon | git tip = release = live (hash match); local cache only |
+| SP `migration-overrides.css` | CF purged; SP now purges `/css/` on every publish |
 
 ---
 
-## Paste-ready
+## Diagnose sticky assets yourself
+
+Compare three hashes: **git tip**, **origin (direct)**, **live**. Check `cf-cache-status` / `age`.
+
+- Origin right, live wrong → edge; Aaron can purge
+- Origin wrong → backend pin; Aaron
+
+---
+
+## Paste-ready (post-Aaron reply)
 
 ```text
-Aaron — owner-lane only (envs / leads / Caddy):
+Aaron — acknowledged:
 
-1) SP Heavy: please set PUBLIC_GTM_ID=GTM-PL2CQ48T (or seed gtm.json). Loader already in BaseLayout.
-2) SP robots.txt still served from backend (Aug 13 body) while git has the new public/robots.txt — please confirm source robots win at the edge after AP-02.
-3) CF favicon live still old bytes vs git tip — if our republish does not fix, edge cache on /favicon.ico.
-
-Leads/contact APIs and Caddy remain yours. Presentation + packages we are shipping on astro-fleet-development.
+1) site-cms AP-04 already in builds via 159ff7081 — we ship Redo site files only.
+2) robots/sitemaps/llms/runtime-gtm are backend-by-design; we will not Caddy-workaround. Waiting on your backend refresh.
+3) CF favicon was local cache; SP /css/ purge noted. We will report exact public/ paths if other stables stick after publish.
 ```
