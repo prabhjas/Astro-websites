@@ -122,19 +122,13 @@ const postUsesElementor =
 >
   {
     page ? (
-      <>
-        <div class="sp-page-breadcrumbs">
-          <div class="sp-container">
-            <Breadcrumbs items={pageCrumbs} />
-          </div>
-        </div>
-        <div class="sp-page-content" set:html={html} />
-      </>
+      <div class="sp-page-content" set:html={html} />
     ) : postUsesElementor ? (
       <div class="sp-page-content" set:html={post!.bodyHtml} />
     ) : (
       <article class="sp-article sp-container">
         <header class="sp-article__header">
+          <Breadcrumbs items={postCrumbs} />
           <h1 set:html={post!.title} />
           <div class="sp-article__meta">
             <time datetime={post!.date}>{formatDate(post!.date)}</time>
