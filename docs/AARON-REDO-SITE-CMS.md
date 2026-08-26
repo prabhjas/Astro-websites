@@ -10,8 +10,7 @@
 
 ## Ask
 
-Please **review and publish** the `packages/site-cms` SEO normalize change for **Redo.ae**.  
-We will **not** include this in a site-only signed `astro-fleet-release publish`.
+Originally for your review. **Update 2026-08-26:** you said only envs / leads / Caddy stay with you — we will **ship this package ourselves** on `astro-fleet-development` with the Redo site files unless you object.
 
 ---
 
