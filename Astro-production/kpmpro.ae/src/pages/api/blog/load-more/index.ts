@@ -3,7 +3,7 @@ import {
   ARCHIVE_POSTS_PER_PAGE,
   buildInsightsCardHtml,
   getAllBlogPosts,
-} from '../../../lib/blog';
+} from '../../../../lib/blog';
 
 export const prerender = false;
 

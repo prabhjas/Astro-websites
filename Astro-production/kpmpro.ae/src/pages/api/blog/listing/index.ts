@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getAllBlogPosts, type BlogPost } from '../../../lib/blog';
+import { getAllBlogPosts, type BlogPost } from '../../../../lib/blog';
 
 export const prerender = false;
 
