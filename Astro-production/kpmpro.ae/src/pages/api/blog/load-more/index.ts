@@ -3,7 +3,7 @@ import {
   ARCHIVE_POSTS_PER_PAGE,
   buildInsightsCardHtml,
   getAllBlogPosts,
-} from '../../../lib/blog';
+} from '../../../../lib/blog';
 
 export const prerender = false;
 
@@ -23,9 +23,8 @@ export const GET: APIRoute = async ({ url }) => {
     Number(url.searchParams.get('offset') || String(DEFAULT_OFFSET)) || DEFAULT_OFFSET,
   );
 
-  const sorted = getAllBlogPosts().sort(
-    (a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt),
-  );
+  // Preserve Insights order from wp-blog-order.json (newest posts are prepended first).
+  const sorted = getAllBlogPosts();
 
   // Page N (N>=2) relative to offset: start = offset + (page-2)*perPage
   // When page=2, start=offset (skip first page)

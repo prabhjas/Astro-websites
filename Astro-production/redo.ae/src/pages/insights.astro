@@ -6,8 +6,13 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { absolutizeMirrorSeoHtml, sanitizeMirrorHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
 import { applySharedChrome } from '../lib/shared-chrome.js';
+
+const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://redo.ae')
+  .trim()
+  .replace(/\/$/, '');
 
 export const prerender = false;
 
@@ -76,6 +81,12 @@ if (!existsSync(cleanedPath)) {
 
 let html = readFileSync(cleanedPath, 'utf8');
 html = decorateInsightsPage(injectRuntimeGtmLoader(applySharedChrome(html, 'insights')));
+html = absolutizeMirrorSeoHtml(html, {
+  siteOrigin: SITE_ORIGIN,
+  path: '/insights/',
+  contentKind: 'website',
+});
+html = sanitizeMirrorHtml(html);
 
 return new Response(html, {
   headers: {

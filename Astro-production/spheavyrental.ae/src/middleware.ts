@@ -50,21 +50,31 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Canonical YAML redirects must apply even when env / internal-admin is missing.
+    const canonical = readCanonicalRedirectsYaml(process.cwd());
+    let runtime: Awaited<ReturnType<typeof readRuntimeRedirects>> = [];
+    let internalAdminDir: string | null = null;
     try {
       const env = getServerEnv();
-      const runtime = await readRuntimeRedirects(env.internalAdminDir);
-      const canonical = readCanonicalRedirectsYaml(process.cwd());
-      const all = [...canonical, ...runtime];
-      const match = all.find(
-        (rule) => rule.from === pathname || normalisePath(rule.from) === normalisePath(pathname),
-      );
-      // Skip no-op / self redirects (e.g. normalised `/author` ↔ `/author/` collisions).
-      if (match && match.to !== pathname) {
-        await recordRedirectHit(env.internalAdminDir, match.from);
-        return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);
-      }
+      internalAdminDir = env.internalAdminDir;
+      runtime = await readRuntimeRedirects(env.internalAdminDir);
     } catch {
-      // Missing env / redirect store should never break public pages
+      // Missing env / redirect store should never break public pages or YAML redirects.
+    }
+    const all = [...canonical, ...runtime];
+    const match = all.find(
+      (rule) => rule.from === pathname || normalisePath(rule.from) === normalisePath(pathname),
+    );
+    // Skip no-op / self redirects (e.g. normalised `/author` ↔ `/author/` collisions).
+    if (match && match.to !== pathname && normalisePath(match.to) !== normalisePath(pathname)) {
+      if (internalAdminDir) {
+        try {
+          await recordRedirectHit(internalAdminDir, match.from);
+        } catch {
+          // Hit stats are best-effort.
+        }
+      }
+      return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);
     }
 
     return next();
