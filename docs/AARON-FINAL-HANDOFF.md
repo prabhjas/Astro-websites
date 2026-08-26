@@ -92,6 +92,7 @@ Still need you:
 1) packages/site-cms normalize (publisher blocked automatic lane) — then we ship Redo site
 2) SP GTM-PL2CQ48T env / gtm.json seed
 3) Robots still backend on SP despite AP-02 + new public/robots.txt in git — please fix edge
+3b) Iberia Workforce /sitemap.xml still backend HTML-as-XML — please front route or Caddy 301 → /sitemap-index.xml
 4) CF favicon edge cache (git tip already correct bytes)
 5) Leads APIs + Caddy as usual
 
