@@ -4,6 +4,11 @@ interface Props {
   formName: string;
   theme?: 'dark' | 'light';
   showMessage?: boolean;
+  messageLabel?: string;
+  messagePlaceholder?: string;
+  phonePlaceholder?: string;
+  buttonLabel?: string;
+  showWhatsapp?: boolean;
 }
 
 const {
@@ -11,6 +16,11 @@ const {
   formName,
   theme = 'dark',
   showMessage = false,
+  messageLabel = 'Message (Optional)',
+  messagePlaceholder = 'Your message...',
+  phonePlaceholder = '00 000 0000',
+  buttonLabel = 'Get an estimate',
+  showWhatsapp = true,
 } = Astro.props;
 
 const waHref =
@@ -91,7 +101,7 @@ const waHref =
       type="tel"
       name="phone"
       class="cg-phone-input wpcf7-phonetext"
-      placeholder="00 000 0000"
+      placeholder={phonePlaceholder}
       required
       autocomplete="tel"
     />
@@ -101,17 +111,21 @@ const waHref =
   {
     showMessage && (
       <label class="lp-form__field">
-        <span>Message (Optional)</span>
-        <textarea name="message" rows="4" placeholder="Your message..."></textarea>
+        <span>{messageLabel}</span>
+        <textarea name="message" rows="4" placeholder={messagePlaceholder}></textarea>
         <em class="lp-form__error" data-error-for="message"></em>
       </label>
     )
   }
 
-  <button class="lp-btn lp-btn--blue" type="submit">Get an estimate</button>
-  <a class="lp-btn lp-btn--whatsapp" href={waHref} target="_blank" rel="noopener noreferrer">
-    <img src="/lp/best-renovation-company/icons/whatsapp.svg" alt="" width="24" height="24" />
-    <span>In a rush?&nbsp;&nbsp;instead</span>
-  </a>
+  <button class="lp-btn lp-btn--blue" type="submit">{buttonLabel}</button>
+  {
+    showWhatsapp && (
+      <a class="lp-btn lp-btn--whatsapp" href={waHref} target="_blank" rel="noopener noreferrer">
+        <img src="/lp/best-renovation-company/icons/whatsapp.svg" alt="" width="24" height="24" />
+        <span>In a rush?&nbsp;&nbsp;instead</span>
+      </a>
+    )
+  }
   <p class="lp-form__status" hidden></p>
 </form>
