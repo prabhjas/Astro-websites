@@ -3,8 +3,9 @@
 **Updated:** 2026-08-26  
 **Kit source:** `~/Downloads/og pictures` (team OG automation pack)  
 **Pilot site:** `Astro-production/royalvisa.ae`  
-**Aaron blockers:** [AARON-PENDING.md](AARON-PENDING.md) → **AP-07** (Iberia `sharp`), **AP-08** (fleet OG / catalog `sharp`)  
-**Note:** AP-01 (`scripts/fleet-monitor/` Host probe) is unrelated to this OG pilot — do not block OG work on it. Dirty host worktrees are developer-cleanable; OG still waits only on catalog/`sharp` (AP-07/08).
+**Aaron:** AP-07/AP-08 **done** on fleet tip `bfc113c0f` — site-local `sharp@0.35.3` on Iberia Workforce + Royal Visa; Iberia dropped `passthroughImageService()`. Goes live on those sites’ next publish. Build-time OG regen is now allowed for Royal Visa.
+
+**Related:** [AARON-PENDING.md](AARON-PENDING.md) (AP-04 Redo `site-cms` still Aaron)
 
 ---
 
@@ -12,28 +13,17 @@
 
 1. **Adapt** the kit for fleet reality (pnpm workspace, JSON blog posts — not Astro Content Collections / not per-site `npm install`).
 2. **Pilot on Royal Visa only:** branded 1200×630 PNGs under `public/og/`, prefer those URLs in post/page OG tags when present.
-3. **Commit generated PNGs** so presentation publish does **not** need `sharp` at build time on the host.
-4. **Keep aside for Aaron:** adding `sharp` to the pnpm catalog / site `package.json`, lockfile update, Iberia dropping `passthroughImageService()`, and optional build-time `astro:build:start` regeneration for all sites.
+3. **Committed PNGs** already ship without build-time sharp; **optional now:** use build-time `og:generate` / sharp on publish.
+4. **Publish** Royal Visa (+ Iberia Workforce image service change) so Aaron’s `bfc113c0f` sharp pins go live.
 
-## What Aaron will do (owner lane)
+## What Aaron already did (2026-08-26)
 
 | Step | Detail |
 |---|---|
-| Catalog | Add `sharp` (and optionally `glob`) to `pnpm-workspace.yaml` → `catalogs.default` |
-| Sites | Declare `"sharp": "catalog:"` on Iberia Workforce + Royal Visa (then roll out) |
-| Lockfile | One `pnpm install` at fleet root on Linux; commit `pnpm-lock.yaml` |
-| Iberia | Remove `passthroughImageService()` once site-local sharp is allowed |
-| Later | Enable build-hook OG regen fleet-wide if we stop committing PNGs |
-
-## Why Iberia used passthrough
-
-Iberia Workforce was published with:
-
-```js
-image: { service: passthroughImageService() }
-```
-
-so the generic publisher could ship **without** a lockfile/`sharp` site dep. Assets were already WebP. That is **temporary** — see AP-07.
+| Sharp | Pinned `"sharp": "0.35.3"` on Iberia Workforce + Royal Visa (matched 14 sites already using it) |
+| Lockfile | Regenerated offline (sealed store; 6-line diff) |
+| Iberia | Removed `passthroughImageService()` — verified more webp variants, lower image weight |
+| Vault | Sharp available to sealed builds for those pins |
 
 ## Royal Visa content model (kit vs fleet)
 
@@ -42,20 +32,20 @@ so the generic publisher could ship **without** a lockfile/`sharp` site dep. Ass
 | `getCollection()` markdown | `src/content/blog/*.json` |
 | Drop-in `Base.astro` | Most posts are **legacy mirrors** (`legacy-page.js`); JSON shell is `blog.ts` fallback only |
 | OG preference | Inject `/og/blog/{slug}.png` in **both** `legacy-page.js` and `blog.ts` (no `public/` existsSync) |
-| `npm install sharp` | Fleet **pnpm** + Aaron catalog (AP-08) |
+| `npm install sharp` | Fleet **pnpm** + site-local `sharp@0.35.3` (Aaron) |
 
 ## Rollout order
 
-1. Royal Visa pilot (scripts + committed `public/og/**` + OG URL preference) — **developer**
-2. Aaron AP-07 + AP-08 (`sharp` catalog / Iberia image service)
-3. Repeat pattern on next sites (Connect Group, Kinza, …) once catalog exists
-4. Optional: switch from committed PNGs → generate on every build
+1. Royal Visa pilot (scripts + committed `public/og/**` + OG URL preference) — **developer** (done for PNGs)
+2. ~~Aaron AP-07 + AP-08~~ — **done** (`bfc113c0f`)
+3. **Publish** Iberia Workforce + Royal Visa so sharp / image service go live
+4. Repeat pattern on next sites; optional: generate OG on every build
 
-## Local generate (until Aaron pins sharp)
+## Local generate
 
 ```sh
 cd Astro-production/royalvisa.ae
-pnpm run og:generate   # resolves sharp from monorepo .pnpm store when possible
+pnpm run og:generate
 ```
 
-Do **not** run root `pnpm install` / lockfile edits for this pilot without Aaron.
+Do **not** edit `scripts/ci/` or invent lockfile bumps outside Aaron’s sealed flow.
