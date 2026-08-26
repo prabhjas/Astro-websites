@@ -1,4 +1,4 @@
-import { defineConfig, fontProviders, passthroughImageService } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -49,11 +49,6 @@ export default defineConfig({
     '/services/labour-legal': '/services/',
     '/services/compliance': '/services/',
     '/services/staff-outsourcing': '/staff-outsourcing/spain/',
-  },
-  // Passthrough until Aaron allows a fleet lockfile update with site-local `sharp`.
-  // Source assets are already WebP; UI is unchanged. Revisit for resize/quality.
-  image: {
-    service: passthroughImageService(),
   },
   fonts: [
     {

@@ -1163,6 +1163,9 @@ importers:
       nodemailer:
         specifier: 'catalog:'
         version: 9.0.4
+      sharp:
+        specifier: 0.35.3
+        version: 0.35.3(@types/node@22.15.30)
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
@@ -1725,6 +1728,9 @@ importers:
       nodemailer:
         specifier: 'catalog:'
         version: 9.0.4
+      sharp:
+        specifier: 0.35.3
+        version: 0.35.3(@types/node@22.15.30)
       yaml:
         specifier: 'catalog:'
         version: 2.9.0
