@@ -4,11 +4,6 @@
  * Rank Math often emits relative canonical/og URLs and JSON-LD "@id":"/…".
  * Search engines and assistants expect absolute HTTPS identifiers.
  */
-import {
-  normalizeMirrorContentSeoHtml,
-  type MirrorContentKind,
-} from './normalize-mirror-content-seo.js';
-
 export type AbsolutizeMirrorSeoOptions = {
   /** Canonical origin, no trailing slash (e.g. https://connectgroup.co). */
   siteOrigin: string;
@@ -19,12 +14,6 @@ export type AbsolutizeMirrorSeoOptions = {
    * `og:image` (Connect Group homepage gap from the audit).
    */
   defaultOgImage?: string;
-  /**
-   * `auto` (default) keeps Article markup on WP posts and converts commercial
-   * pages / listings to og:type=website. Pass `article` for genuine blog posts
-   * assembled outside a WP `single-post` body.
-   */
-  contentKind?: MirrorContentKind;
 };
 
 function toAbsolute(siteOrigin: string, value: string, fallbackPath: string): string {
@@ -96,9 +85,5 @@ export function absolutizeMirrorSeoHtml(html: string, options: AbsolutizeMirrorS
     out = out.replace(/<\/head>/i, `${tags}\n</head>`);
   }
 
-  return normalizeMirrorContentSeoHtml(out, {
-    siteOrigin: origin,
-    path,
-    contentKind: options.contentKind,
-  });
+  return out;
 }
