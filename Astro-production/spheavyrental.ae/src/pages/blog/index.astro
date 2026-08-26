@@ -1,23 +1,40 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import {
+  BLOG_LOAD_MORE_PER_PAGE,
+  renderBlogCardsHtml,
+  renderBlogListCardsHtml,
+  replaceEcsPostsInner,
+} from "../../lib/blog-card-html";
 import { getPageByPath, getPosts } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
 
 /**
- * Keep the live Elementor Blog markup exactly (featured list + image grid).
- * Load More is wired in script to append remaining posts into the grid widget.
+ * Keep the live Elementor Blog chrome (hero, etc.) and rebuild list + grid
+ * from current posts so featured images always render.
  */
 const page = getPageByPath("/blog/");
 if (!page) throw new Error("Blog page missing");
 
-const totalPosts = getPosts().length;
-// Snapshot grid already shows the first N image cards (template 540).
+const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
+const INITIAL_LIST = 3;
 const INITIAL_GRID = 12;
-const hasMore = totalPosts > INITIAL_GRID;
+const hasMore = sorted.length > INITIAL_GRID;
 
 let html = page.bodyHtml || page.content;
+
+// Rebuild featured list (template 534) + image grid (template 540).
+html = replaceEcsPostsInner(
+  html,
+  1,
+  renderBlogListCardsHtml(sorted.slice(0, INITIAL_LIST)),
+);
+html = replaceEcsPostsInner(
+  html,
+  2,
+  renderBlogCardsHtml(sorted.slice(0, INITIAL_GRID)),
+);
 
 // Mark the Load More control for our JS (do not change surrounding design).
 if (hasMore) {
