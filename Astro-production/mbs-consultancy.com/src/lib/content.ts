@@ -32,6 +32,7 @@ const PACKAGE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 
 const PUBLIC_ROOT = path.join(PACKAGE_ROOT, "public");
 
 export const site = siteJson as typeof siteJson & {
+  whatsappUrl: string;
   navigation: import("./content-types").NavItem[];
   footerServices: { label: string; href: string }[];
   footerQuickLinks: { label: string; href: string }[];

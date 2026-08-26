@@ -47,8 +47,8 @@ body .row_r.contactpageform input, body .row_r.contactpageform textarea {
 input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext {}
 
 .row_r.contactpageform input.wpcf7-form-control.wpcf7-text.wpcf7-phonetext {
-    padding-left: 50px !important;
-    margin-top: 7px !important;
+    padding-left: 110px !important;
+    margin-top: 0 !important;
 }
 
 .row_r.contactpageform input:focus,.row_r.contactpageform textarea {

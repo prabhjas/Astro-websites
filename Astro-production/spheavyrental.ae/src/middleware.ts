@@ -22,6 +22,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Stale /favicon.ico is still served from an old release tip on this host.
+    if (pathname === "/favicon.ico" || pathname === "/favicon.ico/") {
+      return context.redirect("/favicon-32x32.png?v=20260826", 302);
+    }
+
     // Enforce trailingSlash: 'always' for all non-file paths (308 keeps POST body)
     if (
       pathname !== '/' &&
