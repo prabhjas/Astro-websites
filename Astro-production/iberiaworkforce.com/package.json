@@ -23,6 +23,7 @@
     "@tailwindcss/vite": "catalog:",
     "astro": "catalog:",
     "nodemailer": "catalog:",
+    "sharp": "0.35.3",
     "tailwindcss": "catalog:",
     "yaml": "catalog:",
     "@connect/site-cms": "workspace:*"
