@@ -2,6 +2,8 @@ import { defineConfig, fontProviders } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
+// Image optimization uses site-local sharp@0.35.3 (Aaron fleet tip bfc113c0f; passthrough removed).
+
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
   process.env.SITE_URL ||

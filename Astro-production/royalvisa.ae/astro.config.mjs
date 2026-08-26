@@ -2,6 +2,8 @@
 import node from '@astrojs/node';
 import { defineConfig } from 'astro/config';
 
+// Site-local sharp@0.35.3 pinned for OG / image pipeline (Aaron fleet tip bfc113c0f).
+
 /** Canonical production origin — prefer PUBLIC_SITE_URL. */
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
