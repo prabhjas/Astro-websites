@@ -60,8 +60,9 @@
       loading = true;
       setLabel("Loading...");
 
+      // Front path — /api/blog/* is still routed to backend on this host (stale card HTML).
       var url =
-        "/api/blog/load-more/?page=" +
+        "/insights/load-more/?page=" +
         encodeURIComponent(String(nextPage)) +
         "&perPage=" +
         encodeURIComponent(String(perPage));

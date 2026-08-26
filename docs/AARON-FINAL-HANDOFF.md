@@ -8,6 +8,18 @@ You said only **envs / leads / Caddy** stay with you. Everything below is either
 
 ---
 
+## Live findings (developer — 2026-08-26 evening)
+
+| Symptom | Root cause | Fix status |
+|---|---|---|
+| Iberia Insights Load More wrong cards | `/api/blog/load-more/` → **backend** (old template 540) | Front path `/insights/load-more/` + JS update (publishing) |
+| SP/CF Astro favicon | `/favicon.ico` sticky on **old release tip** | Prefer SVG/PNG + middleware 302; Aaron still needed for ico asset routing |
+| SP/CF/IW robots | Still `x-astro-fleet-route: backend` | Aaron / Caddy |
+| MBS contact/author | Never published (check + prior omit) | Restoring in this wave |
+| Redo presentation | Package blocked + check noise | Site files on work; package still Aaron |
+
+---
+
 ## Shipped today (no action)
 
 | Site | What | Live check |

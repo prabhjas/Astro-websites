@@ -3,7 +3,16 @@
 html,
 body {
   margin: 0 !important;
-  padding: 0;
+  padding: 0 !important;
+}
+
+/* Kill the thin white strip above the dark Elementor header */
+.elementor-location-header,
+body > .elementor-153,
+.sp-elementor-header,
+#top-header {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 #wpadminbar {

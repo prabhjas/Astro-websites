@@ -475,7 +475,6 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   html = absolutizeMirrorSeoHtml(html, {
     siteOrigin: ORIGIN,
     path: postPath,
-    contentKind: 'article',
   });
 
   return injectRuntimeGtmLoader(html);

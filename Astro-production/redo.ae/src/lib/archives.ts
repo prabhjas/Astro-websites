@@ -355,13 +355,11 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
     html = absolutizeMirrorSeoHtml(html, {
       siteOrigin: ORIGIN,
       path,
-      contentKind: 'website',
     });
   } catch {
     html = absolutizeMirrorSeoHtml(html, {
       siteOrigin: ORIGIN,
       path: '/insights/',
-      contentKind: 'website',
     });
   }
   return html;
