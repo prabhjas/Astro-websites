@@ -375,3 +375,40 @@ background: #F9F9FB;
     padding-left: 60px !important;
 }
 }/* End custom CSS */
+
+/* --- Mushtaq breadcrumb visibility/style (form CSS retained) --- */
+.elementor-1623 .elementor-element.elementor-element-dcb1623{padding-bottom:20px;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 > .elementor-widget-container{padding:0px 0px 20px 0px !important;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:not(.brd_sep){color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > a{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > span.ekit_home_icon{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > span.ekit_home_icon svg{fill:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > a{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > span.ekit_home_icon{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > span.ekit_home_icon svg{fill:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb{font-family:"DM Sans";font-size:18px;font-weight:500;line-height:1.3em;justify-content:start;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:is(.brd_sep){color:#FBD337;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:is(.brd_sep) svg{fill:#FBD337;}
+/* Start custom CSS for image-box, class: .elementor-element-04d9abd */.icon_text h3.elementor-image-box-title {
+    margin: 0px !important;
+    margin-left: 10px !important;
+}
+
+.icon_text .elementor-image-box-wrapper {
+    display: inline-flex !important
+;
+}
+}
+.elementor-1623 .elementor-element.elementor-element-dcb1623{padding-bottom:20px;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 > .elementor-widget-container{padding:0px 0px 20px 0px !important;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:not(.brd_sep){color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > a{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > span.ekit_home_icon{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li > span.ekit_home_icon svg{fill:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > a{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > span.ekit_home_icon{color:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:hover > span.ekit_home_icon svg{fill:#FFFFFF;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb{font-family:"DM Sans";font-size:18px;font-weight:500;line-height:1.3em;justify-content:start;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:is(.brd_sep){color:#FBD337;}
+.elementor-1623 .elementor-element.elementor-element-dcb1623 .ekit-breadcrumb > li:is(.brd_sep) svg{fill:#FBD337;}
+/* End custom CSS */
