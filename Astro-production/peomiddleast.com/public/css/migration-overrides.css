@@ -1,0 +1,128 @@
+/**
+ * peomiddleast.com — sitewide layout / chrome overrides for mirrored WP HTML.
+ * Injected on every legacy page via legacy-page.js / shared-chrome.js / BaseLayout.
+ */
+:root {
+  --peo-stats-band: #ebf4ff;
+  --peo-header-offset: var(--header-height, var(--header-sticky-height, 110px));
+}
+
+/* -------------------------------------------------------------------------- */
+/* Stats bands — bg was on an inner column, so page lavender (#F6F7FF) showed
+   as side gutters. Paint the SECTION full-bleed; clear inner column bg.      */
+/* -------------------------------------------------------------------------- */
+.l-section.us_custom_57f5615c,
+.l-section.us_custom_01835446,
+.l-section.us_custom_a7142f0f {
+  background: var(--peo-stats-band) !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.l-section.us_custom_57f5615c > .l-section-h,
+.l-section.us_custom_01835446 > .l-section-h,
+.l-section.us_custom_a7142f0f > .l-section-h {
+  max-width: var(--site-content-width, 1280px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.l-section.us_custom_57f5615c .us_custom_4fb9e5a3,
+.l-section.us_custom_01835446 .us_custom_4fb9e5a3,
+.l-section.us_custom_a7142f0f .us_custom_f85c4bd3,
+.l-section.us_custom_a7142f0f .us_custom_4fb9e5a3 {
+  background: transparent !important;
+}
+
+.l-section > .l-section-h > .g-cols.cols_1 > .wpb_column.us_custom_4fb9e5a3.has_bg_color {
+  background: transparent !important;
+}
+.l-section:has(> .l-section-h > .g-cols.cols_1 > .wpb_column.us_custom_4fb9e5a3.has_bg_color) {
+  background: var(--peo-stats-band) !important;
+  width: 100% !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* peo-pedia hero — clear fixed header; keep banner full-bleed                */
+/* -------------------------------------------------------------------------- */
+.l-section.us_custom_cfb79a8a,
+.l-section.wpb_row.us_custom_cfb79a8a.height_large {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  width: 100% !important;
+  min-height: 420px;
+  margin-top: 5rem !important;
+}
+
+.l-section.us_custom_cfb79a8a .us_custom_017bc81e {
+  background: transparent !important;
+}
+
+@media (max-width: 600px) {
+  .l-section.us_custom_cfb79a8a,
+  .l-section.wpb_row.us_custom_cfb79a8a.height_large {
+    min-height: 320px;
+    margin-top: 4rem !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Service heroes (us_custom_8d45c27c) — match live WP, no layout overrides.
+   Prior padding on ALL nested .vc_column-inner inflated the gap between the
+   ministry badge and “Get a free quote”, and min-height/overflow fights
+   clipped the flag under the fixed header. Leave spacing to theme CSS. */
+/* -------------------------------------------------------------------------- */
+.l-section .us_custom_85dc4b2d,
+.wpb_column.us_custom_85dc4b2d {
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Scroll-to-top + WhatsApp overlap
+   WhatsApp is injected by GTM with its own fixed bottom-right styles, so we
+   cannot reliably move it. Park .w-toplink to its LEFT so they never stack,
+   and re-assert on scroll via JS when Impreza toggles .active.                */
+/* -------------------------------------------------------------------------- */
+a.w-toplink,
+a.w-toplink.pos_right,
+a.w-toplink.pos_right.active,
+.w-toplink,
+.w-toplink.pos_right,
+.w-toplink.active {
+  right: 90px !important;
+  left: auto !important;
+  bottom: 20px !important;
+  margin: 0 !important;
+  z-index: 9998 !important;
+}
+
+/* Best-effort: if WA node is identifiable, also lift it above the top icon */
+a[href*="wa.me"],
+a[href*="api.whatsapp.com"],
+a[href*="whatsapp.com/send"],
+a[href*="whatsapp"],
+.joinchat__button,
+.joinchat__button__open,
+.joinchat,
+#whatsapp,
+.whatsapp-float,
+.whatsapp-button,
+.floating-wapp,
+.ht-ctc,
+.ht-ctc-chat,
+.ht-ctc-style,
+.wws-popup-container,
+.wws-widget,
+.chaty-widget,
+.chaty-i,
+[class*="whatsapp"],
+[id*="whatsapp"],
+[class*="WhatsApp"],
+[class*="joinchat"] {
+  right: 20px !important;
+  bottom: 20px !important;
+  top: auto !important;
+  z-index: 9999 !important;
+}
