@@ -60,6 +60,25 @@ export function serveLegacyPage(slug) {
   const raw = normalizeLegacyDocumentUrls(readFileSync(cleanedPath, 'utf-8'));
   let html = absolutizeSeoUrls(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), slug);
 
+  // Sitewide layout overrides (full-bleed stats bands, heroes, FAB stack).
+  if (!html.includes('migration-overrides.css')) {
+    html = html.replace(
+      /<\/head>/i,
+      '<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827g" data-peo-migration-overrides="1" />\n</head>',
+    );
+  }
+  // Late inline critical rules (peo-pedia offset + FAB stack only — no hero layout).
+  if (!html.includes('data-peo-critical-overrides')) {
+    html = html.replace(
+      /<\/body>/i,
+      `<style data-peo-critical-overrides="1">
+.l-section.us_custom_cfb79a8a,.l-section.wpb_row.us_custom_cfb79a8a.height_large{margin-top:5rem!important}
+a.w-toplink,a.w-toplink.pos_right,a.w-toplink.active{bottom:20px!important;right:90px!important;left:auto!important;margin:0!important;z-index:9998!important}
+a[href*="wa.me"],a[href*="whatsapp"],.joinchat__button,.ht-ctc,.ht-ctc-chat,.whatsapp-float,[class*="whatsapp"],[id*="whatsapp"]{bottom:20px!important;right:20px!important;top:auto!important;z-index:9999!important}
+</style>\n</body>`,
+    );
+  }
+
   // Cloudflare email protection is not available locally — decode obfuscated addresses.
   if (!html.includes('cf-email-decode.js')) {
     html = html.replace(
@@ -72,7 +91,12 @@ export function serveLegacyPage(slug) {
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes.js?v=20260827e" defer></script>\n</body>',
+    );
+  } else if (!html.includes('astro-mirror-fixes.js?v=')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?!\?)/g,
+      '/js/astro-mirror-fixes.js?v=20260827e',
     );
   }
 
