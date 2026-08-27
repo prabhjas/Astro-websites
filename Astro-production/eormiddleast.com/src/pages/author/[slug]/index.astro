@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
-import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import {
+  authors,
+  formatDate,
+  getCategories,
+  getPostsByAuthor,
+  stripHtml,
+} from "../../../lib/content";
 import { breadcrumbSchema } from "../../../lib/seo";
 
 export function getStaticPaths() {
@@ -14,16 +17,56 @@ export function getStaticPaths() {
 }
 
 const { author } = Astro.props;
-const sorted = getPostsByAuthor(author.id);
-const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const posts = getPostsByAuthor(author.id);
+const categoryNames = new Map(getCategories().map((category) => [category.id, category.name]));
+
+const displayName = stripHtml(author.name);
+const localAvatarBySlug: Record<string, string> = {
+  "kate-williams": "/wp-content/uploads/2026/02/Kate-Williams-300x287.png",
+  "lana-vasiljeva": "/wp-content/uploads/2026/02/Lana-Vasiljeva-300x287.png",
+  "liam-doherty": "/wp-content/uploads/2026/02/Liam-Doherty-300x287.png",
+  "nakul-sachdeva": "/wp-content/uploads/2026/02/Nakul-Sachdeva-300x287.png",
+  "timothy-patridge": "/wp-content/uploads/2026/02/Timothy-Partridge-300x287.png",
+};
+const authorAvatar = localAvatarBySlug[author.slug] || author.avatar || "";
+const authorRoleBySlug: Record<string, string> = {
+  "lana-vasiljeva": "Chief Marketing Officer",
+  "liam-doherty": "Enterprise Director",
+};
+const authorRole = authorRoleBySlug[author.slug] || "";
+
+function mediaPath(value: string | undefined) {
+  return value?.replace(/^https?:\/\/eormiddleast\.com/i, "") || "";
+}
+
+function excerptText(value: string | undefined) {
+  const excerpt = stripHtml(value || "").trim();
+  return excerpt.length > 180 ? `${excerpt.slice(0, 180).trim()}…` : excerpt;
+}
+
+function filterTokens(post: (typeof posts)[number]) {
+  const tokens = new Set(["all"]);
+  for (const id of post.categories) {
+    const name = (categoryNames.get(id) || "").toLowerCase();
+    if (name.includes("hr")) tokens.add("hr");
+    if (name.includes("payroll")) tokens.add("payroll");
+    if (name.includes("outsourc")) tokens.add("outsourcing");
+    if (name.includes("talent") || name.includes("recruit")) tokens.add("talent-acquisition");
+    if (name.includes("compliance") || name.includes("legal")) tokens.add("compliance");
+  }
+  return [...tokens].join("|");
+}
 ---
 
 <BaseLayout
   currentPath={author.path}
+  menuActivePath="/insights/"
+  bodyClass={`archive author author-page author-${author.slug} author-${author.id}`}
   seo={{
-    title: `Author: ${stripHtml(author.name)} | EOR Middle East`,
-    description: author.description || `Articles by ${author.name}.`,
+    title: `Author: ${displayName} | EOR Middle East`,
+    description: author.description || `Articles by ${displayName}.`,
     canonical: author.path,
+    ogImage: mediaPath(authorAvatar) || undefined,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
@@ -32,25 +75,569 @@ const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
-    </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
+  <main class="eor-author-page" data-author-page>
+    <section class="eor-author-page__hero">
+      <div class="eor-author-page__hero-inner">
+        <div class="eor-author-page__profile">
+          {authorAvatar && (
+            <div class="eor-author-page__avatar-frame">
+              <img
+                class="eor-author-page__avatar"
+                src={mediaPath(authorAvatar)}
+                alt={displayName}
+                width="211"
+                height="211"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          )}
+          <div class="eor-author-page__profile-copy">
+            <div class="eor-author-page__name-row">
+              <h1 set:html={author.name} />
+              <span class="eor-author-page__linkedin" aria-label={`${displayName} on LinkedIn`}>in</span>
+            </div>
+            {authorRole && <p class="eor-author-page__role">{authorRole}</p>}
+            {author.description && <p class="eor-author-page__bio" set:html={author.description} />}
+          </div>
         </div>
-      ) : (
-        <p>No posts by this author.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
-  </section>
+      </div>
+    </section>
+
+    <section class="eor-author-page__articles">
+      <div class="eor-author-page__section-heading">
+        <div>
+          <p class="eor-author-page__eyebrow">// LATEST</p>
+          <h2>Articles By {displayName}</h2>
+          <span class="eor-author-page__heading-bar" aria-hidden="true" />
+        </div>
+        <div class="eor-author-page__filters" aria-label="Filter articles">
+          {
+            [
+              ["all", "All"],
+              ["hr", "HR"],
+              ["payroll", "Payroll"],
+              ["outsourcing", "Outsourcing"],
+              ["talent-acquisition", "Talent Acquisition"],
+              ["compliance", "Compliance"],
+            ].map(([value, label], index) => (
+              <button
+                class:list={{ "is-active": index === 0 }}
+                type="button"
+                data-author-filter={value}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                {label}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      {
+        posts.length ? (
+          <div class="eor-author-page__grid">
+            {posts.map((post) => (
+              <article class="eor-author-card" data-author-card data-categories={filterTokens(post)}>
+                <a class="eor-author-card__image-link" href={post.path}>
+                  {mediaPath(post.featuredImage) ? (
+                    <img
+                      class="eor-author-card__image"
+                      src={mediaPath(post.featuredImage)}
+                      alt={stripHtml(post.title)}
+                      width="400"
+                      height="225"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span class="eor-author-card__placeholder" aria-hidden="true" />
+                  )}
+                </a>
+                <div class="eor-author-card__content">
+                  <div class="eor-author-card__info">
+                    <span>{displayName}</span>
+                    <time datetime={post.date}>{formatDate(post.date)}</time>
+                  </div>
+                  <div class="eor-author-card__copy">
+                    <h3><a href={post.path} set:html={post.title} /></h3>
+                    <p>{excerptText(post.excerpt || post.content)}</p>
+                  </div>
+                  <a class="eor-author-card__read-more" href={post.path}>
+                    Read More <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p class="eor-author-page__empty">No posts by this author.</p>
+        )
+      }
+      {posts.length > 12 && (
+        <button class="eor-author-page__load-more" type="button" data-author-load-more>
+          Load More
+        </button>
+      )}
+    </section>
+  </main>
 </BaseLayout>
+
+<style>
+  :global(body:not([class*="elementor-page-"]) .site-main) {
+    max-width: 1280px;
+  }
+
+  .eor-author-page {
+    --eor-orange: #f56b01;
+    --eor-ink: #18191f;
+    --eor-body: #2e282a;
+    --eor-light: #f1f6fc;
+    background: #fff;
+    color: var(--eor-body);
+  }
+
+  .eor-author-page__hero {
+    position: relative;
+    width: 100vw;
+    min-height: 312px;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    background: var(--eor-light);
+  }
+
+  .eor-author-page__hero::before {
+    position: absolute;
+    top: -176px;
+    left: -173px;
+    width: 481px;
+    height: 481px;
+    background:
+      linear-gradient(142deg, rgba(247, 216, 123, 0.45) 0 23%, transparent 23% 100%),
+      linear-gradient(35deg, rgba(180, 159, 244, 0.35) 0 40%, transparent 40% 100%),
+      linear-gradient(155deg, rgba(235, 132, 173, 0.35) 0 38%, transparent 38% 100%),
+      linear-gradient(75deg, rgba(94, 204, 197, 0.35) 0 35%, transparent 35% 100%);
+    content: "";
+    opacity: 0.8;
+    pointer-events: none;
+    transform: rotate(8deg);
+  }
+
+  .eor-author-page__hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: min(1280px, calc(100% - 2rem));
+    min-height: 312px;
+    margin: 0 auto;
+  }
+
+  .eor-author-page__profile {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+    width: 100%;
+  }
+
+  .eor-author-page__avatar-frame {
+    flex: 0 0 211px;
+    width: 211px;
+    height: 211px;
+    padding: 10px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 215deg,
+      #06bca7 0deg 90deg,
+      #b49ff1 90deg 196deg,
+      #f4c72f 196deg 276deg,
+      #ec6077 276deg 322deg,
+      #06bca7 322deg 360deg
+    );
+    box-sizing: border-box;
+  }
+
+  .eor-author-page__avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfe2e5;
+  }
+
+  .eor-author-page__profile-copy {
+    min-width: 0;
+  }
+
+  .eor-author-page__name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eor-author-page__profile h1 {
+    margin: 0;
+    color: var(--eor-ink);
+    font-family: Nunito, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.3;
+  }
+
+  .eor-author-page__linkedin {
+    display: inline-grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 2px;
+    background: #0a66c2;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .eor-author-page__role,
+  .eor-author-page__bio {
+    color: var(--eor-body);
+    font-family: Nunito, sans-serif;
+    font-weight: 400;
+  }
+
+  .eor-author-page__role {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: 0.32px;
+    line-height: 1.6;
+  }
+
+  .eor-author-page__bio {
+    max-width: 948px;
+    margin: 8px 0 0;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    line-height: 1.6;
+  }
+
+  .eor-author-page__articles {
+    width: min(1280px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 80px 0;
+  }
+
+  .eor-author-page__section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 80px;
+  }
+
+  .eor-author-page__eyebrow {
+    margin: 0 0 16px;
+    color: var(--eor-orange);
+    font-family: Nunito, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.36px;
+    line-height: 1.6;
+  }
+
+  .eor-author-page__section-heading h2 {
+    margin: 0;
+    color: var(--eor-ink);
+    font-family: Nunito, sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+
+  .eor-author-page__heading-bar {
+    display: block;
+    width: 113px;
+    height: 4px;
+    margin-top: 8px;
+    border-radius: 4px;
+    background: var(--eor-orange);
+  }
+
+  .eor-author-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 23px;
+  }
+
+  .eor-author-page__filters button {
+    padding: 8px 12px;
+    border: 1px solid var(--eor-orange);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--eor-body);
+    cursor: pointer;
+    font: 600 16px/1.6 Nunito, sans-serif;
+    letter-spacing: 0.32px;
+  }
+
+  .eor-author-page__filters button.is-active,
+  .eor-author-page__filters button:hover {
+    background: var(--eor-orange);
+    color: var(--eor-light);
+  }
+
+  .eor-author-page__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 80px 40px;
+  }
+
+  .eor-author-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .eor-author-card[hidden] {
+    display: none;
+  }
+
+  .eor-author-card__image-link {
+    display: block;
+    aspect-ratio: 400 / 225;
+    overflow: hidden;
+    background: var(--eor-light);
+  }
+
+  .eor-author-card__image,
+  .eor-author-card__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .eor-author-card__placeholder {
+    background: #e3e3e3;
+  }
+
+  .eor-author-card__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .eor-author-card__info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--eor-body);
+    font: 600 14px/1.5 Nunito, sans-serif;
+    letter-spacing: 0.28px;
+  }
+
+  .eor-author-card__info span {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(245, 107, 1, 0.2);
+  }
+
+  .eor-author-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .eor-author-card__copy h3 {
+    margin: 0;
+    color: var(--eor-ink);
+    font: 600 24px/1.4 Nunito, sans-serif;
+  }
+
+  .eor-author-card__copy h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .eor-author-card__copy p {
+    margin: 0;
+    color: var(--eor-body);
+    font: 400 16px/1.6 Nunito, sans-serif;
+    letter-spacing: 0.32px;
+  }
+
+  .eor-author-card__read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    color: var(--eor-orange);
+    font: 600 16px/1.6 Nunito, sans-serif;
+    letter-spacing: 0.32px;
+    text-decoration: none;
+  }
+
+  .eor-author-card__read-more span {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .eor-author-page__empty {
+    color: var(--eor-body);
+    font: 400 16px/1.6 Nunito, sans-serif;
+  }
+
+  .eor-author-page__load-more {
+    display: block;
+    margin: 64px auto 0;
+    padding: 12px 24px;
+    border: 1px solid var(--eor-orange);
+    border-radius: 8px;
+    background: var(--eor-orange);
+    color: #fff;
+    cursor: pointer;
+    font: 600 16px/1.6 Nunito, sans-serif;
+    letter-spacing: 0.32px;
+  }
+
+  .eor-author-page__load-more:hover {
+    background: #d85e00;
+    border-color: #d85e00;
+  }
+
+  .eor-author-page__load-more[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 1100px) {
+    .eor-author-page__profile {
+      gap: 32px;
+    }
+
+    .eor-author-page__avatar-frame {
+      flex-basis: 160px;
+      width: 160px;
+      height: 160px;
+    }
+
+    .eor-author-page__section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      margin-bottom: 48px;
+    }
+
+    .eor-author-page__filters {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .eor-author-page__hero {
+      min-height: 0;
+      padding: 48px 0;
+    }
+
+    .eor-author-page__hero-inner {
+      min-height: 0;
+    }
+
+    .eor-author-page__profile {
+      flex-direction: column;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .eor-author-page__avatar-frame {
+      flex-basis: 132px;
+      width: 132px;
+      height: 132px;
+    }
+
+    .eor-author-page__name-row {
+      justify-content: center;
+    }
+
+    .eor-author-page__profile h1 {
+      font-size: 28px;
+    }
+
+    .eor-author-page__bio {
+      font-size: 14px;
+    }
+
+    .eor-author-page__articles {
+      padding: 56px 0;
+    }
+
+    .eor-author-page__section-heading h2 {
+      font-size: 32px;
+    }
+
+    .eor-author-page__filters {
+      gap: 10px;
+    }
+
+    .eor-author-page__filters button {
+      font-size: 14px;
+    }
+
+    .eor-author-page__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>
+
+<script>
+  const authorPage = document.querySelector<HTMLElement>("[data-author-page]");
+  const authorCards = authorPage
+    ? Array.from(authorPage.querySelectorAll<HTMLElement>("[data-author-card]"))
+    : [];
+  const loadMoreButton = authorPage?.querySelector<HTMLButtonElement>("[data-author-load-more]");
+  let visibleLimit = 12;
+
+  function updateAuthorCards(filter = "all") {
+    const matchingCards = authorCards.filter((card) => {
+      const categories = (card.dataset.categories || "all").split("|");
+      return filter === "all" || categories.includes(filter);
+    });
+
+    authorCards.forEach((card) => {
+      const matches = matchingCards.includes(card);
+      card.hidden = !matches || matchingCards.indexOf(card) >= visibleLimit;
+    });
+
+    if (loadMoreButton) {
+      loadMoreButton.hidden = matchingCards.length <= visibleLimit;
+    }
+  }
+
+  authorPage?.querySelectorAll<HTMLButtonElement>("[data-author-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.authorFilter || "all";
+      visibleLimit = 12;
+
+      authorPage.querySelectorAll<HTMLButtonElement>("[data-author-filter]").forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+
+      updateAuthorCards(filter);
+    });
+  });
+
+  loadMoreButton?.addEventListener("click", () => {
+    visibleLimit += 12;
+    const activeFilter =
+      authorPage?.querySelector<HTMLButtonElement>("[data-author-filter].is-active")?.dataset.authorFilter ||
+      "all";
+    updateAuthorCards(activeFilter);
+  });
+
+  updateAuthorCards();
+</script>
