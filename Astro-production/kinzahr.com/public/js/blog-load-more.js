@@ -27,6 +27,7 @@
     var nextPage = Number(nav.getAttribute('data-next-page') || '2') || 2;
     var perPage = Number(nav.getAttribute('data-per-page') || '16') || 16;
     var offset = Number(nav.getAttribute('data-offset') || String(perPage)) || perPage;
+    var category = nav.getAttribute('data-category') || '';
     var loading = false;
     var defaultLabel = (btn.textContent || 'Load More').trim() || 'Load More';
     var loadingLabel =
@@ -51,7 +52,8 @@
         '&perPage=' +
         encodeURIComponent(String(perPage)) +
         '&offset=' +
-        encodeURIComponent(String(offset));
+        encodeURIComponent(String(offset)) +
+        (category ? '&category=' + encodeURIComponent(category) : '');
 
       fetch(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
         .then(function (res) {

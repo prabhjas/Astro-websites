@@ -3,6 +3,7 @@ import {
   ARCHIVE_POSTS_PER_PAGE,
   buildInsightsCardHtml,
   getAllBlogPosts,
+  getCategorySlug,
 } from '../../../lib/blog';
 
 export const prerender = false;
@@ -22,9 +23,12 @@ export const GET: APIRoute = async ({ url }) => {
     Number(url.searchParams.get('offset') || String(DEFAULT_PER_PAGE)) || DEFAULT_PER_PAGE,
   );
 
-  const sorted = getAllBlogPosts().sort(
+  const category = (url.searchParams.get('category') || '').trim().toLowerCase();
+  const sorted = getAllBlogPosts()
+    .filter((post) => !category || post.categories.some((item) => getCategorySlug(item) === category))
+    .sort(
     (a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt),
-  );
+    );
 
   // Page N (N>=2) relative to offset: start = offset + (page-2)*perPage
   // When page=2, start=offset (skip first page)
