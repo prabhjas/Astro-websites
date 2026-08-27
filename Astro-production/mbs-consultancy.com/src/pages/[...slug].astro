@@ -12,7 +12,6 @@ import {
   stripMissingImageBoxImages,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
-import { dedupeFaqSchema } from "../lib/faq-schema";
 import { notFoundResponse } from "../lib/not-found";
 
 export const prerender = false;
@@ -30,12 +29,11 @@ if (!page && !post) {
 
 const entry = page || post!;
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
-const rawHtml = sanitizeMirrorHtml(
+const html = sanitizeMirrorHtml(
   stripMissingImageBoxImages(
     (("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string,
   ),
 );
-const { html, schemas: dedupedSchemas } = dedupeFaqSchema(rawHtml, entry.seo.schemas || []);
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -60,7 +58,7 @@ const seo = page
       canonical: path,
       ogImage: page.seo.ogImage,
       schemas: [
-        ...dedupedSchemas,
+        ...(page.seo.schemas || []),
         breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
       ],
     }
@@ -74,7 +72,7 @@ const seo = page
       modifiedTime: post!.modified,
       authorName: post!.authorName,
       schemas: [
-        ...dedupedSchemas,
+        ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
         articleSchema({
           title: stripHtml(post!.title),

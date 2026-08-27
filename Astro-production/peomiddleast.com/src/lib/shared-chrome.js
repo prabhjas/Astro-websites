@@ -201,10 +201,6 @@ function ensureHeaderCss(html) {
     const link = `<link rel="stylesheet" href="${FORM_CSS_HREF}" ${FORM_CSS_MARK}="1" />`;
     out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
   }
-  if (!out.includes('migration-overrides.css')) {
-    const link = `<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827g" data-peo-migration-overrides="1" />`;
-    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
-  }
   return out;
 }
 

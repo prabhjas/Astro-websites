@@ -7,7 +7,6 @@ import {
   elementorCssForId,
 } from "../lib/content";
 import { breadcrumbSchema } from "../lib/seo";
-import { dedupeFaqSchema } from "../lib/faq-schema";
 
 export const prerender = false;
 
@@ -15,10 +14,7 @@ const page = getPageByPath("/");
 if (!page) throw new Error("Home page missing from content data");
 
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
-const { html, schemas: dedupedSchemas } = dedupeFaqSchema(
-  sanitizeMirrorHtml(page.bodyHtml || page.content),
-  page.seo.schemas || [],
-);
+const html = sanitizeMirrorHtml(page.bodyHtml || page.content);
 // MBS Elementor pages: per-page post-{id}.css only (global wp-custom-mbs.css in live-css-order).
 const extraCss = [
   ...smartSliderCssForHtml(html),
@@ -40,7 +36,7 @@ const extraCss = [
     canonical: "/",
     ogImage: page.seo.ogImage,
     schemas: [
-      ...dedupedSchemas,
+      ...(page.seo.schemas || []),
       breadcrumbSchema([{ name: "Home", url: "/" }]),
     ],
   }}

@@ -33,11 +33,7 @@ export function resolveSeo(input: SeoInput = {}, fallback?: SeoData) {
     input.description || fallback?.description || site.description,
   );
   const canonical = absoluteUrl(input.canonical || fallback?.canonical || "/");
-  const rawOgImage =
-    [input.ogImage, fallback?.ogImage, site.ogImage].find(
-      (value) => typeof value === "string" && value.trim().length > 0,
-    ) || site.logo;
-  const ogImage = absoluteUrl(rawOgImage);
+  const ogImage = absoluteUrl(input.ogImage || fallback?.ogImage || site.ogImage);
   const ogType = input.ogType || "website";
   const robots =
     input.noindex && input.nofollow
