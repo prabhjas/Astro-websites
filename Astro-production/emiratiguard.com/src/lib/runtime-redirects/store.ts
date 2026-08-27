@@ -68,8 +68,15 @@ export async function recordRedirectHit(rootDir: string, from: string): Promise<
   await writeRedirectStats(rootDir, stats);
 }
 
-export async function readManagedRedirects(rootDir: string, projectRoot: string): Promise<RuntimeRedirectRule[]> {
-  const merged = [...readCanonicalRedirectsYaml(projectRoot), ...(await readRuntimeRedirects(rootDir))];
+export async function readManagedRedirects(
+  rootDir: string,
+  projectRoot: string,
+  serverRoot?: string,
+): Promise<RuntimeRedirectRule[]> {
+  const merged = [
+    ...readCanonicalRedirectsYaml(projectRoot, serverRoot),
+    ...(await readRuntimeRedirects(rootDir)),
+  ];
   return Array.from(new Map(merged.map((rule) => [rule.from, rule])).values()).sort((a, b) =>
     a.from.localeCompare(b.from),
   );
@@ -87,40 +94,55 @@ export async function persistManagedRedirects(
   await syncRuntimeRedirectsToYaml(projectRoot, deduped);
 }
 
+type RedirectYamlRow = {
+  from?: unknown;
+  to?: unknown;
+  status?: unknown;
+};
+
+function mapRedirectRows(list: RedirectYamlRow[], source: string): RuntimeRedirectRule[] {
+  return list
+    .filter((row) => Boolean(row?.from && row?.to))
+    .map((row) => ({
+      from: String(row.from),
+      to: String(row.to),
+      status: Number(row.status || 301),
+      source,
+    }));
+}
+
 export function readCanonicalRedirectsYaml(projectRoot: string, serverRoot?: string): RuntimeRedirectRule[] {
   // Primary: YAML source (available in dev and local builds)
   try {
     const yamlPath = join(projectRoot, 'src/data/redirects.yml');
     const parsed = parse(readFileSync(yamlPath, 'utf8')) ?? {};
-    const list = Array.isArray(parsed.redirects) ? parsed.redirects : [];
-    const rules = list
-      .filter((row) => row?.from && row?.to)
-      .map((row) => ({
-        from: String(row.from),
-        to: String(row.to),
-        status: Number(row.status || 301),
-        source: 'repo',
-      }));
+    const list = Array.isArray(parsed.redirects) ? (parsed.redirects as RedirectYamlRow[]) : [];
+    const rules = mapRedirectRows(list, 'repo');
     if (rules.length > 0) return rules;
   } catch {
     // YAML not available — try JSON fallback
   }
 
   // Fallback: built _redirects.json (production immutable releases lack src/)
-  const roots = [projectRoot, ...(serverRoot ? [serverRoot] : [])];
+  // Also walk one level up from serverRoot — middleware may live under server/chunks/.
+  const roots = [
+    projectRoot,
+    ...(serverRoot ? [serverRoot, join(serverRoot, '..')] : []),
+  ];
   for (const root of roots) {
     for (const rel of ['dist/client/_redirects.json', 'client/_redirects.json', 'public/_redirects.json']) {
       try {
-        const raw = JSON.parse(readFileSync(join(root, rel), 'utf8'));
-        const list = Array.isArray(raw) ? raw : [];
-        return list
-          .filter((row: { from?: string; to?: string }) => row?.from && row?.to)
-          .map((row: { from: string; to: string; status?: number }) => ({
-            from: String(row.from),
-            to: String(row.to),
-            status: Number(row.status || 301),
-            source: 'repo-json',
-          }));
+        const raw = JSON.parse(readFileSync(join(root, rel), 'utf8')) as
+          | RedirectYamlRow[]
+          | { redirects?: RedirectYamlRow[] };
+        const list = Array.isArray(raw)
+          ? raw
+          : Array.isArray(raw?.redirects)
+            ? raw.redirects
+            : [];
+        const rules = mapRedirectRows(list, 'repo-json');
+        // Skip empty/wrong-shaped files so later candidates can still win.
+        if (rules.length > 0) return rules;
       } catch {
         // try next candidate
       }
@@ -245,19 +267,18 @@ export function parseRankMathRedirectImport(content: string): RuntimeRedirectRul
   }
 
   const parsed = JSON.parse(trimmed) as Record<string, unknown> | unknown[];
-  const candidates = Array.isArray(parsed)
+  const candidates: unknown[] = Array.isArray(parsed)
     ? parsed
-    : Array.isArray((parsed as any).redirects)
-      ? (parsed as any).redirects
-      : Array.isArray((parsed as any).redirections)
-        ? (parsed as any).redirections
-        : Array.isArray((parsed as any).items)
-          ? (parsed as any).items
+    : Array.isArray((parsed as Record<string, unknown>).redirects)
+      ? ((parsed as Record<string, unknown>).redirects as unknown[])
+      : Array.isArray((parsed as Record<string, unknown>).redirections)
+        ? ((parsed as Record<string, unknown>).redirections as unknown[])
+        : Array.isArray((parsed as Record<string, unknown>).items)
+          ? ((parsed as Record<string, unknown>).items as unknown[])
           : [];
 
-  return candidates
-    .map((row) => {
-      const entry = row as Record<string, unknown>;
+  const mapped: Array<RuntimeRedirectRule | null> = candidates.map((row: unknown): RuntimeRedirectRule | null => {
+      const entry = (row && typeof row === 'object' ? row : {}) as Record<string, unknown>;
       const sources = entry.sources;
       const sourceFromArray =
         Array.isArray(sources) && sources.length
@@ -302,9 +323,10 @@ export function parseRankMathRedirectImport(content: string): RuntimeRedirectRul
         status: Number.isFinite(status) ? status : 301,
         source: "rank-math-import",
         importedAt: new Date().toISOString(),
-      } satisfies RuntimeRedirectRule;
-    })
-    .filter((row): row is RuntimeRedirectRule => Boolean(row));
+      };
+  });
+
+  return mapped.filter((row): row is RuntimeRedirectRule => row !== null);
 }
 
 /** Auto-detect JSON vs CSV by content / filename hint. */
