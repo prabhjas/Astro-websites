@@ -91,6 +91,7 @@ export interface BlogPost {
     image?: string;
   };
   schema?: Record<string, unknown>;
+  schemas?: Array<Record<string, unknown>>;
   sourceUrl: string;
   migratedAt: string;
 }
@@ -293,7 +294,7 @@ function buildFeaturedImageHtml(img: BlogImage | null): string {
     return '<!-- no featured image -->';
   }
   const alt = escapeHtml(img.alt || '');
-  return `<img width="1024" height="576" src="${img.src}" class="attachment-large size-large wp-post-image" alt="${alt}" loading="eager" decoding="async" />`;
+  return `<img loading="lazy" width="800" height="450" src="${img.src}" class="attachment-large size-large" alt="${alt}" style="margin-top:-50px;position:relative;z-index:1" />`;
 }
 
 const USER_ICON_SVG =
@@ -327,16 +328,37 @@ function buildBreadcrumbHtml(post: BlogPost): string {
 
 function buildCategoryHtml(categories: BlogPost['categories']): string {
   const name = categories[0]?.name || 'Insights';
-  const url = categories[0]?.url || '/category/staffing/';
-  const localUrl = url.replace(ORIGIN, '');
-  return `<i class="fal fa-tag"></i><a class="term-staffing" href="${localUrl}">${escapeHtml(name)}</a>`;
+  return `<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+  <li class="elementor-icon-list-item elementor-repeater-item-c3cb9b2 elementor-inline-item" itemprop="about">
+    <span class="elementor-icon-list-icon"><i aria-hidden="true" class="fas fa-circle"></i></span>
+    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+      <span class="elementor-post-info__terms-list"><span class="elementor-post-info__terms-list-item">${escapeHtml(name)}</span></span>
+    </span>
+  </li>
+</ul>`;
 }
 
-function buildAuthorHtml(author: BlogPost['author']): string {
+function buildAuthorHtml(author: BlogPost['author'], post: BlogPost): string {
   const name = escapeHtml(author.name || 'KinzaHR');
   const slug = author.slug || (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'connect-2');
   const url = `/author/${slug}/`;
-  return `<a href="${url}" class="fn">${name}</a>`;
+  const readingTime = Math.max(1, Math.ceil(stripHtml(post.contentHtml || '').split(/\s+/).filter(Boolean).length / 200));
+  return `<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+  <li class="elementor-icon-list-item elementor-repeater-item-4a012f8 elementor-inline-item" itemprop="author">
+    <a href="${url}">
+      <span class="elementor-icon-list-icon"><img class="elementor-avatar" src="/wp-content/uploads/2024/05/Nakul-Sachdeva-2-96x96.png" alt="Picture of ${name}" loading="lazy"></span>
+      <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">${name}</span>
+    </a>
+  </li>
+  <li class="elementor-icon-list-item elementor-repeater-item-f50171d elementor-inline-item" itemprop="datePublished">
+    <span class="elementor-icon-list-icon"><i aria-hidden="true" class="fas fa-circle"></i></span>
+    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date"><span class="elementor-post-info__item-prefix">&nbsp;</span><time><!--ASTRO_BLOG:DATE--></time></span>
+  </li>
+  <li class="elementor-icon-list-item elementor-repeater-item-f78c1eb elementor-inline-item">
+    <span class="elementor-icon-list-icon"><i aria-hidden="true" class="fas fa-circle"></i></span>
+    <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-custom">&nbsp;${readingTime} min read</span>
+  </li>
+</ul>`;
 }
 
 function buildDateHtml(publishedAt: string): string {
@@ -376,6 +398,24 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     `<meta property="og:description" content="${escapeHtml(post.og.description || metaDescription)}" />`,
   );
   out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
+  out = out.replace(
+    /<meta\s+property="article:published_time"\s+content="[^"]*"\s*\/?>/i,
+    `<meta property="article:published_time" content="${escapeHtml(post.publishedAt)}" />`,
+  );
+  out = out.replace(
+    /<meta\s+property="article:modified_time"\s+content="[^"]*"\s*\/?>/i,
+    `<meta property="article:modified_time" content="${escapeHtml(post.modifiedAt)}" />`,
+  );
+  out = out.replace(
+    /<meta\s+name="author"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="author" content="${escapeHtml(post.author.name)}" />`,
+  );
+  if (post.twitter.card) {
+    out = out.replace(
+      /<meta\s+name="twitter:card"\s+content="[^"]*"\s*\/?>/i,
+      `<meta name="twitter:card" content="${escapeHtml(post.twitter.card)}" />`,
+    );
+  }
   if (ogImage) {
     if (out.includes('property="og:image"')) {
       out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${ogImage}" />`);
@@ -384,6 +424,19 @@ function patchHeadMeta(html: string, post: BlogPost): string {
     }
   }
   return out;
+}
+
+function injectBlogSchemas(html: string, post: BlogPost): string {
+  const schemas = [...(post.schema ? [post.schema] : []), ...(post.schemas || [])];
+  if (!schemas.length) return html;
+
+  const scripts = schemas
+    .map((schema) => {
+      const json = JSON.stringify(schema).replace(/</g, '\\u003c');
+      return `<script type="application/ld+json">${json}</script>`;
+    })
+    .join('\n');
+  return html.replace('</head>', `${scripts}\n</head>`);
 }
 
 const TOC_STYLES = `<style id="astro-blog-toc-css">
@@ -447,16 +500,17 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     .replace('<!--ASTRO_BLOG:BREADCRUMB-->', buildBreadcrumbHtml(post))
     .replace('<!--ASTRO_BLOG:FEATURED_IMAGE-->', buildFeaturedImageHtml(post.featuredImage))
     .replace('<!--ASTRO_BLOG:CATEGORY-->', buildCategoryHtml(post.categories))
-    .replace('<!--ASTRO_BLOG:AUTHOR-->', post.authorHtml || buildAuthorHtml(post.author))
+    .replace('<!--ASTRO_BLOG:AUTHOR-->', post.authorHtml || buildAuthorHtml(post.author, post))
     .replace(
       '<!--ASTRO_BLOG:TITLE-->',
-      `<h1 class="w-post-elm post_title us_custom_daf733d3 single_wp_heading entry-title color_link_inherit">${escapeHtml(post.title)}</h1>`,
+      `<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(post.title)}</h1>`,
     )
     .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || ''))
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
   html = patchHeadMeta(html, post);
+  html = injectBlogSchemas(html, post);
 
   if (!html.includes('astro-blog-toc-css')) {
     html = html.replace('</head>', `${TOC_STYLES}\n</head>`);
