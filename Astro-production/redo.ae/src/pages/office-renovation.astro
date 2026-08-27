@@ -16,7 +16,7 @@ import {
 } from '../lib/shared-chrome.js';
 
 const headerHtml = getSharedHeaderHtmlForSlug('office-renovation');
-const footerHtml = injectLicenceSection(getSharedFooterHtml());
+const footerHtml = injectLicenceSection(getSharedFooterHtml() || '');
 const chromeCssHtml = getSharedChromeStylesheetLinksHtml();
 const chromeScriptsHtml = getSharedChromeScriptsHtml({
   postId: 0,
