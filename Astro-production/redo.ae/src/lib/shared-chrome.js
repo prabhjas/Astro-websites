@@ -118,6 +118,113 @@ export function getSharedFooterHtml() {
   return cachedFooter;
 }
 
+/**
+ * Shared Theme Builder header with current-page menu classes for Astro pages.
+ * Same HTML fragment Home/Apartment use (data-elementor-id="13").
+ * @param {string} slug public path slug, e.g. "office-renovation"
+ */
+export function getSharedHeaderHtmlForSlug(slug) {
+  return markCurrentMenuItem(stripMenuDummyHashHrefs(getSharedHeaderHtml()), slug);
+}
+
+/**
+ * Stylesheets that style the shared Elementor header (13) + footer (67),
+ * matching Home and Apartment Renovation chrome.
+ */
+export function getSharedChromeStylesheetLinksHtml() {
+  const hrefs = [
+    '/wp-content/themes/hello-elementor/style.css',
+    '/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/theme.css',
+    '/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/header-footer.css',
+    '/wp-content/cache/min/1/wp-content/themes/hello-elementor-child-theme/style.css',
+    '/wp-content/plugins/elementor/assets/css/frontend.min.css',
+    '/wp-content/plugins/elementor/assets/css/widget-heading.min.css',
+    '/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css',
+    '/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css',
+    '/wp-content/plugins/elementor/assets/css/widget-image.min.css',
+    '/wp-content/plugins/elementor-pro/assets/css/widget-nav-menu.min.css',
+    '/wp-content/plugins/elementor-pro/assets/css/widget-mega-menu.min.css',
+    '/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/modules/mobile-menu/assets/css/ecs-mobile-menu.css',
+    '/wp-content/cache/min/1/wp-content/plugins/ele-custom-skin/assets/css/ecs-style.css',
+    '/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css',
+    '/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css',
+    '/wp-content/uploads/elementor/css/post-6.css',
+    '/wp-content/uploads/elementor/css/post-13.css',
+    '/wp-content/uploads/elementor/css/post-67.css',
+    '/wp-content/cache/min/1/wp-content/uploads/elementor/google-fonts/css/syncopate.css',
+    FORM_CSS_HREF,
+    HEADER_CSS_HREF,
+  ];
+  return hrefs
+    .map((href) => {
+      const marks = [`data-redo-shared-chrome="1"`];
+      if (href === FORM_CSS_HREF) marks.push(`${FORM_CSS_MARK}="1"`);
+      if (href === HEADER_CSS_HREF) marks.push(`${HEADER_CSS_MARK}="1"`);
+      return `<link rel="stylesheet" href="${href}" ${marks.join(' ')} />`;
+    })
+    .join('\n');
+}
+
+/**
+ * Elementor + Hello scripts required for shared header mega-menu (e-n-menu)
+ * and footer behaviour — same stack Home/Apartment load.
+ * @param {{ postId?: number, title?: string }} [opts]
+ */
+export function getSharedChromeScriptsHtml(opts = {}) {
+  const postId = opts.postId ?? 0;
+  const title = encodeURIComponent(opts.title ?? 'REDO');
+  const config = {
+    environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+    i18n: {},
+    is_rtl: false,
+    breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+    responsive: {
+      breakpoints: {
+        mobile: { label: 'Mobile Portrait', value: 767, default_value: 767, direction: 'max', is_enabled: true },
+        tablet: { label: 'Tablet Portrait', value: 1024, default_value: 1024, direction: 'max', is_enabled: true },
+      },
+      hasCustomBreakpoints: false,
+    },
+    version: '4.1.4',
+    is_static: false,
+    experimentalFeatures: { 'nested-elements': true, 'mega-menu': true, container: true },
+    urls: {
+      assets: '/wp-content/plugins/elementor/assets/',
+      ajaxurl: '/wp-admin/admin-ajax.php',
+      uploadUrl: '/wp-content/uploads',
+    },
+    nonces: {},
+    swiperClass: 'swiper',
+    settings: { page: [], editorPreferences: [] },
+    kit: {
+      active_breakpoints: ['viewport_mobile', 'viewport_tablet'],
+      hello_header_logo_type: 'title',
+      hello_header_menu_layout: 'horizontal',
+    },
+    post: { id: postId, title, excerpt: '', featuredImage: false },
+  };
+
+  const scripts = [
+    '/wp-includes/js/jquery/jquery.min.js',
+    '/wp-includes/js/jquery/jquery-migrate.min.js',
+    '/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/js/hello-frontend.js',
+    '/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js',
+    '/wp-content/plugins/elementor/assets/js/frontend-modules.min.js',
+    '/wp-includes/js/jquery/ui/core.min.js',
+    '/wp-content/plugins/elementor/assets/js/frontend.min.js',
+    '/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js',
+    '/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js',
+    '/wp-content/plugins/elementor-pro/assets/js/frontend.min.js',
+    '/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js',
+  ];
+
+  const configTag = `<script data-redo-shared-chrome="1">var elementorFrontendConfig = ${JSON.stringify(config)};</script>`;
+  const scriptTags = scripts
+    .map((src) => `<script src="${src}" data-redo-shared-chrome="1"></script>`)
+    .join('\n');
+  return `${configTag}\n${scriptTags}`;
+}
+
 function getLicenceSectionHtml() {
   if (cachedLicence == null) {
     if (!existsSync(LICENCE_PATH)) return '';

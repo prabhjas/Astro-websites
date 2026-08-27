@@ -1,0 +1,723 @@
+---
+/**
+ * Office renovation service page.
+ * Design: Figma REDO Website By Alejandro, node 629:3333 (SERVICEPAGE DESKTOP V2).
+ */
+export const prerender = false;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EstimateForm from '../components/lp-best-renovation/EstimateForm.astro';
+import {
+  getSharedChromeScriptsHtml,
+  getSharedChromeStylesheetLinksHtml,
+  getSharedFooterHtml,
+  getSharedHeaderHtmlForSlug,
+  injectLicenceSection,
+} from '../lib/shared-chrome.js';
+
+const headerHtml = getSharedHeaderHtmlForSlug('office-renovation');
+const footerHtml = injectLicenceSection(getSharedFooterHtml());
+const chromeCssHtml = getSharedChromeStylesheetLinksHtml();
+const chromeScriptsHtml = getSharedChromeScriptsHtml({
+  postId: 0,
+  title: 'Office Renovation Dubai | Workplace Fit-Out by REDO',
+});
+
+const partners = [
+  { src: '/wp-content/uploads/2024/09/Bango-Design.png', alt: 'BAGNODESIGN' },
+  { src: '/wp-content/uploads/2024/09/Dulux.png', alt: 'Dulux' },
+  { src: '/wp-content/uploads/2024/09/Danube-Group.png', alt: 'Danube Group' },
+  { src: '/wp-content/uploads/2024/09/Berger.png', alt: 'Berger' },
+  { src: '/wp-content/uploads/2024/09/Caparol.png', alt: 'Caparol' },
+  { src: '/wp-content/uploads/2024/09/Meraki.png', alt: 'Meraki Ceramics' },
+  { src: '/wp-content/uploads/2024/09/ELBA.png', alt: 'ELBA' },
+];
+
+const projects = [
+  {
+    src: '/service/office-renovation/gallery-1.jpg',
+    alt: 'Office workspace before renovation',
+  },
+  {
+    src: '/service/office-renovation/gallery-2.jpg',
+    alt: 'Modern reception with blue feature wall',
+  },
+  {
+    src: '/service/office-renovation/gallery-3.png',
+    alt: 'Collaborative meeting space with high tables',
+  },
+  {
+    src: '/service/office-renovation/gallery-4.png',
+    alt: 'Communal breakroom with wooden tables',
+  },
+];
+
+const quotes = [
+  {
+    text: 'REDO is the most reliable renovation company we’ve ever worked with! My mom and I needed to make our home more accessible for her, and their expertise made it perfect. The bathroom, the stairs, even the hallways— all feel safer. My mom is more comfortable than ever, and our home feels completely transformed with just a few thoughtful changes!',
+    name: '- Mark J',
+    photo: '/wp-content/uploads/2024/09/1-2.png',
+  },
+  {
+    text: 'I was looking for a renovation company near me and hit the jackpot with REDO! They’ve been amazing in helping me renovate my interiors and install a brand-new HVAC system. Their support was incredible, and now my home feels so much more comfortable and cozy. They truly are the best in the business!',
+    name: '- David M',
+    photo: '/wp-content/uploads/2024/01/testimonial-1.png',
+  },
+  {
+    text: 'As a custom home renovation company, REDO exceeded all my expectations! I’ve lived in my house for a year, but my kitchen always felt off. Their team listened to my ideas, transformed the space, and gave me the kitchen of my dreams. I couldn’t be happier with how it turned out!',
+    name: 'Lily R.',
+    photo: '/wp-content/uploads/2024/01/testimonial-4.png',
+  },
+  {
+    text: 'I was nervous about starting a bathroom renovation, but REDO made it so easy! They guided me through every step, from design to ensuring everything—plumbing, electrical—was done perfectly. My bathroom looks incredible now, and the whole process was way smoother than I ever expected!',
+    name: '- Omar Farooq',
+    photo: '/wp-content/uploads/2024/01/testimonial-3.png',
+  },
+];
+
+const compareRows = [
+  {
+    cat: 'PRICE',
+    yes: ['No hidden costs', 'Competitive Pricing, Lowest Price Guarantee for Branded Products'],
+    no: ['20-40% Hike betweens first quote & final cost', 'Higher prices charged for branded products'],
+  },
+  {
+    cat: 'CONVENIENCE',
+    yes: ['One Stop Shop for all interior and Home Renovations needs'],
+    no: ['Approx 15-20 market trips to the find everything'],
+  },
+  {
+    cat: 'DESIGN',
+    yes: ['Free Design Consultation', 'Personalised Design with 3D Visuals'],
+    no: ['No Design or Cookie-cutter designs and 2D visuals', '3D Designs at extra cost'],
+  },
+  {
+    cat: 'TIMELINES',
+    yes: ['45 Days installations for kitchens, wardrobes and cabinets', 'Regular updates with Project tracking'],
+    no: ['Unreliable timelines', 'No communication or Update delays'],
+  },
+  {
+    cat: 'QUALITY',
+    yes: ['Branded material primarily procured directly from manufacturers', 'Quality Checks'],
+    no: ['Inferior material used to cut costs', 'No quality check', 'Out sourced to small contractors'],
+  },
+  {
+    cat: 'WARRANTY',
+    yes: [
+      'Upto 10 year warranty on kitchens, Wardrobes and cabinets Works',
+      'Warranty for painting Works provided by the Paint manufactured for large projects.',
+    ],
+    no: ['No warranty offered for products or services'],
+  },
+];
+---
+
+<BaseLayout
+  showChrome={false}
+  bodyClass="wp-singular page page-template-default page-id-office-renovation wp-embed-responsive wp-theme-hello-elementor wp-child-theme-hello-elementor-child-theme hello-elementor-default elementor-default elementor-kit-6 elementor-page"
+  seo={{
+    title: 'Office Renovation Dubai | Workplace Fit-Out by REDO',
+    description:
+      'Office renovation in Dubai by REDO: space planning, interior fit-out, furniture, and technology integration. Transparent pricing, licensed team, and a clear programme.',
+    robots: 'index, follow',
+    canonical: 'https://redo.ae/office-renovation/',
+    og: {
+      title: 'Office Renovation Dubai | Workplace Fit-Out by REDO',
+      description:
+        'Office renovation in Dubai by REDO: space planning, interior fit-out, furniture, and technology integration.',
+      type: 'website',
+      image: '/wp-content/uploads/2025/08/After-office-renovation-1.webp',
+    },
+  }}
+>
+  <Fragment slot="head">
+    <Fragment set:html={chromeCssHtml} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/wp-content/plugins/country-phone-field-contact-form-7/assets/css/intlTelInput.min.css" />
+    <link rel="stylesheet" href="/css/redo-licence.css" />
+    <link
+      rel="stylesheet"
+      href="/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/css/frontend.css"
+    />
+    <link rel="stylesheet" href="/wp-content/cache/min/1/wp-includes/css/dashicons.min.css" />
+    <style>
+      .cww-ssf-outer-wrapp .cww-ssf-toggle,
+      .cww-ssf-outer-wrapp .cww-ssf-toggle:visited {
+        background-color: #1f2125;
+        border-color: #1f2125;
+        color: #fff;
+      }
+      .cww-ssf-outer-wrapp .cww-ssf-toggle:hover {
+        background-color: #e51515;
+        border-color: #e51515;
+      }
+    </style>
+    <link rel="stylesheet" href="/css/page-design/office-renovation.css" />
+    <style>
+      @font-face {
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: normal;
+        font-display: swap;
+        src: url('/wp-content/uploads/2023/12/sf-pro-text-regular.woff') format('woff'),
+          url('/wp-content/uploads/2023/12/SF-Pro-Display-Regular.ttf') format('truetype');
+      }
+    </style>
+  </Fragment>
+
+  {/* Shared Home/Apartment Elementor header (theme builder id 13) */}
+  <Fragment set:html={headerHtml} />
+
+  <div class="or-page">
+    <!-- Section 1: Hero (Figma 629:3337) -->
+    <section
+      class="or-hero"
+      id="enquire"
+      style="background-image:url('/service/office-renovation/hero-bg.png')"
+    >
+      <div class="or-wrap or-hero__grid">
+        <div class="or-hero__copy">
+          <h1>
+            DUBAI’S TRUSTED <span class="or-hero__grad">OFFICE RENOVATION</span> EXPERTS
+          </h1>
+          <p>
+            With years of experience, we specialise in transforming workspaces. Your office isn’t just where you
+            work; it’s a reflection of your brand—a powerful business card. From planning to full renovation, our
+            team handles every detail so you can focus on what matters, stress-free.
+          </p>
+          <p class="or-hero__cta-line">Ready to elevate your space? Contact us today!</p>
+          <img
+            class="or-cert"
+            src="/service/office-renovation/certified-badge.svg"
+            alt="Certified renovation company"
+            width="256"
+            height="75"
+          />
+        </div>
+        <div class="or-hero__form">
+          <EstimateForm
+            formId="or-hero-form"
+            formName="Office renovation service — hero"
+            theme="light"
+            showMessage={true}
+            messageLabel="Message (Optional)"
+            messagePlaceholder="Your message..."
+            phonePlaceholder="Your number"
+            showWhatsapp={false}
+            buttonLabel="Get in Touch"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Why choose REDO (Figma 633:5181) -->
+    <section class="or-split or-split--why">
+      <div class="or-split__media">
+        <img
+          src="/service/office-renovation/why-choose-redo.png"
+          alt="Office reception renovation by REDO"
+          width="756"
+          height="650"
+        />
+      </div>
+      <div class="or-split__copy">
+        <h2>WHY CHOOSE REDO FOR YOUR OFFICE RENOVATION?</h2>
+        <div class="or-why-grid">
+          <article>
+            <h3>
+              <img class="or-check-img" src="/service/office-renovation/check-circle.svg" alt="" width="26" height="26" />
+              Expert-Led Precision
+            </h3>
+            <p>
+              Your office renovation will be overseen by seasoned professionals with a proven track record of
+              delivering exceptional results.
+            </p>
+          </article>
+          <article>
+            <h3>
+              <img class="or-check-img" src="/service/office-renovation/check-circle.svg" alt="" width="26" height="26" />
+              Licensed &amp; Trusted
+            </h3>
+            <p>
+              We are a fully licensed Dubai renovation company, ensuring compliance with all regulations and safety
+              standards.
+            </p>
+          </article>
+          <article>
+            <h3>
+              <img class="or-check-img" src="/service/office-renovation/check-circle.svg" alt="" width="26" height="26" />
+              Transparent Pricing
+            </h3>
+            <p>Receive detailed, competitive quotes upfront with no hidden costs or surprises.</p>
+          </article>
+          <article>
+            <h3>
+              <img class="or-check-img" src="/service/office-renovation/check-circle.svg" alt="" width="26" height="26" />
+              Warranty &amp; Support
+            </h3>
+            <p>
+              Enjoy peace of mind with our 1-year warranty on essential installations and ongoing support to keep
+              your workspace in top condition.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: What we offer (Figma 705:3620) -->
+    <section class="or-split or-split--offer">
+      <div class="or-split__copy">
+        <h2>WHAT WE OFFER?</h2>
+        <div class="or-offer-list">
+          <article>
+            <h3>Space Planning and Design</h3>
+            <p>Optimise your office layout for maximum efficiency and employee well-being.</p>
+          </article>
+          <article>
+            <h3>Transform your small into a bigger &amp; better one</h3>
+            <p>
+              Feeling cramped and confined in your current workspace? REDO can help you maximize your existing space
+              and create an office that feels bigger, brighter, and more functional.
+            </p>
+          </article>
+          <article>
+            <h3>Interior Fit-Out</h3>
+            <p>Create a modern and functional workspace with high-quality finishes and detailing.</p>
+          </article>
+          <article>
+            <h3>Furniture Selection and Installation</h3>
+            <p>Source and install stylish and ergonomic furniture to enhance productivity and comfort.</p>
+          </article>
+          <article>
+            <h3>Technology Integration</h3>
+            <p>Adding technology into your workspace for enhanced connectivity and collaboration.</p>
+          </article>
+        </div>
+      </div>
+      <div class="or-split__media">
+        <img
+          src="/service/office-renovation/what-we-offer.png"
+          alt="Modern office corridor after renovation in Dubai"
+          width="756"
+          height="650"
+        />
+      </div>
+    </section>
+
+    <!-- Section 4: Client stories — same structure as homepage -->
+    <section class="or-quotes" id="clients">
+      <div class="or-wrap">
+        <h2>OUR CLIENT STORIES</h2>
+        <p class="or-lead">
+          From fresh designs to impressive results, our clients live the REDO magic every day.
+        </p>
+        <div class="or-quotes__slider">
+          <button class="or-quotes__arrow" type="button" aria-label="Previous" data-or-quotes-prev>
+            <svg aria-hidden="true" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M646 125C629 125 613 133 604 142L308 442C296 454 292 471 292 487 292 504 296 521 308 533L604 854C617 867 629 875 646 875 663 875 679 871 692 858 704 846 713 829 713 812 713 796 708 779 692 767L438 487 692 225C700 217 708 204 708 187 708 171 704 154 692 142 675 129 663 125 646 125Z"
+              ></path>
+            </svg>
+          </button>
+          <div class="or-quotes__viewport">
+            <div class="or-quotes__track" data-or-quotes-track>
+              {
+                quotes.map((item) => (
+                  <article class="or-quote">
+                    <div class="or-quote__text">
+                      <img
+                        class="or-quote__mark"
+                        src="/wp-content/uploads/2023/12/quote-icon.png"
+                        alt=""
+                        width="104"
+                        height="104"
+                      />
+                      <p>{item.text}</p>
+                    </div>
+                    <div class="or-quote__who">
+                      <img src={item.photo} alt="" width="72" height="72" />
+                      <cite>{item.name}</cite>
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+          <button class="or-quotes__arrow" type="button" aria-label="Next" data-or-quotes-next>
+            <svg aria-hidden="true" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M696 533C708 521 713 504 713 487 713 471 708 454 696 446L400 146C388 133 375 125 354 125 338 125 325 129 313 142 300 154 292 171 292 187 292 204 296 221 308 233L563 492 304 771C292 783 288 800 288 817 288 833 296 850 308 863 321 871 338 875 354 875 371 875 388 867 400 854L696 533Z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Gradient CTA + quote form (Figma 737:3573) -->
+    <section class="or-cta" id="quote">
+      <div class="or-wrap or-cta__inner">
+        <div class="or-cta__copy">
+          <h2>READY TO REIMAGINE YOUR WORKSPACE?</h2>
+          <p>
+            At <strong>REDO</strong>, your renovation cost is based on your space, the scope of work, and chosen
+            materials—ensuring transparent and fair pricing. Unlike others, we never add hidden fees or unnecessary
+            charges. Our goal is clear: to deliver accurate pricing from start to finish, with no surprises—just
+            exceptional results.
+          </p>
+        </div>
+        <div class="or-cta__form">
+          <p class="or-cta__form-lead">
+            <strong>Fill the form</strong> and find out how much would cost to renovate your Office.
+          </p>
+          <EstimateForm
+            formId="or-mid-form"
+            formName="Office renovation service — quote"
+            theme="light"
+            showMessage={true}
+            messageLabel="Message (Optional)"
+            messagePlaceholder=""
+            showWhatsapp={false}
+            buttonLabel="Get in Touch"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: REDO vs typical comparison (Figma 703:3482) -->
+    <section class="or-compare">
+      <div class="or-wrap or-compare__wrap">
+        <div class="or-table" role="table">
+          <div class="or-table__head" role="row">
+            <div class="or-table__logo" role="columnheader">
+              <img src="/service/office-renovation/logo-redo-dark.svg" alt="REDO" width="148" height="40" />
+            </div>
+            <div role="columnheader">REDO Renovation Experience</div>
+            <div role="columnheader">Typical Experience</div>
+          </div>
+          {
+            compareRows.map((row) => (
+              <div class="or-table__row" role="row">
+                <div class="or-cat" role="cell">{row.cat}</div>
+                <div class="or-yes" role="cell">
+                  {row.yes.map((line) => (
+                    <span class="or-flag">
+                      <img src="/service/office-renovation/fe-check.svg" alt="" width="15" height="15" />
+                      {line}
+                    </span>
+                  ))}
+                </div>
+                <div class="or-no" role="cell">
+                  {row.no.map((line) => (
+                    <span class="or-flag">
+                      <img src="/service/office-renovation/fe-check.svg" alt="" width="15" height="15" />
+                      {line}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Latest projects (Figma 649:5870) -->
+    <section class="or-projects" id="projects">
+      <div class="or-wrap or-projects__wrap">
+        <p class="or-kicker">PROJECTS</p>
+        <div class="or-projects__head">
+          <button class="or-projects__nav" type="button" data-or-gallery-prev>
+            <span class="or-projects__nav-arrow" aria-hidden="true">←</span>
+            <span>PREVIOUS</span>
+          </button>
+          <div class="or-projects__titles">
+            <h2>Our latest work in Jumeirah Golf Estates</h2>
+            <span class="or-note">(*Displayed pictures are approved by the property owner)</span>
+          </div>
+          <button class="or-projects__nav" type="button" data-or-gallery-next>
+            <span>NEXT</span>
+            <span class="or-projects__nav-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+      <div class="or-gallery" data-or-gallery>
+        <div class="or-gallery__track" data-or-gallery-track>
+          {
+            projects.map((item) => (
+              <img src={item.src} alt={item.alt} width="490" height="312" loading="lazy" />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 8: Partners (Figma 904:3707) -->
+    <section class="or-partners">
+      <h2>our partners</h2>
+      <div class="or-partners__row">
+        {
+          partners.map((logo) => (
+            <img src={logo.src} alt={logo.alt} width="120" height="48" loading="lazy" />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Section 9: Team (Figma 741:3616 + 703:3481) -->
+    <section class="or-team-block" aria-label="Our team">
+      <div class="or-team-banner">our Team</div>
+      <div class="or-team">
+        <img
+          src="/service/office-renovation/team.jpg"
+          alt="REDO team"
+          width="1512"
+          height="486"
+          loading="lazy"
+        />
+      </div>
+    </section>
+
+    <!-- Section 10: Book a consultation (Figma 629:5005) -->
+    <section
+      class="or-book"
+      id="consult"
+      style="background-image:url('/service/office-renovation/book-bg.jpg')"
+    >
+      <div class="or-wrap or-book__inner">
+        <div class="or-book__copy">
+          <img
+            class="or-chat"
+            src="/service/office-renovation/chat-icon.svg"
+            alt=""
+            width="67"
+            height="67"
+          />
+          <h2>BOOK A CONSULTATION<br />WITH US</h2>
+        </div>
+        <EstimateForm
+          formId="or-book-form"
+          formName="Office renovation service — consultation"
+          theme="light"
+          showMessage={true}
+          showWhatsapp={false}
+          buttonLabel="Get in Touch"
+        />
+      </div>
+    </section>
+  </div>
+
+  {/* Shared Elementor footer with LICENSE DETAILS below main columns (Home / Exterior order) */}
+  <Fragment set:html={footerHtml} />
+
+  {/* Sticky REQUEST INQUIRY — same Sticky Floating Forms widget as Exterior Revamp */}
+  <div id="cww-sff-disp-wrap-outer" class="cww-ssf-outer-wrapp btn-position-right modal">
+    <div class="cww-sff-inner">
+      <div class="toggle-wrapp layout-one">
+        <a class="cww-ssf-toggle" href="javascript:void(0)">REQUEST INQUIRY</a>
+      </div>
+      <div class="cww-sff-wrapp">
+        <i class="dashicons dashicons-no-alt" aria-label="Close"></i>
+        <div class="or-sticky-form">
+          <EstimateForm
+            formId="or-sticky-form"
+            formName="Office renovation service — sticky inquiry"
+            theme="light"
+            showMessage={true}
+            messageLabel="Message (Optional)"
+            messagePlaceholder="Your message..."
+            phonePlaceholder="Your number"
+            showWhatsapp={false}
+            buttonLabel="Get in Touch"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cww-sf-form-overlay"></div>
+
+  <Fragment set:html={chromeScriptsHtml} />
+  <script src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js" is:inline></script>
+  <script is:inline>
+    var sff_data = { ajaxurl: '/wp-admin/admin-ajax.php', open_type: 'modal' };
+  </script>
+  <script
+    defer
+    src="/wp-content/cache/min/1/wp-content/plugins/sticky-floating-forms-lite/assets/js/frontend.js"
+  ></script>
+  <script src="/js/astro-mirror-fixes.js?v=geo1" defer></script>
+  <script>
+    // @ts-nocheck
+    import { captureAttribution, populateAttributionFields } from '../lib/attribution/client';
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var gallery = document.querySelector('[data-or-gallery]');
+      var galleryTrack = document.querySelector('[data-or-gallery-track]');
+      var galleryPrev = document.querySelector('[data-or-gallery-prev]');
+      var galleryNext = document.querySelector('[data-or-gallery-next]');
+
+      function bindSmoothCarousel(track, prevBtn, nextBtn, gapDesktop, gapMobile) {
+        if (!track || !prevBtn || !nextBtn) return;
+        var busy = false;
+
+        function gapNow() {
+          if (typeof gapMobile === 'number' && window.matchMedia('(max-width: 960px)').matches) {
+            return gapMobile;
+          }
+          return gapDesktop;
+        }
+
+        function slide(dir) {
+          if (busy) return;
+          var items = Array.prototype.slice.call(track.children);
+          if (items.length < 2) return;
+          var gap = gapNow();
+          var step = items[0].getBoundingClientRect().width + gap;
+          busy = true;
+
+          if (dir < 0) {
+            track.style.transition = 'none';
+            track.insertBefore(items[items.length - 1], items[0]);
+            track.style.transform = 'translateX(' + -step + 'px)';
+            void track.offsetWidth;
+            track.style.transition = 'transform 0.45s ease';
+            track.style.transform = 'translateX(0)';
+            function finishPrev() {
+              track.removeEventListener('transitionend', finishPrev);
+              track.style.transition = '';
+              busy = false;
+            }
+            track.addEventListener('transitionend', finishPrev);
+            return;
+          }
+
+          track.style.transition = 'transform 0.45s ease';
+          track.style.transform = 'translateX(' + -step + 'px)';
+          function finishNext() {
+            track.removeEventListener('transitionend', finishNext);
+            track.style.transition = 'none';
+            track.appendChild(items[0]);
+            track.style.transform = 'translateX(0)';
+            void track.offsetWidth;
+            track.style.transition = '';
+            busy = false;
+          }
+          track.addEventListener('transitionend', finishNext);
+        }
+
+        prevBtn.addEventListener('click', function () {
+          slide(-1);
+        });
+        nextBtn.addEventListener('click', function () {
+          slide(1);
+        });
+      }
+
+      bindSmoothCarousel(galleryTrack, galleryPrev, galleryNext, 10, 10);
+      bindSmoothCarousel(
+        document.querySelector('[data-or-quotes-track]'),
+        document.querySelector('[data-or-quotes-prev]'),
+        document.querySelector('[data-or-quotes-next]'),
+        48,
+        0,
+      );
+
+      document.querySelectorAll('.lp-form').forEach(function (form) {
+        var submitBtn = form.querySelector('button[type="submit"]');
+        var status = form.querySelector('.lp-form__status');
+        var submitting = false;
+        var formId = form.id;
+        var formName = form.getAttribute('data-form-name') || '';
+
+        function setHidden(name, value) {
+          var input = form.querySelector('[name="' + name + '"]');
+          if (input) input.value = value || '';
+        }
+
+        function captureTracking() {
+          var captured = captureAttribution(formId, formName);
+          populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+          setHidden('page_url', window.location.href);
+          setHidden('submission_page_url', window.location.href);
+          setHidden('referrer_url', document.referrer || '');
+          if (!form.dataset.submissionId) form.dataset.submissionId = crypto.randomUUID();
+          setHidden('submission_id', form.dataset.submissionId);
+        }
+
+        captureTracking();
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (submitting) return;
+          form.querySelectorAll('.lp-form__error').forEach(function (el) {
+            el.textContent = '';
+          });
+          if (status) {
+            status.hidden = true;
+            status.textContent = '';
+            status.classList.remove('lp-form__status--error', 'lp-form__status--success');
+          }
+          captureTracking();
+          setHidden('submitted_at', new Date().toISOString());
+
+          var phone = form.querySelector('.cg-phone-input');
+          var countryCodeInput = form.querySelector('[name="phone-country-code"]');
+          if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
+            try {
+              var full = window.jQuery(phone).intlTelInput('getNumber');
+              if (full) phone.value = full;
+              var dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
+              if (dial && countryCodeInput) countryCodeInput.value = '+' + dial.dialCode;
+            } catch (err) {}
+          }
+
+          submitting = true;
+          if (submitBtn) submitBtn.disabled = true;
+
+          fetch('/api/contact/', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (status) status.hidden = false;
+              if (result.ok && result.data && result.data.success) {
+                if (status) {
+                  status.textContent = result.data.message || 'Thank you. Your enquiry has been received.';
+                  status.classList.add('lp-form__status--success');
+                }
+                form.reset();
+                form.dataset.submissionId = crypto.randomUUID();
+                captureTracking();
+                return;
+              }
+              if (status) {
+                status.textContent =
+                  (result.data && result.data.message) ||
+                  'We could not submit your enquiry at the moment. Please try again shortly.';
+                status.classList.add('lp-form__status--error');
+              }
+            })
+            .catch(function () {
+              if (status) {
+                status.hidden = false;
+                status.textContent = 'We could not submit your enquiry at the moment. Please try again shortly.';
+                status.classList.add('lp-form__status--error');
+              }
+            })
+            .finally(function () {
+              submitting = false;
+              if (submitBtn) submitBtn.disabled = false;
+            });
+        });
+      });
+    });
+  </script>
+</BaseLayout>

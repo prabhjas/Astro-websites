@@ -1,5 +1,44 @@
 /* Redo shared header — primary look comes from Astra/Elementor CSS */
 
+/*
+ * Text-color parity with Home / Exterior (Elementor kit + mega-menu defaults).
+ * Astro service pages load page CSS after chrome; keep header/footer colors stable.
+ */
+.elementor-kit-6 .elementor-location-header .e-n-menu-title,
+.elementor-kit-6 .elementor-location-header .e-n-menu-title a,
+.elementor-kit-6 .elementor-location-header .e-n-menu-title-text {
+  color: #1f2124;
+}
+
+.elementor-kit-6 .elementor-location-header .e-n-menu-title:hover:not(.e-current),
+.elementor-kit-6 .elementor-location-header .e-n-menu-title:hover:not(.e-current) a {
+  color: #903579;
+}
+
+/* Mega-menu service titles must stay dark (kit `a` is accent red). */
+.elementor-kit-6 .elementor-location-header .e-n-menu-content .elementor-icon-box-title,
+.elementor-kit-6 .elementor-location-header .e-n-menu-content .elementor-icon-box-title a,
+.elementor-kit-6 .elementor-location-header .e-n-menu-content .elementor-heading-title a {
+  color: #1f2125;
+}
+
+.elementor-kit-6 .elementor-location-header .top-bar .elementor-icon-list-text,
+.elementor-kit-6 .elementor-location-header .top-bar a {
+  color: #ffffff;
+}
+
+.elementor-kit-6 .elementor-location-footer .elementor-heading-title {
+  color: var(--e-global-color-primary, #1f2125);
+}
+
+.elementor-kit-6 .elementor-location-footer .elementor-icon-list-text {
+  color: var(--e-global-color-secondary, #1f2125);
+}
+
+.elementor-kit-6 .elementor-location-footer .elementor-widget-text-editor {
+  color: var(--e-global-color-text, #1f2125);
+}
+
 /* Hide dummy '#' on submenu / dropdown hover.
    Elementor pointer ::before and WP heading permalinks must not show on
    dropdown links. Top-level underline pointers and carets stay intact. */
