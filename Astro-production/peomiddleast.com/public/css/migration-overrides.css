@@ -68,15 +68,46 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Service heroes (us_custom_8d45c27c) — match live WP, no layout overrides.
-   Prior padding on ALL nested .vc_column-inner inflated the gap between the
-   ministry badge and “Get a free quote”, and min-height/overflow fights
-   clipped the flag under the fixed header. Leave spacing to theme CSS. */
+/* Service heroes (us_custom_8d45c27c / hr-consultancy-uae peers)
+   Live WP uses headerinpos_top + valign_middle, so the flag sits under the
+   fixed header (clipped) and the left stack feels sparse. Fix:
+   - top-align ONLY the blue text column (not nested CTA columns)
+   - pad that column’s direct inner by --header-height so the flag clears
+   - tighten Approved-by → “Get a free quote” spacing                          */
 /* -------------------------------------------------------------------------- */
 .l-section .us_custom_85dc4b2d,
 .wpb_column.us_custom_85dc4b2d {
   background-size: cover !important;
   background-position: center center !important;
+}
+
+.l-section.us_custom_8d45c27c > .l-section-h > .g-cols > .wpb_column.us_custom_85dc4b2d {
+  justify-content: flex-start !important;
+}
+
+.l-section.us_custom_8d45c27c > .l-section-h > .g-cols > .wpb_column.us_custom_85dc4b2d > .vc_column-inner {
+  padding-top: calc(var(--peo-header-offset) + 0.75rem) !important;
+  padding-bottom: 2rem !important;
+}
+
+/* Approved-by block: design-options uses margin-bottom:20px; pull CTA closer */
+.l-section.us_custom_8d45c27c .us_custom_a56cc4b2 {
+  margin-bottom: 0.35rem !important;
+}
+
+.l-section.us_custom_8d45c27c .us_custom_a56cc4b2 .wpb_wrapper > p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.l-section.us_custom_8d45c27c .us_custom_85dc4b2d > .vc_column-inner > .g-cols.wpb_row {
+  margin-top: 0.25rem !important;
+}
+
+@media (max-width: 1024px) {
+  .l-section.us_custom_8d45c27c > .l-section-h > .g-cols > .wpb_column.us_custom_85dc4b2d > .vc_column-inner {
+    padding-top: calc(var(--peo-header-offset) + 0.5rem) !important;
+    padding-bottom: 1.5rem !important;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
