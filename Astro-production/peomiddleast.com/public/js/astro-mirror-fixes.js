@@ -3350,11 +3350,136 @@
     safe(ensureTestimonialSwiper);
   }
 
+  /**
+   * Keep scroll-to-top clear of the GTM WhatsApp float.
+   * Impreza toggles .w-toplink.active on scroll and resets right:0 — re-assert
+   * on scroll so they do not overlap again while scrolling.
+   */
+  function ensureFabStack() {
+    var toplink = document.querySelector('a.w-toplink');
+    if (toplink) {
+      // Sit to the LEFT of the WhatsApp circle (WA stays bottom-right).
+      toplink.style.setProperty('bottom', '20px', 'important');
+      toplink.style.setProperty('right', '90px', 'important');
+      toplink.style.setProperty('left', 'auto', 'important');
+      toplink.style.setProperty('margin', '0', 'important');
+      toplink.style.setProperty('z-index', '9998', 'important');
+    }
+
+    function looksLikeWhatsApp(el) {
+      if (!el || el === toplink) return false;
+      if (el.closest && el.closest('a.w-toplink')) return false;
+      var href = ((el.getAttribute && el.getAttribute('href')) || '') +
+        ((el.getAttribute && el.getAttribute('src')) || '');
+      var cls = (el.className && String(el.className)) || '';
+      var id = el.id || '';
+      var aria = ((el.getAttribute && el.getAttribute('aria-label')) || '') +
+        ((el.getAttribute && el.getAttribute('title')) || '');
+      var blob = (href + ' ' + cls + ' ' + id + ' ' + aria).toLowerCase();
+      if (/wa\.me|whatsapp|joinchat|ht-ctc|wws-|chaty|floating-wapp|nifty|getbutton/.test(blob)) {
+        return true;
+      }
+      if (el.querySelector) {
+        if (el.querySelector('i.fa-whatsapp, .fa-whatsapp, [class*="whatsapp"]')) return true;
+        if (el.querySelector('img[src*="whatsapp"], img[alt*="WhatsApp" i], img[alt*="whatsapp" i]')) return true;
+      }
+      return false;
+    }
+
+    function placeWhatsApp(el) {
+      var target = el;
+      var walk = el;
+      for (var d = 0; d < 6 && walk; d++) {
+        var cs = window.getComputedStyle(walk);
+        if (cs.position === 'fixed') {
+          target = walk;
+          break;
+        }
+        walk = walk.parentElement;
+      }
+      target.style.setProperty('bottom', '20px', 'important');
+      target.style.setProperty('right', '20px', 'important');
+      target.style.setProperty('top', 'auto', 'important');
+      target.style.setProperty('z-index', '9999', 'important');
+    }
+
+    var nodes = document.body
+      ? document.body.querySelectorAll('a, button, div, span, iframe')
+      : [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (looksLikeWhatsApp(nodes[i])) placeWhatsApp(nodes[i]);
+    }
+
+    // Green fixed circle in the corner = WA even without classes
+    var all = document.body ? document.body.querySelectorAll('a, button, div') : [];
+    for (var j = 0; j < all.length; j++) {
+      var el = all[j];
+      if (!el || el === toplink || (el.closest && el.closest('a.w-toplink'))) continue;
+      var cs = window.getComputedStyle(el);
+      if (cs.position !== 'fixed') continue;
+      var rect = el.getBoundingClientRect();
+      if (rect.width < 40 || rect.height < 40 || rect.width > 90 || rect.height > 90) continue;
+      if (rect.right < window.innerWidth - 110) continue;
+      if (rect.bottom < window.innerHeight - 110) continue;
+      var bg = cs.backgroundColor || '';
+      var isGreen =
+        bg.indexOf('37, 211, 102') !== -1 ||
+        bg.indexOf('25, 211') !== -1 ||
+        bg.indexOf('18, 140, 126') !== -1 ||
+        /#25d366|#128c7e|#075e54/i.test(bg);
+      if (isGreen || looksLikeWhatsApp(el)) placeWhatsApp(el);
+    }
+  }
+
+  function bootFabStack() {
+    safe(ensureFabStack);
+    [600, 1500, 3000, 6000].forEach(function (ms) {
+      setTimeout(function () {
+        safe(ensureFabStack);
+      }, ms);
+    });
+
+    var ticking = false;
+    function onScrollOrResize() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        safe(ensureFabStack);
+      });
+    }
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
+
+    if (window.MutationObserver && document.body) {
+      var moTimer = null;
+      var mo = new MutationObserver(function () {
+        if (moTimer) return;
+        moTimer = setTimeout(function () {
+          moTimer = null;
+          safe(ensureFabStack);
+        }, 100);
+      });
+      mo.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+      });
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
+    document.addEventListener('DOMContentLoaded', bootFabStack);
   } else {
     boot();
+    bootFabStack();
   }
+
+  window.addEventListener('load', function () {
+    safe(ensureFabStack);
+  });
 
   // If any Rocket leftovers fire later, re-run widget fallbacks
   window.addEventListener('rocket-allScriptsLoaded', function () {
@@ -3377,5 +3502,6 @@
     safe(ensureScrollsequence);
     safe(ensurePhoneCountryFields);
     safe(ensureNavMenus);
+    safe(ensureFabStack);
   });
 })();
