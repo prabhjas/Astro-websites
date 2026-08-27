@@ -1,6 +1,7 @@
-# build output
-dist/
-.astro/
+# build output (root only — do not use bare `dist/` or mirrored WP plugin
+# assets under public/**/dist/ become untrackable)
+/dist/
+/.astro/
 node_modules/
 
 # logs

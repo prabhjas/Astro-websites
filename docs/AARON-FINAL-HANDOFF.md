@@ -1,34 +1,32 @@
-# Aaron — final handoff (updated 2026-08-26 evening)
+# Aaron — final handoff (updated 2026-08-26 late)
 
 **From:** developer presentation lane  
-**Live front tip (recent):** `fb7070fdc` (SP padding + Connect FM WhatsApp)  
-**Fleet branch tip:** `159ff7081` (`packages/site-cms` AP-04 — in every build)  
+**Fleet tip (recent):** `4fb80806e` (Redo SEO/favicon) · earlier SP/CFM `fb7070fdc`  
+**site-cms AP-04:** `159ff7081` (in every build)  
 **Developer branch:** `work/astro-sites`
 
 ---
 
-## Aaron reply — locked in
+## Aaron completed
 
-1. **site-cms** — already in builds via `159ff7081`. No separate package publish. Ship Redo site files.
-2. **robots / sitemaps / llms / runtime-gtm** — backend by design; stale because **backend release pins** are old. Do **not** Caddy-301 or front-route. Wait for Aaron’s gated backend refresh.
-3. **CF favicon** — hashes already match; was local cache.
-4. **SP `/css/`** — CF purged; SP auto-purges `/css/` on publish going forward. Other sites may have the same gap for stable `public/` paths.
+- Backend refresh for **32 sites** (incl. SP Heavy, Iberia Workforce) — robots/llms/sitemaps match current release; edge purged  
+- SP robots **930 bytes** matching git tip  
+- **Backends now follow publishes** + wider auto purge (robots, llms, sitemaps, runtime-gtm, `/css/`)  
+- **`/api/blog/` on front** (content only — no credentials)  
+- Leads/Pipedrive/env untouched  
 
----
+## Still open with Aaron
 
-## Still waiting on Aaron
-
-| Item | Notes |
+| Item | Our action |
 |---|---|
-| Backend refresh | So robots/sitemaps/llms/runtime-gtm serve current tip |
-| SP GTM `GTM-PL2CQ48T` | Env / gtm.json if not done |
-| Leads `/api/` + Caddy/TLS | Unchanged |
-| CF purge for other sticky `public/` paths | When we report exact path |
+| Connect Freelance backend still on hold | Publish CF `api/blog` `listing`/`load-more` rename → **ping Aaron** |
+| 8 older-site backends + payrollmiddleast purge | Aaron alone |
+| SP GTM seed (if still needed) | Aaron |
 
----
+## Cleared earlier
 
-## Developer now
+- site-cms package wait → closed  
+- Redo presentation → published `4fb80806e`  
+- Do not Caddy-workaround robots/sitemaps  
 
-- Publishing **Redo.ae** site-only (SEO absolutize, redirects, legacy links, favicon) — check baseline 0 kept (`@ts-nocheck` retained on LP script)
-
-Docs: [AARON-PENDING.md](AARON-PENDING.md) · [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md) · [AARON-REDO-SITE-CMS.md](AARON-REDO-SITE-CMS.md)
+Docs: [AARON-PENDING.md](AARON-PENDING.md) · [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md)
