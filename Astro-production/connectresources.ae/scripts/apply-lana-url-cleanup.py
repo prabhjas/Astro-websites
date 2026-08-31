@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-Apply Lana CR Issue sheet: redirects for Deleted URLs, noindex Landing Pages,
-Deleted URLs 301 to homepage; Landing stay noindex; Keep pages preserved.
+Apply Lana CR Issue sheet cleanup for connectresources.ae.
+
+Deleted URLs: remove page records entirely (404). No redirects.
+Landing pages: keep live with noindex,nofollow.
+Press-release CPT: preserve /press-release/ → /press/ redirects.
 """
 from __future__ import annotations
 
@@ -12,55 +15,55 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGES = ROOT / "src/data/pages.json"
 REDIRECTS_YML = ROOT / "src/data/redirects.yml"
 SITEMAP_CONFIG = ROOT / "src/lib/seo/sitemap-config.ts"
+SITEMAP_URLS = ROOT / "src/data/sitemap-urls.json"
+LLMS_DEFAULTS = ROOT / "src/data/llms-defaults.json"
 
-# Explicit sheet redirect
-EXPLICIT_REDIRECTS = [
-    ("/employer-of-record-main/", "/"),
+# Deleted URLs — removed from pages.json; must not redirect anywhere.
+REMOVED_URLS = [
+    "/employer-of-record-main/",
+    "/professional-employer-organization-peo-uae/",
+    "/professional-employer-organization-dubai-old/",
+    "/staff-outsourcing-main-page-r/",
+    "/uae-staff-outsourcing/",
+    "/staff-outsourcing-uae/",
+    "/hr-consultancy-service-page/",
+    "/emiratisation-recruitment/",
+    "/emiratisation-in-uae/",
+    "/relocation-employee-services-uae/",
+    "/relocation-consultant-dubai/",
+    "/uae-payroll-outsourcing/",
+    "/eor-payroll/",
+    "/pro-service-page/",
+    "/corporate-social-responsibility-connect-resources/",
+    "/get-your-uae-recidency-landing-page/",
+    "/questions-for-customer-feedback-and-business-review/",
+    "/outsourcing-services-uae/",
+    "/partner-program-2/",
+    "/contact-us-new/",
+    "/employer-of-record-eor-uae/",
+    "/leadership/",
+    "/manpower-outsourcing-services/",
+    "/professional-employer-organization/",
+    "/golden-visa-uae1212/",
+    "/golden-visa-uae222/",
+    "/golden-visa-uae/",
+    "/eor-main/",
+    "/eor-middle-east/",
+    "/employer-of-record-middle-east/",
+    "/employer-of-record-uae/",
+    "/employer-of-record-saudi-arabia/",
+    "/employer-of-record-ksa/",
+    "/employer-of-record-qatar/",
+    "/employer-of-record-egypt/",
+    "/international-relocation-service-page/",
+    "/it-service-providers-in-dubai/",
+    "/employee-feedback-and-business-review/",
+    "/bahrain-visa-outsourcing-2/",
+    "/property-visa-new/",
+    "/uae-residency-visa-new/",
 ]
 
-# Deleted → best Keep (or Landing) target. Do NOT include Keep-conflict pages.
-DELETED_REDIRECTS = [
-    ("/professional-employer-organization-peo-uae/", "/"),
-    ("/professional-employer-organization-dubai-old/", "/"),
-    ("/staff-outsourcing-main-page-r/", "/"),
-    ("/uae-staff-outsourcing/", "/"),
-    ("/staff-outsourcing-uae/", "/"),
-    ("/hr-consultancy-service-page/", "/"),
-    ("/emiratisation-recruitment/", "/"),
-    ("/emiratisation-in-uae/", "/"),
-    ("/relocation-employee-services-uae/", "/"),
-    ("/relocation-consultant-dubai/", "/"),
-    ("/uae-payroll-outsourcing/", "/"),
-    ("/eor-payroll/", "/"),
-    ("/pro-service-page/", "/"),
-    ("/corporate-social-responsibility-connect-resources/", "/"),
-    ("/get-your-uae-recidency-landing-page/", "/"),
-    ("/questions-for-customer-feedback-and-business-review/", "/"),
-    ("/outsourcing-services-uae/", "/"),
-    ("/partner-program-2/", "/"),
-    ("/contact-us-new/", "/"),
-    ("/employer-of-record-eor-uae/", "/"),
-    ("/leadership/", "/"),
-    ("/manpower-outsourcing-services/", "/"),
-    ("/professional-employer-organization/", "/"),
-    ("/golden-visa-uae1212/", "/"),
-    ("/golden-visa-uae222/", "/"),
-    ("/golden-visa-uae/", "/"),
-    ("/eor-main/", "/"),
-    ("/eor-middle-east/", "/"),
-    ("/employer-of-record-middle-east/", "/"),
-    ("/employer-of-record-uae/", "/"),
-    ("/employer-of-record-saudi-arabia/", "/"),
-    ("/employer-of-record-ksa/", "/"),
-    ("/employer-of-record-qatar/", "/"),
-    ("/employer-of-record-egypt/", "/"),
-    ("/international-relocation-service-page/", "/"),
-    ("/it-service-providers-in-dubai/", "/"),
-    ("/employee-feedback-and-business-review/", "/"),
-    ("/bahrain-visa-outsourcing-2/", "/"),
-    ("/property-visa-new/", "/"),
-    ("/uae-residency-visa-new/", "/"),
-]
+REMOVED_PATHS = set(REMOVED_URLS)
 
 LANDING_SLUGS = [
     "employer-of-record-lp",
@@ -73,8 +76,7 @@ LANDING_SLUGS = [
 
 LANDING_PATHS = [f"/{s}/" for s in LANDING_SLUGS]
 
-# Non-Lana redirects that must survive regenerate (press-release CPT → /press/).
-# write_redirects_yml() previously overwrote the whole file and dropped these.
+# Press-release CPT → /press/ (must survive regenerate).
 PRESERVED_REDIRECTS = [
     ("/press-release/", "/press/"),
     (
@@ -143,16 +145,16 @@ PRESERVED_REDIRECTS = [
 def write_redirects_yml() -> list[tuple[str, str]]:
     seen: set[str] = set()
     rows: list[tuple[str, str]] = []
-    for src, dst in EXPLICIT_REDIRECTS + DELETED_REDIRECTS + PRESERVED_REDIRECTS:
+    for src, dst in PRESERVED_REDIRECTS:
         if src in seen:
             continue
         seen.add(src)
         rows.append((src, dst))
 
     lines = [
-        "# Lana CR Issue sheet — Deleted → Keep / Landing + explicit Redirect",
-        "# Plus preserved press-release CPT → /press/ (do not drop on regenerate)",
-        "# Generated/maintained for connectresources.ae URL cleanup",
+        "# Connect Resources redirects — press-release CPT → /press/ only.",
+        "# Deleted Lana URLs are removed (404); do not add home redirects here.",
+        "# Generated/maintained by scripts/apply-lana-url-cleanup.py",
         "redirects:",
     ]
     for src, dst in rows:
@@ -168,7 +170,6 @@ def write_redirects_yml() -> list[tuple[str, str]]:
 
 def update_sitemap_config() -> None:
     text = SITEMAP_CONFIG.read_text(encoding="utf-8")
-    # Expand NOINDEX_NOFOLLOW_PAGE_SLUGS with landing pages (keep existing campaign LPs)
     start = text.index("export const NOINDEX_NOFOLLOW_PAGE_SLUGS")
     end = text.index(");", start) + 2
     new_block = """export const NOINDEX_NOFOLLOW_PAGE_SLUGS = new Set([
@@ -193,24 +194,8 @@ def update_sitemap_config() -> None:
 def update_pages_json() -> dict:
     pages = json.loads(PAGES.read_text(encoding="utf-8"))
     by_path = {p["path"]: p for p in pages}
-    stats = {
-        "landing_noindex": 0,
-        "bahrain_renamed": False,
-        "deleted_removed": 0,
-    }
+    stats = {"landing_noindex": 0, "deleted_removed": 0}
 
-    # Rename bahrain-visa-outsourcing-2 → bahrain-visa-outsourcing (Keep URL)
-    old = by_path.get("/bahrain-visa-outsourcing-2/")
-    if old and "/bahrain-visa-outsourcing/" not in by_path:
-        old["path"] = "/bahrain-visa-outsourcing/"
-        old["slug"] = "bahrain-visa-outsourcing"
-        old["link"] = "https://connectresources.ae/bahrain-visa-outsourcing/"
-        seo = old.get("seo") or {}
-        seo["canonical"] = "/bahrain-visa-outsourcing/"
-        old["seo"] = seo
-        stats["bahrain_renamed"] = True
-
-    # Landing pages → noindex,nofollow in pages.json
     for path in LANDING_PATHS:
         p = by_path.get(path)
         if not p:
@@ -220,31 +205,69 @@ def update_pages_json() -> dict:
         p["seo"] = seo
         stats["landing_noindex"] += 1
 
-    # Deleted sources: remove page records (301 redirects remain in redirects.yml)
-    deleted_srcs = {src for src, _ in DELETED_REDIRECTS + EXPLICIT_REDIRECTS}
     remaining = []
     for p in pages:
-        path = p.get("path")
-        if path in deleted_srcs:
+        if p.get("path") in REMOVED_PATHS:
             stats["deleted_removed"] += 1
             continue
         remaining.append(p)
-    pages = remaining
 
-    PAGES.write_text(json.dumps(pages, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    PAGES.write_text(json.dumps(remaining, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return stats
+
+
+def update_sitemap_urls() -> int:
+    if not SITEMAP_URLS.exists():
+        return 0
+    data = json.loads(SITEMAP_URLS.read_text(encoding="utf-8"))
+    removed = 0
+    if isinstance(data, dict):
+        for key in ("pages", "posts"):
+            if key not in data or not isinstance(data[key], list):
+                continue
+            before = len(data[key])
+            data[key] = [u for u in data[key] if u not in REMOVED_PATHS]
+            removed += before - len(data[key])
+    elif isinstance(data, list):
+        before = len(data)
+        data = [u for u in data if u not in REMOVED_PATHS]
+        removed = before - len(data)
+    SITEMAP_URLS.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return removed
+
+
+def update_llms_defaults() -> bool:
+    if not LLMS_DEFAULTS.exists():
+        return False
+    data = json.loads(LLMS_DEFAULTS.read_text(encoding="utf-8"))
+    entries = data.get("entries") or {}
+    changed = False
+    if "/golden-visa-uae/" in entries and "/uae-golden-visa/" not in entries:
+        entries["/uae-golden-visa/"] = entries.pop("/golden-visa-uae/")
+        changed = True
+    for path in list(entries.keys()):
+        if path in REMOVED_PATHS:
+            entries.pop(path, None)
+            changed = True
+    if changed:
+        data["entries"] = entries
+        LLMS_DEFAULTS.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return changed
 
 
 def main() -> None:
     rows = write_redirects_yml()
     update_sitemap_config()
     stats = update_pages_json()
-    print(f"redirects.yml rules: {len(rows)}")
+    sitemap_removed = update_sitemap_urls()
+    llms_changed = update_llms_defaults()
+    print(f"redirects.yml rules: {len(rows)} (press-release only)")
     for src, dst in rows:
         print(f"  {src} → {dst}")
     print(f"landing noindex: {stats['landing_noindex']}")
-    print(f"bahrain renamed: {stats['bahrain_renamed']}")
     print(f"deleted pages removed: {stats['deleted_removed']}")
+    print(f"sitemap-urls entries removed: {sitemap_removed}")
+    print(f"llms-defaults updated: {llms_changed}")
 
 
 if __name__ == "__main__":
