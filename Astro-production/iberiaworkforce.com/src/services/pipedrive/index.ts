@@ -99,11 +99,24 @@ function buildFormMessage(form: NormalisedContactForm): string {
     form.leadSource ? `Language: ${form.leadSource}` : '',
   ].filter(Boolean);
   if (form.message) lines.push('', '=== Message ===', form.message);
-  if (form.pageUrl || form.landingPageUrl) {
-    lines.push('', '=== Tracking ===');
-    if (form.pageUrl) lines.push(`Submitted from: ${form.pageUrl}`);
-    if (form.landingPageUrl) lines.push(`Landed on: ${form.landingPageUrl}`);
+
+  const tracking: string[] = [];
+  if (form.pageUrl) tracking.push(`Submitted from: ${form.pageUrl}`);
+  if (form.landingPageUrl) tracking.push(`Landed on: ${form.landingPageUrl}`);
+  if (form.gclid) tracking.push(`GCLID: ${form.gclid}`);
+  if (form.utmSource) tracking.push(`UTM source: ${form.utmSource}`);
+  if (form.utmMedium) tracking.push(`UTM medium: ${form.utmMedium}`);
+  if (form.utmCampaign) tracking.push(`UTM campaign: ${form.utmCampaign}`);
+  if (form.utmTerm) tracking.push(`UTM term: ${form.utmTerm}`);
+  if (form.utmContent) tracking.push(`UTM content: ${form.utmContent}`);
+  if (form.campaignId || form.campaign) {
+    tracking.push(`Campaign ID: ${form.campaignId || form.campaign}`);
   }
+  if (form.keyword) tracking.push(`Keyword: ${form.keyword}`);
+  if (tracking.length) {
+    lines.push('', '=== Tracking ===', ...tracking);
+  }
+
   return lines.join('\n');
 }
 
@@ -116,8 +129,8 @@ function buildCustomFields(env: ServerEnv, form: NormalisedContactForm): Record<
   };
 
   set(keys.message, buildFormMessage(form));
-  if (env.pipedriveLeadSourceId) set(keys.source, env.pipedriveLeadSourceId);
-  if (env.websiteId) set(keys.website, env.websiteId);
+  set(keys.source, env.pipedriveLeadSourceId || undefined);
+  set(keys.website, env.websiteId || undefined);
   set(keys.leadSubmittedOn, form.pageUrl ? `Lead Submitted On: ${form.pageUrl}` : undefined);
   set(keys.userLandedOn, form.landingPageUrl ? `User Landed on: ${form.landingPageUrl}` : undefined);
   set(keys.nationality, form.nationality);
