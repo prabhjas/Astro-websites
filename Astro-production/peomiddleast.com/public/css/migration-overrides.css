@@ -55,8 +55,10 @@
   margin-top: 5rem !important;
 }
 
-.l-section.us_custom_cfb79a8a .us_custom_017bc81e {
-  background: transparent !important;
+.l-section.us_custom_cfb79a8a .us_custom_017bc81e,
+.l-section.us_custom_cfb79a8a .wpb_column.us_custom_017bc81e {
+  background: #fff !important;
+  border-radius: 20px !important;
 }
 
 @media (max-width: 600px) {
