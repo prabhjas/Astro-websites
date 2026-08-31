@@ -20,6 +20,27 @@ Only the deploy lead moves tickets to **Ready for Release**, runs **publish**, a
 
 ---
 
+## Dual tickets (dev work + deploy work)
+
+Every publish wave uses **two ticket types** so both developers and the deploy lead appear on the board:
+
+| Ticket type | Assignee | Summary pattern | Labels |
+|-------------|----------|-----------------|--------|
+| **Dev task** | Mushtaq / Tabish / Rajpal | `{Brand}: {feature/fix}` | `dev-wave` |
+| **Deploy task** | **Prabhjas** | `Fleet publish: {wave name} ({sites})` | `deploy-wave` |
+
+**When to create the deploy ticket:** as soon as a publish batch is planned — **In Progress on your name from day one**, not only after merge.
+
+The deploy ticket description links to related dev tickets (e.g. DEV-892–896), branch tip, sites, verify URLs, and Aaron-path steps.
+
+**Example:** [DEV-897](https://connect-marketing.atlassian.net/browse/DEV-897) — Rajpal wave publish (you) + DEV-892–896 (Rajpal, per brand).
+
+**Your own code changes:** create a **dev-style ticket on your name** *and* a **deploy ticket** if it ships in a batch — or one combined ticket if you own both build and publish end-to-end.
+
+**Deploy-only ops** (GTM, Pipedrive policy, host env): single ticket on your name only — e.g. DEV-857, DEV-859.
+
+---
+
 ## DEV board statuses (in order)
 
 ```

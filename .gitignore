@@ -20,6 +20,11 @@ Astro-production/*/dist/
 packages/*/dist/
 .astro/
 
+# WP Table Builder — admin editor bundles only (mirror sync noise).
+# Frontend assets (frontend-*.js, parser, renderer, etc.) stay tracked for compare-companies table.
+Astro-production/thefreelancergate.com/public/wp-content/plugins/wp-table-builder/dist/assets/editor-*.js
+Astro-production/thefreelancergate.com/public/wp-content/plugins/wp-table-builder/dist/assets/index-Dvj4K8gR.js
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
