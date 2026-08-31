@@ -2,7 +2,6 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PostCard from "../../../components/PostCard.astro";
 import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import {
   getAuthorBySlug,
   getPostsByAuthor,
@@ -31,13 +30,12 @@ if (!author) {
 const name = displayName(author.name);
 const sorted = getPostsByAuthor(author.id);
 const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
-const totalPosts = sorted.length;
 ---
 
 <BaseLayout
   currentPath={author.path}
   menuActivePath="/blog/"
-  bodyClass="sp-archive-page"
+  bodyClass="sp-archive-page sp-authors-page sp-author-single"
   seo={{
     title: `Author: ${name} | SP Heavy Rental`,
     description: author.description || `Articles by ${name} on S&P Heavy Machinery Rental.`,
@@ -51,62 +49,38 @@ const totalPosts = sorted.length;
     ],
   }}
 >
-  <section class="sp-archive-hero sp-author-hero">
-    <div class="sp-container">
-      <Breadcrumbs
-        items={[
-          { name: "Home", href: "/" },
-          { name: "Authors", href: "/author/" },
-          { name },
-        ]}
-      />
-      <div class="sp-author-profile">
-        <div class="sp-author-profile__avatar">
-          {
-            author.avatar ? (
-              <img
-                src={author.avatar}
-                alt={`${name} avatar`}
-                width="112"
-                height="112"
-                loading="eager"
-                decoding="async"
-              />
-            ) : (
-              <span class="sp-author-profile__initial" aria-hidden="true">
-                {name.slice(0, 1)}
-              </span>
-            )
-          }
-        </div>
-        <div class="sp-author-profile__copy">
-          <p class="sp-archive-kicker">Author</p>
-          <h1>{name}</h1>
-          {
-            author.description ? (
-              <p class="sp-author-profile__bio" set:html={author.description} />
-            ) : (
-              <p class="sp-author-profile__bio">
-                Articles and equipment rental insights from {name}.
-              </p>
-            )
-          }
-          <p class="sp-author-profile__count">
-            {totalPosts === 1 ? "1 article" : `${totalPosts} articles`}
-          </p>
-        </div>
-      </div>
+  <section class="sp-authors-hero" aria-label={name}>
+    <div class="sp-authors-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          srcset="/wp-content/uploads/authors/authors-hero.webp"
+          type="image/webp"
+        />
+        <img
+          class="sp-authors-hero__img"
+          src="/wp-content/uploads/authors/authors-hero.jpg"
+          alt=""
+          width="1920"
+          height="424"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+      <span class="sp-authors-hero__overlay"></span>
+    </div>
+    <div class="sp-authors-hero__inner sp-container">
+      <h1 class="sp-authors-hero__title">{name}</h1>
     </div>
   </section>
 
-  <section class="sp-archive-body">
+  <section class="sp-archive-body sp-authors-body sp-author-single__body">
     <div class="sp-container">
       {
         items.length ? (
           <>
-            <div class="sp-blog-grid">
+            <div class="sp-blog-grid sp-blog-grid--author">
               {items.map((post) => (
-                <PostCard post={post} />
+                <PostCard post={post} variant="author" />
               ))}
             </div>
             <Pagination page={page} totalPages={totalPages} basePath={author.path} />

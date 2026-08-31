@@ -89,6 +89,10 @@ export function getCategoryBySlug(slug: string): CategoryEntry | undefined {
   return getCategories().find((c) => c.slug === slug);
 }
 
+export function getCategoryById(id: number): CategoryEntry | undefined {
+  return getCategories().find((c) => c.id === id);
+}
+
 export function getTagBySlug(slug: string): TagEntry | undefined {
   return getTags().find((t) => t.slug === slug);
 }
