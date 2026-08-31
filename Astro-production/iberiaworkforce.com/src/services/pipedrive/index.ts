@@ -14,7 +14,13 @@ export type PipedriveResult =
 
 type PipedriveFieldKeys = ServerEnv['fieldKeys'];
 
-/** Connect Group shared deal-field hashes (cbss.ae / redo.ae). Used when env omits PIPEDRIVE_FIELD_* . */
+/**
+ * Connect Group shared deal-field hashes — copied from fleet `src/env/server.ts`
+ * defaults (canonical: `cbss.ae/src/env/server.ts`, same literals in `redo.ae` and
+ * most fleet sites). Not present in those sites' `pipedrive/index.ts` files.
+ * Iberia keeps blank defaults in its own server.ts (publish-safe); this table
+ * fills any key that env still leaves empty, per-key.
+ */
 const CONNECT_GROUP_FIELD_KEYS: PipedriveFieldKeys = {
   message: '3a108ee6cdcaad880546876dd524bfa9aa686da7',
   source: '296a2c3746355d2b33b7ff392bd038199eaf9665',
@@ -49,9 +55,13 @@ const CONNECT_GROUP_FIELD_KEYS: PipedriveFieldKeys = {
 };
 
 function resolveFieldKeys(env: ServerEnv): PipedriveFieldKeys {
-  const keys = env.fieldKeys;
-  if (keys.message.trim()) return keys;
-  return CONNECT_GROUP_FIELD_KEYS;
+  const fromEnv = env.fieldKeys;
+  const merged = { ...CONNECT_GROUP_FIELD_KEYS };
+  for (const key of Object.keys(merged) as (keyof PipedriveFieldKeys)[]) {
+    const value = fromEnv[key]?.trim();
+    if (value) merged[key] = value;
+  }
+  return merged;
 }
 
 type PipedriveApiResponse<T> = {
@@ -244,7 +254,9 @@ async function createLead(
   personId: number,
   form: NormalisedContactForm,
 ): Promise<{ ok: boolean; id?: string; status: number; error?: string }> {
-  const title = `${env.leadTitlePrefix} - ${form.fullName}`.trim();
+  // Profession/sector stays in custom fields + note body (fleet title pattern = prefix + name).
+  const prefix = env.leadTitlePrefix.trim() || 'Website lead — iberiaworkforce.com';
+  const title = `${prefix} - ${form.fullName}`.trim();
   const payload = removeEmptyValues({
     title,
     owner_id: env.pipedriveOwnerId > 0 ? env.pipedriveOwnerId : undefined,
