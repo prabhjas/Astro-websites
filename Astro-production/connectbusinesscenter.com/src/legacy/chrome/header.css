@@ -1,5 +1,12 @@
 /* Connect Business Center shared header — primary look comes from Astra/Elementor CSS */
 
+.elementor-nav-menu--dropdown,
+.elementor-nav-menu--dropdown a,
+.elementor-nav-menu--dropdown .elementor-item,
+.elementor-nav-menu--dropdown .elementor-sub-item {
+  font-size: 16px !important;
+}
+
 /* Hide dummy '#' on submenu / dropdown hover.
    Elementor pointer ::before and WP heading permalinks must not show on
    dropdown links. Top-level underline pointers and carets stay intact. */
