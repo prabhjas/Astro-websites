@@ -64,15 +64,20 @@ export function serveLegacyPage(slug) {
   if (!html.includes('migration-overrides.css')) {
     html = html.replace(
       /<\/head>/i,
-      '<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827g" data-peo-migration-overrides="1" />\n</head>',
+      '<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827i" data-peo-migration-overrides="1" />\n</head>',
     );
   }
-  // Late inline critical rules (peo-pedia offset + FAB stack only — no hero layout).
+  // Late inline critical rules beat theme design-options !important.
   if (!html.includes('data-peo-critical-overrides')) {
     html = html.replace(
       /<\/body>/i,
       `<style data-peo-critical-overrides="1">
 .l-section.us_custom_cfb79a8a,.l-section.wpb_row.us_custom_cfb79a8a.height_large{margin-top:5rem!important}
+.l-section.us_custom_cfb79a8a .us_custom_017bc81e,.l-section.us_custom_cfb79a8a .wpb_column.us_custom_017bc81e{background:#fff!important;border-radius:20px!important}
+.l-section.us_custom_8d45c27c>.l-section-h>.g-cols>.wpb_column.us_custom_85dc4b2d{justify-content:flex-start!important}
+.l-section.us_custom_8d45c27c>.l-section-h>.g-cols>.wpb_column.us_custom_85dc4b2d>.vc_column-inner{padding-top:calc(var(--header-height,var(--header-sticky-height,110px)) + .75rem)!important;padding-bottom:2rem!important}
+.l-section.us_custom_8d45c27c .us_custom_a56cc4b2{margin-bottom:.35rem!important}
+.l-section.us_custom_8d45c27c .us_custom_a56cc4b2 .wpb_wrapper>p:last-child{margin-bottom:0!important}
 a.w-toplink,a.w-toplink.pos_right,a.w-toplink.active{bottom:20px!important;right:90px!important;left:auto!important;margin:0!important;z-index:9998!important}
 a[href*="wa.me"],a[href*="whatsapp"],.joinchat__button,.ht-ctc,.ht-ctc-chat,.whatsapp-float,[class*="whatsapp"],[id*="whatsapp"]{bottom:20px!important;right:20px!important;top:auto!important;z-index:9999!important}
 </style>\n</body>`,

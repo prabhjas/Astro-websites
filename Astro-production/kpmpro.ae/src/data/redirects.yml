@@ -130,6 +130,20 @@ redirects:
     to: /new-golden-visa-requirements/
     status: 301
 
+  # Retired blog posts (SEO ticket 2026-08-31)
+  - from: /trends-in-pro-services/
+    to: /blog/
+    status: 301
+  - from: /company-establishment-card/
+    to: /blog/
+    status: 301
+  - from: /trade-licens-in-abu-dhabi/
+    to: /abu-dhabi-trade-license-types/
+    status: 301
+  - from: /benefits-of-uae-golden-visa-with-pro-services/
+    to: /uae-golden-visa-benefits/
+    status: 301
+
   - from: /outsourcing-pro-services/
     to: /
     status: 301
