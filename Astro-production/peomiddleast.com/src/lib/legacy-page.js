@@ -64,7 +64,7 @@ export function serveLegacyPage(slug) {
   if (!html.includes('migration-overrides.css')) {
     html = html.replace(
       /<\/head>/i,
-      '<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827h" data-peo-migration-overrides="1" />\n</head>',
+      '<link rel="stylesheet" href="/css/migration-overrides.css?v=20260827i" data-peo-migration-overrides="1" />\n</head>',
     );
   }
   // Late inline critical rules beat theme design-options !important.
@@ -73,6 +73,7 @@ export function serveLegacyPage(slug) {
       /<\/body>/i,
       `<style data-peo-critical-overrides="1">
 .l-section.us_custom_cfb79a8a,.l-section.wpb_row.us_custom_cfb79a8a.height_large{margin-top:5rem!important}
+.l-section.us_custom_cfb79a8a .us_custom_017bc81e,.l-section.us_custom_cfb79a8a .wpb_column.us_custom_017bc81e{background:#fff!important;border-radius:20px!important}
 .l-section.us_custom_8d45c27c>.l-section-h>.g-cols>.wpb_column.us_custom_85dc4b2d{justify-content:flex-start!important}
 .l-section.us_custom_8d45c27c>.l-section-h>.g-cols>.wpb_column.us_custom_85dc4b2d>.vc_column-inner{padding-top:calc(var(--header-height,var(--header-sticky-height,110px)) + .75rem)!important;padding-bottom:2rem!important}
 .l-section.us_custom_8d45c27c .us_custom_a56cc4b2{margin-bottom:.35rem!important}
