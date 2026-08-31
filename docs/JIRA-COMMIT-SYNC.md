@@ -1,10 +1,12 @@
 # Jira ↔ git commit sync
 
+> **Standard process:** use **Cursor + Atlassian MCP** and [JIRA-DEV-WORKFLOW.md](./JIRA-DEV-WORKFLOW.md) — not this script or GitHub Actions.
+
 ## One-shot backfill (done)
 
 Last ~2 weeks of Mushtaq / Tabish / Rajpal / Prabhjas workstreams were filed as DEV tickets labeled `git-backfill` (DEV-861–DEV-891 plus earlier DEV-856–859 for Iberia/EOR/GTM).
 
-## Ongoing automation
+## Optional automation (not the standard path)
 
 | Piece | Path |
 |-------|------|

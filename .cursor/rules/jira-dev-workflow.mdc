@@ -1,0 +1,29 @@
+---
+description: Jira DEV board workflow via Cursor Atlassian MCP — developer vs deploy-lead roles
+alwaysApply: true
+---
+
+# Jira workflow (MCP-only)
+
+Authoritative doc: [docs/JIRA-DEV-WORKFLOW.md](../docs/JIRA-DEV-WORKFLOW.md)
+
+## Tooling
+
+- Use **Atlassian MCP** for DEV tickets on `connect-marketing.atlassian.net` — not GitHub Actions, not `scripts/jira-commit-sync.mjs`, unless deploy lead explicitly asks.
+- Project **DEV**, issue type **Task**, Brand field **customfield_10092**.
+
+## Roles
+
+**Developers (Mushtaq, Tabish, Rajpal):** tickets through **Testing** only — create at In Progress, self-test locally, post screenshots/commit hashes in comments, then Testing. Do **not** set READY FOR RELEASE or RELEASED. Do **not** publish.
+
+**Deploy lead (Prabhjas):** merge to `work/astro-sites`, host Aaron-path publish, live verify, move **READY FOR RELEASE → RELEASED**. Own tickets may run the full lifecycle.
+
+## Tickets
+
+- One logical task per brand; multiple tickets per push is fine.
+- Summary: `{Brand}: {change}`. Labels: `dev-wave`, `awaiting-merge` when applicable.
+- Transition IDs: In Progress `31`, Testing `51`, READY FOR RELEASE `3`, RELEASED `61`.
+
+## Handoff
+
+Developer stops at **Testing + evidence**. Deploy lead reviews → merge → Ready for Release → publish → Released.
