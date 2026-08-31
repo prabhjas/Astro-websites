@@ -1,0 +1,105 @@
+---
+description: Connect Group Astro fleet — full Jira automation, identity via MCP, testing gates, CWV 95+
+alwaysApply: true
+---
+
+# Developer Fleet Handbook (Cursor brain — full automation)
+
+**Docs:** [docs/developers/TASK-PASTE.md](../docs/developers/TASK-PASTE.md) (developer copy-paste only) · [docs/developers/DEVELOPER-FLEET-HANDBOOK.md](../docs/developers/DEVELOPER-FLEET-HANDBOOK.md)
+
+Developers paste a `---TASK---` block or say `done`. **You run everything else** via Atlassian MCP + fleet scripts. Never ask for account IDs or manual Jira steps.
+
+---
+
+## Identity (automatic — never ask developer for name/ID)
+
+1. Call **`atlassianUserInfo`** at session start and on every new task.
+2. Use returned **`accountId`** as Jira assignee.
+3. If Mushtaq / Tabish / Rajpal → **developer lane** (max status **Testing 51**).
+4. If Prabhjas → deploy lead lane (full lifecycle per `docs/DEVELOPER-HANDOFF.md`).
+5. Fallback only if MCP fails: map `git config user.email` / author to assignee table in `docs/developers/CURSOR-MEMORY-PROMPT.md` — then ask to reconnect MCP.
+
+---
+
+## Trigger: `---TASK---` block or new work
+
+Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Type: CWV**, optional **Branch**.
+
+**Auto-resolve (do not ask developer):**
+
+- **site-id, port** → `scripts/fleet-sites.json` (match `domain` or `dir`)
+- **pnpm package** → `Astro-production/<domain>/package.json` → `"name"`
+- **Brand field id** → `scripts/jira-commit-sync.mjs` → `DOMAIN_BRAND[domain].id`
+- **branch** → `git branch --show-current` if omitted
+
+**Jira (Atlassian MCP — immediate):**
+
+1. `searchJiraIssuesUsingJql`: open DEV ticket for same assignee + brand/task keywords
+2. Reuse if duplicate; else `createJiraIssue`:
+   - summary: `{Brand}: {Task}`
+   - assignee: `atlassianUserInfo` accountId
+   - `customfield_10092`: brand option id
+   - labels: `dev-wave` (+ `cwv-wave` if Type CWV)
+   - description: branch, site folder, routes, port, package
+3. `transitionJiraIssue` → **In Progress (31)**
+4. Tell developer ticket key (e.g. DEV-912). **Keep active ticket key in session.**
+
+**CWV:** before any code, run baseline `fleet-lighthouse.mjs`, comment scores on ticket.
+
+---
+
+## While coding (automatic)
+
+- On commit or push mentioned: `addCommentToJiraIssue` with hash + branch + 1-line summary (`git log -1`, `git diff --stat`).
+- Scope change: `editJiraIssue` description.
+- Before commit suggestion: `pnpm --filter <pkg> run check` and `build`.
+- **Block** commits: `.env*`, `AGENTS.md`, `src/env/server.ts`, `packages/`, `caddy/`, `.github/workflows/`, root fleet `scripts/` changes.
+- **Block** dirty files: `dist/`, `.astro/`, `node_modules*`, `.data/`, large binaries.
+- No unrelated refactors. Do not revert Aaron speed-pass sites (CWV checklist Part D).
+
+---
+
+## Trigger: `done` / ready for review / work complete
+
+Run **testing gate** automatically (do not wait for developer to list steps):
+
+1. `pnpm --filter <pkg> run check` + `build`
+2. `node scripts/fleet-local.mjs up <site-id>`
+3. Verify every route in ticket (browser MCP when available; mobile width if UI)
+4. `node scripts/fleet-lighthouse.mjs --site <id> --paths <routes> --min-score 95`
+5. Audit `git diff` / `git status` — no protected or dirty paths
+6. `addCommentToJiraIssue`: local URLs, commits, Lighthouse Perf/LCP/CLS, test steps
+
+**Checkpoints — ask developer (yes/no):**
+
+- Did you open every route on desktop and mobile?
+- Did you attach screenshots in Jira?
+
+If confirmed → `transitionJiraIssue` → **Testing (51)**.  
+Remind: notify deploy lead **Prabhjas** (ticket key + branch).
+
+If gate fails → report fixes; stay **In Progress**; do not transition.
+
+Developers **never** use transitions **3** (Ready for Release) or **61** (Released).
+
+---
+
+## Jira MCP constants
+
+- Cloud ID: `5b8a830d-0824-481c-83be-1d5d8b477112`
+- Project: `DEV` · Type: `Task` · Brand: `customfield_10092`
+- Transitions: In Progress `31`, Testing `51`, Ready for Release `3`, Released `61`
+- Brand map: `scripts/jira-commit-sync.mjs` → `DOMAIN_BRAND`
+- **Never** GitHub Actions / `jira-commit-sync.mjs` for Jira unless deploy lead asks
+
+---
+
+## CWV
+
+One site per ticket. One optimization tier at a time (LCP → fonts/CLS → JS → CSS → legacy WP). Revert if regression. No `*-v2` cache busting.
+
+---
+
+## Deploy lead only
+
+Merge → `work/astro-sites` → host `astro-fleet-development` → SSH-signed commit → `sudo /usr/local/sbin/astro-fleet-release publish` → live verify → **RELEASED**.

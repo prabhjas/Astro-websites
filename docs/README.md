@@ -1,6 +1,18 @@
 # Astro-websites fleet docs
 
-## Start here
+## Developers — start here
+
+**Mushtaq, Tabish, Rajpal:** use **[developers/README.md](developers/README.md)** only for daily work (Jira, testing, CWV). Do not browse the rest of `docs/` unless deploy lead asks.
+
+| Doc | Use |
+|-----|-----|
+| **[developers/DEVELOPER-FLEET-HANDBOOK.md](developers/DEVELOPER-FLEET-HANDBOOK.md)** | End-to-end workflow |
+| **[developers/TASK-PASTE.md](developers/TASK-PASTE.md)** | **Only file developers paste** — auto Jira + testing |
+| **[developers/CWV-WAVE-PROMPT.md](developers/CWV-WAVE-PROMPT.md)** | CWV — one site, one ticket (copy-paste) |
+
+---
+
+## Owner / fleet (everyone else)
 
 | Priority | Doc | Use |
 |----------|-----|-----|
