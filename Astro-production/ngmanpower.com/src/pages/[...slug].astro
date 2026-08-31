@@ -26,7 +26,13 @@ if (!page && !post) {
 
 const entry = page || post!;
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
-const html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content) || "");
+let html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content) || "");
+if (post) {
+  html = html.replace(
+    /<h4>\s*More Articles\s*<\/h4>/gi,
+    "<h4>Content Published by same Author:</h4>",
+  );
+}
 
 const pageCrumbs = page
   ? (() => {
