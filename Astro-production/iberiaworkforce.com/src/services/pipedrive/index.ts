@@ -244,8 +244,7 @@ async function createLead(
   personId: number,
   form: NormalisedContactForm,
 ): Promise<{ ok: boolean; id?: string; status: number; error?: string }> {
-  const serviceSuffix = form.professionSector ? ` — ${form.professionSector}` : '';
-  const title = `${env.leadTitlePrefix.trim() || 'Website lead — iberiaworkforce.com'}${serviceSuffix}`;
+  const title = `${env.leadTitlePrefix} - ${form.fullName}`.trim();
   const payload = removeEmptyValues({
     title,
     owner_id: env.pipedriveOwnerId > 0 ? env.pipedriveOwnerId : undefined,
