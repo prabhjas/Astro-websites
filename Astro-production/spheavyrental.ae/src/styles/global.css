@@ -172,9 +172,47 @@
   color: #ffdd04;
 }
 
+/*
+  Overlay breadcrumbs under the transparent header so they do NOT take
+  document-flow height. Service heroes use margin-top:-70px to tuck under
+  the header (same as live); a normal-flow breadcrumb bar would break that.
+*/
+.sp-page-breadcrumbs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4.5rem;
+  z-index: 20;
+  pointer-events: none;
+  background: transparent;
+  border: 0;
+  padding: 0.35rem 0;
+}
+
+.sp-page-breadcrumbs .sp-container {
+  pointer-events: auto;
+}
+
+.sp-page-breadcrumbs .sp-breadcrumbs {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.sp-page-breadcrumbs .sp-breadcrumbs a:hover {
+  color: #ffdd04;
+}
+
+.site-main,
+.page-content {
+  position: relative;
+}
+
 .sp-archive-hero {
-  padding: 4.5rem 1.25rem 2.5rem;
-  background: linear-gradient(180deg, #111 0%, #000 100%);
+  padding: 2rem 1.25rem 3rem;
+  background:
+    radial-gradient(ellipse 70% 80% at 50% -20%, rgba(223, 121, 13, 0.18), transparent 55%),
+    linear-gradient(180deg, #141414 0%, #000 100%);
   text-align: center;
   color: #fff;
 }
@@ -190,6 +228,250 @@
   max-width: 720px;
   margin: 0 auto;
   color: #cfcfcf;
+}
+
+.sp-archive-kicker {
+  margin: 0 auto 0.5rem !important;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffdd04 !important;
+}
+
+.sp-archive-page .site-main,
+.sp-archive-page .page-content {
+  background: #000;
+  color: #f2f2f2;
+  min-height: 50vh;
+}
+
+/* Full-width black header on archive/author pages (transparent header is invisible on white body) */
+body.sp-archive-page {
+  background: #000 !important;
+}
+
+body.sp-archive-page .sp-elementor-header {
+  width: 100%;
+  background: #000;
+}
+
+body.sp-archive-page #top-header,
+body.sp-archive-page .elementor-153 .elementor-element.elementor-element-bae57c3,
+body.sp-archive-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3:not(.elementor-motion-effects-element-type-background),
+body.sp-archive-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3
+  > .elementor-motion-effects-container
+  > .elementor-motion-effects-layer {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+.sp-archive-body {
+  padding: 2.5rem 0 4.5rem;
+  background: #000;
+}
+
+.sp-archive-empty,
+.sp-archive-empty-panel {
+  text-align: center;
+  color: #bdbdbd;
+}
+
+.sp-archive-empty-panel {
+  padding: 3rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111;
+}
+
+.sp-archive-empty__cta {
+  display: inline-flex;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.35rem;
+  background: #ffdd04;
+  color: #111 !important;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.sp-archive-empty__cta:hover {
+  background: #df790d;
+  color: #fff !important;
+}
+
+/* Author directory */
+.sp-author-directory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.sp-author-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111;
+  text-decoration: none;
+  color: #fff;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.sp-author-card:hover {
+  border-color: #df790d;
+  background: #171717;
+  transform: translateY(-2px);
+}
+
+.sp-author-card__avatar {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 221, 4, 0.35);
+  background: #1a1a1a;
+  display: grid;
+  place-items: center;
+}
+
+.sp-author-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sp-author-card__initial,
+.sp-author-profile__initial {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  color: #ffdd04;
+}
+
+.sp-author-card__meta {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.sp-author-card__name {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.sp-author-card__count {
+  font-size: 0.85rem;
+  color: #a8a8a8;
+}
+
+.sp-author-card__arrow {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid #ffdd04;
+  border-top: 2px solid #ffdd04;
+  transform: rotate(45deg);
+  opacity: 0.7;
+  flex: 0 0 auto;
+}
+
+.sp-author-card:hover .sp-author-card__arrow {
+  opacity: 1;
+}
+
+/* Author profile hero */
+.sp-author-hero {
+  text-align: left;
+}
+
+.sp-author-hero .sp-breadcrumbs ol {
+  justify-content: flex-start;
+}
+
+.sp-author-profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2rem;
+  margin-top: 0.5rem;
+}
+
+.sp-author-profile__avatar {
+  flex: 0 0 auto;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffdd04;
+  background: #1a1a1a;
+  display: grid;
+  place-items: center;
+}
+
+.sp-author-profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sp-author-profile__copy {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.sp-author-profile__copy h1 {
+  margin-bottom: 0.5rem;
+}
+
+.sp-author-profile__bio {
+  margin: 0 0 0.75rem !important;
+  max-width: 40rem !important;
+  margin-inline: 0 !important;
+  color: #cfcfcf !important;
+}
+
+.sp-author-profile__count {
+  display: inline-block;
+  margin: 0 !important;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid rgba(255, 221, 4, 0.45);
+  color: #ffdd04 !important;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .sp-author-profile {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sp-author-profile__bio {
+    margin-inline: auto !important;
+  }
+
+  .sp-author-hero .sp-breadcrumbs ol {
+    justify-content: center;
+  }
 }
 
 .sp-container {

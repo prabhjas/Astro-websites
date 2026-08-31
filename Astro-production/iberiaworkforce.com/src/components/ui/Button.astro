@@ -1,0 +1,112 @@
+---
+/** IbWF button — variants x sizes. Renders as <a> when `href` is supplied. */
+type Variant =
+  | "primary"
+  | "accent"
+  | "accent-deep"
+  | "secondary"
+  | "secondary-on-light"
+  | "inverse"
+  | "terracotta"
+  | "ghost"
+  | "ghost-on-dark";
+type Size = "sm" | "md" | "lg";
+
+interface Props {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  block?: boolean;
+  class?: string;
+  type?: "button" | "submit";
+  /** Opens the link in a new tab with safe rel attributes. */
+  external?: boolean;
+}
+
+const {
+  variant = "primary",
+  size = "lg",
+  href,
+  block = false,
+  class: className = "",
+  type = "button",
+  external = false,
+} = Astro.props;
+
+// The 1px press is the only feedback a button gets between click and page
+// response; without it the control feels unresponsive on a static site.
+const base =
+  "inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap transition-[color,background-color,border-color,transform] duration-150 ease-out active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta motion-reduce:transition-none motion-reduce:active:translate-y-0";
+
+const variants: Record<Variant, string> = {
+  primary: "bg-btn-primary-bg text-btn-primary-text hover:bg-navy-600",
+  accent: "bg-btn-accent-bg text-btn-accent-text hover:bg-terracotta",
+  // `accent` at full depth: the #a44728 fill with white ink. Figma's own
+  // `btn-accent-bg` resolves to this on the contact page's terracotta band,
+  // where the lighter #dc8b6f wash would all but disappear into the section.
+  // A variant rather than a `bg-text-link` class on `accent`, because two
+  // same-specificity `bg-*` utilities are ordered by Tailwind and not by the
+  // class attribute — see the note in CLAUDE.md.
+  "accent-deep":
+    "bg-text-link text-text-inverse hover:bg-btn-accent-bg hover:text-btn-accent-text",
+  secondary:
+    "border-[1.5px] border-btn-secondary-border bg-transparent text-btn-secondary-text hover:bg-btn-secondary-bg-hover hover:text-text-primary",
+  // The same outline button on a light section: the white border and white ink
+  // of `secondary` are invisible on the cream page colour, so the country
+  // heroes draw it in navy and invert on hover.
+  "secondary-on-light":
+    "border-[1.5px] border-btn-primary-bg bg-transparent text-text-primary hover:bg-btn-primary-bg hover:text-btn-primary-text",
+  // `primary` inverted: a solid page-coloured fill with navy ink, for a
+  // primary action sitting on a dark photographic band. It exists as a variant
+  // rather than a `class` override on `primary` because two same-specificity
+  // `bg-*` utilities are ordered by Tailwind, not by the class attribute — the
+  // override silently loses and the button renders navy on navy.
+  inverse: "bg-bg-surface text-text-primary hover:bg-bg-page",
+  // Full-strength terracotta, used for form submits. `accent` is the lighter
+  // #dc8b6f wash; this is the saturated fill. Both carry navy ink — white on
+  // #d9714e measures 3.27:1, which fails AA for a control label, and darkening
+  // the fill instead would pull the brand's warmest colour toward brown.
+  terracotta:
+    "bg-terracotta text-btn-accent-text hover:bg-btn-accent-bg",
+  // On light cards the ghost button darkens toward the link colour on hover.
+  ghost: "bg-transparent text-text-secondary hover:text-text-link",
+  // On the dark EOR card it must brighten instead — resolving to text-primary
+  // there would be near-invisible navy on a dark photograph.
+  "ghost-on-dark": "bg-transparent text-btn-ghost-text hover:text-text-inverse",
+};
+
+const sizes: Record<Size, string> = {
+  sm: "h-9 rounded-md text-micro font-normal",
+  md: "h-11 rounded-lg text-btn",
+  lg: "h-[52px] rounded-lg text-btn tracking-[0.15px]",
+};
+
+// Ghost buttons sit flush with the surrounding content in the design — no gutter.
+const padding: Record<Size, string> = {
+  sm: "px-3.5",
+  md: "px-5",
+  lg: "px-6",
+};
+
+const Tag = href ? "a" : "button";
+const cls = [
+  base,
+  variants[variant],
+  sizes[size],
+  variant.startsWith("ghost") ? "px-0" : padding[size],
+  block && "w-full",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<Tag
+  class={cls}
+  href={href}
+  type={href ? undefined : type}
+  target={href && external ? "_blank" : undefined}
+  rel={href && external ? "noopener noreferrer" : undefined}
+>
+  <slot />
+</Tag>

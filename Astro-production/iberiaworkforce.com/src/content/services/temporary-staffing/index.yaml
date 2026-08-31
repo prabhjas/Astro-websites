@@ -1,0 +1,325 @@
+# Temporary Staffing — category hub. Figma nodes 164-1024 (1440),
+# 184-6808 (768) and 184-6809 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Temporary Staffing
+
+seo:
+  title: Temporary Staffing | Iberia Workforce
+  description: >-
+    Temporary staffing services across Europe. Local compliance handled
+    in-house — no third-party partners. You manage the work. We carry the
+    legal side.
+  schema:
+    serviceName: Temporary Staffing Services
+    serviceType: Temporary Staffing & Flexible Workforce Solutions
+    areaServed: Europe
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  heading: Temporary staffing services built on legal compliance, not just speed
+  badges:
+    - icon: protect
+      label: Licensed Providers
+    - icon: law
+      label: Law Firm Backed
+    - icon: licence
+      label: Compliance Risk Transfer
+    - icon: global
+      label: Multi-Country Operations
+  body: >-
+    Seasonal peaks, project-based work, urgent capacity gaps - handled locally
+    with full compliance built in. You manage the work. We carry the legal side.
+  image: ../../../assets/images/temporary-staffing-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/temporary-staffing-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/temporary-staffing-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  heading: What is Temporary Staffing?
+  # The 768 frame (495:6579) keeps the claim, the prose and the button in one
+  # column, so the two columns wait for desktop.
+  splitAt: lg
+  paragraphs:
+    - >-
+      Temporary staffing is the provision of workers for fixed-term or
+      project-based roles. The staffing provider employs the worker, manages
+      payroll and compliance, and deploys them to your company for a defined
+      period. You direct the day-to-day work and set performance standards. The
+      provider carries the legal exposure - employment contracts, social
+      security, tax filings, and compliance risk if something goes wrong.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyItMatters:
+  heading: Why Temporary Staffing matters?
+  subheading: Temporary staffing solves three business problems at once
+  body: >-
+    Most staffing agencies treat temporary work as a revenue play, not a
+    problem-solving play. You lose because their incentives don't align with
+    yours. We're built differently. Legal compliance is how we operate, not a
+    side service.
+  items:
+    - title: You avoid permanent headcount risk.
+      description: >-
+        Economic uncertainty, project end dates, seasonal swings, you need
+        capacity without betting your budget on permanent salaries, benefits,
+        severance obligations, and long-term employment commitments. Temporary
+        staffing lets you scale up and down without the overhead.
+    - title: You move faster than permanent hiring.
+      description: >-
+        Good candidates are off the market within 10 days. Your internal hiring
+        process takes weeks. A licensed staffing provider has pre-screened
+        talent ready to start within days, not months. That gap is your
+        competitive advantage or your missed opportunity.
+    - title: Legal compliance stops being your problem.
+      description: >-
+        Employment contracts, payroll, taxes, social security, workplace
+        injuries, disputes - these sit with the provider, not with you. You get
+        capacity without the compliance liability.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: Why choose Iberia Workforce for Temporary Staffing services?
+  highlight: Temporary Staffing
+  items:
+    - title: We're licensed to operate in every country we serve.
+      description: >-
+        Compliance isn't a local partner's job, it's built into how we operate.
+        We carry the legal and employment risk so you don't have to.
+    - title: >-
+        Our incentives align with yours - solve your problem, not maximize
+        billable hours.
+      description: >-
+        You need the right person for a defined period. We deliver that and move
+        on. No pressure to extend assignments or fill unnecessary positions.
+        Your flexibility is our only product.
+    - title: We're run by employment lawyers, not just recruiters.
+      description: >-
+        CBA classifications, visa requirements for non-EU temps, work-time
+        regulations, occupational risk - these are legal questions. We have the
+        in-house expertise to get them right from day one, not outsource them to
+        a third party.
+
+howItWorks:
+  heading: How Temporary Staffing works?
+  # Cream, so it separates the two white bands either side of it.
+  surface: page
+  steps:
+    - title: Tell us what you need
+      description: >-
+        Role, duration (weeks, months, seasonal peak), headcount, start date. Is
+        this a one-off need or recurring? Do you need specialized skills or
+        general roles? We assess the complexity and flag any compliance
+        considerations upfront.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We handle recruitment, screening, and legal setup
+      description: >-
+        We source candidates, verify qualifications, conduct background checks
+        if needed. We draft compliant temporary employment contracts under local
+        labour law, register with social security, and set up payroll. We handle
+        all the compliance work - not outsource it to a local partner.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your worker starts, fully compliant and managed
+      description: >-
+        We run payroll, manage ongoing HR administration, handle any workplace
+        incidents or disputes, and track the employment end date. When the
+        temporary period ends, we manage the off-boarding correctly so there's
+        no liability overhang. You focus on the work.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  # Corrected copy. All three frames say "payroll" here — a leftover from the
+  # Payroll frame this one was duplicated from. See CLAUDE.md's known gaps.
+  prompt: Looking to manage temporary staffing without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  eyebrow: SERVICES
+  heading: What's included in Temporary Staffing services?
+  align: center
+  surface: surface
+  layout: mosaic
+  items:
+    - icon: candidate-selection
+      title: Recruitment & candidate screening
+      description: >-
+        Sourcing, skills assessment, background verification, and reference
+        checks, tailored to your role and compliance requirements, not just
+        filling an open slot with whoever is available.
+    - icon: contract-signed
+      title: Temporary employment contracts
+      description: >-
+        Drafted under local labour law with clear start dates, end dates, role
+        scope, and compliance terms. Not a template adapted for your role. A
+        contract built for your specific situation.
+    - icon: envelope-seal
+      title: Payroll & social security registration
+      description: >-
+        Monthly payroll processing with all statutory deductions and
+        contributions calculated correctly per country law. Registration with
+        social security, tax filings, and compliance reporting handled
+        end-to-end.
+    - icon: risk-shield
+      title: Occupational risk assessment & insurance
+      description: >-
+        Workplace injury liability, incident reporting, and occupational risk
+        evaluation, managed by us, not left ambiguous between you and the
+        worker.
+    - icon: gavel
+      title: Compliance & legal risk
+      description: >-
+        Employment disputes, wage-and-hour audits, misclassification challenges,
+        injury claims - we carry the legal exposure and defend your company's
+        position if something gets contested.
+    - icon: person-case
+      title: Ongoing HR administration
+      description: >-
+        Leave tracking, sick pay, performance documentation, workplace conduct
+        issues, managed throughout the temporary assignment so there's a clean
+        paper trail if the relationship ever gets questioned.
+    - icon: door-exit
+      title: Off-Boarding & contract closure
+      description: >-
+        Final payment calculations, reference letters if needed, and employment
+        record closure, handled correctly so the temporary period ends without
+        compliance overhang.
+  cta:
+    label: Get a Quote for Your Staffing Need
+    href: "#contact-form"
+
+countries:
+  eyebrow: WHERE WE OPERATE
+  heading: Where we offer Temporary Staffing services?
+  align: start
+  lead:
+    heading: >-
+      Temporary staffing services currently available in Spain, Germany,
+      Portugal, Poland, and Italy.
+  featured:
+    name: Spain
+    badge: AVAILABLE NOW
+    description: >-
+      Full compliance, legal risk transfer, local employment expertise. Seasonal
+      peaks, project work, and urgent capacity needs handled end-to-end.
+    cta:
+      label: Explore
+      href: /temporary-staffing/spain
+  others:
+    - name: Germany
+      badge: COMING SOON
+      description: >-
+        Licensed temporary staffing under local regulations, Works Council
+        coordination where applicable.
+    - name: Portugal
+      badge: COMING SOON
+      description: >-
+        Temporary staffing under local law, Segurança Social registration, work
+        permit support for non-EU temps.
+    - name: Poland
+      badge: COMING SOON
+      description: >-
+        Licensed temporary staffing, local compliance, cost-efficient capacity
+        scaling.
+    - name: Italy
+      badge: COMING SOON
+      description: >-
+        Temporary staffing under Italian law, local employment expertise, visa
+        support for non-EU workers.
+
+# The Figma accordion is drawn closed, so it specifies the questions but no
+# answers. Copy supplied by the client alongside the design.
+faq:
+  eyebrow: TEMPORARY STAFFING EUROPE
+  heading: Frequently asked questions
+  items:
+    - question: Is temporary staffing legal in the countries you operate in?
+      answer: >-
+        Yes. Temporary staffing is a recognized and legally established
+        employment model across Europe. Providers must hold the relevant
+        licensing or credentials for each country - which we do. Operating
+        without proper licensing is illegal and exposes clients to fines and
+        liability.
+    - question: What's the difference between temporary staffing and temp-to-hire?
+      answer: >-
+        Temporary staffing is fixed-term or project-based, the worker's role
+        ends on a specific date. Temp-to-hire converts a temporary assignment
+        into a permanent role after a trial period. The legal requirements
+        differ: temporary staffing has a defined end date in the contract;
+        temp-to-hire includes a pathway to conversion. We handle both.
+    - question: How quickly can we get a temporary worker on-site?
+      answer: >-
+        For standard roles, typically 1–2 weeks from request to start, depending
+        on how detailed your job specifications are. Specialized or high-skill
+        roles may take longer if candidate sourcing is more competitive. We give
+        you a realistic timeline upfront based on the role's complexity and
+        current candidate availability.
+    - question: What if we need to end the assignment early?
+      answer: >-
+        Temporary assignments end on the contracted end date. If you need to
+        terminate early, local law requires documented grounds, same as
+        permanent employment. We manage the exit correctly so there's no
+        liability overhang. Early termination is possible but follows legal
+        procedure.
+    - question: Can we use temporary staffing for visa-sponsored workers?
+      answer: >-
+        Yes. Non-EU workers on work permits or visas can be placed in temporary
+        assignments. The visa category and work permit terms determine what
+        roles are legally allowed. We verify this upfront and ensure the
+        assignment matches the worker's visa classification so there's no
+        compliance violation.
+    - question: How is temporary staffing different from using contractors?
+      answer: >-
+        Temporary staffing means the worker is employed by us, not
+        self-employed. That matters legally: employment law protections apply,
+        social security contributions are paid by the employer, and the legal
+        exposure sits with the provider. With contractors, the worker is
+        self-employed, which changes the compliance requirements entirely.
+    - question: What happens if an incident or injury occurs during the assignment?
+      answer: >-
+        Workplace injuries, incidents, or disputes during a temporary assignment
+        follow the same employment law as permanent roles. We carry the legal
+        liability and manage the investigation, incident reporting, and any
+        claims that arise. Your company is protected from direct employment
+        exposure.
+    - question: Who is Iberia Workforce, and how do you operate?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate temporary staffing
+        services through our own licensed structures in each country - no local
+        partner intermediaries. Our in-house legal and HR teams handle
+        recruitment, screening, contract drafting, payroll, and compliance
+        directly. We carry the legal and compliance risk; you manage the
+        day-to-day work.
+    - question: Can we use temporary staffing for recurring seasonal needs?
+      answer: >-
+        Yes. Many of our clients use recurring temporary staffing for seasonal
+        peaks. We can structure rolling temporary contracts that restart each
+        season, fully compliant and with minimal administrative overhead on your
+        end.
+
+closing:
+  heading: Temporary staffing isn't a shortcut to bypass employment law.
+  body: >-
+    It's a compliant, legal way to build flexibility into your workforce. But
+    only if the provider carries the legal risk and understands the compliance
+    layer.
+  footnote: >-
+    Describe your staffing need - what's the role, duration, start date,
+    headcount - and we'll tell you exactly how much it costs, how quickly we can
+    fill it, and what compliance you're getting.

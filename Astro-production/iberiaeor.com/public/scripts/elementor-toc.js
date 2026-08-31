@@ -40,6 +40,15 @@
     );
   }
 
+  function applyTocNofollow(widget) {
+    if (!widget) return;
+    widget
+      .querySelectorAll(".elementor-toc__list-item a, .elementor-toc__body a[href^='#']")
+      .forEach(function (a) {
+        a.setAttribute("rel", "nofollow");
+      });
+  }
+
   function fillToc(widget) {
     if (!widget || widget.dataset.spTocFilled === "1") return;
 
@@ -48,6 +57,7 @@
     );
     // Real Elementor TOC populated (not just spinner)
     if (existing.length) {
+      applyTocNofollow(widget);
       widget.dataset.spTocFilled = "1";
       return;
     }
@@ -71,7 +81,7 @@
           listLevel +
           '"><a href="#' +
           id +
-          '" class="elementor-toc__list-item-text elementor-toc__list-item-text--level-' +
+          '" rel="nofollow" class="elementor-toc__list-item-text elementor-toc__list-item-text--level-' +
           levelNum +
           '"><span class="elementor-toc__list-item-text-wrapper">' +
           text.replace(/</g, "&lt;") +
@@ -89,18 +99,32 @@
       if (header) header.insertAdjacentHTML("afterend", '<div class="elementor-toc__body">' + html + "</div>");
       else widget.insertAdjacentHTML("beforeend", html);
     }
+    applyTocNofollow(widget);
     widget.dataset.spTocFilled = "1";
   }
 
   ready(function () {
     function run() {
-      document
-        .querySelectorAll(".elementor-widget-table-of-contents")
-        .forEach(fillToc);
+      document.querySelectorAll(".elementor-widget-table-of-contents").forEach(function (widget) {
+        fillToc(widget);
+        applyTocNofollow(widget);
+      });
     }
     run();
     // Elementor Pro may populate late if its chunk loads
     setTimeout(run, 600);
     setTimeout(run, 1800);
+    setTimeout(run, 4000);
+
+    // Keep nofollow when Pro TOC re-renders the list after our first pass
+    if (typeof MutationObserver !== "undefined") {
+      document.querySelectorAll(".elementor-widget-table-of-contents").forEach(function (widget) {
+        var body = widget.querySelector(".elementor-toc__body") || widget;
+        var obs = new MutationObserver(function () {
+          applyTocNofollow(widget);
+        });
+        obs.observe(body, { childList: true, subtree: true });
+      });
+    }
   });
 })();

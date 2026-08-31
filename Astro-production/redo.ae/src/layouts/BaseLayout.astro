@@ -14,9 +14,11 @@ interface Props {
   canonical?: string;
   /** When false, omit shared chrome (rare). Default true. */
   showChrome?: boolean;
+  /** Optional body class list (e.g. Elementor kit classes for shared chrome). */
+  bodyClass?: string;
 }
 
-const { seo, canonical: canonicalOverride, showChrome = true } = Astro.props;
+const { seo, canonical: canonicalOverride, showChrome = true, bodyClass = '' } = Astro.props;
 
 const title = seo.title;
 const description = seo.description;
@@ -119,24 +121,12 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <link
-      rel="icon"
-      href="/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png"
-      type="image/png"
-      sizes="32x32"
-    />
-    <link
-      rel="icon"
-      href="/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png"
-      type="image/png"
-      sizes="192x192"
-    />
+    <link rel="icon" href="/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png" />
-    <meta name="msapplication-TileImage" content="/wp-content/uploads/2025/10/favicon-REDO-Black-32px.png" />
     <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     <slot name="head" />
   </head>
-  <body>
+  <body class={bodyClass || undefined}>
     {showChrome && <Header />}
     <slot />
     {showChrome && <Footer />}

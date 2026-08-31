@@ -1,0 +1,66 @@
+---
+/**
+ * "Who this is built for": a display-scale claim over a row of
+ * icon + title + one-liner columns.
+ *
+ * Deliberately not `ServiceIncluded`: that grid answers what you get, and its
+ * cards are cards — bordered, filled, tappable-looking. These are not cards.
+ * They are three plain columns on a grey band, because the section is a claim
+ * about the reader rather than a list of deliverables, and a border around each
+ * one would invite a click that goes nowhere.
+ */
+import type { CollectionEntry } from "astro:content";
+import { serviceIcons } from "../../lib/service-icons";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["audience"]>;
+
+const { eyebrow, heading, items } = Astro.props;
+---
+
+<section
+  class="bg-bg-muted py-20 lg:py-30"
+  aria-labelledby="audience-heading"
+>
+  <div class="section-shell flex flex-col items-center gap-12 lg:gap-20">
+    <header class="flex w-full flex-col items-center gap-3 text-center" data-reveal>
+      {
+        eyebrow && (
+          <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+            {eyebrow}
+          </p>
+        )
+      }
+      {/* Display scale here, unlike every other section heading on the page —
+          this band has no competing content, so the frame lets the claim carry
+          it alone. 845px is the measure Figma sets it at. */}
+      <h2
+        id="audience-heading"
+        class="max-w-[845px] text-display text-balance text-text-primary"
+      >
+        {heading}
+      </h2>
+    </header>
+
+    {/* Three across from the tablet frame up; one column on a phone. */}
+    <ul class="grid w-full gap-12 md:grid-cols-3 md:gap-12">
+      {
+        items.map((item, i) => (
+          <li
+            class="flex flex-col items-center gap-6 text-center"
+            data-reveal
+            style={`--reveal-i:${i}`}
+          >
+            <Icon src={serviceIcons[item.icon]} size={48} />
+            <div class="flex flex-col items-center gap-2">
+              <h3 class="text-h3 text-balance text-text-secondary">
+                {item.title}
+              </h3>
+              <p class="text-body text-text-tertiary">{item.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

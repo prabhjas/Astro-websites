@@ -1,0 +1,270 @@
+# Employer of Record — category hub. Figma node 8-89.
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Employer of Record
+
+seo:
+  title: Servicios de Employer of Record en Europa | Iberia Workforce
+  description: >-
+    Employer of Record en España, Alemania, Portugal, Polonia e Italia.
+    Gestionado por abogados laboralistas. Con licencia ETT y respaldo de un
+    despacho.
+  schema:
+    serviceName: Servicios de Employer of Record
+    serviceType: Employer of Record
+    areaServed: Europa
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  heading: Servicios de Employer of Record para empresas que contratan en Europa
+  badges:
+    - icon: protect
+      label: Licencia ETT
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: employee
+      label: 30 años de derecho laboral español
+    - icon: global
+      label: 5 países europeos
+  body: >-
+    La mayoría de los proveedores de EOR en Europa son plataformas con socios
+    locales. Nosotros somos una operación respaldada por un despacho de abogados
+    con 30 años de práctica en derecho laboral español y asumimos los casos que
+    otros proveedores rechazan. Si la contratación conforme en Europa te importa
+    de verdad, esta es la diferencia.
+  image: ../../../assets/images/eor-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+definition:
+  heading: ¿Qué es un Employer of Record?
+  body: >-
+    Un employer of record es una empresa que contrata trabajadores en nombre de
+    otra. El EOR gestiona el contrato de trabajo, la nómina, el alta fiscal y el
+    cumplimiento normativo, mientras el cliente dirige el trabajo del día a día.
+    Es la vía legal para contratar en un país en el que no tienes entidad
+    registrada y no quieres constituir una.
+  image: ../../../assets/images/eor-hub-eor-definition.webp
+  imageAlt: Dos compañeros revisando un documento juntos en la terraza de una oficina
+
+differentiator:
+  heading: Contrata de forma legal en Europa sin constituir una entidad local
+  paragraphs:
+    - >-
+      La mayoría de las plataformas globales de EOR funcionan bastante bien,
+      hasta que llegas a un país en el que la capa de compliance sí importa. El
+      derecho laboral europeo no es uniforme. Convenios colectivos,
+      indemnizaciones legales, estructuras de Seguridad Social, categorías de
+      permiso de trabajo: varían de un país a otro, y la diferencia entre
+      hacerlo bien y hacerlo mal no es pequeña.
+    - >-
+      Nuestro EOR lo dirigen abogados internos y especialistas en extranjería.
+      No gestores de cuentas que trabajan con una lista de comprobación. Si ya
+      estás con un proveedor global de EOR y algo se ha torcido —un problema de
+      visado, un conflicto contractual, un fallo de compliance que nadie detectó
+      a tiempo—, recibimos esas llamadas con regularidad. Sabemos qué falló y
+      cómo resolverlo.
+  background: ../../../assets/images/eor-hub-local-entity.webp
+
+howItWorks:
+  heading: ¿Cómo funciona el Employer of Record?
+  steps:
+    - title: Cuéntanos a quién necesitas contratar
+      description: >-
+        Comparte el puesto, la ubicación y la fecha de incorporación.
+        Identificamos la estructura laboral adecuada y señalamos las
+        consideraciones de compliance antes de firmar nada.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Nosotros nos encargamos de lo jurídico y del compliance
+      description: >-
+        Contrato de trabajo, alta en nómina, inscripción en la Seguridad Social,
+        tramitación del permiso de trabajo. Lo gestionan nuestros abogados, no
+        un socio local de terceros.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu empleado empieza a trabajar. Con plena conformidad.
+      description: >-
+        Gestionamos la nómina, la administración de RR. HH. y seguimos siendo el
+        employer of record. Tú diriges el trabajo. Nosotros asumimos el riesgo
+        jurídico.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Listo para contratar en Europa sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  eyebrow: SOPORTE INTEGRAL
+  heading: ¿Qué incluye un servicio de Employer of Record?
+  items:
+    - icon: employment-contracts
+      title: Contratos de trabajo
+      description: >-
+        Redactados conforme al derecho laboral local de cada país. Alineados con
+        los convenios colectivos cuando correspondan.
+    - icon: payroll
+      title: Gestión de nóminas
+      description: >-
+        Gestión completa de la nómina, incluidas retenciones fiscales,
+        deducciones legales y recibos de salario en el formato local.
+    - icon: social-security
+      title: Alta en la Seguridad Social
+      description: >-
+        Inscripción del empleado en la autoridad nacional de Seguridad Social
+        correspondiente, desde el primer día.
+    - icon: work-permits
+      title: Permisos de trabajo y apoyo en visados
+      description: >-
+        Nacionales de fuera de la UE y categorías de visado no Schengen
+        gestionados por abogados de extranjería internos, no externalizados a
+        un tercero.
+    - icon: cba-compliance
+      title: Cumplimiento de convenios colectivos
+      description: >-
+        Identificamos el convenio colectivo aplicable a cada puesto y lo
+        integramos en la estructura laboral desde el inicio.
+    - icon: expenses
+      title: Gestión de gastos
+      description: >-
+        Gastos del empleado tramitados y reembolsados conforme a las normas
+        fiscales locales y a la política de la empresa.
+    - icon: severance
+      title: Indemnización y baja
+      description: >-
+        Extinciones gestionadas con pleno cumplimiento de la ley local: plazos
+        de preaviso, indemnización legal y liquidaciones finales calculadas
+        correctamente.
+    - icon: hr-admin
+      title: Administración continua de RR. HH.
+      description: >-
+        Modificaciones de contrato, revisiones salariales, gestión de
+        ausencias y documentación de RR. HH. a lo largo de toda la relación
+        laboral.
+
+countries:
+  eyebrow: COBERTURA GLOBAL
+  heading: Servicios de Employer of Record en Europa
+  featured:
+    name: España
+    badge: MÁS SOLICITADO
+    description: >-
+      España tiene más complejidad laboral de la que la mayoría de los
+      proveedores de EOR están preparados para gestionar. Tenemos la licencia
+      ETT, el despacho de abogados y hemos asumido los casos que otros
+      proveedores rechazaron. Si la contratación tiene que suceder en España,
+      empieza aquí.
+    cta:
+      label: Explorar EOR en España
+      href: /employer-of-record/spain
+  others:
+    - name: Alemania
+      tagline: EOR y nóminas para empresas que entran en el mercado alemán.
+      description: >-
+        Gestionamos contratos de trabajo, alta en la Seguridad Social y nómina
+        conforme al derecho laboral alemán, sin necesidad de entidad local.
+      cta:
+        label: Saber más
+        href: /employer-of-record/germany
+    - name: Portugal
+      tagline: Contratación conforme sin entidad portuguesa
+      description: >-
+        Contratos de trabajo, nómina y Seguridad Social gestionados conforme al
+        derecho laboral portugués para empresas que contratan sin presencia
+        local.
+      cta:
+        label: Saber más
+        href: /employer-of-record/portugal
+    - name: Polonia
+      tagline: EOR en uno de los mayores mercados laborales de Europa
+      description: >-
+        Contratación conforme y rentable en Polonia: contratos, nómina y
+        administración continua de RR. HH. de extremo a extremo.
+      cta:
+        label: Saber más
+        href: /employer-of-record/poland
+    - name: Italia
+      tagline: Empleo y nómina en un entorno de alta regulación
+      description: >-
+        El derecho laboral italiano es de los más complejos de Europa.
+        Gestionamos contratos, cumplimiento de convenios (CCNL), nómina y
+        administración de RR. HH. para empresas que contratan sin entidad
+        italiana.
+      cta:
+        label: Saber más
+        href: /employer-of-record/italy
+
+# The Figma accordion is drawn closed, so it specifies the questions but no
+# answers. Copy supplied by the client. Two answers point at the Spain country
+# page, which does not exist yet — see the known gaps in CLAUDE.md.
+faq:
+  eyebrow: EMPLOYER OF RECORD EUROPA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en Europa?
+      answer: >-
+        Sí. El EOR es una estructura laboral reconocida y muy utilizada en
+        Europa. Los requisitos legales varían según el país: en España, por
+        ejemplo, la ley exige una licencia ETT para ceder trabajadores a un
+        tercero de forma legal. La mayoría de los proveedores no la tienen.
+        Nosotros sí. Todos los detalles en nuestra página de EOR en España.
+      link:
+        label: EOR en España
+        href: /employer-of-record/spain
+    - question: ¿Cuánto cuesta un employer of record?
+      answer: >-
+        Nuestro servicio de EOR en España está tarifado a 299 € por empleado y
+        mes: tarifa plana, sin costes de alta para contrataciones estándar de
+        la UE. El precio en otros países depende de la plantilla y de la
+        estructura laboral. Te damos un desglose completo antes de cualquier
+        compromiso. Sin obligación.
+    - question: ¿En cuánto tiempo puedo contratar a través de un EOR?
+      answer: >-
+        Para nacionales de la UE en una estructura laboral estándar, la mayoría
+        de los clientes quedan dados de alta en unos pocos días hábiles desde
+        que recibimos la documentación necesaria. Las contrataciones de fuera
+        de la UE o los casos de permiso de trabajo tardan más: los plazos
+        dependen de la categoría de visado y de la nacionalidad del empleado.
+        Te damos una estimación realista de antemano, no una optimista.
+    - question: ¿Cuál es la diferencia entre un EOR y un PEO?
+      answer: >-
+        Un PEO (Professional Employer Organisation) coemplea a los
+        trabajadores junto con la empresa cliente, lo que exige que el cliente
+        tenga una entidad registrada en el país. Un EOR contrata al trabajador
+        de forma directa y es el único empleador legal. Esa distinción importa
+        cuando no tienes entidad local y no quieres tenerla.
+    - question: ¿Puede un EOR gestionar permisos de trabajo de fuera de la UE?
+      answer: >-
+        Sí. Contamos con abogados de extranjería internos que gestionan visados
+        no Schengen, permisos de trabajo y documentación compleja para
+        nacionales de fuera de la UE. Incluye nacionalidades que otros
+        proveedores suelen rechazar de forma rutinaria.
+    - question: ¿El EOR es compatible con la Ley Beckham?
+      answer: >-
+        Puede serlo, pero la interacción entre el EOR y el régimen fiscal de la
+        Ley Beckham exige una estructuración cuidadosa. La respuesta completa
+        está en nuestra página de EOR en España.
+      link:
+        label: EOR en España
+        href: /employer-of-record/spain
+
+# The band now carries the shared contact form instead of a pair of buttons.
+# `form` is omitted because the ContactForm defaults already match the design;
+# add it only where a page needs different labels or a different endpoint.
+closing:
+  heading: >-
+    La mayoría de los problemas de contratación en Europa no son complicados:
+    solo hace falta alguien que de verdad conozca la ley.
+  footnote: >-
+    Iberia Work Force tiene su sede en Barcelona y opera como parte de Connect
+    Group.

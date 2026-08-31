@@ -1,0 +1,142 @@
+---
+import chevronDown from "../../assets/icons/chevron-down.svg";
+import globe from "../../assets/icons/globe.svg";
+import Icon from "./Icon.astro";
+import { getUi } from "../../i18n/copy";
+import { switchLocalePath } from "../../i18n/locale";
+
+interface Props {
+  /** `sm` for the desktop bar, `md` for the roomier mobile panel. */
+  size?: "sm" | "md";
+  /** Anchors the panel to the button's right edge (desktop) or left (mobile). */
+  align?: "left" | "right";
+  /** `top` opens upward — needed when the switcher sits at the foot of a drawer. */
+  placement?: "bottom" | "top";
+  class?: string;
+}
+
+const {
+  size = "sm",
+  align = "right",
+  placement = "bottom",
+  class: className,
+} = Astro.props;
+
+const { lang, t } = getUi(Astro.url.pathname);
+const locales = [
+  {
+    code: "EN",
+    label: "English",
+    href: switchLocalePath(Astro.url.pathname, "en"),
+    available: true,
+  },
+  {
+    code: "ES",
+    label: "Español",
+    href: switchLocalePath(Astro.url.pathname, "es"),
+    available: true,
+  },
+];
+
+const current = locales.find((locale) =>
+  lang === "es" ? locale.code === "ES" : locale.code === "EN",
+)!;
+const labelSize = size === "sm" ? "text-micro" : "text-body-sm";
+---
+
+<div
+  class:list={["relative", className]}
+  data-lang-switcher
+>
+  <button
+    type="button"
+    class:list={[
+      "flex items-center gap-1.5 rounded-lg px-0.5 py-2 text-text-primary hover:text-text-link",
+      labelSize,
+    ]}
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-label={t.lang.change(current.label)}
+    data-lang-toggle
+  >
+    <span class="flex items-center gap-1">
+      <Icon src={globe} size={16} />
+      <span data-lang-current>{current.code}</span>
+    </span>
+    <Icon
+      src={chevronDown}
+      size={16}
+      tone="current"
+      class="transition-transform duration-200 [[aria-expanded=true]_&]:rotate-180"
+    />
+  </button>
+
+  <ul
+    class:list={[
+      "absolute z-50 hidden min-w-[168px] flex-col rounded-xl border border-border-subtle bg-bg-surface p-1.5 shadow-lg",
+      placement === "top" ? "bottom-full mb-2" : "top-full mt-2",
+      align === "right" ? "right-0" : "left-0",
+    ]}
+    role="menu"
+    aria-label={t.lang.menu}
+    data-lang-menu
+  >
+    {
+      locales.map((locale) => (
+        <li>
+          <a
+            href={locale.href}
+            role="menuitemradio"
+            aria-checked={locale.code === current.code}
+            class:list={[
+              "flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-body-sm",
+              locale.code === current.code
+                ? "bg-bg-muted text-text-primary"
+                : "text-text-secondary hover:bg-bg-muted hover:text-text-primary",
+            ]}
+            data-lang-option
+          >
+            <span>{locale.label}</span>
+            <span class="text-micro text-text-secondary">{locale.code}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-lang-switcher]")
+    .forEach((root) => {
+      const toggle = root.querySelector<HTMLButtonElement>("[data-lang-toggle]");
+      const menu = root.querySelector<HTMLElement>("[data-lang-menu]");
+      if (!toggle || !menu) return;
+
+      const setOpen = (open: boolean) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        menu.classList.toggle("hidden", !open);
+        menu.classList.toggle("flex", open);
+      };
+
+      const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setOpen(!isOpen());
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!isOpen()) return;
+        if (root.contains(event.target as Node)) return;
+        setOpen(false);
+      });
+
+      root.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !isOpen()) return;
+        event.stopPropagation();
+        setOpen(false);
+        toggle.focus();
+      });
+    });
+</script>

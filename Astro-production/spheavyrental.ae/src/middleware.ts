@@ -22,12 +22,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
-    // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
+    // Stale /favicon.ico is still served from an old release tip on this host.
+    if (pathname === "/favicon.ico" || pathname === "/favicon.ico/") {
+      return context.redirect("/favicon-32x32.png?v=20260826", 302);
+    }
+
+    // Enforce trailingSlash: 'always' for all non-file paths (308 keeps POST body)
     if (
       pathname !== '/' &&
       !pathname.endsWith('/') &&
-      !pathname.includes('.') &&
-      (pathname.startsWith('/api/') || pathname.startsWith('/internal/'))
+      !pathname.includes('.')
     ) {
       const target = `${pathname}/${context.url.search}`;
       return context.redirect(target, 308);
@@ -51,18 +55,31 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Canonical YAML redirects must apply even when env / internal-admin is missing.
+    const canonical = readCanonicalRedirectsYaml(process.cwd());
+    let runtime: Awaited<ReturnType<typeof readRuntimeRedirects>> = [];
+    let internalAdminDir: string | null = null;
     try {
       const env = getServerEnv();
-      const runtime = await readRuntimeRedirects(env.internalAdminDir);
-      const canonical = readCanonicalRedirectsYaml(process.cwd());
-      const all = [...canonical, ...runtime];
-      const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
-      if (match) {
-        await recordRedirectHit(env.internalAdminDir, match.from);
-        return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);
-      }
+      internalAdminDir = env.internalAdminDir;
+      runtime = await readRuntimeRedirects(env.internalAdminDir);
     } catch {
-      // Missing env / redirect store should never break public pages
+      // Missing env / redirect store should never break public pages or YAML redirects.
+    }
+    const all = [...canonical, ...runtime];
+    const match = all.find(
+      (rule) => rule.from === pathname || normalisePath(rule.from) === normalisePath(pathname),
+    );
+    // Skip no-op / self redirects (e.g. normalised `/author` ↔ `/author/` collisions).
+    if (match && match.to !== pathname && normalisePath(match.to) !== normalisePath(pathname)) {
+      if (internalAdminDir) {
+        try {
+          await recordRedirectHit(internalAdminDir, match.from);
+        } catch {
+          // Hit stats are best-effort.
+        }
+      }
+      return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);
     }
 
     return next();

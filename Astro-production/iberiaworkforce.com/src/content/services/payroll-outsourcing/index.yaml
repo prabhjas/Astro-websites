@@ -1,0 +1,308 @@
+# Payroll Outsourcing — category hub.
+# Figma nodes 130-988 (1440) / 184-6802 (768) / 184-6803 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Payroll Outsourcing
+
+seo:
+  title: Payroll Outsourcing | Iberia Workforce
+  description: >-
+    Payroll outsourcing for growing companies. Processed under labour law by
+    lawyers and payroll specialists, not just software.
+  schema:
+    serviceName: Payroll Outsourcing Services
+    serviceType: Payroll Processing & Administration
+    areaServed: Europe
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  heading: Payroll Outsourcing Services
+  subheading: Built on Legal Certainty, Not Just Processing
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: money
+      label: In-House Payroll Specialists
+    - icon: global
+      label: Europe-Wide Operations
+  body: >-
+    Payroll outsourcing means your salaries, taxes, and compliance are handled
+    by professionals — not a checklist. We employ lawyers and payroll
+    specialists working together, so when a payment doesn’t fit labor law, the
+    specialist doesn’t just say no. The lawyer finds the legal structure that
+    solves it.
+  image: ../../../assets/images/payroll-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/payroll-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/payroll-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+# `headingScale: display` rather than the country pages' H1 — the frames set
+# this claim at 64px, which is also why the two columns do not split until
+# desktop. See the note on the prop in content.config.ts.
+intro:
+  heading: What is Payroll Outsourcing?
+  headingScale: display
+  paragraphs:
+    - >-
+      Payroll outsourcing is the transfer of salary processing, tax
+      calculation, social security filings, and statutory deductions to an
+      external provider. You remain the employer — you set roles, compensation,
+      performance expectations. The outsourcing provider runs payroll month to
+      month, ensures all payments comply with local labor law, files taxes
+      correctly, and carries the compliance risk if something goes wrong.
+
+scenario:
+  heading: Why Payroll Outsourcing matters?
+  body: >-
+    Most companies either hire a payroll accountant in-house
+    (€1,500–€2,500/month) or outsource to a software platform that processes
+    whatever you tell it to process. Neither solves the real problem:
+    compliance risk.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  example:
+    eyebrow: Scenario
+    quote: >-
+      “A company reduces a salary 10% below the legal minimum. The payroll
+      software processes it. Six months later, an employee sues. The fine is
+      10x what was saved.”
+    lesson: >-
+      Payroll outsourcing done right means someone with legal expertise checks
+      the numbers, before they go out.
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: Why choose Iberia for Payroll Outsourcing services?
+  items:
+    - title: We don’t separate the lawyer from the accountant
+      description: >-
+        Most payroll outsourcing providers are software + a third-party local
+        accountant in each country. You submit data, get a processed payroll,
+        and compliance is someone else’s job. We employ both the lawyer and the
+        specialist in-house. Same desk. Same responsibility. When your payroll
+        flags a compliance question — “Can we structure this differently?”
+        “Does this visa category affect the salary calculation?” “Is this bonus
+        compliant?” — the specialist doesn’t rubber-stamp it. The lawyer finds
+        the legal structure that solves it.
+    - title: We’ve managed 10,000+ employees across 5 European countries.
+      description: >-
+        Probation length, CBA classification, grounds for termination - set at
+        hire time, rarely revisited until something goes wrong. Getting these
+        right from day one is what keeps a termination from turning into a
+        legal dispute months later.
+    - title: Your cost is lower than hiring your own team.
+      description: >-
+        A payroll specialist + employment lawyer = €2,000–€3,500/month in
+        overhead. Our outsourced payroll services start at a fraction of that.
+
+# The three step photographs are the same ones the EOR hub uses — Figma reuses
+# the frames, prompts included.
+howItWorks:
+  heading: How Payroll Outsourcing works?
+  surface: page
+  steps:
+    - title: Tell us about your team
+      description: >-
+        Headcount, roles, salary bands, location(s), any visa or work permit
+        categories. We assess the complexity and quote a service level that
+        matches.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We take over the monthly process
+      description: >-
+        Every paycheck, every tax filing, every statutory deduction —
+        processed under the labor law requirements for each country. You don’t
+        submit calculations. You submit hours and role changes. We handle the
+        rest.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed document at a desk
+    - title: Compliance stays our responsibility
+      description: >-
+        Payroll runs correctly, filings go out on time, your team gets paid. If
+        something flags — a salary that doesn’t fit the minimum, a visa
+        category that affects taxation, a benefits structure that needs
+        restructuring — we catch it before it becomes a problem.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage payroll without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  # The frame centres the header and the trailing button over the grid.
+  align: center
+  ctaAlign: center
+  eyebrow: SERVICES
+  heading: What’s included in Payroll Outsourcing?
+  items:
+    - icon: employment-contracts
+      title: Monthly Payroll Processing
+      description: >-
+        Gross-to-net calculation, tax withholding, statutory deductions,
+        employer contributions — calculated correctly per country labor law,
+        not approximated from a global template.
+    - icon: calculator
+      title: Statutory Compliance & Tax Filing
+      description: >-
+        Income tax, social security contributions, pension enrolment where
+        applicable. All filings submitted on time to the relevant authorities.
+    - icon: work-permits
+      title: Work Permit & Visa Compliance
+      description: >-
+        If your hire is non-EU, we flag tax residency triggers, visa category
+        impacts on salary, and any documentation requirements that affect
+        payroll processing.
+    - icon: envelope-document
+      title: Salary Structuring & Legal Review
+      description: >-
+        Cost reduction requests, bonus structures, benefits classification —
+        reviewed for labour law compliance before implementation, not after a
+        fine arrives.
+    - icon: document-cross
+      title: Leave & Absence Management
+      description: >-
+        Annual leave accrual, sick leave, maternity/paternity, statutory days
+        off — tracked correctly and payroll adjusted accordingly.
+    - icon: money-hand
+      title: Multi-Country Payroll
+      description: >-
+        Employees in multiple countries? Each location’s payroll runs under its
+        own legal requirements — TGSS in Spain, INPS in Italy, ZUS in Poland.
+        No approximation.
+    - icon: severance
+      title: Termination & Final Settlement
+      description: >-
+        Severance calculations, final payments, ongoing obligations after
+        employment ends — structured to comply with local law.
+    - icon: person-archive
+      title: Ongoing HR Administration
+      description: >-
+        Salary reviews, contract amendments, leave documentation, employee
+        records — managed throughout the employment relationship.
+  cta:
+    label: Get a Cost Breakdown
+    href: "#contact-form"
+
+# Only Spain has a page, so the other four carry a "COMING SOON" chip and no
+# link rather than pointing at a 404 — see the `badge` note in content.config.ts.
+countries:
+  eyebrow: WHERE WE OPERATE
+  heading: Where we offer Payroll Outsourcing services?
+  lead:
+    heading: Payroll Outsourcing across Europe
+    body: >-
+      Currently managing payroll in Spain. Expanding to Germany, Portugal,
+      Poland, and Italy throughout 2024–2025.
+  featured:
+    name: Spain
+    badge: AVAILABLE NOW
+    description: >-
+      TGSS registration, nómina processing, IRPF withholding, CBA compliance,
+      statutory deductions, multi-country coordination.
+    cta:
+      label: Explore
+      href: /payroll-outsourcing/spain
+  others:
+    - name: Germany
+      badge: COMING SOON
+      description: >-
+        Deutsche Rentenversicherung payroll, AÜG compliance, sick pay
+        continuation, Works Council coordination, equal-pay tracking at month
+        nine.
+    - name: Portugal
+      badge: COMING SOON
+      description: >-
+        Segurança Social registration, 14-month salary structure, meal
+        allowance tracking, accident insurance, Código do Trabalho compliance.
+    - name: Poland
+      badge: COMING SOON
+      description: >-
+        ZUS contributions, PPK retirement savings management, Kodeks Pracy
+        compliance, income tax withholding, statutory leave accrual.
+    - name: Italy
+      badge: COMING SOON
+      description: >-
+        INPS contributions, TFR severance accrual, CCNL salary compliance,
+        additional salary months, termination and severance management.
+
+# The design draws the accordion closed, so it specifies the questions only.
+# Answers supplied separately by the client, as on the EOR hub. Two questions
+# are worded more fully here than in Figma ("Is it cheaper than hiring in-house?"
+# against "…than hiring a payroll accountant in-house?", and the payroll-person
+# one) — the client's wording is the one that ships.
+faq:
+  eyebrow: PAYROLL OUTSOURCING EUROPE
+  heading: Frequently asked questions
+  items:
+    - question: How much does payroll outsourcing cost?
+      answer: >-
+        Pricing depends on headcount and the countries you’re operating in. For
+        companies under 50 employees, we quote per-employee monthly rates. For
+        enterprises with 50+ employees across multiple countries, we offer a
+        monthly retainer. Tell us your scenario and we’ll give you an exact
+        breakdown — no obligation.
+    - question: Is it cheaper than hiring a payroll accountant in-house?
+      answer: >-
+        Yes. An in-house payroll specialist or accountant costs
+        €1,500–€2,500/month in salary alone, plus recruiting, training,
+        benefits, and turnover risk. Payroll outsourcing services start lower
+        and scale with your headcount.
+    - question: What if I already have a payroll person? Can you work alongside them?
+      answer: >-
+        Yes. Some companies keep payroll in-house but need multi-country
+        support. Others are outsourcing for the first time. We work with
+        whatever structure makes sense for your business.
+    - question: How quickly can we switch to your payroll outsourcing services?
+      answer: >-
+        For companies currently processing payroll internally, typically 2–3
+        weeks to transition if documentation is ready. If you’re switching from
+        another provider, the timeline depends on data migration complexity.
+        We’ll give you a realistic estimate upfront.
+    - question: What if my company operates in multiple countries?
+      answer: >-
+        We manage payroll in Spain, Germany, Portugal, Poland, and Italy. Each
+        location’s payroll runs under its own country’s labor law — no
+        approximation. If you have employees in countries we don’t yet operate
+        in, we can coordinate with local partners for those geographies.
+    - question: >-
+        Can you handle visa and work permit documentation as part of payroll
+        outsourcing?
+      answer: >-
+        Yes. Non-EU hires, visa sponsorship, work permit processing — if it
+        affects payroll (tax residency, salary categorization, benefit
+        eligibility), we handle it as part of the service. This is built into
+        our legal team’s work, not outsourced to a third party.
+    - question: What happens if we need to change an employee’s salary or contract terms?
+      answer: >-
+        You tell us the change. We review it for labor law compliance — minimum
+        wage floors, visa category impacts, tax implications — and either
+        approve it or suggest a compliant alternative that achieves the same
+        business goal.
+    - question: Who is Iberia Workforce, and how do you operate?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate payroll
+        outsourcing through an in-house team of employment lawyers and payroll
+        specialists across Europe. No offshore processing. No third-party local
+        partners. The team that structures your payroll is the same team that
+        ensures it’s legally sound.
+
+closing:
+  heading: >-
+    You hire people to do their jobs. You shouldn’t have to become a payroll
+    expert just to avoid a fine.
+  highlight: payroll expert
+  body: >-
+    Describe your team — size, locations, any work permit complexity — and
+    we’ll tell you exactly how much payroll outsourcing costs and what it
+    includes.

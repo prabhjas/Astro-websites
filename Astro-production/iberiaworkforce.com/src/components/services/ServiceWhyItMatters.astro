@@ -1,0 +1,110 @@
+---
+/**
+ * "Why this service matters": the claim, its one-line answer and the prose
+ * behind them hold a narrow left column, with the problems the service solves
+ * beside it as filled cards — the first spanning the pair below it.
+ *
+ * Deliberately not `ServiceWhyChoose`, which argues for *us* and so reads as a
+ * divider-separated list of reasons. These are three separate claims about the
+ * reader's own business, which is why each is filled as its own panel.
+ *
+ * A grid at `lg`, not nested flex rows: the button belongs to the claim's
+ * column on desktop and follows the *cards* on both narrow frames, which is
+ * placement rather than source order. The second row is `1fr`, not `auto` — the
+ * cards span both rows and are much the taller side, so an `auto` row would
+ * share their spare height out and float the button down the empty column.
+ *
+ * The card pair is `390fr_342fr`, the uneven split the desktop frame draws
+ * under the full-width lead card. Stated as a ratio so it survives the copy
+ * changing length; the tablet frame splits them evenly and mobile stacks all
+ * three.
+ */
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["whyItMatters"]>;
+
+const { heading, subheading, body, items, cta } = Astro.props;
+---
+
+<section
+  class="bg-bg-page py-20 lg:py-30"
+  aria-labelledby="why-it-matters-heading"
+>
+  {/* 476px is the column Figma draws, and it is a track width rather than a
+      fraction: the cards take whatever is left of the shell. */}
+  <div
+    class="section-shell flex flex-col gap-8 lg:grid lg:grid-cols-[476px_1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-12 lg:gap-y-10"
+  >
+    <div
+      class="flex flex-col items-start gap-4 lg:col-start-1 lg:row-start-1"
+      data-reveal
+    >
+      <div class="flex flex-col items-start gap-2">
+        <h2
+          id="why-it-matters-heading"
+          class="text-h1 text-balance text-text-primary"
+        >
+          {heading}
+        </h2>
+        {
+          subheading && (
+            <p class="text-h4 font-normal text-balance text-text-secondary">
+              {subheading}
+            </p>
+          )
+        }
+      </div>
+      {body && <p class="text-body-lg text-text-tertiary">{body}</p>}
+    </div>
+
+    {/*
+      The lead card spans the pair below it at every width that has two
+      columns. `[&>*:first-child]` rather than an index test in the map: the
+      span belongs to the layout, and the item does not know it is first.
+    */}
+    <ul
+      class="grid gap-6 md:grid-cols-2 md:[&>*:first-child]:col-span-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:grid-cols-[390fr_342fr]"
+    >
+      {
+        items.map((item, i) => (
+          <li
+            class="flex flex-col items-start gap-3 rounded-xl bg-bg-surface p-6"
+            data-reveal
+            style={`--reveal-i:${i}`}
+          >
+            <h3 class="text-h3 text-balance text-text-secondary">
+              {item.title}
+            </h3>
+            <p class="text-body text-text-tertiary">{item.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props, so
+           `data-reveal` on the component itself would be dropped.
+
+           Full-bleed on a phone and centred on the tablet frame, which is where
+           the button stops sitting under a claim and starts closing the
+           section. */
+        <div
+          class="w-full sm:w-auto sm:self-center lg:col-start-1 lg:row-start-2 lg:self-start lg:justify-self-start"
+          data-reveal
+          style={`--reveal-i:${items.length}`}
+        >
+          <Button
+            variant="primary"
+            size="lg"
+            href={cta.href}
+            class="w-full sm:w-auto"
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,106 @@
+/**
+ * Compare companies table — WP Table Builder layout without .wptb-style-isolation
+ * (mirror uses wptb-container-legacy + wptb-preview-table; upstream CSS is scoped).
+ */
+.wptb-container-legacy,
+.table_r {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.wptb-preview-table {
+  table-layout: auto;
+  width: 100%;
+  border-collapse: separate;
+}
+
+.wptb-preview-table .wptb-cell {
+  vertical-align: middle;
+}
+
+/* Feature check / cross icons — keep 16px (inline width:16% blows up without WPTB CSS) */
+.wptb-preview-table .wptb-image-wrapper .wptb-link-target[style*="width: 16%"],
+.wptb-preview-table .wptb-image-wrapper span.wptb-link-target[style*="width: 16%"] {
+  width: 16px !important;
+  max-width: 16px !important;
+  display: inline-block !important;
+  float: none !important;
+  margin: 0 auto;
+}
+
+.wptb-preview-table .wptb-image-wrapper .wptb-link-target[style*="width: 16%"] img,
+.wptb-preview-table .wptb-image-wrapper span.wptb-link-target[style*="width: 16%"] img {
+  width: 16px !important;
+  max-width: 16px !important;
+  height: auto !important;
+}
+
+/* Company logos */
+.wptb-preview-table .wptb-image-wrapper .wptb-link-target:not([style*="width: 16%"]) img,
+.wptb-preview-table .wptb-image-wrapper span.wptb-link-target:not([style*="width: 16%"]) img {
+  max-width: 140px;
+  width: auto !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Star ratings horizontal */
+.wptb-star_rating-container .wptb-rating-stars-box {
+  display: inline-block;
+  text-align: center;
+  padding: 0 !important;
+}
+
+.wptb-star_rating-container .wptb-rating-stars-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 !important;
+  white-space: nowrap;
+}
+
+.wptb-star_rating-container .wptb-rating-stars-box ul li {
+  display: inline-block !important;
+  margin: 0 1px;
+  vertical-align: middle;
+}
+
+.wptb-star_rating-container .wptb-number-rating-box,
+.wptb-star_rating-container .wptb-number-rating {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Contact us button — horizontal pill */
+.wptb-button-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.wptb-button-wrapper .wptb-link-target {
+  display: inline-flex !important;
+  text-decoration: none;
+}
+
+.wptb-button {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  writing-mode: horizontal-tb !important;
+  padding: 0.475rem 0.85rem !important;
+}
+
+.wptb-button p,
+.wptb-button .wptb-button-label,
+.wptb-button .wptb-button-label-text {
+  margin: 0;
+  white-space: nowrap !important;
+  writing-mode: horizontal-tb !important;
+}
+
+.wptb-button-icon[data-wptb-button-icon-src=""] {
+  display: none !important;
+}

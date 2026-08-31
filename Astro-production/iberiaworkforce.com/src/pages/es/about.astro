@@ -1,0 +1,34 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AboutHero from "../../components/sections/AboutHero.astro";
+import AboutStory from "../../components/sections/AboutStory.astro";
+import AboutEtt from "../../components/sections/AboutEtt.astro";
+import AboutApproach from "../../components/sections/AboutApproach.astro";
+import AboutDelivery from "../../components/sections/AboutDelivery.astro";
+import Closing from "../../components/sections/Closing.astro";
+import { getUi } from "../../i18n/copy";
+import { heroLcpSrc } from "../../lib/lcp";
+import { siteOrganization } from "../../lib/schema";
+import aboutHero from "../../assets/images/about-hero-background-desktop.webp";
+
+const { lang, t } = getUi(Astro.url.pathname);
+const lcpImage = await heroLcpSrc(aboutHero);
+---
+
+<Layout
+  title={t.aboutPage.title}
+  description={t.aboutPage.description}
+  schema={[siteOrganization(lang)]}
+  lcpImage={lcpImage}
+>
+  <AboutHero />
+  <AboutStory />
+  <AboutEtt />
+  <AboutApproach />
+  <AboutDelivery />
+  <Closing
+    heading={t.aboutPage.closeHeading}
+    body={t.aboutPage.closeBody}
+    cta={null}
+  />
+</Layout>

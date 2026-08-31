@@ -12,6 +12,8 @@ import { mkdirSync, readFileSync, writeFileSync, appendFileSync, existsSync, rea
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as sleep } from 'node:timers/promises';
+import http from 'node:http';
+import https from 'node:https';
 import tls from 'node:tls';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -141,15 +143,105 @@ export async function pool(tasks, limit) {
 
 // ---------------------------------------------------------------- HTTP probe
 
+function finalizeBody(rec, chunks, maxBytes) {
+  const buf = Buffer.concat(chunks);
+  if (rec.contentType?.includes('text/html')) {
+    const text = buf.toString('utf8');
+    const m = text.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+    if (m) rec.title = m[1].replace(/\s+/g, ' ').trim().slice(0, 200);
+    rec.bodyText = text;
+  } else {
+    rec.bodyText = buf.toString('utf8');
+  }
+  rec.ok = rec.status >= 200 && rec.status < 400;
+}
+
+/**
+ * Loopback origin probes must send `Host: <canonical domain>`. Node's fetch/undici
+ * ignores a custom Host header, which made healthy fronts look like 421 forever.
+ * Use http(s).request only when `host` is set; public HTTPS checks still use fetch.
+ */
+function probeWithExplicitHost(url, { timeoutMs, maxBytes, host }) {
+  const started = performance.now();
+  const rec = { url, status: 0, ok: false, ttfbMs: null, totalMs: null, bytes: 0, location: null, contentType: null, cfCache: null, commit: null, error: null, title: null };
+  let u;
+  try {
+    u = new URL(url);
+  } catch (e) {
+    rec.totalMs = Math.round(performance.now() - started);
+    rec.error = String(e?.message ?? e);
+    return Promise.resolve(rec);
+  }
+  const lib = u.protocol === 'https:' ? https : http;
+  return new Promise((resolve) => {
+    const req = lib.request(
+      {
+        protocol: u.protocol,
+        hostname: u.hostname,
+        port: u.port || (u.protocol === 'https:' ? 443 : 80),
+        path: `${u.pathname}${u.search}`,
+        method: 'GET',
+        headers: {
+          'user-agent': USER_AGENT,
+          accept: 'text/html,application/xml;q=0.9,*/*;q=0.8',
+          host,
+        },
+        timeout: timeoutMs,
+        // Never follow redirects — record Location like fetch({ redirect: 'manual' }).
+      },
+      (res) => {
+        rec.ttfbMs = Math.round(performance.now() - started);
+        rec.status = res.statusCode || 0;
+        rec.location = res.headers.location || null;
+        rec.contentType = res.headers['content-type'] || null;
+        rec.cfCache = res.headers['cf-cache-status'] || null;
+        rec.commit = res.headers['x-astro-fleet-commit'] || null;
+        rec.server = res.headers.server || null;
+        const chunks = [];
+        let total = 0;
+        res.on('data', (chunk) => {
+          total += chunk.length;
+          if (total <= maxBytes) chunks.push(chunk);
+          if (total > maxBytes) req.destroy();
+        });
+        res.on('end', () => {
+          rec.bytes = total;
+          rec.totalMs = Math.round(performance.now() - started);
+          finalizeBody(rec, chunks, maxBytes);
+          resolve(rec);
+        });
+        res.on('error', (e) => {
+          rec.totalMs = Math.round(performance.now() - started);
+          rec.error = e?.code || e?.name || String(e);
+          resolve(rec);
+        });
+      },
+    );
+    req.on('timeout', () => {
+      req.destroy();
+      rec.totalMs = Math.round(performance.now() - started);
+      rec.error = 'TimeoutError';
+      resolve(rec);
+    });
+    req.on('error', (e) => {
+      rec.totalMs = Math.round(performance.now() - started);
+      rec.error = e?.code || e?.name || String(e);
+      resolve(rec);
+    });
+    req.end();
+  });
+}
+
 /**
  * Timed GET. Never follows redirects (we record them). Reads body up to maxBytes.
  * Returns a flat record suitable for JSONL.
  */
 export async function probe(url, { timeoutMs = CONFIG.politeness.timeoutMs, maxBytes = 2 * 1024 * 1024, host } = {}) {
+  if (host) return probeWithExplicitHost(url, { timeoutMs, maxBytes, host });
+
   const started = performance.now();
   const rec = { url, status: 0, ok: false, ttfbMs: null, totalMs: null, bytes: 0, location: null, contentType: null, cfCache: null, commit: null, error: null, title: null };
   const headers = { 'user-agent': USER_AGENT, accept: 'text/html,application/xml;q=0.9,*/*;q=0.8' };
-  if (host) headers.host = host; // origin probes: loopback with Host header
   try {
     const res = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(timeoutMs), headers });
     rec.ttfbMs = Math.round(performance.now() - started);
@@ -159,7 +251,6 @@ export async function probe(url, { timeoutMs = CONFIG.politeness.timeoutMs, maxB
     rec.cfCache = res.headers.get('cf-cache-status');
     rec.commit = res.headers.get('x-astro-fleet-commit');
     rec.server = res.headers.get('server');
-    // Read body (bounded)
     const reader = res.body?.getReader();
     const chunks = []; let total = 0;
     if (reader) {
@@ -173,15 +264,7 @@ export async function probe(url, { timeoutMs = CONFIG.politeness.timeoutMs, maxB
     }
     rec.bytes = total;
     rec.totalMs = Math.round(performance.now() - started);
-    if (rec.contentType?.includes('text/html')) {
-      const text = Buffer.concat(chunks).toString('utf8');
-      const m = text.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-      if (m) rec.title = m[1].replace(/\s+/g, ' ').trim().slice(0, 200);
-      rec.bodyText = text;
-    } else {
-      rec.bodyText = Buffer.concat(chunks).toString('utf8');
-    }
-    rec.ok = res.status >= 200 && res.status < 400;
+    finalizeBody(rec, chunks, maxBytes);
   } catch (e) {
     rec.totalMs = Math.round(performance.now() - started);
     rec.error = e?.cause?.code || e?.name || String(e);

@@ -107,6 +107,19 @@ export function serveLegacyPage(slug: string): Response {
   html = ensureScript(html, "/js/astro-mirror-fixes.js");
   html = ensureScript(html, "/scripts/blog-load-more.js");
 
+  // Compare table: mirror lacks .wptb-style-isolation so upstream WPTB CSS is inert.
+  if (slug === "compare-companies") {
+    html = html.replace(
+      /class="wptb-container-legacy"/g,
+      'class="wptb-style-isolation wptb-container-legacy"',
+    );
+    html = html.replace(
+      /class="wptb-preview-table /g,
+      'class="wptb-preview-table wptb-table ',
+    );
+    html = ensureStylesheet(html, "/css/compare-table-fix.css");
+  }
+
   // Insights: Impreza Load More hit live admin-ajax — retarget to Astro API metadata.
   if (slug === "insights") {
     html = html.replace(

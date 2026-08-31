@@ -22,15 +22,16 @@ const stats = [
 ];
 
 const brands = [
-  { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi Arabia logo' },
-  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE business setup logo' },
+  { src: `${img}/brands/cr-saudi.svg`, alt: 'Connect Resources Saudi Arabia logo', href: '/connect-resources-ksa/' },
+  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE business setup logo', href: '/c-uae/' },
   {
     src: `${img}/brands/connect-fz.png`,
     alt: 'Connect FZ free zone company setup logo',
     className: 'cgbs-brand-connectfz',
     style: 'height:30px;max-width:175px;width:auto;object-fit:contain;',
+    href: '/connect-fz/',
   },
-  { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation services logo' },
+  { src: `${img}/brands/saudi-company-formation.svg`, alt: 'Saudi Company Formation services logo', href: '/company-formation-saudi/' },
 ];
 
 const trust = [
@@ -305,7 +306,11 @@ const intel = [
           <h2>Our Specialist Brands</h2>
           <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
           <div class="cgbs-brand-row">
-            {brands.map((b) => <img class={b.className} style={b.style} src={b.src} alt={b.alt} loading="lazy" />)}
+            {brands.map((b) => (
+              <a href={b.href} target="_blank" rel="noopener noreferrer">
+                <img class={b.className} style={b.style} src={b.src} alt={b.alt} loading="lazy" />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -676,6 +681,7 @@ const intel = [
     color: #d1d1d1; font-size: 18px; margin: 0 auto 24px; max-width: 780px; text-align: center;
   }
   .cgbs-brand-row { display: flex; align-items: center; justify-content: center; gap: 10px 40px; flex-wrap: wrap; }
+  .cgbs-brand-row a { display: inline-flex; align-items: center; }
   .cgbs-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
   .cgbs-brand-row .cgbs-brand-connectfz {
     height: 30px;
@@ -898,6 +904,9 @@ const intel = [
     .cgbs-h2 { font-size: 36px; }
     .cgbs-finalcta h2 { font-size: 40px; }
   }
+  @media (max-width: 991px) {
+    .cgbs-hero { padding-top: 110px; }
+  }
   @media (max-width: 860px) {
     .cgbs-wrap,
     .cgbs-hero .cgbs-wrap,
@@ -917,7 +926,7 @@ const intel = [
       background-image: url('/uae-company-setup/bkg/hero-mobile.webp');
       background-size: 100% auto;
       background-position: center top;
-      padding: 80px 0 0;
+      padding: 110px 0 0;
       min-height: 1412px;
     }
     .cgbs-hero .cgbs-wrap,

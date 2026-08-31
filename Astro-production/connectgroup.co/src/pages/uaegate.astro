@@ -1,7 +1,10 @@
 ---
 /**
- * Not marked Done in migration sheet (column D) — redirect away from public site.
- * Source: Connect group asrto.xlsx
+ * Phase 1: static mirror of WordPress UAE Gate page.
+ * Live URL: https://connectgroup.co/uaegate/
+ * Source: source/wordpress-exports/uaegate/index-https.html
  */
-return Astro.redirect('/', 301);
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+return serveLegacyPage('uaegate');
 ---

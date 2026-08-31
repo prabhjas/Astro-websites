@@ -1,0 +1,118 @@
+---
+/**
+ * About page hero: a cream band that a duotoned coastal photograph bleeds into.
+ *
+ * Deliberately not `ServiceHero`, whose shape is heading + terracotta
+ * subheading + badge row + two CTAs. This frame draws an eyebrow *over* the
+ * heading and nothing below the paragraph, and its copy column is 519px against
+ * ServiceHero's 845px — the two would have disagreed on every measurement they
+ * shared.
+ *
+ * All three crops are the frames' own BKG frames at 2x, so the cream wash and
+ * the `mix-blend-hue` ellipse are baked into the files. That is why this hero
+ * paints no gradient of its own — the opposite call from `ServiceHero`'s, and
+ * only safe because all three crops carry the treatment. Measured off them the
+ * body copy comes back at 8:1 and up at every width.
+ *
+ * Art direction rather than resolution, as on the service heroes. `<source>` is
+ * first-match-wins, so these are ordered widest first and the `<img>` carries
+ * the phone crop as the fallback.
+ */
+import { getImage } from "astro:assets";
+import desktopImage from "../../assets/images/about-hero-background-desktop.webp";
+import tabletImage from "../../assets/images/about-hero-background-tablet.webp";
+import mobileImage from "../../assets/images/about-hero-background-mobile.webp";
+import { getUi } from "../../i18n/copy";
+
+const { t } = getUi(Astro.url.pathname);
+const h = t.aboutHero;
+
+/**
+ * Each crop gets a ladder derived from its own width, the same rule
+ * `ServiceHero` follows: the three are different sizes (2880 / 1536 / 860) and
+ * a shared ladder would either upscale the phone crop or ask it for widths it
+ * does not have.
+ */
+const source = async (img: ImageMetadata) => {
+  const widths = [480, 720, 1080, 1440, 2160, 2880].filter(
+    (w) => w <= img.width,
+  );
+  if (widths.at(-1) !== img.width) widths.push(img.width);
+  const built = await getImage({
+    src: img,
+    widths,
+    sizes: "100vw",
+    format: "webp",
+  });
+  return {
+    srcset: built.srcSet.attribute,
+    src: built.src,
+    width: img.width,
+    height: img.height,
+  };
+};
+
+const desktop = await source(desktopImage);
+const tablet = await source(tabletImage);
+const mobile = await source(mobileImage);
+---
+
+<section class="relative isolate overflow-hidden bg-bg-page">
+  <picture class="pointer-events-none absolute inset-0 -z-10">
+    <source
+      media="(min-width: 1024px)"
+      srcset={desktop.srcset}
+      sizes="100vw"
+      width={desktop.width}
+      height={desktop.height}
+    />
+    <source
+      media="(min-width: 768px)"
+      srcset={tablet.srcset}
+      sizes="100vw"
+      width={tablet.width}
+      height={tablet.height}
+    />
+    <img
+      src={mobile.src}
+      srcset={mobile.srcset}
+      sizes="100vw"
+      width={mobile.width}
+      height={mobile.height}
+      alt=""
+      class="size-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+
+  {/*
+    Centred on a phone, left-aligned from the tablet frame up — the same split
+    every hero on the site makes, and what the 430 frame draws.
+  */}
+  <div class="section-shell py-20 md:py-30">
+    <div
+      class="flex w-full max-w-[519px] flex-col items-center gap-6 text-center md:items-start md:text-left"
+    >
+      <div class="flex w-full flex-col items-center gap-4 md:items-start">
+        {/*
+          Figma sets this eyebrow in `terracotta` (#d9714e), which measures
+          2.74:1 on the cream the wash resolves to here — measured off the bare
+          crop at all three widths — and a 13px caption needs 4.5:1.
+          `text-link` (#a44728) is the same hue resolved dark enough to read,
+          and is what the design itself uses for the "DELIVERY" eyebrow further
+          down the page, so this is the file's own correction rather than a new
+          colour. Same swap `EttLicence` already carries.
+        */}
+        <p class="text-caption text-text-link">{h.eyebrow}</p>
+        <h1 class="text-display text-balance text-text-primary">
+          {h.heading}
+        </h1>
+      </div>
+      <p class="text-body-lg text-text-secondary">
+        {h.body}
+      </p>
+    </div>
+  </div>
+</section>

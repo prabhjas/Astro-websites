@@ -30,6 +30,20 @@
     var loading = false;
     var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
+    // Never expose /insights/page/N/ or /blog/page/N/ on hover or navigation.
+    function stayOnPageHref() {
+      try {
+        var path = window.location.pathname || "/";
+        return path.endsWith("/") ? path : path + "/";
+      } catch (e) {
+        return "#";
+      }
+    }
+    if (btn.tagName === "A") {
+      btn.setAttribute("href", stayOnPageHref());
+      btn.setAttribute("role", "button");
+    }
+
     function setLabel(text) {
       var span = btn.querySelector("span");
       if (span) span.textContent = text;
@@ -39,12 +53,16 @@
     function onClick(event) {
       event.preventDefault();
       event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === "function") {
+        event.stopImmediatePropagation();
+      }
       if (loading || nav.hidden) return;
       loading = true;
       setLabel("Loading...");
 
+      // Front path — /api/blog/* is still routed to backend on this host (stale card HTML).
       var url =
-        "/api/blog/load-more/?page=" +
+        "/insights/load-more/?page=" +
         encodeURIComponent(String(nextPage)) +
         "&perPage=" +
         encodeURIComponent(String(perPage));
@@ -61,7 +79,7 @@
             nextPage = data.nextPage;
             nav.setAttribute("data-next-page", String(nextPage));
             if (btn.tagName === "A") {
-              btn.setAttribute("href", "/blog/page/" + nextPage + "/");
+              btn.setAttribute("href", stayOnPageHref());
             }
             setLabel(defaultLabel);
           } else {

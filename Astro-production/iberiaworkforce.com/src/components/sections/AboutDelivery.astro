@@ -1,0 +1,66 @@
+---
+/**
+ * "What that looks like in practice?" — four icon cards under a centred header.
+ *
+ * Deliberately not `services/ServiceIncluded.astro`, whose props *are* the
+ * `services` collection's `included` schema: this page is not a content entry,
+ * and bending that component to take a free-standing list would mean either a
+ * second props shape or a fake collection row. The card treatment is the shared
+ * one anyway — white on cream, ruled, 12px radius.
+ *
+ * Four across at 1440, two at 768, one at 430; the frames draw a plain grid at
+ * every width, so this is not a carousel. The cards stretch to a common height
+ * per row rather than carrying the frames' fixed heights, which is the same
+ * result and survives the copy changing.
+ */
+import shieldSplit from "../../assets/icons/svc-shield-split.svg";
+import scales from "../../assets/icons/svc-scales.svg";
+import documentSeal from "../../assets/icons/svc-document-seal.svg";
+import hrAdmin from "../../assets/icons/svc-hr-admin.svg";
+import { getUi } from "../../i18n/copy";
+import Icon from "../ui/Icon.astro";
+
+const { t } = getUi(Astro.url.pathname);
+const d = t.aboutDelivery;
+
+const icons = [shieldSplit, scales, documentSeal, hrAdmin];
+const items = d.items.map((item, i) => ({
+  icon: icons[i]!,
+  ...item,
+}));
+---
+
+<section
+  class="bg-bg-page py-20 lg:py-30"
+  aria-labelledby="about-delivery-heading"
+>
+  <div class="section-shell flex flex-col items-stretch gap-10 lg:gap-12">
+    <div class="flex flex-col items-center gap-3 text-center" data-reveal>
+      <p class="text-caption text-text-link">{d.eyebrow}</p>
+      <h2 id="about-delivery-heading" class="text-h1 text-balance text-text-primary">
+        {d.heading}
+      </h2>
+    </div>
+
+    <ul class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {
+        items.map((item, i) => (
+          <li
+            class="flex flex-col items-start gap-4 rounded-xl border border-border-subtle bg-bg-surface p-5 md:gap-6 md:p-6"
+            data-reveal
+            style={`--reveal-i:${i}`}
+          >
+            {/* The glyphs are drawn at 32px and are not square — a split shield
+                is 26.7 wide, the scales 32.03 — so `Icon` centres each leaf at
+                its intrinsic size inside the 32px frame the design gives it. */}
+            <Icon src={item.icon} size={32} paint="fill" />
+            <div class="flex flex-col items-start gap-2">
+              <h3 class="text-h5 text-navy">{item.title}</h3>
+              <p class="text-body-sm text-text-secondary">{item.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

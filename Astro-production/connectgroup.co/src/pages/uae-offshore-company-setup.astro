@@ -21,10 +21,10 @@ const stats = [
 ];
 
 const brands = [
-  { src: `${img}/brands/cr-saudi.png`, alt: 'Connect Resources Saudi' },
-  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE' },
-  { src: `${img}/brands/connect-fz.png`, alt: 'Connect FZ' },
-  { src: `${img}/brands/saudi-company-formation.png`, alt: 'Saudi Company Formation' },
+  { src: `${img}/brands/cr-saudi.png`, alt: 'Connect Resources Saudi', href: '/connect-resources-ksa/' },
+  { src: `${img}/brands/c-uae.png`, alt: 'C-UAE', href: '/c-uae/' },
+  { src: `${img}/brands/connect-fz.png`, alt: 'Connect FZ', href: '/connect-fz/' },
+  { src: `${img}/brands/saudi-company-formation.png`, alt: 'Saudi Company Formation', href: '/company-formation-saudi/' },
 ];
 
 const useCases = [
@@ -267,8 +267,8 @@ const intel = [
       <div class="uaeo-wrap">
         <div class="uaeo-hero-grid">
           <div>
-            <p class="uaeo-eyebrow uaeo-eyebrow-light">Offshore Company Setup UAE</p>
-            <h1>Built for investors who mean business.</h1>
+            <h1 class="uaeo-eyebrow uaeo-eyebrow-light">Offshore Company Setup UAE</h1>
+            <h2>Built for investors who mean business.</h2>
             <p class="uaeo-hero-lead">
               Since 2016, Connect Group has established over 15,000 international businesses in the
               UAE. We build robust corporate structures through premium jurisdictions like RAK ICC
@@ -290,7 +290,11 @@ const intel = [
           <h2>Our Specialist Brands</h2>
           <p>This service is delivered through our dedicated group subsidiaries, ensuring niche expertise at every stage.</p>
           <div class="uaeo-brand-row">
-            {brands.map((b) => <img src={b.src} alt={b.alt} loading="lazy" />)}
+            {brands.map((b) => (
+              <a href={b.href} target="_blank" rel="noopener noreferrer">
+                <img src={b.src} alt={b.alt} loading="lazy" />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -308,7 +312,7 @@ const intel = [
     <!-- USE CASES -->
     <section class="uaeo-section uaeo-usecases">
       <div class="uaeo-wrap">
-        <h2 class="uaeo-h2 uaeo-center">Who uses a UAE<br />Offshore company?</h2>
+        <h2 class="uaeo-h2 uaeo-center uaeo-h2-oneline">Who uses a UAE Offshore company?</h2>
         <p class="uaeo-sub-blue uaeo-center">
           Connect Group sets up offshore companies for investors, founders and family offices across six common use cases.
         </p>
@@ -583,7 +587,8 @@ const intel = [
     color: #fff; padding: 120px 0 80px;
   }
   .uaeo-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 30px; align-items: center; }
-  .uaeo-hero h1 { color: #fff; font-size: 60px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 24px; }
+  .uaeo-hero h2 { color: #fff; font-size: 60px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 24px; }
+  .uaeo-h2-oneline { white-space: nowrap; }
   .uaeo-hero-lead { color: #c9d0ff; font-size: 18px; line-height: 1.65; margin: 0 0 32px; max-width: 640px; }
   .uaeo-btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
   /* Icon at the approved size, natural aspect ratio.
@@ -599,6 +604,7 @@ const intel = [
   .uaeo-brands h2 { color: #fff; font-size: 26px; font-weight: 600; margin: 0 0 8px; }
   .uaeo-brands p { color: rgba(255, 255, 255, 0.72); font-size: 15px; margin: 0 auto 28px; max-width: 780px; }
   .uaeo-brand-row { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+  .uaeo-brand-row a { display: inline-flex; align-items: center; }
   .uaeo-brand-row img { height: 40px; width: auto; object-fit: contain; opacity: 0.95; }
   .uaeo-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
   .uaeo-stat { background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px; padding: 26px 28px; text-align: center; }
@@ -717,11 +723,14 @@ const intel = [
     .uaeo-btn-row { justify-content: center; }
     .uaeo-brand-row { gap: 48px; }
   }
+  @media (max-width: 991px) {
+    .uaeo-hero { padding-top: 110px; }
+  }
   @media (max-width: 860px) {
     .uaeo-wrap { padding: 0 24px; }
     .uaeo-section { padding: 60px 0; }
     .uaeo-hero-grid, .uaeo-adv-grid, .uaeo-pricing-grid, .uaeo-juris-grid { grid-template-columns: 1fr; gap: 36px; }
-    .uaeo-hero h1 { font-size: 40px; }
+    .uaeo-hero h2 { font-size: 40px; }
     .uaeo-h2 { font-size: 30px; }
     .uaeo-hero-art { display: none; }
     .uaeo-stats { grid-template-columns: repeat(2, 1fr); }
@@ -738,7 +747,8 @@ const intel = [
     .uaeo-stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .uaeo-stat { padding: 20px 16px; }
     .uaeo-stat-big { font-size: 26px; }
-    .uaeo-hero h1 { font-size: 34px; }
+    .uaeo-hero h2 { font-size: 34px; }
+    .uaeo-h2-oneline { white-space: normal; }
     .uaeo-btn-row { flex-direction: column; }
     .uaeo-btn-row .uaeo-btn { width: 100%; }
     .uaeo-brand-row { gap: 28px 40px; }

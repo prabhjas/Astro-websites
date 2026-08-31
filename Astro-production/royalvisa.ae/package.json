@@ -26,13 +26,15 @@
     "redirects:generate": "node scripts/generate-redirects.mjs",
     "chrome:extract": "node scripts/extract-chrome.mjs",
     "qa:final": "node scripts/final-qa.mjs",
-    "qa:final:ui": "node scripts/final-qa-ui.mjs"
+    "qa:final:ui": "node scripts/final-qa-ui.mjs",
+    "og:generate": "node scripts/generate-og-images.mjs"
   },
   "dependencies": {
     "@astrojs/node": "catalog:",
     "astro": "catalog:",
     "cheerio": "catalog:",
     "nodemailer": "catalog:",
+    "sharp": "0.35.3",
     "yaml": "catalog:",
     "@connect/site-cms": "workspace:*"
   },

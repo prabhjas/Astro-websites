@@ -1,0 +1,79 @@
+---
+/**
+ * The coverage band — a short cream strip that says where the service actually
+ * runs from, with one button beside it.
+ *
+ * Deliberately not `ServiceCountries`: that section is a hub's map of the
+ * markets it covers, drawn as cards a reader picks from. This is a single
+ * market stated as a fact, on a band a third the height, and it carries a
+ * status chip rather than a card grid.
+ *
+ * A flex row at both widths that draw one: the desktop and tablet frames put
+ * the button at the right margin with the copy taking whatever is left (1001px
+ * at 1440, 409 at 768 — the same row, not two layouts), and the mobile frame
+ * stacks them with the button full width.
+ */
+import type { CollectionEntry } from "astro:content";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["coverage"]>;
+
+const { badge, heading, body, cta } = Astro.props;
+---
+
+<section class="bg-bg-page py-14" aria-labelledby="coverage-heading">
+  <div
+    class="section-shell flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-25"
+  >
+    <div class="flex min-w-0 flex-1 flex-col items-start gap-4" data-reveal>
+      <div class="flex flex-col items-start gap-3">
+        {
+          badge && (
+            /* Terracotta rather than the `slate-100` chip `ServiceCountries`
+               draws for a market with no page yet — this one says the opposite.
+
+               The fill is the `terracotta` (#d9714e) Figma sets, and the ink is
+               navy rather than the white it draws: white on that fill measures
+               3.27:1 and this is 12px bold, which needs 4.5. Navy on the same
+               fill is 6.9:1. That is the pairing `ServiceCountries`' featured
+               badge already uses, so the two "this market is live" chips on the
+               site now match each other as well as the frames.
+
+               `badge-orbit` is that badge's travelling glint, for the same
+               reason: this is the one chip on the page that is an announcement
+               rather than a label. It is defined only inside a
+               `prefers-reduced-motion: no-preference` query, so it simply does
+               not paint for a visitor who asked for less motion. */
+            <p class="badge-orbit rounded-full bg-terracotta px-3 py-1 text-micro font-bold text-btn-accent-text">
+              {badge}
+            </p>
+          )
+        }
+        <h2 id="coverage-heading" class="text-h2 text-balance text-text-primary">
+          {heading}
+        </h2>
+      </div>
+      <p class="text-body-lg text-text-tertiary">{body}</p>
+    </div>
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props, so
+           `data-reveal` on the component itself would be dropped. */
+        <div class="w-full sm:w-auto" data-reveal style="--reveal-i:1">
+          <Button
+            variant="accent"
+            size="lg"
+            href={cta.href}
+            class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+          >
+            {cta.label}
+            <Icon src={chevronRight} size={20} tone="current" />
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</section>

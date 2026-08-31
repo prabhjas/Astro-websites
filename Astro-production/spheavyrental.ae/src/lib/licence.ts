@@ -13,13 +13,14 @@ export { licence };
 /** Field order used by the footer strip, the PDF and llms.txt alike. */
 export const licenceRows: Array<{ label: string; value: string }> = [
   { label: "License Status", value: licence.status },
+  { label: "Unified License", value: licence.unifiedNumber },
   { label: "License Number", value: licence.number },
   { label: "Business Name", value: licence.businessName },
   { label: "License Type", value: licence.type },
   { label: "Issuing Authority", value: licence.issuingAuthority },
   { label: "Legal Type", value: licence.legalType },
   { label: "Issue Date", value: licence.issueDate },
-];
+].filter((row) => Boolean(row.value));
 
 /**
  * The scanned licence PDF is optional: the strip only offers "click here to

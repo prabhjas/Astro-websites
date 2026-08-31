@@ -1,7 +1,10 @@
 ---
 /**
- * Not marked Done in migration sheet (column D) — redirect away from public site.
- * Source: Connect group asrto.xlsx
+ * Phase 1: static mirror of WordPress MBS Tax Consultancy page.
+ * Live URL: https://connectgroup.co/mbs-tax-consultancy/
+ * Source: source/wordpress-exports/mbs-tax-consultancy/index-https.html
  */
-return Astro.redirect('/', 301);
+import { serveLegacyPage } from '../lib/legacy-page.js';
+
+return serveLegacyPage('mbs-tax-consultancy');
 ---

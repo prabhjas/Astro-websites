@@ -12,6 +12,48 @@ export type PipedriveResult =
       errorCode: string;
     };
 
+type PipedriveFieldKeys = ServerEnv['fieldKeys'];
+
+/** Connect Group shared deal-field hashes (cbss.ae / redo.ae). Used when env omits PIPEDRIVE_FIELD_* . */
+const CONNECT_GROUP_FIELD_KEYS: PipedriveFieldKeys = {
+  message: '3a108ee6cdcaad880546876dd524bfa9aa686da7',
+  source: '296a2c3746355d2b33b7ff392bd038199eaf9665',
+  website: 'af2182f3f2ee03a51c7dcfd898951a268787343c',
+  leadSubmittedOn: '1b6c5556b8f2796d4a87d842248152f78384ac37',
+  userLandedOn: 'da1c7e07576ae835e0cf337b831ab2db59d64707',
+  nationality: 'ef20fc32751f00f294ca3c35003b908ba0ad42a4',
+  countryCode: '4c0ac56cd5cca4ff7d5996b692608d5b82ea9dc6',
+  companyName: 'b311a9a442b96abcecc6fbd254b977287a54feac',
+  professionSector: 'fa0d863f0fdfdbb2a7b39519208841b18b256006',
+  locPhysicalMs: '872ba697d4548d943f25d247fa955ac99407d7a5',
+  locInterestMs: '7d77301b889aa6f07f8858bf5662c450fc36b4d9',
+  adposition: '3dcaf84909978d5167a9bab13e754eccfc6d39d1',
+  targetId: '04057083817af90abe314fd48f0f856ea52652c0',
+  placement: '53d1db8286116e3a52f6bb5ad28c6cfab5b170ac',
+  network: 'e2ea3701d1c42e64ea160bd0c74989996475c51d',
+  device: '9c13a77c0d5cb7f5bdb1a3c63d784d88b5555029',
+  matchtype: '416eeb319125d90c7a0b9b37fdf7576bc9eae70b',
+  keyword: '48a9a6f7ff7347062221a840ff955bae94b19d5e',
+  creativeId: 'cb7ffc625c3a3e6c1b04e9b1d9860559f0ecd480',
+  campaignId: 'b8da9d1e02468bc3b9e62958fd86a1fa61d4c215',
+  adgroupId: 'c8b52df3a6c58f5ecf129b2c73db8830b5c5167e',
+  gclid: 'd3a15df8cde497d2eb39515f9488f681440cca92',
+  utmSource: '',
+  utmMedium: '',
+  utmCampaign: '',
+  utmTerm: '',
+  utmContent: '',
+  fbclid: '',
+  location: '',
+  campaign: '',
+};
+
+function resolveFieldKeys(env: ServerEnv): PipedriveFieldKeys {
+  const keys = env.fieldKeys;
+  if (keys.message.trim()) return keys;
+  return CONNECT_GROUP_FIELD_KEYS;
+}
+
 type PipedriveApiResponse<T> = {
   success: boolean;
   data?: T;
@@ -99,16 +141,29 @@ function buildFormMessage(form: NormalisedContactForm): string {
     form.leadSource ? `Language: ${form.leadSource}` : '',
   ].filter(Boolean);
   if (form.message) lines.push('', '=== Message ===', form.message);
-  if (form.pageUrl || form.landingPageUrl) {
-    lines.push('', '=== Tracking ===');
-    if (form.pageUrl) lines.push(`Submitted from: ${form.pageUrl}`);
-    if (form.landingPageUrl) lines.push(`Landed on: ${form.landingPageUrl}`);
+
+  const tracking: string[] = [];
+  if (form.pageUrl) tracking.push(`Submitted from: ${form.pageUrl}`);
+  if (form.landingPageUrl) tracking.push(`Landed on: ${form.landingPageUrl}`);
+  if (form.gclid) tracking.push(`GCLID: ${form.gclid}`);
+  if (form.utmSource) tracking.push(`UTM source: ${form.utmSource}`);
+  if (form.utmMedium) tracking.push(`UTM medium: ${form.utmMedium}`);
+  if (form.utmCampaign) tracking.push(`UTM campaign: ${form.utmCampaign}`);
+  if (form.utmTerm) tracking.push(`UTM term: ${form.utmTerm}`);
+  if (form.utmContent) tracking.push(`UTM content: ${form.utmContent}`);
+  if (form.campaignId || form.campaign) {
+    tracking.push(`Campaign ID: ${form.campaignId || form.campaign}`);
   }
+  if (form.keyword) tracking.push(`Keyword: ${form.keyword}`);
+  if (tracking.length) {
+    lines.push('', '=== Tracking ===', ...tracking);
+  }
+
   return lines.join('\n');
 }
 
 function buildCustomFields(env: ServerEnv, form: NormalisedContactForm): Record<string, unknown> {
-  const keys = env.fieldKeys;
+  const keys = resolveFieldKeys(env);
   const fields: Record<string, unknown> = {};
 
   const set = (key: string | undefined, value: unknown) => {
@@ -116,8 +171,8 @@ function buildCustomFields(env: ServerEnv, form: NormalisedContactForm): Record<
   };
 
   set(keys.message, buildFormMessage(form));
-  if (env.pipedriveLeadSourceId) set(keys.source, env.pipedriveLeadSourceId);
-  if (env.websiteId) set(keys.website, env.websiteId);
+  set(keys.source, env.pipedriveLeadSourceId || undefined);
+  set(keys.website, env.websiteId || undefined);
   set(keys.leadSubmittedOn, form.pageUrl ? `Lead Submitted On: ${form.pageUrl}` : undefined);
   set(keys.userLandedOn, form.landingPageUrl ? `User Landed on: ${form.landingPageUrl}` : undefined);
   set(keys.nationality, form.nationality);
@@ -189,8 +244,7 @@ async function createLead(
   personId: number,
   form: NormalisedContactForm,
 ): Promise<{ ok: boolean; id?: string; status: number; error?: string }> {
-  const serviceSuffix = form.professionSector ? ` — ${form.professionSector}` : '';
-  const title = `${env.leadTitlePrefix.trim() || 'Website lead — iberiaworkforce.com'}${serviceSuffix}`;
+  const title = `${env.leadTitlePrefix} - ${form.fullName}`.trim();
   const payload = removeEmptyValues({
     title,
     owner_id: env.pipedriveOwnerId > 0 ? env.pipedriveOwnerId : undefined,

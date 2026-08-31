@@ -1,2 +1,53 @@
-redirects: []
-
+# Connect Resources redirects — press-release CPT → /press/ only.
+# Deleted Lana URLs are removed (404); do not add home redirects here.
+# Generated/maintained by scripts/apply-lana-url-cleanup.py
+redirects:
+  # Press-release CPT → /press/ (archive + singles)
+  - from: /press-release/
+    to: /press/
+    status: 301
+  - from: /press-release/aaron-portero-managing-director-of-connect-group-appears-in-an-article-by-khaleej-times/
+    to: /press/aaron-portero-managing-director-of-connect-group-appears-in-an-article-by-khaleej-times/
+    status: 301
+  - from: /press-release/aaron-portero-managing-director-of-connect-group-gives-insight-for-agbi-article/
+    to: /press/aaron-portero-managing-director-of-connect-group-gives-insight-for-agbi-article/
+    status: 301
+  - from: /press-release/aaron-portero-talk-about-europeans-are-flocking-to-uae-in-khaleej-times/
+    to: /press/aaron-portero-talk-about-europeans-are-flocking-to-uae-in-khaleej-times/
+    status: 301
+  - from: /press-release/connect-hr-has-been-appraised-by-one-of-the-worlds-biggest-reviewers/
+    to: /press/connect-hr-has-been-appraised-by-one-of-the-worlds-biggest-reviewers/
+    status: 301
+  - from: /press-release/connect-resources-has-appeared-on-one-of-the-top-news-portals-of-the-region/
+    to: /press/connect-resources-has-appeared-on-one-of-the-top-news-portals-of-the-region/
+    status: 301
+  - from: /press-release/connect-resources-has-been-awarded-at-the-mea-business-awards/
+    to: /press/connect-resources-has-been-awarded-at-the-mea-business-awards/
+    status: 301
+  - from: /press-release/connect-resources-has-been-featured-in-bloomberg/
+    to: /press/connect-resources-has-been-featured-in-bloomberg/
+    status: 301
+  - from: /press-release/connect-resources-has-recently-appeared-in-one-of-the-biggest-news-websites-of-the-region/
+    to: /press/connect-resources-has-recently-appeared-in-one-of-the-biggest-news-websites-of-the-region/
+    status: 301
+  - from: /press-release/connect-resources-is-joining-forces-with-the-manzil-center-to-give-back-to-the-community/
+    to: /press/connect-resources-is-joining-forces-with-the-manzil-center-to-give-back-to-the-community/
+    status: 301
+  - from: /press-release/connect-resources-success-story-is-featured-on-mea-markets-magazine/
+    to: /press/connect-resources-success-story-is-featured-on-mea-markets-magazine/
+    status: 301
+  - from: /press-release/connect-resources-team-visit-manzil-center/
+    to: /press/connect-resources-team-visit-manzil-center/
+    status: 301
+  - from: /press-release/euronews-appreciated-employment-services-of-connect-resources/
+    to: /press/euronews-appreciated-employment-services-of-connect-resources/
+    status: 301
+  - from: /press-release/introducing-connect-resources-hiring-partner-and-talent-marketplace-thetalentpoint/
+    to: /press/introducing-connect-resources-hiring-partner-and-talent-marketplace-thetalentpoint/
+    status: 301
+  - from: /press-release/managing-director-of-connect-group-aaron-portero-joins-the-israel-emirates-business-summit-2022-event/
+    to: /press/managing-director-of-connect-group-aaron-portero-joins-the-israel-emirates-business-summit-2022-event/
+    status: 301
+  - from: /press-release/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/
+    to: /press/signing-of-memorandum-of-understanding-between-connect-resources-and-city-university-college-of-ajman/
+    status: 301

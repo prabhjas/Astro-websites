@@ -1,0 +1,268 @@
+# Employer of Record — Portugal country page.
+# Figma nodes 101-332 (1440), 184-1752 (768), 184-1759 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# Portugal and Spain are the same page shape with two deliberate differences:
+# the "what's included" band is the icon grid rather than the photo-and-list,
+# and pricing is explained rather than quoted (`pricingNote`, not `pricing`) —
+# Spanish payroll costs are fixed by statute, Portuguese ones are not.
+type: country
+label: Employer of Record in Portugal
+
+seo:
+  title: Employer of Record in Portugal | Iberia Workforce
+  description: >-
+    Employer of record services in Portugal. Código do Trabalho compliance,
+    non-EU visa support, transparent payroll costs. Run by lawyers, not
+    templates.
+  schema:
+    serviceName: Employer of Record Services Portugal
+    serviceType: Employer of Record
+    areaServed: Portugal
+    # No address: the brief marks this page's office location PENDING, and an
+    # invented city in structured data is worse than an absent one. Add it
+    # here when the client confirms.
+
+hero:
+  tone: light
+  heading: Employer of Record in Portugal
+  subheading: Structured around the Código do Trabalho, not a global template
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: licence
+      label: Código do Trabalho Experts
+    - icon: global
+      label: Portugal + 4 European Countries
+  body: >-
+    Hire employees in Portugal without opening a company. Código do Trabalho
+    compliance, multi-track work permits for non-EU hires, strict termination
+    procedures — structured correctly from the start.
+  image: ../../../assets/images/eor-portugal-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-portugal-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-portugal-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  heading: What is an Employer of Record in Portugal?
+  image: ../../../assets/images/eor-portugal-definition.webp
+  imageAlt: Two colleagues talking over a laptop in a Lisbon office
+  paragraphs:
+    - >-
+      In Portugal, an employer of record is a legal structure that handles the
+      employment contract under the Código do Trabalho, manages the mandatory
+      14-month salary system, coordinates work permits for non-EU hires, and
+      carries the compliance risk for strict termination procedures — while you
+      retain operational control of the day-to-day work.
+
+differentiator:
+  layout: statements
+  heading: Why Employer of Record works differently in Portugal?
+  paragraphs:
+    - >-
+      Portugal's labor code doesn't leave much room for improvisation. The
+      14-month salary system, strict probation and termination rules, collective
+      bargaining coverage, work permits for non-EU hires — these aren't details
+      you patch after the hire is made. They're decisions that lock in your legal
+      exposure from day one.
+    - >-
+      A checklist doesn't catch what happens when a probation period ends and the
+      termination gets contested, or when a non-EU hire's visa category doesn't
+      match the role you're actually offering. Ours is a legal team, not a
+      support queue — the people structuring your contract are the same people
+      who'd defend it if it were ever challenged.
+  prompt: >-
+    Book a 20-min call to clarify which probation window applies to your hire?
+  background: ../../../assets/images/eor-portugal-lisbon-office.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  heading: >-
+    Why choose Iberia Workforce for Employer of Record services in Portugal?
+  highlight: Employer of Record
+  items:
+    - title: We match the hire to the right visa track.
+      description: >-
+        D1, D3, the EU Blue Card, a foreign-employer arrangement — each fits a
+        different reality, and the wrong one gets challenged at AIMA, not on our
+        end. We tell you which one you need before you commit to it.
+    - title: >-
+        We build contracts that survive a challenge, not just contracts that get
+        signed.
+      description: >-
+        Probation length, CBA classification, grounds for termination — set at
+        hire time, rarely revisited until something goes wrong. Getting these
+        right from day one is what keeps a termination from turning into a legal
+        dispute months later.
+
+howItWorks:
+  # Cream rather than white here: the bands either side of it are white, so this
+  # is what keeps the page alternating. The Spain page is the other way round.
+  surface: page
+  heading: How Employer of Record works in Portugal?
+  steps:
+    - title: Tell us about the hire
+      description: >-
+        Role, salary, start date, and whether this person lives in Portugal or
+        needs a visa. For non-EU hires, we confirm upfront whether D1, D3, the EU
+        Blue Card, or a different route actually applies — before any paperwork
+        starts.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at an office desk reviewing a document together
+    - title: We build the contract and register
+      description: >-
+        Employment contract under the Código do Trabalho, Segurança Social
+        enrolment, the applicable collective bargaining classification, and visa
+        or residence permit processing if needed. You approve the terms. We
+        handle the filing.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee starts
+      description: >-
+        Monthly payroll accounts for the 14-month salary structure and the meal
+        allowance, tracked per day actually worked. Probation, performance, and
+        if it ever comes to it, termination — we manage the process so it holds
+        up.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  # Figma's prompt here still reads "Ready to hire in Spain…" at all three
+  # widths — a leftover from the Spain frame it was duplicated from.
+  prompt: Ready to hire in Portugal without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  columns: 3
+  surface: surface
+  align: center
+  heading: What's included in EOR Services in Portugal?
+  items:
+    - icon: contract-briefcase
+      title: Employment contracts & compliance
+      description: >-
+        Drafted in Portuguese, structured under the Código do Trabalho, with role
+        classification matched to the relevant collective bargaining agreement
+        from day one.
+    - icon: pay-envelope
+      title: Payroll & 14-month system
+      description: >-
+        Monthly payroll that accounts for the mandatory Christmas and holiday
+        subsidies, employer Segurança Social contributions, and IRS withholding —
+        calculated correctly from the first payslip.
+    - icon: meal-allowance
+      title: Meal allowance, tracked per day
+      description: >-
+        Paid on top of salary, not folded into it. The amount varies month to
+        month based on actual days worked — shown upfront, not averaged into a
+        flat number.
+    - icon: permit-passport
+      title: Work permits & visa structuring
+      description: >-
+        D1, D3, EU Blue Card, or a foreign-employer arrangement — we identify
+        which structure actually matches your hire and manage the filing with
+        AIMA.
+    - icon: accident-insurance
+      title: Mandatory accident insurance
+      description: >-
+        Every employee is covered against occupational injury under a workplace
+        accident policy — billed as part of your monthly cost, not a separate
+        annual invoice.
+    - icon: probation-support
+      title: Probation & termination support
+      description: >-
+        Probation set to match role complexity. If an employment relationship
+        needs to end, we manage the process end to end — grounds, documentation,
+        timeline.
+  cta:
+    label: Get a Cost Breakdown for your Hire
+    href: "#contact-form"
+
+pricingNote:
+  heading: Employer of Record pricing in Portugal
+  paragraphs:
+    - >-
+      We don't quote a flat number for Portugal, because the variables that
+      actually move your cost — EU or non-EU hire, visa category, role
+      classification under the collective agreement — change the structure enough
+      that a flat rate would either overcharge simple hires or undercharge
+      complex ones.
+    - >-
+      What you'll always get before committing to anything: a full breakdown of
+      the base fee, payroll costs including the 14-month structure, the meal
+      allowance range for your working pattern, and mandatory insurance — no
+      separate line items that show up later.
+  background: ../../../assets/images/eor-portugal-azulejo.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client.
+faq:
+  eyebrow: EMPLOYER OF RECORD PORTUGAL
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Portugal?
+      answer: >-
+        Yes. EOR is a recognised, legally established route to hiring in
+        Portugal. There's no special license required to operate as a provider
+        here — the complexity sits inside the Código do Trabalho itself, not in a
+        licensing regime.
+    - question: How much does an employer of record cost in Portugal?
+      answer: >-
+        It depends on headcount, contract type, and whether the hire needs visa
+        sponsorship. Portugal's cost structure has too many moving parts for a
+        single flat number to be honest. Tell us your scenario and we'll walk you
+        through exactly what it costs.
+    - question: How quickly can I hire someone in Portugal?
+      answer: >-
+        EU/EEA nationals with standard documentation: typically 1–2 weeks. Non-EU
+        hires needing a D1, D3, or Blue Card add further weeks while AIMA
+        processes the residence permit — the exact timeline depends on visa
+        category and nationality. We give you a realistic estimate, not an
+        optimistic one.
+    - question: Can I use an EOR if my hire is on a Digital Nomad (D8) Visa?
+      answer: >-
+        Not exactly, and this is worth being direct about. The D8 is built for
+        people who remain employed by a company outside Portugal; it isn't
+        designed around a Portugal-based EOR relationship. If your hire needs to
+        be a genuine Portugal employee, D1 or D3 is usually the correct route
+        depending on their qualifications. We'll tell you which structure
+        actually fits your situation rather than forcing a hire into whichever
+        visa is easiest to process.
+    - question: What happens if I need to end someone's employment?
+      answer: >-
+        Portugal doesn't recognize at-will termination. Every dismissal needs
+        documented, justified grounds — disciplinary cause, redundancy, or mutual
+        agreement. In practice, it's a missed procedural step that gets a
+        dismissal successfully challenged, not the underlying decision. We build
+        that process discipline into the contract from the start, not as cleanup
+        afterward.
+    - question: Why does my monthly payroll cost vary?
+      answer: >-
+        Mainly the meal allowance — it's paid per day actually worked, so a month
+        with vacation or leave will show a lower total than a full working month.
+        We flag this upfront so it's never a surprise on the invoice.
+    - question: Who is Iberia Workforce, and what's your legal structure?
+      answer: >-
+        Iberia Workforce is part of Connect Group. There's no local intermediary
+        between you and the people doing the work — the same team drafting your
+        contract, running payroll, and filing visa paperwork with AIMA is who
+        you're in contact with throughout.
+
+closing:
+  heading: You don't need to become an expert in the Código do Trabalho.
+  subheading: You need someone who already is.
+  body: >-
+    Every scenario on this page starts the same way: describe the hire, and we'll
+    map the visa route, the contract terms, and the real monthly cost before you
+    commit to anything.

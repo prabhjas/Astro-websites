@@ -4,6 +4,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { readCanonicalRedirectsYaml } from '../src/lib/runtime-redirects/store.ts';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -14,6 +15,15 @@ function mustExist(rel) {
     throw new Error(`Missing ${rel} in dist/`);
   }
   return readFileSync(full, 'utf8');
+}
+
+function redirectSourceUrls() {
+  return readCanonicalRedirectsYaml(ROOT).map((rule) => {
+    const from = String(rule.from || '').trim();
+    if (!from) return '';
+    const path = from.startsWith('/') ? from : `/${from}`;
+    return `https://kpmpro.ae${path.endsWith('/') ? path : `${path}/`}`;
+  }).filter(Boolean);
 }
 
 function main() {
@@ -38,9 +48,17 @@ function main() {
 
   const pageCount = (page.match(/<loc>/g) || []).length;
   const postCount = (post.match(/<loc>/g) || []).length;
+
+  const sitemapXml = `${page}\n${post}`;
+  const leaked = redirectSourceUrls().filter((url) => sitemapXml.includes(`<loc>${url}</loc>`));
+  if (leaked.length) {
+    throw new Error(`Redirect source URLs must not appear in sitemap:\n  ${leaked.join('\n  ')}`);
+  }
+
   console.log(`OK — robots.txt + sitemap_index.xml`);
   console.log(`  page-sitemap.xml: ${pageCount} URLs`);
   console.log(`  post-sitemap.xml: ${postCount} URLs`);
+  console.log(`  redirect sources excluded: ${redirectSourceUrls().length}`);
 }
 
 main();

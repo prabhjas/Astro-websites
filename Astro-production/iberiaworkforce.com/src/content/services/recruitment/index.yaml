@@ -1,0 +1,367 @@
+# Recruitment — category hub. Figma nodes 166-1146 (1440),
+# 184-6814 (768) and 184-6815 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Recruitment
+
+seo:
+  title: Recruitment & Executive Search | Iberia Workforce
+  description: >-
+    Recruitment with legal checks built in. We find talent, validate visas
+    and non-competes, then you decide. Pay after they start.
+  schema:
+    serviceName: Recruitment Services
+    serviceType: Recruitment & Talent Acquisition
+    areaServed: Europe
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  heading: Recruitment services built on legal certainty, not just speed
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: employee
+      label: Visa & Agreement Experts
+    - icon: search
+      label: Executive Search
+    - icon: global
+      label: 5 European Countries
+  body: >-
+    We find the right candidate for your role. Our lawyers validate they can
+    actually join (visa, non-compete, existing agreements). You do not pay until
+    they start. If it does not work in 60 days, we find you a replacement free.
+    That is recruitment with skin in the game.
+  image: ../../../assets/images/recruitment-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/recruitment-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/recruitment-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+definition:
+  heading: What is Recruitment?
+  body: >-
+    Recruitment is sourcing, screening, and placing candidates into roles. Most
+    recruiters stop there. We do not. Recruitment done right means finding
+    someone qualified and validating they can actually take the job - which
+    means checking visa categories, reviewing non-compete clauses, verifying
+    existing employment agreements will not block the hire. You choose the
+    candidate. Our lawyers ensure they can onboard without legal friction.
+  image: ../../../assets/images/recruitment-hub-definition.webp
+  imageAlt: A recruiter interviewing a candidate across a table in a bright office
+
+# The "SignatureSection" band (502:5442 / 502:5456 / 502:5470) — the same
+# stacked arrangement the EOR Spain page draws, with the Iberian contour map
+# bleeding in from the right behind a navy wash.
+differentiator:
+  layout: stacked
+  heading: Why Recruitment matters?
+  subheading: The hidden costs of wrong hires
+  paragraphs:
+    - >-
+      Most recruitment stops at placement. You get a CV, you hire someone, then
+      the friction surfaces: visa category does not allow the role. Non-compete
+      from their previous employer blocks them. Existing employment agreement
+      requires 90 days notice and restricts where they can work next.
+    - >-
+      You have already made an offer. Now you are renegotiating or the hire
+      falls apart. The right recruitment means finding the person and validating
+      upfront that they can actually start. No surprises after.
+  background: ../../../assets/images/recruitment-hub-matters.webp
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: Why choose Iberia Workforce for Recruitment services?
+  highlight: Recruitment
+  items:
+    - title: We validate every hire before you commit.
+      description: >-
+        Most recruiters send you a CV and move on. We find the candidate, then
+        our legal team checks: visa category for international hires,
+        non-compete clauses, existing employment agreements that might block the
+        hire. You get a yes-or-no answer on feasibility before you make an
+        offer.
+    - title: We specialize in the roles nobody else can find.
+      description: >-
+        Standard mid-level roles in fintech or IT: 1–2 weeks. Niche specialists
+        like - AI researchers, specialized logistics experts, domain experts in
+        emerging fields - take longer because they actually exist in smaller
+        pools. We have the headhunting depth and network to find talent other
+        recruiters say "does not exist."
+    - title: We hunt C-level and executive talent like it is our specialty.
+      description: >-
+        Director-level, C-suite, board positions - these require a different
+        approach than posting a job. We headhunt. We know who is good, who is
+        available, and who might be open to a conversation.
+    - title: >-
+        You do not pay until they start. If it does not work in 60 days, we find
+        you someone else free.
+      description: >-
+        Most recruiters take a fee upfront and disappear. We take 10% of annual
+        salary, but only after the candidate has been working 15 days and you
+        have decided they are the right fit. If they do not work out in the
+        first two months or they leave, we source your replacement at zero cost.
+    - title: 9 years at scale. 10,000+ employees placed across Europe.
+      description: >-
+        Built in the UAE, one of the world's most compliance-heavy hiring
+        environments. That operational depth now runs recruitment across Spain,
+        Germany, Portugal, Poland, and Italy.
+
+# Four steps rather than three, which is why the desktop frame (502:5611) draws
+# them 2×2 — `ServiceSteps` takes the column count from the step count. Steps 3
+# and 4 reuse the EOR hub's photographs, which is what the frames draw.
+howItWorks:
+  heading: How Recruitment works?
+  steps:
+    - title: Tell us what you need to hire
+      description: >-
+        Role, seniority, location, salary range, urgency. Is this a standard
+        role or a specialized search? Are you hiring EU nationals or
+        international candidates who need visa support? We assess the complexity
+        and give you realistic timelines upfront.
+      image: ../../../assets/images/step-role-briefing.webp
+      imageAlt: A hiring manager briefing two colleagues across a meeting table
+    - title: We source and screen
+      description: >-
+        We tap our network, use our sourcing tools, and headhunt where needed.
+        We screen candidates for fit - skills, experience, culture alignment.
+        For international hires, we run initial visa category checks so we only
+        present people who can actually work for you. You get a shortlist of
+        qualified candidates, not noise.
+      image: ../../../assets/images/step-candidate-screening.webp
+      imageAlt: A recruiter talking through a shortlist with a colleague at a desk
+    - title: You choose. We validate. They onboard.
+      description: >-
+        You select the candidate you want. Our legal team validates the full
+        picture: visa requirements, work permits, non-compete clauses,
+        employment agreements that might restrict them. Once validated, they are
+        good to onboard. We stay involved through their first weeks to ensure
+        the transition goes smoothly.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Payment and the 60-day safety net
+      description: >-
+        15 days after they start, you pay us 10% of their annual gross salary -
+        one-time fee. If the hire does not work out in the first 60 days or they
+        decide to leave, we source your replacement at no charge. You already
+        paid us; we find the right person the second time.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage recruitment without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  eyebrow: SERVICES
+  heading: What is included in Recruitment Services?
+  align: center
+  layout: mosaic
+  items:
+    - icon: person-scan
+      title: Candidate Sourcing & Screening
+      description: >-
+        Active sourcing through our network, passive candidate identification,
+        skills assessment, and culture fit evaluation. For niche roles,
+        headhunting and direct outreach to high-potential candidates in your
+        field.
+    - icon: document-stamp
+      title: Visa Category & Work Permit Assessment
+      description: >-
+        For international hires, we identify the correct visa category upfront
+        (HQP, D1, Digital Nomad, Skilled Worker, or country-specific permits).
+        We flag timelines and requirements before you make an offer.
+    - icon: document-lines
+      title: Non-Compete & Employment Agreement Review
+      description: >-
+        Our legal team reviews existing employment agreements, non-compete
+        clauses, and key-person restrictions that might block a hire. You know
+        upfront if there is friction and how to navigate it.
+    - icon: search-person
+      title: Executive Search & Headhunting
+      description: >-
+        C-level, director-level, and board positions sourced and evaluated
+        through our network. We know who is strong, who is available, and who
+        might be open to conversations. Not job posting. Strategic recruitment.
+    - icon: headset
+      title: Offer Support & Onboarding Coordination
+      description: >-
+        We help structure the offer, coordinate first-week logistics, and ensure
+        the legal and payroll side are set up correctly so the hire starts
+        without friction.
+    - icon: swap-arrows
+      title: Candidate Replacement Guarantee
+      description: >-
+        If the hire does not fit within 60 days or they leave early, we source a
+        replacement candidate at no additional cost. You have already paid the
+        fee; we find the right person the second time.
+    - icon: globe-pin
+      title: International Hiring & Multi-Country Coordination
+      description: >-
+        Hiring across Spain, Germany, Portugal, Poland, and Italy - each
+        country's labor law and visa requirements are built into how we source
+        and validate. No one-size-fits-all approach.
+  cta:
+    label: Get Started with Your Recruitment Need
+    href: "#contact-form"
+
+countries:
+  eyebrow: WHERE WE OPERATE
+  heading: Where we Recruit?
+  align: start
+  lead:
+    heading: >-
+      Recruitment services currently available in Spain, Germany, Portugal,
+      Poland, and Italy.
+  featured:
+    name: Spain
+    badge: AVAILABLE NOW
+    description: >-
+      Sourcing, headhunting, and placement across Spanish tech, fintech, and
+      growth sectors. Legal validation for visa, non-compete, and employment
+      agreements built into every hire.
+    cta:
+      label: Explore
+      href: /recruitment/spain
+  others:
+    - name: Germany
+      badge: COMING SOON
+      description: >-
+        Executive search and specialist recruitment across German tech,
+        engineering, and financial services sectors. Visa and legal validation
+        included.
+    - name: Portugal
+      badge: COMING SOON
+      description: >-
+        Recruitment and headhunting for Portuguese growth companies and
+        international firms scaling to Portugal. Visa and legal support for
+        international hires.
+    - name: Poland
+      badge: COMING SOON
+      description: >-
+        Talent acquisition and executive search across Polish tech, fintech, and
+        specialized sectors. International hiring with legal validation.
+    - name: Italy
+      badge: COMING SOON
+      description: >-
+        Recruitment and headhunting for Italian companies and international
+        firms entering the Italian market. Executive search and specialist
+        placement.
+
+# The Figma accordion is drawn closed, so it specifies the questions but no
+# answers. Copy supplied by the client alongside the design.
+faq:
+  eyebrow: RECRUITMENT
+  heading: Frequently asked questions
+  items:
+    - question: How long does recruitment actually take?
+      answer: >-
+        Standard roles (mid-level fintech, IT, engineering, product management):
+        1–2 weeks from brief to shortlist. Specialized or niche roles (AI
+        researchers, domain experts, rare skill combinations): up to one month
+        because the candidate pool is smaller and we are being selective. We
+        give you a realistic timeline upfront based on your specific role, not
+        an optimistic one.
+    - question: What exactly does "legal validation" mean? Do you slow down hiring?
+      answer: >-
+        No. We do not validate every candidate we source, that would be
+        wasteful. You choose the candidate you want. Then our legal team does a
+        full check: visa category for international hires, non-compete review,
+        existing employment agreements that might restrict them. This takes
+        days, not weeks, and it happens in parallel with your offer process. It
+        actually speeds things up because you do not get surprises after they
+        have accepted.
+    - question: Can you recruit for executive and C-level roles?
+      answer: >-
+        Yes. This is where our approach differs most from transactional
+        recruiting. For director-level, C-suite, and board positions, we
+        headhunt. We know candidates, we know the market, we know who is good
+        and who is available. These roles do not get filled by posting a job,
+        they get filled by relationships and strategic outreach.
+    - question: How do you handle international hires and visas?
+      answer: >-
+        We identify the correct visa category upfront. For EU nationals in your
+        country of hire, typically straightforward. For non-EU hires, we assess
+        visa category (HQP, D1, Skilled Worker, Digital Nomad, or
+        region-specific), flag timelines and costs, and ensure your offer
+        matches what the visa allows. Our legal team manages the paperwork if
+        the hire needs visa sponsorship.
+    - question: >-
+        What if the candidate I want has a non-compete from their previous
+        employer?
+      answer: >-
+        We review it upfront. Some non-competes are enforceable; some are not
+        (depending on geography, industry, duration, and legal jurisdiction). If
+        there is friction, we flag it before you make an offer so you can decide
+        how to navigate it - renegotiate with the previous employer, wait out
+        the non-compete period, or move to another candidate. No surprises.
+    - question: Can you find candidates in niche or specialized fields?
+      answer: >-
+        Yes. That is where our sourcing depth and network matter most. We have
+        placed niche specialists across various sectors. It takes longer than
+        posting a standard role, sometimes weeks, but we find the person. We are
+        honest about timelines instead of promising speed we cannot deliver.
+    - question: What about the 1-free-replacement guarantee? When does it apply?
+      answer: >-
+        If the candidate leaves or you determine they are a poor fit within 60
+        days of starting, we source and present a replacement candidate at no
+        charge. You have already paid the 10% fee on the first hire; the
+        replacement is our confidence in the original hire. If it happens more
+        than once, it usually signals either a misalignment on what the role
+        needs or something in your company environment - we will discuss that
+        with you.
+    - question: Do you work with passive candidates or just active job seekers?
+      answer: >-
+        Both. We source active candidates from the job market, but a lot of good
+        talent is not actively looking. We headhunt passive candidates, people
+        happy in their current roles but open to the right opportunity. Passive
+        sourcing often takes longer but surfaces better talent.
+    - question: How do you source candidates? Do you use a database or platform?
+      answer: >-
+        We use a combination of our proprietary sourcing tools, direct network
+        outreach, and headhunting relationships built over years across our
+        markets. For niche roles, it is mostly headhunting and direct outreach.
+        For standard roles, we combine active sourcing with network
+        recommendations. We do not rely on a single approach.
+    - question: What is the fee structure? When do I pay?
+      answer: >-
+        10% of the candidate's annual gross salary, paid 15 days after they
+        start working. One-time payment. If the hire does not work out in the
+        first two months, you do not pay for the replacement - we source them
+        free because you already invested in the first hire.
+    - question: Do you place candidates internationally, or just in Europe?
+      answer: >-
+        For recruitment services, we focus on the five European markets: Spain,
+        Germany, Portugal, Poland, Italy. For executive/C-level search, we can
+        source globally depending on the role. We also have specialized
+        recruitment operations in the GCC region and the USA under separate
+        entities - ask if you need placement outside Europe.
+    - question: Who is Iberia Workforce, and how do you operate recruitment?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate recruitment
+        services through our in-house teams of headhunters, sourcers, and
+        employment lawyers across Europe. We do not outsource sourcing to local
+        partners, the same team finding your candidate is the same team
+        validating their legal ability to join. We carry the responsibility for
+        the quality and fit of every hire.
+
+closing:
+  heading: >-
+    Good recruitment is more than a name and a resume. It is finding someone who
+    fits.
+  footnote: >-
+    Validating they can actually take the job, and backing that commitment with
+    a guarantee. You do not pay until they start. If it does not work in 60
+    days, we find you someone else free. Describe the role you are hiring for:
+    seniority, specialization, location, timeline and we will tell you exactly
+    how long it will take. No obligation.

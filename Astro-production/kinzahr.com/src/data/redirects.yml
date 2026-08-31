@@ -54,3 +54,6 @@ redirects:
   - from: /services/eor-peo-services/
     to: /services/employer-of-record/
     status: 301
+  - from: /recruitment/
+    to: /recruitment-agency-lp/
+    status: 301

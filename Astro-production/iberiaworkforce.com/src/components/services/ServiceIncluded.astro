@@ -1,0 +1,218 @@
+---
+/**
+ * "What's included" as an icon-card grid, in two arrangements:
+ *
+ * - `grid`: the header above the cards and the CTA below them, all full width.
+ * - `mosaic`: a six-column grid whose rows alternate two wide cards and three
+ *   narrow ones, which is how an odd count tiles without leaving a hole. Below
+ *   `lg` it is `grid` exactly.
+ * - `aside`: the heading and CTA hold a 411px left column with the cards
+ *   beside them — desktop only, since both narrow frames put the heading back
+ *   on top and the button back at the bottom. That is placement rather than
+ *   source order, so the desktop arrangement is a grid and the narrow one stays
+ *   the flex column.
+ */
+import type { CollectionEntry } from "astro:content";
+import { serviceIcons } from "../../lib/service-icons";
+import Button from "../ui/Button.astro";
+import CarouselControls from "../ui/CarouselControls.astro";
+import Icon from "../ui/Icon.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["included"]>;
+
+const {
+  eyebrow,
+  heading,
+  items,
+  columns = 4,
+  surface = "page",
+  align = "start",
+  layout = "grid",
+  compact = false,
+  cta,
+  ctaAlign = "start",
+} = Astro.props;
+
+const aside = layout === "aside";
+const mosaic = layout === "mosaic";
+
+/**
+ * The tighter card treatment: 16px gutters, and a measure on a centred header
+ * rather than the full column. Travels with `aside` and `mosaic`, whose frames
+ * both draw it; a plain grid has to ask.
+ */
+const tight = aside || mosaic || compact;
+
+/**
+ * The mosaic's column spans, over a six-track grid. The rule is the alternating
+ * rows — two wide cards, then three narrow — rather than a span authored per
+ * card, which keeps the content file a flat list with nothing about layout in it.
+ *
+ * A narrow row needs three cards to fill the six tracks, so one that cannot be
+ * filled falls back to a wide pair. Seven items tile 2 / 3 / 2 and nine tile
+ * 2 / 3 / 2 / 2, where a literal repeat of the cycle would end on two narrow
+ * cards and a third of a row of nothing. Only the seven-card path has a frame
+ * today; the fallback is what makes the rule true of any count rather than one.
+ */
+const mosaicSpans = (count: number) => {
+  const spans: number[] = [];
+  for (let narrow = false; spans.length < count; narrow = !narrow) {
+    if (narrow && count - spans.length >= 3) spans.push(2, 2, 2);
+    else spans.push(3, 3);
+  }
+  return spans;
+};
+
+const MOSAIC_SPANS = mosaicSpans(items.length);
+
+/**
+ * The cards take whichever neutral the section does not, so they read as cards
+ * either way: white with a hairline border on the cream page, and the light
+ * grey wash on white. Both are what Figma draws for the frame that uses them.
+ */
+const onPage = surface === "page";
+---
+
+<section
+  class:list={[
+    "py-20 lg:py-30",
+    onPage ? "bg-bg-page" : "bg-bg-surface",
+  ]}
+  aria-labelledby="included-heading"
+>
+  {/*
+    `1fr` on the second row is what keeps the button under the heading rather
+    than floating down the empty half of the column: the cards span both rows
+    and are much the taller side, so an `auto` row would share their spare
+    height out between the two.
+  */}
+  <div
+    class:list={[
+      "section-shell flex flex-col gap-12",
+      align === "center" ? "items-center" : "items-start",
+      aside
+        ? "lg:grid lg:grid-cols-[411px_1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-6 lg:gap-y-6"
+        : "lg:gap-20",
+    ]}
+  >
+    {/*
+      A compact frame draws a narrower centred header than the full-width grid
+      does — 800px, 939 and 800 across the three that use one. The cap is the
+      widest of those, because it is the only one any of the headings actually
+      reaches: the longest needs 1082px to sit on one line, so it wraps at any
+      cap below that, which is what its own frame draws.
+
+      It is the *centred* header that is narrower, not the arrangement. A
+      left-aligned heading runs from the margin at the same 1114px measure every
+      full-width grid band uses — centred copy needs a measure, left-aligned
+      copy already has the column.
+    */}
+    <SectionHeader
+      id="included-heading"
+      eyebrow={eyebrow}
+      heading={heading}
+      align={align}
+      maxWidth={
+        aside
+          ? undefined
+          : tight && align === "center"
+            ? "max-w-[960px]"
+            : "max-w-[1114px]"
+      }
+      class={aside ? "lg:col-start-1 lg:row-start-1" : undefined}
+    />
+
+    {/*
+      Three layouts, one per frame: a scroll strip on mobile, 2-across on the
+      tablet frame, then 3 or 4 across on desktop depending on how many cards
+      the page has. `carousel-until-md` rather than the usual `carousel` because
+      the grid takes over at 768px here, a breakpoint earlier than every other
+      strip on the page — the descriptions run to three lines, which is too much
+      copy for two narrow columns on a phone.
+    */}
+    <ul
+      id="included-carousel"
+      class:list={[
+        "carousel-until-md self-stretch md:grid md:grid-cols-2",
+        /* Compact frames set the cards 16px apart; full-width ones use 24. */
+        tight ? "md:gap-4" : "md:gap-6",
+        aside
+          ? "lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:grid-cols-3"
+          : mosaic
+            ? "lg:grid-cols-6"
+            : columns === 4
+              ? "lg:grid-cols-4"
+              : "lg:grid-cols-3",
+      ]}
+      tabindex="0"
+      role="group"
+      aria-label={`${heading} — scroll for more`}
+    >
+      {
+        items.map((item, i) => (
+          <li
+            class:list={[
+              "carousel-item card-focus flex flex-col items-start rounded-xl border",
+              /* The mosaic sets its own heights from the copy — a 632px card
+                 held to 248px would be mostly whitespace. */
+              !mosaic && "lg:min-h-[248px]",
+              mosaic && (MOSAIC_SPANS[i] === 3 ? "lg:col-span-3" : "lg:col-span-2"),
+              /* Compact cards keep 20px padding and a 24px glyph at every
+                 width; full-width ones grow to 24px padding and a 32px icon. */
+              aside ? "gap-5 p-5" : "gap-6 p-5 md:p-6",
+              onPage
+                ? "border-border-subtle bg-bg-surface"
+                : "border-transparent bg-bg-muted",
+            ]}
+            data-reveal
+            style={`--reveal-i:${i % (aside || mosaic ? 3 : columns)}`}
+          >
+            <Icon src={serviceIcons[item.icon]} size={aside ? 24 : 32} />
+            <div class:list={["flex flex-col items-start", aside ? "gap-4" : "gap-2"]}>
+              <h3 class="text-h5 text-text-primary">{item.title}</h3>
+              <p class="text-body-sm text-text-secondary">{item.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <CarouselControls
+      for="included-carousel"
+      count={items.length}
+      until="md"
+      class="w-full text-text-primary"
+    />
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props,
+           so `data-reveal` on the component itself would be dropped. On an
+           `aside` band the button belongs to the heading's column at lg. */
+        <div
+          class:list={[
+            "w-full sm:w-auto",
+            !aside && ctaAlign === "center" && "sm:self-center",
+            aside &&
+              "sm:self-center lg:col-start-1 lg:row-start-2 lg:self-start lg:justify-self-start",
+          ]}
+          data-reveal
+        >
+          <Button
+            variant={aside ? "accent" : "secondary-on-light"}
+            size="lg"
+            href={cta.href}
+            class={
+              aside
+                ? "w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+                : "w-full sm:w-auto"
+            }
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</section>
