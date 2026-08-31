@@ -1,0 +1,55 @@
+# Sync Astro site commits → Jira DEV board
+#
+# Requires repo secrets:
+#   JIRA_EMAIL
+#   JIRA_API_TOKEN
+#   JIRA_CLOUD_ID   (optional; defaults to connect-marketing cloud id)
+#
+# Skip a commit with [skip jira] in the subject.
+# Owner/security may need to approve adding this workflow if .github/ is protected.
+
+name: Jira commit sync
+
+on:
+  push:
+    branches: [work/astro-sites]
+    paths:
+      - 'Astro-production/**'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'git --since value (e.g. 24 hours ago, 7 days ago)'
+        required: false
+        default: '24 hours ago'
+      dry_run:
+        description: 'Print only (1) or create tickets (0)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jira-commit-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Sync commits to Jira
+        env:
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_CLOUD_ID: ${{ secrets.JIRA_CLOUD_ID }}
+          JIRA_PROJECT_KEY: DEV
+          GIT_SINCE: ${{ github.event.inputs.since || '24 hours ago' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: node scripts/jira-commit-sync.mjs
