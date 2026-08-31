@@ -3,7 +3,28 @@
 html,
 body {
   margin: 0 !important;
-  padding: 0;
+  padding: 0 !important;
+}
+
+/* Transparent header height — heroes tuck under with matching negative margin */
+:root {
+  --sp-header-offset: 74px;
+}
+
+.sp-elementor-header,
+.elementor-location-header,
+#top-header {
+  margin-top: 0 !important;
+  margin-block-start: 0 !important;
+}
+
+/*
+  Site-wide: first page hero tucks under the transparent header.
+  Header is 74px; Elementor page CSS still ships -70px on many templates.
+*/
+.elementor:not(.elementor-location-header):not(.elementor-location-footer)
+  > .elementor-section.elementor-top-section:first-child {
+  margin-top: calc(-1 * var(--sp-header-offset)) !important;
 }
 
 #wpadminbar {

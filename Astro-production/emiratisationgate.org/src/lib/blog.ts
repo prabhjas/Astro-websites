@@ -5,6 +5,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { enrichMirrorSeoHtml } from './seo/enrich-mirror-meta';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -380,6 +381,25 @@ function patchHeadMeta(html: string, post: BlogPost): string {
       out = out.replace('</head>', `<meta property="og:image" content="${post.og.image}" />\n</head>`);
     }
   }
+
+  const twTitle = post.twitter?.title || post.og.title || metaTitle;
+  const twDescription = post.twitter?.description || post.og.description || metaDescription;
+  const twImage = post.twitter?.image || post.og.image;
+  const twCard = post.twitter?.card || 'summary_large_image';
+  const upsertTw = (name: string, content: string) => {
+    if (!content) return;
+    const tag = `<meta name="${name}" content="${escapeHtml(content)}" />`;
+    const re = new RegExp(`<meta\\s+name="${name}"\\s+content="[^"]*"\\s*\\/?>`, 'i');
+    if (re.test(out)) out = out.replace(re, tag);
+    else out = out.replace('</head>', `${tag}\n</head>`);
+  };
+  upsertTw('twitter:card', twCard);
+  upsertTw('twitter:title', twTitle);
+  upsertTw('twitter:description', twDescription);
+  if (twImage) upsertTw('twitter:image', twImage);
+  upsertTw('twitter:url', post.canonical);
+  upsertTw('twitter:site', '@emiratisationgate');
+
   return out;
 }
 
@@ -454,6 +474,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
   html = patchHeadMeta(html, post);
+  html = enrichMirrorSeoHtml(html, post.canonical);
 
   if (!html.includes('astro-blog-toc-css')) {
     html = html.replace('</head>', `${TOC_STYLES}\n</head>`);

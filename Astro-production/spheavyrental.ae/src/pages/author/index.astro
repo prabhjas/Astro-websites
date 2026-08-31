@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { getAuthors, getPostsByAuthor, stripHtml } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
 
@@ -13,13 +12,30 @@ function displayName(raw: string) {
   return base.replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function avatarSrc(url: string, size = 600) {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("gravatar.com")) {
+      u.searchParams.set("s", String(size));
+      return u.toString();
+    }
+  } catch {
+    /* keep original */
+  }
+  return url.replace(/([?&]s=)\d+/i, `$1${size}`);
+}
+
 const authors = getAuthors()
   .map((author) => {
     const postCount = getPostsByAuthor(author.id).length;
+    const designation = stripHtml(author.description).trim();
     return {
       ...author,
       displayName: displayName(author.name),
       postCount,
+      designation,
+      avatarLarge: avatarSrc(author.avatar, 600),
     };
   })
   .sort((a, b) => {
@@ -32,7 +48,7 @@ const authors = getAuthors()
 <BaseLayout
   currentPath="/author/"
   menuActivePath="/blog/"
-  bodyClass="sp-archive-page"
+  bodyClass="sp-archive-page sp-authors-page"
   seo={{
     title: "Authors | SP Heavy Rental",
     description: "Browse articles by author from S&P Heavy Machinery Rental.",
@@ -45,16 +61,31 @@ const authors = getAuthors()
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Authors" }]} />
-      <p class="sp-archive-kicker">Our writers</p>
-      <h1>Authors</h1>
-      <p>Meet the team behind our equipment rental guides and industry tips.</p>
+  <section class="sp-authors-hero" aria-label="Authors">
+    <div class="sp-authors-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          srcset="/wp-content/uploads/authors/authors-hero.webp"
+          type="image/webp"
+        />
+        <img
+          class="sp-authors-hero__img"
+          src="/wp-content/uploads/authors/authors-hero.jpg"
+          alt=""
+          width="1920"
+          height="424"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+      <span class="sp-authors-hero__overlay"></span>
+    </div>
+    <div class="sp-authors-hero__inner sp-container">
+      <h1 class="sp-authors-hero__title">Authors</h1>
     </div>
   </section>
 
-  <section class="sp-archive-body">
+  <section class="sp-archive-body sp-authors-body">
     <div class="sp-container">
       {
         authors.length ? (
@@ -62,13 +93,13 @@ const authors = getAuthors()
             {authors.map((author) => (
               <li>
                 <a class="sp-author-card" href={author.path}>
-                  <span class="sp-author-card__avatar">
+                  <span class="sp-author-card__media">
                     {author.avatar ? (
                       <img
-                        src={author.avatar}
-                        alt={`${author.displayName} avatar`}
-                        width="72"
-                        height="72"
+                        src={author.avatarLarge}
+                        alt=""
+                        width="310"
+                        height="302"
                         loading="lazy"
                         decoding="async"
                       />
@@ -79,14 +110,25 @@ const authors = getAuthors()
                     )}
                   </span>
                   <span class="sp-author-card__meta">
-                    <span class="sp-author-card__name">{author.displayName}</span>
-                    <span class="sp-author-card__count">
-                      {author.postCount === 1
-                        ? "1 article"
-                        : `${author.postCount} articles`}
+                    <span class="sp-author-card__row">
+                      <span class="sp-author-card__name">{author.displayName}</span>
+                      <span class="sp-author-card__social" aria-hidden="true">
+                        <img
+                          src="/wp-content/uploads/authors/linkedin.svg"
+                          alt=""
+                          width="24"
+                          height="24"
+                        />
+                      </span>
+                    </span>
+                    <span class="sp-author-card__role">
+                      {author.designation
+                        ? author.designation
+                        : author.postCount === 1
+                          ? "1 article"
+                          : `${author.postCount} articles`}
                     </span>
                   </span>
-                  <span class="sp-author-card__arrow" aria-hidden="true"></span>
                 </a>
               </li>
             ))}
