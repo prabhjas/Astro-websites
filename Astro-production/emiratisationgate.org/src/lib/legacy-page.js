@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
+import { enrichMirrorSeoHtml } from './seo/enrich-mirror-meta.ts';
 import { resolveSiteOrigin } from './seo/site-url.ts';
 
 /**
@@ -199,6 +200,7 @@ export function serveLegacyPage(slug) {
   }
   const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin, path });
+  html = enrichMirrorSeoHtml(html, `${siteOrigin}${path}`);
   html = sanitizeMirrorHtml(html);
 
   return new Response(html, {

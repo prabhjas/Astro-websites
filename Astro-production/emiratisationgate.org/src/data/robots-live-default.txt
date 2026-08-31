@@ -1,12 +1,40 @@
-# Emiratisation Gate — robots.txt defaults matching live (2026-08-05)
+# Emiratisation Gate — robots.txt
 # FLOW can override via managed text file.
 
 User-agent: *
-Disallow:
-Disallow: /cgi-bin/
-Disallow: /cdn-cgi/
 Disallow: /wp-admin/
-Disallow: /ar/wp-json/elementskit/v1/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /wp-login.php
+Disallow: /wp-json/
+Disallow: /?rest_route=
+
+Disallow: /?s=
+Disallow: /page/*/?s=
+Disallow: /search/
+Disallow: /*?replytocom=
+Disallow: /*?orderby=
+Disallow: /*?filter=
+
+Disallow: /tag/
+Disallow: /category/
+Disallow: /blog/page/
+Disallow: /feed
+Disallow: /rss
+
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /old-site-backups/
+
+Disallow: /cart
+Disallow: /checkout
+Disallow: /my-account
+Disallow: /login
+Disallow: /register
+
+Allow: /wp-content/
+Allow: /wp-content/uploads/
+Allow: /public
 
 User-agent: GPTBot
 Allow: /
