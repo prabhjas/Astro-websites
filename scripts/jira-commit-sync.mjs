@@ -50,6 +50,7 @@ const DOMAIN_BRAND = {
   'connectresources.ae': { name: 'Connect Resources', id: '10122' },
   'connectgroup.co': { name: 'Connect Group', id: '10169' },
   'kpmpro.ae': { name: 'KPM PRO', id: '10127' },
+  'peomiddleast.com': { name: 'PEO Middle East', id: '10126' },
   'emiratisationgate.org': { name: 'Emiratisation Gate', id: '10136' },
   'emiratisationhub.com': { name: 'EmiratisationHUB', id: '10137' },
   'emiratisationgateway.com': { name: 'Emiratisation NAFIS', id: '10138' },
