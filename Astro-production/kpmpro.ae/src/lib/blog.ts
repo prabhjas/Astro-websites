@@ -5,20 +5,13 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { isRedirectSourceSlug } from './seo/redirected-routes.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const WP_BLOG_ORDER_PATH = join(ROOT, 'src/data/wp-blog-order.json');
 const SHELL_PATH = join(ROOT, 'src/legacy/blog-shell/template.html');
 const ORIGIN = 'https://kpmpro.ae';
-
-/** Duplicate posts that 301 to a canonical slug — excluded from Insights/sitemap listings. */
-const REDIRECTED_BLOG_SLUGS = new Set([
-  'business-opportunities-in-the-uae',
-  'dubai-pro',
-  'trade-license-dubai-online-check',
-  'golden-visa-requirements',
-]);
 
 /** Production host for absolute SEO URLs (canonical / og:url). Prefer env; never leave relative. */
 function siteOrigin(): string {
@@ -933,7 +926,7 @@ export function buildArchiveCardHtml(post: BlogPost): string {
 export function getAllBlogPosts(): BlogPost[] {
   const posts = getAllBlogSlugs()
     .map((slug) => getBlogPost(slug))
-    .filter((p): p is BlogPost => p !== null && !REDIRECTED_BLOG_SLUGS.has(p.slug));
+    .filter((p): p is BlogPost => p !== null && !isRedirectSourceSlug(p.slug));
 
   const order = loadWpBlogOrder();
   if (!order.length) {

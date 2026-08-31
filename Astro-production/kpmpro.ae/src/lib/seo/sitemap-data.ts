@@ -15,9 +15,11 @@ import {
   type SitemapOverride,
 } from './sitemap-overrides-store.ts';
 import { absoluteUrl, resolveSiteOrigin, type ResolveSiteOriginOptions } from './site-url.ts';
+import { getRedirectSourcePaths } from './redirected-routes.ts';
 import {
   chunkEntries,
   dedupeEntries,
+  resolveSitemapLoc,
   sitemapChunkFilename,
   sortEntries,
 } from './sitemap-utils.ts';
@@ -73,12 +75,16 @@ function collectFromInventory(
     ? inventory.pages.map((p) => (p.slug === 'homepage' ? '' : p.slug))
     : [...prepared].filter((s) => s === '');
 
+  const redirectSources = getRedirectSourcePaths(ROOT);
+
   const pages: SitemapEntry[] = [];
   for (const slug of pageSlugs) {
     if (slug !== '' && slug !== 'blog' && !prepared.has(slug)) continue;
     if (slug === '' && !prepared.has('')) continue;
+    const routePath = pathForSlug(slug);
+    if (redirectSources.has(routePath)) continue;
     pages.push({
-      url: absoluteUrl(siteOrigin, pathForSlug(slug)),
+      url: absoluteUrl(siteOrigin, routePath),
       lastmod: lastmodForSlug(slug === 'blog' ? 'blog' : slug),
       changefreq: slug === '' ? 'weekly' : 'monthly',
       priority: slug === '' ? 1.0 : 0.8,
@@ -86,13 +92,20 @@ function collectFromInventory(
     });
   }
 
-  const posts: SitemapEntry[] = getAllBlogPosts().map((post) => ({
-    url: absoluteUrl(siteOrigin, pathForSlug(post.slug)),
-    lastmod: post.modifiedAt || post.publishedAt,
-    changefreq: 'monthly' as const,
-    priority: 0.6,
-    type: 'post' as const,
-  }));
+  const posts: SitemapEntry[] = [];
+  for (const post of getAllBlogPosts()) {
+    const routePath = pathForSlug(post.slug);
+    if (redirectSources.has(routePath)) continue;
+    const loc = resolveSitemapLoc(routePath, post.canonical, siteOrigin);
+    if (!loc) continue;
+    posts.push({
+      url: loc,
+      lastmod: post.modifiedAt || post.publishedAt,
+      changefreq: 'monthly' as const,
+      priority: 0.6,
+      type: 'post' as const,
+    });
+  }
 
   return {
     pages: sortEntries(dedupeEntries(applyOverrides(pages, siteOrigin, overrides))),
