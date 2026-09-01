@@ -1,5 +1,6 @@
 /**
  * Fallback Elementor Swiper carousels (fleet + testimonials).
+ * Minimal config — Elementor Swiper throws on stale nav/a11y when re-initing.
  */
 (() => {
   const MOBILE_MAX = 767;
@@ -73,11 +74,25 @@
     );
   }
 
+  function destroyIfAny(el) {
+    try {
+      if (el.swiper && !el.swiper.destroyed) el.swiper.destroy(true, true);
+    } catch {
+      /* ignore */
+    }
+    try {
+      delete el.swiper;
+    } catch {
+      /* ignore */
+    }
+    el.classList.remove("swiper-initialized", "swiper-horizontal", "swiper-vertical");
+    el.querySelectorAll(".swiper-slide-duplicate").forEach((n) => n.remove());
+  }
+
   function isReady(el) {
     return (
       el instanceof HTMLElement &&
       !el.dataset.spCarouselBooted &&
-      !el.swiper &&
       !el.classList.contains("swiper-initialized") &&
       el.querySelector(".swiper-wrapper")
     );
@@ -139,6 +154,10 @@
           centeredSlides: settings.centered_slides === "yes",
           observer: true,
           observeParents: true,
+          a11y: false,
+          navigation: false,
+          pagination: false,
+          scrollbar: false,
         };
 
         if (
@@ -154,11 +173,13 @@
         }
 
         el.dataset.spCarouselBooted = "1";
+        destroyIfAny(el);
 
         try {
           // eslint-disable-next-line no-new
           new SwiperCtor(el, config);
-        } catch {
+        } catch (e) {
+          console.warn("sp-carousel init failed", e);
           delete el.dataset.spCarouselBooted;
         }
       });
