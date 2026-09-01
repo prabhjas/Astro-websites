@@ -1,0 +1,335 @@
+# Employer of Record — Italy country page.
+# Figma nodes 128-1141 (1440), 184-1761 (768), 184-1750 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The fifth country page, and the last EOR market. It needed no new section —
+# only three switches on components earlier pages had already generalised:
+#
+#   differentiator.align  the dark split run from the top rather than centred
+#   whyChoose.cta         a button hung off the claim's column
+#   included.layout       the icon grid with the heading and CTA in an aside
+#
+# The one genuinely new asset is the `verified` glyph, which the frames draw
+# six times over rather than giving each obligation its own icon.
+type: country
+label: Employer of Record in Italy
+
+seo:
+  title: Employer of Record in Italy | Iberia Workforce
+  description: >-
+    Hire in Italy without a local company. Italian contracts, INPS payroll,
+    CCNL and visa support — handled by lawyers who know where global
+    templates fail.
+  schema:
+    serviceName: Employer of Record Services Italy
+    serviceType: Employer of Record
+    areaServed: Italy
+    address:
+      locality: Milan
+      country: Italy
+
+hero:
+  tone: light
+  heading: Employer of Record in Italy
+  subheading: >-
+    Hire employees without setting up a company. We handle the legal part that
+    gets complicated.
+  badges:
+    - icon: law
+      label: Law Firm Backed
+    - icon: institute
+      label: Italian Employment Lawyers
+    - icon: money
+      label: On-Ground Payroll Team
+  body: >-
+    Italian employment law doesn't just require compliance — it requires knowing
+    the CCNL (industry salary rules), INPS registration (social security), TFR
+    accrual (severance), and strict termination procedures. We make sure your
+    contracts and payroll navigate these correctly from day one, so visa
+    approvals don't stall and hiring doesn't turn into a legal headache later.
+  image: ../../../assets/images/eor-italy-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-italy-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-italy-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+intro:
+  heading: What is an Employer of Record in Italy?
+  paragraphs:
+    - >-
+      In Italy, an employer of record is a company that becomes the legal
+      employer of your workers. You hire them, direct their work, set what they
+      do. We handle the employment contract under Italian law, register them
+      with INPS, run their payroll each month, manage visa applications if
+      needed, and carry the legal responsibility if something goes wrong. No
+      Italian company registration needed on your end.
+
+differentiator:
+  # The dark split, as the hub draws it — but run from the top rather than
+  # centred: the claim is three lines against seven of prose, and centring
+  # drops it ~100px below the copy it introduces.
+  align: start
+  heading: Why Employer of Record works differently in Italy?
+  paragraphs:
+    - >-
+      Italian employment law is strictly regulated from day one. There's no
+      statutory minimum wage set nationally — instead, your industry determines
+      your legal minimum salary through the CCNL. You also have to accrue TFR
+      (severance) throughout employment, plus INPS contributions (social
+      security), mandatory extra salary months, and strict termination rules.
+    - >-
+      Foreign employers miss these requirements because they're used to
+      countries with simpler rules. They use the same contract template
+      everywhere — then the visa gets rejected because the contract doesn't
+      match the CCNL rules for that industry. The payroll is wrong because they
+      didn't budget for TFR and INPS. The termination gets challenged because
+      they didn't follow Italian dismissal procedures. Most global EOR platforms
+      catch these issues after the fact. We catch them before you sign anything.
+  background: ../../../assets/images/contour-map-europe.webp
+
+whyChoose:
+  # The claim and its button travel with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    Why choose Iberia Workforce for Employer of Record services in Italy?
+  items:
+    - title: >-
+        We know where global EOR templates break down — specifically in CCNL
+        compliance and TFR accounting.
+      description: >-
+        Your contract gets rejected because it doesn't follow CCNL salary
+        minimums. The visa stalls. The first payroll surprises you with TFR and
+        INPS costs nobody budgeted for. We structure contracts to pass Italian
+        review the first time.
+    - title: We handle visa timing and the paperwork that goes with it.
+      description: >-
+        Italy's visa process moves on a schedule — application windows open at
+        specific times, quotas fill up, and waiting for the next window can cost
+        months. We know the timeline and what documents get the application
+        approved before the window closes. We also know which visa categories
+        work with EOR structures and which don't.
+    - title: Immigration lawyers, not coordinators.
+      description: >-
+        Non-EU hires aren't a side job for us. We have lawyers who specialize in
+        Italian work visas and understand what makes an application succeed or
+        fail. No third parties, no 'we'll check with our local partner.'
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+howItWorks:
+  surface: page
+  heading: How Employer of Record works in Italy?
+  steps:
+    - title: Tell us about the hire
+      description: >-
+        Role, salary range, start date. Is this person already in Italy, or do
+        they need a visa? If it's a non-EU hire, what's their nationality? We
+        assess the right structure, identify the correct CCNL for the role, and
+        flag any legal questions before anything gets signed.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at an office desk reviewing a document together
+    - title: We build and register the contract
+      description: >-
+        Employment contract in Italian, structured to meet Italian law and the
+        CCNL requirements for that industry. Registration with INPS (social
+        security), visa filing if needed, all the documentation Italian
+        authorities expect. You review and sign off. We handle the filing.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your employee starts
+      description: >-
+        Monthly payroll with all mandatory components: INPS contributions
+        (social security), TFR accrual (severance), income tax withholding,
+        CCNL-aligned salary, and the additional salary months Italian law
+        requires. We file all reports on time. If the employment ever needs to
+        end, we manage the severance settlement and termination process so it
+        holds up if challenged.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Ready to hire in Italy without the legal exposure?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+included:
+  # The icon grid rather than Spain's photo-and-list, and in the `aside`
+  # arrangement: the heading and the button hold their own column at 1440,
+  # while both narrow frames put the heading on top and the button at the
+  # bottom. Every card carries the same `verified` mark, because these six are
+  # a list of what is covered rather than six different things.
+  layout: aside
+  surface: surface
+  columns: 3
+  heading: What's included in Employer of Record services in Italy?
+  items:
+    - icon: verified
+      title: Employment Contracts Under Italian Law & CCNL Compliance
+      description: >-
+        Written in Italian, structured to meet Italian legal requirements and
+        mapped to the correct CCNL for your industry. Includes mandatory minimum
+        salary rules, leave entitlements, severance clauses, and notice periods.
+        Not a global template adapted for Italy. A contract built for Italy.
+    - icon: verified
+      title: Payroll & INPS Registration
+      description: >-
+        Monthly payroll with INPS contributions (employer social security),
+        income tax withholding, and all deductions calculated correctly under
+        Italian law. Setup with INPS and ongoing monthly filings.
+    - icon: verified
+      title: TFR Severance Accrual & Management
+      description: >-
+        Italian law requires employers to accrue severance (TFR) throughout
+        employment — approximately 7.4% of salary set aside monthly. We track
+        and manage this so the final settlement is calculated correctly and paid
+        when employment ends.
+    - icon: verified
+      title: Additional Salary Months
+      description: >-
+        Italian law requires extra salary payments beyond the base 12 months
+        (typically 13th and 14th month bonuses). We calculate and process these
+        correctly per the CCNL for your role.
+    - icon: verified
+      title: Visa Support for Non-EU Hires
+      description: >-
+        Non-EU visa applications, visa timing coordination, and documentation
+        management so your hire gets approved when the application window is
+        open. No delays because paperwork was missing or didn't match your
+        employment contract.
+    - icon: verified
+      title: Termination & Severance Management
+      description: >-
+        Italian employment law requires justified grounds for termination. We
+        structure exits so they comply with Italian law, calculate final
+        severance correctly, and don't expose you to disputes.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+pricingSummary:
+  eyebrow: EMPLOYER OF RECORD PRICING IN ITALY
+  heading: Starting from €350/month for EU hires
+  body: "The main variable is whether you're hiring EU or non-EU workers:"
+  background: ../../../assets/images/eor-italy-florence-skyline.webp
+  cards:
+    - title: EU Hires
+      description: >-
+        Base EOR fee covers employment contract, INPS registration, monthly
+        payroll with INPS contributions, TFR accrual, and HR administration.
+    - title: Non-EU Hires
+      description: >-
+        Add visa costs. We quote separately after assessing your case.
+    - variant: outline
+      title: Why this pricing?
+      description: >-
+        Italian law mandates INPS, TFR accrual, and extra salary months on top
+        of base salary. We show you the full breakdown upfront so month one
+        isn't a surprise.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client. The eyebrow is corrected here: all three
+# frames still read "EMPLOYER OF RECORD POLAND", a leftover from the frame they
+# were duplicated from.
+faq:
+  eyebrow: EMPLOYER OF RECORD ITALY
+  heading: Frequently asked questions
+  items:
+    - question: Is employer of record legal in Italy?
+      answer: >-
+        Yes. EOR is a recognized and legal employment structure under Italian
+        law. No special license is required to operate as an EOR provider in
+        Italy — the responsibility sits on doing the work correctly, not on
+        holding a credential.
+    - question: What's a CCNL and why does it matter for my hire?
+      answer: >-
+        CCNL stands for Contratti Collettivi Nazionali di Lavoro — industry
+        collective labor agreements. Italy doesn't have a single national
+        minimum wage. Instead, each industry has negotiated agreements that set
+        minimum salaries, job classifications, benefits, and leave entitlements.
+        Your employee's role needs to be classified under the correct CCNL, or
+        your contract gets rejected and visa applications stall. We map your
+        role to the right CCNL from day one.
+    - question: Why do global EOR templates fail in Italy?
+      answer: >-
+        Global templates were written for countries with simpler wage rules.
+        They don't account for CCNL-specific minimums, don't budget correctly
+        for TFR (severance accrual) or INPS contributions, and often miss
+        Italian-specific termination procedures. The contract either gets
+        rejected by Italian authorities or the payroll costs surprise you.
+    - question: How quickly can I hire someone in Italy?
+      answer: >-
+        For EU/EEA nationals with standard documents: typically 1–2 weeks.
+        Non-EU hires needing a visa take longer — it depends on their
+        nationality and the visa category. Italy has specific visa application
+        windows that open at set times each year, so timing matters. We'll give
+        you a realistic timeline upfront based on your situation.
+    - question: What's the visa process like for non-EU hires?
+      answer: >-
+        Italy's visa system works on an application schedule — windows open at
+        specific times (usually January–February each year), you submit the
+        application in that window, and the quota fills up first-come,
+        first-served. We handle the paperwork and timing so your application
+        gets in when the window is open. If we miss a window, you wait for the
+        next one — which is why preparation and timing matter.
+    - question: What is TFR and why does it add to my costs?
+      answer: >-
+        TFR (Trattamento di Fine Rapporto) is severance that Italian law
+        requires employers to accrue throughout employment — roughly 7.4% of
+        salary per year. It's paid to the employee at the end of employment,
+        either as a final settlement or rolled into a pension fund. You don't
+        pay it all upfront; we accrue it monthly as part of your total
+        employment costs. When the employee leaves, the TFR is calculated and
+        paid according to Italian law.
+    - question: Why is the payroll cost higher in Italy than other countries?
+      answer: >-
+        Italian law requires employers to pay INPS contributions (social
+        security, roughly 30% employer cost), TFR accrual (roughly 7.4%), extra
+        salary months (13th and 14th month bonuses mandated by CCNL), plus the
+        base salary itself. These aren't optional — they're required by law and
+        the industry CCNL. So the total cost to employ someone in Italy is
+        genuinely higher than in countries without these requirements.
+    - question: Who is Iberia Workforce, and how do you operate in Italy?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate in Italy from
+        Milan with our own legal and payroll team — no local partner
+        intermediary. We're based here, we handle your contracts and visa
+        applications directly, and we carry the legal responsibility for
+        compliance. Employment services are delivered by lawyers and payroll
+        specialists who work in Italian employment law every day and understand
+        CCNL mapping, TFR accounting, and INPS compliance.
+    - question: Can we hire someone remotely in Italy if they're based elsewhere?
+      answer: >-
+        If they're in Italy more than 183 days per year, they become a tax
+        resident and Italian law applies to the full employment. If they're
+        working outside Italy, the employment law of that country applies
+        instead. And if it's a non-EU hire, their visa category might also
+        restrict where they can work. Tell us the setup — home country, where
+        they'll actually work, visa status if applicable — and we'll confirm
+        what applies before you hire.
+    - question: What happens if I need to end someone's employment?
+      answer: >-
+        Italian law doesn't allow at-will termination. Dismissal requires either
+        documented misconduct or proof of economic necessity (like
+        restructuring). We manage the process to make sure termination is
+        handled correctly, documented properly, final severance and TFR are
+        calculated correctly, and doesn't expose you to legal disputes
+        afterward.
+
+closing:
+  heading: >-
+    Italian employment law isn't harder because it's badly written. It's
+    detailed because employee protections are baked in at the foundation
+  subheading: Through CCNL rules, INPS requirements, and TFR safeguards
+  body: >-
+    Tell us what you're trying to hire, who the person is, and where they're
+    based. We'll map the right CCNL and visa route if needed, build the contract
+    correctly, and tell you exactly what the costs are — before you commit to
+    anything.

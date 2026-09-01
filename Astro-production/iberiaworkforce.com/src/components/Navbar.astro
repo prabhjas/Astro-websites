@@ -1,0 +1,400 @@
+---
+import { Image } from "astro:assets";
+import logoMark from "../assets/icons/logo-mark.svg";
+import chevronDown from "../assets/icons/chevron-down.svg";
+import Button from "./ui/Button.astro";
+import Icon from "./ui/Icon.astro";
+import LanguageSwitcher from "./ui/LanguageSwitcher.astro";
+import ServicesMegaMenu from "./nav/ServicesMegaMenu.astro";
+import ServicesAccordion from "./nav/ServicesAccordion.astro";
+import CountriesMegaMenu from "./nav/CountriesMegaMenu.astro";
+import CountriesAccordion from "./nav/CountriesAccordion.astro";
+import { getUi } from "../i18n/copy";
+import { stripLocale, withLocale } from "../i18n/locale";
+import { getCountryNav, getServiceNav } from "../lib/service-nav";
+
+const { lang, t } = getUi(Astro.url.pathname);
+const homeHref = withLocale("/", lang);
+
+const navLinks = [
+  { label: t.nav.home, href: homeHref },
+  { label: t.nav.about, href: withLocale("/about", lang) },
+  { label: t.nav.contact, href: withLocale("/contact", lang) },
+];
+
+const path = stripLocale(Astro.url.pathname).replace(/\/+$/, "") || "/";
+const under = (base: string) => path === base || path.startsWith(base + "/");
+
+const isActive = (href: string) => {
+  const target = stripLocale(href).replace(/\/+$/, "") || "/";
+  return target === "/" ? path === "/" : under(target);
+};
+
+const servicesActive = (await getServiceNav(lang)).some((category) =>
+  under(`/${category.slug}`),
+);
+
+const countrySlugs = new Set((await getCountryNav(lang)).map((c) => c.slug));
+const countriesActive = countrySlugs.has(path.split("/")[2] ?? "");
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-surface"
+>
+  <nav
+    class="section-shell flex h-18 items-center justify-between gap-8"
+    aria-label={t.nav.primaryAria}
+  >
+    <a href={homeHref} class="flex shrink-0 items-center gap-[7.5px] py-2">
+      <Image
+        src={logoMark}
+        alt=""
+        width={52}
+        height={30}
+        class="h-[30px] w-[52.341px]"
+      />
+      <span
+        class="font-semi-expanded flex flex-col text-[15px] leading-none font-bold tracking-[-0.6px] text-text-primary"
+      >
+        <span>Iberia</span>
+        <span>Work Force</span>
+      </span>
+      <span class="sr-only">{t.nav.homeSr}</span>
+    </a>
+
+    {/* Countries makes five items where there were four; gap-8 tips the row
+        into the CTA at 1024, so it only opens up once there is room. */}
+    <ul class="hidden items-center gap-6 whitespace-nowrap lg:flex xl:gap-8">
+      <li>
+        <a
+          href={homeHref}
+          data-nav-link
+          class:list={[
+            // py-1.5 lifts the 18px text row to a 30px target (WCAG 2.5.8
+            // wants 24). The bar is a fixed h-18 flex row, so it costs nothing.
+            "flex items-center gap-1 py-1.5 text-caption font-medium hover:text-text-primary",
+            isActive("/") ? "text-text-primary" : "text-text-secondary",
+          ]}
+          aria-current={isActive("/") ? "page" : undefined}
+        >
+          {t.nav.home}
+        </a>
+      </li>
+
+      <li>
+        <button
+          type="button"
+          id="services-menu-trigger"
+          data-menu-trigger
+          class:list={[
+            "group flex items-center gap-1 py-1.5 text-caption font-medium hover:text-text-primary",
+            servicesActive ? "text-text-primary" : "text-text-secondary",
+          ]}
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="services-menu"
+          aria-current={servicesActive ? "page" : undefined}
+        >
+          {t.nav.services}
+          <Icon
+            src={chevronDown}
+            size={16}
+            tone="current"
+            class="transition-transform duration-200 group-aria-expanded:rotate-180"
+          />
+        </button>
+      </li>
+
+      <li>
+        <button
+          type="button"
+          id="countries-menu-trigger"
+          data-menu-trigger
+          class:list={[
+            "group flex items-center gap-1 py-1.5 text-caption font-medium hover:text-text-primary",
+            countriesActive ? "text-text-primary" : "text-text-secondary",
+          ]}
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-controls="countries-menu"
+          aria-current={countriesActive ? "page" : undefined}
+        >
+          {t.nav.countries}
+          <Icon
+            src={chevronDown}
+            size={16}
+            tone="current"
+            class="transition-transform duration-200 group-aria-expanded:rotate-180"
+          />
+        </button>
+      </li>
+
+      {
+        navLinks.slice(1).map((link) => (
+          <li>
+            <a
+              href={link.href}
+              data-nav-link
+              class:list={[
+                // py-1.5 lifts the 18px text row to a 30px target (WCAG 2.5.8
+            // wants 24). The bar is a fixed h-18 flex row, so it costs nothing.
+            "flex items-center gap-1 py-1.5 text-caption font-medium hover:text-text-primary",
+                isActive(link.href)
+                  ? "text-text-primary"
+                  : "text-text-secondary",
+              ]}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hidden shrink-0 items-center gap-3 lg:flex">
+      <LanguageSwitcher size="sm" align="right" />
+      <Button variant="primary" size="sm" href={withLocale("/contact", lang)}>
+        {t.nav.cta}
+      </Button>
+    </div>
+
+    {/*
+      No mobile navigation exists in the Figma file, so this is net-new UI built
+      from the same tokens. The bars are drawn rather than exported for the same
+      reason — there is no asset to reproduce.
+    */}
+    <button
+      type="button"
+      id="nav-toggle"
+      class="-mr-2 flex size-11 shrink-0 items-center justify-center rounded-lg text-text-primary lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <span class="sr-only">{t.nav.menu}</span>
+      <span class="relative block h-4 w-6" aria-hidden="true">
+        <span
+          class="nav-bar absolute left-0 block h-0.5 w-6 rounded-full bg-current"
+          data-bar="top"></span>
+        <span
+          class="nav-bar absolute top-[7px] left-0 block h-0.5 w-6 rounded-full bg-current"
+          data-bar="mid"></span>
+        <span
+          class="nav-bar absolute left-0 block h-0.5 w-6 rounded-full bg-current"
+          data-bar="bot"></span>
+      </span>
+    </button>
+  </nav>
+
+  <ServicesMegaMenu />
+  <CountriesMegaMenu />
+
+  {/*
+    Full-height drawer rather than a dropdown: the services accordion is tall
+    enough that a content-height panel would leave the actions stranded
+    mid-scroll. Sits below the header bar so the hamburger stays visible and
+    keeps its open/close animation.
+  */}
+  <div
+    id="mobile-nav"
+    class="mobile-drawer fixed inset-x-0 top-18 bottom-0 z-40 hidden flex-col bg-bg-surface lg:hidden"
+  >
+    <div class="flex-1 overflow-y-auto overscroll-contain">
+      <div class="section-shell flex flex-col py-2">
+        <a
+          href={homeHref}
+          class:list={[
+            "border-b border-border-subtle py-3 text-body font-medium",
+            isActive(homeHref) ? "text-text-primary" : "text-text-secondary",
+          ]}
+          aria-current={isActive(homeHref) ? "page" : undefined}
+        >
+          {t.nav.home}
+        </a>
+
+        <div class="border-b border-border-subtle">
+          <ServicesAccordion active={servicesActive} />
+        </div>
+
+        <div class="border-b border-border-subtle">
+          <CountriesAccordion active={countriesActive} />
+        </div>
+
+        {
+          navLinks.slice(1).map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                "border-b border-border-subtle py-3 text-body font-medium",
+                isActive(link.href)
+                  ? "text-text-primary"
+                  : "text-text-secondary",
+              ]}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="border-t border-border-subtle bg-bg-surface">
+      <div
+        class="section-shell flex flex-col items-center gap-3 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+      >
+        <Button variant="primary" size="lg" href={withLocale("/contact", lang)} block>
+          {t.nav.cta}
+        </Button>
+        <LanguageSwitcher size="md" align="left" placement="top" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Bars sit at 0 / 7 / 14px closed, and collapse to a centred X when open. */
+  .nav-bar[data-bar="top"] {
+    top: 0;
+  }
+  .nav-bar[data-bar="bot"] {
+    top: 14px;
+  }
+  .nav-bar {
+    transition:
+      transform 200ms ease,
+      opacity 150ms ease;
+  }
+  [aria-expanded="true"] .nav-bar[data-bar="top"] {
+    transform: translateY(7px) rotate(45deg);
+  }
+  [aria-expanded="true"] .nav-bar[data-bar="mid"] {
+    opacity: 0;
+  }
+  [aria-expanded="true"] .nav-bar[data-bar="bot"] {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /*
+    The drawer slides down from behind the header rather than appearing between
+    frames. `-100%` is the panel's own height, so it starts exactly off-screen
+    whatever the viewport is — no hardcoded offset to get wrong.
+
+    Transform only, no fade: the panel is opaque, and a solid surface sliding
+    into place is the honest description of what happens. It also keeps the
+    whole animation on the compositor.
+
+    The curve is the iOS drawer easing — almost all of the travel happens in the
+    first third, so the panel is legible long before it settles.
+  */
+  .mobile-drawer {
+    transform: translateY(-100%);
+    transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .mobile-drawer.is-open {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-bar {
+      transition: none;
+    }
+    /* Still no movement, but the panel must not be left parked off-screen. */
+    .mobile-drawer {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const panel = document.getElementById("mobile-nav");
+
+  if (toggle && panel) {
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let closing: number | undefined;
+
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      /*
+        Lock the page behind the drawer. Applied to <html> and only while open —
+        putting `overflow: hidden` on <body> would make it a scroll container
+        and break `position: sticky` site-wide (see CLAUDE.md).
+      */
+      document.documentElement.style.overflow = open ? "hidden" : "";
+
+      if (open) {
+        // A close may still be animating out; cancel it so the panel is never
+        // hidden underneath a reopen.
+        if (closing !== undefined) window.clearTimeout(closing);
+        closing = undefined;
+        panel.classList.remove("hidden");
+        panel.classList.add("flex");
+        if (still.matches) {
+          panel.classList.add("is-open");
+        } else {
+          // Next frame, so the transition has a start value to animate from —
+          // the same pattern ServicesMegaMenu uses.
+          requestAnimationFrame(() => panel.classList.add("is-open"));
+        }
+        return;
+      }
+
+      panel.classList.remove("is-open");
+
+      const done = () => {
+        closing = undefined;
+        panel.classList.add("hidden");
+        panel.classList.remove("flex");
+      };
+
+      if (still.matches) {
+        done();
+        return;
+      }
+
+      /*
+        `display: none` has to wait for the slide out, or the panel vanishes
+        instead of leaving. Driven by `transitionend` rather than a timeout
+        duplicating the CSS duration, with a timeout only as the safety net for
+        the case where the event never fires (the panel was already off-screen,
+        so the transition never started).
+      */
+      panel.addEventListener("transitionend", function handler(event) {
+        if (event.propertyName !== "transform" || event.target !== panel) return;
+        panel.removeEventListener("transitionend", handler);
+        if (toggle.getAttribute("aria-expanded") !== "true") done();
+      });
+      closing = window.setTimeout(done, 400);
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    // Escape closes and returns focus to the control that opened it — but only
+    // the outermost layer at a time. With the language menu open inside the
+    // drawer, that menu owns the keypress and the drawer stays put.
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (toggle.getAttribute("aria-expanded") !== "true") return;
+      if (panel.querySelector('[data-lang-toggle][aria-expanded="true"]')) return;
+      setOpen(false);
+      toggle.focus();
+    });
+
+    // Navigating within the panel should not leave it hanging open.
+    panel.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    // Crossing into the desktop layout while open would otherwise leave the
+    // panel rendered but orphaned once `lg:hidden` takes over — and the scroll
+    // lock with it.
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    desktop.addEventListener("change", (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>

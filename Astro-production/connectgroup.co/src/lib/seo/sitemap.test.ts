@@ -231,10 +231,12 @@ describe('project sitemap dataset (integration)', () => {
     assert.ok(!data.pages.some((e) => e.url.includes('/status/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/tag/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/category/')));
-    // Unpublished (not Done in spreadsheet)
-    assert.ok(!data.pages.some((e) => e.url.includes('/uaegate/')));
+    // Unpublished (not Done in spreadsheet) — still homepage redirects
     assert.ok(!data.pages.some((e) => e.url.includes('/payroll-services/')));
     assert.ok(!data.pages.some((e) => e.url.includes('/dubai-offshore/')));
+    // Brand pages restored (MBS / UAE Gate)
+    assert.ok(data.pages.some((e) => e.url.includes('/uaegate/')));
+    assert.ok(data.pages.some((e) => e.url.includes('/mbs-tax-consultancy/')));
 
     // 244 posts → 3 chunks at limit 100
     if (data.posts.length === 244) {

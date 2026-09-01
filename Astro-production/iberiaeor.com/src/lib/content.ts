@@ -14,6 +14,7 @@ import type {
   TagEntry,
 } from "./content-types";
 import { enhanceLatestPostFilterHtml } from "./eor-latest-post-filter";
+import { placeSinglePostTitleAfterFeaturedImage } from "./single-post-title";
 
 export type {
   AuthorEntry,
@@ -69,13 +70,25 @@ export const tags = readTags().filter((t) => !t.status || t.status === "active")
 /** @deprecated Prefer getAuthors() */
 export const authors = readAuthors();
 
-/** SSR “Latest Post” filter cards — keep out of `[...slug].astro` (fleet unsafe-path rule). */
+/**
+ * SSR HTML enhancements — keep out of `[...slug].astro` (fleet unsafe-path rule).
+ * - Pages: Latest Post filter cards only
+ * - Posts: filter cards + H1 under featured image (Mushtaq 2285cd746) — never on pages
+ */
 function withLatestPostFilterHtml<T extends PageEntry | PostEntry>(entry: T): T {
   const raw = (entry.bodyHtml || entry.content || "") as string;
   if (!raw) return entry;
   const enhanced = enhanceLatestPostFilterHtml(raw);
   if (enhanced === raw) return entry;
   return { ...entry, bodyHtml: enhanced, content: enhanced };
+}
+
+function withSinglePostTitleHtml(post: PostEntry): PostEntry {
+  const raw = (post.bodyHtml || post.content || "") as string;
+  if (!raw || !/data-elementor-type=/.test(raw)) return post;
+  const enhanced = placeSinglePostTitleAfterFeaturedImage(raw, String(post.title || ""));
+  if (enhanced === raw) return post;
+  return { ...post, bodyHtml: enhanced, content: enhanced };
 }
 
 export function getPageByPath(pathname: string): PageEntry | undefined {
@@ -93,7 +106,7 @@ export function getPublishedPostByPath(pathname: string): PostEntry | undefined 
   const post = getPostByPath(pathname);
   if (!post) return undefined;
   if (post.status && post.status !== "published") return undefined;
-  return withLatestPostFilterHtml(post);
+  return withSinglePostTitleHtml(withLatestPostFilterHtml(post));
 }
 
 export function getCategoryBySlug(slug: string): CategoryEntry | undefined {

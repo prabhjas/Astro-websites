@@ -27,6 +27,14 @@ body {
   margin-top: calc(-1 * var(--sp-header-offset)) !important;
 }
 
+/*
+  Header column widget-wrap must keep Elementor gap padding.
+  Without it, a white strip shows above the dark header bar.
+*/
+.elementor-column-gap-default > .elementor-column > .elementor-element-populated {
+  padding: 8px !important;
+}
+
 #wpadminbar {
   display: none !important;
 }

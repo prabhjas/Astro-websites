@@ -5,6 +5,7 @@ import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { isRedirectSourceSlug } from './seo/redirected-routes.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -925,7 +926,7 @@ export function buildArchiveCardHtml(post: BlogPost): string {
 export function getAllBlogPosts(): BlogPost[] {
   const posts = getAllBlogSlugs()
     .map((slug) => getBlogPost(slug))
-    .filter((p): p is BlogPost => p !== null);
+    .filter((p): p is BlogPost => p !== null && !isRedirectSourceSlug(p.slug));
 
   const order = loadWpBlogOrder();
   if (!order.length) {
@@ -946,6 +947,52 @@ export function getAllBlogPosts(): BlogPost[] {
     .filter((p) => !seen.has(p.slug))
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
   return [...ordered, ...rest];
+}
+
+/**
+ * Replace homepage "Latest Blog & Articles" loop cards with the first N Insights posts
+ * (same order as /blog/ — new posts first via wp-blog-order.json).
+ */
+export function injectHomepageLatestBlog(html: string, count = 3): string {
+  if (!html || !/elementor-element-6dc4045/i.test(html)) return html;
+  const posts = getAllBlogPosts().slice(0, Math.max(1, count));
+  if (!posts.length) return html;
+
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
+  const widget = $('.elementor-element-6dc4045').first();
+  const loopContainer = widget.find('.elementor-loop-container.elementor-grid').first();
+  if (!loopContainer.length) return html;
+
+  const loopStyle = loopContainer.find('style#loop-5894').first();
+  const styleHtml = loopStyle.length ? loopStyle.prop('outerHTML') || '' : '';
+  const cards = posts.map((p) => buildKpmproBlogLoopCardHtml(p)).join('\n');
+  loopContainer.html(`${styleHtml}${cards}`);
+
+  let out = String($.html()).replace(
+    /<(script|style|title|textarea|iframe|noscript)(\b[^>]*)\/>/gi,
+    '<$1$2></$1>',
+  );
+  if (!/id="astro-homepage-blog-card-css"/i.test(out)) {
+    out = out.replace(
+      /<\/head>/i,
+      `<style id="astro-homepage-blog-card-css">
+.elementor-element-6dc4045 .elementor-loop-container.elementor-grid{align-items:stretch!important}
+.elementor-element-6dc4045 .e-loop-item.elementor-5894{height:100%;display:flex;flex-direction:column;background:#fff}
+.elementor-element-6dc4045 .elementor-5894>.elementor-element-d3dabbd,
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-d3dabbd>.elementor-container,
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-a830b31,
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-a830b31>.elementor-widget-wrap{height:100%;display:flex!important;flex-direction:column;flex:1 1 auto}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-5ee249c img{width:100%;height:220px;object-fit:cover;display:block}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-f1ba8fd{min-height:4.2em}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-f1ba8fd .elementor-heading-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.4em}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-bf5a7f6{min-height:4.2em;flex:1 1 auto}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-bf5a7f6 .elementor-widget-container,
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-bf5a7f6 p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;margin:0;line-height:1.4em}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-b0b500a{margin-top:auto!important;width:100%}
+</style>\n</head>`,
+    );
+  }
+  return out;
 }
 
 function loadWpBlogOrder(): string[] {

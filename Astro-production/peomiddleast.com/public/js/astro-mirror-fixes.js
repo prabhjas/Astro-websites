@@ -2167,6 +2167,7 @@
   function wireLegacyContactForms() {
     if (window.__astroLegacyContactFormsWired) return;
     window.__astroLegacyContactFormsWired = true;
+    try { resolveInitialLandingUrl(); } catch (e) {}
 
     function ensureHiddenField(form, name, value) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -2180,6 +2181,67 @@
       return input;
     }
 
+    function getAttrCookie(name) {
+      var nameEQ = name + '=';
+      var parts = document.cookie.split(';');
+      for (var i = 0; i < parts.length; i++) {
+        var c = parts[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+          try {
+            return decodeURIComponent(c.substring(nameEQ.length));
+          } catch (e) {
+            return c.substring(nameEQ.length);
+          }
+        }
+      }
+      return '';
+    }
+
+    function setAttrCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie =
+        name +
+        '=' +
+        encodeURIComponent(String(value == null ? '' : value)) +
+        '; expires=' +
+        d.toUTCString() +
+        '; path=/; SameSite=Lax' +
+        secure;
+    }
+
+    function resolveInitialLandingUrl() {
+      var pageUrl = window.location.href;
+      var fromCookie = getAttrCookie('initialUrl') || getAttrCookie('cg_initial_url');
+      if (fromCookie) return fromCookie;
+      try {
+        var fromSession = sessionStorage.getItem('cg_initial_url');
+        if (fromSession) {
+          setAttrCookie('initialUrl', fromSession, 30);
+          return fromSession;
+        }
+      } catch (e) {}
+      setAttrCookie('initialUrl', pageUrl, 30);
+      try {
+        sessionStorage.setItem('cg_initial_url', pageUrl);
+      } catch (e) {}
+      return pageUrl;
+    }
+
+    function pushLeadToDataLayer(email, phone, submissionId) {
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'form_submission_lead',
+          email: email || '',
+          phone_number: phone || '',
+          submission_id: submissionId || '',
+        });
+      } catch (e) {}
+    }
+
+
     function ensureLegacyTrackingFields(form) {
       if (!form.dataset.submissionId) {
         form.dataset.submissionId =
@@ -2188,7 +2250,7 @@
             : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
+      var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
       var isNewsletter =
         !!(form.closest && form.closest('.subscribe_r')) ||
         (form.querySelector('[name="client-email"], [name="your-email"], [name="email"]') &&
@@ -2209,21 +2271,29 @@
     }
 
     function captureTrackingFields(form) {
-      var params = new URLSearchParams(window.location.search);
-      var pageUrl = window.location.href;
-      var initial = sessionStorage.getItem('cg_initial_url') || pageUrl;
-      if (!sessionStorage.getItem('cg_initial_url')) {
-        sessionStorage.setItem('cg_initial_url', pageUrl);
+      var params = new URLSearchParams(window.location.search || '');
+      var hashParams = new URLSearchParams((window.location.hash || '').replace(/^#\??/, ''));
+      function paramHas(key) {
+        return params.has(key) || hashParams.has(key);
       }
-      ensureLegacyTrackingFields(form);
+      function paramGet(key) {
+        if (params.has(key)) return params.get(key) || '';
+        if (hashParams.has(key)) return hashParams.get(key) || '';
+        return '';
+      }
+      var pageUrl = window.location.href;
+      var initial = resolveInitialLandingUrl();
+      if (typeof ensureLegacyTrackingFields === 'function') {
+        ensureLegacyTrackingFields(form);
+      }
 
-      // Canonical form field → URL query aliases (Google Ads ValueTrack + UTM)
       var TRACKING_FIELDS = {
-        gclid: ['gclid'],
+        gclid: ['gclid', 'gbraid', 'wbraid'],
         gbraid: ['gbraid'],
         wbraid: ['wbraid'],
         fbclid: ['fbclid'],
         msclkid: ['msclkid'],
+        twclid: ['twclid'],
         utm_source: ['utm_source'],
         utm_medium: ['utm_medium'],
         utm_campaign: ['utm_campaign'],
@@ -2234,8 +2304,8 @@
         group_id: ['group_id', 'groupid'],
         creative_id: ['creative_id', 'creativeid', 'creative'],
         keyword: ['keyword', 'kw', 'q', 'utm_term'],
-        matchtype: ['matchtype'],
-        device: ['device'],
+        matchtype: ['matchtype', 'match_type'],
+        device: ['device', 'utm_device'],
         network: ['network'],
         placement: ['placement', 'displayad'],
         target: ['target', 'targetid', 'target_id'],
@@ -2249,15 +2319,31 @@
 
       function firstParam(aliases) {
         for (var i = 0; i < aliases.length; i++) {
-          var v = params.get(aliases[i]);
-          if (v) return v;
+          var alias = aliases[i];
+          if (paramHas(alias)) return String(paramGet(alias) || '').trim();
         }
         return '';
       }
 
       Object.keys(TRACKING_FIELDS).forEach(function (name) {
-        ensureHiddenField(form, name, firstParam(TRACKING_FIELDS[name]));
+        var fromUrl = firstParam(TRACKING_FIELDS[name]);
+        var value = fromUrl;
+        if (fromUrl) {
+          setAttrCookie(name, fromUrl, 30);
+        } else {
+          value = getAttrCookie(name) || '';
+        }
+        if (name === 'gclid' && !value) {
+          value = getAttrCookie('gclid') || getAttrCookie('gbraid') || getAttrCookie('wbraid') || '';
+        }
+        ensureHiddenField(form, name, value);
       });
+
+      var urlGclid = String(paramGet('gclid') || paramGet('gbraid') || paramGet('wbraid') || '').trim();
+      if (urlGclid) {
+        setAttrCookie('gclid', urlGclid, 30);
+        ensureHiddenField(form, 'gclid', urlGclid);
+      }
 
       ensureHiddenField(form, 'initial_url', initial);
       ensureHiddenField(form, 'landing_page_url', initial);
@@ -2265,6 +2351,7 @@
       ensureHiddenField(form, 'submission_page_url', pageUrl);
       ensureHiddenField(form, 'referrer_url', document.referrer || '');
     }
+
 
     function normalizeNationalPhoneDigits(phone, dialCode) {
       var digits = String(phone.value || '').replace(/\D/g, '');
@@ -3263,11 +3350,136 @@
     safe(ensureTestimonialSwiper);
   }
 
+  /**
+   * Keep scroll-to-top clear of the GTM WhatsApp float.
+   * Impreza toggles .w-toplink.active on scroll and resets right:0 — re-assert
+   * on scroll so they do not overlap again while scrolling.
+   */
+  function ensureFabStack() {
+    var toplink = document.querySelector('a.w-toplink');
+    if (toplink) {
+      // Sit to the LEFT of the WhatsApp circle (WA stays bottom-right).
+      toplink.style.setProperty('bottom', '20px', 'important');
+      toplink.style.setProperty('right', '90px', 'important');
+      toplink.style.setProperty('left', 'auto', 'important');
+      toplink.style.setProperty('margin', '0', 'important');
+      toplink.style.setProperty('z-index', '9998', 'important');
+    }
+
+    function looksLikeWhatsApp(el) {
+      if (!el || el === toplink) return false;
+      if (el.closest && el.closest('a.w-toplink')) return false;
+      var href = ((el.getAttribute && el.getAttribute('href')) || '') +
+        ((el.getAttribute && el.getAttribute('src')) || '');
+      var cls = (el.className && String(el.className)) || '';
+      var id = el.id || '';
+      var aria = ((el.getAttribute && el.getAttribute('aria-label')) || '') +
+        ((el.getAttribute && el.getAttribute('title')) || '');
+      var blob = (href + ' ' + cls + ' ' + id + ' ' + aria).toLowerCase();
+      if (/wa\.me|whatsapp|joinchat|ht-ctc|wws-|chaty|floating-wapp|nifty|getbutton/.test(blob)) {
+        return true;
+      }
+      if (el.querySelector) {
+        if (el.querySelector('i.fa-whatsapp, .fa-whatsapp, [class*="whatsapp"]')) return true;
+        if (el.querySelector('img[src*="whatsapp"], img[alt*="WhatsApp" i], img[alt*="whatsapp" i]')) return true;
+      }
+      return false;
+    }
+
+    function placeWhatsApp(el) {
+      var target = el;
+      var walk = el;
+      for (var d = 0; d < 6 && walk; d++) {
+        var cs = window.getComputedStyle(walk);
+        if (cs.position === 'fixed') {
+          target = walk;
+          break;
+        }
+        walk = walk.parentElement;
+      }
+      target.style.setProperty('bottom', '20px', 'important');
+      target.style.setProperty('right', '20px', 'important');
+      target.style.setProperty('top', 'auto', 'important');
+      target.style.setProperty('z-index', '9999', 'important');
+    }
+
+    var nodes = document.body
+      ? document.body.querySelectorAll('a, button, div, span, iframe')
+      : [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (looksLikeWhatsApp(nodes[i])) placeWhatsApp(nodes[i]);
+    }
+
+    // Green fixed circle in the corner = WA even without classes
+    var all = document.body ? document.body.querySelectorAll('a, button, div') : [];
+    for (var j = 0; j < all.length; j++) {
+      var el = all[j];
+      if (!el || el === toplink || (el.closest && el.closest('a.w-toplink'))) continue;
+      var cs = window.getComputedStyle(el);
+      if (cs.position !== 'fixed') continue;
+      var rect = el.getBoundingClientRect();
+      if (rect.width < 40 || rect.height < 40 || rect.width > 90 || rect.height > 90) continue;
+      if (rect.right < window.innerWidth - 110) continue;
+      if (rect.bottom < window.innerHeight - 110) continue;
+      var bg = cs.backgroundColor || '';
+      var isGreen =
+        bg.indexOf('37, 211, 102') !== -1 ||
+        bg.indexOf('25, 211') !== -1 ||
+        bg.indexOf('18, 140, 126') !== -1 ||
+        /#25d366|#128c7e|#075e54/i.test(bg);
+      if (isGreen || looksLikeWhatsApp(el)) placeWhatsApp(el);
+    }
+  }
+
+  function bootFabStack() {
+    safe(ensureFabStack);
+    [600, 1500, 3000, 6000].forEach(function (ms) {
+      setTimeout(function () {
+        safe(ensureFabStack);
+      }, ms);
+    });
+
+    var ticking = false;
+    function onScrollOrResize() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        safe(ensureFabStack);
+      });
+    }
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
+
+    if (window.MutationObserver && document.body) {
+      var moTimer = null;
+      var mo = new MutationObserver(function () {
+        if (moTimer) return;
+        moTimer = setTimeout(function () {
+          moTimer = null;
+          safe(ensureFabStack);
+        }, 100);
+      });
+      mo.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+      });
+    }
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
+    document.addEventListener('DOMContentLoaded', bootFabStack);
   } else {
     boot();
+    bootFabStack();
   }
+
+  window.addEventListener('load', function () {
+    safe(ensureFabStack);
+  });
 
   // If any Rocket leftovers fire later, re-run widget fallbacks
   window.addEventListener('rocket-allScriptsLoaded', function () {
@@ -3290,5 +3502,6 @@
     safe(ensureScrollsequence);
     safe(ensurePhoneCountryFields);
     safe(ensureNavMenus);
+    safe(ensureFabStack);
   });
 })();

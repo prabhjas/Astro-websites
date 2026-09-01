@@ -1,0 +1,341 @@
+# Temporary Staffing — category hub. Figma nodes 164-1024 (1440),
+# 184-6808 (768) and 184-6809 (430).
+# Renders through src/pages/[...slug].astro -> HubTemplate.astro.
+type: hub
+label: Trabajo temporal
+
+seo:
+  title: Trabajo temporal en Europa | Iberia Workforce
+  description: >-
+    Trabajo temporal en Europa. Compliance local internamente, sin socios de
+    terceros. Tú diriges el trabajo. Nosotros asumimos la parte jurídica.
+  schema:
+    serviceName: Servicios de trabajo temporal
+    serviceType: Trabajo temporal y soluciones de plantilla flexible
+    areaServed: Europa
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  heading: Servicios de trabajo temporal construidos sobre el cumplimiento legal, no solo sobre la rapidez
+  badges:
+    - icon: protect
+      label: Proveedores con licencia
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: licence
+      label: Transferencia del riesgo de compliance
+    - icon: global
+      label: Operaciones en varios países
+  body: >-
+    Picos estacionales, trabajo por proyecto, huecos urgentes de capacidad:
+    resueltos en local, con el cumplimiento integrado. Tú diriges el trabajo.
+    Nosotros asumimos la parte jurídica.
+  image: ../../../assets/images/temporary-staffing-hub-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/temporary-staffing-hub-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/temporary-staffing-hub-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  heading: ¿Qué es el trabajo temporal?
+  # The 768 frame (495:6579) keeps the claim, the prose and the button in one
+  # column, so the two columns wait for desktop.
+  splitAt: lg
+  paragraphs:
+    - >-
+      El trabajo temporal es la cesión de trabajadores para puestos de duración
+      determinada o por proyecto. El proveedor de personal contrata al
+      trabajador, gestiona la nómina y el compliance, y lo adscribe a tu
+      empresa durante un periodo definido. Tú diriges el trabajo del día a día
+      y fijas los estándares de rendimiento. El proveedor asume el riesgo
+      jurídico: contratos de trabajo, Seguridad Social, presentaciones
+      fiscales y el riesgo de compliance si algo sale mal.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyItMatters:
+  heading: ¿Por qué importa el trabajo temporal?
+  subheading: El trabajo temporal resuelve tres problemas de negocio a la vez
+  body: >-
+    La mayoría de las agencias de trabajo temporal tratan el empleo temporal
+    como un negocio de facturación, no como la resolución de un problema.
+    Pierdes porque sus incentivos no coinciden con los tuyos. Nosotros estamos
+    construidos de otra manera. El cumplimiento legal es cómo operamos, no un
+    servicio accesorio.
+  items:
+    - title: Evitas el riesgo de plantilla permanente.
+      description: >-
+        Incertidumbre económica, fechas de fin de proyecto, oscilaciones
+        estacionales: necesitas capacidad sin apostar el presupuesto a
+        salarios permanentes, beneficios, obligaciones de indemnización y
+        compromisos laborales a largo plazo. El trabajo temporal te permite
+        ampliar y reducir sin esa estructura.
+    - title: Avanzas más rápido que con una contratación permanente.
+      description: >-
+        Los buenos candidatos salen del mercado en 10 días. Tu proceso interno
+        de selección tarda semanas. Un proveedor de trabajo temporal con
+        licencia tiene talento preseleccionado listo para empezar en días, no
+        en meses. Esa diferencia es tu ventaja competitiva o tu oportunidad
+        perdida.
+    - title: El cumplimiento legal deja de ser tu problema.
+      description: >-
+        Contratos de trabajo, nómina, impuestos, Seguridad Social, accidentes
+        laborales, conflictos: recaen en el proveedor, no en ti. Obtienes
+        capacidad sin la responsabilidad de compliance.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: ¿Por qué elegir Iberia Workforce para servicios de trabajo temporal?
+  highlight: trabajo temporal
+  items:
+    - title: Tenemos licencia para operar en cada país en el que servimos.
+      description: >-
+        El compliance no es el trabajo de un socio local: está integrado en
+        cómo operamos. Asumimos el riesgo jurídico y laboral para que tú no
+        tengas que hacerlo.
+    - title: >-
+        Nuestros incentivos coinciden con los tuyos: resolver tu problema, no
+        maximizar horas facturables.
+      description: >-
+        Necesitas a la persona adecuada durante un periodo definido. La
+        entregamos y seguimos. Sin presión para prorrogar asignaciones o cubrir
+        puestos innecesarios. Tu flexibilidad es nuestro único producto.
+    - title: Lo dirigen abogados laboralistas, no solo reclutadores.
+      description: >-
+        Clasificaciones de convenio, requisitos de visado para temporales de
+        fuera de la UE, normativa de tiempo de trabajo, riesgo laboral: son
+        cuestiones jurídicas. Tenemos la expertise interna para acertarlas
+        desde el primer día, no para externalizarlas a un tercero.
+
+howItWorks:
+  heading: ¿Cómo funciona el trabajo temporal?
+  # Cream, so it separates the two white bands either side of it.
+  surface: page
+  steps:
+    - title: Cuéntanos qué necesitas
+      description: >-
+        Puesto, duración (semanas, meses, pico estacional), plantilla, fecha de
+        inicio. ¿Es una necesidad puntual o recurrente? ¿Necesitas
+        competencias especializadas o perfiles generales? Valoramos la
+        complejidad y señalamos cualquier consideración de compliance de
+        antemano.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un despacho de Madrid revisando un documento juntos
+    - title: Nosotros gestionamos la selección, el screening y el encuadre jurídico
+      description: >-
+        Captamos candidatos, verificamos cualificaciones, hacemos comprobaciones
+        de antecedentes si hace falta. Redactamos contratos temporales
+        conformes al derecho laboral local, damos de alta en la Seguridad
+        Social y configuramos la nómina. Gestionamos todo el trabajo de
+        compliance, no lo externalizamos a un socio local.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu trabajador empieza, con pleno cumplimiento y gestión
+      description: >-
+        Ejecutamos la nómina, administramos los RR. HH. de forma continua,
+        gestionamos cualquier incidente o conflicto laboral y rastreamos la
+        fecha de fin del empleo. Cuando termina el periodo temporal, gestionamos
+        la baja correctamente para que no quede responsabilidad residual. Tú te
+        centras en el trabajo.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  # Corrected copy. All three frames say "payroll" here — a leftover from the
+  # Payroll frame this one was duplicated from. See CLAUDE.md's known gaps.
+  prompt: ¿Quieres gestionar el trabajo temporal sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  eyebrow: SERVICIOS
+  heading: ¿Qué incluyen los servicios de trabajo temporal?
+  align: center
+  surface: surface
+  layout: mosaic
+  items:
+    - icon: candidate-selection
+      title: Selección y screening de candidatos
+      description: >-
+        Captación, evaluación de competencias, verificación de antecedentes y
+        referencias, adaptadas a tu puesto y a los requisitos de compliance, no
+        solo a cubrir un hueco con quien esté disponible.
+    - icon: contract-signed
+      title: Contratos de trabajo temporal
+      description: >-
+        Redactados conforme al derecho laboral local, con fechas de inicio y
+        fin claras, alcance del puesto y condiciones de compliance. No es una
+        plantilla adaptada a tu puesto. Es un contrato pensado para tu
+        situación concreta.
+    - icon: envelope-seal
+      title: Nómina y alta en la Seguridad Social
+      description: >-
+        Procesamiento mensual de la nómina con todas las deducciones y
+        cotizaciones legales calculadas correctamente según la ley de cada
+        país. Alta en la Seguridad Social, presentaciones fiscales e informes
+        de compliance gestionados de extremo a extremo.
+    - icon: risk-shield
+      title: Evaluación del riesgo laboral y seguro
+      description: >-
+        Responsabilidad por accidentes de trabajo, notificación de incidentes
+        y evaluación del riesgo laboral, gestionadas por nosotros, no dejadas
+        en una zona ambigua entre tú y el trabajador.
+    - icon: gavel
+      title: Compliance y riesgo jurídico
+      description: >-
+        Conflictos laborales, inspecciones de salarios y jornada, impugnaciones
+        por mala clasificación, reclamaciones por accidente: asumimos el riesgo
+        jurídico y defendemos la posición de tu empresa si algo se cuestiona.
+    - icon: person-case
+      title: Administración continua de RR. HH.
+      description: >-
+        Control de ausencias, baja por enfermedad, documentación de
+        rendimiento, incidencias de conducta en el trabajo, gestionados a lo
+        largo de la asignación temporal para que haya un rastro documental
+        limpio si la relación se cuestiona.
+    - icon: door-exit
+      title: Baja y cierre del contrato
+      description: >-
+        Cálculo del pago final, cartas de referencia si hace falta y cierre del
+        expediente laboral, tramitados correctamente para que el periodo
+        temporal termine sin lastre de compliance.
+  cta:
+    label: Solicita presupuesto para tu necesidad de personal
+    href: "#contact-form"
+
+countries:
+  eyebrow: DÓNDE OPERAMOS
+  heading: ¿Dónde ofrecemos servicios de trabajo temporal?
+  align: start
+  lead:
+    heading: >-
+      Servicios de trabajo temporal disponibles actualmente en España,
+      Alemania, Portugal, Polonia e Italia.
+  featured:
+    name: España
+    badge: DISPONIBLE YA
+    description: >-
+      Pleno cumplimiento, transferencia del riesgo jurídico, expertise laboral
+      local. Picos estacionales, trabajo por proyecto y necesidades urgentes de
+      capacidad, gestionados de extremo a extremo.
+    cta:
+      label: Explorar
+      href: /temporary-staffing/spain
+  others:
+    - name: Alemania
+      badge: PRÓXIMAMENTE
+      description: >-
+        Trabajo temporal con licencia conforme a la normativa local,
+        coordinación con el comité de empresa cuando proceda.
+    - name: Portugal
+      badge: PRÓXIMAMENTE
+      description: >-
+        Trabajo temporal conforme al derecho local, alta en la Segurança
+        Social, apoyo en permisos de trabajo para temporales de fuera de la UE.
+    - name: Polonia
+      badge: PRÓXIMAMENTE
+      description: >-
+        Trabajo temporal con licencia, compliance local, ampliación de
+        capacidad con eficiencia de costes.
+    - name: Italia
+      badge: PRÓXIMAMENTE
+      description: >-
+        Trabajo temporal conforme al derecho italiano, expertise laboral local,
+        apoyo en visados para trabajadores de fuera de la UE.
+
+# The Figma accordion is drawn closed, so it specifies the questions but no
+# answers. Copy supplied by the client alongside the design.
+faq:
+  eyebrow: TRABAJO TEMPORAL EUROPA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el trabajo temporal en los países en los que operáis?
+      answer: >-
+        Sí. El trabajo temporal es un modelo de empleo reconocido y
+        legalmente establecido en Europa. Los proveedores deben tener la
+        licencia o las credenciales pertinentes en cada país, y nosotros las
+        tenemos. Operar sin la licencia adecuada es ilegal y expone a los
+        clientes a sanciones y responsabilidad.
+    - question: ¿Cuál es la diferencia entre trabajo temporal y temp-to-hire?
+      answer: >-
+        El trabajo temporal es de duración determinada o por proyecto: el
+        puesto del trabajador termina en una fecha concreta. El temp-to-hire
+        convierte una asignación temporal en un puesto permanente tras un
+        periodo de prueba. Los requisitos legales difieren: el trabajo temporal
+        tiene una fecha de fin definida en el contrato; el temp-to-hire incluye
+        una vía de conversión. Gestionamos ambos.
+    - question: ¿En cuánto tiempo podemos tener a un trabajador temporal en el puesto?
+      answer: >-
+        En perfiles estándar, normalmente 1–2 semanas desde la solicitud hasta
+        el inicio, según lo detalladas que estén las especificaciones del
+        puesto. Los perfiles especializados o de alta cualificación pueden
+        tardar más si la captación es más competitiva. Te damos un plazo
+        realista de antemano según la complejidad del puesto y la
+        disponibilidad actual de candidatos.
+    - question: ¿Qué ocurre si necesitamos terminar la asignación antes de tiempo?
+      answer: >-
+        Las asignaciones temporales terminan en la fecha de fin contratada. Si
+        necesitas extinguir antes, la ley local exige causas documentadas, igual
+        que en el empleo permanente. Gestionamos la salida correctamente para
+        que no quede responsabilidad residual. La extinción anticipada es
+        posible, pero sigue el procedimiento legal.
+    - question: ¿Podemos usar trabajo temporal para trabajadores con visado patrocinado?
+      answer: >-
+        Sí. Los trabajadores de fuera de la UE con permiso de trabajo o visado
+        pueden adscribirse a asignaciones temporales. La categoría de visado y
+        las condiciones del permiso determinan qué puestos están permitidos
+        legalmente. Lo verificamos de antemano y nos aseguramos de que la
+        asignación coincida con la clasificación de visado del trabajador para
+        que no haya incumplimiento.
+    - question: ¿En qué se diferencia el trabajo temporal de usar autónomos?
+      answer: >-
+        El trabajo temporal significa que el trabajador está contratado por
+        nosotros, no es autónomo. Eso importa jurídicamente: se aplican las
+        protecciones del derecho laboral, las cotizaciones a la Seguridad
+        Social las paga el empleador y el riesgo jurídico recae en el
+        proveedor. Con autónomos, el trabajador es autónomo, lo que cambia por
+        completo los requisitos de compliance.
+    - question: ¿Qué ocurre si hay un incidente o un accidente durante la asignación?
+      answer: >-
+        Los accidentes laborales, incidentes o conflictos durante una
+        asignación temporal siguen el mismo derecho laboral que los puestos
+        permanentes. Asumimos la responsabilidad jurídica y gestionamos la
+        investigación, la notificación del incidente y cualquier reclamación
+        que surja. Tu empresa queda protegida de la exposición laboral directa.
+    - question: ¿Quién es Iberia Workforce y cómo operáis?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos los servicios
+        de trabajo temporal a través de nuestras propias estructuras con
+        licencia en cada país, sin intermediarios locales. Nuestros equipos
+        internos jurídicos y de RR. HH. gestionan la selección, el screening,
+        la redacción de contratos, la nómina y el compliance de forma directa.
+        Nosotros asumimos el riesgo jurídico y de compliance; tú diriges el
+        trabajo del día a día.
+    - question: ¿Podemos usar el trabajo temporal para necesidades estacionales recurrentes?
+      answer: >-
+        Sí. Muchos de nuestros clientes usan trabajo temporal recurrente para
+        picos estacionales. Podemos estructurar contratos temporales
+        renovables que se reanudan cada temporada, con pleno cumplimiento y
+        una carga administrativa mínima para ti.
+
+closing:
+  heading: El trabajo temporal no es un atajo para eludir el derecho laboral.
+  body: >-
+    Es una vía conforme y legal de incorporar flexibilidad a tu plantilla. Pero
+    solo si el proveedor asume el riesgo jurídico y entiende la capa de
+    compliance.
+  footnote: >-
+    Describe tu necesidad de personal —puesto, duración, fecha de inicio,
+    plantilla— y te diremos exactamente cuánto cuesta, en cuánto tiempo
+    podemos cubrirla y qué cumplimiento estás obteniendo.

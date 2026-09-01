@@ -1,0 +1,64 @@
+---
+/**
+ * The footer's "Services" content, shared between the mobile accordion body
+ * and the tablet/desktop flat list — same five hub links, then a caption +
+ * country-links block per category. Kept as its own component because it
+ * renders twice per page (once per breakpoint pair, per the pattern
+ * `Footer.astro` already uses for its accordion/flat twins).
+ *
+ * Sourced from `getServiceNav()` rather than hardcoded copy: the labels are
+ * the real category names ("Employer of Record", not the old "EXPAND"/"HIRE"
+ * headings this section replaced), the hrefs are real hub and country routes,
+ * and a country only renders once its content file exists — the same
+ * unbuilt-page guard the mega menu and `ServiceCountries` apply. Figma's own
+ * coverage list spells Italy "Itlay"; `category.label` and `country.label`
+ * come from `service-nav.ts`, so the correct spelling is what ships.
+ */
+import type { ServiceNavCategory } from "../lib/service-nav";
+
+interface Props {
+  categories: ServiceNavCategory[];
+}
+
+const { categories } = Astro.props;
+---
+
+<div class="flex flex-col items-start gap-2.5">
+  {
+    categories.map((category) => (
+      <a
+        href={category.hub.href}
+        class="inline-block py-1 text-body-sm text-text-inverse hover:text-navy-200"
+      >
+        {category.label}
+      </a>
+    ))
+  }
+</div>
+
+{
+  categories.map((category) => (
+    <div class="flex w-full flex-col items-start gap-2.5">
+      {/* text-inverse-muted, not navy-600 as Figma sets it here — the same
+          2.14:1 contrast fail the old EXPAND/HIRE captions carried, fixed
+          the same way. */}
+      <p class="text-caption font-medium tracking-[0.26px] whitespace-nowrap text-text-inverse-muted uppercase">
+        {category.label}
+      </p>
+      <ul class="flex flex-wrap items-start gap-x-5 gap-y-2.5">
+        {category.countries
+          .filter((country) => country.available)
+          .map((country) => (
+            <li>
+              <a
+                href={country.href}
+                class="inline-block py-1 text-body-sm text-text-inverse hover:text-navy-200"
+              >
+                {country.label}
+              </a>
+            </li>
+          ))}
+      </ul>
+    </div>
+  ))
+}

@@ -9,6 +9,7 @@ import {
   getRelatedPosts,
   formatDate,
   stripHtml,
+  stripElementorInlineFeaturedImage,
   normalizePath,
 } from "../lib/content";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
@@ -128,7 +129,10 @@ const postElementorId =
     page ? (
       <div class="sp-page-content" set:html={html} />
     ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
+      <div
+        class="sp-page-content"
+        set:html={stripElementorInlineFeaturedImage(post!.bodyHtml || "")}
+      />
     ) : (
       <article class="sp-article sp-container">
         <header class="sp-article__header">

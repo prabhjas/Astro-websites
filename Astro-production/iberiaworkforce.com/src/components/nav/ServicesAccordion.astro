@@ -1,0 +1,81 @@
+---
+import chevronDown from "../../assets/icons/chevron-down.svg";
+import Icon from "../ui/Icon.astro";
+import { getUi } from "../../i18n/copy";
+import { getServiceNav } from "../../lib/service-nav";
+
+interface Props {
+  /** Highlights "Services" when the current page is a service page. */
+  active?: boolean;
+}
+
+const { active = false } = Astro.props;
+const { lang, t } = getUi(Astro.url.pathname);
+const categories = await getServiceNav(lang);
+---
+
+<details class="disclosure nav-disclosure group/services">
+  <summary
+    class:list={[
+      "flex cursor-pointer list-none items-center justify-between py-3 text-body font-medium",
+      active ? "text-text-primary" : "text-text-secondary",
+    ]}
+  >
+    {t.nav.services}
+    <Icon
+      src={chevronDown}
+      size={20}
+      tone="current"
+      class="transition-transform duration-200 group-open/services:rotate-180"
+    />
+  </summary>
+
+  <ul class="mb-2 flex flex-col border-l border-border-subtle pl-3">
+    {
+      categories.map((category) => (
+        <li>
+          <details class="disclosure nav-disclosure group/category">
+            <summary class="flex cursor-pointer list-none items-center justify-between py-2.5 text-body-sm font-medium text-text-primary">
+              {category.label}
+              <Icon
+                src={chevronDown}
+                size={16}
+                tone="current"
+                class="text-text-secondary transition-transform duration-200 group-open/category:rotate-180"
+              />
+            </summary>
+
+            <ul class="flex flex-col pb-2 pl-3">
+              {[category.hub, ...category.countries].map((item) => (
+                <li>
+                  {item.available ? (
+                    <a
+                      href={item.href}
+                      class="block py-2.5 text-body-sm text-text-secondary"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <span
+                      class="flex items-center gap-2 py-2.5 text-body-sm text-text-tertiary"
+                      aria-disabled="true"
+                    >
+                      {item.label}
+                      <span class="text-micro text-text-tertiary">{t.nav.comingSoon}</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </details>
+        </li>
+      ))
+    }
+  </ul>
+</details>
+
+<style>
+  .nav-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

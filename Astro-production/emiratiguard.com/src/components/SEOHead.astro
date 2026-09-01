@@ -41,7 +41,7 @@ const schemas = [organizationSchema(mediaOrigin), ...meta.schemas];
 <meta name="twitter:image" content={meta.ogImage} />
 
 <link rel="icon" href={site.favicon} sizes="32x32" />
-<link rel="icon" href={site.appleTouchIcon} sizes="192x192" />
+<link rel="icon" href={site.favicon192 || site.appleTouchIcon} sizes="192x192" />
 <link rel="apple-touch-icon" href={site.appleTouchIcon} />
 
 <link

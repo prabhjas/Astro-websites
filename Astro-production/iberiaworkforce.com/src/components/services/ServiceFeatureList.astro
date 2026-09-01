@@ -1,0 +1,184 @@
+---
+/**
+ * "What's included" as the country frames draw it: a full-height photograph
+ * beside an editorial list of eyebrow + headline + paragraph entries.
+ *
+ * Not the same section as `ServiceIncluded`, the hub's grid of icon cards —
+ * same question, different answer. The photograph is desktop-only; both narrow
+ * frames drop it and widen the list.
+ *
+ * `layout: "aside"` drops the photograph entirely, gives the heading and CTA
+ * the left column on their own and draws each eyebrow as a navy pill. That
+ * column is a grid rather than a flex row, because the CTA sits under the
+ * heading on desktop but below the whole list on both narrow frames.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["featureList"]>;
+
+const {
+  heading,
+  image,
+  imageAlt,
+  items,
+  layout = "photo",
+  cta,
+  sticky = false,
+} = Astro.props;
+
+const aside = layout === "aside";
+
+/**
+ * The heading and its button travel with the list, as the homepage's
+ * `Differentiators` section does. `aside` and desktop only — below `lg` the
+ * left column is not a column.
+ *
+ * They become one wrapper to do it: two separately sticky items would pin at
+ * two different offsets and drift apart as the list scrolls. The wrapper is
+ * `display: contents` below `lg`, so the narrow frames still see a plain
+ * heading and a plain button in the flex column.
+ */
+const stickyAside = sticky && aside;
+---
+
+<section
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="feature-list-heading"
+>
+  <div
+    class:list={[
+      aside
+        ? /* `auto_1fr` on the rows is what pulls the button back up under the
+             heading: the list spans both rows and is far the taller side, so
+             with two `auto` rows its spare height is shared out between them
+             and the pair drift apart — the same rule `ServiceIncluded` and
+             `ServiceWhyChoose` already state. */
+          "section-shell flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-10 lg:gap-y-8"
+        : "section-shell flex items-stretch gap-20",
+    ]}
+  >
+    {
+      aside && (
+        /* The heading and its button, as one item when the column is sticky
+           and as two loose ones (`display: contents`) when it is not. Sticky,
+           the wrapper spans both rows — a sticky grid item can only travel
+           inside its own grid area, so pinned to row 1 it would stop after a
+           few pixels. */
+        <div
+          class:list={
+            stickyAside
+              ? "contents lg:sticky lg:top-24 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:flex lg:flex-col lg:items-start lg:gap-8 lg:self-start"
+              : "contents"
+          }
+        >
+          <h2
+            id="feature-list-heading"
+            class="order-1 text-h1 text-balance text-text-primary lg:col-start-1 lg:row-start-1"
+            data-reveal
+          >
+            {heading}
+          </h2>
+
+          {cta && (
+            /* Wrapped rather than annotated directly: Button declares its
+               props, so `data-reveal` on the component itself would be
+               dropped. `order-3` is what keeps it last in the narrow stack:
+               it is written above the list now, because on desktop it belongs
+               to the heading's column and travels with it. Full-bleed on a
+               phone, centred under the list on the tablet frame. */
+            <div
+              class="order-3 w-full sm:w-auto sm:self-center lg:col-start-1 lg:row-start-2 lg:self-start"
+              data-reveal
+            >
+              <Button
+                variant="accent"
+                size="lg"
+                href={cta.href}
+                class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+              >
+                {cta.label}
+              </Button>
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    {
+      image && (
+        /*
+          `hidden` below lg rather than reordered: the narrow frames drop this
+          photograph entirely, and `self-stretch` is what makes it match the
+          list's height rather than dictate it.
+        */
+        <div
+          class="hidden shrink-0 overflow-hidden rounded-xl lg:block lg:w-[519px]"
+          data-reveal
+        >
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[519, 1038]}
+            sizes="519px"
+            class="size-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+
+    {
+      aside ? (
+        /* One column at every width — the entries carry a full paragraph each,
+           and the pills only read as labels in a single running list. */
+        <ul class="order-2 w-full lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          {items.map((item, i) => (
+            <li
+              class="flex w-full flex-col items-start gap-2 border-b border-border-subtle py-6"
+              data-reveal
+              style={`--reveal-i:${i % 2}`}
+            >
+              <p class="rounded-full bg-navy-50 px-5 py-2 text-btn tracking-[0.15px] text-navy-600">
+                {item.eyebrow}
+              </p>
+              <h3 class="text-h3 text-balance text-text-secondary">
+                {item.title}
+              </h3>
+              <p class="text-body text-text-tertiary">{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="flex flex-1 flex-col items-start gap-10">
+          <h2
+            id="feature-list-heading"
+            class="text-h1 text-balance text-text-primary"
+            data-reveal
+          >
+            {heading}
+          </h2>
+
+          {/* Two across on the tablet frame, one on mobile, one beside the photo. */}
+          <ul class="grid w-full gap-10 md:grid-cols-2 md:gap-x-12 lg:grid-cols-1 lg:gap-12">
+            {items.map((item, i) => (
+              <li
+                class="flex flex-col items-start gap-3"
+                data-reveal
+                style={`--reveal-i:${i % 2}`}
+              >
+                <p class="text-micro text-text-link">{item.eyebrow}</p>
+                <h3 class="text-h2 text-balance text-text-primary">
+                  {item.title}
+                </h3>
+                <p class="text-body text-text-secondary">{item.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+  </div>
+</section>

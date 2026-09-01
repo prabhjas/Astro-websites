@@ -1,88 +1,300 @@
 ---
-import Logo from './Logo.astro';
-import { localize, type Lang } from '../i18n/config';
-import { dict } from '../i18n/content';
-import { services } from '../data/services';
-import { company } from '../data/company';
+import { Image } from "astro:assets";
+import logoMarkLight from "../assets/icons/logo-mark-light.svg";
+import shieldCheck from "../assets/icons/shield-check.svg";
+import chevronDown from "../assets/icons/chevron-down.svg";
+import externalLink from "../assets/icons/external-link.svg";
+import Button from "./ui/Button.astro";
+import Icon from "./ui/Icon.astro";
+import FooterServiceCoverage from "./FooterServiceCoverage.astro";
+import { getUi } from "../i18n/copy";
+import { withLocale } from "../i18n/locale";
+import { getServiceNav } from "../lib/service-nav";
 
-interface Props { lang: Lang }
-const { lang } = Astro.props;
-const d = dict(lang);
-const year = 2026;
+const { lang, t } = getUi(Astro.url.pathname);
+const categories = await getServiceNav(lang);
+const homeHref = withLocale("/", lang);
+
+interface FooterLink {
+  label: string;
+  href?: string;
+}
+
+const companyLinks: FooterLink[] = [{ label: t.footer.aboutUs, href: withLocale("/about", lang) }];
+
+const credentials = [
+  { label: t.footer.authNo, value: "69/0049/26" },
+  { label: t.footer.nif, value: "B23977879" },
+  { label: t.footer.labourAuthority, value: "Cataluña" },
+];
+
+const whatsappHref = "https://wa.me/34679833405";
 ---
-<footer class="mt-24 border-t border-line bg-brand-900 text-white/80">
-  <div class="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
-    <div class="lg:col-span-1">
-      <Logo lang={lang} variant="light" />
-      <p class="mt-4 max-w-xs text-sm text-white/70">{d.footer.tagline}</p>
-      <p class="mt-4 text-xs leading-relaxed text-white/50">{company.ettAuthority[lang]}.</p>
-    </div>
 
-    <div>
-      <h3 class="text-sm font-semibold text-white">{d.footer.servicesTitle}</h3>
-      <ul class="mt-4 space-y-2.5 text-sm">
-        {services.map((s) => (
-          <li><a href={localize(lang, `/services/${s.slug}`)} class="text-white/70 hover:text-white">{s[lang].navName}</a></li>
-        ))}
-      </ul>
-    </div>
+<footer class="overflow-hidden bg-navy text-text-inverse">
+  {/*
+    Tablet and desktop draw two *independently tall* stacks, not a grid of
+    aligned rows: Contact sits right under the short Brand column while Company
+    sits far lower, under the long coverage lists. Sharing one grid row between
+    those pairs stretches the shorter column to match the taller, opening a gap
+    the design doesn't draw.
 
-    <div>
-      <h3 class="text-sm font-semibold text-white">{d.footer.companyTitle}</h3>
-      <ul class="mt-4 space-y-2.5 text-sm">
-        <li><a href={localize(lang, '/about')} class="text-white/70 hover:text-white">{d.nav.about}</a></li>
-        <li><a href={localize(lang, '/services')} class="text-white/70 hover:text-white">{d.nav.services}</a></li>
-        <li><a href={localize(lang, '/contact')} class="text-white/70 hover:text-white">{d.nav.contact}</a></li>
-      </ul>
-    </div>
+    So Brand+Contact and Services+Company are real flex columns — `LeftStack`
+    and `RightStack`. `lg:contents` lets the same two nodes serve the desktop
+    frame: at `lg` the wrapper's box disappears and the four become direct items
+    of the outer five-column row, each carrying its own `lg:col-start`.
 
-    <div>
-      <h3 class="text-sm font-semibold text-white">{d.footer.contactTitle}</h3>
-      <ul class="mt-4 space-y-2.5 text-sm">
-        <li><a href={`mailto:${company.email}`} class="text-white/70 hover:text-white">{company.email}</a></li>
-        <li><a href={`tel:${company.phoneHref}`} class="text-white/70 hover:text-white">{company.phone}</a></li>
-        <li class="text-white/70">{company.addressCity}, {company.addressCountry}</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Official ETT authorisation — details + verify link -->
-  <div class="border-t border-white/10">
-    <div class="container-x py-8">
-      <div class="flex flex-col gap-5 rounded-xl border border-white/10 bg-white/5 p-6 lg:flex-row lg:items-center lg:justify-between">
-        <div>
-          <div class="flex items-center gap-2">
-            <svg class="h-5 w-5 text-accent-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-            <h3 class="text-sm font-semibold text-white">{d.footer.ett.title}</h3>
-          </div>
-          <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-sm">
-            <div>
-              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.authLabel}</dt>
-              <dd class="font-semibold text-white">{company.ett.authNumber}</dd>
-            </div>
-            <div>
-              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.nifLabel}</dt>
-              <dd class="font-semibold text-white">{company.ett.nif}</dd>
-            </div>
-            <div>
-              <dt class="text-xs uppercase tracking-wide text-white/50">{d.footer.ett.authorityLabel}</dt>
-              <dd class="font-semibold text-white">{company.ett.region}</dd>
-            </div>
-          </dl>
-          <p class="mt-4 max-w-xl text-xs leading-relaxed text-white/50">{d.footer.ett.note}</p>
-        </div>
-        <a href={company.ett.registryUrl} target="_blank" rel="noopener noreferrer" class="btn-primary shrink-0 self-start lg:self-center">
-          {d.footer.ett.verify}
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg>
+    Mobile can't reuse that markup — it needs the accordions *between* Brand and
+    Contact, and Contact lives inside `LeftStack`. Rather than break the
+    grouping, Contact renders twice: once in `LeftStack` (hidden below `md`) and
+    once as `MobileContact` in the accordions' position (hidden from `md`). Both
+    are `display:none` outside their range, so neither leaves a stray tab stop.
+  */}
+  <div
+    class="section-shell flex flex-col gap-y-0 pt-12 pb-10 md:flex-row md:items-start md:gap-x-5 md:pt-14 md:pb-12 lg:grid lg:grid-cols-[290px_1px_1fr_160px_290px] lg:items-start lg:gap-6 lg:pt-18 lg:pb-16"
+  >
+    <!-- Brand + Contact -->
+    <div
+      class="flex flex-col gap-10 md:w-[334px] md:shrink-0 lg:contents"
+    >
+      <div
+        class="flex flex-col items-start gap-4 border-b border-bg-surface-secondary pb-8 md:border-0 md:pb-0 lg:col-start-1 lg:row-start-1 lg:w-[290px] lg:shrink-0"
+      >
+        <a href={homeHref} class="flex h-18 items-center gap-[13.5px]">
+          <Image
+            src={logoMarkLight}
+            alt=""
+            width={94}
+            height={54}
+            class="h-[54px] w-[94.213px]"
+          />
+          <span
+            class="font-semi-expanded flex flex-col text-[27px] leading-none font-bold tracking-[-1.08px] text-bg-page"
+          >
+            <span>Iberia</span>
+            <span>Work Force</span>
+          </span>
+          <span class="sr-only">{t.nav.homeSr}</span>
         </a>
+
+        <p class="text-body-sm text-navy-200">
+          {t.footer.blurb}
+        </p>
+
+        <div
+          class="flex w-full flex-col items-start gap-5 rounded-xl bg-[#153656] px-3 py-4"
+        >
+          <div class="flex w-full flex-col items-start gap-2">
+            <Icon src={shieldCheck} size={24} />
+            <p class="text-h5 text-text-inverse">
+              {t.footer.ettVerify}
+            </p>
+          </div>
+
+          <dl class="flex flex-wrap items-start gap-6">
+            {
+              credentials.map((credential) => (
+                <div class="flex flex-col items-start gap-1.5">
+                  <dt class="text-micro whitespace-nowrap text-[#bbb4aa]">
+                    {credential.label}
+                  </dt>
+                  <dd class="text-body whitespace-nowrap text-text-inverse">
+                    {credential.value}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <p class="text-micro text-[#a29b90]">
+            {t.footer.registryHint}
+          </p>
+
+          {/* The same action the homepage's EttLicence card carries, and the
+              same destination: the note above tells the reader how to search
+              the register, so the card now takes them there as well.
+              `accent-deep` is the #a44728 fill the frames draw — the lighter
+              `accent` wash sits too close to the card's own #153656. Full
+              width at all three widths (103:486 / 345:2820 / 347:3502). */}
+          <Button
+            variant="accent-deep"
+            size="sm"
+            block
+            external
+            href="https://expedientes.mites.gob.es/sigett/"
+          >
+            {t.ett.verifyCta}
+            <Icon src={externalLink} size={20} tone="current" />
+          </Button>
+        </div>
+      </div>
+
+      <!-- Contact, tablet/desktop copy -->
+      <div
+        class="hidden flex-col items-start gap-4 md:flex lg:col-start-5 lg:row-start-1 lg:w-[290px]"
+      >
+        <h2 class="text-h5 whitespace-nowrap text-navy-300">{t.footer.getInTouch}</h2>
+        <address
+          class="flex flex-col items-start gap-1 text-body-sm not-italic text-text-inverse"
+        >
+          <span>{t.footer.madrid}</span>
+          <span>Cavall Bernat 27, 1-1 17250 Platja d'Aro</span>
+        </address>
+        <a
+          href="mailto:contact@iberiaworkforce.com"
+          class="inline-block py-1 text-body-sm break-all text-[#e1a38e] hover:underline"
+        >
+          contact@iberiaworkforce.com
+        </a>
+        <a
+          href="tel:+34679833405"
+          class="inline-block py-1 text-body-sm break-all text-[#e1a38e] hover:underline"
+        >
+          +34 679 833 405
+        </a>
+        <div class="flex flex-col items-start gap-3 pt-2">
+          <Button variant="accent" size="md" href="#contact-form">
+            {t.footer.requestProposal}
+          </Button>
+          <Button
+            variant="secondary"
+            size="md"
+            href={whatsappHref}
+            external
+          >
+            {t.footer.whatsapp}
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider, desktop only: neither the tablet nor mobile frame carries it -->
+    <div
+      class="hidden bg-bg-surface-secondary lg:col-start-2 lg:row-start-1 lg:block lg:w-px lg:self-stretch"
+      aria-hidden="true"
+    >
+    </div>
+
+    <!-- Services -->
+    <details
+      class="disclosure group/services w-full border-b border-bg-surface-secondary md:hidden"
+    >
+      <summary
+        class="flex h-12 cursor-pointer list-none items-center justify-between text-h5 text-navy-300 [&::-webkit-details-marker]:hidden"
+      >
+        {t.footer.services}
+        <Icon
+          src={chevronDown}
+          size={16}
+          tone="current"
+          class="transition-transform duration-200 group-open/services:rotate-180"
+        />
+      </summary>
+      <div class="flex flex-col items-start gap-4 pb-4">
+        <FooterServiceCoverage categories={categories} />
+      </div>
+    </details>
+
+    <!-- Services + Company -->
+    <div class="hidden md:flex md:w-[334px] md:shrink-0 md:flex-col md:gap-10 lg:contents">
+      <nav class="flex flex-col items-start gap-4 lg:col-start-3 lg:row-start-1" aria-label={t.footer.services}>
+        <h2 class="text-h5 whitespace-nowrap text-navy-300">{t.footer.services}</h2>
+        <FooterServiceCoverage categories={categories} />
+      </nav>
+      <nav class="flex flex-col items-start gap-4 lg:col-start-4 lg:row-start-1" aria-label={t.footer.company}>
+        <h2 class="text-h5 whitespace-nowrap text-navy-300">{t.footer.company}</h2>
+        <ul class="flex flex-col items-start gap-2.5">
+          {
+            companyLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href ?? "#about"}
+                  class="inline-block py-1 text-body-sm text-text-inverse hover:text-navy-200"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Company -->
+    <details
+      class="disclosure group/company w-full border-b border-bg-surface-secondary md:hidden"
+    >
+      <summary
+        class="flex h-12 cursor-pointer list-none items-center justify-between text-h5 text-navy-300 [&::-webkit-details-marker]:hidden"
+      >
+        {t.footer.company}
+        <Icon
+          src={chevronDown}
+          size={16}
+          tone="current"
+          class="transition-transform duration-200 group-open/company:rotate-180"
+        />
+      </summary>
+      <ul class="flex flex-col items-start gap-2.5 pb-4">
+        {
+          companyLinks.map((link) => (
+            <li>
+              <a
+                href={link.href ?? "#about"}
+                class="inline-block py-1 text-body-sm text-text-inverse hover:text-navy-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+
+    <!-- Contact, mobile copy: same content as the tablet/desktop one above -->
+    <div
+      class="flex flex-col items-start gap-4 border-t border-bg-surface-secondary pt-8 md:hidden"
+    >
+      {/* navy-300 like its sibling headings — navy-500 was both a 3.12:1
+          contrast fail and the only one of the four styled apart. */}
+      <h2 class="text-h5 whitespace-nowrap text-navy-300">{t.footer.getInTouch}</h2>
+      <address
+        class="flex flex-col items-start gap-1 text-body-sm not-italic text-text-inverse"
+      >
+        <span>{t.footer.madrid}</span>
+        <span>Cavall Bernat 27, 1-1 17250 Platja d'Aro</span>
+      </address>
+      <a
+        href="mailto:contact@iberiaworkforce.com"
+        class="inline-block py-1 text-body-sm break-all text-[#e1a38e] hover:underline"
+      >
+        contact@iberiaworkforce.com
+      </a>
+      <a
+        href="tel:+34679833405"
+        class="inline-block py-1 text-body-sm break-all text-[#e1a38e] hover:underline"
+      >
+        +34 679 833 405
+      </a>
+      <div class="flex flex-col items-start gap-3 pt-2">
+        <Button variant="accent" size="md" href="#contact-form">
+          {t.footer.requestProposal}
+        </Button>
+        <Button variant="secondary" size="md" href={whatsappHref} external>
+          {t.footer.whatsapp}
+        </Button>
       </div>
     </div>
   </div>
 
-  <div class="border-t border-white/10">
-    <div class="container-x flex flex-col items-center justify-between gap-2 py-6 text-xs text-white/50 sm:flex-row">
-      <p>© {year} {company.legalName}. {d.footer.rights}</p>
-      <p>{d.footer.builtIn}</p>
-    </div>
+  <div class="h-px w-full bg-bg-surface-secondary"></div>
+
+  <div
+    class="section-shell flex flex-col items-center justify-between gap-2 py-5 text-micro text-navy-300 md:py-4 lg:h-14 lg:flex-row lg:gap-0 lg:py-0"
+  >
+    <p class="text-center lg:text-left">
+      {t.footer.copyright}
+    </p>
+    <p class="text-center lg:text-right">{t.footer.registered}</p>
   </div>
 </footer>

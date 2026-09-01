@@ -69,8 +69,7 @@ export function renderPostCard(post: PostEntry, categoryName = ""): string {
   }
 
   // Point every card link at this post (image + title)
-  html = html.replace(/href="\/job-loss-insurance-uae-frequently-asked-questions\/"/g, `href="${href}"`);
-  html = html.replace(/\/job-loss-insurance-uae-frequently-asked-questions\//g, href);
+  html = html.replace(/\{\{CARD_HREF\}\}/g, href);
 
   // Match live loop item root classes for this post
   html = html.replace(

@@ -205,7 +205,7 @@ ${h2('What Does MOHRE Stand For?')}
 ${h3('MOHRE Full Form &amp; Official Name')}
 ${p('MOHRE stands for the Ministry of Human Resources and Emiratisation. The ministry regulates workers\' employment matters and protects their rights. Overseeing employer compliance and supporting the workforce development strategy are also its major functions.')}
 ${h3('Brief History: From Ministry of Labour to MOHRE')}
-${p('Previously known as the Ministry of Labour (MOL), it was renamed MOHRE in 2016. Over time, its role has been expanded in promoting emiratisation, modernising labour regulations, and improving employment services.')}
+${p('Previously known as the <a href="/mol-uae/">Ministry of Labour (MOL)</a>, it was renamed MOHRE in 2016. Over time, its role has been expanded in promoting emiratisation, modernising labour regulations, and improving employment services.')}
 ${h3('Role of MOHRE in the UAE\'s Federal Government')}
 ${p('They act as the primary regulator for private-sector employment in the UAE. Among many, their prime obligations include')}
 ${ul([
@@ -577,3 +577,16 @@ html = html.replace(
 
 writeFileSync(OUT, html);
 console.log('Wrote', OUT);
+
+// Keep new post first on Insights (/blog/) and homepage Latest Blog.
+const orderPath = join(ROOT, 'src/data/wp-blog-order.json');
+let order = [];
+try {
+  order = JSON.parse(readFileSync(orderPath, 'utf8'));
+  if (!Array.isArray(order)) order = [];
+} catch {
+  order = [];
+}
+order = [SLUG, ...order.filter((s) => s !== SLUG)];
+writeFileSync(orderPath, `${JSON.stringify(order, null, 2)}\n`);
+console.log('Insights order: prepended', SLUG);

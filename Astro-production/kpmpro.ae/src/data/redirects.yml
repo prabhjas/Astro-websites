@@ -115,6 +115,35 @@ redirects:
   - from: /pro-services-in-dubai/
     to: /what-do-pro-services-in-dubai-mean/
     status: 301
+
+  # Duplicate blog posts → canonical URLs (SEO ticket 2026-08-25)
+  - from: /business-opportunities-in-the-uae/
+    to: /business-opportunities-in-uae/
+    status: 301
+  - from: /dubai-pro/
+    to: /what-do-pro-services-in-dubai-mean/
+    status: 301
+  - from: /trade-license-dubai-online-check/
+    to: /how-to-check-trade-license-online/
+    status: 301
+  - from: /golden-visa-requirements/
+    to: /new-golden-visa-requirements/
+    status: 301
+
+  # Retired blog posts (SEO ticket 2026-08-31)
+  - from: /trends-in-pro-services/
+    to: /blog/
+    status: 301
+  - from: /company-establishment-card/
+    to: /blog/
+    status: 301
+  - from: /trade-licens-in-abu-dhabi/
+    to: /abu-dhabi-trade-license-types/
+    status: 301
+  - from: /benefits-of-uae-golden-visa-with-pro-services/
+    to: /uae-golden-visa-benefits/
+    status: 301
+
   - from: /outsourcing-pro-services/
     to: /
     status: 301

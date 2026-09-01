@@ -31,6 +31,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Stale /favicon.ico is sticky on an old release tip — send browsers to the brand PNG.
+    if (pathname === '/favicon.ico' || pathname === '/favicon.ico/') {
+      return new Response(null, {
+        status: 302,
+        headers: { Location: '/wp-content/uploads/2024/09/fav-new.png?v=20260826' },
+      });
+    }
+
     // API routes must keep their native Astro routing (no slash normalization/redirect mapping).
     if (pathname.startsWith('/api/')) {
       return next();

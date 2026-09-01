@@ -8,9 +8,59 @@ function shouldAccessLog(pathname: string): boolean {
   return true;
 }
 
+const LEGACY_REDIRECTS: Record<string, string> = {
+  '/es/services/eor': '/es/employer-of-record/spain/',
+  '/es/services/payroll': '/es/payroll-outsourcing/spain/',
+  '/es/services/labour-legal': '/es/services/',
+  '/es/services/compliance': '/es/services/',
+  '/es/services/staff-outsourcing': '/es/staff-outsourcing/spain/',
+  '/services/eor': '/employer-of-record/spain/',
+  '/services/payroll': '/payroll-outsourcing/spain/',
+  '/services/labour-legal': '/services/',
+  '/services/compliance': '/services/',
+  '/services/staff-outsourcing': '/staff-outsourcing/spain/',
+};
+
+function legacyTarget(pathname: string): string | undefined {
+  if (LEGACY_REDIRECTS[pathname]) return LEGACY_REDIRECTS[pathname];
+  if (pathname.endsWith('/') && pathname.length > 1) {
+    return LEGACY_REDIRECTS[pathname.slice(0, -1)];
+  }
+  return undefined;
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const started = Date.now();
   const pathname = context.url.pathname;
+  const method = context.request.method;
+
+  const legacy = legacyTarget(pathname);
+  if (legacy) {
+    return new Response(null, {
+      status: method === 'GET' || method === 'HEAD' ? 301 : 308,
+      headers: { Location: `${legacy}${context.url.search}` },
+    });
+  }
+
+  // Enforce trailing slash — bare paths (no file extension) redirect with slash.
+  // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
+  if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
+    const target = `${pathname}/${context.url.search}`;
+    const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
+    return new Response(null, {
+      status,
+      headers: { Location: target },
+    });
+  }
+
+  // Live crawlers use `/sitemap-index.xml` (→ `/sitemap-0.xml`). Keep /sitemap.xml
+  // as a 301 so nothing that still asks for the short name 404s.
+  if (pathname === '/sitemap.xml' || pathname === '/sitemap.xml/') {
+    return new Response(null, {
+      status: method === 'GET' || method === 'HEAD' ? 301 : 308,
+      headers: { Location: `/sitemap-index.xml${context.url.search}` },
+    });
+  }
 
   // Per-site dashboard UI removed — leads managed via central CMS → /api/internal/*
   if (

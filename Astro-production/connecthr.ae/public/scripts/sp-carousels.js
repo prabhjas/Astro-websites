@@ -55,7 +55,9 @@
   function getCarouselWidget(el) {
     return (
       el.closest(".elementor-element[data-widget_type*='carousel']") ||
-      el.closest(".elementor-widget[data-widget_type*='carousel']")
+      el.closest(".elementor-widget[data-widget_type*='carousel']") ||
+      el.closest(".elementor-element[data-widget_type*='slides']") ||
+      el.closest(".elementor-widget[data-widget_type*='slides']")
     );
   }
 
@@ -71,17 +73,15 @@
     );
   }
 
-  /** Apply stacked layout on mobile before/alwithout Swiper loading. */
+  /** Apply stacked layout on mobile before Swiper loads. */
   function applyMobileStacks() {
     if (!window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches) return;
 
-    document
-      .querySelectorAll(".elementor-main-swiper, .swiper")
-      .forEach((el) => {
-        if (!(el instanceof HTMLElement)) return;
-        const widgetEl = getCarouselWidget(el);
-        if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
-      });
+    document.querySelectorAll(".elementor-main-swiper").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const widgetEl = getCarouselWidget(el);
+      if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
+    });
   }
 
   function boot() {
@@ -90,34 +90,54 @@
 
     applyMobileStacks();
 
-    document.querySelectorAll(".elementor-main-swiper, .swiper").forEach((el) => {
+    // Prefer Elementor main swipers only — avoids nested / incomplete .swiper shells.
+    document.querySelectorAll(".elementor-main-swiper").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
+      if (el.dataset.spCarouselBooted === "1") return;
       if (el.swiper || el.classList.contains("swiper-initialized")) return;
-      if (!el.querySelector(".swiper-slide")) return;
+      if (!el.querySelector(".swiper-wrapper")) return;
+
+      const slides = el.querySelectorAll(
+        ".swiper-slide:not(.swiper-slide-duplicate)",
+      );
+      if (slides.length < 1) return;
 
       const settings = parseSettings(el);
       const parent = el.closest(".elementor-element") || el.parentElement;
       const widgetEl = getCarouselWidget(el);
 
       if (shouldMobileStack(widgetEl) && el.classList.contains("sp-mobile-stack")) {
+        el.dataset.spCarouselBooted = "1";
         return;
       }
 
       const next = parent?.querySelector(
-        ".elementor-swiper-button-next, .swiper-button-next",
+        ":scope .elementor-swiper-button-next, :scope .swiper-button-next",
       );
       const prev = parent?.querySelector(
-        ".elementor-swiper-button-prev, .swiper-button-prev",
+        ":scope .elementor-swiper-button-prev, :scope .swiper-button-prev",
       );
-      const pagination = parent?.querySelector(".swiper-pagination");
+      const pagination = parent?.querySelector(
+        ":scope .swiper-pagination",
+      );
       const breakpoints = buildBreakpoints(settings);
+      const desktopView = num(
+        settings.slides_per_view || settings.slides_to_show,
+        1,
+      );
+      const wantsLoop =
+        settings.loop !== "no" && settings.infinite !== "no";
+      // Loop with too few slides causes Swiper internal undefined.el / .enabled errors.
+      const canLoop = wantsLoop && slides.length > Math.ceil(desktopView);
+
+      el.dataset.spCarouselBooted = "1";
 
       try {
         // eslint-disable-next-line no-new
         new SwiperCtor(el, {
           slidesPerView: 1,
           breakpoints,
-          loop: settings.loop !== "no" && settings.infinite !== "no",
+          loop: canLoop,
           speed: Number(settings.speed) || 500,
           autoplay:
             settings.autoplay === "yes"
@@ -129,12 +149,17 @@
               : false,
           navigation:
             next && prev ? { nextEl: next, prevEl: prev } : undefined,
-          pagination: pagination ? { el: pagination, clickable: true } : undefined,
+          pagination: pagination
+            ? { el: pagination, clickable: true }
+            : undefined,
           watchOverflow: true,
           centeredSlides: settings.centered_slides === "yes",
+          observer: true,
+          observeParents: true,
         });
       } catch (e) {
         console.warn("sp-carousel init failed", e);
+        delete el.dataset.spCarouselBooted;
       }
     });
   }

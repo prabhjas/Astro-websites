@@ -30,6 +30,41 @@ body {
 
 /* Mobile nav styles live in /css/eor-mobile-nav.css */
 
+/* Keep the single-post TOC and sidebar visible while the article scrolls. */
+html:has(body.single-post),
+body.single-post {
+  overflow-x: clip !important;
+}
+
+@media (min-width: 1025px) {
+  body.single-post
+    .elementor-section.single-post
+    > .elementor-container
+    > .elementor-element-93faf74,
+  body.single-post
+    .elementor-section.single-post
+    > .elementor-container
+    > .elementor-element-8aab5b8 {
+    position: sticky !important;
+    top: 10px;
+    align-self: flex-start;
+    height: max-content;
+  }
+}
+
+@media (max-width: 1024px) {
+  body.single-post
+    .elementor-section.single-post
+    > .elementor-container
+    > .elementor-element-93faf74,
+  body.single-post
+    .elementor-section.single-post
+    > .elementor-container
+    > .elementor-element-8aab5b8 {
+    position: static !important;
+  }
+}
+
 .elementor img {
   height: auto;
   max-width: 100%;

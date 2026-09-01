@@ -1,10 +1,15 @@
 import './cms';
 import { defineMiddleware } from 'astro:middleware';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { getServerEnv } from './env/server';
 import { logInfo } from './services/logger';
 import { readRuntimeRedirects, readCanonicalRedirectsYaml, recordRedirectHit } from './lib/runtime-redirects/store';
 import { handleWpJsonRequest } from './lib/wp-json/rest';
 import { handleAdminAjaxRequest } from './lib/wp-admin/admin-ajax';
+
+const __serverDir = dirname(fileURLToPath(import.meta.url));
+const __projectRoot = resolve(__serverDir, '..');
 
 function normalisePath(pathname: string): string {
   if (!pathname || pathname === '/') return '/';
@@ -67,12 +72,22 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return next();
     }
 
+    // Canonical redirects (repo YAML / built JSON) — no env dependency
+    try {
+      const canonical = readCanonicalRedirectsYaml(process.cwd(), __projectRoot);
+      const canonMatch = canonical.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
+      if (canonMatch) {
+        return context.redirect(canonMatch.to, (canonMatch.status || 301) as 301 | 302 | 303 | 307 | 308);
+      }
+    } catch {
+      // Never break public pages
+    }
+
+    // Runtime redirects (require env for admin dir path)
     try {
       const env = getServerEnv();
       const runtime = await readRuntimeRedirects(env.internalAdminDir);
-      const canonical = readCanonicalRedirectsYaml(process.cwd());
-      const all = [...canonical, ...runtime];
-      const match = all.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
+      const match = runtime.find((rule) => normalisePath(rule.from) === normalisePath(pathname));
       if (match) {
         await recordRedirectHit(env.internalAdminDir, match.from);
         return context.redirect(match.to, (match.status || 301) as 301 | 302 | 303 | 307 | 308);

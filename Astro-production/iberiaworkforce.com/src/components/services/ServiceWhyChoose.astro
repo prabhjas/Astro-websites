@@ -1,0 +1,246 @@
+---
+/**
+ * "Why choose us", in two arrangements:
+ *
+ * - `list`: a display-scale claim beside a divider-separated run of reasons.
+ *   Two columns on desktop only. A button, where the page asks for one, hangs
+ *   off the claim on desktop and moves under the reasons on both narrow
+ *   frames — placement, not source order, which is why this is a grid.
+ * - `cards`: the claim on its own line with the reasons as filled cards under
+ *   it. What two long reasons need where four short ones read fine as a
+ *   divider list.
+ *
+ * The two `cards` frames sit on opposite neutrals, and a card has to take the
+ * one the section does not to read as a card at all. `surface` is that switch,
+ * and the rest of the card's treatment follows it, because those frames draw
+ * two cards rather than one card on two backgrounds.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["whyChoose"]>;
+
+const {
+  heading,
+  highlight,
+  items,
+  layout = "list",
+  surface = "surface",
+  background,
+  cta,
+  sticky = false,
+} = Astro.props;
+
+const cards = layout === "cards";
+
+/**
+ * The claim column travels with the reader, as the homepage's
+ * `Differentiators` section does. `list` only — `cards` has no second column
+ * for it to travel alongside — and desktop only, since below `lg` the claim and
+ * the reasons are one stack.
+ *
+ * The claim and the button become one wrapper to do it, because two separately
+ * sticky items would pin at two different offsets and drift apart. The wrapper
+ * is `display: contents` below `lg`, so the narrow frames keep three plain
+ * items in the flex column and the source order stays what it always was.
+ */
+const stickyAside = sticky && !cards;
+/**
+ * Which neutral the band itself sits on. Both layouts read it — a `list` can be
+ * drawn on cream as easily as on white — but only `cards` has a card treatment
+ * hanging off it.
+ */
+const pageSurface = surface === "page";
+/** The Germany frames: cream band, white cards, texture behind both. */
+const onPage = cards && pageSurface;
+
+/**
+ * The design sets one phrase of the heading in terracotta. Splitting it here
+ * keeps the template free of string arithmetic, and a `highlight` that no
+ * longer occurs in `heading` falls back to a plain heading rather than
+ * rendering nothing.
+ */
+const at = highlight ? heading.indexOf(highlight) : -1;
+const parts =
+  at === -1 || !highlight
+    ? { before: heading }
+    : {
+        before: heading.slice(0, at),
+        mark: highlight,
+        after: heading.slice(at + highlight.length),
+      };
+---
+
+{/*
+  No `overflow-hidden` — the texture is `inset-0 size-full object-cover` so
+  nothing overflows, and an overflow ancestor here would become the scrollport
+  for any sticky descendant added later. See CLAUDE.md.
+*/}
+<section
+  class:list={[
+    "relative isolate py-20",
+    pageSurface ? "bg-bg-page" : "bg-bg-surface",
+    onPage ? "md:py-30 lg:py-40" : "lg:py-30",
+  ]}
+  aria-labelledby="why-choose-heading"
+>
+  {
+    background && (
+      /* Figma rotates the artwork 180°, which is what puts the contour work in
+         the corners the copy leaves empty rather than under the first card. */
+      <Image
+        src={background}
+        alt=""
+        widths={[720, 1376]}
+        sizes="100vw"
+        class="pointer-events-none absolute inset-0 -z-10 size-full rotate-180 object-cover"
+        loading="lazy"
+      />
+    )
+  }
+
+  {/*
+    The `list` desktop arrangement is a two-column grid rather than a flex row
+    so the button can belong to the claim's column at `lg` and follow the
+    reasons below it. `600px + 80 + 1fr` is the geometry the flex row had, and
+    the `1fr` second row is what keeps the button under the claim rather than
+    floating down the empty half of the column: the reasons span both rows and
+    are much the taller side, so an `auto` row would share their spare height
+    out between the two.
+  */}
+  <div
+    class:list={[
+      "section-shell flex flex-col items-start",
+      cards
+        ? "gap-10"
+        : "gap-10 lg:grid lg:grid-cols-[600px_1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-20 lg:gap-y-6",
+    ]}
+  >
+    {/*
+      The claim and its button, as one item when the column is sticky and as
+      two loose ones (`display: contents`) when it is not — which is every
+      earlier page, so their markup is unchanged. Sticky, the wrapper spans
+      both rows: a sticky grid item can only travel inside its own grid area,
+      so pinned to row 1 alone it would stop after a few pixels.
+    */}
+    <div
+      class:list={
+        stickyAside
+          ? "contents lg:sticky lg:top-24 lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:flex lg:flex-col lg:items-start lg:gap-8 lg:self-start"
+          : "contents"
+      }
+    >
+      <h2
+        id="why-choose-heading"
+        class:list={[
+          "text-h1 text-balance text-text-primary",
+          cta && "order-1",
+          !cards && "lg:col-start-1 lg:row-start-1",
+          /* Figma stops the claim short of the full column so it breaks over
+             two lines rather than running the width of the cards below it. */
+          onPage && "lg:max-w-[680px]",
+        ]}
+        data-reveal
+      >
+        {parts.before}{parts.mark && <span class="text-terracotta">{parts.mark}</span>}{parts.after}
+      </h2>
+
+      {
+        cta && (
+          /* Wrapped rather than annotated directly: Button declares its props,
+             so `data-reveal` on the component itself would be dropped.
+
+             `order-3` keeps it last in the narrow stack. It is written above
+             the reasons because on desktop it belongs to the claim's column and
+             travels with it. */
+          <div
+            class:list={[
+              "order-3 w-full sm:w-auto sm:self-center",
+              !cards &&
+                "lg:col-start-1 lg:row-start-2 lg:self-start lg:justify-self-start",
+            ]}
+            data-reveal
+            style={`--reveal-i:${items.length + 1}`}
+          >
+            <Button
+              variant="accent"
+              size="lg"
+              href={cta.href}
+              class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+            >
+              {cta.label}
+            </Button>
+          </div>
+        )
+      }
+    </div>
+
+    {
+      cards ? (
+        /* Two across from lg, stacked below — the tablet frame keeps them in
+           one column because each card carries a full paragraph. */
+        <ul
+          class:list={[
+            "grid w-full lg:grid-cols-2",
+            cta && "order-2",
+            onPage ? "gap-5 lg:gap-12" : "gap-6",
+          ]}
+        >
+          {items.map((item, i) => (
+            <li
+              class:list={[
+                "flex flex-col items-start rounded-xl p-5 md:p-8",
+                onPage
+                  ? "gap-2 bg-bg-surface md:p-6 lg:p-8"
+                  : "gap-6 bg-bg-muted lg:min-h-[288px]",
+              ]}
+              data-reveal
+              style={`--reveal-i:${i}`}
+            >
+              <h3
+                class:list={[
+                  "text-h3 text-balance",
+                  onPage ? "text-text-secondary" : "text-text-primary",
+                ]}
+              >
+                {item.title}
+              </h3>
+              <p
+                class:list={[
+                  "text-body",
+                  onPage ? "text-text-tertiary" : "text-text-secondary",
+                ]}
+              >
+                {item.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        /* Each reason keeps its own rule, including the last — a divider under
+           every item is what makes the run read as open-ended. */
+        <ul
+          class:list={[
+            "flex w-full flex-col items-start lg:col-start-2 lg:row-span-2 lg:row-start-1",
+            cta && "order-2",
+          ]}
+        >
+          {items.map((item, i) => (
+            <li
+              class="flex w-full flex-col items-start gap-4 border-b border-border-subtle pb-6 not-first:pt-10"
+              data-reveal
+              style={`--reveal-i:${i + 1}`}
+            >
+              <h3 class="text-h4 text-balance text-text-primary">
+                {item.title}
+              </h3>
+              <p class="text-body text-text-secondary">{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+  </div>
+</section>

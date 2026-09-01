@@ -680,6 +680,74 @@
         item.addEventListener('toggle', sync);
       });
     });
+
+    bindNestedAccordionDocumentCapture();
+  }
+
+  /** Nested `<details>` accordions — override Elementor Pro handlers on marketing pages */
+  function bindNestedAccordionDocumentCapture() {
+    if (window.__astroNestedAccordionCapture) return;
+    window.__astroNestedAccordionCapture = true;
+
+    function parseSettings(el) {
+      var raw = el && el.getAttribute('data-settings');
+      if (!raw) return {};
+      try {
+        return JSON.parse(raw.replace(/&quot;/g, '"')) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function onActivate(summary, e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+      var details = summary.closest('details.e-n-accordion-item');
+      var widget = summary.closest('.elementor-widget-n-accordion');
+      if (!details || !widget) return;
+      if (widget.closest('.elementor-location-single')) return;
+
+      var settings = parseSettings(widget);
+      var allowMultiple = String(settings.max_items_expended || 'one') === 'multiple';
+      var willOpen = !details.open;
+      var root = widget.querySelector('.e-n-accordion');
+      if (!root) return;
+
+      if (willOpen && !allowMultiple) {
+        root.querySelectorAll('details.e-n-accordion-item[open]').forEach(function (other) {
+          if (other !== details) other.removeAttribute('open');
+        });
+      }
+      if (willOpen) details.setAttribute('open', '');
+      else details.removeAttribute('open');
+
+      var title = details.querySelector('.e-n-accordion-item-title');
+      if (title) title.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    }
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        var summary = e.target.closest('.elementor-widget-n-accordion summary.e-n-accordion-item-title');
+        if (!summary) return;
+        onActivate(summary, e);
+      },
+      true,
+    );
+
+    document.addEventListener(
+      'keydown',
+      function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var summary = e.target.closest('.elementor-widget-n-accordion summary.e-n-accordion-item-title');
+        if (!summary) return;
+        onActivate(summary, e);
+      },
+      true,
+    );
   }
 
   /** Decode Cloudflare email protection placeholders */
@@ -823,6 +891,7 @@
           if (!title || !root.contains(title)) return;
           e.preventDefault();
           e.stopPropagation();
+          e.stopImmediatePropagation();
           var willOpen = !title.classList.contains('elementor-active');
           root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
             if (t !== title) animateClose(t);
@@ -833,6 +902,52 @@
         true,
       );
     });
+
+    bindClassicAccordionDocumentCapture(animateOpen, animateClose, getContent);
+  }
+
+  /** Document-level capture handler — wins over Elementor frontend accordion bindings */
+  function bindClassicAccordionDocumentCapture(animateOpen, animateClose, getContent) {
+    if (window.__astroClassicAccordionCapture) return;
+    window.__astroClassicAccordionCapture = true;
+
+    function handleToggle(title) {
+      var root = title.closest('.elementor-accordion');
+      if (!root) return;
+      var willOpen = !title.classList.contains('elementor-active');
+      root.querySelectorAll('.elementor-tab-title.elementor-active').forEach(function (t) {
+        if (t !== title) animateClose(t);
+      });
+      if (willOpen) animateOpen(title);
+      else animateClose(title);
+    }
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        var title = e.target.closest('.elementor-widget-accordion .elementor-tab-title');
+        if (!title) return;
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        handleToggle(title);
+      },
+      true,
+    );
+
+    document.addEventListener(
+      'keydown',
+      function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var title = e.target.closest('.elementor-widget-accordion .elementor-tab-title');
+        if (!title) return;
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        handleToggle(title);
+      },
+      true,
+    );
   }
 
   /** Elementor stretch sections (hero + footer full bleed) */
@@ -1222,6 +1337,31 @@
       '.elementor-widget-accordion .elementor-tab-title{cursor:pointer;}',
       '.elementor-widget-accordion .elementor-tab-content:not(.elementor-active){display:none;}',
       '.elementor-widget-accordion .elementor-tab-content.elementor-active{display:block;}',
+      /* Accordion body copy — darker text (hr-outsourcing, pro-services, etc.) */
+      '.custom-togle .elementor-tab-content,.custom-togle .elementor-tab-content p,.elementor-widget-accordion .elementor-tab-content,.elementor-widget-accordion .elementor-tab-content p{color:#313131!important;}',
+      '.rborder.para_color .elementor-tab-content,.rborder.para_color .elementor-tab-content p{color:#313131!important;}',
+      '.elementor-widget-n-accordion:not(.elementor-location-single) .e-n-accordion-item>.e-con,.elementor-widget-n-accordion:not(.elementor-location-single) .e-n-accordion-item>.e-con p{color:#313131!important;}',
+      '.elementor-widget-n-accordion summary.e-n-accordion-item-title{cursor:pointer;list-style:none;}',
+      '.elementor-widget-n-accordion summary.e-n-accordion-item-title::-webkit-details-marker{display:none;}',
+      /* Immigration FAQ — consistent answer alignment (no mid-sentence breaks) */
+      '.elementor-34451 .elementor-element-8c0ebca .elementor-tab-content p{text-align:left!important;}',
+      /* Hero decorative icons — Figma sizing */
+      '.elementor-35580 .elementor-element-d97bf5b>.elementor-background-overlay{background-size:680px auto!important;}',
+      '.elementor-33046 .elementor-element-e9b1fca img{max-width:min(640px,100%)!important;width:100%!important;height:auto!important;image-rendering:auto!important;}',
+      '.elementor-32691 .elementor-element-718f66e{margin-top:0!important;}',
+      '@media (max-width:991px){.elementor-32691 .elementor-element-718f66e{padding-top:110px!important;}}',
+      '@media (min-width:992px){.elementor-32691 .elementor-element-718f66e{padding-top:120px!important;}}',
+      /* Figma rebuild heroes — clear absolute overlay header (80px mobile / transparent desktop) */
+      '.chire-hero,.uaeo-hero,.cgbs-hero{margin-top:0!important;}',
+      '@media (max-width:991px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:110px!important;}}',
+      '@media (min-width:992px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:120px!important;}}',
+      /* Legacy heroes pulled up with margin-top:-84px (freezone + container layouts) */
+      '.elementor-element-6772549,.elementor-element-718f66e{margin-top:0!important;}',
+      '@media (max-width:991px){.elementor-element-6772549,.elementor-element-718f66e{padding-top:110px!important;}}',
+      '@media (min-width:992px){.elementor-element-6772549,.elementor-element-718f66e{padding-top:120px!important;}}',
+      '.elementor-32691 .elementor-element-7fd8664 .elementor-image-box-img img,.elementor-32691 .elementor-element-bb8c34c .elementor-image-box-img img{max-width:min(707px,100%)!important;width:100%!important;height:auto!important;}',
+      /* FAQ empty-paragraph gap fix */
+      '.elementor-widget-accordion .elementor-tab-content p:empty{display:none!important;margin:0!important;padding:0!important;height:0!important;}',
       /* Bootstrap collapse FAQ (Pixfort / WPBakery) */
       '.accordion [data-toggle="collapse"],.accordion [data-bs-toggle="collapse"]{cursor:pointer;}',
       '.accordion .collapse:not(.show){display:none!important;}',
@@ -1958,21 +2098,44 @@
   }
 
   function ensureEorHeroEyebrow() {
-    // Match freezone hero label (“UAE FREEZONE COMPANY SETUP”) on EOR page
+    // Disabled — duplicate eyebrow removed from employer-of-record HTML (audit fix).
+  }
+
+  function removeDuplicateEorEyebrow() {
     if (!/\/employer-of-record\/?$/.test(location.pathname)) return;
-    if (document.querySelector('.elementor-element-cg-eor-eyebrow, .cg-hero-eyebrow')) return;
-    var h1Wrap =
-      document.querySelector('.elementor-31775 .elementor-element-2ee3236') ||
-      document.querySelector('.elementor-element-3c859d0 h1.elementor-heading-title') &&
-        document.querySelector('.elementor-element-3c859d0 h1.elementor-heading-title').closest('.elementor-element');
-    if (!h1Wrap || !h1Wrap.parentNode) return;
-    var el = document.createElement('div');
-    el.className =
-      'elementor-element elementor-element-cg-eor-eyebrow cg-hero-eyebrow elementor-widget elementor-widget-heading';
-    el.setAttribute('data-id', 'cg-eor-eyebrow');
-    el.innerHTML =
-      '<p class="elementor-heading-title elementor-size-default cg-hero-eyebrow-label">Employer of Record Services in Dubai &amp; UAE</p>';
-    h1Wrap.parentNode.insertBefore(el, h1Wrap);
+    document
+      .querySelectorAll('.elementor-element-cg-eor-eyebrow, .cg-hero-eyebrow')
+      .forEach(function (el) {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      });
+  }
+
+  /** Specialist Brands logo links open in a new tab (legacy Elementor pages) */
+  function ensureSpecialistBrandLinks() {
+    document.querySelectorAll('h2.elementor-heading-title').forEach(function (h2) {
+      if ((h2.textContent || '').trim() !== 'Our Specialist Brands') return;
+      var scope =
+        h2.closest('section') ||
+        h2.closest('.e-con') ||
+        h2.closest('.elementor-section') ||
+        h2.parentElement;
+      if (!scope) return;
+      scope.querySelectorAll('a[href^="/"]').forEach(function (a) {
+        if (a.getAttribute('target') === '_blank') return;
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      });
+    });
+  }
+
+  /** Strip empty leading paragraphs inside FAQ accordion bodies (company-formation-saudi gap) */
+  function cleanupAccordionEmptyParagraphs() {
+    document.querySelectorAll('.elementor-widget-accordion .elementor-tab-content').forEach(function (panel) {
+      panel.querySelectorAll('p').forEach(function (p) {
+        var text = (p.textContent || '').replace(/\u00a0/g, ' ').trim();
+        if (!text) p.remove();
+      });
+    });
   }
 
   function killAldLaserLoader() {
@@ -2121,7 +2284,11 @@
       });
 
       // Brand/service heroes (3c859d0): cancel legacy -84px pull under absolute header
-      document.querySelectorAll('.elementor-element-3c859d0').forEach(function (el) {
+      document
+        .querySelectorAll(
+          '.elementor-element-3c859d0, .elementor-element-6772549, .elementor-element-718f66e',
+        )
+        .forEach(function (el) {
         el.style.setProperty('margin-top', '0', 'important');
         var minPad = mobile ? 110 : 120;
         var pt = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
@@ -2129,6 +2296,16 @@
           el.style.setProperty('padding-top', minPad + 'px', 'important');
         } else {
           el.style.setProperty('padding-top', Math.max(pt, minPad) + 'px', 'important');
+        }
+      });
+
+      // Figma rebuild pages (contractor-hire, uae-offshore, uae-company-setup)
+      document.querySelectorAll('.chire-hero, .uaeo-hero, .cgbs-hero').forEach(function (el) {
+        el.style.setProperty('margin-top', '0', 'important');
+        var minPad = mobile ? 110 : 120;
+        var pt = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
+        if (pt < minPad) {
+          el.style.setProperty('padding-top', minPad + 'px', 'important');
         }
       });
 
@@ -2219,7 +2396,9 @@
     safe(injectMirrorCss);
     safe(watchAldLaserLoader);
     safe(ensureHeaderChrome);
-    safe(ensureEorHeroEyebrow);
+    safe(removeDuplicateEorEyebrow);
+    safe(ensureSpecialistBrandLinks);
+    safe(cleanupAccordionEmptyParagraphs);
     safe(wireLegacyContactForms);
     safe(unwrapRocketLazyScripts);
     safe(prepareTestimonialCarousels);
@@ -2248,7 +2427,9 @@
       safe(unwrapRocketLazyScripts);
       safe(nudgeElementor);
       safe(ensureHeaderChrome);
-      safe(ensureEorHeroEyebrow);
+      safe(removeDuplicateEorEyebrow);
+      safe(ensureSpecialistBrandLinks);
+      safe(cleanupAccordionEmptyParagraphs);
       safe(ensureLazyImages);
       safe(animateCounters);
       safe(ensureBackgroundVideos);
@@ -2271,7 +2452,9 @@
     // Swiper / Elementor modules often finish later than DOMContentLoaded
     setTimeout(function () {
       safe(ensureHeaderChrome);
-      safe(ensureEorHeroEyebrow);
+      safe(removeDuplicateEorEyebrow);
+      safe(ensureSpecialistBrandLinks);
+      safe(cleanupAccordionEmptyParagraphs);
       safe(ensureNestedCarousels);
       safe(ensureImageCarousels);
       safe(ensureTestimonialSwiper);
@@ -2293,7 +2476,8 @@
         'resize',
         function () {
           safe(ensureHeaderChrome);
-          safe(ensureEorHeroEyebrow);
+          safe(removeDuplicateEorEyebrow);
+          safe(ensureSpecialistBrandLinks);
         },
         { passive: true },
       );
