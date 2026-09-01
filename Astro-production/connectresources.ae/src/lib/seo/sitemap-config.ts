@@ -15,6 +15,7 @@ export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/', '/wp-admin/'] as co
 export const EXCLUDED_PAGE_SLUGS = new Set([
   'demo',
   'status',
+  'eor-main',
 ]);
 
 /** Paid / campaign LPs — noindex, nofollow (not for organic search). */
