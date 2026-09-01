@@ -59,6 +59,64 @@
     return m ? m[1] : "";
   }
 
+  function youtubeBackgroundEmbedSrc(videoId) {
+    const origin = encodeURIComponent(window.location.origin);
+    return (
+      `https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1&enablejsapi=1` +
+      `&autoplay=1&mute=1&loop=1&playlist=${videoId}&origin=${origin}`
+    );
+  }
+
+  function markBackgroundVideoLoaded(container) {
+    if (!container) return;
+    container.classList.remove("elementor-loading", "elementor-invisible");
+    container.classList.add("elementor-background-video-loaded");
+    const host =
+      container.closest("[data-settings*='background_video']") ||
+      container.closest(".animate_box, .elementor-element");
+    if (host) host.classList.add("elementor-background-video-loaded");
+  }
+
+  function revealYouTubeBackground(container, iframe) {
+    if (!container || !iframe) return;
+    const show = () => markBackgroundVideoLoaded(container);
+    iframe.addEventListener("load", show, { once: true });
+    show();
+    [400, 1200, 2500].forEach((ms) => setTimeout(show, ms));
+  }
+
+  function dedupeYouTubeBackgroundVideos() {
+    document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
+      container
+        .querySelectorAll(".elementor-background-video-embed:not(iframe)")
+        .forEach((el) => el.remove());
+      const iframes = [
+        ...container.querySelectorAll("iframe.elementor-background-video-embed"),
+      ];
+      if (iframes.length <= 1) {
+        if (iframes[0]) revealYouTubeBackground(container, iframes[0]);
+        return;
+      }
+      const keeper =
+        iframes.find((f) => /youtube\.com\/embed\//.test(f.src || "")) || iframes[0];
+      iframes.forEach((node) => {
+        if (node !== keeper) node.remove();
+      });
+      revealYouTubeBackground(container, keeper);
+    });
+  }
+
+  function watchYouTubeBackgroundDupes() {
+    if (watchYouTubeBackgroundDupes.bound) return;
+    watchYouTubeBackgroundDupes.bound = true;
+    const run = () => dedupeYouTubeBackgroundVideos();
+    [100, 500, 1200, 2500, 5000].forEach((ms) => setTimeout(run, ms));
+    window.addEventListener("elementor/frontend/init", run);
+    document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
+      new MutationObserver(run).observe(container, { childList: true, subtree: true });
+    });
+  }
+
   function initBgVideo() {
     document.querySelectorAll("[data-settings*='background_video'], [data-settings*='background_background']").forEach((section) => {
       const s = parseSettings(section);
@@ -73,18 +131,29 @@
 
       const yt = youtubeIdFromUrl(link);
       if (yt) {
-        if (container.querySelector("iframe.elementor-background-video-embed")) return;
-        const origin = encodeURIComponent(window.location.origin);
+        const existing = container.querySelector("iframe.elementor-background-video-embed");
+        if (existing) {
+          revealYouTubeBackground(container, existing);
+          dedupeYouTubeBackgroundVideos();
+          return;
+        }
+
+        dedupeYouTubeBackgroundVideos();
+        const embedSrc = youtubeBackgroundEmbedSrc(yt);
+
+        container
+          .querySelectorAll(".elementor-background-video-embed:not(iframe)")
+          .forEach((el) => el.remove());
         const iframe = document.createElement("iframe");
         iframe.className = "elementor-background-video-embed";
         iframe.setAttribute("frameborder", "0");
         iframe.setAttribute("allowfullscreen", "");
         iframe.setAttribute("allow", "autoplay; encrypted-media");
         iframe.title = "Background video";
-        iframe.src =
-          `https://www.youtube.com/embed/${yt}?controls=0&rel=0&playsinline=1&enablejsapi=1` +
-          `&autoplay=1&mute=1&loop=1&playlist=${yt}&origin=${origin}`;
+        iframe.src = embedSrc;
         container.appendChild(iframe);
+        dedupeYouTubeBackgroundVideos();
+        revealYouTubeBackground(container, iframe);
         return;
       }
 
@@ -102,6 +171,7 @@
       video.setAttribute("muted", "");
       const play = video.play();
       if (play && play.catch) play.catch(() => {});
+      markBackgroundVideoLoaded(container);
     });
 
     // Fallback: videos present without walking sections
@@ -684,6 +754,8 @@
   function init() {
     hydrateLazyMedia();
     initBgVideo();
+    dedupeYouTubeBackgroundVideos();
+    watchYouTubeBackgroundDupes();
     initCounters();
     initSticky();
     initPopups();
