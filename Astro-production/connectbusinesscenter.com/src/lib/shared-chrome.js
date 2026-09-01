@@ -16,6 +16,8 @@ export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 /** Bump when post-311 header nav CSS changes — busts long-lived CDN cache on legacy ?ver= links. */
 const POST_311_CSS_HREF =
   '/wp-content/uploads/elementor/css/post-311.css?ver=1786046860';
+const POST_311_CSS_HREF_PREVIOUS =
+  '/wp-content/uploads/elementor/css/post-311.css?ver=1786046859';
 /** Bump ?v= when header chrome CSS changes — avoids long-lived CDN cache on /chrome/header.css */
 const HEADER_CSS_HREF = '/chrome/header.css?v=2';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
