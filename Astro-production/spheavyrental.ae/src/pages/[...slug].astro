@@ -8,10 +8,12 @@ import {
   getPageByPath,
   getPublishedPostByPath,
   getRelatedPosts,
+  getAuthorBySlug,
   formatDate,
   stripHtml,
   normalizePath,
 } from "../lib/content";
+import { prepareElementorPostHtml } from "../lib/post-html";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -104,6 +106,16 @@ const extraCss = page
 
 const postUsesElementor =
   !!post?.bodyHtml && /elementor-652|data-elementor-id="652"/.test(post.bodyHtml);
+
+const postHtml =
+  post?.bodyHtml && postUsesElementor
+    ? prepareElementorPostHtml(
+        post.bodyHtml,
+        post,
+        related,
+        getAuthorBySlug(post.authorSlug)?.avatar,
+      )
+    : post?.bodyHtml;
 ---
 
 <BaseLayout
@@ -131,7 +143,7 @@ const postUsesElementor =
         <div class="sp-page-content" set:html={html} />
       </>
     ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
+      <div class="sp-page-content" set:html={postHtml} />
     ) : (
       <article class="sp-article sp-container">
         <header class="sp-article__header">
