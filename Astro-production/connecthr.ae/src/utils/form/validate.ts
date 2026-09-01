@@ -219,9 +219,9 @@ export function normaliseFormData(input: ContactFormInput): NormalisedContactFor
 }
 
 function isRoiCalculatorForm(input: ContactFormInput): boolean {
-  const formName = input.formName;
+  const formName = input.formName?.trim() ?? '';
   return (
-    (isMeaningfulValue(formName) && /roi/i.test(formName)) ||
+    (formName.length > 0 && /roi/i.test(formName)) ||
     isMeaningfulValue(input.roiPercent) ||
     isMeaningfulValue(input.annualSavingsAed)
   );
