@@ -1,0 +1,407 @@
+# Recruitment — Spain country page.
+# Figma nodes 167-1369 (1440), 184-6817 (768), 184-6818 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first country page with no pricing band of any kind — the fee is stated
+# in `whyChoose`, in the steps and in the FAQ rather than in a card, so all four
+# pricing keys are simply absent. It adds one section, `coverage`, and two
+# switches: `included.ctaAlign` and the dark `stacked` differentiator's
+# subheading. Everything else is an arrangement an earlier page established.
+type: country
+label: Selección de personal en España
+
+seo:
+  title: Selección de personal en España | Iberia Workforce
+  description: >-
+    Selección en España. Encontramos talento, validamos convenio y visado, y
+    tú decides. El 10 % del salario al incorporar, con sustitución en 60
+    días.
+  schema:
+    serviceName: Servicios de selección de personal España
+    serviceType: Selección de personal y captación de talento
+    areaServed: España
+    address:
+      locality: Barcelona
+      country: España
+
+hero:
+  tone: light
+  heading: Agencia de selección en España
+  subheading: Nos aseguramos de que tus decisiones de contratación no te cuesten después.
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: employee
+      label: Expertos en clasificación de convenio
+    - icon: visa
+      label: Validación de visado y jurídica
+    - icon: global
+      label: Con sede en Barcelona
+  body: >-
+    Encontramos a la persona adecuada para tu equipo permanente. Después
+    validamos de antemano que realmente pueda empezar: clasificación de
+    convenio fijada, categoría de visado confirmada si es internacional. Sin
+    sorpresas después de haber hecho una oferta.
+  # The full trio, exported the way the Payroll and Temporary Staffing heroes
+  # are: `download_assets` at `defaultScale: 2` against each frame's own BKG
+  # frame, which Figma returns already clipped to its parent — 2880x1232,
+  # 1536x1436 and 860x1358. Going through the image *fill* instead would have
+  # given the untreated photograph at 1x: these three carry the frames' cream
+  # wash and terracotta cast baked in, which is what the crops are.
+  image: ../../../assets/images/recruitment-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/recruitment-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/recruitment-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+# `headingScale: display` is the Payroll hub's arrangement: the 64px claim keeps
+# the whole 768 frame to itself and the prose follows under it, splitting into
+# two columns only at 1440.
+intro:
+  heading: ¿Qué es la selección de personal en España?
+  headingScale: display
+  paragraphs:
+    - >-
+      La selección de personal en España significa encontrar candidatos
+      cualificados y validar que puedan asumir el puesto permanente conforme a
+      la ley española. Hacemos las dos cosas. La mayoría de los reclutadores se
+      detienen en la colocación. Nosotros no. Antes de que hagas una oferta,
+      nuestro equipo jurídico confirma: el puesto encaja en el Convenio
+      Colectivo correcto, la categoría de visado está verificada en
+      contrataciones internacionales y ningún contrato laboral vigente los
+      bloqueará. Tú eliges entre los candidatos que encontramos. Nosotros nos
+      aseguramos de que puedan incorporarse sin fricción jurídica.
+
+# The navy contour band, `stacked` as EOR Spain draws it. The artwork is the
+# Recruitment hub's own crop of the Iberian contour map — same file, and the
+# right one rather than EOR's, because it is cut to this band's 2.45:1.
+differentiator:
+  layout: stacked
+  heading: ¿Por qué importa la selección de personal en España?
+  subheading: Los errores de contratación que te cuestan
+  paragraphs:
+    - >-
+      La mayoría de los reclutadores te encuentran a alguien y esperan lo mejor.
+      Nosotros encontramos y validamos. Dos cosas rompen las contrataciones
+      permanentes en España: la mala clasificación de convenio (marco salarial
+      equivocado, riesgo de auditoría meses después) y el desajuste de
+      categoría de visado (el visado se atasca, la oferta se cae).
+    - >-
+      Una selección bien hecha significa encontrar a alguien cualificado y
+      validar de antemano que encaja tanto en la estructura jurídica como en
+      los requisitos de visado. Sin sorpresas después.
+  background: ../../../assets/images/recruitment-hub-matters.webp
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: ¿Por qué elegir Iberia Workforce para la selección de personal en España?
+  highlight: selección de personal
+  items:
+    - title: Validamos la clasificación de convenio antes de que contrates.
+      description: >-
+        La mayoría de los reclutadores te envían un CV. Nosotros encontramos
+        al candidato y después nuestro equipo jurídico confirma: ¿en qué
+        Convenio Colectivo cae realmente este puesto? ¿Cuáles son los salarios
+        mínimos, los tramos de horas extra, las pagas obligatorias y los
+        límites de jornada de ese marco? Sabes de antemano si has
+        presupuestado correctamente. No te enteras meses después en una
+        auditoría.
+    - title: Gestionamos la validación de visado para que las contrataciones internacionales funcionen de verdad.
+      description: >-
+        Si tu candidato es de fuera de la UE, confirmamos la categoría de
+        visado de antemano: HQP, nómada digital, Skilled Worker o permiso de
+        trabajo ordinario. Señalamos plazos, costes y requisitos antes de que
+        hagas una oferta. Sin sorpresas de visado. Sin ofertas que se caen
+        porque no se revisaron los detalles de extranjería.
+    - title: Vamos rápido sin recortar atajos.
+      description: >-
+        Los buenos candidatos salen del mercado en días. Tenemos la profundidad
+        de sourcing y la red para encontrar talento con rapidez. Rapidez no
+        significa saltarse la validación jurídica: las dos cosas ocurren en
+        paralelo. Tu oferta sale mientras nuestro equipo jurídico hace las
+        comprobaciones.
+    - title: Captamos talento permanente y ejecutivo con expertise dedicada.
+      description: >-
+        Perfiles permanentes estándar en tecnología, fintech, ingeniería: 1–2
+        semanas desde el brief hasta la shortlist. Puestos C-level y de
+        director: hacemos headhunting. Conocemos el mercado, sabemos quién
+        está disponible y quién podría estar abierto a conversaciones. No es
+        publicar una oferta. Es selección estratégica.
+    - title: >-
+        No pagas hasta que empiezan. Si no funciona en 60 días, te encontramos
+        a otra persona sin coste.
+      description: >-
+        La mayoría de los reclutadores cobran un honorario por adelantado y
+        desaparecen. Nosotros cobramos el 10 % del salario anual, pero solo
+        después de que el candidato lleve 15 días trabajando y hayas decidido
+        que encaja. Si no funciona en los dos primeros meses o se marcha, te
+        buscamos un sustituto a coste cero. Tú ya invertiste; nosotros
+        respaldamos la contratación.
+    - title: 9 años a escala. Más de 10.000 empleados colocados en Europa.
+      description: >-
+        Construido en los EAU, uno de los entornos de contratación con más
+        compliance del mundo. Esa profundidad operativa ahora dirige la
+        selección en España y en otros cuatro países europeos.
+
+# Four steps, so `ServiceSteps` tiles them 2×2 at 1440 — derived from the count,
+# as the numerals are. The first two photographs are the Recruitment hub's; the
+# last two are this page's own.
+howItWorks:
+  heading: ¿Cómo funciona la selección de personal?
+  surface: page
+  steps:
+    - title: Cuéntanos qué necesitas contratar
+      description: >-
+        Puesto, seniority, ubicación dentro de España, rango salarial,
+        urgencia. ¿Es un puesto permanente, una búsqueda ejecutiva o una
+        contratación de especialista? ¿Contratas nacionales de la UE o
+        candidatos internacionales que necesitan apoyo de visado? Valoramos la
+        complejidad y te damos plazos realistas de antemano: sin promesas que
+        no podamos cumplir.
+      image: ../../../assets/images/step-role-briefing.webp
+      imageAlt: Un responsable de contratación informando a dos compañeros en una mesa de reunión
+    - title: Captamos y cribamos
+      description: >-
+        Activamos nuestra red, usamos nuestras herramientas de sourcing y
+        hacemos headhunting cuando el puesto lo exige. Cribamos candidatos por
+        encaje: competencias, experiencia, alineación cultural. En
+        contrataciones internacionales, hacemos una primera comprobación de
+        categoría de visado de antemano para presentar solo a candidatos que
+        realmente puedan asumir el puesto en España. Recibes una shortlist de
+        candidatos cualificados, no ruido.
+      image: ../../../assets/images/step-candidate-screening.webp
+      imageAlt: Un reclutador conversando con un candidato en una oficina abierta
+    - title: Tú eliges. Nosotros validamos. Se incorporan.
+      description: >-
+        Tú seleccionas al candidato que quieres. Nuestro equipo jurídico
+        valida el cuadro completo: qué Convenio Colectivo aplica a su puesto,
+        categoría de visado y plazos si es internacional, cláusulas de no
+        competencia o contratos laborales que puedan restringirlos. Una vez
+        validado, queda autorizado para incorporarse. Seguimos implicados en
+        las primeras semanas para que la transición sea fluida.
+      image: ../../../assets/images/step-offer-signing.webp
+      imageAlt: Un nuevo fichaje firmando una oferta en un escritorio junto a un portátil abierto
+    - title: Pago y red de seguridad de 60 días
+      description: >-
+        15 días después de que empiecen a trabajar, nos pagas el 10 % de su
+        salario bruto anual: un único honorario. Si la contratación no funciona
+        en los primeros 60 días o deciden marcharse, te buscamos un candidato
+        de sustitución sin cargo. Ya invertiste en la primera contratación;
+        encontramos a la persona adecuada a la segunda.
+      image: ../../../assets/images/step-team-welcome.webp
+      imageAlt: Compañeros dando la bienvenida a un nuevo fichaje en una oficina
+  prompt: ¿Quieres gestionar la selección sin los riesgos jurídicos?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# The third `mosaic`, and the first left-aligned one: seven obligations tile
+# 2 / 3 / 2 across the six-track grid exactly. The eyebrow is "SEERVICES" in all
+# three frames — a typo, corrected here as every other page spells it.
+included:
+  eyebrow: SERVICIOS
+  heading: ¿Qué incluyen los servicios de selección de personal en España?
+  layout: mosaic
+  surface: surface
+  ctaAlign: center
+  items:
+    - icon: candidate-selection
+      title: Captación y screening de candidatos
+      description: >-
+        Sourcing activo a través de nuestra red, identificación de candidatos
+        pasivos, evaluación de competencias y de encaje cultural. En perfiles
+        de nicho o especialistas, headhunting dedicado y contacto directo con
+        candidatos de alto potencial en tu campo. En puestos ejecutivos,
+        selección estratégica a través de relaciones conocidas del mercado.
+    - icon: contract-signed
+      title: Clasificación de convenio y estructuración del puesto permanente
+      description: >-
+        Identificamos de antemano qué Convenio Colectivo aplica al puesto.
+        Salarios mínimos, tramos de horas extra, pagas obligatorias, jornada:
+        confirmados antes de que hagas una oferta. Esto te protege del riesgo
+        de auditoría retrospectiva y asegura que tu presupuesto sea preciso
+        desde el primer día.
+    - icon: passport-globe
+      title: Evaluación de categoría de visado y permiso de trabajo para contrataciones internacionales
+      description: >-
+        Para candidatos de fuera de la UE, identificamos la categoría de visado
+        correcta de antemano (HQP, nómada digital, Skilled Worker o permiso de
+        trabajo ordinario). Señalamos plazos, requisitos de patrocinio y
+        restricciones para que sepas a qué te comprometes antes de que la
+        contratación esté en marcha.
+    - icon: document-lines
+      title: Revisión de no competencia y contratos laborales
+      description: >-
+        Nuestro equipo jurídico revisa contratos laborales vigentes, cláusulas
+        de no competencia y restricciones de persona clave que puedan bloquear
+        una contratación. Sabes de antemano si hay fricción y cómo navegarla
+        antes de hacer una oferta.
+    - icon: search-person
+      title: Executive search y headhunting
+      description: >-
+        Puestos C-level, de director y de consejo captados a través de nuestra
+        red. Sabemos quién es fuerte, quién está disponible y quién podría
+        estar abierto a la oportunidad adecuada. No es publicar una oferta. Es
+        selección estratégica de talento senior.
+    - icon: door-exit
+      title: Apoyo en la oferta y coordinación de la incorporación
+      description: >-
+        Ayudamos a estructurar la oferta permanente, coordinamos la logística
+        de la primera semana y nos aseguramos de que lo jurídico y la nómina
+        estén bien montados para que la incorporación arranque sin fricción.
+    - icon: swap-arrows
+      title: Garantía de sustitución del candidato
+      description: >-
+        Si la contratación no encaja en 60 días o se marcha pronto, buscamos un
+        candidato de sustitución sin coste adicional. Ya has pagado el
+        honorario; encontramos a la persona adecuada a la segunda.
+  cta:
+    label: Empieza con tu necesidad de selección
+    href: "#contact-form"
+
+coverage:
+  badge: DISPONIBLE YA
+  heading: Selección de personal en toda España
+  body: >-
+    Equipo con sede en Barcelona, al servicio de empresas en toda España.
+    Contratación permanente, executive search y captación de talento
+    internacional. Validación jurídica integrada en cada contratación.
+  cta:
+    label: Explorar España
+    href: "#contact-form"
+
+faq:
+  eyebrow: SELECCIÓN DE PERSONAL
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Cuánto tarda realmente una selección permanente en España?
+      answer: >-
+        Perfiles permanentes estándar (nivel medio en tecnología, fintech,
+        ingeniería, product): 1–2 semanas desde el brief hasta la shortlist.
+        Perfiles ejecutivos o de especialista (nivel director, expertise de
+        nicho): 3–4 semanas porque somos selectivos y la bolsa de candidatos es
+        más pequeña. Te damos un plazo realista de antemano según tu puesto
+        concreto, no uno optimista.
+    - question: >-
+        ¿Cuál es la diferencia entre la clasificación de convenio y limitarse a
+        publicar una oferta?
+      answer: >-
+        La mayoría de los reclutadores te encuentran un candidato. No confirman
+        a qué Convenio Colectivo pertenece realmente el puesto. Tú asumes,
+        contratas y meses después una auditoría te señala bajo el acuerdo
+        equivocado y debes regularizaciones salariales retrospectivas.
+        Confirmamos el convenio correcto de antemano, antes de que hagas una
+        oferta, para que la nómina corra bajo el marco adecuado desde el primer
+        día.
+    - question: ¿Podéis seleccionar para puestos ejecutivos y C-level en España?
+      answer: >-
+        Sí. Para puestos de director, C-suite y consejo, hacemos headhunting.
+        Conocemos el mercado español, conocemos candidatos y sabemos quién está
+        disponible o abierto a conversaciones. Estos puestos no se cubren
+        publicando una oferta: se cubren con relaciones y outreach estratégico.
+    - question: ¿Cómo gestionáis las contrataciones internacionales y los visados españoles?
+      answer: >-
+        Identificamos la categoría de visado correcta de antemano: HQP para
+        profesionales altamente cualificados, nómada digital si tienen rentas
+        pasivas, Skilled Worker si el puesto cumple los umbrales de
+        cualificación españoles, o permiso de trabajo ordinario. Señalamos
+        plazos y costes para que sepas a qué te comprometes. Para el patrocinio
+        de visado, nuestro equipo jurídico gestiona el papeleo.
+    - question: >-
+        ¿Y si el candidato que quiero tiene un pacto de no competencia de su
+        empleador anterior?
+      answer: >-
+        Lo revisamos de antemano. Algunos pactos de no competencia son
+        exigibles bajo el derecho español; otros no (según sector, duración y
+        ámbito geográfico). Si hay fricción, la señalamos antes de que hagas
+        una oferta para que puedas decidir cómo navegarla: renegociar, esperar
+        a que expire el periodo o pasar a otro candidato. Sin sorpresas.
+    - question: >-
+        ¿Cómo captáis candidatos permanentes en España? ¿Es solo publicar
+        ofertas?
+      answer: >-
+        Combinamos sourcing activo (plataformas de empleo, nuestra red),
+        identificación de candidatos pasivos (sabemos quién es fuerte en tu
+        campo) y headhunting directo para puestos senior. El sourcing pasivo
+        suele sacar a relucir mejor talento porque las buenas personas no
+        siempre están buscando de forma activa. Tarda más, pero te da mejores
+        candidatos.
+    - question: >-
+        ¿Qué significa exactamente la «revisión de clasificación de convenio»
+        en una contratación permanente?
+      answer: >-
+        Confirmamos en qué Convenio Colectivo cae tu puesto: por ejemplo, los
+        perfiles tecnológicos pueden ser «Ingeniería/IT» y no «Oficinas y
+        Despachos». Una vez identificado, fijamos los salarios mínimos, los
+        tipos de horas extra, las pagas obligatorias y los límites de jornada
+        que aplican. Eso entra en tu oferta y en el cálculo de nómina para que
+        no haya sorpresas después.
+    - question: >-
+        ¿Podéis encontrar candidatos permanentes en campos de nicho o
+        especializados en España?
+      answer: >-
+        Sí. Los especialistas de nicho (investigadores de IA, expertos en
+        logística especializada, expertos de dominio en sectores emergentes)
+        son donde más importa nuestra profundidad de sourcing. Tarda más que
+        publicar un puesto estándar —a veces 3–4 semanas—, pero encontramos a
+        la persona. Somos honestos con los plazos en lugar de prometer una
+        rapidez que no podemos entregar.
+    - question: >-
+        ¿Y si el visado de un candidato internacional se rechaza después de que
+        lo hayáis validado?
+      answer: >-
+        Validamos la categoría de visado y señalamos plazos realistas según la
+        tramitación de extranjería española. No controlamos la tramitación
+        gubernamental, pero señalamos de antemano si hay factores de
+        complejidad (categoría de visado nueva, nacionalidad menos habitual,
+        requisitos documentales densos) que puedan alargar los plazos. Una vez
+        que haces una oferta, seguimos implicados en el proceso de visado para
+        que tengas visibilidad en tiempo real.
+    - question: ¿Cuál es la estructura de honorarios? ¿Cuándo pago?
+      answer: >-
+        El 10 % del salario bruto anual del candidato, pagado 15 días después
+        de que empiece a trabajar en el puesto permanente. Un único pago. Si la
+        contratación no funciona en los primeros 60 días o se marcha pronto, no
+        pagas una sustitución: la buscamos sin coste porque ya invertiste en la
+        primera contratación.
+    - question: >-
+        ¿Qué ocurre si la contratación permanente no funciona después de 60
+        días?
+      answer: >-
+        Después de 60 días, la garantía de sustitución expira. Sin embargo, si
+        hay un desajuste genuino sobre los requisitos del puesto (descubres que
+        el puesto necesita competencias distintas) o algo en el entorno de tu
+        empresa, hablaremos de lo que falló y de cómo ajustar la siguiente
+        búsqueda.
+    - question: >-
+        ¿Quién es Iberia Workforce y cómo operáis la selección en España?
+      answer: >-
+        Iberia Workforce forma parte de Connect Group. Operamos los servicios
+        de selección en España desde nuestra oficina de Barcelona con un equipo
+        interno de headhunters, sourcers y abogados laboralistas. No
+        externalizamos el sourcing a socios locales: el mismo equipo que
+        encuentra a tu candidato es el que valida su clasificación de convenio
+        y su elegibilidad de visado. Asumimos la responsabilidad de la calidad
+        y el encaje de cada contratación.
+
+closing:
+  heading: >-
+    Una buena selección es más que un nombre y un currículum. Es encontrar a
+    alguien que encaja.
+  bodySize: note
+  body: >-
+    Validar que encaje en la estructura jurídica (clasificación de convenio),
+    confirmar que realmente pueda aceptar el puesto (categoría de visado) y
+    respaldar ese compromiso con una garantía de 60 días. No pagas hasta que
+    empiezan. Si no funciona en 60 días, te encontramos a otra persona sin
+    coste. Describe el puesto permanente que estás cubriendo y te diremos
+    exactamente cuánto tardará la captación. Sin obligación.

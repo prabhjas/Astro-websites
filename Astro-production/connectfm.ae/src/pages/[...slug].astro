@@ -12,6 +12,7 @@ import {
   normalizePath,
 } from "../lib/content";
 import { resolveUploadUrlsInHtml } from "../lib/resolve-upload-urls";
+import { rewriteElementorPostBreadcrumb } from "../lib/post-breadcrumb";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -34,7 +35,11 @@ const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
  * Connect FM ships its own CF7 markup (form_contact / blog_form).
  * Never replace with C-UAE lavender main-form.
  */
-const html = resolveUploadUrlsInHtml(rawHtml);
+let html = resolveUploadUrlsInHtml(rawHtml);
+// Single posts (Elementor): force Home → Blog → [Post Title], keep ekit separators/styles.
+if (post) {
+  html = rewriteElementorPostBreadcrumb(html, stripHtml(post.title));
+}
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -125,6 +130,19 @@ const extraCss = page
 // Figma redesign for Smart Homes — Elementor post-1056.css is stale vs current widget IDs.
 if (path === "/security/smart-homes/" && !extraCss.includes("/css/page-design/smart-homes-sec2-4.css")) {
   extraCss.push("/css/page-design/smart-homes-sec2-4.css");
+}
+
+// Figma redesign for Landscaping Services — node 39:6330
+if (
+  path === "/property-maintenance/landscaping-services/" &&
+  !extraCss.includes("/css/page-design/landscaping-services.css")
+) {
+  extraCss.push("/css/page-design/landscaping-services.css");
+}
+
+// Figma visual system for Security Systems — node 42:793 (style only; content unchanged)
+if (path === "/security/" && !extraCss.includes("/css/page-design/security-systems.css")) {
+  extraCss.push("/css/page-design/security-systems.css");
 }
 
 const postUsesElementor =

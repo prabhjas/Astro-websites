@@ -1,0 +1,313 @@
+# Temporary Staffing — Spain country page.
+# Figma nodes 165-1140 (1440), 184-6811 (768), 184-6812 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The first page to carry both an `intro` and a `differentiator`: it asks "what
+# is this" and "why does it matter" as two separate bands, where the EOR country
+# pages fold the second into the first. Three switches are new and all three are
+# documented in content.config.ts — `intro.splitAt`, `differentiator.layout:
+# photo` (with `surface: muted`) and `pricingSummary.cards[].chips`.
+type: country
+label: Temporary Staffing in Spain
+
+seo:
+  title: Temporary Staffing in Spain | Iberia Workforce
+  description: >-
+    Temporary staffing in Spain. Licensed partner handling compliance —
+    TGSS, contracts, payroll, legal risk. You hire. We manage the legal
+    side.
+  schema:
+    serviceName: Temporary Staffing Services Spain
+    serviceType: Temporary Staffing
+    areaServed: Spain
+    address:
+      locality: Barcelona
+      country: Spain
+
+hero:
+  tone: light
+  heading: Temporary staffing in Spain
+  subheading: The compliant partner for seasonal and project hiring.
+  badges:
+    - icon: protect
+      label: ETT Licensed (Spain)
+    - icon: law
+      label: Law Firm Backed
+    - icon: talk
+      label: 10k+ Employees Managed
+  body: >-
+    Seasonal peaks in tourism, retail, logistics. Urgent project work in tech,
+    engineering, construction. You hire the people. We carry the legal exposure
+    - contracts, TGSS, payroll, compliance. That's what being a partner means.
+  # The full trio, produced the way the EOR and hub heroes are: `download_assets`
+  # at `defaultScale: 2` against each frame's own image rectangle, which Figma
+  # returns already clipped to its parent frame. The three frames position the
+  # same photograph rather than recropping it, but they position it to three
+  # different aspect ratios, so the clips are genuinely different pictures.
+  image: ../../../assets/images/temporary-staffing-spain-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/temporary-staffing-spain-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/temporary-staffing-spain-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+  secondaryCta:
+    label: How It Works?
+    href: "#how-it-works"
+
+# The claim holds the left column and the prose the right, but only from `lg` —
+# unlike the EOR country pages, this 48px heading still keeps the whole 768
+# frame to itself, which is what `splitAt` is for.
+intro:
+  heading: What is Temporary Staffing in Spain?
+  splitAt: lg
+  paragraphs:
+    - >-
+      Temporary staffing is how you scale capacity without permanent headcount.
+      You direct the work. We handle the legal exposure - employment contracts
+      under Spanish labour law, TGSS registration, payroll processing,
+      compliance risk. We carry that load so you can focus on hiring the right
+      people.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# "Why this matters", argued beside a photograph rather than over one: the grey
+# band between two white ones, so the page keeps alternating.
+differentiator:
+  tone: light
+  surface: muted
+  layout: photo
+  heading: Why Temporary Staffing matters in Spain?
+  image: ../../../assets/images/temporary-staffing-spain-matters.webp
+  imageAlt: A professional working at a laptop in a bright Spanish workspace
+  paragraphs:
+    - >-
+      You need temporary capacity for two reasons: seasonal peaks (tourism
+      summer surge, retail Christmas/Black Friday, logistics year-end) and
+      project-based work (urgent engineering needs, tech sprints, construction
+      phases, specialized short-term roles).
+    - >-
+      Most staffing agencies find bodies fast. You're left managing compliance
+      risk, TGSS registration, contract gaps, and fines if something's not
+      right.
+    - >-
+      A compliant partner does both: speed AND legal certainty. We manage the
+      legal side. You manage the work.
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+whyChoose:
+  # The claim travels with the reasons, as the homepage does it.
+  sticky: true
+  heading: >-
+    Why choose Iberia Workforce as your staffing partner in Spain?
+  highlight: Iberia Workforce
+  items:
+    - title: We're licensed. Compliance is built in, not bolted on.
+      description: >-
+        Only an ETT-licensed provider can legally supply workers in Spain. We
+        hold ours directly. Most staffing agencies don't, which means they're
+        operating outside the law and exposing you to liability. Being a
+        compliant partner starts with holding the right licence.
+    - title: We move fast without cutting corners.
+      description: >-
+        Good candidates are off the market within days. We have pre-screened
+        talent ready to deploy for your seasonal peaks or project needs. Speed
+        doesn't mean skipping compliance - both happen at once.
+    - title: We're run by employment lawyers, not just recruiters.
+      description: >-
+        TGSS registration, CBA classifications, visa support for non-EU temps,
+        occupational risk, off-boarding - these aren't afterthoughts. They're
+        built into how we work as your partner.
+
+howItWorks:
+  heading: How Temporary Staffing works in Spain?
+  surface: page
+  steps:
+    - title: Tell us what you need
+      description: >-
+        Role, duration (weeks, months, seasonal peak), headcount, start date. Is
+        this a one-off peak or recurring seasonal? We assess your need and flag
+        any compliance considerations upfront.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Two colleagues at a Madrid office desk reviewing a document together
+    - title: We handle recruitment, screening, and Spanish legal setup
+      description: >-
+        We source candidates, verify qualifications, conduct background checks.
+        We draft temporary employment contracts under Spanish labour law with
+        clear start and end dates. We register with TGSS (Spanish social
+        security). We set up payroll processing. You approve. We execute.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: A person signing a printed employment contract at a desk
+    - title: Your workers start, fully compliant
+      description: >-
+        We run payroll month to month with TGSS contributions, IRPF withholding,
+        statutory deductions, and nóminas (pay slips). We manage ongoing HR
+        administration. When the temporary period ends, we manage off-boarding
+        so there's no liability overhang. You focus on the work.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: A new employee being welcomed through an open-plan workspace
+  prompt: Looking to manage temporary staffing in Spain without the legal risks?
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# Three across on white, so the cards take the grey wash.
+included:
+  # Header stays left; only the button is centred under the grid.
+  ctaAlign: center
+  eyebrow: COMPREHENSIVE SUPPORT
+  heading: What's included in Temporary Staffing services in Spain?
+  surface: surface
+  columns: 3
+  items:
+    - icon: candidate-selection
+      title: Recruitment & candidate screening
+      description: >-
+        Sourcing, skills assessment, background verification, and reference
+        checks, tailored to your seasonal need or project scope (tourism,
+        retail, logistics, tech, engineering, construction), not just filling
+        slots.
+    - icon: contract-signed
+      title: Temporary employment contracts
+      description: >-
+        Drafted in Spanish under Spanish labour law with clear start dates, end
+        dates, role scope, and compliance terms. Structured for the applicable
+        collective bargaining agreement (CBA) if one applies to your industry.
+    - icon: envelope-seal
+      title: TGSS registration & payroll processing
+      description: >-
+        Monthly payroll with employer TGSS contributions (social security), IRPF
+        withholding (income tax), statutory deductions, and nóminas. All
+        calculated per Spanish tax law. Registration handled directly with TGSS.
+    - icon: risk-shield
+      title: Occupational risk assessment
+      description: >-
+        Workplace injury liability, incident reporting, and occupational risk -
+        managed by us from day one, not passed between you and the worker.
+    - icon: gavel
+      title: Compliance & legal risk
+      description: >-
+        Employment disputes, wage-and-hour issues, misclassification challenges
+        - we carry the legal exposure and defend your company if audited.
+    - icon: door-exit
+      title: Ongoing HR administration & off-boarding
+      description: >-
+        Leave tracking, sick pay, performance documentation, seasonal contract
+        closures - managed correctly so the temporary period ends without
+        overhang.
+  cta:
+    label: Get a Quote for Your Staffing Need
+    href: "#contact-form"
+
+# The floating card over a defocused photograph, but with no number on it: this
+# page has variables and no floor, so the single card names the cost drivers as
+# ticked chips rather than spelling each one out in prose.
+pricingSummary:
+  eyebrow: TEMPORARY STAFFING PRICING IN SPAIN
+  heading: Temporary Staffing pricing in Spain
+  body: >-
+    Pricing depends on role complexity, industry, headcount, and whether the
+    hire needs visa support or other specialization. We'll walk you through the
+    exact breakdown before any commitment.
+  background: ../../../assets/images/temporary-staffing-spain-pricing.webp
+  cards:
+    - variant: outline
+      title: "Cost drivers that affect your quote:"
+      chips:
+        - Industry and skill level
+        - Headcount and duration (seasonal peak vs. ongoing)
+        - Non-EU visa requirements
+        - Placement speed
+  cta:
+    label: Talk to a Specialist
+    href: "#contact-form"
+
+# The design draws the accordion closed and specifies only the questions; the
+# answers below are the client's copy, supplied separately.
+faq:
+  eyebrow: TEMPORARY STAFFING SPAIN
+  heading: Frequently asked questions
+  items:
+    - question: Is temporary staffing legal in Spain? Do you need an ETT licence?
+      answer: >-
+        Yes, it's legal, but only if the provider holds an ETT (Empresa de
+        Trabajo Temporal) licence. We hold ours. Most agencies operating in
+        Spain don't, which means they're operating outside the law and exposing
+        you to liability.
+    - question: >-
+        What's the difference between your service and other staffing agencies
+        in Spain?
+      answer: >-
+        We hold the ETT licence directly. Our legal team handles contracts, TGSS
+        registration, and payroll in-house. Most other agencies either don't
+        hold an ETT licence (illegal) or route your hire through a local partner
+        (hidden liability). We carry the legal exposure; you don't.
+    - question: >-
+        Do you handle seasonal hiring? Tourism, retail, hospitality, logistics,
+        tech, engineering?
+      answer: >-
+        Yes. Seasonal industries (tourism peaks in summer, retail in
+        Christmas/Black Friday, logistics in year-end) and project-based work
+        (tech sprints, engineering phases, construction projects) are exactly
+        what temporary staffing solves. We structure contracts correctly so you
+        can scale up and scale back without severance obligations.
+    - question: How quickly can you fill a role in Spain?
+      answer: >-
+        For standard roles with clear job specs, typically 1–2 weeks from
+        request to start. Specialized or high-skill roles may take longer
+        depending on candidate availability. We give you a realistic timeline
+        based on your role's complexity.
+    - question: How does TGSS work for temporary workers?
+      answer: >-
+        TGSS (Spanish social security) registration is mandatory for all
+        employees. Employer contributions run roughly 30% on top of gross
+        salary. We calculate it correctly, register the worker, and file monthly
+        contributions by the legal deadline.
+    - question: What if a temporary worker gets injured on the job?
+      answer: >-
+        Workplace injuries follow Spanish employment law. We carry the legal
+        liability, manage incident reporting, and file workers' compensation
+        claims. Your company is protected from direct employment exposure.
+    - question: Can you handle non-EU temporary workers for Spain?
+      answer: >-
+        Yes. Non-EU workers on work permits or visas can be placed in temporary
+        assignments. We verify visa classification upfront and ensure the
+        assignment matches so there's no compliance violation.
+    - question: >-
+        What about CBA (collective bargaining agreement) rules for temporary
+        workers?
+      answer: >-
+        Temporary workers fall under applicable CBAs by industry, same as
+        permanent employees. We identify the correct CBA for your industry and
+        role, and build the contract to comply with minimum salary rates,
+        working hours, and benefits.
+    - question: Can we use temporary staffing for visa-dependent hires?
+      answer: >-
+        Yes. If your temporary worker is a non-EU national on a work visa or
+        permit, we handle the visa classification and ongoing compliance. The
+        visa category determines what roles are allowed; we ensure the
+        assignment matches.
+    - question: What happens at the end of the temporary contract?
+      answer: >-
+        When the contracted end date arrives, we manage off-boarding: final
+        payment, accrued leave settlement, employment record closure. If the
+        period needs to extend, we renew the contract with proper notice.
+    - question: Who is Iberia Workforce, and what's your legal structure in Spain?
+      answer: >-
+        Iberia Workforce is part of Connect Group. We operate temporary staffing
+        services in Spain from our Barcelona office through our own ETT-licensed
+        structure, no local partner intermediaries. Our legal and HR teams
+        handle recruitment, contracts, TGSS, payroll, and compliance directly.
+        We carry the legal and compliance risk; you manage the work.
+
+closing:
+  heading: >-
+    Temporary Staffing in Spain isn't just about finding people fast. It's about
+    having a partner who carries the legal risk so you don't have to.
+  body: >-
+    Tell us your seasonal need or project scope - what roles, how many, what
+    timeframe - and we'll give you a realistic timeline, cost breakdown, and
+    confirmation that everything runs under Spanish law.

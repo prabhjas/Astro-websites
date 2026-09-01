@@ -8,8 +8,16 @@ export const SITEMAP_ENTRY_LIMIT = Number.parseInt(
   10,
 ) || 1000;
 
-/** Paths disallowed for crawlers (mirrors live WordPress robots.txt). */
-export const ROBOTS_DISALLOW_PATHS = ['/tag/', '/category/', '/wp-admin/'] as const;
+/** Paths disallowed for crawlers (Connecthr-style robots defaults for Iberia). */
+export const ROBOTS_DISALLOW_PATHS = [
+  '/wp-admin/',
+  '/tag/',
+  '/category/',
+  '/blog/page/',
+  '/insights/page/',
+  '/search/',
+  '/api/',
+] as const;
 
 /** Static page slugs excluded from the page sitemap (demo / internal). */
 export const EXCLUDED_PAGE_SLUGS = new Set([

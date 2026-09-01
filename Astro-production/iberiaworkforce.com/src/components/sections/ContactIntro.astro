@@ -1,0 +1,268 @@
+---
+/**
+ * Contact page hero and contact block.
+ *
+ * Two designed bands, one component, because they share a single background:
+ * the frames wrap the hero copy and the form/trust-rail row in one navy
+ * container and run the warm glow across both. Splitting them would mean two
+ * backgrounds that have to agree at a seam.
+ *
+ * The background is `MeshGradient`'s `band` — the same drawn artwork every
+ * contact form on the site sits on, so this reads as the same place as the
+ * closing CTA rather than a second one.
+ *
+ * It asks for a deeper warm zone than the closing band's 340px default: that
+ * band is ~620px tall and carries only a heading, where this one is ~1070px at
+ * 1440 and ~1690px on a phone, and at 340px the warm reads as a stripe rather
+ * than as sky. `scrim` is raised to match — see the note at the call.
+ */
+import { Image } from "astro:assets";
+import badgeClock from "../../assets/icons/badge-clock.svg";
+import badgeLaw from "../../assets/icons/badge-law.svg";
+import badgeShieldCheck from "../../assets/icons/badge-shield-check.svg";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import mail from "../../assets/icons/mail.svg";
+import messageSquare from "../../assets/icons/message-square.svg";
+import phone from "../../assets/icons/phone.svg";
+import advisorPortrait from "../../assets/images/contact-advisor-portrait.webp";
+import { getUi } from "../../i18n/copy";
+import Button from "../ui/Button.astro";
+import ContactForm from "../ui/ContactForm.astro";
+import Icon from "../ui/Icon.astro";
+import MeshGradient from "../ui/MeshGradient.astro";
+
+const { t } = getUi(Astro.url.pathname);
+const c = t.contactIntro;
+
+const commitmentIcons = [badgeClock, badgeLaw, badgeShieldCheck];
+const commitments = c.commitments.map((label, i) => ({
+  icon: commitmentIcons[i]!,
+  label,
+}));
+
+/*
+ * The direct lines. WhatsApp uses the same number as phone; both are live
+ * links (wa.me / tel).
+ */
+const lines = [
+  {
+    icon: messageSquare,
+    label: c.whatsapp,
+    note: c.whatsappNote,
+    href: "https://wa.me/34679833405" as string | undefined,
+  },
+  {
+    icon: phone,
+    label: c.phone,
+    note: c.phoneNote,
+    href: "tel:+34679833405",
+  },
+  {
+    icon: mail,
+    label: c.email,
+    note: undefined as string | undefined,
+    href: "mailto:contact@iberiaworkforce.com",
+  },
+];
+
+/*
+ * The three trust-rail cards and the form card are one material: a translucent
+ * black panel over the drawn field, blurred, so the mesh reads through them as
+ * depth. It is defined once here rather than repeated per card — the frames
+ * draw the same fill, blur and radius on all four.
+ */
+const card = "rounded-xl bg-black/10 p-6 backdrop-blur-[50px]";
+
+/*
+ * Three sizes the type scale has no token for, written out rather than composed
+ * from the nearest one. `text-caption` carries a 500 weight and 0.02em tracking
+ * of its own, so reaching for it and then overriding both would leave the result
+ * depending on Tailwind's utility ordering rather than on the class attribute —
+ * the trap documented in CLAUDE.md.
+ */
+const meta13 = "text-[0.8125rem] leading-[1.5]";
+const label15 = "text-[0.9375rem] leading-normal font-semibold";
+const meta11 = "text-[0.6875rem] leading-normal";
+---
+
+<section
+  id="contact-intro-band"
+  class="relative isolate overflow-hidden bg-navy"
+  aria-labelledby="contact-heading"
+>
+  {/*
+    620px of warm rather than the default 340. At 1440 that is a little over
+    half the section — the hero copy plus the head of the form card, which is
+    where the frames' own bloom falls off — and on a phone it is the hero and
+    nothing more, because the section is 1690px there.
+  */}
+  <MeshGradient variant="band" bandDepth={620} scrim={0.45} />
+
+  {/* Hero. 56/64px from the top, per the frames. */}
+  <div class="section-shell pt-14 md:pt-16">
+    <div class="flex max-w-[845px] flex-col gap-6" data-reveal>
+      <div class="flex flex-col gap-4">
+        {/*
+          White, where the frames set the eyebrow in terracotta-300 (#e1a38e).
+          That is a 13px label in the same colour family as the glow behind it,
+          and it only works on the frames because their bloom is a dark, muted
+          navy-brown. Measured against this one it comes back at 2.3:1 — and no
+          terracotta tint can reach 4.5:1 here, because pure white against the
+          band's brightest attainable pixel is only 4.95:1. The terracotta
+          signal the eyebrow carries is not lost: the three commitment glyphs
+          under it are drawn in it.
+        */}
+        <p class="text-caption font-medium tracking-[0.26px] text-text-inverse">
+          {c.eyebrow}
+        </p>
+        <h1 id="contact-heading" class="text-display text-text-inverse">
+          {c.heading}
+        </h1>
+      </div>
+
+      <p class="text-body-lg text-text-inverse-secondary">
+        {c.body}
+      </p>
+
+      {/*
+        A row with hairline separators from `md`, a plain stack below it — the
+        mobile frame drops the separators rather than shrinking them, because
+        three of them down a column would read as a table.
+      */}
+      <ul
+        class="flex flex-col gap-3 pt-3 md:flex-row md:flex-wrap md:items-center md:gap-x-4 md:gap-y-4 lg:gap-x-6"
+      >
+        {
+          commitments.map((item, i) => (
+            <>
+              {i > 0 && (
+                <li
+                  class="hidden h-3.5 w-px shrink-0 bg-bg-surface-secondary md:block"
+                  aria-hidden="true"
+                />
+              )}
+              <li class="flex items-center gap-2">
+                <Icon src={item.icon} size={20} />
+                <span class="text-caption font-medium tracking-[0.26px] text-text-inverse">
+                  {item.label}
+                </span>
+              </li>
+            </>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  {/*
+    Contact block. The form takes whatever the 411px rail leaves at `lg`
+    (845 + 24 + 411 is exactly the 1440 frame's content width), and the two
+    stack below it.
+  */}
+  <div
+    class="section-shell grid gap-6 pt-14 pb-14 md:pt-16 md:pb-16 lg:grid-cols-[minmax(0,1fr)_411px] lg:pt-20 lg:pb-20"
+  >
+    <div id="contact-form" data-reveal style="--reveal-i:1">
+      <ContactForm layout="page" />
+    </div>
+
+    {/*
+      The rail is two cards side by side at `md` and a single column either side
+      of that: one at 430 because there is no room for two, one at `lg` because
+      the rail is 411px wide. The last card takes the remaining height at `lg`
+      so its foot lines up with the form's, which is what the 672px column in
+      the desktop frame is.
+    */}
+    <div
+      class="grid gap-6 md:grid-cols-2 lg:grid-cols-1 lg:grid-rows-[auto_auto_minmax(0,1fr)]"
+      data-reveal
+      style="--reveal-i:2"
+    >
+      <div class:list={[card, "flex flex-col gap-4"]}>
+        <div class="flex items-center gap-4">
+          {/*
+            The portrait is a 3:4 crop shown in a circle, anchored to the top —
+            the frames put the image's own top edge at the top of the 72px
+            circle and let the chin fall outside it, which `object-top` states
+            directly.
+          */}
+          <Image
+            src={advisorPortrait}
+            alt="Michael Sevillano"
+            widths={[64, 72, 128, 144]}
+            sizes="72px"
+            class="size-16 shrink-0 rounded-full bg-white object-cover object-top md:size-18"
+            loading="lazy"
+          />
+          <div class="flex min-w-0 flex-col gap-1">
+            <p class="text-h5 text-text-inverse">Michael Sevillano</p>
+            <p class:list={[meta13, "text-text-inverse-tertiary"]}>
+              {c.advisorTitle}
+            </p>
+          </div>
+        </div>
+        <p class="text-body-sm text-text-inverse-secondary">
+          {c.advisorLine}
+        </p>
+      </div>
+
+      <ul class:list={[card, "flex flex-col gap-5"]}>
+        {
+          lines.map((line, i) => (
+            <>
+              {i > 0 && (
+                <li class="h-px w-full bg-bg-surface-secondary" aria-hidden="true" />
+              )}
+              <li class="flex items-center gap-4">
+                <Icon src={line.icon} size={24} />
+                <div class="flex min-w-0 flex-col gap-0.5">
+                  {line.href ? (
+                    <a
+                      class:list={[label15, "break-all text-text-inverse hover:underline"]}
+                      href={line.href}
+                    >
+                      {line.label}
+                    </a>
+                  ) : (
+                    <p class:list={[label15, "text-text-inverse"]}>
+                      {line.label}
+                    </p>
+                  )}
+                  {line.note && (
+                    <p class="text-micro text-text-inverse-tertiary">{line.note}</p>
+                  )}
+                </div>
+              </li>
+            </>
+          ))
+        }
+      </ul>
+
+      <div
+        class:list={[card, "flex flex-col justify-between gap-6 md:col-span-2 lg:col-span-1"]}
+      >
+        <div class="flex flex-col gap-2">
+          <p class="text-body-sm font-semibold text-text-inverse">{c.office}</p>
+          <p class:list={[meta13, "text-text-inverse-secondary"]}>
+            {c.addressLine1}
+            <br />
+            {c.addressLine2}
+          </p>
+          <p class:list={[meta11, "text-text-inverse-tertiary"]}>
+            {c.nif}
+          </p>
+        </div>
+        <Button
+          variant="secondary"
+          size="md"
+          href="https://maps.app.goo.gl/R5ixtqEXaezSTLDh7"
+          external
+          block
+        >
+          {c.directions}
+          <Icon src={chevronRight} size={20} tone="current" />
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+---
+import MegaPanel from "./MegaPanel.astro";
+import { getUi } from "../../i18n/copy";
+import { getServiceNav } from "../../lib/service-nav";
+
+const { lang, t } = getUi(Astro.url.pathname);
+const groups = (await getServiceNav(lang)).map((category) => ({
+  slug: category.slug,
+  label: category.label,
+  lead: category.hub,
+  items: category.countries,
+}));
+---
+
+<MegaPanel
+  id="services-menu"
+  triggerId="services-menu-trigger"
+  railLabel={t.nav.servicesRail}
+  comingSoon={t.nav.comingSoon}
+  groups={groups}
+/>

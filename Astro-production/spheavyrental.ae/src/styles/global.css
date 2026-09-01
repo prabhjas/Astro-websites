@@ -130,6 +130,121 @@
   margin: 0;
 }
 
+.sp-post-card__media-fallback {
+  width: 100%;
+  height: 100%;
+  background: #1f1f1f;
+}
+
+/* Author detail page — Figma post cards */
+.sp-blog-grid--author {
+  gap: 2.5rem 1.75rem;
+}
+
+.sp-post-card--author {
+  background: transparent;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sp-post-card--author:hover {
+  border-color: transparent;
+  transform: translateY(-4px);
+}
+
+.sp-post-card--author .sp-post-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 0;
+}
+
+.sp-post-card--author .sp-post-card__brand {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  width: 48px;
+  height: auto;
+  pointer-events: none;
+}
+
+.sp-post-card--author .sp-post-card__brand img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.sp-post-card--author .sp-post-card__body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sp-post-card--author .sp-post-card__cat {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.sp-post-card--author .sp-post-card__cat-mark {
+  width: 10px;
+  height: 18px;
+  background: #ffdd04;
+  flex: 0 0 auto;
+}
+
+.sp-post-card--author .sp-post-card__cat-name {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sp-post-card--author .sp-post-card__title {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.sp-post-card--author .sp-post-card__title a,
+.page-content .sp-post-card--author .sp-post-card__title a,
+.page-content .sp-post-card--author .sp-post-card__more {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.sp-post-card--author .sp-post-card__excerpt {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.sp-post-card--author .sp-post-card__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  color: #ffdd04 !important;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none !important;
+}
+
+.sp-post-card--author .sp-post-card__more:hover {
+  color: #df790d !important;
+}
+
+.sp-author-single .sp-authors-hero__title {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .sp-pagination {
   display: flex;
   gap: 0.75rem;
@@ -172,9 +287,47 @@
   color: #ffdd04;
 }
 
+/*
+  Overlay breadcrumbs under the transparent header so they do NOT take
+  document-flow height. Service heroes use margin-top:-74px to tuck under
+  the header (same as live); a normal-flow breadcrumb bar would break that.
+*/
+.sp-page-breadcrumbs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4.5rem;
+  z-index: 20;
+  pointer-events: none;
+  background: transparent;
+  border: 0;
+  padding: 0.35rem 0;
+}
+
+.sp-page-breadcrumbs .sp-container {
+  pointer-events: auto;
+}
+
+.sp-page-breadcrumbs .sp-breadcrumbs {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.sp-page-breadcrumbs .sp-breadcrumbs a:hover {
+  color: #ffdd04;
+}
+
+.site-main,
+.page-content {
+  position: relative;
+}
+
 .sp-archive-hero {
-  padding: 4.5rem 1.25rem 2.5rem;
-  background: linear-gradient(180deg, #111 0%, #000 100%);
+  padding: 2rem 1.25rem 3rem;
+  background:
+    radial-gradient(ellipse 70% 80% at 50% -20%, rgba(223, 121, 13, 0.18), transparent 55%),
+    linear-gradient(180deg, #141414 0%, #000 100%);
   text-align: center;
   color: #fff;
 }
@@ -190,6 +343,412 @@
   max-width: 720px;
   margin: 0 auto;
   color: #cfcfcf;
+}
+
+.sp-archive-kicker {
+  margin: 0 auto 0.5rem !important;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffdd04 !important;
+}
+
+.sp-archive-page .site-main,
+.sp-archive-page .page-content {
+  background: #000;
+  color: #f2f2f2;
+  min-height: 50vh;
+}
+
+/* Full-width black header on archive/author pages (transparent header is invisible on white body) */
+body.sp-archive-page {
+  background: #000 !important;
+}
+
+body.sp-archive-page .sp-elementor-header {
+  width: 100%;
+  background: #000;
+}
+
+body.sp-archive-page #top-header,
+body.sp-archive-page .elementor-153 .elementor-element.elementor-element-bae57c3,
+body.sp-archive-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3:not(.elementor-motion-effects-element-type-background),
+body.sp-archive-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3
+  > .elementor-motion-effects-container
+  > .elementor-motion-effects-layer {
+  background: #000 !important;
+  background-color: #000 !important;
+}
+
+.sp-archive-body {
+  padding: 2.5rem 0 4.5rem;
+  background: #000;
+}
+
+.sp-archive-empty,
+.sp-archive-empty-panel {
+  text-align: center;
+  color: #bdbdbd;
+}
+
+.sp-archive-empty-panel {
+  padding: 3rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111;
+}
+
+.sp-archive-empty__cta {
+  display: inline-flex;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.35rem;
+  background: #ffdd04;
+  color: #111 !important;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.sp-archive-empty__cta:hover {
+  background: #df790d;
+  color: #fff !important;
+}
+
+/* Authors listing — transparent header over hero (matches Figma S&P) */
+body.sp-authors-page .site-main,
+body.sp-authors-page .page-content {
+  max-width: none !important;
+  width: 100% !important;
+  margin-inline: 0 !important;
+}
+
+body.sp-authors-page .sp-elementor-header {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  background: transparent !important;
+}
+
+body.sp-authors-page #top-header,
+body.sp-authors-page .elementor-153 .elementor-element.elementor-element-bae57c3,
+body.sp-authors-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3:not(.elementor-motion-effects-element-type-background),
+body.sp-authors-page
+  .elementor-153
+  .elementor-element.elementor-element-bae57c3
+  > .elementor-motion-effects-container
+  > .elementor-motion-effects-layer {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.sp-authors-hero {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin-top: calc(-1 * var(--sp-header-offset, 74px));
+  margin-inline: 0;
+  min-height: 424px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+}
+
+.sp-authors-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.sp-authors-hero__media picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sp-authors-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.sp-authors-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Title aligns to site container (same 1140px as header / .sp-container) */
+.sp-authors-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: min(1140px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: 10rem 0 7.5rem;
+  box-sizing: border-box;
+}
+
+.sp-authors-hero__title {
+  margin: 0;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: left;
+}
+
+.sp-authors-body {
+  padding-top: 5rem;
+}
+
+/* Author directory — Figma widget cards inside site container */
+.sp-author-directory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: grid;
+  gap: 3.5rem clamp(1.5rem, 4vw, 5rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: space-between;
+}
+
+.sp-author-card,
+.sp-author-card:hover,
+.sp-author-card:focus,
+.sp-author-card:focus-visible,
+.page-content .sp-author-card,
+.page-content .sp-author-card:hover,
+.page-content .sp-author-card:focus {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 310px;
+  margin-inline: auto;
+  background: #000;
+  border: 1px solid #000;
+  text-decoration: none !important;
+  color: #fff;
+  transition: transform 0.2s ease;
+}
+
+.sp-author-card:hover {
+  transform: translateY(-4px);
+}
+
+.sp-author-card__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 310 / 302;
+  background: #1a1a1a;
+  border-bottom: 6px solid #ffdd04;
+  overflow: hidden;
+}
+
+.sp-author-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.sp-author-card__initial {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 3rem;
+  letter-spacing: 0.04em;
+  color: #ffdd04;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.sp-author-profile__initial {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  color: #ffdd04;
+}
+
+.sp-author-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.1rem 0.625rem 1.25rem;
+  min-width: 0;
+}
+
+.sp-author-card__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sp-author-card__name,
+.sp-author-card__role {
+  text-decoration: none !important;
+}
+
+.sp-author-card__name {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  min-width: 0;
+  color: #fff;
+}
+
+.sp-author-card__social {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+}
+
+.sp-author-card__social img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sp-author-card__role {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: #a9a9a4;
+}
+
+@media (max-width: 1024px) {
+  .sp-author-directory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+  }
+
+  .sp-authors-hero__inner {
+    padding: 8rem 0 3.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-authors-hero {
+    margin-top: calc(-1 * var(--sp-header-offset, 74px));
+    min-height: 280px;
+  }
+
+  .sp-authors-hero__inner {
+    padding: 6.5rem 0 2.5rem;
+  }
+
+  .sp-author-directory {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sp-author-card {
+    max-width: none;
+  }
+}
+
+/* Author profile hero */
+.sp-author-hero {
+  text-align: left;
+}
+
+.sp-author-hero .sp-breadcrumbs ol {
+  justify-content: flex-start;
+}
+
+.sp-author-profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2rem;
+  margin-top: 0.5rem;
+}
+
+.sp-author-profile__avatar {
+  flex: 0 0 auto;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffdd04;
+  background: #1a1a1a;
+  display: grid;
+  place-items: center;
+}
+
+.sp-author-profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sp-author-profile__copy {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.sp-author-profile__copy h1 {
+  margin-bottom: 0.5rem;
+}
+
+.sp-author-profile__bio {
+  margin: 0 0 0.75rem !important;
+  max-width: 40rem !important;
+  margin-inline: 0 !important;
+  color: #cfcfcf !important;
+}
+
+.sp-author-profile__count {
+  display: inline-block;
+  margin: 0 !important;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid rgba(255, 221, 4, 0.45);
+  color: #ffdd04 !important;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .sp-author-profile {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sp-author-profile__bio {
+    margin-inline: auto !important;
+  }
+
+  .sp-author-hero .sp-breadcrumbs ol {
+    justify-content: center;
+  }
 }
 
 .sp-container {

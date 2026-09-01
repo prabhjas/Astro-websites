@@ -151,6 +151,14 @@ export function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+/** Drop the optional Elementor hero featured-image widget from single-post HTML. */
+export function stripElementorInlineFeaturedImage(html: string): string {
+  return html.replace(
+    /<div class="elementor-element elementor-element-eor-featured[\s\S]*?<\/div>\s*<\/div>/,
+    "",
+  );
+}
+
 export function formatDate(date: string): string {
   return new Date(date).toLocaleDateString("en-AE", {
     year: "numeric",

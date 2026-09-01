@@ -190,8 +190,8 @@ export function getAuthor(slug: string): Author | null {
     if (!author.avatar?.src && dir.archiveAvatar) {
       author.avatar = { src: dir.archiveAvatar, alt: author.name };
     }
-    if (dir.bio && !author.bio) author.bio = dir.bio;
-    if (dir.linkedin && !author.social?.length) {
+    if (dir && 'bio' in dir && dir.bio && !author.bio) author.bio = dir.bio;
+    if (dir && 'linkedin' in dir && dir.linkedin && !author.social?.length) {
       author.social = [{ type: 'linkedin', url: dir.linkedin }];
     }
   }
@@ -252,8 +252,10 @@ function buildProfileHtml(author: Author): string {
   const dir = findDirectoryEntry(author.slug);
   const avatarSrc = author.avatar?.src || dir?.archiveAvatar || '';
   const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
-  const bioText = author.bio || dir?.bio || '';
-  const linkedinUrl = author.social?.find((s) => s.type === 'linkedin')?.url || dir?.linkedin;
+  const bioText = author.bio || (dir && 'bio' in dir ? dir.bio : '') || '';
+  const linkedinUrl =
+    author.social?.find((s) => s.type === 'linkedin')?.url ||
+    (dir && 'linkedin' in dir ? dir.linkedin : undefined);
 
   const avatarHtml = avatarSrc
     ? `<div class="elementor-element elementor-element-3f84043 elementor-widget elementor-widget-image" data-id="3f84043" data-element_type="widget" data-widget_type="image.default">

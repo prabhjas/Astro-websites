@@ -1,0 +1,291 @@
+---
+import { getImage } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import { serviceIcons } from "../../lib/service-icons";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["hero"]>;
+
+const {
+  heading,
+  subheading,
+  badges,
+  body,
+  image,
+  imageTablet,
+  imageMobile,
+  imageAlt,
+  primaryCta,
+  secondaryCta,
+  tone = "dark",
+  imageFocus = "right",
+} = Astro.props;
+
+/**
+ * Hubs put the copy on a navy photograph; the country frames put the same
+ * furniture on cream. Only the ink and the wash change — the layout is
+ * identical at all three widths, so this is one component, not two.
+ */
+const light = tone === "light";
+const ink = light ? "text-text-primary" : "text-text-inverse";
+const muted = light ? "text-text-secondary" : "text-text-inverse-muted";
+
+/**
+ * On cream, `accent`'s #dc8b6f wash with navy ink reads as a disabled control.
+ * The light frames draw the saturated #a44728 fill with white ink instead.
+ */
+const primaryClass = [
+  "w-full sm:w-auto",
+  light &&
+    "bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text",
+]
+  .filter(Boolean)
+  .join(" ");
+
+/**
+ * Each crop gets a ladder derived from its own width rather than one fixed
+ * list: the three are deliberately different sizes (2880 / 1536 / 860), and a
+ * shared ladder would either upscale the phone crop or ask it for widths it
+ * does not have.
+ */
+const source = async (img: ImageMetadata) => {
+  const widths = [480, 720, 1080, 1440, 2160, 2880].filter(
+    (w) => w <= img.width,
+  );
+  if (widths.at(-1) !== img.width) widths.push(img.width);
+  const built = await getImage({
+    src: img,
+    widths,
+    sizes: "100vw",
+    format: "webp",
+  });
+  return {
+    src: built.src,
+    srcset: built.srcSet.attribute,
+    width: img.width,
+    height: img.height,
+  };
+};
+
+/**
+ * Art direction, not just resolution: the three frames crop the same photograph
+ * to a 2:1 letterbox, a near-square and a portrait, so narrow viewports get
+ * their own file rather than a re-positioned slice of the desktop one.
+ *
+ * `<source>` is first-match-wins, so these are ordered widest first and the
+ * `<img>` carries the phone crop as both fallback and below-`md` case. A page
+ * supplying only `image` collapses to a plain responsive image.
+ */
+const desktop = await source(image);
+const tablet = imageTablet ? await source(imageTablet) : null;
+const mobile = imageMobile ? await source(imageMobile) : null;
+const fallback = mobile ?? tablet ?? desktop;
+
+/**
+ * How strong the light hero's own cream wash has to be at a given breakpoint.
+ *
+ * Every supplied crop already carries its frame's wash baked in, so anything
+ * painted here is a *second* wash. At 1440 that is invisible — the stops sit
+ * inside a region the baked wash has already taken to solid cream. At 768 and
+ * 430 it is not, because Figma's slab is a 210px-blurred rectangle whose
+ * falloff starts well before its edge, and an opaque `from-85%` over that
+ * erases the photograph those frames draw down the right-hand side.
+ *
+ * `SLAB` is therefore only for a breakpoint falling back to the desktop crop,
+ * whose wash is cut for 1440 and lands in the wrong place on a phone.
+ *
+ * `VEIL` is what a breakpoint with its own crop gets, and the 50% is measured:
+ * off the bare crops the hero body copy sits at 3.2:1 (430) and 3.4:1 (768)
+ * against `text-secondary`, and half-strength cream takes both past 4.5:1 while
+ * the subject still reads as a photograph. Re-measure the same way after
+ * touching these stops.
+ *
+ * The terracotta subheading is a separate problem this cannot solve — #d9714e
+ * on cream is 2.73:1 before any photograph is involved. See CLAUDE.md.
+ */
+const SLAB = "from-bg-page from-85% to-bg-page/0 to-100%";
+const VEIL = "from-bg-page from-30% to-bg-page/50 to-100%";
+const belowMd = fallback === desktop ? SLAB : VEIL;
+const atMd = (tablet ?? fallback) === desktop ? SLAB : VEIL;
+---
+
+<section
+  class:list={[
+    "relative isolate overflow-hidden",
+    light ? "bg-bg-page" : "bg-text-primary",
+  ]}
+>
+  {/*
+    Only the desktop crop is positioned: drawn for a 2:1 letterbox, a viewport
+    in the 1024–1280 range still crops its sides. The Iberian street scenes keep
+    their subject in the right two-thirds; `imageFocus="center"` is the escape
+    hatch for a photograph already centred in its own frame. The tablet and
+    phone crops are framed for their own frames, so they centre.
+  */}
+  <picture class="pointer-events-none absolute inset-0 -z-20">
+    {
+      fallback !== desktop && (
+        <source
+          media="(min-width: 1024px)"
+          srcset={desktop.srcset}
+          sizes="100vw"
+          width={desktop.width}
+          height={desktop.height}
+        />
+      )
+    }
+    {
+      tablet && fallback !== tablet && (
+        <source
+          media="(min-width: 768px)"
+          srcset={tablet.srcset}
+          sizes="100vw"
+          width={tablet.width}
+          height={tablet.height}
+        />
+      )
+    }
+    <img
+      src={fallback.src}
+      srcset={fallback.srcset}
+      sizes="100vw"
+      width={fallback.width}
+      height={fallback.height}
+      alt={imageAlt}
+      class:list={[
+        "size-full object-cover",
+        fallback !== desktop || imageFocus === "center"
+          ? "object-center"
+          : "object-right",
+        imageFocus === "center"
+          ? "lg:object-center"
+          : light
+            ? "lg:object-right"
+            : "lg:object-center",
+      ]}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+  {
+    light ? (
+      /*
+        A cream page that the photograph bleeds into from the right. Figma draws
+        a 210px-blurred slab over the left ~64%; a horizontal gradient states
+        that falloff directly, is resolution-independent and costs no
+        compositing layer.
+
+        The stops are read off the frames: below `lg` the wash runs almost end
+        to end, since both narrow frames centre the copy and leave the
+        photograph a sliver at the right edge; at 1440 it clears the 845px copy
+        column before handing the last third over. See `SLAB` and `VEIL` above
+        for why a breakpoint with its own crop gets the weaker one.
+      */
+      <div
+        class:list={[
+          "pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r",
+          belowMd,
+          /* Written out rather than prefixed programmatically: Tailwind scans
+             for whole class names, so a composed `md:${…}` would not be seen. */
+          atMd === SLAB
+            ? "md:from-bg-page md:from-85% md:to-bg-page/0 md:to-100%"
+            : "md:from-bg-page md:from-30% md:to-bg-page/50 md:to-100%",
+          "lg:from-bg-page lg:from-52% lg:to-bg-page/0 lg:to-82%",
+        ]}
+        aria-hidden="true"
+      />
+    ) : (
+      /*
+        Deep-navy wash, and it is two different things at two widths because the
+        frames draw two different things.
+
+        At `lg` it is the 745px blurred corner square: the copy holds the left
+        845px and the photograph keeps the rest. Below `lg` the narrow frames
+        drop that square and lay navy over the *whole* hero — on a phone the
+        copy runs the full height, so a corner bloom leaves the last lines on
+        bare photograph, measured at 1.5:1 against `text-inverse-muted`. 90% is
+        what takes it past 4.5:1 while the scene still reads as a photograph,
+        and it is unblurred because a blurred rect at `inset-0` softens away at
+        exactly the top and bottom edges the copy reaches.
+      */
+      <div
+        class="pointer-events-none absolute top-0 left-0 -z-10 size-full bg-navy/90 lg:size-[745px] lg:rounded-br-[999px] lg:bg-navy lg:blur-[210px]"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <div class="section-shell pt-10 pb-10 md:pt-20 md:pb-24 lg:pt-20 lg:pb-30">
+    {/* Centred on a phone, left-aligned from the tablet frame up. */}
+    <div
+      class="flex w-full max-w-[845px] flex-col items-center gap-10 text-center md:items-start md:text-left"
+    >
+      <div class="flex w-full flex-col items-center gap-6 md:items-start">
+        <div class="flex w-full flex-col items-center gap-4 md:items-start">
+          <h1 class:list={["text-display text-balance", ink]}>
+            {heading}
+          </h1>
+          {
+            subheading && (
+              <p class="text-h3 font-normal text-balance text-terracotta">
+                {subheading}
+              </p>
+            )
+          }
+        </div>
+
+        {/* The badges take the full copy column; only the body is capped at
+            628px. Every frame draws them that way — the Staff Outsourcing row
+            is 636px wide, so capping it too wraps a line the design
+            keeps whole. */}
+        <div class="flex w-full flex-col items-center gap-8 md:items-start">
+          {
+            badges.length > 0 && (
+              <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 md:justify-start">
+                {badges.map((badge) => (
+                  <li class="flex items-center gap-2">
+                    <Icon src={serviceIcons[badge.icon]} size={20} />
+                    <span class:list={["text-caption font-medium tracking-[0.26px]", muted]}>
+                      {badge.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+
+          <p class:list={["max-w-[628px] text-body-lg", muted]}>{body}</p>
+        </div>
+      </div>
+
+      {/* Stacked full-bleed on mobile, side by side from sm — matching the
+          homepage hero. */}
+      <div class="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4">
+        <Button
+          variant="accent"
+          size="lg"
+          href={primaryCta.href}
+          class={primaryClass}
+        >
+          {primaryCta.label}
+        </Button>
+        {
+          secondaryCta && (
+            <Button
+              variant={light ? "secondary-on-light" : "secondary"}
+              size="lg"
+              href={secondaryCta.href}
+              class="w-full sm:w-auto"
+            >
+              {secondaryCta.label}
+              <Icon src={chevronRight} size={20} tone="current" />
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

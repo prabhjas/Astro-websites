@@ -1,11 +1,43 @@
 # S & P HEAVY MACHINERY RENTAL L.L.C — Dubai DET trade licence 1493335 (Active)
-# Verify: https://app.invest.dubai.ae/search-license
-# Full licence details for AI crawlers: https://spheavyrental.ae/llms.txt
+# Dubai Unified Licence: EJ1476
+# Verify: https://app.invest.dubai.ae/dul/dul-EJ1476
+# Full site map for AI crawlers: https://spheavyrental.ae/llms.txt
 
 User-agent: *
-Allow: /
-Allow: /licence/
-Disallow: /api/
+Disallow: /wp-admin/
+Disallow: /wp-admin/admin-ajax.php
+Disallow: /wp-login.php
+Disallow: /wp-json/
+Disallow: /?rest_route=
+Disallow: /?s=
+Disallow: /page/*/?s=
 Disallow: /search/
+Disallow: /*?replytocom=
+Disallow: /*?orderby=
+Disallow: /*?filter=
+Disallow: /tag/
+Disallow: /category/
+Disallow: /blog/page/
+Disallow: /feed
+Disallow: /rss
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /old-site-backups/
+Disallow: /wp-content/
+Disallow: /wp-content/uploads/
+Allow: /public
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
 
 Sitemap: https://spheavyrental.ae/sitemap_index.xml

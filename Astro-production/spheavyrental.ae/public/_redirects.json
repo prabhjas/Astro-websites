@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "from": "/power-generator-rental/",
+    "to": "/generator-rental/",
+    "status": 301
+  },
+  {
+    "from": "/power-generator-rental",
+    "to": "/generator-rental/",
+    "status": 301
+  }
+]

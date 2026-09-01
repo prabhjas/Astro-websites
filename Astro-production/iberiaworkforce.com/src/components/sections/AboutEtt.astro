@@ -1,0 +1,71 @@
+---
+/**
+ * "An authorised ETT, not just an EOR" — the navy narrative band: a photograph
+ * in its own 600px column beside the claim and two paragraphs.
+ *
+ * Deliberately not `EttLicence.astro`, the homepage section of a similar name.
+ * That one is a credentials card carrying the licence number, the NIF and a
+ * link into the Ministry register, and it argues by showing paperwork; this one
+ * argues in prose.
+ *
+ * The photograph leads on desktop and follows on both narrow frames, which is
+ * placement rather than source order — it illustrates the claim rather than
+ * introducing it, so once the columns stack the reader meets the argument
+ * first. Hence the copy first in the markup and `lg:order-first` on the figure.
+ *
+ * It keeps its drawn 600px width once stacked rather than filling the column;
+ * only the 430 frame, where 600 no longer fits, runs it edge to edge.
+ */
+import { Image } from "astro:assets";
+import office from "../../assets/images/about-ett-office.webp";
+import { getUi } from "../../i18n/copy";
+
+const { t } = getUi(Astro.url.pathname);
+const e = t.aboutEtt;
+---
+
+<section class="bg-navy py-20 lg:py-30" aria-labelledby="about-ett-heading">
+  <div
+    class="section-shell flex flex-col items-start gap-10 lg:flex-row lg:items-center lg:gap-20"
+  >
+    <div
+      class="flex flex-col items-start gap-6 lg:flex-1"
+      data-reveal
+      style="--reveal-i:1"
+    >
+      <div class="flex flex-col items-start gap-3">
+        {/*
+          `terracotta-400`, not the `terracotta` Figma sets: #d9714e on this
+          navy measures 4.48:1 and the eyebrow is a 13px caption, which needs
+          4.5. The lighter wash is the same hue at 5.55:1 — the same one-step
+          correction the Poland pull-quote card already makes, in the opposite
+          direction.
+        */}
+        <p class="text-caption text-terracotta-400">{e.eyebrow}</p>
+        <h2 id="about-ett-heading" class="text-h1 text-text-inverse">
+          {e.heading}
+        </h2>
+      </div>
+      <div
+        class="flex flex-col items-start gap-4 text-body-lg text-text-inverse-tertiary"
+      >
+        <p>{e.p1}</p>
+        <p>{e.p2}</p>
+      </div>
+    </div>
+
+    <div
+      class="w-full overflow-hidden rounded-xl md:max-w-[600px] md:self-center lg:order-first lg:w-[600px] lg:shrink-0"
+      data-reveal
+    >
+      <Image
+        src={office}
+        alt={e.alt}
+        widths={[390, 600, 780, 1200]}
+        sizes="(min-width: 768px) 600px, 100vw"
+        class="aspect-3/2 size-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>

@@ -8,14 +8,6 @@ redirects:
     to: /uae-company-setup/
     status: 301
 
-  # Legacy Dubai mainland page → current mainland company setup
-  - from: /dubai-mainland/
-    to: /uae-mainland-company-setup/
-    status: 301
-  - from: /dubai-mainland
-    to: /uae-mainland-company-setup/
-    status: 301
-
   # Pages not marked Done in Connect group asrto.xlsx (column D)
   - from: /dubai-free-zone/
     to: /

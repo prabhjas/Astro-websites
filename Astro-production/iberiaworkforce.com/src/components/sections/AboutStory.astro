@@ -1,0 +1,46 @@
+---
+/**
+ * "Our story".
+ *
+ * A white band ruled top and bottom, with the claim and its lead in a 519px
+ * column and the narrative in a 652px one. The two columns are pushed apart
+ * rather than gutter-spaced — the 1440 frame leaves 109px between them, which
+ * is what `justify-between` at those two widths produces — and stack into one
+ * column on both narrow frames.
+ *
+ * The lead paragraph is H4 scale in the *regular* weight, which is what turns
+ * the heading and it into one statement rather than a heading over body copy.
+ */
+import { getUi } from "../../i18n/copy";
+
+const { t } = getUi(Astro.url.pathname);
+const s = t.aboutStory;
+---
+
+<section
+  class="border-y border-border-subtle bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="about-story-heading"
+>
+  <div
+    class="section-shell flex flex-col items-start gap-6 lg:flex-row lg:justify-between lg:gap-0"
+  >
+    <div class="flex flex-col items-start gap-4 lg:w-[519px]" data-reveal>
+      <h2 id="about-story-heading" class="text-h1 text-text-primary">
+        {s.heading}
+      </h2>
+      <p class="text-h4 font-normal text-text-secondary">
+        {s.lead}
+      </p>
+    </div>
+
+    <div
+      class="flex flex-col items-start gap-4 text-body text-text-tertiary lg:w-[652px]"
+      data-reveal
+      style="--reveal-i:1"
+    >
+      <p>{s.p1}</p>
+      <p>{s.p2}</p>
+      <p>{s.p3}</p>
+    </div>
+  </div>
+</section>

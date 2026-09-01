@@ -28,6 +28,8 @@ export type LlmsDefaultsFile = {
   siteTitle: string;
   summary: string;
   details: string;
+  /** Blog index path for this site (defaults to /insights/ for the fleet template). */
+  blogHome?: string;
   groupOrder: string[];
   postsCount: number;
   blogNote: string;

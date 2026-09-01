@@ -8,7 +8,6 @@ import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
-import { applyCwvMirrorFixes } from './cwv-mirror.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://movey.ae')
   .trim()
@@ -79,7 +78,7 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  html = applyCwvMirrorFixes(sanitizeMirrorHtml(html), slug);
+  html = sanitizeMirrorHtml(html);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

@@ -90,6 +90,9 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
   transformTags: {
     a: sanitizeHtmlLib.simpleTransform('a', { rel: 'noopener noreferrer' }),
   },
+  // WP Rocket leaves <img> + <noscript><img></noscript>. Without this, sanitize-html
+  // strips <noscript> but keeps the inner <img>, so every body image renders twice.
+  nonTextTags: ['script', 'style', 'textarea', 'option', 'noscript'],
 };
 
 /** Sanitize HTML intended for set:html / CMS post bodies. */
@@ -117,32 +120,6 @@ export function sanitizeMirrorHtml(dirty: string): string {
   html = html.replace(/(href|src|xlink:href)\s*=\s*(['"])\s*javascript:[^'"]*\2/gi, '$1=$2#$2');
   html = html.replace(/<base\b[^>]*>/gi, '');
   html = html.replace(/<meta\b[^>]*http-equiv\s*=\s*['"]?refresh['"]?[^>]*>/gi, '');
-
-  // Strip WordPress / Elementor / WP Rocket / WPML generator fingerprints.
-  html = html.replace(/<meta\b[^>]*name=["']generator["'][^>]*>/gi, '');
-  html = html.replace(
-    /<!--\s*This website is like a Rocket[\s\S]*?-->/gi,
-    '',
-  );
-  html = html.replace(/<!--\s*WP Rocket[\s\S]*?-->/gi, '');
-  // Drop WP Rocket beacon / lazy-load helper scripts that 404 on Astro.
-  html = html.replace(
-    /<script\b[^>]*(?:wpr-beacon|rocket-lazy|wp-rocket)[^>]*>[\s\S]*?<\/script>/gi,
-    '',
-  );
-  // WP Rocket head bootstrap blocks first paint; astro-mirror-fixes handles body scripts.
-  html = html.replace(
-    /<script>if\(navigator\.userAgent\.match\(\/MSIE[\s\S]*?<\/script>/gi,
-    '',
-  );
-  html = html.replace(
-    /<script>\(\(\)=>\{class RocketLazyLoadScripts[\s\S]*?<\/script>/gi,
-    '',
-  );
-  html = html.replace(
-    /<script>\(\(\)=>\{class RocketElementorPreload[\s\S]*?<\/script>/gi,
-    '',
-  );
 
   return html;
 }

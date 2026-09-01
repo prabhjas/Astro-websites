@@ -31,6 +31,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Stale /favicon.ico is sticky on an old release tip — send browsers to the brand PNG.
+    if (pathname === '/favicon.ico' || pathname === '/favicon.ico/') {
+      return new Response(null, {
+        status: 302,
+        headers: { Location: '/wp-content/uploads/2024/09/fav-new.png?v=20260826' },
+      });
+    }
+
+    // API routes must keep their native Astro routing (no slash normalization/redirect mapping).
+    if (pathname.startsWith('/api/')) {
+      return next();
+    }
+
     // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
     // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
     if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
@@ -53,10 +66,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
 
     if (!['GET', 'HEAD'].includes(method)) {
-      return next();
-    }
-
-    if (pathname.startsWith('/api/internal/') || pathname === '/api/health') {
       return next();
     }
 

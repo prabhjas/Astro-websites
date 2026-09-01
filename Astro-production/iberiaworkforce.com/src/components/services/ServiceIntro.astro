@@ -1,0 +1,339 @@
+---
+/**
+ * The country pages' "What is …" band.
+ *
+ * Distinct from `ServiceDefinition`, the hub's version, which is a photograph
+ * beside a single pull-quoted sentence. This band is prose, in one of three
+ * arrangements:
+ *
+ * - without a photograph, the claim and the prose are themselves the two
+ *   columns;
+ * - with one, the photo takes its own column at `lg` and drops into the single
+ *   column below it — which side it takes also decides where it lands once
+ *   stacked: drawn left it sits between the heading and the prose, drawn right
+ *   it follows both;
+ * - with a pull-quote card, the heading and prose share the left column and the
+ *   card holds a fixed 480px on the right, dropping under them below `lg`.
+ *
+ * All three are grids rather than nested flex rows, because the heading and the
+ * prose share a desktop column but are separated on the narrow frames — which
+ * is grid placement, and source order alone cannot express it.
+ */
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import quoteMarks from "../../assets/icons/quote-marks.svg";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["intro"]>;
+
+const {
+  eyebrow,
+  heading,
+  paragraphs,
+  image,
+  imageAlt,
+  imagePosition = "left",
+  quote,
+  headingScale = "h1",
+  splitAt,
+  cta,
+} = Astro.props;
+
+const photoRight = Boolean(image) && imagePosition === "right";
+
+/** Display scale for the claim, at 64px. Bare two-column arrangement only. */
+const display = !image && !quote && headingScale === "display";
+
+/**
+ * Where the bare two-column arrangement splits. The scale is the usual answer —
+ * H1 splits at the tablet frame, Display stays stacked until desktop, because
+ * 64px type has nothing left to share a 768px frame with — but an H1 claim can
+ * still want the whole 768 frame, which is what `splitAt` overrides.
+ */
+const late =
+  !image && !quote && (splitAt ?? (display ? "lg" : "md")) === "lg";
+
+/**
+ * A button hung off the claim. Bare two-column arrangement only — the photo and
+ * quote frames draw none — and it is what forces that arrangement to name its
+ * rows: the button belongs under the claim once the columns split, and follows
+ * the prose below that. The second row is `1fr`, not `auto`: the prose spans
+ * both rows and is much the taller side, so an `auto` row would share its spare
+ * height out and float the button down the middle of the empty column.
+ */
+const splitCta = Boolean(cta) && !image && !quote;
+---
+
+<section class="bg-bg-surface py-20 lg:py-30" aria-labelledby="intro-heading">
+  <div
+    class:list={[
+      "section-shell grid gap-8",
+      /* Four rows, two of them empty: the heading and prose take the middle
+         pair and a `1fr` spacer either side centres them against the photo,
+         which spans all four. `items-center` cannot do this — the copy is two
+         separate grid items, because a photo drawn *left* lands between the
+         heading and the prose once the column stacks, so they cannot be
+         wrapped. `gap-y-6` is still the 24px between heading and prose. */
+      image &&
+        "lg:grid-rows-[1fr_auto_auto_1fr] lg:items-start lg:gap-y-6",
+      image &&
+        (photoRight
+          ? "lg:grid-cols-[1fr_600px] lg:gap-x-12"
+          : "lg:grid-cols-[600px_1fr] lg:gap-x-20"),
+      /* The card is a fixed 480px in every frame that draws it, so it is a
+         track width rather than a fraction — the prose takes what is left. */
+      quote && "lg:grid-cols-[1fr_480px] lg:gap-x-20 lg:gap-y-6",
+      !image &&
+        !quote &&
+        (late
+          ? "lg:grid-cols-2 lg:gap-20"
+          : "md:grid-cols-2 md:gap-16 lg:gap-20"),
+      /* Row gap written as `gap-y` rather than left to `gap-20`: the button
+         belongs to the claim at 32px, and the 80px column gutter would
+         otherwise float it down the column. */
+      splitCta &&
+        (late
+          ? "lg:grid-rows-[auto_1fr] lg:items-start lg:gap-y-8"
+          : "md:grid-rows-[auto_1fr] md:items-start md:gap-y-8 lg:gap-y-8"),
+    ]}
+  >
+    <header
+      class:list={[
+        "flex flex-col items-start gap-3",
+        image && (photoRight ? "lg:col-start-1" : "lg:col-start-2"),
+        image && "lg:row-start-2",
+        quote && "lg:col-start-1 lg:row-start-1",
+        splitCta &&
+          (late
+            ? "lg:col-start-1 lg:row-start-1"
+            : "md:col-start-1 md:row-start-1"),
+      ]}
+      data-reveal
+    >
+      {
+        eyebrow && (
+          <p class="text-caption font-medium tracking-[0.26px] text-text-link">
+            {eyebrow}
+          </p>
+        )
+      }
+      {/* The photo frames set this an H2; the ones that give the heading its
+          own column beside the prose set it an H1, or Display where the
+          heading is the whole left half of the band. */}
+      <h2
+        id="intro-heading"
+        class:list={[
+          "text-balance text-text-primary",
+          image ? "text-h2" : display ? "text-display" : "text-h1",
+        ]}
+      >
+        {heading}
+      </h2>
+    </header>
+
+    {
+      image && (
+        <div
+          class:list={[
+            "overflow-hidden rounded-xl lg:row-span-4 lg:row-start-1",
+            /* Stacked, the photo follows whichever copy it sits beside: after
+               the heading when it is drawn left, after the prose when right. */
+            photoRight
+              ? "order-last lg:order-none lg:col-start-2"
+              : "lg:col-start-1",
+          ]}
+          data-reveal
+          style="--reveal-i:1"
+        >
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[430, 600, 900, 1200]}
+            sizes="(min-width: 1024px) 600px, 100vw"
+            class="aspect-[3/2] size-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+
+    <div
+      class:list={[
+        "flex flex-col items-start gap-6 lg:gap-8",
+        image && (photoRight ? "lg:col-start-1" : "lg:col-start-2"),
+        image && "lg:row-start-3 lg:self-start",
+        quote && "lg:col-start-1 lg:row-start-2 lg:self-start",
+        splitCta &&
+          (late
+            ? "lg:col-start-2 lg:row-span-2 lg:row-start-1"
+            : "md:col-start-2 md:row-span-2 md:row-start-1"),
+      ]}
+    >
+      {
+        paragraphs.map((paragraph, i) => (
+          <p
+            class="text-body-lg text-text-secondary"
+            data-reveal
+            style={`--reveal-i:${i + 1}`}
+          >
+            {paragraph}
+          </p>
+        ))
+      }
+    </div>
+
+    {
+      quote && (
+        /* `row-span-2` plus `self-center` centres the card against the
+           heading-and-prose stack without its own height setting the rows.
+
+           Fill is bg-surface-secondary, not slate-blue: the terracotta
+           punchline measures 2.31:1 on #486581 and needs 3:1 at this size,
+           where the deeper card takes it to 3.67:1. The token itself could not
+           move, since slate-blue is used as ink elsewhere. */
+        <figure
+          class="flex flex-col items-start gap-6 rounded-xl bg-bg-surface-secondary p-6 md:p-12 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center"
+          data-reveal
+          data-quote-typing
+          style={`--reveal-i:${paragraphs.length + 1}`}
+        >
+          <Icon src={quoteMarks} size={32} />
+          <blockquote class="flex flex-col items-start gap-6">
+            {quote.statements.map((statement, i) => (
+              /* The claim, then its punchline: the design sets the first line
+                 in white and everything after it in terracotta, so the two
+                 read as one sentence changing register rather than as a list. */
+              <p
+                class:list={[
+                  "text-h2 text-balance",
+                  i === 0 ? "text-text-inverse" : "text-terracotta-400",
+                ]}
+                data-quote-line
+              >
+                {statement}
+              </p>
+            ))}
+          </blockquote>
+        </figure>
+      )
+    }
+
+    {
+      cta && (
+        /* Wrapped rather than annotated directly: Button declares its props, so
+           `data-reveal` on the component itself would be dropped. Full-bleed on
+           a phone, which is what the 430 frame draws. */
+        <div
+          class:list={[
+            "w-full sm:w-auto",
+            splitCta &&
+              (late
+                ? "lg:col-start-1 lg:row-start-2 lg:self-start lg:justify-self-start"
+                : "md:col-start-1 md:row-start-2 md:self-start md:justify-self-start"),
+          ]}
+          data-reveal
+          style={`--reveal-i:${paragraphs.length + 1}`}
+        >
+          <Button
+            variant="accent"
+            size="lg"
+            href={cta.href}
+            class="w-full bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text sm:w-auto"
+          >
+            {cta.label}
+          </Button>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<script>
+  /*
+    The pull-quote types itself in.
+
+    Every character is already in the HTML and already laid out; the script only
+    wraps each in a span and fades it in, so nothing reflows as the line "types"
+    and the text is in the document from the start. That is why it is not a
+    substring animation — retyping `textContent` rewraps the line on nearly
+    every frame, and a two-line quote visibly jumps.
+
+    Runs once, on the way in, and only without reduced motion. Otherwise the
+    quote is simply there, which is the state the design draws.
+  */
+  const cards = document.querySelectorAll<HTMLElement>("[data-quote-typing]");
+
+  if (
+    cards.length &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    /* ~26ms a character: about two seconds for the Poland quote, which is a
+       pace you can read along with rather than one you have to wait out. */
+    const PER_CHAR = 26;
+    /* A beat between the claim and its punchline — the pause is what makes the
+       second line read as a reply to the first rather than as more of it. */
+    const BETWEEN_LINES = 420;
+
+    cards.forEach((card) => {
+      const lines = [...card.querySelectorAll<HTMLElement>("[data-quote-line]")];
+      if (!lines.length) return;
+
+      const caret = document.createElement("span");
+      caret.className = "quote-caret";
+      caret.setAttribute("aria-hidden", "true");
+
+      /* Split first, so the measured layout is the final one from the first
+         frame. Spaces keep their own spans, so word spacing is untouched. */
+      const letters = lines.map((line) => {
+        const text = line.textContent ?? "";
+        line.textContent = "";
+        return [...text].map((character) => {
+          const span = document.createElement("span");
+          span.textContent = character;
+          span.style.opacity = "0";
+          line.append(span);
+          return span;
+        });
+      });
+
+      let cancelled = false;
+      const type = async () => {
+        for (const line of letters) {
+          for (const span of line) {
+            if (cancelled) return;
+            span.before(caret);
+            span.style.opacity = "1";
+            await new Promise((resolve) => setTimeout(resolve, PER_CHAR));
+          }
+          await new Promise((resolve) => setTimeout(resolve, BETWEEN_LINES));
+        }
+        caret.remove();
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          type();
+        },
+        /* A third of the card, so it starts once the quote is properly on
+           screen rather than as its top edge clips into view. */
+        { threshold: 0.34 },
+      );
+
+      observer.observe(card);
+
+      // Turning reduced motion on mid-run drops the rest of the quote in at
+      // once rather than typing on regardless.
+      window
+        .matchMedia("(prefers-reduced-motion: reduce)")
+        .addEventListener("change", (event) => {
+          if (!event.matches) return;
+          cancelled = true;
+          caret.remove();
+          letters.flat().forEach((span) => (span.style.opacity = "1"));
+        });
+    });
+  }
+</script>

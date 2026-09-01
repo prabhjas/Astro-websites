@@ -58,6 +58,11 @@ const jsonLd = {
       '@id': `${siteUrl}/#organization`,
       name: orgName,
       url: siteUrl,
+      sameAs: [
+        'https://www.facebook.com/emiratisationgate',
+        'https://www.instagram.com/emiratisationgate/',
+        'https://www.linkedin.com/company/emiratisation-gate',
+      ],
     },
     {
       '@type': 'WebSite',
@@ -116,13 +121,24 @@ const jsonLd = {
     <meta name="twitter:title" content={twitterTitle} />
     <meta name="twitter:description" content={twitterDescription} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {canonical && <meta name="twitter:url" content={canonical} />}
+    <meta name="twitter:site" content="@emiratisationgate" />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <link
       rel="icon"
-      href="/wp-content/uploads/2024/09/cropped-FAVICON-CR-ROUNDED-32x32.png"
+      href="/wp-content/uploads/2023/07/cropped-favicon-emiratisationgate-512px-32x32.png"
       sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="/wp-content/uploads/2023/07/cropped-favicon-emiratisationgate-512px-192x192.png"
+      sizes="192x192"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/wp-content/uploads/2023/07/cropped-favicon-emiratisationgate-512px-180x180.png"
     />
     <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
     <slot name="head" />

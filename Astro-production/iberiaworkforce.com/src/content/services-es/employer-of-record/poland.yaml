@@ -1,0 +1,308 @@
+# Employer of Record — Poland country page.
+# Figma nodes 414-4528 (1440), 184-1758 (768), 184-1753 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The third country page, and the one that stretched the shape furthest. Four
+# sections take an arrangement no earlier page used, each of them a switch on an
+# existing component rather than a new one:
+#
+#   intro.quote          the slate pull-quote card beside the prose
+#   differentiator.tone  the same argument on cream, with no photograph
+#   whyChoose.layout     two filled cards instead of a divider list
+#   featureList.layout   heading + CTA in their own column, eyebrows as pills
+#
+# Two sections are genuinely new: `audience` ("who we work with") and
+# `pricingSummary`, the third pricing shape — Poland can publish a starting
+# number the way Spain can, but it is a floor rather than a flat rate, so the
+# cards beside it exist to say what moves it.
+type: country
+label: Employer of Record en Polonia
+
+seo:
+  title: Employer of Record en Polonia | Iberia Workforce
+  description: >-
+    Employer of Record en Polonia. Kodeks pracy, ZUS y PPK gestionados
+    correctamente. Menor coste que montar tu propio equipo jurídico: todo
+    incluido.
+  schema:
+    serviceName: Servicios de Employer of Record Polonia
+    serviceType: Employer of Record
+    areaServed: Polonia
+    address:
+      locality: Varsovia
+      country: Polonia
+
+hero:
+  tone: light
+  heading: Employer of Record en Polonia
+  subheading: Contrata empleados sin abrir una sociedad
+  badges:
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: licence
+      label: Expertos en el Kodeks Pracy
+    - icon: money
+      label: Equipo interno de nóminas en Polonia
+  body: >-
+    Contrata empleados en Polonia sin abrir una sociedad. Todo el compliance
+    resuelto: contratos de trabajo, seguro social, ahorro obligatorio para la
+    jubilación, permisos legales. A un precio inferior al de contratar tu
+    propio equipo jurídico y de nóminas.
+  image: ../../../assets/images/eor-poland-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-poland-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-poland-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  heading: ¿Qué es un Employer of Record en Polonia?
+  paragraphs:
+    - >-
+      Un employer of record en Polonia es una estructura jurídica que se
+      convierte en el empleador formal de tus trabajadores bajo un contrato de
+      trabajo polaco. Tú diriges el trabajo, defines el puesto y gestionas el
+      rendimiento. Nosotros nos encargamos del contrato en polaco, del alta en
+      ZUS (el sistema de seguro social de Polonia), de la inscripción en el
+      ahorro obligatorio para la jubilación, de la nómina mensual con IRPF y
+      cotizaciones sociales, y asumimos el riesgo jurídico del compliance.
+  quote:
+    statements:
+      - Sin necesidad de constituir una sociedad polaca.
+      - Sin semanas perdidas con las autoridades fiscales.
+
+differentiator:
+  # Cream with no photograph — the only frame so far to argue this point without
+  # a navy band behind it. Hence `tone`, and hence no `background` key.
+  tone: light
+  heading: ¿Por qué el Employer of Record funciona de otra manera en Polonia?
+  subheading: La ley es clara. La ejecución es detallada.
+  paragraphs:
+    - >-
+      El derecho laboral polaco se lee más sencillo que en la mayoría de los
+      sitios: sin política de comité de empresa, sin complicaciones de la Ley
+      Beckham. Esa sencillez lleva a los empleadores extranjeros a pensar que
+      no necesitan abogados. Entonces llega el segundo mes: una sanción por
+      incumplimiento del ahorro para la jubilación, un disparador de residencia
+      fiscal que nadie señaló, o una inspección por mala clasificación de
+      autónomos.
+    - >-
+      La mayoría de las plataformas globales de EOR tratan Polonia como una
+      lista de comprobación: número de alta, nómina en marcha, listo. Nosotros
+      lo tratamos como lo que es: una contratación rentable si se ejecuta bien,
+      y catastrófica si no. Por eso hace falta especialistas de nómina
+      internos, no plantillas.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  layout: cards
+  heading: >-
+    ¿Por qué elegir Iberia Workforce para servicios de Employer of Record en
+    Polonia?
+  items:
+    - title: >-
+        Lo dirigen abogados laboralistas y especialistas en extranjería, no
+        gestores de cuentas.
+      description: >-
+        La mayoría de las plataformas de EOR externalizan el compliance a
+        socios locales. Nosotros lo gestionamos de forma directa: derecho
+        laboral, visados, nómina. En contrataciones de la UE, eso significa
+        rapidez. En las de fuera de la UE, significa que tu visado no se
+        atasca.
+    # The desktop frame breaks this into three short lines; both narrow frames
+    # run them together, which is what is followed here.
+    - title: Tu coste es inferior al de contratar tu propio equipo.
+      description: >-
+        Abogado laboralista, especialista en extranjería, experto en nóminas,
+        contable de compliance: eso son 700–1.500 €/mes de estructura. Nuestro
+        precio de EOR es menor. El PPK se gestiona internamente, nunca se
+        externaliza. Alta automática, seguimiento de bajas voluntarias, gestión
+        mensual: sin proveedor aparte, sin facturas de sanciones.
+
+howItWorks:
+  heading: ¿Cómo funciona el Employer of Record en Polonia?
+  steps:
+    - title: Cuéntanos la contratación
+      description: >-
+        Puesto, ubicación, fecha de incorporación, salario, UE o fuera de la
+        UE. Si es de fuera de la UE, ¿qué categoría de visado? Valoramos la
+        estructura adecuada y señalamos cualquier complejidad de antemano.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un escritorio de oficina revisando un documento juntos
+    - title: Redactamos y tramitamos el alta
+      description: >-
+        Contrato de trabajo en polaco con todas las cláusulas exigidas por ley.
+        Alta en el seguro social, configuración fiscal, parametrización de la
+        nómina, inscripción en el ahorro para la jubilación y seguimiento de
+        bajas voluntarias. Tú apruebas. Nosotros tramitamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: "Tu empleado empieza: la nómina se ejecuta correctamente"
+      description: >-
+        Nómina mensual: cálculo bruto-neto, retención del impuesto sobre la
+        renta, cotizaciones a la Seguridad Social, deducciones del ahorro para
+        la jubilación, control de ausencias, devengo de baja por enfermedad.
+        Presentamos los informes de nómina mensuales antes del día 15. La
+        extinción y la indemnización se estructuran para que resistan.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Listo para contratar en Polonia sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+audience:
+  heading: Pensado para empresas internacionales que contratan en Polonia
+  items:
+    - icon: laptop
+      title: Empresas remote-first
+      description: Contrata talento polaco sin infraestructura local
+    - icon: world-globe
+      title: Negocios de la UE en expansión
+      description: Conformes desde el primer día, sin obligaciones sorpresa
+    - icon: team-people
+      title: Equipos de proyecto
+      description: Amplía o reduce plantilla sin riesgo de reestructuración
+
+featureList:
+  layout: aside
+  # The heading and its button travel with the list, as the homepage does it.
+  sticky: true
+  heading: ¿Qué incluyen los servicios de Employer of Record en Polonia?
+  items:
+    - eyebrow: Incluido
+      title: Contratos de trabajo y cumplimiento legal
+      description: >-
+        Redactados en polaco, estructurados conforme al derecho laboral polaco
+        con todas las cláusulas exigidas: descripción del puesto, retribución,
+        jornada, periodo de prueba (máximo 3 meses), plazos de preaviso según
+        antigüedad, protección de datos. Versiones bilingües disponibles.
+    - eyebrow: Incluido
+      title: Nómina, Seguridad Social e impuesto sobre la renta
+      description: >-
+        Nómina mensual con cotizaciones empresariales a la Seguridad Social
+        (pensión, incapacidad, enfermedad, accidente, salud), retención de las
+        deducciones del empleado, retención del impuesto sobre la renta y
+        aportaciones a fondos empresariales. Presentada antes del día 15 del
+        mes siguiente.
+    - eyebrow: Incluido
+      title: Gestión del ahorro obligatorio para la jubilación (PPK)
+      description: >-
+        Alta con la entidad financiera, aportación mínima empresarial del 1,5 %,
+        deducción del 2 % del empleado, seguimiento de bajas voluntarias y el
+        ciclo de reinscripción de marzo de 2027, gestionados de extremo a
+        extremo.
+    - eyebrow: Incluido
+      title: Vacaciones anuales y baja por enfermedad
+      description: >-
+        20 o 26 días laborables al año según antigüedad. Baja por enfermedad al
+        80 % del salario los primeros 33 días de cada año natural; después
+        asume el seguro estatal. Todo calculado y documentado correctamente.
+    - eyebrow: Incluido
+      title: Apoyo en extinción e indemnización
+      description: >-
+        Plazos de preaviso según antigüedad (de 2 semanas a 3 meses), causas
+        justificadas, cálculo de indemnización, documentación adecuada para que
+        un despido resista si se impugna.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+pricingSummary:
+  eyebrow: PRECIOS DE EMPLOYER OF RECORD EN POLONIA
+  heading: Desde 290 €/mes para contrataciones de la UE
+  body: "La variable principal es si contratas trabajadores de la UE o de fuera:"
+  background: ../../../assets/images/eor-poland-wroclaw-facades.webp
+  cards:
+    - title: Contrataciones de la UE
+      description: >-
+        La tarifa base de EOR cubre todo: contrato, alta, Seguridad Social,
+        impuesto sobre la renta, nómina y gestión del ahorro para la
+        jubilación.
+    - title: Contrataciones de fuera de la UE
+      description: >-
+        Se añaden costes de gestión de visado y compliance de extranjería.
+        Entregamos un desglose completo según la categoría de visado antes de
+        cualquier compromiso.
+    - variant: outline
+      title: ¿Por qué importa un precio transparente?
+      description: >-
+        La nómina polaca no tiene partidas ocultas. Cada coste lo marca la ley.
+        Te mostramos el cálculo, no una cifra redondeada que choca cuando llega
+        la primera factura.
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied by the client.
+faq:
+  eyebrow: EMPLOYER OF RECORD POLONIA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en Polonia?
+      answer: >-
+        Sí. El EOR es una estructura laboral reconocida en el derecho polaco.
+        No se exige una licencia especial para operar como proveedor de EOR en
+        Polonia: la responsabilidad de compliance recae en la ejecución del
+        EOR, no en una credencial regulatoria.
+    - question: ¿Qué es exactamente el PPK (ahorro obligatorio para la jubilación) y por qué importa?
+      answer: >-
+        El PPK es un programa obligatorio de ahorro para la jubilación. Los
+        empleadores deben inscribir a los empleados elegibles; aportas un
+        mínimo del 1,5 % del salario y los empleados aportan el 2 %. El
+        incumplimiento conlleva sanciones de hasta 1.000.000 PLN. Queda fuera
+        de la nómina estándar, así que es donde se rompe el compliance en
+        proveedores sin equipos de nómina dedicados que lo gestionen mes a mes.
+    - question: ¿Cuánto cuesta realmente la Seguridad Social?
+      answer: >-
+        Las cotizaciones empresariales a la Seguridad Social suman
+        aproximadamente un 19–21 % del salario bruto, además de la retribución
+        base. El tipo exacto depende del puesto. Lo calculamos con precisión
+        por cada contratación: no hay “aproximación” con la Seguridad Social
+        polaca.
+    - question: ¿Qué ocurre si mi empleado permanece más de 183 días en Polonia?
+      answer: >-
+        Si permanece más de 183 días en un año natural, se convierte en
+        residente fiscal polaco y debe declarar en Polonia sus rentas mundiales.
+        Señalamos este umbral de antemano.
+    - question: ¿Podemos contratar a alguien en remoto y que trabaje fuera de Polonia?
+      answer: >-
+        Si el trabajo se presta de forma habitual fuera de Polonia, se aplica
+        el derecho laboral de ese país, no el polaco. Si está en Polonia 183
+        días o más, es residente fiscal polaco en cualquier caso. Cuéntanos el
+        escenario y aclararemos las implicaciones fiscales y laborales antes
+        de contratar.
+    - question: ¿Cuál es la diferencia entre un contrato temporal y uno indefinido?
+      answer: >-
+        El derecho polaco permite contratos temporales de hasta 3 años en
+        total (incluidas las renovaciones). Los contratos indefinidos no tienen
+        fecha de fin. Los plazos de preaviso dependen de la antigüedad, no del
+        tipo de contrato. Estructuramos el tipo adecuado según tu necesidad de
+        contratación.
+    - question: ¿Quién es Iberia Workforce y cuál es vuestra estructura jurídica en Polonia?
+      answer: >-
+        Iberia Workforce opera como employer of record en Polonia a través de
+        nuestra propia entidad registrada en Varsovia, sin intermediario local.
+        Formamos parte de Connect Group. Nuestro equipo interno jurídico y de
+        nóminas gestiona tu contrato, las presentaciones a la Seguridad Social
+        y los visados de forma directa.
+
+closing:
+  heading: La ventaja de contratar en Polonia es la eficiencia. Hay que acertar.
+  # The desktop and tablet frames draw this two-paragraph lead; the mobile frame
+  # substitutes a one-liner. The full copy is followed here — the component sets
+  # it at the same scale at every width, so nothing is gained by truncating it.
+  body: >-
+    El cumplimiento de la Seguridad Social, la inscripción en el ahorro para la
+    jubilación, los disparadores de residencia fiscal, la clasificación de
+    autónomos: no ocurren por casualidad. Exigen abogados y especialistas de
+    nómina que sepan lo que hacen. Cuéntanos a quién necesitas contratar. Te
+    explicaremos la estructura adecuada, el coste mensual real y cada plazo
+    entre ahora y el primer día.

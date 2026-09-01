@@ -24,7 +24,6 @@ const otherScripts = scripts.filter((src) => !smartSliderSrc.has(src));
 ---
 
 {/* Smart Slider 3: live WP injects _N2 queue + SmartSliderSimple('n2-ss-*') inlines */}
-<script is:inline src="/scripts/smart-slider/bootstrap.js"></script>
 {smartSliderScripts.map((src) => <script is:inline src={src} />)}
 <script is:inline src="/scripts/smart-slider/init-home.js"></script>
 {/* WP `wp_localize_script` for Astra — without this, frontend.js throws and the hamburger never binds */}

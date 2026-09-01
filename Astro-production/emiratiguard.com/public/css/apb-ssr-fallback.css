@@ -1,0 +1,161 @@
+/**
+ * /blog/ SSR Advanced Post Block cards — match Author Archive card layout.
+ * React hydration is stripped locally; these rules replace APB’s injected styles.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.wp-block-ap-block-posts {
+  width: 100%;
+}
+.wp-block-ap-block-posts .apbGridPosts,
+.wp-block-ap-block-posts .apbGridPosts[data-sp-blog-apb="1"] {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .wp-block-ap-block-posts .apbGridPosts,
+  .wp-block-ap-block-posts .apbGridPosts[data-sp-blog-apb="1"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .wp-block-ap-block-posts .apbGridPosts,
+  .wp-block-ap-block-posts .apbGridPosts[data-sp-blog-apb="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.wp-block-ap-block-posts .apbPost,
+.wp-block-ap-block-posts .apbPost.apbDefault {
+  background: #f4f2fc;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb {
+  position: relative;
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 0;
+  padding-bottom: 60%;
+  margin: 0;
+  overflow: hidden;
+  flex: 0 0 auto;
+  align-self: stretch;
+  background: #e8e3f5;
+  background-size: cover;
+  background-position: center;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb img,
+.wp-block-ap-block-posts .apbPost .apbThumb > a {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb img {
+  object-fit: cover;
+}
+
+.wp-block-ap-block-posts .apbPost .apbThumb--placeholder {
+  background: #e8e3f5;
+}
+
+.wp-block-ap-block-posts .apbPost .apbText {
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.wp-block-ap-block-posts .apbPost .apbTitle h3 {
+  font-family: "Roboto", sans-serif;
+  font-size: 25px;
+  line-height: 135%;
+  color: #000;
+  margin: 0 0 15px;
+  font-weight: 400;
+}
+
+.wp-block-ap-block-posts .apbPost .apbTitle a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wp-block-ap-block-posts .apbPost .apbTitle a:hover {
+  color: #4527a4;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  line-height: 135%;
+  margin-bottom: 15px;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta > span,
+.wp-block-ap-block-posts .apbPost .apbMeta .metaItem {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta .metaItem svg {
+  fill: currentColor;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta a {
+  color: #000;
+  text-decoration: none;
+}
+
+.wp-block-ap-block-posts .apbPost .apbMeta a:hover {
+  color: #4527a4;
+}
+
+.wp-block-ap-block-posts .apbPost .apbReadMore {
+  margin-top: auto;
+}
+
+.wp-block-ap-block-posts .apbPost .apbReadMore a {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 135%;
+  color: #000;
+  background: rgba(252, 187, 9, 1);
+  padding: 12px 35px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.wp-block-ap-block-posts .apbPost .apbReadMore a:hover {
+  color: #fff;
+  background: #4527a4;
+}

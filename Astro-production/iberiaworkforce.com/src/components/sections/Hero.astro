@@ -1,0 +1,113 @@
+---
+import { Image } from "astro:assets";
+import heroBackground from "../../assets/images/hero-background.webp";
+import badgeLaw from "../../assets/icons/badge-law.svg";
+import badgeProtect from "../../assets/icons/badge-protect.svg";
+import badgeGlobal from "../../assets/icons/badge-global.svg";
+import chevronRight from "../../assets/icons/chevron-right.svg";
+import { getUi } from "../../i18n/copy";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+const { t } = getUi(Astro.url.pathname);
+
+// Order is set by the content sheet, not the Figma frame: the ETT licence is
+// the strongest differentiator, so it leads.
+const badgeIcons = [badgeProtect, badgeLaw, badgeGlobal];
+const badges = t.hero.badges.map((label, i) => ({
+  icon: badgeIcons[i]!,
+  label,
+}));
+---
+
+<section class="relative isolate overflow-hidden bg-text-primary">
+  <!-- Pre-cropped to the section box, so it simply fills it -->
+  <Image
+    src={heroBackground}
+    alt=""
+    widths={[720, 1440, 2880]}
+    sizes="100vw"
+    class="pointer-events-none absolute inset-0 -z-20 size-full object-cover"
+    loading="eager"
+    fetchpriority="high"
+  />
+  {/*
+    Deep-navy radial wash that keeps the left-hand copy legible.
+
+    Sized as a proportion of the section, not the 895px square Figma draws: at
+    430px wide that fixed square is more than twice the viewport, and with a
+    210px blur its solid core covered the photograph completely — the hero read
+    as a flat navy block on every phone. 62% is the same ratio the square has to
+    the 1440 frame, so the desktop rendering is unchanged.
+  */}
+  <div
+    class="pointer-events-none absolute bottom-0 left-0 -z-10 aspect-square w-[62%] min-w-[260px] rounded-tr-[999px] bg-navy blur-[210px]"
+    aria-hidden="true"
+  >
+  </div>
+  {/*
+    The bloom alone cannot carry legibility once it is viewport-relative, so a
+    vertical scrim does the contrast work on narrow screens and fades out by the
+    time the bloom is large enough to do it alone.
+  */}
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-navy/80 via-navy/45 to-navy/70 lg:hidden"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="section-shell flex items-center gap-20 pt-12 pb-20 lg:pt-16 lg:pb-30">
+    <div class="flex w-full max-w-[845px] flex-col items-start gap-10">
+      <div class="flex w-full flex-col items-start gap-6">
+        <h1
+          class="text-display text-balance text-text-inverse"
+        >
+          {t.hero.heading}
+        </h1>
+
+        <div class="flex w-full max-w-[628px] flex-col items-start gap-8">
+          <ul class="flex flex-wrap items-center gap-x-6 gap-y-3">
+            {
+              badges.map((badge) => (
+                <li class="flex items-center gap-2">
+                  <Icon src={badge.icon} size={20} />
+                  <span class="text-caption font-medium tracking-[0.26px] text-text-inverse">
+                    {badge.label}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <p class="text-body-lg text-text-inverse">
+            {t.hero.body}
+          </p>
+        </div>
+      </div>
+
+      {/*
+        Stacked and full-bleed on mobile so both CTAs are equal-weight thumb
+        targets; side by side and content-width from sm up.
+      */}
+      <div class="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-start sm:gap-4">
+        <Button
+          variant="accent"
+          size="lg"
+          href="#contact-form"
+          class="w-full sm:w-auto"
+        >
+          {t.hero.cta}
+        </Button>
+        <Button
+          variant="secondary"
+          size="lg"
+          href="#services"
+          class="w-full sm:w-auto"
+        >
+          {t.hero.secondary}
+          <Icon src={chevronRight} size={20} tone="current" />
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

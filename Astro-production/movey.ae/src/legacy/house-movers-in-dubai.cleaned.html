@@ -119,7 +119,6 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link data-minify="1" rel='stylesheet' id='happy-icons-css' href='/wp-content/cache/min/1/wp-content/plugins/happy-elementor-addons/assets/fonts/style.min.css?ver=1786044450' media='all' />
 <link data-minify="1" rel='stylesheet' id='font-awesome-css' href='/wp-content/cache/min/1/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min.css?ver=1786044450' media='all' />
 <link rel='stylesheet' id='elementor-post-370-css' href='/wp-content/uploads/elementor/css/post-370.css?ver=1786044450' media='all' />
-<link rel="stylesheet" href="/css/movey-sections.css">
 <link data-minify="1" rel='stylesheet' id='elementskit-parallax-style-css' href='/wp-content/cache/min/1/wp-content/plugins/elementskit/modules/parallax/assets/css/style.css?ver=1786044450' media='all' />
 <link rel='stylesheet' id='us-style-css' href='/wp-content/themes/Impreza/css/style.min.css?ver=8.17.4' media='all' />
 <link data-minify="1" rel='stylesheet' id='theme-style-css' href='/wp-content/cache/min/1/wp-content/themes/Impreza-child/style.css?ver=1786044450' media='all' />
@@ -406,26 +405,17 @@ input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.
 <section class="movey-booking movey-booking--embed" id="movey-booking" aria-label="Get a moving quote">
   <div class="mb-embed-wrap">
     <nav class="mb-steps" aria-label="Booking progress">
-      <ol class="mb-steps__list">
-        <li class="mb-steps__item is-active" data-mb-step="1">
-          <span class="mb-steps__num" aria-hidden="true">1</span>
-          <span class="mb-steps__label">Moving location</span>
-        </li>
-        <li class="mb-steps__item" data-mb-step="2">
-          <span class="mb-steps__num" aria-hidden="true">2</span>
-          <span class="mb-steps__label">Required space</span>
-        </li>
-        <li class="mb-steps__item" data-mb-step="3">
-          <span class="mb-steps__num" aria-hidden="true">3</span>
-          <span class="mb-steps__label">Moving date</span>
-        </li>
-        <li class="mb-steps__item" data-mb-step="4">
-          <span class="mb-steps__num" aria-hidden="true">4</span>
-          <span class="mb-steps__label">Get a Quote</span>
-        </li>
-      </ol>
-      <div class="mb-steps__bar" aria-hidden="true">
-        <div class="mb-steps__fill" data-mb-fill></div>
+      <div class="mb-steps__item is-active" data-mb-step="1">
+        <span class="mb-steps__num">1</span> Moving location
+      </div>
+      <div class="mb-steps__item" data-mb-step="2">
+        <span class="mb-steps__num">2</span> Required space
+      </div>
+      <div class="mb-steps__item" data-mb-step="3">
+        <span class="mb-steps__num">3</span> Moving date
+      </div>
+      <div class="mb-steps__item" data-mb-step="4">
+        <span class="mb-steps__num">4</span> Get a Quote
       </div>
     </nav>
 
@@ -444,32 +434,25 @@ input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.
         <section class="mb-panel" data-mb-panel="1">
           <p class="mb-kicker">Setup</p>
           <h2 class="mb-title">Moving location</h2>
-          <div class="mb-field" data-field="phone">
-            <label for="mb-phone">What is your phone number?<span class="mb-req">*</span></label>
-            <div class="mb-phone" data-mb-phone-wrap>
-              <button type="button" class="mb-phone__code" data-mb-country-btn aria-label="Select country">
-                <span data-mb-flag>🇦🇪</span>
-                <span data-mb-dial>+971</span>
-                <span class="mb-phone__caret" aria-hidden="true">▾</span>
-              </button>
-              <input id="mb-phone" name="phone" type="tel" inputmode="numeric" placeholder="50 123 4567" autocomplete="tel-national" data-mb-phone-input />
+          <div class="mb-field">
+            <label for="mb-phone">What is your phone number?</label>
+            <div class="mb-phone">
+              <span class="mb-phone__code" aria-hidden="true">🇦🇪 +971</span>
+              <input id="mb-phone" name="phone" type="tel" inputmode="tel" placeholder="50 123 4567" autocomplete="tel-national" />
             </div>
-            <p class="mb-field__error" data-mb-err hidden></p>
           </div>
-          <div class="mb-field" data-field="from">
-            <label for="mb-from">Where are you moving from?<span class="mb-req">*</span></label>
+          <div class="mb-field">
+            <label for="mb-from">Where are you moving from?</label>
             <input id="mb-from" name="from" type="text" placeholder="Enter Address" autocomplete="street-address" />
-            <p class="mb-field__error" data-mb-err hidden></p>
             <p class="mb-hint"><a href="/contact-us/">Couldn't find your address?</a></p>
           </div>
-          <div class="mb-field" data-field="to">
-            <label for="mb-to">Where are you moving to?<span class="mb-req">*</span></label>
+          <div class="mb-field">
+            <label for="mb-to">Where are you moving to?</label>
             <input id="mb-to" name="to" type="text" placeholder="Enter Address" autocomplete="street-address" />
-            <p class="mb-field__error" data-mb-err hidden></p>
             <p class="mb-hint"><a href="/contact-us/">Couldn't find your address?</a></p>
           </div>
           <div class="mb-nav mb-nav--end">
-            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next Step →</button>
+            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
           </div>
         </section>
 
@@ -477,92 +460,72 @@ input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.
           <p class="mb-kicker">Quote</p>
           <h2 class="mb-title">How much space?</h2>
           <p class="mb-lead">
-            Ease your worries and entrust the heavy lifting to Movey in Dubai. Enjoy our fast, reliable,
-            and secure moving services. Seriously, moving has NEVER been this effortless and safe!
+            Choose your property type and how furnished your home is so we can estimate truck space.
           </p>
-          <h3 class="mb-subhead">What is your property?</h3>
+          <h3 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">What is your property?</h3>
           <div class="mb-cards" role="group" aria-label="Property type">
             <button type="button" class="mb-card is-selected" data-mb-select="property" data-value="Apartment">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-apartment.png" width="126" height="126" alt="" />
               <span class="mb-card__label">Apartment</span>
             </button>
             <button type="button" class="mb-card" data-mb-select="property" data-value="Townhouse">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-townhouse.png" width="126" height="126" alt="" />
-              <span class="mb-card__label">TownHouse</span>
+              <span class="mb-card__label">Townhouse</span>
             </button>
             <button type="button" class="mb-card" data-mb-select="property" data-value="Villa">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-villa.png" width="126" height="126" alt="" />
               <span class="mb-card__label">Villa</span>
             </button>
           </div>
-          <h3 class="mb-subhead">How many bedrooms do you have?</h3>
+          <h3 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">How many bedrooms do you have?</h3>
           <div class="mb-pills" role="group" aria-label="Bedrooms">
             <button type="button" class="mb-pill" data-mb-select="bedrooms" data-value="1">1</button>
             <button type="button" class="mb-pill is-selected" data-mb-select="bedrooms" data-value="2">2</button>
             <button type="button" class="mb-pill" data-mb-select="bedrooms" data-value="3">3</button>
             <button type="button" class="mb-pill" data-mb-select="bedrooms" data-value="4">4</button>
-            <button type="button" class="mb-pill" data-mb-select="bedrooms" data-value="+5">+5</button>
+            <button type="button" class="mb-pill" data-mb-select="bedrooms" data-value="5+">5+</button>
           </div>
-          <h3 class="mb-subhead">How furnished is your home?</h3>
+          <h3 class="mb-field" style="font-size:1.05rem;margin-bottom:0.65rem">How furnished is your home?</h3>
           <div class="mb-cards" role="group" aria-label="Furnishing">
-            <button type="button" class="mb-card is-selected" data-mb-select="furnished" data-value="Lightly (2 Adults)">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-furnished-light.png" width="126" height="126" alt="" />
-              <span class="mb-card__label">Lightly</span>
-              <span class="mb-card__hint">(2 Adults)</span>
+            <button type="button" class="mb-card is-selected" data-mb-select="furnished" data-value="Lightly (A few items)">
+              <span class="mb-card__label">Lightly (A few items)</span>
             </button>
-            <button type="button" class="mb-card" data-mb-select="furnished" data-value="Moderately (2 Adults + 1 Kid)">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-furnished-moderate.png" width="126" height="126" alt="" />
-              <span class="mb-card__label">Moderately</span>
-              <span class="mb-card__hint">(2 Adults + 1 Kid)</span>
+            <button type="button" class="mb-card" data-mb-select="furnished" data-value="Moderately (2-3 items / room)">
+              <span class="mb-card__label">Moderately (2-3 items / room)</span>
             </button>
-            <button type="button" class="mb-card" data-mb-select="furnished" data-value="Heavily (2 Adults + 3 Kids)">
-              <span class="mb-card__check" aria-hidden="true"></span>
-              <img class="mb-card__icon" src="/images/booking/icon-furnished-heavy.png" width="126" height="126" alt="" />
-              <span class="mb-card__label">Heavily</span>
-              <span class="mb-card__hint">(2 Adults + 3 Kids)</span>
+            <button type="button" class="mb-card" data-mb-select="furnished" data-value="Heavily (5+ items / room)">
+              <span class="mb-card__label">Heavily (5+ items / room)</span>
             </button>
           </div>
           <div class="mb-nav">
             <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
-            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next Step →</button>
+            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
           </div>
         </section>
 
         <section class="mb-panel" data-mb-panel="3" hidden>
           <p class="mb-kicker">Quote</p>
           <h2 class="mb-title">How much space?</h2>
-          <p class="mb-lead">
-            Don't worry, this is just an estimate! Once you complete your booking we will check to make
-            sure it's accurate. Plus, you only pay for what you use!
-          </p>
-          <h3 class="mb-subhead">Estimated number of truckloads you need:<span class="mb-req">*</span></h3>
-          <div class="mb-field" data-field="trucks">
-          <div class="mb-truck-wrap">
-            <div class="mb-truck-count">
-              <button type="button" class="mb-truck-count__btn" data-mb-trucks-delta="-1" aria-label="Fewer trucks">−</button>
-              <input id="mb-trucks" name="trucks" type="number" min="1" max="10" value="2" data-mb-trucks-input aria-label="Truckloads" />
-              <button type="button" class="mb-truck-count__btn" data-mb-trucks-delta="1" aria-label="More trucks">+</button>
-            </div>
-            <img class="mb-truck" src="/images/booking/movey-truck.png" width="678" height="429" alt="Movey moving truck" loading="lazy" />
+          <p class="mb-lead">This is an estimate — you only pay for the truck space you need.</p>
+          <div class="mb-field" style="max-width:14rem">
+            <label for="mb-trucks">Estimated number of truckloads you need:</label>
+            <input id="mb-trucks" name="trucks" type="number" min="1" max="10" value="2" data-mb-trucks-input />
           </div>
-          <p class="mb-field__error" data-mb-err hidden></p>
-          </div>
+          <img
+            class="mb-truck"
+            src="/wp-content/uploads/2024/03/AdobeStock_609972065-transformed-2.png"
+            width="611"
+            height="421"
+            alt="Movey moving truck"
+            loading="lazy"
+          />
           <div class="mb-nav">
             <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
-            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next Step →</button>
+            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
           </div>
         </section>
 
         <section class="mb-panel" data-mb-panel="4" hidden>
           <p class="mb-kicker">Quote</p>
           <h2 class="mb-title">Your Quote</h2>
-          <p class="mb-section-label">Moving details<span class="mb-req">*</span></p>
-          <div class="mb-field" data-field="date">
+          <p class="mb-kicker" style="margin-bottom:0.75rem">Moving details</p>
           <div class="mb-calendar" aria-label="Moving date calendar">
             <div class="mb-calendar__head">
               <button type="button" data-mb-cal-nav="-1" aria-label="Previous month">‹</button>
@@ -571,57 +534,37 @@ input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.
             </div>
             <div class="mb-calendar__grid" data-mb-cal-grid></div>
           </div>
-          <p class="mb-field__error" data-mb-err hidden></p>
-          </div>
           <div class="mb-nav">
             <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
-            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next Step →</button>
+            <button type="button" class="mb-btn mb-btn--primary" data-mb-action="next">Next step →</button>
           </div>
         </section>
 
         <section class="mb-panel" data-mb-panel="5" hidden>
           <p class="mb-kicker">Quote</p>
           <h2 class="mb-title">Your Quote</h2>
-          <p class="mb-section-label">Personal Details</p>
           <div class="mb-row-2">
-            <div class="mb-field" data-field="firstName">
-              <label for="mb-first">First Name<span class="mb-req">*</span></label>
-              <input id="mb-first" name="firstName" type="text" placeholder="First Name" autocomplete="given-name" />
-              <p class="mb-field__error" data-mb-err hidden></p>
+            <div class="mb-field">
+              <label for="mb-first">First Name</label>
+              <input id="mb-first" name="firstName" type="text" autocomplete="given-name" />
             </div>
-            <div class="mb-field" data-field="lastName">
-              <label for="mb-last">Last Name<span class="mb-req">*</span></label>
-              <input id="mb-last" name="lastName" type="text" placeholder="Last Name" autocomplete="family-name" />
-              <p class="mb-field__error" data-mb-err hidden></p>
+            <div class="mb-field">
+              <label for="mb-last">Last Name</label>
+              <input id="mb-last" name="lastName" type="text" autocomplete="family-name" />
             </div>
           </div>
-          <div class="mb-field" data-field="email">
-            <label for="mb-email">Email<span class="mb-req">*</span></label>
-            <input id="mb-email" name="email" type="email" placeholder="Email Address" autocomplete="email" />
-            <p class="mb-field__error" data-mb-err hidden></p>
+          <div class="mb-field">
+            <label for="mb-email">Email</label>
+            <input id="mb-email" name="email" type="email" autocomplete="email" />
           </div>
-          <div class="mb-field" data-field="phone2">
-            <label for="mb-phone-2">Phone Number<span class="mb-req">*</span></label>
-            <div class="mb-phone" data-mb-phone-wrap>
-              <button type="button" class="mb-phone__code" data-mb-country-btn aria-label="Select country">
-                <span data-mb-flag>🇦🇪</span>
-                <span data-mb-dial>+971</span>
-                <span class="mb-phone__caret" aria-hidden="true">▾</span>
-              </button>
-              <input id="mb-phone-2" name="phoneConfirm" type="tel" inputmode="numeric" placeholder="50 123 4567" data-mb-phone-mirror />
-            </div>
-            <p class="mb-field__error" data-mb-err hidden></p>
-          </div>
-          <div class="mb-field" data-field="contact">
-            <span class="mb-subhead" style="display:block">Preferred contact method<span class="mb-req">*</span></span>
+          <div class="mb-field">
+            <span style="font-weight:600;display:block;margin-bottom:0.45rem">Preferred Contact Method</span>
             <div class="mb-radios">
               <label><input type="radio" name="contactMethod" value="Phone" checked /> Phone</label>
               <label><input type="radio" name="contactMethod" value="Email" /> Email</label>
             </div>
-            <p class="mb-field__error" data-mb-err hidden></p>
           </div>
-          <p class="mb-submit-status" data-mb-submit-status hidden></p>
-          <div class="mb-nav mb-nav--end">
+          <div class="mb-nav">
             <button type="button" class="mb-btn mb-btn--outline" data-mb-action="back">← Back</button>
             <button type="button" class="mb-btn mb-btn--primary" data-mb-action="submit">Get Quotation ↓</button>
           </div>
@@ -631,13 +574,12 @@ input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.
       </div>
 
       <aside class="mb-summary" aria-label="Quote summary">
-        <p class="mb-summary__kicker">Quote</p>
-        <h2>Summary</h2>
+        <h2>Quote Summary</h2>
         <ul class="mb-summary__list" data-mb-summary></ul>
         <div class="mb-support">
           <h3>Do you need Support?</h3>
           <div class="mb-support__actions">
-            <a class="mb-btn mb-btn--primary" href="tel:+97143316688">Call Now!</a>
+            <a class="mb-btn mb-btn--pink" href="tel:+97143316688">Call NOW</a>
             <a class="mb-btn mb-btn--ghost" href="https://wa.me/97143316688" target="_blank" rel="noopener noreferrer">Whatsapp</a>
           </div>
         </div>

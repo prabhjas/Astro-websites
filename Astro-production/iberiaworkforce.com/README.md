@@ -9,7 +9,7 @@ Aligned with **CONNECT-ASTRO-FLEET-STANDARD** (Astro 7.1.6, Node adapter, file-b
 - **Astro 7.1.6** static output + **@astrojs/node 11.0.3** standalone (`npm start`)
 - **Tailwind CSS 4** via `@tailwindcss/vite`
 - Self-hosted **Inter** font
-- **@astrojs/sitemap** with EN/ES hreflang
+- Sitemap at `/sitemap-index.xml` → `/sitemap-0.xml` (EN + ES loc entries; hreflang in HTML)
 
 ## Pages
 | Route | Spanish | Purpose |

@@ -54,6 +54,40 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       {
+        // Astro installs trailingSlashMiddleware via unshift in a post-hook and
+        // 404s bare paths when trailingSlash is "always". Run after that hook and
+        // unshift again so we redirect `/author` → `/author/` instead.
+        name: "sp-trailing-slash-redirect",
+        configureServer(server) {
+          return () => {
+            server.middlewares.stack.unshift({
+              route: "",
+              handle(
+                /** @type {import('node:http').IncomingMessage} */ req,
+                /** @type {import('node:http').ServerResponse} */ res,
+                /** @type {(err?: unknown) => void} */ next,
+              ) {
+                const raw = req.url || "/";
+                const q = raw.indexOf("?");
+                const pathOnly = q === -1 ? raw : raw.slice(0, q);
+                const search = q === -1 ? "" : raw.slice(q);
+                if (
+                  pathOnly.length > 1 &&
+                  !pathOnly.endsWith("/") &&
+                  !/\.[a-z0-9]+$/i.test(pathOnly)
+                ) {
+                  res.statusCode = 308;
+                  res.setHeader("Location", `${pathOnly}/${search}`);
+                  res.end();
+                  return;
+                }
+                next();
+              },
+            });
+          };
+        },
+      },
+      {
         name: "sp-serve-swiper",
         configureServer(server) {
           server.middlewares.use((req, res, next) => {

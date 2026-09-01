@@ -1,0 +1,142 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAuthors, getPostsByAuthor, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = false;
+
+function displayName(raw: string) {
+  const name = stripHtml(raw).trim();
+  let base = name.includes("@") ? name.split("@")[0] || name : name;
+  base = base.replace(/[._-]+/g, " ").trim();
+  return base.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function avatarSrc(url: string, size = 600) {
+  if (!url) return url;
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("gravatar.com")) {
+      u.searchParams.set("s", String(size));
+      return u.toString();
+    }
+  } catch {
+    /* keep original */
+  }
+  return url.replace(/([?&]s=)\d+/i, `$1${size}`);
+}
+
+const authors = getAuthors()
+  .map((author) => {
+    const postCount = getPostsByAuthor(author.id).length;
+    const designation = stripHtml(author.description).trim();
+    return {
+      ...author,
+      displayName: displayName(author.name),
+      postCount,
+      designation,
+      avatarLarge: avatarSrc(author.avatar, 600),
+    };
+  })
+  .sort((a, b) => {
+    if (b.postCount !== a.postCount) return b.postCount - a.postCount;
+    return a.displayName.localeCompare(b.displayName);
+  })
+  .filter((author) => author.postCount > 0);
+---
+
+<BaseLayout
+  currentPath="/author/"
+  menuActivePath="/blog/"
+  bodyClass="sp-archive-page sp-authors-page"
+  seo={{
+    title: "Authors | SP Heavy Rental",
+    description: "Browse articles by author from S&P Heavy Machinery Rental.",
+    canonical: "/author/",
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Authors", url: "/author/" },
+      ]),
+    ],
+  }}
+>
+  <section class="sp-authors-hero" aria-label="Authors">
+    <div class="sp-authors-hero__media" aria-hidden="true">
+      <picture>
+        <source
+          srcset="/wp-content/uploads/authors/authors-hero.webp"
+          type="image/webp"
+        />
+        <img
+          class="sp-authors-hero__img"
+          src="/wp-content/uploads/authors/authors-hero.jpg"
+          alt=""
+          width="1920"
+          height="424"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </picture>
+      <span class="sp-authors-hero__overlay"></span>
+    </div>
+    <div class="sp-authors-hero__inner sp-container">
+      <h1 class="sp-authors-hero__title">Authors</h1>
+    </div>
+  </section>
+
+  <section class="sp-archive-body sp-authors-body">
+    <div class="sp-container">
+      {
+        authors.length ? (
+          <ul class="sp-author-directory">
+            {authors.map((author) => (
+              <li>
+                <a class="sp-author-card" href={author.path}>
+                  <span class="sp-author-card__media">
+                    {author.avatar ? (
+                      <img
+                        src={author.avatarLarge}
+                        alt=""
+                        width="310"
+                        height="302"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <span class="sp-author-card__initial" aria-hidden="true">
+                        {author.displayName.slice(0, 1)}
+                      </span>
+                    )}
+                  </span>
+                  <span class="sp-author-card__meta">
+                    <span class="sp-author-card__row">
+                      <span class="sp-author-card__name">{author.displayName}</span>
+                      <span class="sp-author-card__social" aria-hidden="true">
+                        <img
+                          src="/wp-content/uploads/authors/linkedin.svg"
+                          alt=""
+                          width="24"
+                          height="24"
+                        />
+                      </span>
+                    </span>
+                    <span class="sp-author-card__role">
+                      {author.designation
+                        ? author.designation
+                        : author.postCount === 1
+                          ? "1 article"
+                          : `${author.postCount} articles`}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="sp-archive-empty">No authors found.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

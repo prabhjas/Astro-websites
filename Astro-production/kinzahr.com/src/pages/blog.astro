@@ -4,19 +4,74 @@
  * Load More uses /api/blog/load-more (WP admin-ajax is not available on Astro).
  */
 import { serveLegacyPage } from '../lib/legacy-page.js';
+import { buildInsightsCardHtml, getAllBlogPosts, getCategorySlug } from '../lib/blog.ts';
+import * as cheerio from 'cheerio';
 
 export const prerender = false;
 
 const INITIAL_CARDS = 6; // ECS "Latest Insights" renders 6 cards in the static HTML
 const PER_PAGE = 6; // matches live ECS load-more page size
+const CATEGORY_IDS: Record<string, string> = {
+  '1': 'business',
+  '58': 'emiratisation',
+  '14': 'employer-of-record',
+  '327': 'executive-search',
+  '40': 'hr',
+  '25': 'job-seeking',
+  '33': 'jobs',
+  '48': 'news',
+  '97': 'services',
+  '20': 'staffing',
+  '291': 'uae-laws',
+  '19': 'uncategorized',
+};
 
-function decorateBlogLoadMore(html: string): string {
+function injectLatestBlogCards(html: string, categorySlug: string): string {
+  const $ = cheerio.load(html);
+  const grid = $('.ecs-posts.elementor-posts-container').first();
+  if (grid.length) {
+    const posts = getAllBlogPosts().filter((post) => {
+      return !categorySlug || post.categories.some((category) => getCategorySlug(category) === categorySlug);
+    });
+    grid.html(posts.slice(0, INITIAL_CARDS).map(buildInsightsCardHtml).join('\n'));
+  }
+  const insightsSection = $('.elementor-element-0e45a08').first();
+  if (insightsSection.length) {
+    insightsSection.attr('id', 'latest-insights').css('scroll-margin-top', '100px');
+  }
+  const form = $('#cat').first().closest('form');
+  if (form.length) {
+    form.attr('action', '/blog/#latest-insights');
+    $('#cat option').each((_, option) => {
+      const originalValue = String($(option).attr('value') || '');
+      const optionSlug = String($(option).text() || '')
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      if (originalValue !== '-1' && optionSlug) {
+        $(option).attr('value', optionSlug);
+      }
+      if (categorySlug && optionSlug === categorySlug) {
+        $(option).attr('selected', 'selected');
+      }
+    });
+  }
+  let output = $.html();
+  output = output.replace(
+    "dropdown.value && parseInt( dropdown.value ) > 0",
+    "dropdown.value && dropdown.value !== '-1'",
+  );
+  return output;
+}
+
+function decorateBlogLoadMore(html: string, categorySlug: string): string {
   let out = html;
 
   // Mark ECS load-more nav for our client script
   out = out.replace(
     /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${PER_PAGE}" data-offset="${INITIAL_CARDS}" data-loading-text="Loading...">`,
+    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${PER_PAGE}" data-offset="${INITIAL_CARDS}" data-category="${categorySlug}" data-loading-text="Loading...">`,
   );
 
   // Point button away from /blog/?page=2 full navigation
@@ -46,6 +101,36 @@ function decorateBlogLoadMore(html: string): string {
     );
   }
 
+  if (!out.includes('astro-blog-section-anchor')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script id="astro-blog-section-anchor">
+(function () {
+  var categorySelect = document.getElementById('cat');
+  if (categorySelect) {
+    categorySelect.addEventListener('change', function (event) {
+      if (categorySelect.value !== '-1' || !window.location.search) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.location.href = '/blog/#latest-insights';
+    }, true);
+  }
+  if (window.location.hash !== '#latest-insights') return;
+  function alignLatestInsights() {
+    var section = document.getElementById('latest-insights');
+    if (!section) return;
+    var top = section.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo(0, Math.max(0, top));
+  }
+  window.addEventListener('load', function () {
+    window.setTimeout(alignLatestInsights, 100);
+  });
+})();
+</script>
+</body>`,
+    );
+  }
+
   return out;
 }
 
@@ -54,7 +139,13 @@ if (legacy.status !== 200) {
   return legacy;
 }
 
-const html = decorateBlogLoadMore(await legacy.text());
+const requestedCategory = Astro.url.searchParams.get('cat') || Astro.url.searchParams.get('category') || '';
+const categorySlug =
+  requestedCategory === '-1' || requestedCategory === 'select-category'
+    ? ''
+    : CATEGORY_IDS[requestedCategory] ||
+      requestedCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const html = decorateBlogLoadMore(injectLatestBlogCards(await legacy.text(), categorySlug), categorySlug);
 
 return new Response(html, {
   headers: {

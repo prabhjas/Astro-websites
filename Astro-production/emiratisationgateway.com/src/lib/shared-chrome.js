@@ -294,8 +294,8 @@ function stripHashParentMenuLinks(html) {
     if (!isMenu) return tag;
     let next = attrs;
     let changed = false;
-    if (/\bhref\s*=\s*(["'])#\1/.test(next)) {
-      next = next.replace(/\s*href\s*=\s*(["'])#\1/, '');
+    if (/\bhref\s*=\s*(["'])(?:\/)?#(?:\/)?\1/.test(next)) {
+      next = next.replace(/\s*href\s*=\s*(["'])(?:\/)?#(?:\/)?\1/, '');
       if (!/\brole\s*=/.test(next)) next += ' role="button"';
       if (!/\btabindex\s*=/.test(next)) next += ' tabindex="0"';
       changed = true;

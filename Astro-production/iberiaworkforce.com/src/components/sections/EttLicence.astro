@@ -1,0 +1,127 @@
+---
+import dotFilled from "../../assets/icons/dot-filled.svg";
+import externalLink from "../../assets/icons/external-link.svg";
+import { getUi } from "../../i18n/copy";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+const { t } = getUi(Astro.url.pathname);
+
+const credentials = [
+  { label: t.ett.authNo, value: "69/0049/26" },
+  { label: t.ett.nif, value: "B23977879" },
+  { label: t.ett.labourAuthority, value: "Cataluña" },
+];
+
+/**
+ * The credentials are typed in rather than faded in — the section's claim is
+ * that these numbers are real and publicly checkable, and watching them land
+ * one character at a time is the reading of that claim.
+ *
+ * The per-character delay is resolved here rather than in CSS because the three
+ * values type in *sequence*: one counter runs across all of them, so the gap
+ * between one value finishing and the next starting is spent as four steps of
+ * silence. `Array.from` rather than `split("")` so `Cataluña`'s ñ stays one
+ * character.
+ */
+let step = 0;
+const typed = credentials.map((credential) => {
+  const chars = Array.from(credential.value).map((char) => ({
+    char,
+    step: step++,
+  }));
+  step += 4;
+  return { ...credential, chars };
+});
+---
+
+<section
+  id="ett-licence"
+  class="bg-bg-surface pt-20 pb-10 lg:pt-30"
+  aria-labelledby="ett-licence-heading"
+>
+  <div class="section-shell flex flex-col items-stretch gap-6 lg:flex-row">
+    <div
+      class="flex flex-1 flex-col items-start justify-center gap-8 rounded-xl bg-bg-page p-10"
+      data-reveal
+    >
+      <div class="flex w-full flex-col items-start gap-4">
+        <div class="flex w-full flex-col items-start gap-3">
+          {/* The raw #e2724c measures 2.62:1 on this cream card at 12px; the
+              text-link token is the same hue resolved dark enough to read. */}
+          <p class="flex items-center gap-2 text-micro text-text-link">
+            <Icon src={dotFilled} size={16} />
+            {t.ett.eyebrow}
+          </p>
+          <h2
+            id="ett-licence-heading"
+            class="text-h2 text-text-primary"
+          >
+            {t.ett.heading}
+          </h2>
+        </div>
+        <p class="max-w-[68ch] text-body text-text-secondary">
+          {t.ett.body}
+        </p>
+      </div>
+
+      <dl
+        class="flex w-full flex-col items-stretch gap-4 sm:flex-row"
+        data-reveal="type"
+      >
+        {
+          typed.map((credential) => (
+            <div class="flex flex-1 flex-col items-start gap-1.5 rounded-lg border border-border-subtle bg-bg-surface p-4">
+              <dt class="text-micro whitespace-nowrap text-text-secondary">
+                {credential.label}
+              </dt>
+              <dd class="text-h5 whitespace-nowrap text-text-primary">
+                {/*
+                  The value twice: once whole for assistive tech, once split for
+                  the animation. Splitting a string into per-character spans
+                  makes some screen readers spell it out, and the animated copy
+                  spends its first second at `visibility: hidden`, which they
+                  skip entirely — so the plain copy is the one they read, and
+                  `aria-hidden` keeps them from meeting the other.
+                */}
+                <span class="sr-only">{credential.value}</span>
+                <span aria-hidden="true">
+                  {credential.chars.map(({ char, step }) => (
+                    <span data-char style={`--char-i:${step}`}>
+                      {char}
+                    </span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div
+      class="flex w-full flex-col items-start justify-center gap-6 rounded-xl bg-navy p-10 lg:w-[380px] lg:shrink-0"
+      data-reveal
+      style="--reveal-i:1"
+    >
+      <h3 class="text-h3 text-text-inverse">{t.ett.verifyHeading}</h3>
+      <p class="text-body text-[#94a9c0]">
+        {t.ett.verifyBody}
+      </p>
+      <Button
+        variant="accent"
+        size="md"
+        block
+        external
+        href="https://expedientes.mites.gob.es/sigett/"
+        class="bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text"
+      >
+        {t.ett.verifyCta}
+        <Icon src={externalLink} size={20} tone="current" />
+      </Button>
+      <p class="text-micro text-[#94a9c0]">
+        {t.ett.verifyFoot}
+      </p>
+    </div>
+  </div>
+</section>

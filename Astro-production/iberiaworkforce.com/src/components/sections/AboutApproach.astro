@@ -1,0 +1,59 @@
+---
+/**
+ * "Understand your goals. Handle the Spanish complexity. Keep you compliant."
+ *
+ * The page's one Display-scale claim, ruled off from the paragraph that
+ * qualifies it, with a portrait photograph holding a 519px column beside it.
+ * The rule is a real hairline between the two, not a gap: the claim is three
+ * sentences of assertion and the paragraph is the caveat, and the frames draw
+ * the line as the join between them.
+ *
+ * As on the ETT band above, the photograph is last in source order and takes
+ * the right-hand column only at `lg` — both narrow frames put it under the
+ * copy, and the 768 one centres it at its drawn 519px rather than stretching it
+ * across the 688px measure.
+ */
+import { Image } from "astro:assets";
+import walkway from "../../assets/images/about-approach-walkway.webp";
+import { getUi } from "../../i18n/copy";
+
+const { t } = getUi(Astro.url.pathname);
+const a = t.aboutApproach;
+---
+
+<section
+  class="bg-bg-surface py-20 lg:py-30"
+  aria-labelledby="about-approach-heading"
+>
+  <div
+    class="section-shell flex flex-col items-start gap-10 lg:flex-row lg:items-center lg:gap-20"
+  >
+    <div class="flex w-full flex-col items-start gap-10 lg:flex-1" data-reveal>
+      <h2
+        id="about-approach-heading"
+        class="text-display text-balance text-text-primary"
+      >
+        {a.heading}
+      </h2>
+      <hr class="w-full border-t border-border-subtle" />
+      <p class="text-body-lg text-text-secondary">
+        {a.body}
+      </p>
+    </div>
+
+    <div
+      class="w-full overflow-hidden rounded-xl md:max-w-[519px] md:self-center lg:w-[519px] lg:shrink-0"
+      data-reveal
+      style="--reveal-i:1"
+    >
+      <Image
+        src={walkway}
+        alt={a.alt}
+        widths={[390, 519, 780, 1038]}
+        sizes="(min-width: 768px) 519px, 100vw"
+        class="aspect-[519/640] size-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>

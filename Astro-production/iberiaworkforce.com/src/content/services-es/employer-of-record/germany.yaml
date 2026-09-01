@@ -1,0 +1,313 @@
+# Employer of Record — Germany country page.
+# Figma nodes 100-199 (1440), 184-1755 (768), 184-1756 (430).
+# Renders through src/pages/[...slug].astro -> CountryTemplate.astro.
+#
+# The third country page, and the one that proves the shape stretches rather
+# than forks. Four differences from Spain and Portugal, all of them switches on
+# sections that already existed:
+#   - the "what is" band puts its photograph on the right (`imagePosition`);
+#   - "why it works differently" is a light band with no photograph behind it,
+#     and hangs its prompt and CTA off the prose column rather than the claim;
+#   - "why choose us" is two cards on the cream contour texture, not a list;
+#   - pricing is explained rather than quoted, as Portugal's is.
+type: country
+label: Employer of Record en Alemania
+
+seo:
+  title: Employer of Record en Alemania | Iberia Workforce
+  description: >-
+    Employer of Record en Alemania. Licencia AÜG, comité de empresa e
+    igualdad salarial gestionados de forma directa, no a través de un socio
+    de cesión.
+  schema:
+    serviceName: Servicios de Employer of Record Alemania
+    serviceType: Employer of Record
+    areaServed: Alemania
+    # No address: the brief marks this page's office location PENDING, and an
+    # invented city in structured data is worse than an absent one. Add it
+    # here when the client confirms.
+
+hero:
+  tone: light
+  # The gate is centred in its own photograph, so the street-scene default that
+  # anchors the Iberian heroes right would crop the phone hero to a colonnade.
+  imageFocus: center
+  heading: Employer of Record en Alemania
+  subheading: Con licencia AÜG y pensado para los plazos que la mayoría de los proveedores no cumplen
+  badges:
+    - icon: protect
+      label: Licencia AÜG
+    - icon: law
+      label: Respaldados por un despacho de abogados
+    - icon: employee
+      label: Experiencia con comités de empresa
+  body: >-
+    No hace falta una entidad para contratar en Alemania. Tenemos la licencia
+    AÜG de forma directa y rastreamos cada plazo legal que dispara tu
+    contratación —revisión del comité de empresa, el incremento de igualdad
+    salarial al noveno mes, el tope de cesión a los dieciocho meses— para que
+    te enteres de cada uno por nosotros primero.
+  image: ../../../assets/images/eor-germany-hero-background-desktop.webp
+  imageTablet: ../../../assets/images/eor-germany-hero-background-tablet.webp
+  imageMobile: ../../../assets/images/eor-germany-hero-background-mobile.webp
+  imageAlt: ""
+  primaryCta:
+    label: Habla con un especialista
+    href: "#contact-form"
+  secondaryCta:
+    label: ¿Cómo funciona?
+    href: "#how-it-works"
+
+intro:
+  eyebrow: EMPLOYER OF RECORD EN ALEMANIA
+  heading: ¿Qué es un Employer of Record en Alemania?
+  imagePosition: right
+  image: ../../../assets/images/eor-germany-definition.webp
+  imageAlt: Un consultor de pie en una pasarela de un atrio de oficinas moderno en Alemania
+  paragraphs:
+    - >-
+      En Alemania, el employer of record se encuadra en una categoría jurídica
+      concreta: Arbeitnehmerüberlassung (cesión de trabajadores) al amparo de
+      la AÜG. Esa clasificación implica que el proveedor debe tener una
+      licencia de cesión emitida por la Agentur für Arbeit para poder operar.
+    - >-
+      Tú diriges el trabajo, defines el puesto y gestionas el rendimiento.
+      Nosotros tenemos la licencia, contratamos al trabajador sobre el papel,
+      gestionamos la nómina a través del sistema alemán de Seguridad Social y
+      asumimos las obligaciones de compliance que la AÜG asigna al empleador
+      cedente.
+
+differentiator:
+  # Light and photograph-free: this page argues the point in ink on white, with
+  # the prompt and the button under the prose rather than under the claim.
+  tone: light
+  surface: surface
+  ctaPlacement: prose
+  heading: ¿Por qué el Employer of Record funciona de otra manera en Alemania?
+  highlight: Employer of Record
+  paragraphs:
+    - >-
+      El derecho alemán clasifica el EOR como cesión de trabajadores con
+      licencia, y el requisito de licencia recae en el proveedor, no en el
+      cliente. Algunos proveedores activos en Alemania no tienen esa licencia
+      de forma directa: canalizan tu contratación a través de un socio local
+      que sí la tiene, lo que genera una responsabilidad que ninguna de las
+      partes suele esperar hasta que aparece.
+    - >-
+      Nosotros tenemos la licencia de forma directa. Eso es la base, no el
+      argumento comercial. La conversación de verdad es lo que pilla por
+      sorpresa a los empleadores una vez que la contratación está en marcha: un
+      comité de empresa con voz en la decisión, un recálculo de igualdad
+      salarial al noveno mes, un plazo de cesión al mes dieciocho que necesita
+      un plan antes de llegar.
+  prompt: ¿Más preguntas antes de comprometerte?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+whyChoose:
+  layout: cards
+  surface: page
+  background: ../../../assets/images/contour-texture-cream.webp
+  heading: ¿Por qué elegir Iberia Workforce para EOR en Alemania?
+  items:
+    - title: Coordinamos con los comités de empresa antes de que se conviertan en un obstáculo.
+      description: >-
+        Las empresas alemanas con un Betriebsrat electo tienen derechos de
+        cogestión sobre determinadas decisiones de contratación, y un comité de
+        empresa puede oponerse a una medida de personal, retrasando o bloqueando
+        la incorporación. La mayoría de los empleadores extranjeros no saben que
+        existe un comité hasta que llega la oposición. Nosotros lo comprobamos
+        antes de que la contratación siga adelante.
+    - title: >-
+        Integramos el cambio de igualdad salarial a los nueve meses en tu
+        presupuesto desde el primer día.
+      description: >-
+        El Gleichstellungsgrundsatz implica que, una vez que un trabajador
+        cedido supera nueve meses en la misma asignación, su retribución debe
+        igualar a la de un empleado interno comparable en tu empresa: misma
+        banda salarial, mismos bonus, mismos beneficios. Modelamos ese ajuste
+        en tus proyecciones de coste en el momento de la contratación, para que
+        el mes nueve sea un número que ya esperabas.
+
+howItWorks:
+  heading: ¿Cómo funciona el Employer of Record en Alemania?
+  steps:
+    - title: Cuéntanos a quién necesitas contratar
+      description: >-
+        Puesto, ubicación, fecha de incorporación y banda salarial. ¿Nacional
+        de la UE/EEE, o esta contratación necesita un visado de trabajador
+        cualificado o una Tarjeta Azul UE? Indicamos si tu plantilla sitúa el
+        puesto en el ámbito de cogestión del comité de empresa antes de que
+        nada siga adelante.
+      image: ../../../assets/images/step-01-brief.webp
+      imageAlt: Dos compañeros en un escritorio de oficina revisando un documento juntos
+    - title: Nosotros gestionamos el alta, el contrato y las autorizaciones
+      description: >-
+        Contrato de trabajo redactado para cumplir los requisitos de cesión de
+        la AÜG. Alta en la Deutsche Rentenversicherung y en la Krankenkasse del
+        empleado. Notificación al comité de empresa cuando proceda. Patrocinio
+        de visado para contrataciones de fuera de la UE. Tú apruebas las
+        condiciones. Nosotros tramitamos.
+      image: ../../../assets/images/step-02-contract.webp
+      imageAlt: Una persona firmando un contrato de trabajo impreso en un escritorio
+    - title: Tu empleado empieza, y los plazos pasan a ser nuestra responsabilidad
+      description: >-
+        La nómina mensual contempla el desglose completo de cotizaciones
+        sociales —pensión, salud, dependencia y desempleo— más el
+        mantenimiento íntegro del salario si hay baja por enfermedad.
+        Rastreamos la fecha de igualdad salarial a los nueve meses y el tope de
+        cesión a los dieciocho desde el primer día, y te presentamos un plan de
+        transición mucho antes de que llegue cualquiera de los dos.
+      image: ../../../assets/images/step-03-onboarding.webp
+      imageAlt: Un nuevo empleado siendo recibido en un espacio de trabajo abierto
+  prompt: ¿Listo para contratar en Alemania sin asumir el riesgo jurídico?
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+included:
+  columns: 3
+  surface: surface
+  align: center
+  heading: ¿Qué incluyen los servicios de Employer of Record en Alemania?
+  items:
+    - icon: contract-briefcase
+      title: Contratos de trabajo y cumplimiento AÜG
+      description: >-
+        Redactados para satisfacer los requisitos de cesión de la AÜG, con las
+        condiciones de la asignación estructuradas para evitar la exposición a
+        cesiones en cadena.
+    - icon: pay-envelope
+      title: Nómina y alta en la Deutsche Rentenversicherung
+      description: >-
+        Nómina mensual que cubre el desglose completo de cotizaciones sociales
+        —pensión, salud, dependencia y desempleo, aproximadamente un 19–21 % de
+        coste empresarial sobre el salario bruto— registrada de forma directa
+        en la Deutsche Rentenversicherung y en la Krankenkasse del empleado.
+    - icon: sick-pay
+      title: Baja por enfermedad y continuación del salario
+      description: >-
+        Continuación íntegra del salario hasta seis semanas por enfermedad
+        (Lohnfortzahlung im Krankheitsfall), calculada y tramitada
+        correctamente desde el primer día de ausencia.
+    - icon: works-council
+      title: Coordinación con el comité de empresa
+      description: >-
+        Notificación y consulta con el Betriebsrat del cliente cuando aplican
+        derechos de cogestión al amparo de la Betriebsverfassungsgesetz,
+        gestionadas antes de que la contratación siga adelante, no después de
+        que aparezca una oposición.
+    - icon: permit-passport
+      title: Permisos de trabajo y patrocinio de visados
+      description: >-
+        Solicitudes de visado de trabajador cualificado y Tarjeta Azul UE para
+        contrataciones de fuera de la UE, gestionadas internamente con
+        nuestros abogados de extranjería.
+    - icon: probation-support
+      title: Protección frente al despido y gestión del tope de cesión
+      description: >-
+        La protección plena de la Kündigungsschutzgesetz se aplica de forma
+        automática a partir del mes siete en empresas que cumplen los
+        requisitos: estructuramos las extinciones para que resistan una
+        impugnación. En paralelo, rastreamos de forma continua la
+        Höchstüberlassungsdauer de dieciocho meses y te presentamos opciones
+        —renovar el contrato, convertir a contratación directa o reestructurar
+        el puesto— antes de que el plazo fuerce la decisión por ti.
+
+pricingNote:
+  heading: Precios de Employer of Record en Alemania
+  paragraphs:
+    - >-
+      El precio en Alemania refleja la configuración concreta de tu
+      contratación: el nivel de patrocinio de visado, la plantilla y la
+      complejidad del comité de empresa influyen en el coste. Ponte en contacto
+      para un presupuesto que se ajuste a tu contratación real.
+  background: ../../../assets/images/eor-germany-skyline.webp
+  # The crop ships with the frame's navy duotone baked in — see the note on
+  # `backgroundStrength` in ServicePricingNote.
+  backgroundStrength: full
+  cta:
+    label: Habla con un especialista
+    href: "#contact-form"
+
+# Figma draws the accordion closed and specifies only the questions; the answers
+# below were supplied separately by the client, as Portugal's were. Six of the
+# questions arrived worded more fully than the design draws them — "What happens
+# after 18 months?" against "…with the same employer of record?", and so on. The
+# client's wording is the one used here; the design is the one worth updating.
+faq:
+  eyebrow: EMPLOYER OF RECORD ALEMANIA
+  heading: Preguntas frecuentes
+  items:
+    - question: ¿Es legal el employer of record en Alemania?
+      answer: >-
+        Sí. El EOR en Alemania opera al amparo de la AÜG
+        (Arbeitnehmerüberlassungsgesetz) como una forma de cesión de
+        trabajadores. El proveedor debe tener una licencia de cesión emitida
+        por la Agentur für Arbeit. Nosotros tenemos la nuestra de forma
+        directa, no a través de un socio local, lo que crearía un
+        esquema ilegal de cesión en cadena.
+    - question: ¿Qué ocurre después de 18 meses con el mismo employer of record?
+      answer: >-
+        La ley alemana limita la cesión continua a un mismo cliente a 18 meses
+        (Höchstüberlassungsdauer), que solo se reinicia con una interrupción
+        real de tres meses y un día. Empezamos a planificar la transición
+        —renovación del contrato, contratación directa o un puesto
+        reestructurado— mucho antes del mes 18, no como un apuro de última
+        hora.
+    - question: ¿Tiene que aprobar un comité de empresa mi contratación?
+      answer: >-
+        Si tu empresa tiene un Betriebsrat electo, puede tener derechos de
+        cogestión sobre la contratación al amparo de la Betriebsverfassungsgesetz,
+        y puede oponerse a determinadas decisiones de personal. Lo
+        comprobamos antes de que la contratación siga adelante, no después de
+        que una oposición la paralice.
+    - question: ¿Qué ocurre a los nueve meses con la regla de igualdad salarial?
+      answer: >-
+        Cuando un trabajador cedido alcanza nueve meses en la misma asignación,
+        el principio de igualdad salarial de Alemania (Gleichstellungsgrundsatz)
+        se aplica de forma automática: salario y beneficios se igualan a los de
+        un empleado interno comparable en tu empresa. Integramos ese incremento
+        en el presupuesto de la contratación desde el primer día, para que el
+        mes nueve no sea información nueva cuando llegue.
+    - question: ¿Puede un EOR patrocinar un visado de trabajador cualificado o una Tarjeta Azul UE?
+      answer: >-
+        Sí. Gestionamos internamente la solicitud y la documentación de apoyo
+        para el visado de trabajador cualificado y la Tarjeta Azul UE, y
+        asumimos las obligaciones continuas de compliance que conlleva
+        patrocinar una contratación de fuera de la UE durante toda la
+        asignación.
+    - question: >-
+        ¿Contratar a través de un EOR podría generar una obligación fiscal para
+        mi empresa en Alemania?
+      answer: >-
+        En la mayoría de los puestos, no: la estructura de cesión mantiene al
+        cliente fuera de la red fiscal alemana. La excepción son los puestos
+        senior o de cara al cliente que toman decisiones de negocio continuas
+        en suelo alemán. Ayudamos a clasificar el puesto correctamente para que
+        una contratación no exponga a tu empresa, sin quererlo, a una
+        reclamación de establecimiento permanente.
+    - question: ¿Qué ocurre si necesito poner fin a la relación laboral de alguien?
+      answer: >-
+        La protección plena frente al despido de la Kündigungsschutzgesetz se
+        aplica de forma automática a partir del mes siete en empresas con más
+        de diez empleados. Fuera del periodo de prueba, las extinciones
+        necesitan causas documentadas y justificadas. Estructuramos el proceso
+        para que resista si se impugna.
+    - question: ¿Quién es Iberia Workforce y cuál es vuestra estructura jurídica en Alemania?
+      answer: >-
+        Iberia Workforce tiene la licencia de cesión AÜG de forma directa para
+        Alemania, emitida por la Agentur für Arbeit: ningún socio local se
+        interpone en esa cadena de licencias, que es exactamente el vacío
+        señalado antes en esta página. Formamos parte de Connect Group.
+
+closing:
+  heading: >-
+    El derecho laboral alemán funciona con plazos: mes siete, mes nueve, mes
+    dieciocho, no con valoraciones a ojo.
+  body: >-
+    Perder uno no es un desliz menor: es un incumplimiento con una sanción
+    asociada. Describe la contratación y trazaremos la estructura AÜG, el
+    proceso del comité de empresa si aplica, y cada plazo que tu negocio
+    necesita controlar.

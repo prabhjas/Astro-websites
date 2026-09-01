@@ -1,0 +1,122 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import Button from "../ui/Button.astro";
+import CarouselControls from "../ui/CarouselControls.astro";
+
+type Props = NonNullable<CollectionEntry<"services">["data"]["howItWorks"]>;
+
+const { heading, steps, prompt, cta, surface = "surface" } = Astro.props;
+
+/**
+ * How many cards the desktop grid runs across — derived from the step count
+ * rather than authored, the same way the numerals are. Every three-step frame
+ * so far draws one row of three; the Recruitment hub has four and
+ * draws a 2×2, because four across at 1440 leaves each card too narrow for its
+ * description. Below `lg` all of them are the same scroll strip.
+ */
+const pairs = steps.length % 3 !== 0 && steps.length % 2 === 0;
+---
+
+<section
+  id="how-it-works"
+  class:list={[
+    "py-20 lg:py-30",
+    surface === "page" ? "bg-bg-page" : "bg-bg-surface",
+  ]}
+  aria-labelledby="how-it-works-heading"
+>
+  <div class="section-shell flex flex-col items-center gap-16">
+    <h2
+      id="how-it-works-heading"
+      class="max-w-[900px] text-center text-h1 text-balance text-text-primary"
+      data-reveal
+    >
+      {heading}
+    </h2>
+
+    {/* Same scroll-snap treatment as the homepage process section. */}
+    <ol
+      id="service-steps-carousel"
+      class:list={[
+        "carousel self-stretch lg:grid lg:gap-6",
+        pairs ? "lg:grid-cols-2" : "lg:grid-cols-3",
+      ]}
+      tabindex="0"
+      role="group"
+      aria-label="How it works — scroll for more steps"
+    >
+      {
+        steps.map((step, i) => (
+          <li
+            class:list={[
+              "carousel-item card-lift flex flex-col items-start overflow-hidden rounded-xl border border-border-subtle bg-bg-surface",
+              /* A 628px-wide card held to 480px would be mostly whitespace —
+                 the 2×2 frame draws them 380 tall and lets the copy set it. */
+              !pairs && "lg:min-h-[480px]",
+            ]}
+            data-reveal
+            style={`--reveal-i:${i % (pairs ? 2 : 3)}`}
+          >
+            <div class="relative isolate flex h-[160px] w-full flex-col justify-end overflow-hidden bg-navy px-6 lg:h-[200px] lg:px-8">
+              <Image
+                src={step.image}
+                alt={step.imageAlt}
+                widths={pairs ? [628, 1256] : [400, 800]}
+                sizes={`(min-width: 1024px) ${pairs ? "628px" : "400px"}, 86vw`}
+                class="pointer-events-none absolute inset-0 -z-10 size-full object-cover"
+                loading="lazy"
+              />
+              {/*
+                Numbered from position — the order in the content file is the
+                order of the steps, so the label is never authored twice.
+              */}
+              <span
+                class="step-numeral text-[64px] font-semibold text-text-inverse sm:text-[80px] lg:text-[96px]"
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </div>
+            <div class="flex flex-1 flex-col items-start gap-3 p-6 lg:p-8">
+              <h3 class="text-h4 text-text-primary">{step.title}</h3>
+              <p class="text-body-sm text-text-secondary">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <CarouselControls
+      for="service-steps-carousel"
+      count={steps.length}
+      class="w-full text-text-primary"
+    />
+
+    {
+      (prompt || cta) && (
+        <div
+          class="flex w-full flex-col items-center gap-6"
+          data-reveal
+          style={`--reveal-i:${steps.length}`}
+        >
+          {prompt && (
+            <p class="text-center text-xl leading-[1.25] font-normal text-text-secondary lg:text-h3 lg:font-normal">
+              {prompt}
+            </p>
+          )}
+          {cta && (
+            <Button
+              variant="accent"
+              size="lg"
+              href={cta.href}
+              class="bg-text-link text-text-inverse hover:bg-terracotta hover:text-btn-accent-text"
+            >
+              {cta.label}
+            </Button>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>

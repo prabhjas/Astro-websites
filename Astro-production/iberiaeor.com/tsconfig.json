@@ -3,15 +3,14 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist", "_crawl", "_ref", "node_modules", ".data"],
   "compilerOptions": {
-    "baseUrl": ".",
     "types": ["node"],
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@lib/*": ["src/lib/*"],
-      "@data/*": ["src/data/*"],
-      "@services/*": ["src/services/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@data/*": ["./src/data/*"],
+      "@services/*": ["./src/services/*"]
     }
   }
 }
