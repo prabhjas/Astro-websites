@@ -90,13 +90,15 @@ When: you say `ok` / `proceed` / `push work`.
 
 When: you say `test it` / `run tests`.
 
+**CWV / Lighthouse 95+ is deploy-lead only.** Developers stop at Testing without Lighthouse. You run optimization (see [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md)) during intake or as dedicated `cwv-wave` tickets.
+
 For **each site** in the wave:
 
 1. `pnpm --filter <pkg> run check` + `build`
 2. `node scripts/fleet-local.mjs up <site-id>`
 3. Hit every route from tickets (browser MCP when available; mobile width for UI)
-4. If ticket has `cwv-wave`: `node scripts/fleet-lighthouse.mjs --site <id> --paths <routes> --min-score 95`
-5. Audit: no protected paths in `git diff` vs last push
+4. **CWV (you):** run `node scripts/fleet-lighthouse.mjs --site <id> --paths <routes> --min-score 95` when the wave includes performance work, `cwv-wave` label, or known CWV debt — baseline before changes, verify after
+5. Audit: no protected paths in `git diff` vs last push; flag developer dirty coding per [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md)
 6. Comment evidence on each brand ticket + deploy ticket
 7. Transition brand tickets → **Ready for Release (3)** if tests pass
 

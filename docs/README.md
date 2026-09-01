@@ -2,13 +2,16 @@
 
 ## Developers — start here
 
-**Mushtaq, Tabish, Rajpal:** use **[developers/README.md](developers/README.md)** only for daily work (Jira, testing, CWV). Do not browse the rest of `docs/` unless deploy lead asks.
+**Mushtaq, Tabish, Rajpal:** use **[developers/README.md](developers/README.md)** only for daily work (Jira, testing, clean code). Do not browse the rest of `docs/` unless deploy lead asks.
 
 | Doc | Use |
 |-----|-----|
+| **[developers/DEVELOPER-SESSION-PROMPT.md](developers/DEVELOPER-SESSION-PROMPT.md)** | Paste once per Cursor session |
+| **[developers/TASK-PASTE.md](developers/TASK-PASTE.md)** | Each task — auto Jira + testing |
+| **[developers/DEVELOPER-CLEAN-CODE.md](developers/DEVELOPER-CLEAN-CODE.md)** | CWV-safe habits + dirty-code rules |
 | **[developers/DEVELOPER-FLEET-HANDBOOK.md](developers/DEVELOPER-FLEET-HANDBOOK.md)** | End-to-end workflow |
-| **[developers/TASK-PASTE.md](developers/TASK-PASTE.md)** | **Only file developers paste** — auto Jira + testing |
-| **[developers/CWV-WAVE-PROMPT.md](developers/CWV-WAVE-PROMPT.md)** | CWV — one site, one ticket (copy-paste) |
+
+**CWV / Lighthouse optimization:** deploy lead only → **[developers/CWV-WAVE-PROMPT.md](developers/CWV-WAVE-PROMPT.md)**
 
 ---
 

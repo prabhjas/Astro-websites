@@ -1,11 +1,11 @@
 ---
-description: Connect Group Astro fleet — full Jira automation, identity via MCP, testing gates, CWV 95+
+description: Connect Group Astro fleet — full Jira automation, identity via MCP, developer testing gates, deploy-lead CWV
 alwaysApply: true
 ---
 
 # Developer Fleet Handbook (Cursor brain — full automation)
 
-**Docs:** [docs/developers/TASK-PASTE.md](../docs/developers/TASK-PASTE.md) (developer copy-paste only) · [docs/developers/DEVELOPER-FLEET-HANDBOOK.md](../docs/developers/DEVELOPER-FLEET-HANDBOOK.md)
+**Docs:** [docs/developers/TASK-PASTE.md](../docs/developers/TASK-PASTE.md) · [docs/developers/DEVELOPER-CLEAN-CODE.md](../docs/developers/DEVELOPER-CLEAN-CODE.md) · [docs/developers/DEVELOPER-FLEET-HANDBOOK.md](../docs/developers/DEVELOPER-FLEET-HANDBOOK.md)
 
 Developers paste a `---TASK---` block or say `done`. **You run everything else** via Atlassian MCP + fleet scripts. Never ask for account IDs or manual Jira steps.
 
@@ -15,15 +15,17 @@ Developers paste a `---TASK---` block or say `done`. **You run everything else**
 
 1. Call **`atlassianUserInfo`** at session start and on every new task.
 2. Use returned **`accountId`** as Jira assignee.
-3. If Mushtaq / Tabish / Rajpal → **developer lane** (max status **Testing 51**).
-4. If Prabhjas → **deploy lead lane** — follow **four gates** in `docs/developers/DEPLOY-LEAD-FLOW.md` + `aaron-deploy-path` rule (intake summary → dual-push → test → Aaron path). Always create Jira for Prabhjas’s own work and a `deploy-wave` ticket per publish wave.
+3. If Mushtaq / Tabish / Rajpal → **developer lane** (max status **Testing 51**). **No CWV optimization.**
+4. If Prabhjas → **deploy lead lane** — follow **four gates** in `docs/developers/DEPLOY-LEAD-FLOW.md` + `aaron-deploy-path` rule. Owns CWV/Lighthouse. Always create Jira for Prabhjas’s own work and a `deploy-wave` ticket per publish wave.
 5. Fallback only if MCP fails: map `git config user.email` / author to assignee table in `docs/developers/CURSOR-MEMORY-PROMPT.md` — then ask to reconnect MCP.
 
 ---
 
 ## Trigger: `---TASK---` block or new work
 
-Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Type: CWV**, optional **Branch**.
+Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Branch**.
+
+**If developer pastes `Type: CWV`:** tell them CWV is deploy-lead only; create a normal `dev-wave` content/fix ticket instead (or refuse optimization work).
 
 **Auto-resolve (do not ask developer):**
 
@@ -39,12 +41,10 @@ Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Type: CWV*
    - summary: `{Brand}: {Task}`
    - assignee: `atlassianUserInfo` accountId
    - `customfield_10092`: brand option id
-   - labels: `dev-wave` (+ `cwv-wave` if Type CWV)
+   - labels: `dev-wave` (developers never get `cwv-wave`)
    - description: branch, site folder, routes, port, package
 3. `transitionJiraIssue` → **In Progress (31)**
 4. Tell developer ticket key (e.g. DEV-912). **Keep active ticket key in session.**
-
-**CWV:** before any code, run baseline `fleet-lighthouse.mjs`, comment scores on ticket.
 
 ---
 
@@ -53,6 +53,7 @@ Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Type: CWV*
 - On commit or push mentioned: `addCommentToJiraIssue` with hash + branch + 1-line summary (`git log -1`, `git diff --stat`).
 - Scope change: `editJiraIssue` description.
 - Before commit suggestion: `pnpm --filter <pkg> run check` and `build`.
+- **Enforce** [DEVELOPER-CLEAN-CODE.md](../docs/developers/DEVELOPER-CLEAN-CODE.md) — flag dirty coding (protected paths, huge binaries, lazy hero, missing image dimensions, drive-by refactors).
 - **Block** commits: `.env*`, `AGENTS.md`, `src/env/server.ts`, `packages/`, `caddy/`, `.github/workflows/`, root fleet `scripts/` changes.
 - **Block** dirty files: `dist/`, `.astro/`, `node_modules*`, `.data/`, large binaries.
 - No unrelated refactors. Do not revert Aaron speed-pass sites (CWV checklist Part D).
@@ -61,14 +62,15 @@ Parse: **Brand**, **Site** (domain), **Task**, **Routes**, optional **Type: CWV*
 
 ## Trigger: `done` / ready for review / work complete
 
-Run **testing gate** automatically (do not wait for developer to list steps):
+### Developer lane (Mushtaq / Tabish / Rajpal)
+
+Run **developer testing gate** automatically:
 
 1. `pnpm --filter <pkg> run check` + `build`
 2. `node scripts/fleet-local.mjs up <site-id>`
 3. Verify every route in ticket (browser MCP when available; mobile width if UI)
-4. `node scripts/fleet-lighthouse.mjs --site <id> --paths <routes> --min-score 95`
-5. Audit `git diff` / `git status` — no protected or dirty paths
-6. `addCommentToJiraIssue`: local URLs, commits, Lighthouse Perf/LCP/CLS, test steps
+4. Audit `git diff` / `git status` — no protected or dirty paths
+5. `addCommentToJiraIssue`: local URLs, commits, test steps (no Lighthouse requirement)
 
 **Checkpoints — ask developer (yes/no):**
 
@@ -77,6 +79,12 @@ Run **testing gate** automatically (do not wait for developer to list steps):
 
 If confirmed → `transitionJiraIssue` → **Testing (51)**.  
 Remind: notify deploy lead **Prabhjas** (ticket key + branch).
+
+**Do not** run `fleet-lighthouse.mjs --min-score 95` for developers.
+
+### Deploy lead lane (Prabhjas)
+
+Use Gate 3 in `docs/developers/DEPLOY-LEAD-FLOW.md` (includes Lighthouse when `cwv-wave` or CWV work).
 
 If gate fails → report fixes; stay **In Progress**; do not transition.
 
@@ -94,9 +102,11 @@ Developers **never** use transitions **3** (Ready for Release) or **61** (Releas
 
 ---
 
-## CWV
+## CWV (deploy lead only — Prabhjas)
 
-One site per ticket. One optimization tier at a time (LCP → fonts/CLS → JS → CSS → legacy WP). Revert if regression. No `*-v2` cache busting.
+Label `cwv-wave`. Baseline Lighthouse before code. One tier at a time (LCP → fonts/CLS → JS → CSS → legacy WP). Revert if regression. No `*-v2` cache busting. See `docs/developers/CWV-WAVE-PROMPT.md`.
+
+Developers: CWV-safe habits only — `docs/developers/DEVELOPER-CLEAN-CODE.md`.
 
 ---
 
@@ -106,7 +116,7 @@ See `docs/developers/DEPLOY-LEAD-FLOW.md`. Never collapse into one silent publis
 
 1. **Intake** (local cherry-pick) → Intake Summary → stop for `ok`
 2. **Dual-push** `work/astro-sites` origin + personal → Push Summary → stop for `test it`
-3. **Test gate** (check/build, fleet-local, routes, Lighthouse if CWV) → Test Summary → Ready for Release → stop for `ok all perfect`
+3. **Test gate** (check/build, fleet-local, routes, Lighthouse for CWV) → Test Summary → Ready for Release → stop for `ok all perfect`
 4. **Aaron path** only on `push via Aaron path` → live verify → **RELEASED**
 
 Always create/reuse a Prabhjas `deploy-wave` ticket per wave; create brand tickets if developers missed them.

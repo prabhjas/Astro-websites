@@ -15,9 +15,9 @@ alwaysApply: true
 
 ## Roles
 
-**Developers (Mushtaq, Tabish, Rajpal):** tickets through **Testing** only — create at In Progress, self-test locally, post screenshots/commit hashes in comments, then Testing. Do **not** set READY FOR RELEASE or RELEASED. Do **not** publish.
+**Developers (Mushtaq, Tabish, Rajpal):** tickets through **Testing** only — create at In Progress, self-test locally (check/build + routes + screenshots), post evidence in comments, then Testing. Do **not** run CWV/Lighthouse optimization waves. Do **not** set READY FOR RELEASE or RELEASED. Do **not** publish. Follow [DEVELOPER-CLEAN-CODE.md](../docs/developers/DEVELOPER-CLEAN-CODE.md).
 
-**Deploy lead (Prabhjas):** four gates in [DEPLOY-LEAD-FLOW.md](../docs/developers/DEPLOY-LEAD-FLOW.md) — intake summary → dual-push → automated test → Aaron path. Move **READY FOR RELEASE → RELEASED** only after live verify. Own tickets run the full lifecycle.
+**Deploy lead (Prabhjas):** four gates in [DEPLOY-LEAD-FLOW.md](../docs/developers/DEPLOY-LEAD-FLOW.md) — intake summary → dual-push → automated test (incl. CWV/Lighthouse) → Aaron path. Move **READY FOR RELEASE → RELEASED** only after live verify. Owns `cwv-wave` tickets and optimization. Own tickets run the full lifecycle.
 
 ## Tickets
 

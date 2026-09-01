@@ -1,15 +1,20 @@
-# Developer Fleet Handbook — Jira, Quality, Testing & Core Web Vitals
+# Developer Fleet Handbook — Jira, Quality, Testing & Handoff
 
-**One plan for Mushtaq, Tabish, Rajpal, and Prabhjas (deploy lead).**  
-Follow this end-to-end for every task. Cursor loads the matching rule from `.cursor/rules/developer-fleet-handbook.mdc`.
+**Mushtaq, Tabish, Rajpal:** features, content, fixes → **Testing**.  
+**Prabhjas (deploy lead):** intake, CWV optimization, publish → **RELEASED**.
 
-**Related docs (do not duplicate blindly — link here):**
+Cursor loads `.cursor/rules/developer-fleet-handbook.mdc`.
+
+**Related docs:**
 
 | Doc | Use for |
 |-----|---------|
-| [JIRA-DEV-WORKFLOW.md](JIRA-DEV-WORKFLOW.md) | Jira MCP setup, dual tickets, transition IDs, starter prompt |
-| [DEVELOPER-CWV-CHECKLIST.md](DEVELOPER-CWV-CHECKLIST.md) | Publisher blockers + CWV checklist (Parts A–E) |
-| [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) | Copy-paste prompt — **you** create one Jira ticket per site |
+| [DEVELOPER-SESSION-PROMPT.md](DEVELOPER-SESSION-PROMPT.md) | Paste at start of Cursor session |
+| [TASK-PASTE.md](TASK-PASTE.md) | Each task (`---TASK---`) |
+| [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md) | **Required** — CWV-safe habits + dirty-code rules |
+| [JIRA-DEV-WORKFLOW.md](JIRA-DEV-WORKFLOW.md) | Jira MCP setup, dual tickets, transition IDs |
+| [DEVELOPER-CWV-CHECKLIST.md](DEVELOPER-CWV-CHECKLIST.md) | Part A blockers (devs); full checklist (deploy lead) |
+| [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) | **Deploy lead only** — Lighthouse 95+ |
 | [DEVELOPER-HANDOFF.md](../DEVELOPER-HANDOFF.md) | Host publish path (deploy lead only) |
 | [FLEET-PORT-REGISTRY.md](../FLEET-PORT-REGISTRY.md) | Local preview ports (5080–5124) |
 
@@ -19,18 +24,19 @@ Follow this end-to-end for every task. Cursor loads the matching rule from `.cur
 
 ```mermaid
 flowchart LR
-  A[Start task] --> B[Create Jira DEV ticket]
-  B --> C[Code on feature branch]
-  C --> D[Quality gates: check + build + clean diff]
-  D --> E[Self-test + Lighthouse 95+]
-  E --> F[Jira Testing + screenshots]
-  F --> G[Deploy lead review]
-  G --> H[Ready for Release]
-  H --> I[Host publish + live verify]
-  I --> J[RELEASED]
+  A[Start task] --> B[Jira DEV ticket]
+  B --> C[Code on branch]
+  C --> D[check + build + clean code]
+  D --> E[Self-test routes + screenshots]
+  E --> F[Jira Testing]
+  F --> G[Deploy lead intake]
+  G --> H[CWV if needed]
+  H --> I[Ready for Release]
+  I --> J[Host publish]
+  J --> K[RELEASED]
 ```
 
-**Developers stop at F.** Deploy lead owns G → J.
+**Developers stop at F.** Deploy lead owns G → K (including CWV at H).
 
 ---
 
@@ -40,11 +46,12 @@ flowchart LR
 
 Follow [JIRA-DEV-WORKFLOW.md §1](JIRA-DEV-WORKFLOW.md#1-connect-atlassian-mcp-in-cursor-one-time). Each developer signs in with their Connect Group Atlassian account.
 
-### 0.2 Paste your task (no setup prompt needed)
+### 0.2 Session prompt + task paste
 
-Copy a block from **[TASK-PASTE.md](TASK-PASTE.md)** into Cursor. The repo rule (`.cursor/rules/developer-fleet-handbook.mdc`) automates Jira + testing. **Do not** paste name or account ID.
+1. Paste **[DEVELOPER-SESSION-PROMPT.md](DEVELOPER-SESSION-PROMPT.md)** once per Cursor session.
+2. Paste **`---TASK---`** from **[TASK-PASTE.md](TASK-PASTE.md)** for each task.
 
-When finished, say **`done`**.
+Repo rule automates Jira + testing. **Do not** paste name or account ID. Say **`done`** when finished.
 
 ### 0.3 Know your local port
 
@@ -70,10 +77,7 @@ When you paste a task block, the agent:
 4. **Search DEV** for duplicate → create if none
 5. **In Progress (31)** + ticket key in reply
 
-When you say **`done`**: testing gate → Jira comment → asks about screenshots → **Testing (51)**.
-
-### Ticket granularity
-
+When you say **`done`**: developer testing gate (check/build, fleet-local, routes, diff audit) → Jira comment → screenshots check → **Testing (51)**. **No Lighthouse 95+ for developers.**
 
 ### Ticket granularity
 
@@ -136,11 +140,12 @@ git status --short | grep -E '/dist/|/\.astro/|node_modules' || true
 
 ### 2.4 Code quality (Cursor brain)
 
-When reviewing or writing code, the agent must:
+Enforce **[DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md)**. When reviewing or writing code, the agent must:
 
 - Match existing patterns in the site (imports, naming, Astro layout structure).
 - Avoid drive-by refactors unrelated to the ticket.
 - Fix TypeScript in inline `<script>` (`// @ts-nocheck` only when necessary).
+- Flag dirty coding: missing image dimensions, lazy hero, blocking scripts, huge binaries.
 - Never modify protected paths (see [DEVELOPER-CWV-CHECKLIST Part A](DEVELOPER-CWV-CHECKLIST.md)).
 - Never revert Aaron **speed-pass** sites (see Part D of CWV checklist).
 
@@ -172,27 +177,29 @@ Minimum evidence:
 | Layout / hero / nav | Before + after, mobile + desktop |
 | Blog / content removal | Listing page + one affected article |
 | Redirects / 404 fixes | Network tab or curl showing 301/404 |
-| CWV work | Lighthouse summary panel (Performance score + LCP/CLS/INP) |
+| Redirects / 404 fixes | Network tab or curl showing 301/404 |
 
-### 3.3 Cursor testing prompt (copy-paste)
+**CWV / Lighthouse screenshots:** deploy lead only (Gate 3).
 
-```text
-I've finished [task]. Before we move DEV-XXX to Testing:
-1. Run check + build for [package].
-2. Start fleet-local up [site-id] and open [URLs].
-3. Run Lighthouse mobile on homepage + [other pages]; target Performance 95+.
-4. Audit git diff for protected/dirty paths.
-5. If scores pass, move DEV-XXX to Testing and draft a Jira comment with commit hashes, ports, scores, and what to screenshot.
-6. Ask me to attach screenshots if you cannot capture them.
-```
+### 3.3 Developer `done` gate (automatic)
+
+Say **`done`**. Cursor runs:
+
+1. `check` + `build` for your package
+2. `fleet-local up <site-id>` — open every ticket route (desktop + mobile)
+3. `git diff` audit — no protected/dirty paths
+4. Jira comment with URLs, commits, test steps
+5. Ask about screenshots → **Testing**
+
+You do **not** need Lighthouse 95+. Note performance concerns in the ticket comment; deploy lead schedules CWV.
 
 ### 3.4 Agent self-test when possible
 
-Cursor may use **browser MCP** or **`scripts/fleet-lighthouse.mjs`** (see Phase 4) to run Lighthouse locally. Always note scores in the Jira comment even when the developer also attaches screenshots.
+Cursor may use **browser MCP** for route verification. Deploy lead runs **`scripts/fleet-lighthouse.mjs`** during Gate 3 or CWV waves.
 
 ---
 
-## Phase 4 — Core Web Vitals & 95+ Performance Program
+## Phase 4 — Core Web Vitals (deploy lead only)
 
 ### 4.1 Targets (stricter than legacy 90+)
 
@@ -304,13 +311,13 @@ node scripts/fleet-local.mjs smoke connecthr
 
 If a optimization hurts visuals or score, **revert that commit** and try the next tier.
 
-### 4.5 CWV rollout — one site, one ticket (developer-owned)
+### 4.5 CWV rollout — deploy lead schedules
 
-**You pick the website and create the Jira ticket yourself** — one site per ticket, label `cwv-wave`.
+**Developers do not pick CWV waves.** If a page is slow, mention it in your ticket comment.
 
-Use the copy-paste prompt in **[CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md)** (replace site id, domain, package, port, URLs).
+Deploy lead uses **[CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md)** — one site per `cwv-wave` ticket, label on **Prabhjas** tickets.
 
-Suggested order when choosing your next site:
+Suggested order when choosing the next site:
 
 | Priority | Sites | Focus |
 |----------|-------|-------|
@@ -318,9 +325,9 @@ Suggested order when choosing your next site:
 | **P1** | Any site you maintain | Homepage 95+ |
 | **P2** | Remaining fleet | Homepage + top landings |
 
-Deploy lead batches merges/publishes — you stop at **Testing** with Lighthouse evidence.
+Deploy lead batches merges/publishes after Gate 3 Lighthouse evidence.
 
-### 4.6 Field monitoring (optional, deploy lead)
+### 4.6 Field monitoring (deploy lead)
 
 Daily CrUX trends: `scripts/fleet-monitor/crux.mjs` (needs `CRUX_API_KEY`). Lab Lighthouse remains **pre-publish, changed sites only** — not a daily cron on all 42 URLs.
 
@@ -332,13 +339,14 @@ Daily CrUX trends: `scripts/fleet-monitor/crux.mjs` (needs `CRUX_API_KEY`). Lab 
 
 - [ ] DEV ticket exists, assigned to me, **In Progress** during work
 - [ ] `pnpm check` + `build` pass locally
-- [ ] Git diff clean of protected/dirty paths
+- [ ] Git diff clean of protected/dirty paths ([DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md))
 - [ ] Self-tested on listed URLs (desktop + mobile)
-- [ ] Lighthouse **≥ 95** on homepage + changed routes (or documented exception with plan)
-- [ ] Screenshots / scores in Jira comment
+- [ ] Screenshots in Jira comment
 - [ ] Commits pushed; hashes in ticket
 - [ ] Ticket moved to **Testing**
 - [ ] Deploy lead notified (ticket key + branch name)
+
+**Not your job:** Lighthouse 95+ optimization (deploy lead Gate 3 / CWV waves).
 
 ### Deploy lead checklist (unchanged)
 
@@ -354,12 +362,13 @@ Review → merge `work/astro-sites` → **Ready for Release** → host signed co
 
 | Moment | Do this |
 |--------|---------|
-| **Start** | Paste [TASK-PASTE.md](TASK-PASTE.md) block |
+| **Session start** | Paste [DEVELOPER-SESSION-PROMPT.md](DEVELOPER-SESSION-PROMPT.md) |
+| **Start task** | Paste [TASK-PASTE.md](TASK-PASTE.md) block |
 | **Finished** | Say `done` |
-| **CWV** | TASK-PASTE with `Type: CWV` |
-| **Deploy lead** | Full Jira lifecycle after merge + publish |
+| **Slow page?** | Note in Jira comment — deploy lead runs CWV |
+| **Deploy lead** | [DEPLOY-LEAD-FLOW.md](DEPLOY-LEAD-FLOW.md) + [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) |
 
-Automation is in `.cursor/rules/developer-fleet-handbook.mdc` — no other prompts needed.
+Automation is in `.cursor/rules/developer-fleet-handbook.mdc`.
 
 ---
 
@@ -379,4 +388,4 @@ Developers use **[TASK-PASTE.md](TASK-PASTE.md)** only. Agent automation spec: *
 
 ---
 
-*Created: 2026-08-31 · Owner: Prabhjas · Fleet: Connect-Group-Tech/Astro-websites*
+*Created: 2026-08-31 · Updated: 2026-09-01 · Owner: Prabhjas · Fleet: Connect-Group-Tech/Astro-websites*

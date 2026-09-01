@@ -4,8 +4,9 @@
 **Site:** `connect-marketing.atlassian.net`  
 **Primary tool:** **Cursor + Atlassian MCP** (not GitHub Actions, not local scripts)
 
-> **Start here:** [developers/README.md](developers/README.md) — developer entry point (handbook, Jira, CWV, prompts).  
-> **Full handbook:** [developers/DEVELOPER-FLEET-HANDBOOK.md](developers/DEVELOPER-FLEET-HANDBOOK.md)
+> **Start here:** [developers/README.md](README.md) — session prompt + TASK-PASTE.  
+> **Clean code (devs):** [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md) · **CWV (deploy lead):** [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md)  
+> **Full handbook:** [DEVELOPER-FLEET-HANDBOOK.md](DEVELOPER-FLEET-HANDBOOK.md)
 
 This doc is for **Mushtaq, Tabish, Rajpal**, and **Prabhjas (deploy lead)**.
 

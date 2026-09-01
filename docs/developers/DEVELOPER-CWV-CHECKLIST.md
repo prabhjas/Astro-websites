@@ -1,10 +1,8 @@
-# Developer Pre-Publish & Performance Checklist
+# Pre-Publish & Performance Checklist
 
-Every site change **must** pass these checks before requesting a deploy.
-Run through each section after your work is done — fix issues locally before pushing.
-
-> **Full workflow:** [DEVELOPER-FLEET-HANDBOOK.md](DEVELOPER-FLEET-HANDBOOK.md) (Jira + testing + **Lighthouse 95+** program).  
-> **CWV prompt:** [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) · **Automated local Lighthouse:** `node scripts/fleet-lighthouse.mjs --site <id> --paths /,/blogs/`
+> **Developers (Mushtaq, Tabish, Rajpal):** read **Part A only** + [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md). You do **not** run Lighthouse 95+ optimization.  
+> **Deploy lead (Prabhjas):** full checklist Parts A–E + [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) · `node scripts/fleet-lighthouse.mjs --site <id> --paths /,/blogs/`  
+> **Workflow:** [DEVELOPER-FLEET-HANDBOOK.md](DEVELOPER-FLEET-HANDBOOK.md)
 
 ---
 

@@ -1,9 +1,13 @@
 # Task paste — copy this into Cursor (only thing developers type)
 
 **No names. No account IDs. No Jira steps.**  
-Paste the block below → Cursor creates the ticket, assigns **you** automatically, and runs the full flow.
+Paste the block below → Cursor creates the ticket, assigns **you** automatically, and runs the flow.
+
+**First time today?** Paste [DEVELOPER-SESSION-PROMPT.md](DEVELOPER-SESSION-PROMPT.md) once, then your task.
 
 **Requires:** Atlassian MCP connected once ([JIRA-DEV-WORKFLOW.md §1](JIRA-DEV-WORKFLOW.md#1-connect-atlassian-mcp-in-cursor-one-time)).
+
+**CWV / Lighthouse optimization:** deploy lead only — see [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md).
 
 ---
 
@@ -24,20 +28,6 @@ Routes: /blogs/, /blog/sample-slug/
 
 ---
 
-## CWV task (one site, performance)
-
-```text
----TASK---
-Type: CWV
-Brand: Connect HR
-Site: connecthr.ae
-Task: Lighthouse 95+ on homepage and key routes
-Routes: /, /blogs/, /services/
----END---
-```
-
----
-
 ## What Cursor does automatically (you do nothing else)
 
 | Step | Cursor (automatic) |
@@ -47,13 +37,13 @@ Routes: /, /blogs/, /services/
 | 3 | Looks up **Brand field** from domain in `scripts/jira-commit-sync.mjs` |
 | 4 | Searches DEV for duplicate → creates ticket if none |
 | 5 | Assigns you · label `dev-wave` · **In Progress** |
-| 6 | Codes with you · runs `check` + `build` · blocks dirty/protected files |
+| 6 | Codes with you · runs `check` + `build` · blocks dirty/protected files ([clean code rules](DEVELOPER-CLEAN-CODE.md)) |
 | 7 | On commits → **comments Jira** with hash + summary |
-| 8 | When work is done → runs tests + Lighthouse 95+ · **comments evidence** |
-| 9 | Asks: *Did you attach screenshots in Jira?* → then **Testing** |
-| 10 | Reminds you to notify deploy lead (ticket key + branch) |
+| 8 | When you say **`done`** → local preview + route checks + diff audit · **comments evidence** |
+| 9 | Asks: *Did you attach screenshots in Jira?* · *Did you test desktop + mobile?* → then **Testing** |
+| 10 | Reminds you to notify deploy lead **Prabhjas** (ticket key + branch) |
 
-**You never:** create Jira manually · set statuses beyond Testing · publish.
+**You never:** create Jira manually · run CWV optimization waves · set statuses beyond Testing · publish.
 
 ---
 
@@ -66,7 +56,7 @@ done
 ```
 
 Or paste the same task block again with `Status: ready for review`.  
-Cursor runs the testing gate and updates Jira.
+Cursor runs the **developer** testing gate (no Lighthouse 95 requirement for you).
 
 ---
 
@@ -92,6 +82,18 @@ Routes: /, /visa-services/
 ---END---
 ```
 
+**Performance concern (not a CWV task for you):**
+```text
+---TASK---
+Brand: Connect HR
+Site: connecthr.ae
+Task: Homepage hero image swap — note slow LCP for deploy lead CWV wave
+Routes: /
+---END---
+```
+
+Fix the content; mention performance in the ticket comment — **Prabhjas** schedules optimization.
+
 ---
 
 ## If something fails
@@ -101,8 +103,9 @@ Routes: /, /visa-services/
 | MCP not connected | Cursor → Settings → MCP → Atlassian → sign in |
 | Wrong assignee | Sign in with **your** Connect Group Atlassian account |
 | Ticket not created | Paste task block again — Cursor retries |
-| Testing blocked | Fix `check`/`build` errors Cursor reports |
+| Testing blocked | Fix `check`/`build` errors or dirty paths Cursor reports |
+| Cursor wants Lighthouse 95 | That's deploy lead — you only need check/build + route screenshots |
 
 ---
 
-*Full agent rules: `.cursor/rules/developer-fleet-handbook.mdc` · Details: [CURSOR-MEMORY-PROMPT.md](CURSOR-MEMORY-PROMPT.md)*
+*Session prompt: [DEVELOPER-SESSION-PROMPT.md](DEVELOPER-SESSION-PROMPT.md) · Clean code: [DEVELOPER-CLEAN-CODE.md](DEVELOPER-CLEAN-CODE.md) · Agent rules: `.cursor/rules/developer-fleet-handbook.mdc`*
