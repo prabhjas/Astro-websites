@@ -1,11 +1,29 @@
 # Astro-websites fleet docs
 
-## Start here
+## Developers — start here
+
+**Mushtaq, Tabish, Rajpal:** use **[developers/README.md](developers/README.md)** only for daily work (Jira, testing, clean code). Do not browse the rest of `docs/` unless deploy lead asks.
+
+| Doc | Use |
+|-----|-----|
+| **[developers/DEVELOPER-SESSION-PROMPT.md](developers/DEVELOPER-SESSION-PROMPT.md)** | Paste once per Cursor session |
+| **[developers/TASK-PASTE.md](developers/TASK-PASTE.md)** | Each task — auto Jira + testing |
+| **[developers/DEVELOPER-CLEAN-CODE.md](developers/DEVELOPER-CLEAN-CODE.md)** | CWV-safe habits + dirty-code rules |
+| **[developers/DEVELOPER-FLEET-HANDBOOK.md](developers/DEVELOPER-FLEET-HANDBOOK.md)** | End-to-end workflow |
+
+**CWV / Lighthouse optimization:** deploy lead only → **[developers/CWV-WAVE-PROMPT.md](developers/CWV-WAVE-PROMPT.md)**
+
+---
+
+## Owner / fleet (everyone else)
 
 | Priority | Doc | Use |
 |----------|-----|-----|
+| **Publish (live)** | **[DEVELOPER-HANDOFF.md](DEVELOPER-HANDOFF.md)** · **[ASTRO-FLEET-AUTONOMOUS-RELEASE.md](ASTRO-FLEET-AUTONOMOUS-RELEASE.md)** | **Only deploy path:** `/opt/Astro-development` → signed commit → `sudo astro-fleet-release publish` |
 | **1** | **[00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md)** | **Numbered lifecycle** + **[34-site work queue](00-NEW-SITE-MASTER.md#fleet-work-queue--34-sites)** (geo, nanoid, memory, peer-copy) |
-| **Aaron rules** | **[AARON-RULES.md](AARON-RULES.md)** | Security + deploy + FQ-04 source-review four findings + canary — what we follow |
+| **Aaron rules** | **[AARON-RULES.md](AARON-RULES.md)** | Security + deploy + FQ-04 — what we follow (updated for autonomous release) |
+| **Aaron pending** | **[AARON-PENDING.md](AARON-PENDING.md)** | Living checklist of owner-lane blockers (monitor, robots store, Iberia backend, `site-cms`, **sharp**/OG) |
+| **OG pilot** | **[OG-AUTOMATION-PILOT.md](OG-AUTOMATION-PILOT.md)** | Royal Visa first — branded OG cards; Aaron owns catalog `sharp` / lockfile |
 | **Claude** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** | **Paste-ready prompt** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-04 source review · FQ-03 memory |
 | **canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** | Private `:5999` test of a new release before `switch` |
 | **ports** | **[FLEET-PORT-REGISTRY.md](FLEET-PORT-REGISTRY.md)** | **42 domains + ports · all scaffolded · 0 placeholders** |

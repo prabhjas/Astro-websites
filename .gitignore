@@ -5,6 +5,10 @@ Exported-wp/
 .vscode
 Lana staging
 
+# Local-only git/push notes — never commit or push this file
+push-refer-files.txt
+push-refer-files
+
 # Dependencies
 node_modules/
 .pnpm-store/
@@ -15,6 +19,11 @@ node_modules/
 Astro-production/*/dist/
 packages/*/dist/
 .astro/
+
+# WP Table Builder — admin editor bundles only (mirror sync noise).
+# Frontend assets (frontend-*.js, parser, renderer, etc.) stay tracked for compare-companies table.
+Astro-production/thefreelancergate.com/public/wp-content/plugins/wp-table-builder/dist/assets/editor-*.js
+Astro-production/thefreelancergate.com/public/wp-content/plugins/wp-table-builder/dist/assets/index-Dvj4K8gR.js
 
 # Logs
 npm-debug.log*
@@ -92,3 +101,7 @@ Astro-production/connectresourcesint.com/package-lock.json
 
 # Local audit / handoff PDFs at repo root (keep findings in docs/)
 /*.pdf
+
+# Fleet monitor evidence (JSONL, reports — runtime data, not source)
+local/monitor-evidence/
+local/lighthouse-evidence/

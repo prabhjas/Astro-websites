@@ -7,8 +7,10 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 |--|--|
 | **Paste into Cursor** | *Follow docs/00-NEW-SITE-MASTER.md for \<domain\>.* |
 | **Paste into Claude (34-site queue)** | **[CLAUDE-FLEET-QUEUE-PROMPT.md](CLAUDE-FLEET-QUEUE-PROMPT.md)** — FQ-00 script veto · FQ-01 nanoid · FQ-02 CF geo · FQ-03 memory note. **FQ-04 source review already done — do not redo.** |
-| **Fleet status (Aug 2026)** | **34 live/cutover** on branch [`work/live-fleet-34`](https://github.com/Connect-Group-Tech/Astro-websites/tree/work/live-fleet-34) (28 live + next 6). Working branch: `work/astro-sites`. Ports **5080–5124**. Also on live Caddy: `connectresourcesint.com` (**5098**). |
-| **Aaron rules (security / deploy / copy)** | **[AARON-RULES.md](AARON-RULES.md)** — immutable release, FQ-00–04, source-review four findings, canary `:5999`. |
+| **Fleet status (Aug 2026)** | **42 sites** on live Caddy. Laptop working branch: `work/astro-sites`. Live publish pin: host `astro-fleet-development` via `astro-fleet-release publish` — **do not treat laptop merge as live**. Ports **5080–5124**. |
+| **18 Aug (Aaron)** | Do not ship placeholder/smeared uploads or peer chrome. Do not revert `caddy/Caddyfile.production` / `README.md`. FLOW uses `/api/internal/*`; `/internal/operations` is 404. Detail: [AARON-RULES.md](AARON-RULES.md) § 18 Aug. |
+| **Aaron rules (security / deploy / copy)** | **[AARON-RULES.md](AARON-RULES.md)** — immutable release, FQ-00–04, **18 Aug** asset/Caddy/FLOW comments, canary `:5999`. |
+| **FLOW / CMS APIs (Aaron)** | Per-site `/api/internal/*` + bearer secret. Old `/internal/operations` UI is 404. Shareable note: [CMS-DASHBOARD-AND-FLOW-APIS.md](CMS-DASHBOARD-AND-FLOW-APIS.md). |
 | **Caddy / security (Aaron)** | Named origin CA **`astro_origin_2026`** (+ **`payroll_origin_isolated_2026`** for payroll only). Deploy snippets use `tls force_automate` + paired manual cert/key loaders — never the retired default local-CA directive. CI: [`.github/workflows/private-key-guard.yml`](../.github/workflows/private-key-guard.yml). Owner cutover: [OPS-OWNER-CADDY-CUTOVER](OPS-OWNER-CADDY-CUTOVER.md). |
 | **34-site queue** | **[§ Fleet work queue](#fleet-work-queue--34-sites)** — geo, nanoid, memory, source-review leftovers, owner APPLY. Do these on every keep site, then follow for new sites. |
 | **Pre-switch canary** | **[AARON-CANARY-RELEASE.md](AARON-CANARY-RELEASE.md)** — private `:5999`, one site, real env; then `switch`. |
@@ -66,6 +68,8 @@ Follow the phases **in order**. Each phase says *when*, *what to do*, and *which
 - [ ] Run malware / inject scan per [CURSOR-WP-CLONE-MALWARE-SCAN.md](CURSOR-WP-CLONE-MALWARE-SCAN.md)
 - [ ] Remove or quarantine findings (PHP webshells, spam HTML, bad `.htaccess`, obfuscated JS)
 - [ ] No nested `node_modules` / `package-lock.json` left in the site folder
+- [ ] **Asset debt:** avoid multi‑MB PNG heroes, duplicated header/app-store images, and WP lazy placeholders — see [AARON-RULES.md](AARON-RULES.md) § Performance / asset debt
+- [ ] **18 Aug:** logos and in-use uploads are real files (not 643-byte placeholders / one blob copied across a directory); header/footer are this domain, not SP Heavy chrome; do not revert `caddy/Caddyfile.production` or `README.md`
 
 **Next → Phase 02**
 
@@ -362,6 +366,7 @@ node scripts/fleet-local.mjs smoke <site-id>
 - [ ] `deploy/ROOT_SETUP.md` — users, perms, `.env` vs `.env.prod`; Cloudflare **Full** (not Flexible)
 - [ ] Canonical host decided; `.env.example` `PUBLIC_SITE_URL=https://<canonical>`
 - [ ] Add site block to **`caddy/Caddyfile.production` (git only)** when cutover is planned — match the peer named-CA block, never an old local-CA scaffold
+- [ ] **18 Aug:** never replace or shrink `caddy/Caddyfile.production` / root `README.md` — keep admin unix socket, Cloudflare `trusted_proxies`, and existing site blocks
 - [ ] Contact `POST /api/contact` bounds body with `readRequestBodyLimited` (Aaron contact hardening) + rate limit
 - [ ] GTM wiring complete per **Phase 05 § Dynamic GTM / GA4** (`resolveEffectiveGtmConfig`, `recreateScript`, `inject.ts`, `.env.example` IDs blank — live IDs only on server / FLOW)
 - [ ] Private keys / Caddy PEM material must never be committed — CI `private-key-guard` must stay green

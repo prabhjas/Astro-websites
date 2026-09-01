@@ -1,47 +1,38 @@
 # Aaron pending — fleet tracker
 
-**Updated:** 2026-08-26 (Aaron: only envs / leads / Caddy remain his)  
-**Developer working tip:** `work/astro-sites` · Live publish branch: `astro-fleet-development`  
-**Owner-only leftovers:** [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md) · Redo package notes: [AARON-REDO-SITE-CMS.md](AARON-REDO-SITE-CMS.md)
-
-**Important:** Local `scripts/ci/` / `fleet-policy.json` dry-runs stay **stale on purpose**. Trust real `astro-fleet-release publish`.
+**Updated:** 2026-08-26 late (Aaron backend refresh done)  
+**Final Aaron doc:** [AARON-FINAL-HANDOFF.md](AARON-FINAL-HANDOFF.md)  
+**Owner-only:** [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md)
 
 ---
 
-## Owner lane only (Aaron)
+## Aaron completed (no developer action)
 
-| Item | Doc |
+| Item | Status |
 |---|---|
-| Envs / secrets | [AARON-OWNER-LANE.md](AARON-OWNER-LANE.md) |
-| Leads / non-blog `/api/` | same |
-| Caddy / TLS / robots edge still backend on SP | same |
-| SP GTM `GTM-PL2CQ48T` seed | same |
+| Backend refresh | **32 sites** including SP Heavy + Iberia Workforce — robots/llms/sitemaps from current release; edge purged |
+| Auto backend follow | Publish → front switches → **backend follows** → edge purged |
+| Wider auto purge | robots, llms, both sitemaps, `runtime-gtm.js`, `/css/` on every release |
+| `/api/blog/` on front | Pure content routes moved off credential backend (same URLs). **Do not** put Pipedrive/lead/env code under `api/blog/` |
+| Leads / Pipedrive / env | Unchanged; 1,089 leads intact |
 
----
+## Aaron still holding (wait for our ping)
 
-## This developer wave (in progress)
+| Item | Why |
+|---|---|
+| **Connect Freelance** backend refresh | Deliberately on old backend until our `api/blog/` `listing` / `load-more` rename is **published** — then ping Aaron |
 
-| Site | Work | Local status |
-|---|---|---|
-| Connect Freelance | Tabish `f703c7c53` favicon / polish (git tip already has bytes; live favicon stale) | Republish |
-| SP Heavy | Redirect + sitemap exclude `power-generator-rental`; robots in git; middleware YAML redirects without env; GTM → Aaron | Ready |
-| Iberia Workforce | `/sitemap.xml` SSR 301 (`3acc80e35`) | Ready |
-| Iberia EOR | Mushtaque load-more / insights cards + eor-services chrome | Mostly in HEAD |
-| MBS | Rajpal `438abd447` restored (was reverted with PR #83) | Restored in tree |
-| Redo.ae | Site SEO + routing (`f865df993` / `cb3d86586`) **+** `packages/site-cms` normalize (now shippable in our lane) | Ready |
-| KPM | Blog API directory routes + middleware `/api/` skip | Ready |
+## Aaron converting separately (no action from us)
 
-## Fleet-wide robots (AP-06)
+- Older backend setup: izi, lladesigners, snapsale, theuaegate, raadrecruitment, connectbusinesscenter, connectresourcesint, saudicompanyformation
+- payrollmiddleast — no purge config; refreshes on CF cache expiry
 
-- Mega-stash `wip-robots-wave-before-pr83-merge` is **not** safe to apply as-is (deletes many `public/robots.txt` + huge `text-files-store` rewrites).
-- Correct approach after AP-02: keep/update **`public/robots.txt` per site**, publish in **waves of ≤8**.
-- SP proves edge may still serve **backend** robots — Aaron must confirm source robots win (see owner-lane doc).
+## Sticky assets
 
----
+If SEO/CSS still looks stale after publish: check `cf-cache-status` / `age` first — likely edge; send Aaron the exact path.
 
-## Note before publish
+## Developer next
 
-1. Pull/sync `origin/astro-fleet-development` when needed.  
-2. Host: tidy worktree + SSH-signed commit → `sudo /usr/local/sbin/astro-fleet-release publish` (1–8 sites).  
-3. Do **not** commit prod `.env`, Caddy, or lead-only APIs.  
-4. Package change (`site-cms`) may rebuild broadly — keep Redo + package in one careful publish or package-first if publisher requires.
+1. Confirm Connect Freelance `api/blog/listing` + `api/blog/load-more` published on fleet tip  
+2. Ping Aaron to take CF off backend hold  
+3. Keep non-blog `/api/` (leads) out of `api/blog/`

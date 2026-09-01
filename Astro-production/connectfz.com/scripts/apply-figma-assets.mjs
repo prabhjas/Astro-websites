@@ -8,7 +8,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PACK = "/Users/rajpalsingh/Downloads/Connect FZ - Assets/OPTIMIZED";
+const ASSETS_ROOT = "/Users/rajpalsingh/Downloads/Connect FZ - Assets";
+const PACK_OPT = path.join(ASSETS_ROOT, "OPTIMIZED");
+const PACK_HQ = path.join(ASSETS_ROOT, "IMAGES IN HIGH QUALITY");
 const DEST = path.join(ROOT, "public/wp-content/uploads/figma-pack");
 const PUBLIC = path.join(ROOT, "public");
 
@@ -23,22 +25,41 @@ const ALIASES = {
   "FAQ-Bkg-Mobile.png": "bg2.jpg",
   "bg-steps.jpg": "bg-steps.jpg",
   "bg2.jpg": "bg2.jpg",
+  "bg2-1-scaled.jpg": "bg2.jpg",
   "Group 61.png": "Group 61.png",
   "Logo.png": "Logo.png",
 };
 
-function copyPack() {
-  fs.mkdirSync(DEST, { recursive: true });
-  for (const name of fs.readdirSync(PACK)) {
-    if (name.startsWith(".")) continue;
-    const src = path.join(PACK, name);
-    if (!fs.statSync(src).isFile()) continue;
-    fs.copyFileSync(src, path.join(DEST, name));
-  }
-}
-
 function slugName(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function indexPackDir(dir) {
+  const map = new Map();
+  if (!fs.existsSync(dir)) return map;
+  for (const name of fs.readdirSync(dir)) {
+    if (name.startsWith(".")) continue;
+    const src = path.join(dir, name);
+    if (!fs.statSync(src).isFile()) continue;
+    map.set(slugName(name), { name, src, size: fs.statSync(src).size });
+  }
+  return map;
+}
+
+/** Prefer OPTIMIZED filenames; use HQ bytes when larger/available. */
+function copyPack() {
+  fs.mkdirSync(DEST, { recursive: true });
+  const opt = indexPackDir(PACK_OPT);
+  const hq = indexPackDir(PACK_HQ);
+  const keys = new Set([...opt.keys(), ...hq.keys()]);
+  for (const key of keys) {
+    const o = opt.get(key);
+    const h = hq.get(key);
+    const pick = h && (!o || h.size >= o.size) ? h : o;
+    if (!pick) continue;
+    const outName = o?.name ?? pick.name;
+    fs.copyFileSync(pick.src, path.join(DEST, outName));
+  }
 }
 
 function buildPackIndex() {
