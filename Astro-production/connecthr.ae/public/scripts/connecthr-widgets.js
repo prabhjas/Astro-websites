@@ -60,10 +60,10 @@
   }
 
   function youtubeBackgroundEmbedSrc(videoId) {
-    const origin = encodeURIComponent(window.location.origin);
+    // No enablejsapi — avoids www-widgetapi postMessage origin noise on background loops.
     return (
-      `https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1&enablejsapi=1` +
-      `&autoplay=1&mute=1&loop=1&playlist=${videoId}&origin=${origin}`
+      `https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1` +
+      `&autoplay=1&mute=1&loop=1&playlist=${videoId}`
     );
   }
 
@@ -87,23 +87,56 @@
 
   function dedupeYouTubeBackgroundVideos() {
     document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
+      // Elementor leaves an empty shell div; our script may append a second iframe — drop shells.
       container
         .querySelectorAll(".elementor-background-video-embed:not(iframe)")
         .forEach((el) => el.remove());
-      const iframes = [
-        ...container.querySelectorAll("iframe.elementor-background-video-embed"),
-      ];
-      if (iframes.length <= 1) {
-        if (iframes[0]) revealYouTubeBackground(container, iframes[0]);
-        return;
-      }
+
+      const iframes = [...container.querySelectorAll("iframe")];
+      if (!iframes.length) return;
+
       const keeper =
-        iframes.find((f) => /youtube\.com\/embed\//.test(f.src || "")) || iframes[0];
+        iframes.find((f) => /youtube\.com\/embed\//.test(f.getAttribute("src") || "")) ||
+        iframes[0];
+      keeper.classList.add("elementor-background-video-embed");
       iframes.forEach((node) => {
         if (node !== keeper) node.remove();
       });
+      // Collapse to a single child so flex layouts cannot show duplicates side-by-side.
+      [...container.children].forEach((child) => {
+        if (child !== keeper) child.remove();
+      });
       revealYouTubeBackground(container, keeper);
     });
+  }
+
+  function ensureSingleYouTubeBackground(container, embedSrc) {
+    if (!(container instanceof HTMLElement)) return null;
+
+    container
+      .querySelectorAll(".elementor-background-video-embed:not(iframe)")
+      .forEach((el) => el.remove());
+
+    let iframe = container.querySelector("iframe");
+    if (!iframe) {
+      iframe = document.createElement("iframe");
+      iframe.className = "elementor-background-video-embed";
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("allowfullscreen", "");
+      iframe.setAttribute("allow", "autoplay; encrypted-media");
+      iframe.title = "Background video";
+      container.appendChild(iframe);
+    } else {
+      iframe.classList.add("elementor-background-video-embed");
+    }
+
+    const current = iframe.getAttribute("src") || "";
+    if (!current.includes("youtube.com/embed/")) iframe.setAttribute("src", embedSrc);
+
+    dedupeYouTubeBackgroundVideos();
+    revealYouTubeBackground(container, iframe);
+    container.dataset.chrBgVideo = "1";
+    return iframe;
   }
 
   function watchYouTubeBackgroundDupes() {
@@ -131,29 +164,7 @@
 
       const yt = youtubeIdFromUrl(link);
       if (yt) {
-        const existing = container.querySelector("iframe.elementor-background-video-embed");
-        if (existing) {
-          revealYouTubeBackground(container, existing);
-          dedupeYouTubeBackgroundVideos();
-          return;
-        }
-
-        dedupeYouTubeBackgroundVideos();
-        const embedSrc = youtubeBackgroundEmbedSrc(yt);
-
-        container
-          .querySelectorAll(".elementor-background-video-embed:not(iframe)")
-          .forEach((el) => el.remove());
-        const iframe = document.createElement("iframe");
-        iframe.className = "elementor-background-video-embed";
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allowfullscreen", "");
-        iframe.setAttribute("allow", "autoplay; encrypted-media");
-        iframe.title = "Background video";
-        iframe.src = embedSrc;
-        container.appendChild(iframe);
-        dedupeYouTubeBackgroundVideos();
-        revealYouTubeBackground(container, iframe);
+        ensureSingleYouTubeBackground(container, youtubeBackgroundEmbedSrc(yt));
         return;
       }
 
@@ -767,5 +778,14 @@
   init();
   document.addEventListener("DOMContentLoaded", init);
   window.addEventListener("load", init);
-  [200, 800, 2000].forEach((ms) => setTimeout(init, ms));
+  window.addEventListener("elementor/frontend/init", () => {
+    init();
+    dedupeYouTubeBackgroundVideos();
+  });
+  [200, 800, 2000, 4000, 8000].forEach((ms) => {
+    setTimeout(() => {
+      init();
+      dedupeYouTubeBackgroundVideos();
+    }, ms);
+  });
 })();

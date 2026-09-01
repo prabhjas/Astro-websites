@@ -489,14 +489,23 @@ div.wpcf7-response-output.sp-status-visible,
 
 /*
   Homepage dashboard demo (GSAP animate_box) — fit full frame.
-  Matches live connecthr.ae (full width, 16:9, no side crop).
+  Stack a single iframe; flex was showing duplicate embeds side-by-side.
 */
 .elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
 .animate_box .elementor-background-video-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block !important;
+  position: absolute;
+  inset: 0;
   container-type: size;
+}
+
+/* Hide Elementor placeholder shells once iframe exists */
+.elementor-background-video-container .elementor-background-video-embed:not(iframe) {
+  display: none !important;
+}
+.elementor-background-video-container iframe.elementor-background-video-embed ~ iframe,
+.elementor-background-video-container iframe ~ iframe {
+  display: none !important;
 }
 
 .elementor-element.elementor-element-cdbecf6
