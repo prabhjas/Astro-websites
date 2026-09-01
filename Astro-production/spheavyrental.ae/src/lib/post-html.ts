@@ -13,6 +13,116 @@ function normalizeAttr(value: string): string {
   return value.replace(/&amp;/gi, "&").trim();
 }
 
+function findMainPostTitleWidgetStart(html: string): number {
+  const titleMarker = 'data-widget_type="theme-post-title.default"';
+  let scan = 0;
+  while ((scan = html.indexOf(titleMarker, scan)) !== -1) {
+    const before = html.slice(Math.max(0, scan - 1200), scan);
+    if (!before.includes("ecs-post-loop")) {
+      const start = html.lastIndexOf('<div class="elementor-element', scan);
+      if (start !== -1) return start;
+    }
+    scan += 1;
+  }
+  return -1;
+}
+
+function findMainPostRegionStart(html: string, titleIdx: number): number {
+  const markers = ['data-elementor-id="652"', 'class="elementor elementor-652"'];
+  let start = 0;
+  for (const marker of markers) {
+    const idx = html.lastIndexOf(marker, titleIdx);
+    if (idx > start) start = idx;
+  }
+  return start;
+}
+
+function removeElementorWidgetAt(html: string, widgetStart: number): string {
+  if (widgetStart < 0) return html;
+
+  let depth = 0;
+  let i = widgetStart;
+  while (i < html.length) {
+    const openDiv = html.indexOf("<div", i);
+    const closeDiv = html.indexOf("</div>", i);
+    if (closeDiv === -1) return html;
+
+    if (openDiv !== -1 && openDiv < closeDiv) {
+      depth += 1;
+      i = openDiv + 4;
+      continue;
+    }
+
+    depth -= 1;
+    i = closeDiv + 6;
+    if (depth === 0) return html.slice(0, widgetStart) + html.slice(i);
+  }
+
+  return html;
+}
+
+function findElementorWidgetStarts(
+  html: string,
+  from: number,
+  to: number,
+  matches: (openTag: string) => boolean,
+): number[] {
+  const starts: number[] = [];
+  let pos = from;
+  while (pos < to) {
+    const idx = html.indexOf('<div class="elementor-element', pos);
+    if (idx === -1 || idx >= to) break;
+    const endTag = html.indexOf(">", idx);
+    if (endTag === -1 || endTag >= to) break;
+    const openTag = html.slice(idx, endTag + 1);
+    if (matches(openTag)) starts.push(idx);
+    pos = idx + 1;
+  }
+  return starts;
+}
+
+function isLegacySpFeaturedWidget(openTag: string): boolean {
+  return (
+    openTag.includes("elementor-element-sp-featured") ||
+    openTag.includes('data-id="sp-featured"')
+  );
+}
+
+function isThemeFeaturedImageWidget(openTag: string): boolean {
+  return openTag.includes("elementor-widget-theme-post-featured-image");
+}
+
+function replaceFeaturedImageInWidget(html: string, widgetStart: number, img: string): string {
+  const containerIdx = html.indexOf(
+    '<div class="elementor-widget-container">',
+    widgetStart,
+  );
+  if (containerIdx === -1) return html;
+
+  const contentStart = html.indexOf(">", containerIdx) + 1;
+  let depth = 1;
+  let pos = contentStart;
+  while (pos < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", pos);
+    const nextClose = html.indexOf("</div>", pos);
+    if (nextClose === -1) break;
+
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth += 1;
+      pos = nextOpen + 4;
+      continue;
+    }
+
+    depth -= 1;
+    if (depth === 0) {
+      return html.slice(0, contentStart) + img + html.slice(nextClose);
+    }
+    pos = nextClose + 6;
+  }
+
+  return html;
+}
+
 /** Replace or insert the hero featured image in the main post column (not related cards). */
 export function injectFeaturedImageHtml(
   html: string,
@@ -30,58 +140,54 @@ export function injectFeaturedImageHtml(
 				</div>
 				`;
 
-  const titleMarker = 'data-widget_type="theme-post-title.default"';
-  let titleIdx = -1;
-  let scan = 0;
-  while ((scan = html.indexOf(titleMarker, scan)) !== -1) {
-    const before = html.slice(Math.max(0, scan - 1200), scan);
-    if (!before.includes("ecs-post-loop")) {
-      titleIdx = html.lastIndexOf('<div class="elementor-element', scan);
-      break;
-    }
-    scan += 1;
-  }
+  const titleIdx = findMainPostTitleWidgetStart(html);
   if (titleIdx === -1) return html;
 
-  const wrapStart = html.lastIndexOf(
-    "elementor-widget-wrap elementor-element-populated",
+  const regionStart = findMainPostRegionStart(html, titleIdx);
+  let out = html;
+
+  const legacyFeatured = findElementorWidgetStarts(
+    out,
+    regionStart,
     titleIdx,
+    isLegacySpFeaturedWidget,
   );
-  const between = html.slice(wrapStart, titleIdx);
-  const featIdx = between.indexOf("elementor-widget-theme-post-featured-image");
-
-  if (featIdx !== -1) {
-    const absoluteFeat = wrapStart + featIdx;
-    const containerIdx = html.indexOf(
-      '<div class="elementor-widget-container">',
-      absoluteFeat,
-    );
-    if (containerIdx === -1) return html;
-
-    const contentStart = html.indexOf(">", containerIdx) + 1;
-    let depth = 1;
-    let pos = contentStart;
-    while (pos < html.length && depth > 0) {
-      const nextOpen = html.indexOf("<div", pos);
-      const nextClose = html.indexOf("</div>", pos);
-      if (nextClose === -1) break;
-
-      if (nextOpen !== -1 && nextOpen < nextClose) {
-        depth += 1;
-        pos = nextOpen + 4;
-        continue;
-      }
-
-      depth -= 1;
-      if (depth === 0) {
-        return html.slice(0, contentStart) + img + html.slice(nextClose);
-      }
-      pos = nextClose + 6;
-    }
-    return html;
+  for (let i = legacyFeatured.length - 1; i >= 0; i -= 1) {
+    out = removeElementorWidgetAt(out, legacyFeatured[i]!);
   }
 
-  return html.slice(0, titleIdx) + widget + html.slice(titleIdx);
+  const titleIdxAfterLegacy = findMainPostTitleWidgetStart(out);
+  if (titleIdxAfterLegacy === -1) return out;
+  const regionStartAfterLegacy = findMainPostRegionStart(out, titleIdxAfterLegacy);
+
+  const featuredWidgets = findElementorWidgetStarts(
+    out,
+    regionStartAfterLegacy,
+    titleIdxAfterLegacy,
+    isThemeFeaturedImageWidget,
+  );
+
+  let workingTitleIdx = titleIdxAfterLegacy;
+  if (featuredWidgets.length > 1) {
+    for (let i = featuredWidgets.length - 1; i > 0; i -= 1) {
+      out = removeElementorWidgetAt(out, featuredWidgets[i]!);
+    }
+    workingTitleIdx = findMainPostTitleWidgetStart(out);
+    if (workingTitleIdx === -1) return out;
+  }
+
+  const featuredWidgetsFinal = findElementorWidgetStarts(
+    out,
+    findMainPostRegionStart(out, workingTitleIdx),
+    workingTitleIdx,
+    isThemeFeaturedImageWidget,
+  );
+
+  if (featuredWidgetsFinal.length > 0) {
+    return replaceFeaturedImageInWidget(out, featuredWidgetsFinal[0]!, img);
+  }
+
+  return out.slice(0, workingTitleIdx) + widget + out.slice(workingTitleIdx);
 }
 
 function extractAuthorBox(html: string): { start: number; end: number; snippet: string } | null {
