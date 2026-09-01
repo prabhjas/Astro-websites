@@ -77,7 +77,9 @@
   function applyMobileStacks() {
     if (!window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches) return;
 
-    document.querySelectorAll(".elementor-main-swiper").forEach((el) => {
+    document
+      .querySelectorAll(".elementor-main-swiper, .elementor-image-carousel-wrapper")
+      .forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
       const widgetEl = getCarouselWidget(el);
       if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
@@ -90,8 +92,10 @@
 
     applyMobileStacks();
 
-    // Prefer Elementor main swipers only — avoids nested / incomplete .swiper shells.
-    document.querySelectorAll(".elementor-main-swiper").forEach((el) => {
+    // Elementor main swipers + image carousels (homepage client logos).
+    document
+      .querySelectorAll(".elementor-main-swiper, .elementor-image-carousel-wrapper")
+      .forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
       if (el.dataset.spCarouselBooted === "1") return;
       if (el.swiper || el.classList.contains("swiper-initialized")) return;
@@ -129,6 +133,8 @@
         settings.loop !== "no" && settings.infinite !== "no";
       // Loop with too few slides causes Swiper internal undefined.el / .enabled errors.
       const canLoop = wantsLoop && slides.length > Math.ceil(desktopView);
+      // Fleet swiper.min.js is core-only (no Autoplay module) — object config throws.
+      const useAutoplay = false;
 
       el.dataset.spCarouselBooted = "1";
 
@@ -139,14 +145,7 @@
           breakpoints,
           loop: canLoop,
           speed: Number(settings.speed) || 500,
-          autoplay:
-            settings.autoplay === "yes"
-              ? {
-                  delay: Number(settings.autoplay_speed) || 5000,
-                  disableOnInteraction: false,
-                  pauseOnMouseEnter: settings.pause_on_hover === "yes",
-                }
-              : false,
+          autoplay: useAutoplay,
           navigation:
             next && prev ? { nextEl: next, prevEl: prev } : undefined,
           pagination: pagination
