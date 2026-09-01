@@ -47,7 +47,6 @@ REMOVED_URLS = [
     "/golden-visa-uae1212/",
     "/golden-visa-uae222/",
     "/golden-visa-uae/",
-    "/eor-main/",
     "/eor-middle-east/",
     "/employer-of-record-middle-east/",
     "/employer-of-record-uae/",

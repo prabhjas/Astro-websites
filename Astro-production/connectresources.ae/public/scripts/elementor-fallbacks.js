@@ -89,16 +89,39 @@
     openFirstAccordion();
     fixAccordionIcons();
     fixLpFormSelect();
+    if (typeof window.initEorTestimonials === "function") {
+      window.initEorTestimonials();
+    }
+  }
+
+  function loadEorTestimonials() {
+    if (typeof window.initEorTestimonials === "function") {
+      window.initEorTestimonials();
+      return;
+    }
+    if (document.querySelector(".elementor-element-e7a1test") && !document.querySelector('script[src="/scripts/eor-testimonials.js"]')) {
+      var s = document.createElement("script");
+      s.src = "/scripts/eor-testimonials.js";
+      s.onload = function () {
+        if (typeof window.initEorTestimonials === "function") window.initEorTestimonials();
+      };
+      document.body.appendChild(s);
+    }
+  }
+
+  function runAll() {
+    run();
+    loadEorTestimonials();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run);
+    document.addEventListener("DOMContentLoaded", runAll);
   } else {
-    run();
+    runAll();
   }
   window.addEventListener("load", function () {
-    setTimeout(run, 50);
-    setTimeout(run, 500);
-    setTimeout(run, 1500);
+    setTimeout(runAll, 50);
+    setTimeout(runAll, 500);
+    setTimeout(runAll, 1500);
   });
 })();
