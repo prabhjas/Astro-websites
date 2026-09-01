@@ -13,7 +13,11 @@ const FOOTER_PATH = join(ROOT, 'src/legacy/chrome/footer.html');
 /** Home keeps its own chrome; blog/archives never call serveLegacyPage for shells. */
 export const SHARED_CHROME_EXCLUDED_SLUGS = new Set(['homepage']);
 
-const HEADER_CSS_HREF = '/chrome/header.css';
+/** Bump when post-311 header nav CSS changes — busts long-lived CDN cache on legacy ?ver= links. */
+const POST_311_CSS_HREF =
+  '/wp-content/uploads/elementor/css/post-311.css?ver=1786046860';
+/** Bump ?v= when header chrome CSS changes — avoids long-lived CDN cache on /chrome/header.css */
+const HEADER_CSS_HREF = '/chrome/header.css?v=2';
 const HEADER_CSS_MARK = 'data-eme-shared-header-css';
 const FORM_CSS_HREF = '/css/kinza-form-fix.css';
 const FORM_CSS_MARK = 'data-kinza-form-fix';
@@ -193,6 +197,11 @@ function replaceBalancedTag(html, openStart, tagName, replacement) {
  */
 function ensureHeaderCss(html) {
   let out = stripMenuDummyHashHrefs(html);
+  if (out.includes(POST_311_CSS_HREF_PREVIOUS)) {
+    out = out.split(POST_311_CSS_HREF_PREVIOUS).join(POST_311_CSS_HREF);
+  }
+  // Drop stale unversioned link from older builds (Cloudflare cached pre-fix header.css).
+  out = out.replace(/<link rel="stylesheet" href="\/chrome\/header\.css"[^>]*\/?>/gi, '');
   if (!out.includes(HEADER_CSS_MARK) && !out.includes(HEADER_CSS_HREF)) {
     const link = `<link rel="stylesheet" href="${HEADER_CSS_HREF}" ${HEADER_CSS_MARK}="1" />`;
     out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${link}\n</head>`) : link + out;
