@@ -87,35 +87,45 @@
 
   function dedupeYouTubeBackgroundVideos() {
     document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
-      // Elementor leaves an empty shell div; our script may append a second iframe — drop shells.
-      container
-        .querySelectorAll(".elementor-background-video-embed:not(iframe)")
-        .forEach((el) => el.remove());
-
       const iframes = [...container.querySelectorAll("iframe")];
-      if (!iframes.length) return;
+      if (!iframes.length) {
+        container
+          .querySelectorAll(".elementor-background-video-embed:not(iframe)")
+          .forEach((el) => el.remove());
+        return;
+      }
 
       const keeper =
         iframes.find((f) => /youtube\.com\/embed\//.test(f.getAttribute("src") || "")) ||
         iframes[0];
       keeper.classList.add("elementor-background-video-embed");
-      iframes.forEach((node) => {
-        if (node !== keeper) node.remove();
-      });
-      // Collapse to a single child so flex layouts cannot show duplicates side-by-side.
-      [...container.children].forEach((child) => {
-        if (child !== keeper) child.remove();
-      });
+      if (container.dataset.chrBgVideo === "1" || iframes.length > 1 || container.children.length > 1) {
+        container.replaceChildren(keeper);
+      }
       revealYouTubeBackground(container, keeper);
+    });
+  }
+
+  /** Elementor still inits hidden responsive video widgets — strip iframes to avoid YT API noise. */
+  function suppressHiddenVideoWidgets() {
+    document.querySelectorAll(".elementor-widget-video").forEach((widget) => {
+      const hidden =
+        widget.classList.contains("elementor-hidden-desktop") &&
+        window.matchMedia("(min-width: 1025px)").matches;
+      const hiddenMobile =
+        widget.classList.contains("elementor-hidden-mobile") &&
+        window.matchMedia("(max-width: 767px)").matches;
+      if (!hidden && !hiddenMobile) return;
+      widget.querySelectorAll("iframe").forEach((node) => node.remove());
+      widget.querySelectorAll(".elementor-video iframe").forEach((node) => node.remove());
+      const slot = widget.querySelector(".elementor-video");
+      if (slot) slot.innerHTML = "";
+      widget.dataset.chrVideoSuppressed = "1";
     });
   }
 
   function ensureSingleYouTubeBackground(container, embedSrc) {
     if (!(container instanceof HTMLElement)) return null;
-
-    container
-      .querySelectorAll(".elementor-background-video-embed:not(iframe)")
-      .forEach((el) => el.remove());
 
     let iframe = container.querySelector("iframe");
     if (!iframe) {
@@ -125,7 +135,6 @@
       iframe.setAttribute("allowfullscreen", "");
       iframe.setAttribute("allow", "autoplay; encrypted-media");
       iframe.title = "Background video";
-      container.appendChild(iframe);
     } else {
       iframe.classList.add("elementor-background-video-embed");
     }
@@ -133,9 +142,10 @@
     const current = iframe.getAttribute("src") || "";
     if (!current.includes("youtube.com/embed/")) iframe.setAttribute("src", embedSrc);
 
-    dedupeYouTubeBackgroundVideos();
-    revealYouTubeBackground(container, iframe);
+    // One child only — Elementor often nests iframe inside a placeholder div alongside ours.
+    container.replaceChildren(iframe);
     container.dataset.chrBgVideo = "1";
+    revealYouTubeBackground(container, iframe);
     return iframe;
   }
 
@@ -766,6 +776,7 @@
     hydrateLazyMedia();
     initBgVideo();
     dedupeYouTubeBackgroundVideos();
+    suppressHiddenVideoWidgets();
     watchYouTubeBackgroundDupes();
     initCounters();
     initSticky();
@@ -781,11 +792,13 @@
   window.addEventListener("elementor/frontend/init", () => {
     init();
     dedupeYouTubeBackgroundVideos();
+    suppressHiddenVideoWidgets();
   });
   [200, 800, 2000, 4000, 8000].forEach((ms) => {
     setTimeout(() => {
       init();
       dedupeYouTubeBackgroundVideos();
+      suppressHiddenVideoWidgets();
     }, ms);
   });
 })();

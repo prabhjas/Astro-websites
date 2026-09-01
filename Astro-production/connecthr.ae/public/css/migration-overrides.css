@@ -496,7 +496,22 @@ div.wpcf7-response-output.sp-status-visible,
   display: block !important;
   position: absolute;
   inset: 0;
+  z-index: 0;
   container-type: size;
+  overflow: hidden;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner,
+.animate_box .e-con-inner {
+  position: relative;
+  min-height: inherit;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner > .elementor-widget-html,
+.animate_box .e-con-inner > .elementor-widget-html {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* Hide Elementor placeholder shells once iframe exists */

@@ -1,10 +1,9 @@
 /**
- * Fallback Elementor Swiper carousels (fleet + testimonials).
- * Minimal config — Elementor Swiper throws on stale nav/a11y when re-initing.
+ * Fallback Elementor image carousels only (logo strips).
+ * Do NOT touch .elementor-main-swiper — Elementor Pro owns testimonial/slides carousels.
  */
 (() => {
   const MOBILE_MAX = 767;
-  /** Widgets that show all slides stacked on mobile instead of a carousel. */
   const MOBILE_STACK_WIDGET_IDS = new Set(["238453b"]);
 
   function parseSettings(el) {
@@ -38,33 +37,14 @@
     const mobile = num(settings.slides_per_view_mobile, 1);
 
     return {
-      0: {
-        slidesPerView: mobile,
-        spaceBetween: spaceBetween(settings, "_mobile"),
-      },
-      768: {
-        slidesPerView: tablet,
-        spaceBetween: spaceBetween(settings, "_tablet"),
-      },
-      1025: {
-        slidesPerView: desktop,
-        spaceBetween: spaceBetween(settings),
-      },
+      0: { slidesPerView: mobile, spaceBetween: spaceBetween(settings, "_mobile") },
+      768: { slidesPerView: tablet, spaceBetween: spaceBetween(settings, "_tablet") },
+      1025: { slidesPerView: desktop, spaceBetween: spaceBetween(settings) },
     };
   }
 
   function getCarouselWidget(el) {
-    return (
-      el.closest(".elementor-element[data-widget_type*='carousel']") ||
-      el.closest(".elementor-widget[data-widget_type*='carousel']") ||
-      el.closest(".elementor-element[data-widget_type*='slides']") ||
-      el.closest(".elementor-widget[data-widget_type*='slides']")
-    );
-  }
-
-  function markMobileStack(widgetEl, swiperEl) {
-    widgetEl?.classList.add("sp-mobile-stack");
-    swiperEl.classList.add("sp-mobile-stack");
+    return el.closest(".elementor-widget-image-carousel, .elementor-widget[data-widget_type*='carousel']");
   }
 
   function shouldMobileStack(widgetEl) {
@@ -74,41 +54,34 @@
     );
   }
 
-  function destroyIfAny(el) {
-    try {
-      if (el.swiper && !el.swiper.destroyed) el.swiper.destroy(true, true);
-    } catch {
-      /* ignore */
-    }
-    try {
-      delete el.swiper;
-    } catch {
-      /* ignore */
-    }
-    el.classList.remove("swiper-initialized", "swiper-horizontal", "swiper-vertical");
-    el.querySelectorAll(".swiper-slide-duplicate").forEach((n) => n.remove());
+  function markMobileStack(widgetEl, swiperEl) {
+    widgetEl?.classList.add("sp-mobile-stack");
+    swiperEl.classList.add("sp-mobile-stack");
   }
 
-  function isReady(el) {
+  function swiperWorks(el) {
     return (
-      el instanceof HTMLElement &&
-      !el.dataset.spCarouselBooted &&
-      !el.classList.contains("swiper-initialized") &&
-      el.querySelector(".swiper-wrapper")
+      el.swiper &&
+      !el.swiper.destroyed &&
+      typeof el.swiper.slideNext === "function"
     );
   }
 
-  /** Apply stacked layout on mobile before Swiper loads. */
+  function isReady(el) {
+    if (!(el instanceof HTMLElement)) return false;
+    if (el.dataset.spCarouselBooted === "1") return false;
+    if (swiperWorks(el)) return false;
+    if (el.classList.contains("swiper-initialized") && swiperWorks(el)) return false;
+    return Boolean(el.querySelector(".swiper-wrapper"));
+  }
+
   function applyMobileStacks() {
     if (!window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches) return;
-
-    document
-      .querySelectorAll(".elementor-main-swiper, .elementor-image-carousel-wrapper")
-      .forEach((el) => {
-        if (!(el instanceof HTMLElement)) return;
-        const widgetEl = getCarouselWidget(el);
-        if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
-      });
+    document.querySelectorAll(".elementor-image-carousel-wrapper").forEach((el) => {
+      if (!(el instanceof HTMLElement)) return;
+      const widgetEl = getCarouselWidget(el);
+      if (shouldMobileStack(widgetEl)) markMobileStack(widgetEl, el);
+    });
   }
 
   function boot() {
@@ -117,72 +90,54 @@
 
     applyMobileStacks();
 
-    document
-      .querySelectorAll(".elementor-main-swiper, .elementor-image-carousel-wrapper")
-      .forEach((el) => {
-        if (!isReady(el)) return;
+    document.querySelectorAll(".elementor-image-carousel-wrapper").forEach((el) => {
+      if (!isReady(el)) return;
 
-        const slides = el.querySelectorAll(
-          ".swiper-slide:not(.swiper-slide-duplicate)",
-        );
-        if (slides.length < 1) return;
+      const slides = el.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)");
+      if (slides.length < 1) return;
 
-        const settings = parseSettings(el);
-        const parent = el.closest(".elementor-element") || el.parentElement;
-        const widgetEl = getCarouselWidget(el);
+      const settings = parseSettings(el);
+      const widgetEl = getCarouselWidget(el);
 
-        if (shouldMobileStack(widgetEl) && el.classList.contains("sp-mobile-stack")) {
-          el.dataset.spCarouselBooted = "1";
-          return;
-        }
-
-        const next = parent?.querySelector(
-          ":scope > .elementor-swiper-button-next, :scope .swiper-button-next, .elementor-swiper-button-next, .swiper-button-next",
-        );
-        const prev = parent?.querySelector(
-          ":scope > .elementor-swiper-button-prev, :scope .swiper-button-prev, .elementor-swiper-button-prev, .swiper-button-prev",
-        );
-        const pagination = parent?.querySelector(":scope .swiper-pagination, .swiper-pagination");
-        const breakpoints = buildBreakpoints(settings);
-
-        const config = {
-          slidesPerView: 1,
-          breakpoints,
-          loop: false,
-          speed: Number(settings.speed) || 500,
-          watchOverflow: true,
-          centeredSlides: settings.centered_slides === "yes",
-          observer: true,
-          observeParents: true,
-          a11y: false,
-          navigation: false,
-          pagination: false,
-          scrollbar: false,
-        };
-
-        if (
-          next instanceof HTMLElement &&
-          prev instanceof HTMLElement &&
-          document.contains(next) &&
-          document.contains(prev)
-        ) {
-          config.navigation = { nextEl: next, prevEl: prev };
-        }
-        if (pagination instanceof HTMLElement && document.contains(pagination)) {
-          config.pagination = { el: pagination, clickable: true };
-        }
-
+      if (shouldMobileStack(widgetEl) && el.classList.contains("sp-mobile-stack")) {
         el.dataset.spCarouselBooted = "1";
-        destroyIfAny(el);
+        return;
+      }
 
-        try {
-          // eslint-disable-next-line no-new
-          new SwiperCtor(el, config);
-        } catch (e) {
-          console.warn("sp-carousel init failed", e);
-          delete el.dataset.spCarouselBooted;
-        }
-      });
+      const desktop = num(settings.slides_per_view || settings.slides_to_show, 1);
+      const wantAutoplay = settings.autoplay === "yes";
+
+      const config = {
+        slidesPerView: num(settings.slides_per_view_mobile, 1),
+        spaceBetween: spaceBetween(settings, "_mobile"),
+        breakpoints: buildBreakpoints(settings),
+        loop: settings.infinite !== "no" && settings.loop !== "no" && slides.length > desktop,
+        speed: Number(settings.speed) || 500,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        a11y: false,
+        navigation: false,
+        pagination: false,
+        scrollbar: false,
+        autoplay: wantAutoplay
+          ? {
+              delay: Number(settings.autoplay_speed) || 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: settings.pause_on_hover === "yes",
+            }
+          : false,
+      };
+
+      el.dataset.spCarouselBooted = "1";
+
+      try {
+        // eslint-disable-next-line no-new
+        new SwiperCtor(el, config);
+      } catch {
+        delete el.dataset.spCarouselBooted;
+      }
+    });
   }
 
   function ensureSwiper(cb) {
@@ -211,14 +166,13 @@
 
   function run() {
     applyMobileStacks();
-    // Let Elementor image-carousel bundle init first; fallback only fills gaps.
-    window.addEventListener("elementor/frontend/init", () => setTimeout(scheduleBoot, 700));
+    window.addEventListener("elementor/frontend/init", () => setTimeout(scheduleBoot, 900));
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => setTimeout(scheduleBoot, 1200));
+      document.addEventListener("DOMContentLoaded", () => setTimeout(scheduleBoot, 1500));
     } else {
-      setTimeout(scheduleBoot, 1200);
+      setTimeout(scheduleBoot, 1500);
     }
-    window.addEventListener("load", () => setTimeout(scheduleBoot, 400));
+    window.addEventListener("load", () => setTimeout(scheduleBoot, 600));
   }
 
   run();
