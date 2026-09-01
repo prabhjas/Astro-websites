@@ -489,7 +489,7 @@ div.wpcf7-response-output.sp-status-visible,
 
 /*
   Homepage dashboard demo (GSAP animate_box) — fit full frame.
-  Global cover sizing + 100vw crops sides when the box is narrower than viewport.
+  Matches live connecthr.ae (full width, 16:9, no side crop).
 */
 .elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
 .animate_box .elementor-background-video-container {
@@ -517,6 +517,14 @@ div.wpcf7-response-output.sp-status-visible,
   min-height: 0;
   aspect-ratio: 16 / 9;
 }
+
+/* Reveal YouTube background once iframe is injected (Elementor loading classes stay otherwise). */
+.elementor-background-video-container.elementor-background-video-loaded,
+.elementor-background-video-container:has(iframe.elementor-background-video-embed) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .home-header > .elementor-container,
 .elementor-element-e9a775c > .elementor-container {
   position: relative;
