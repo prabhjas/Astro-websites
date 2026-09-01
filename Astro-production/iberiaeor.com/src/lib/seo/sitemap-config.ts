@@ -25,6 +25,19 @@ export const EXCLUDED_PAGE_SLUGS = new Set([
   'status',
 ]);
 
+/** Full paths kept live but excluded from XML sitemaps (noindex pages). */
+export const EXCLUDED_SITEMAP_PATHS = new Set([
+  '/es/privacy-policy/',
+  '/ru/about-us/',
+  '/ru/privacy-policy/',
+  '/es/about-us/',
+  '/privacy-policy-2/',
+  '/es/iberia-eor-landing-page-english-2/',
+  '/iberia-eor-landing-page-english-1/',
+  '/hr-services-spain-new/',
+  '/author/',
+]);
+
 /** Cache policy for sitemap/robots responses (static hosting may ignore; useful in preview/SSR). */
 export const SITEMAP_CACHE_CONTROL =
   'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400';
