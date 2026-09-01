@@ -1,7 +1,7 @@
 # Developer docs — start here
 
 **Mushtaq, Tabish, Rajpal:** one file to use daily → **[TASK-PASTE.md](TASK-PASTE.md)**  
-**Prabhjas (deploy lead):** same + [DEVELOPER-HANDOFF.md](../DEVELOPER-HANDOFF.md)
+**Prabhjas (deploy lead):** **[DEPLOY-LEAD-FLOW.md](DEPLOY-LEAD-FLOW.md)** (gated intake → push → test → Aaron path) + [DEVELOPER-HANDOFF.md](../DEVELOPER-HANDOFF.md)
 
 Automation is **built into Cursor** for this repo (`.cursor/rules/developer-fleet-handbook.mdc`).  
 No names, no account IDs, no manual Jira steps.
@@ -25,6 +25,7 @@ No names, no account IDs, no manual Jira steps.
 | [CWV-WAVE-PROMPT.md](CWV-WAVE-PROMPT.md) | CWV = same TASK-PASTE with `Type: CWV` |
 | [CURSOR-MEMORY-PROMPT.md](CURSOR-MEMORY-PROMPT.md) | Agent automation spec (you don't paste this) |
 | [JIRA-DEV-WORKFLOW.md](JIRA-DEV-WORKFLOW.md) | Jira board + MCP setup |
+| [DEPLOY-LEAD-FLOW.md](DEPLOY-LEAD-FLOW.md) | Prabhjas: summaries, test gate, Aaron path |
 
 ---
 

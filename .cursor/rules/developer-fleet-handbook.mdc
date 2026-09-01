@@ -16,7 +16,7 @@ Developers paste a `---TASK---` block or say `done`. **You run everything else**
 1. Call **`atlassianUserInfo`** at session start and on every new task.
 2. Use returned **`accountId`** as Jira assignee.
 3. If Mushtaq / Tabish / Rajpal → **developer lane** (max status **Testing 51**).
-4. If Prabhjas → deploy lead lane (full lifecycle per `docs/DEVELOPER-HANDOFF.md`).
+4. If Prabhjas → **deploy lead lane** — follow **four gates** in `docs/developers/DEPLOY-LEAD-FLOW.md` + `aaron-deploy-path` rule (intake summary → dual-push → test → Aaron path). Always create Jira for Prabhjas’s own work and a `deploy-wave` ticket per publish wave.
 5. Fallback only if MCP fails: map `git config user.email` / author to assignee table in `docs/developers/CURSOR-MEMORY-PROMPT.md` — then ask to reconnect MCP.
 
 ---
@@ -100,6 +100,13 @@ One site per ticket. One optimization tier at a time (LCP → fonts/CLS → JS �
 
 ---
 
-## Deploy lead only
+## Deploy lead only (Prabhjas — four gates)
 
-Merge → `work/astro-sites` → host `astro-fleet-development` → SSH-signed commit → `sudo /usr/local/sbin/astro-fleet-release publish` → live verify → **RELEASED**.
+See `docs/developers/DEPLOY-LEAD-FLOW.md`. Never collapse into one silent publish.
+
+1. **Intake** (local cherry-pick) → Intake Summary → stop for `ok`
+2. **Dual-push** `work/astro-sites` origin + personal → Push Summary → stop for `test it`
+3. **Test gate** (check/build, fleet-local, routes, Lighthouse if CWV) → Test Summary → Ready for Release → stop for `ok all perfect`
+4. **Aaron path** only on `push via Aaron path` → live verify → **RELEASED**
+
+Always create/reuse a Prabhjas `deploy-wave` ticket per wave; create brand tickets if developers missed them.
