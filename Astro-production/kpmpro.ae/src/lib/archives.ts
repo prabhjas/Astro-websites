@@ -184,10 +184,22 @@ html body.elementor-page-blog{
 .elementor-5894 .elementor-element-a830b31 > .elementor-widget-wrap{
   justify-content:flex-start;
 }
+.elementor-5894 .elementor-element-5ee249c .elementor-widget-container{
+  height:220px;
+  overflow:hidden;
+}
+.elementor-5894 .elementor-element-5ee249c .elementor-widget-container a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:220px;
+  width:100%;
+  background:#f6f8fa;
+}
 .elementor-5894 .elementor-element-5ee249c img{
   width:100%;
   height:220px;
-  object-fit:cover;
+  object-fit:contain;
   display:block;
 }
 .elementor-5894 .elementor-element-f1ba8fd{
