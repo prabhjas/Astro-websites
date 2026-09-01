@@ -99,9 +99,23 @@
         iframes.find((f) => /youtube\.com\/embed\//.test(f.getAttribute("src") || "")) ||
         iframes[0];
       keeper.classList.add("elementor-background-video-embed");
-      if (container.dataset.chrBgVideo === "1" || iframes.length > 1 || container.children.length > 1) {
-        container.replaceChildren(keeper);
+
+      // Stable single iframe — skip DOM writes (MutationObserver was looping here).
+      if (
+        container.dataset.chrBgVideo === "1" &&
+        iframes.length === 1 &&
+        container.childElementCount === 1 &&
+        container.firstElementChild === keeper
+      ) {
+        return;
       }
+
+      if (iframes.length > 1 || container.childElementCount > 1 || container.firstElementChild !== keeper) {
+        container.dataset.chrDedupeLock = "1";
+        container.replaceChildren(keeper);
+        delete container.dataset.chrDedupeLock;
+      }
+      container.dataset.chrBgVideo = "1";
       revealYouTubeBackground(container, keeper);
     });
   }
@@ -109,6 +123,7 @@
   /** Elementor still inits hidden responsive video widgets — strip iframes to avoid YT API noise. */
   function suppressHiddenVideoWidgets() {
     document.querySelectorAll(".elementor-widget-video").forEach((widget) => {
+      if (widget.dataset.chrVideoSuppressed === "1") return;
       const hidden =
         widget.classList.contains("elementor-hidden-desktop") &&
         window.matchMedia("(min-width: 1025px)").matches;
@@ -117,7 +132,6 @@
         window.matchMedia("(max-width: 767px)").matches;
       if (!hidden && !hiddenMobile) return;
       widget.querySelectorAll("iframe").forEach((node) => node.remove());
-      widget.querySelectorAll(".elementor-video iframe").forEach((node) => node.remove());
       const slot = widget.querySelector(".elementor-video");
       if (slot) slot.innerHTML = "";
       widget.dataset.chrVideoSuppressed = "1";
@@ -126,6 +140,10 @@
 
   function ensureSingleYouTubeBackground(container, embedSrc) {
     if (!(container instanceof HTMLElement)) return null;
+    if (container.dataset.chrBgVideo === "1") {
+      const existing = container.querySelector("iframe");
+      if (existing && container.childElementCount === 1) return existing;
+    }
 
     let iframe = container.querySelector("iframe");
     if (!iframe) {
@@ -142,8 +160,11 @@
     const current = iframe.getAttribute("src") || "";
     if (!current.includes("youtube.com/embed/")) iframe.setAttribute("src", embedSrc);
 
-    // One child only — Elementor often nests iframe inside a placeholder div alongside ours.
-    container.replaceChildren(iframe);
+    if (container.childElementCount !== 1 || container.firstElementChild !== iframe) {
+      container.dataset.chrDedupeLock = "1";
+      container.replaceChildren(iframe);
+      delete container.dataset.chrDedupeLock;
+    }
     container.dataset.chrBgVideo = "1";
     revealYouTubeBackground(container, iframe);
     return iframe;
@@ -152,11 +173,10 @@
   function watchYouTubeBackgroundDupes() {
     if (watchYouTubeBackgroundDupes.bound) return;
     watchYouTubeBackgroundDupes.bound = true;
-    const run = () => dedupeYouTubeBackgroundVideos();
-    [100, 500, 1200, 2500, 5000].forEach((ms) => setTimeout(run, ms));
-    window.addEventListener("elementor/frontend/init", run);
-    document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
-      new MutationObserver(run).observe(container, { childList: true, subtree: true });
+    // Timed passes only — MutationObserver + replaceChildren caused infinite loops / tab crash.
+    [100, 600, 1800].forEach((ms) => setTimeout(dedupeYouTubeBackgroundVideos, ms));
+    window.addEventListener("elementor/frontend/init", () => setTimeout(dedupeYouTubeBackgroundVideos, 400), {
+      once: true,
     });
   }
 
@@ -773,6 +793,8 @@
   }
 
   function init() {
+    if (init.done) return;
+    init.done = true;
     hydrateLazyMedia();
     initBgVideo();
     dedupeYouTubeBackgroundVideos();
@@ -786,19 +808,18 @@
     initSearchWidgets();
   }
 
-  init();
-  document.addEventListener("DOMContentLoaded", init);
-  window.addEventListener("load", init);
-  window.addEventListener("elementor/frontend/init", () => {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
     init();
-    dedupeYouTubeBackgroundVideos();
-    suppressHiddenVideoWidgets();
-  });
-  [200, 800, 2000, 4000, 8000].forEach((ms) => {
-    setTimeout(() => {
-      init();
+  }
+  window.addEventListener("load", () => setTimeout(dedupeYouTubeBackgroundVideos, 300), { once: true });
+  window.addEventListener(
+    "elementor/frontend/init",
+    () => {
       dedupeYouTubeBackgroundVideos();
       suppressHiddenVideoWidgets();
-    }, ms);
-  });
+    },
+    { once: true },
+  );
 })();
