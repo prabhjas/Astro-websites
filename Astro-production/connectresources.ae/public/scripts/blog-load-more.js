@@ -144,7 +144,9 @@
   }
 
   function wireImprezaLoadMore() {
-    var loaders = document.querySelectorAll(".w-grid.pagination_ajax .g-loadmore");
+    var loaders = document.querySelectorAll(
+      ".w-grid.pagination_ajax .g-loadmore, .w-grid.cr-author-articles .g-loadmore",
+    );
     if (!loaders.length) {
       loaders = document.querySelectorAll(".w-grid .g-loadmore");
     }
@@ -160,7 +162,13 @@
       var qa = (cfg.template_vars && cfg.template_vars.query_args) || {};
       var perPage = Number(qa.posts_per_page) || 4;
       var nextPage = 2;
-      var isInsights = grid.id === "us_grid_3" || grid.classList.contains("pagination_ajax");
+      var isAuthor = grid.classList.contains("cr-author-articles");
+      var authorId = grid.getAttribute("data-author-id") || "";
+      var isInsights =
+        !isAuthor && (grid.id === "us_grid_3" || grid.classList.contains("pagination_ajax"));
+      if (isAuthor) {
+        perPage = 9;
+      }
       var loading = false;
       var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
@@ -191,7 +199,9 @@
           encodeURIComponent(String(perPage)) +
           "&exclude=" +
           encodeURIComponent(existingIds());
-        if (isInsights) {
+        if (isAuthor && authorId) {
+          query += "&grid=author&authorId=" + encodeURIComponent(authorId);
+        } else if (isInsights) {
           query += "&grid=insights";
         }
 

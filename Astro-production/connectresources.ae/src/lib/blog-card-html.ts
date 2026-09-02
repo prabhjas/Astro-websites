@@ -1,4 +1,6 @@
-import { getCategories, stripHtml, type PostEntry } from "./content";
+import { formatDate, getCategories, stripHtml, type PostEntry } from "./content";
+
+export const AUTHOR_ARTICLES_PER_PAGE = 9;
 
 /** Matches Elementor loop template 540 (featured image + category + title + excerpt + CTA). */
 const CATEGORY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><path d="M21.8418 7.18675C21.7417 6.95231 21.5978 6.73915 21.4178 6.55875C21.232 6.37182 21.011 6.22346 20.7677 6.12221C20.5243 6.02096 20.2633 5.9688 19.9998 5.96875H7.99977C7.70277 5.96875 7.42177 6.10075 7.23077 6.32775L2.23077 12.3278C1.92177 12.6988 1.92177 13.2378 2.23077 13.6088L7.23077 19.6087C7.42177 19.8367 7.70277 19.9688 7.99977 19.9688H19.9998C20.2616 19.9698 20.521 19.9189 20.7631 19.819C21.0051 19.7191 21.2249 19.5722 21.4098 19.3867C21.5967 19.2009 21.7451 18.98 21.8463 18.7366C21.9476 18.4933 21.9997 18.2323 21.9998 17.9688V7.96875C21.9998 7.70342 21.9471 7.44275 21.8418 7.18675Z" fill="#FFDD04"></path></svg>`;
@@ -196,4 +198,46 @@ export function renderImprezaGridCardHtml(post: PostEntry): string {
 
 export function renderImprezaGridCardsHtml(posts: PostEntry[]): string {
   return posts.map(renderImprezaGridCardHtml).join("\n");
+}
+
+function formatAuthorCardDate(date: string): string {
+  const d = new Date(date);
+  if (!Number.isFinite(d.getTime())) return formatDate(date);
+  const day = d.getDate();
+  const suffix =
+    day % 10 === 1 && day !== 11
+      ? "st"
+      : day % 10 === 2 && day !== 12
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+          ? "rd"
+          : "th";
+  const month = d.toLocaleDateString("en-GB", { month: "long" });
+  return `${day}${suffix} ${month} ${d.getFullYear()}`;
+}
+
+/**
+ * Featured-blog card markup for /authors/* (layout_31725 — image, date, title).
+ */
+export function renderAuthorGridCardHtml(post: PostEntry): string {
+  const title = stripHtml(post.title);
+  const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+  const img = (post.featuredImage || post.seo?.ogImage || "").trim();
+  const alt = escapeAttr(title || "Post image");
+  const catClass = categorySlugClass(post);
+  const thumbClass = img ? "has-post-thumbnail" : "";
+  const when = formatAuthorCardDate(post.date);
+  const datetime = escapeAttr(post.date || "");
+  const imgHtml = img
+    ? `<img loading="lazy" decoding="async" width="1500" height="844" src="${escapeAttr(img)}" class="attachment-full size-full wp-post-image" alt="${alt}" />`
+    : `<span class="w-post-elm-empty" aria-hidden="true"></span>`;
+
+  return `<article class="w-grid-item size_1x1 post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass}" data-id="${post.id}">
+<div class="w-grid-item-h">
+<div class="w-vwrapper usg_vwrapper_1 align_none valign_top"><div class="w-post-elm post_image usg_post_image_1 stretched"><a href="${escapeAttr(href)}" aria-label="${escapeAttr(title)}">${imgHtml}</a></div><time class="w-post-elm post_date usg_post_date_1 has_text_color entry-date published" datetime="${datetime}">${escapeAttr(when)}</time><h2 class="w-post-elm post_title usg_post_title_1 has_text_color entry-title color_link_inherit"><a href="${escapeAttr(href)}">${escapeAttr(title)}</a></h2></div></div>
+</article>`;
+}
+
+export function renderAuthorGridCardsHtml(posts: PostEntry[]): string {
+  return posts.map(renderAuthorGridCardHtml).join("\n");
 }
