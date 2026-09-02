@@ -54,7 +54,7 @@ export function rebuildAuthorArticlesHtml(html: string, pathname: string): strin
   const authorWpId = resolveAuthorWpId(slug);
   if (!authorWpId) return html;
 
-  const $ = cheerio.load(html, { decodeEntities: false }, false);
+  const $ = cheerio.load(html, { xml: false, decodeEntities: false } as any);
   const $heading = $("span.w-text-value")
     .filter((_, el) => /^Articles by /i.test($(el).text().trim()))
     .first();
