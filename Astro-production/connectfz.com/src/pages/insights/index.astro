@@ -1,47 +1,29 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
-import { getPageByPath, getPosts } from "../../lib/content";
+import { getPageByPath, getPostsSortedByDate, paginate } from "../../lib/content";
+import {
+  INSIGHTS_PER_PAGE,
+  buildInsightsArchiveHtml,
+} from "../../lib/insights-archive";
 import { breadcrumbSchema } from "../../lib/seo";
 import { notFoundResponse } from "../../lib/not-found";
 
 export const prerender = false;
 
 /**
- * Live archive is /insights/ (Elementor). Keep markup; wire Load More to our API.
+ * Live archive is /insights/ (Elementor). Keep markup; inject newest posts for page 1.
  */
 const page = getPageByPath("/insights/");
 if (!page) return notFoundResponse();
 
-const totalPosts = getPosts().length;
-const INITIAL_GRID = 12;
-const hasMore = totalPosts > INITIAL_GRID;
+const sorted = getPostsSortedByDate();
+const { items, page: pageNum, totalPages } = paginate(sorted, 1, INSIGHTS_PER_PAGE);
 
-let html = page.bodyHtml || page.content;
-
-if (hasMore) {
-  html = html.replace(
-    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
-  );
-  html = html.replace(
-    /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
-    `$1/insights/page/2/$2`,
-  );
-} else {
-  html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
-}
-
-let ecsSeen = 0;
-html = html.replace(
-  /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi,
-  (full, attrs) => {
-    ecsSeen += 1;
-    if (ecsSeen === 2 && !/data-sp-blog-grid/.test(attrs)) {
-      return `<div${attrs} data-sp-blog-grid="1">`;
-    }
-    return full;
-  },
+let html = buildInsightsArchiveHtml(
+  page.bodyHtml || page.content,
+  pageNum,
+  items,
+  totalPages,
 );
 
 const extraCss = [

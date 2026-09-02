@@ -53,12 +53,6 @@ const schemas = [organizationSchema(), ...meta.schemas];
 <link rel="icon" href={site.favicon192} sizes="192x192" />
 <link rel="apple-touch-icon" href={site.appleTouchIcon} />
 
-<link
-  rel="preload"
-  href="/wp-content/uploads/elementor/google-fonts/css/nunito.css?v=20260818a"
-  as="style"
-/>
-
 {
   extraCss.map((href) => (
     <link rel="stylesheet" href={stylesheetHref(href)} />
