@@ -439,7 +439,9 @@
 
 
     //Begin: Parallax
-    jQuery('.parralax-background').parallax("50%", 0.5);
+    if (jQuery.fn.parallax) {
+        jQuery('.parralax-background').parallax("50%", 0.5);
+    }
     //End: Parallax
 
 
@@ -558,7 +560,9 @@
     });
     /*End: Testimonials slider*/
     /* Animate */
-    jQuery('.animateIn').animateIn();
+    if (jQuery.fn.animateIn) {
+        jQuery('.animateIn').animateIn();
+    }
     // browser window scroll (in pixels) after which the "back to top" link is shown
     var offset = 300,
     //browser window scroll (in pixels) after which the "back to top" link opacity is reduced

@@ -70,6 +70,31 @@ export function renderInsightsClassicPostsHtml(posts: PostEntry[]): string {
   return posts.map(renderInsightsClassicPostHtml).join("\n");
 }
 
+/** Replace classic posts grid + pagination in /insights/ Elementor shell. */
+export function buildInsightsArchiveHtml(
+  sourceHtml: string,
+  page: number,
+  items: PostEntry[],
+  totalPages: number,
+): string {
+  const postsHtml = renderInsightsClassicPostsHtml(items);
+  const paginationHtml = renderInsightsPaginationHtml(page, totalPages);
+
+  let html = sourceHtml;
+
+  html = html.replace(
+    /(<div[^>]*class="[^"]*elementor-posts-container[^"]*"[^>]*>)([\s\S]*?)(<\/div>\s*<nav class="elementor-pagination")/i,
+    `$1\n${postsHtml}\n\t\t$3`,
+  );
+
+  html = html.replace(
+    /<nav class="elementor-pagination"[^>]*>[\s\S]*?<\/nav>/i,
+    paginationHtml,
+  );
+
+  return html;
+}
+
 export function renderInsightsPaginationHtml(page: number, totalPages: number): string {
   const prevHref = page <= 2 ? "/insights/" : `/insights/${page - 1}/`;
   const nextHref = `/insights/${page + 1}/`;
