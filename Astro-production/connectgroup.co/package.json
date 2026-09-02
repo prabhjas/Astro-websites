@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev --port 4326 --host",
-    "build": "astro build && node ./scripts/patch-entry-lead-safe-slash.mjs",
+    "build": "astro build",
     "preview": "astro preview --port 4326 --host",
     "start": "node ./dist/server/entry.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
