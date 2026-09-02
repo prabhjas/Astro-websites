@@ -10,17 +10,24 @@ import type { SitemapIndexItem } from './sitemap-xml.ts';
 import { resolveSiteOrigin, type ResolveSiteOriginOptions } from './site-url.ts';
 import {
   dedupeEntries,
+  isIndexableRobots,
   normaliseCanonicalPath,
   pickLastmod,
   resolveSitemapLoc,
   sortEntries,
 } from './sitemap-utils.ts';
 
+function robotsString(robots?: { index?: string; follow?: string } | null): string | null {
+  if (!robots) return null;
+  return [robots.index, robots.follow].filter(Boolean).join(', ') || null;
+}
+
 export function collectCaseStudyEntries(siteOrigin: string): SitemapEntry[] {
   const entries: SitemapEntry[] = [];
   for (const cs of getCaseStudies()) {
     const path = normaliseCanonicalPath(cs.path || `/case_studies/${cs.slug}/`);
     if (!path) continue;
+    if (!isIndexableRobots(robotsString(cs.seo?.robots))) continue;
     const canonical = cs.seo?.canonical || path;
     const url = resolveSitemapLoc(path, canonical || path, siteOrigin);
     if (!url) continue;
