@@ -110,6 +110,7 @@ const extraCss = [
   ...smartSliderCssForHtml(html),
   ...((entry.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
   ...(entryElementorCss ? [entryElementorCss] : []),
+  ...(path.startsWith("/authors") ? ["/css/page-design/authors-shared.css"] : []),
 ];
 
 const hasMainShell = /id=["']page-content["']/.test(html);
