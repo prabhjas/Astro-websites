@@ -3,14 +3,14 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Connect FZ — Astro site for connectfz.com",
+  "description": "Connect FZ \u2014 Astro site for connectfz.com",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node ./scripts/patch-entry-lead-safe-slash.mjs",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",

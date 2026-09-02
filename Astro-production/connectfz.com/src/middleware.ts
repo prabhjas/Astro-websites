@@ -22,7 +22,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
-    // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
+    // Lead-safe: never redirect POST /api/contact — browsers treat 301 as GET and drop the body.
+    // Prefer rewrite over 308; some edges still surface bare-path POSTs as 301.
+    if (pathname === '/api/contact' && method !== 'GET' && method !== 'HEAD') {
+      return context.rewrite(`/api/contact/${context.url.search}`);
+    }
+
+    // Enforce trailingSlash: 'always' for API + (legacy) internal paths
     if (
       pathname !== '/' &&
       !pathname.endsWith('/') &&
@@ -30,7 +36,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
       (pathname.startsWith('/api/') || pathname.startsWith('/internal/'))
     ) {
       const target = `${pathname}/${context.url.search}`;
-      return context.redirect(target, 308);
+      if (method !== 'GET' && method !== 'HEAD') {
+        return context.rewrite(target);
+      }
+      return context.redirect(target, 301);
     }
 
     // Per-site dashboard UI removed — content/leads managed via central CMS → /api/internal/*
