@@ -42,10 +42,18 @@ export const onRequest = defineMiddleware(async (context, next) => {
     });
   }
 
+  // Lead-safe: never redirect POST /api/contact — browsers treat 301 as GET and drop the body.
+  if (pathname === '/api/contact' && method !== 'GET' && method !== 'HEAD') {
+    return context.rewrite(`/api/contact/${context.url.search}`);
+  }
+
   // Enforce trailing slash — bare paths (no file extension) redirect with slash.
-  // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
+  // 301 for GET/HEAD (SEO); rewrite mutating /api/* so bodies are preserved.
   if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
     const target = `${pathname}/${context.url.search}`;
+    if (method !== 'GET' && method !== 'HEAD' && pathname.startsWith('/api/')) {
+      return context.rewrite(target);
+    }
     const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
     return new Response(null, {
       status,

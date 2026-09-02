@@ -3,14 +3,14 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Connect Group (connectgroup.co) — Astro fleet site",
+  "description": "Connect Group (connectgroup.co) \u2014 Astro fleet site",
   "engines": {
     "node": ">=22.12.0",
     "pnpm": ">=9.15.0"
   },
   "scripts": {
     "dev": "astro dev --port 4326 --host",
-    "build": "astro build",
+    "build": "astro build && node ./scripts/patch-entry-lead-safe-slash.mjs",
     "preview": "astro preview --port 4326 --host",
     "start": "node ./dist/server/entry.mjs",
     "redirects:generate": "node scripts/generate-redirects.mjs",
