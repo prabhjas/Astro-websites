@@ -278,6 +278,24 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   padding-left: 0 !important;
 }
 
+/*
+ * Author profiles (/authors/*/) — Banner hero uses margin-top: 6rem in page CSS.
+ * Zero the global first-section header padding so content isn't pushed down twice.
+ */
+.header_hor .cr-site-header ~ main.l-main > .l-section.us_custom_cb0d1e95:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main > .l-section.us_custom_cb0d1e95:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main.l-main > .l-section.us_custom_bad31fca:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main > .l-section.us_custom_bad31fca:first-of-type > .l-section-h.i-cf {
+  padding-top: 0 !important;
+}
+
+/* Author headshots are not full-width heroes — beat first-section img { width:100% }. */
+.l-main .l-section.us_custom_cb0d1e95:first-of-type .w-image img,
+.l-main .l-section.us_custom_bad31fca:first-of-type .w-image img {
+  width: auto !important;
+  max-width: 286px !important;
+}
+
 /* Insights / blog sidebar “Write to us” lilac box — keep fields inset */
 .box_padding .ult-content-box,
 .ult-content-box-container.box_padding > .ult-content-box {

@@ -1,0 +1,184 @@
+/*
+ * Shared layout for /authors/ listing + individual author profiles.
+ * sp-pcp (Smart Post Carousel) plugin CSS is not mirrored — grid + pagination here.
+ */
+
+/* Hide duplicate Impreza ajax grid (author articles use sp-pcp below it). */
+.l-main .w-grid.hide_on_default.hide_on_laptops.hide_on_tablets.hide_on_mobiles {
+  display: none !important;
+}
+
+.l-main .w-grid.hide_on_default.hide_on_laptops.hide_on_tablets.hide_on_mobiles + .wpb_text_column,
+.l-main .g-loadmore {
+  display: none !important;
+}
+
+/* Author profile hero headshot — keep natural size (not full-bleed hero). */
+.l-main .l-section.us_custom_cb0d1e95 .w-image.align_center,
+.l-main .l-section.us_custom_cb0d1e95 .w-image.align_center .w-image-h {
+  max-width: 286px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.l-main .l-section.us_custom_cb0d1e95 .w-image.align_center img {
+  width: auto !important;
+  max-width: 286px !important;
+  height: auto !important;
+}
+
+/* Bio decorative mark image */
+.l-main .us_custom_89bcd87f .w-image.align_right img {
+  width: auto !important;
+  max-width: 231px !important;
+  height: auto !important;
+}
+
+.l-main .us_custom_89bcd87f .w-image.align_right {
+  text-align: right;
+}
+
+/* Authors listing cards */
+.l-main .us_custom_f53ab5bc .w-image.align_center,
+.l-main .us_custom_f53ab5bc .w-image.align_center .w-image-h {
+  max-width: 286px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.l-main .us_custom_f53ab5bc .w-image.align_center img {
+  width: auto !important;
+  max-width: 286px !important;
+  height: auto !important;
+}
+
+.l-main .us_custom_f53ab5bc .vc_column_container.has-link {
+  position: relative;
+}
+
+.l-main .us_custom_f53ab5bc .vc_column-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* sp-pcp article grid */
+.sp-pcp-section {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+.sp-pcp-section .sp-pcp-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.sp-pcp-section .sp-pcp-row > [class*="sp-pcp-col-"] {
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+  padding: 0 10px 20px;
+  box-sizing: border-box;
+}
+
+.sp-pcp-section .sp-pcp-post {
+  background: #fff;
+  border-radius: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-pcp-section .pcp-post-thumb-wrapper {
+  overflow: hidden;
+}
+
+.sp-pcp-section .sp-pcp-thumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.sp-pcp-section .sp-pcp-post-details {
+  padding: 10px 0 0;
+  flex: 1 1 auto;
+}
+
+.sp-pcp-section .sp-pcp-title {
+  font-size: 1rem;
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 600;
+}
+
+.sp-pcp-section .sp-pcp-title a {
+  color: #0f1941;
+  text-decoration: none;
+}
+
+.sp-pcp-section .sp-pcp-title a:hover {
+  color: #c2121f;
+}
+
+.sp-pcp-section .pcp-post-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.sp-pcp-section .pcp-post-pagination .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  padding: 0.35rem 0.65rem;
+  background: #fff;
+  color: #5e5e5e;
+  border: 2px solid #bbb;
+  border-radius: 2px;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.sp-pcp-section .pcp-post-pagination .page-numbers.current,
+.sp-pcp-section .pcp-post-pagination .page-numbers:hover,
+.sp-pcp-section .pcp-post-pagination a.page-numbers.active {
+  background: #c2121f;
+  border-color: #c2121f;
+  color: #fff;
+}
+
+.sp-pcp-section .pcp-on-mobile {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .sp-pcp-section .sp-pcp-row > [class*="sp-pcp-col-"] {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .sp-pcp-section .sp-pcp-row > [class*="sp-pcp-col-"] {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .sp-pcp-section .pcp-on-desktop {
+    display: none;
+  }
+
+  .sp-pcp-section .pcp-on-mobile {
+    display: flex;
+  }
+}

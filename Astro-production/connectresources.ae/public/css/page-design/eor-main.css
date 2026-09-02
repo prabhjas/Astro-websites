@@ -24,9 +24,18 @@
   background: #fff;
 }
 
-.page-id-83418 .elementor-element-e7a1faqw .elementor-tab-title,
+.elementor-83418 .elementor-element.elementor-element-e7a1faqw .elementor-tab-title,
 .page-id-72213 .elementor-element-e7a1faqw .elementor-tab-title {
   cursor: pointer;
+}
+
+.elementor-83418 .elementor-element.elementor-element-e7a1faqw h4.elementor-accordion-title,
+.page-id-72213 .elementor-element-e7a1faqw h4.elementor-accordion-title {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  font-weight: 600;
 }
 
 /* Steps section — Figma column split; left intro on desktop, centered on tablet/mobile */
