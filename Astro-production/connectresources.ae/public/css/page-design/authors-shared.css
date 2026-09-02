@@ -8,7 +8,7 @@
   display: none !important;
 }
 
-.l-main .w-grid.hide_on_default.hide_on_laptops.hide_on_tablets.hide_on_mobiles + .wpb_text_column,
+/* Do not hide the adjacent .wpb_text_column — it contains the sp-pcp article grid. */
 .l-main .g-loadmore {
   display: none !important;
 }
