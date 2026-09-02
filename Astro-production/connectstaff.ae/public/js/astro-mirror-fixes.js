@@ -14,6 +14,98 @@
       console.warn('[astro-mirror-fixes]', e);
     }
   }
+  // Static mirror: stub CF7 wp-json endpoints that require PHP backend
+  safe(function () {
+    if (typeof window.fetch !== 'function') return;
+    var origFetch = window.fetch;
+    window.fetch = function (input, init) {
+      var url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (/\/wp-json\/contact-form-7\/v1\/contact-forms\/\d+\/feedback\/schema\/?/.test(url)) {
+        return Promise.resolve(new Response(JSON.stringify({
+          version: 'Contact Form 7 SWV Schema 2024-07',
+          locale: 'en_US',
+          rules: [],
+        }), { status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } }));
+      }
+      if (/\/wp-json\/contact-form-7\/v1\/contact-forms\/\d+\/refill\/?/.test(url)) {
+        return Promise.resolve(new Response(JSON.stringify({ content: '' }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        }));
+      }
+      return origFetch.apply(this, arguments);
+    };
+  });
+  // Static mirror: strip Cloudflare-only assets, stub WP admin-ajax, minimal wpcf7 until CF7 loads
+  safe(function () {
+    function stripCdnCgi() {
+      document.querySelectorAll('script[src*="/cdn-cgi/"],script[src*="cloudflare-static"]').forEach(function (node) {
+        if (node.parentNode) node.parentNode.removeChild(node);
+      });
+    }
+    stripCdnCgi();
+    document.addEventListener('DOMContentLoaded', stripCdnCgi);
+
+    if (typeof window.wpcf7 === 'undefined') {
+      window.wpcf7 = {
+        api: { root: '/wp-json/', namespace: 'contact-form-7/v1' },
+        cached: 0,
+        feedback: { elements: {} },
+        reset: function () {},
+        submit: function () {},
+      };
+    }
+
+    if (typeof window.fetch === 'function' && !window.__astroAdminAjaxFetchPatched) {
+      window.__astroAdminAjaxFetchPatched = true;
+      var origFetch = window.fetch;
+      window.fetch = function (input, init) {
+        var url = typeof input === 'string' ? input : (input && input.url) || '';
+        if (/\/wp-admin\/admin-ajax\.php/.test(url)) {
+          return Promise.resolve(new Response('0', {
+            status: 200,
+            headers: { 'Content-Type': 'text/html; charset=UTF-8' },
+          }));
+        }
+        return origFetch.apply(this, arguments);
+      };
+    }
+  });
+
+
+
+  // WP dumps often call $ while jQuery is in noConflict mode
+  safe(function () {
+    if (typeof window.jQuery !== 'undefined' && typeof window.$ === 'undefined') {
+      window.$ = window.jQuery;
+    }
+    window.addEventListener('load', function () {
+      if (typeof window.jQuery !== 'undefined' && typeof window.$ === 'undefined') {
+        window.$ = window.jQuery;
+      }
+    });
+  });
+
+  // Happy Addons slick can throw when dot markup is missing on static mirrors
+  safe(function () {
+    function wrapSlick() {
+      if (typeof window.jQuery === 'undefined' || !window.jQuery.fn || !window.jQuery.fn.slick) return;
+      if (window.jQuery.fn.slick.__astroWrapped) return;
+      var orig = window.jQuery.fn.slick;
+      function wrapped() {
+        try {
+          return orig.apply(this, arguments);
+        } catch (e) {
+          return this;
+        }
+      }
+      wrapped.__astroWrapped = true;
+      window.jQuery.fn.slick = wrapped;
+    }
+    wrapSlick();
+    document.addEventListener('DOMContentLoaded', wrapSlick);
+    window.addEventListener('load', wrapSlick);
+  });
 
   // Patch getElementById usage from inline WP scripts that assume #arrow exists
   safe(function () {
@@ -1308,6 +1400,8 @@
     }
 
     function syncDialCodeHidden($input) {
+      var $ = window.jQuery;
+      if (!$) return;
       var dial = $input.siblings('.flag-container').find('.selected-flag .selected-dial-code').text();
       var name = $input.attr('name');
       if (!name) return;

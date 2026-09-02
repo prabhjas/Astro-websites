@@ -6,6 +6,7 @@ import { sanitizeMirrorHtml, absolutizeMirrorSeoHtml } from '@connect/site-cms';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
+import { injectBlogGridImageStyles } from './blog-grid-images.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 
@@ -44,6 +45,10 @@ export function serveLegacyPage(slug) {
       /<\/body>/i,
       '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>',
     );
+  }
+
+  if (slug.startsWith('blog/') && html.includes('elementor-element-540c02a')) {
+    html = injectBlogGridImageStyles(html);
   }
 
   html = sanitizeMirrorHtml(html);
