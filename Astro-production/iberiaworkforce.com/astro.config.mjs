@@ -1,6 +1,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
+import leadSafeSlash from './scripts/lead-safe-slash-integration.mjs';
 
 // Image optimization uses site-local sharp@0.35.3 (Aaron fleet tip bfc113c0f; passthrough removed).
 
@@ -20,6 +21,7 @@ try {
 }
 
 export default defineConfig({
+  integrations: [leadSafeSlash()],
   site: siteUrl,
   output: 'static',
   adapter: node({ mode: 'standalone' }),

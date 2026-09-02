@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import { parse } from 'yaml';
+import leadSafeSlash from './scripts/lead-safe-slash-integration.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const redirectsFile = join(root, 'src/data/redirects.yml');
@@ -35,6 +36,7 @@ function loadRedirects() {
 // (robots.txt.ts, sitemap_index.xml.ts, page-sitemap*.xml.ts, post-sitemap*.xml.ts).
 // Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
 export default defineConfig({
+  integrations: [leadSafeSlash()],
   site: siteUrl,
   trailingSlash: 'always',
   output: 'static',

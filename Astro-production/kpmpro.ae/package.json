@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node ./scripts/patch-entry-lead-safe-slash.mjs && node scripts/sync-public-to-dist.mjs",
+    "build": "astro build && node scripts/sync-public-to-dist.mjs",
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
