@@ -15,6 +15,26 @@ export type DeliveryStatus =
 export type DeliveryTrigger = 'initial' | 'automatic_retry' | 'manual_retry' | 'bulk_retry';
 export type DeliveryResultType = 'success' | 'retryable_failure' | 'permanent_failure';
 
+/**
+ * Delivery state for one destination. Destinations succeed, fail and retry
+ * independently, so each carries its own status, attempt count and schedule.
+ */
+export type DestinationDelivery = {
+  status: DeliveryStatus;
+  attemptCount: number;
+  externalId?: string;
+  externalRefs?: Record<string, string>;
+  lastErrorCode?: string;
+  lastErrorMessage?: string;
+  lastAttemptAt?: string;
+  deliveredAt?: string;
+  nextRetryAt?: string;
+  /** Destination stored the lead but flagged something. Never a retry reason. */
+  warning?: string;
+  /** Why this destination was skipped, when status is 'skipped'. */
+  skippedReason?: string;
+};
+
 export type LeadSubmissionRecord = {
   id: string;
   publicId: string;
@@ -52,6 +72,16 @@ export type LeadSubmissionRecord = {
   utmCampaign: string;
   utmTerm: string;
   utmContent: string;
+  /**
+   * Per-destination delivery state, keyed by destination id. Absent on records
+   * written before the multi-destination model — normaliseDeliveries() maps
+   * those from the legacy pipedrive* fields below.
+   */
+  deliveries?: Record<string, DestinationDelivery>;
+  /**
+   * Legacy Pipedrive fields. Kept and maintained as derived aliases of
+   * deliveries.pipedrive so the lead-ops dashboard and CSV export are unaffected.
+   */
   pipedrivePersonId?: number;
   pipedriveLeadId?: string;
   pipedriveResponseSummary?: string;
@@ -67,6 +97,8 @@ export type LeadSubmissionRecord = {
 
 export type LeadDeliveryAttemptRecord = {
   id: string;
+  /** Which destination this attempt was against. Absent on pre-multi-destination rows. */
+  destination?: string;
   leadSubmissionId: string;
   publicId: string;
   requestId: string;
