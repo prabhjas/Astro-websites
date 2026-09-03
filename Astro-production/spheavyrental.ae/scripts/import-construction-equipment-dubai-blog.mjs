@@ -29,10 +29,10 @@ const FOCUS = 'Construction equipment rental Dubai';
 
 const IMG = {
   featured: {
-    file: 'image1.png',
-    src: '/wp-content/uploads/2026/09/image1.png',
+    file: 'guide-to-renting-construction-equipment-in-dubai-uae.jpg',
+    src: '/wp-content/uploads/2026/09/guide-to-renting-construction-equipment-in-dubai-uae.jpg',
     alt: 'Construction equipment rental Dubai',
-    from: path.join(mediaDir, 'image1.png'),
+    from: path.join(uploadsDir, 'guide-to-renting-construction-equipment-in-dubai-uae.jpg'),
   },
   rental: {
     file: 'image5.jpg',
@@ -98,7 +98,7 @@ function buildContent() {
     `But owning every machine required for a project isn't the most practical route for most contractors, developers, and project managers. A viable solution to this conundrum involves leveraging the ${b('construction equipment rental')} services in Dubai.`,
   );
   html += p(
-    `Our guide covers how you can easily rent construction equipment in Dubai and the UAE, all the different kinds of equipment that you can rent from providers, their rental costs, legal requirements, and leading suppliers. We also cover how you can choose the right rental partner in 2026 and what you should know before you rent.`,
+    `Our guide covers how you can easily ${a('/construction-equipment-rental/', 'rent construction equipment in Dubai')} and the UAE, all the different kinds of equipment that you can rent from providers, their rental costs, legal requirements, and leading suppliers. We also cover how you can choose the right rental partner in 2026 and what you should know before you rent.`,
   );
 
   html += h2('Why Renting Construction Equipment Is More Feasible than Buying in 2026');
@@ -134,7 +134,9 @@ function buildContent() {
   html += linkedImg('/construction-equipment-rental/', IMG.rental.src, IMG.rental.alt);
 
   html += h2('Types of Construction Equipment You Can Rent in Dubai');
-  html += p(`These are the types of construction equipment you can rent in Dubai:`);
+  html += p(
+    `These are the ${a('/types-of-construction-equipment-for-rent/', 'types of construction equipment')} you can rent in Dubai:`,
+  );
 
   html += h3('Earthmoving Equipment');
   html += p(
@@ -187,52 +189,56 @@ function buildContent() {
   );
 
   html += h3('Daily, Weekly, &amp; Monthly Rental Rates');
-  html += `<table>
+  html += `<div class="sp-table-wrap">
+<table class="sp-data-table">
+<thead>
+<tr>
+<th scope="col">Equipment Type</th>
+<th scope="col">Daily Rate (AED)</th>
+<th scope="col">Weekly Rate (AED)</th>
+<th scope="col">Monthly Rate (AED)</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td><span style="color: #ffffff;"><b>Equipment Type</b></span></td>
-<td><span style="color: #ffffff;"><b>Daily Rate (AED)</b></span></td>
-<td><span style="color: #ffffff;"><b>Weekly Rate (AED)</b></span></td>
-<td><span style="color: #ffffff;"><b>Monthly Rate (AED)</b></span></td>
+<td>Mini Excavator</td>
+<td>450 to 800</td>
+<td>2,700 to 4,500</td>
+<td>9,000 to 15,000</td>
 </tr>
 <tr>
-<td><span style="font-weight: 400; color: #ffffff;">Mini Excavator</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">450 to 800</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">2,700 to 4,500</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">9,000 to 15,000</span></td>
+<td>Excavator 20 Ton</td>
+<td>1,200 to 2,000</td>
+<td>7,000 to 12,000</td>
+<td>25,000 to 45,000</td>
 </tr>
 <tr>
-<td><span style="font-weight: 400; color: #ffffff;">Excavator 20 Ton</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">1,200 to 2,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">7,000 to 12,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">25,000 to 45,000</span></td>
+<td>Bulldozer</td>
+<td>1,500 to 3,000</td>
+<td>9,000 to 18,000</td>
+<td>35,000 to 70,000</td>
 </tr>
 <tr>
-<td><span style="font-weight: 400; color: #ffffff;">Bulldozer</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">1,500 to 3,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">9,000 to 18,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">35,000 to 70,000</span></td>
+<td>Boom Lift</td>
+<td>500 to 1,200</td>
+<td>3,000 to 7,000</td>
+<td>10,000 to 25,000</td>
 </tr>
 <tr>
-<td><span style="font-weight: 400; color: #ffffff;">Boom Lift</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">500 to 1,200</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">3,000 to 7,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">10,000 to 25,000</span></td>
+<td>Mobile Crane</td>
+<td>2,500 to 8,000</td>
+<td>Custom Quote</td>
+<td>Custom Quote</td>
 </tr>
 <tr>
-<td><span style="font-weight: 400; color: #ffffff;">Mobile Crane</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">2,500 to 8,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">Custom Quote</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">Custom Quote</span></td>
-</tr>
-<tr>
-<td><span style="font-weight: 400; color: #ffffff;">Generator</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">200 to 1,500</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">1,200 to 8,000</span></td>
-<td><span style="font-weight: 400; color: #ffffff;">4,000 to 25,000</span></td>
+<td>Generator</td>
+<td>200 to 1,500</td>
+<td>1,200 to 8,000</td>
+<td>4,000 to 25,000</td>
 </tr>
 </tbody>
-</table>\n`;
+</table>
+</div>\n`;
 
   html += h3('Which Factors Change the Rental Price?');
   html += p(`Pricing is influenced by several factors, such as`);
@@ -415,9 +421,9 @@ function buildContent() {
     'Contract terms',
   ]);
 
-  html += h2('Continue Your Construction Projects with SP Heavy Rental');
+  html += h2(`Continue Your Construction Projects with ${a('https://spheavyrental.ae/', 'SP Heavy Rental')}`);
   html += pb(
-    `If you are looking to rent reliable ${a('/construction-equipment-rental/', 'construction equipment in Dubai')}, contact our team at SP Heavy Rental. We specialize in providing the best tools and certified operators for your on-site construction projects.`,
+    `If you are looking to rent reliable ${a('/construction-equipment-rental/', 'construction equipment in Dubai')}, contact our team at ${a('https://spheavyrental.ae/', 'SP Heavy Rental')}. We specialize in providing the best tools and certified operators for your on-site construction projects.`,
   );
 
   html += h2('Frequently Asked Questions (FAQs)');

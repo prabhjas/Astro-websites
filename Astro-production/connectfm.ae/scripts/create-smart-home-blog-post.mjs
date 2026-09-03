@@ -238,6 +238,11 @@ function buildArticleContent(featured, center, cta) {
     "Always question prospective contractors about previous projects and warranty conditions. Ask whether they provide local assistance and maintenance after installation. Their reaction time to technological issues may provide you with full peace of mind throughout your smart home journey."
   );
 
+  // BOTTOM CTA — linked to Contact Us (above Installation Procedure section)
+  blocks.push(
+    `<p style="text-align:center;"><a href="/contact/"><img loading="lazy" decoding="async" class="aligncenter size-large wp-image-${NEW_ID}2" src="${cta.url}" alt="${escapeHtml(FEATURED_ALT)}" width="${Math.min(cta.width, 800)}" height="${Math.round((cta.height * Math.min(cta.width, 800)) / cta.width)}" srcset="${cta.srcset}" sizes="${cta.sizesDefault}" /></a></p>`
+  );
+
   h2("Installation Procedure for Dubai Smart Home Automation System");
   p(
     "Automating your property is an easy process when dealing with professionals. Each phase is carefully controlled for your lifestyle and house layout. They take care of the technical procedures so you can have a flawless luxury experience without any concern."
@@ -291,11 +296,6 @@ function buildArticleContent(featured, center, cta) {
   h3("Differentiate between a smart home and a smart home automation system?");
   p(
     "A smart house is one in which individual items are linked, for example, smart locks or automated lamps. A smart home automation system connects all these gadgets into a single centralized network that works together automatically and seamlessly."
-  );
-
-  // BOTTOM CTA — linked to Contact Us
-  blocks.push(
-    `<p style="text-align:center;"><a href="/contact/"><img loading="lazy" decoding="async" class="aligncenter size-large wp-image-${NEW_ID}2" src="${cta.url}" alt="${escapeHtml(FEATURED_ALT)}" width="${Math.min(cta.width, 800)}" height="${Math.round((cta.height * Math.min(cta.width, 800)) / cta.width)}" srcset="${cta.srcset}" sizes="${cta.sizesDefault}" /></a></p>`
   );
 
   return `<div id="bsf_rt_marker"></div>\n${blocks.join("\n")}\n`;

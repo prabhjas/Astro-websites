@@ -65,6 +65,121 @@ body.single-post {
   }
 }
 
+/*
+  Single-post article typography — match Kinza HR reference
+  (kinzahr.com/global-employer-of-record-guide/). Font families and layout
+  unchanged; sizes/weights/line-heights/spacing/body text color only.
+*/
+body.single-post .elementor-widget-theme-post-content,
+body.single-post .elementor-widget-theme-post-content .elementor-widget-container {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #000;
+}
+
+body.single-post .elementor-widget-theme-post-content p {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #000 !important;
+  margin-top: 0;
+  margin-bottom: 17px;
+}
+
+body.single-post .elementor-widget-theme-post-content ul,
+body.single-post .elementor-widget-theme-post-content ol {
+  margin-top: 0 !important;
+  margin-bottom: 17px !important;
+  padding-left: 2em !important;
+  list-style-position: outside;
+}
+
+body.single-post .elementor-widget-theme-post-content ul {
+  list-style-type: disc;
+}
+
+body.single-post .elementor-widget-theme-post-content ol {
+  list-style-type: decimal;
+}
+
+body.single-post .elementor-widget-theme-post-content li {
+  display: list-item;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #000 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 0.25em;
+}
+
+body.single-post .elementor-widget-theme-post-content li + li {
+  margin-top: 12px !important;
+}
+
+body.single-post .elementor-widget-theme-post-content li p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+body.single-post .elementor-widget-theme-post-content ul ul,
+body.single-post .elementor-widget-theme-post-content ol ol,
+body.single-post .elementor-widget-theme-post-content ul ol,
+body.single-post .elementor-widget-theme-post-content ol ul {
+  margin-top: 12px !important;
+  margin-bottom: 0 !important;
+}
+
+body.single-post .elementor-widget-theme-post-content h2 {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 42px;
+  margin-top: 26px;
+  margin-bottom: 10px;
+}
+
+body.single-post .elementor-widget-theme-post-content h3 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 36px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+body.single-post .elementor-widget-theme-post-content h4 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  margin-top: 16px;
+  margin-bottom: 5px;
+}
+
+body.single-post .elementor-widget-theme-post-content h5 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  margin-top: 16px;
+  margin-bottom: 5px;
+}
+
+body.single-post .elementor-widget-theme-post-content h6 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  margin-top: 16px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 767px) {
+  body.single-post .elementor-widget-theme-post-content,
+  body.single-post .elementor-widget-theme-post-content .elementor-widget-container,
+  body.single-post .elementor-widget-theme-post-content p {
+    font-size: 17px;
+    line-height: 26px;
+  }
+}
+
 .elementor img {
   height: auto;
   max-width: 100%;
