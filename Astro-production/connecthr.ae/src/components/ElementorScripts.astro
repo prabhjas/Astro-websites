@@ -75,7 +75,21 @@
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
 <script is:inline>
+  // Elementor Pro loop carousel / masonry expect WP globals that Astro doesn't ship.
+  window.wp = window.wp || {};
+  window.wp.i18n = window.wp.i18n || {
+    __: (s) => s,
+    _x: (s) => s,
+    _n: (s) => s,
+    _nx: (s) => s,
+    sprintf: (s, ...args) =>
+      String(s).replace(/%(\d+\$)?[sd]/g, () => String(args.shift() ?? "")),
+    isRTL: () => document.documentElement.dir === "rtl",
+    setLocaleData: () => {},
+    getLocaleData: () => ({}),
+  };
   window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
     ajaxurl: "/api/contact/",
     nonce: "astro",
@@ -91,7 +105,7 @@
 <script is:inline src="/scripts/cf7-bridge.js?v=20260901e"></script>
 <script is:inline src="/scripts/accordion.js?v=20260901e"></script>
 <script is:inline src="/scripts/blog-load-more.js?v=20260901e"></script>
-<script is:inline src="/scripts/connecthr-widgets.js?v=20260901g"></script>
+<script is:inline src="/scripts/connecthr-widgets.js?v=20260903a"></script>
 <script is:inline>
   // Facade decorative YouTube video widgets: rename their widget_type so Elementor
   // never builds an eager autoplay iframe (that pulls ~2 MB of googlevideo + player
