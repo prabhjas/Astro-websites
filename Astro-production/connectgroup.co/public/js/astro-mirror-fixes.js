@@ -1291,8 +1291,9 @@
     style.textContent = [
       /* Prefer clip so position:sticky (blog sidebar) still works */
       'html,body{overflow-x:clip;max-width:100vw;}',
-      /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas) */
-      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
+      /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas).
+         Exclude Contact Us (page-id-27093): shorthand background:#111 clears background-image. */
+      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
       'body.astro-blog-post,body.single-post,body.page-id-18840,body.elementor-page-18840,body.blog,body.archive,html:has(body.astro-blog-post),html:has(body.single-post),html:has(body.page-id-18840),html:has(body.elementor-page-18840){background:#f8f9fa!important;background-color:#f8f9fa!important;background-image:none!important;}',
       /* Blog header stays in normal document flow (do not overlay like marketing heroes) */
       'body.astro-blog-post .elementor-location-header,body.single-post .elementor-location-header,body.blog .elementor-location-header,body.archive .elementor-location-header,body.page-id-18840 .elementor-location-header{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:100;}',
@@ -1317,11 +1318,14 @@
       'overflow:visible!important;',
       '}',
       '}',
-      /* Contact Us only: restore full-bleed page background (not a second site header) */
-      'body.page-id-27093{background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;}',
+      /* Contact Us only: full-bleed page background (beat theme/body shorthand rules) */
+      'html body.page-id-27093,html body.elementor-page-27093,body.page-id-27093.elementor-page-27093{background:#111 url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp") center center / cover no-repeat fixed!important;background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;background-attachment:fixed!important;}',
       'body.page-id-27093 .elementor-27130.elementor-location-header,body.page-id-27093 .elementor-27130 .header-new{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
       '@media (max-width:991px){body.page-id-27093 .elementor-27130 .header-new{background:rgba(6,13,29,.4)!important;background-color:rgba(6,13,29,.4)!important;}}',
       'body.page-id-27093 .elementor-27093 > .elementor-element-3f99223{padding-top:120px!important;}',
+      /* Contact Us: drop shared footer section plate so page gradient continues; keep only-flower disks */
+      'body.page-id-27093 #pix-page-footer,body.page-id-27093 #pix-page-footer.bg-white,body.page-id-27093 .elementor-location-footer,body.page-id-27093 .elementor-28308,body.page-id-27093 .elementor-28308 .elementor-element-27685fb,body.page-id-27093 .elementor-28308 .elementor-element-27685fb:not(.elementor-motion-effects-element-type-background),body.page-id-27093 .elementor-28308 .elementor-element-27685fb>.elementor-motion-effects-container>.elementor-motion-effects-layer,body.page-id-27093 .elementor-28308 .elementor-element-27685fb>.elementor-background-overlay{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
+      '@media (max-width:991px){body.page-id-27093,html body.page-id-27093{background-attachment:scroll!important;}}',
       '.ald_laser_loader,.ald_laser_loader.show,.ald_loader_progress{display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;width:0!important;pointer-events:none!important;background:none!important;box-shadow:none!important;z-index:-1!important;}',
       /* Header: desktop transparent overlay; mobile glass via mobile-nav.css */
       '.elementor-27554.elementor-location-header,.elementor-27130.elementor-location-header{position:absolute;top:0;left:0;right:0;width:100%;z-index:100;background-color:transparent!important;background-image:none!important;}',
@@ -2185,7 +2189,11 @@
     // Dark page chrome — kills white/gray flash above absolute transparent header.
     // Contact Us (page-id-27093) keeps Contact-Us-Bg image on body — only solid-fill html.
     // Blog / Insights / archives need the light theme canvas (bg-gray-2 / #f8f9fa), not #111.
-    var isContactUs = document.body && document.body.classList.contains('page-id-27093');
+    var isContactUs =
+      (document.body &&
+        (document.body.classList.contains('page-id-27093') ||
+          document.body.classList.contains('elementor-page-27093'))) ||
+      /\/contact-us\/?$/.test(location.pathname || '');
     var lightCanvas = !isContactUs && isLightCanvasPage();
     if (lightCanvas) {
       document.documentElement.style.setProperty('background', '#f8f9fa', 'important');
@@ -2196,6 +2204,12 @@
     } else if (isContactUs) {
       document.documentElement.style.setProperty('background', '#111111', 'important');
       document.documentElement.style.setProperty('background-color', '#111111', 'important');
+      // One shorthand so later background-color-only rules cannot wipe the image.
+      document.body.style.setProperty(
+        'background',
+        '#111111 url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp") center center / cover no-repeat fixed',
+        'important',
+      );
       document.body.style.setProperty(
         'background-image',
         'url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")',
@@ -2204,9 +2218,28 @@
       document.body.style.setProperty('background-size', 'cover', 'important');
       document.body.style.setProperty('background-repeat', 'no-repeat', 'important');
       document.body.style.setProperty('background-position', 'center center', 'important');
+      document.body.style.setProperty(
+        'background-attachment',
+        window.matchMedia('(max-width: 991px)').matches ? 'scroll' : 'fixed',
+        'important',
+      );
       document.body.style.setProperty('background-color', '#111111', 'important');
-      // Clear shorthand that would wipe the image if set earlier
-      document.body.style.removeProperty('background');
+      // Let the Contact Us gradient continue behind the shared footer plate
+      document
+        .querySelectorAll(
+          '#pix-page-footer, .elementor-location-footer, .elementor-28308, .elementor-28308 .elementor-element-27685fb, .elementor-28308 .elementor-element-27685fb > .elementor-background-overlay',
+        )
+        .forEach(function (el) {
+          el.style.setProperty('background', 'transparent', 'important');
+          el.style.setProperty('background-color', 'transparent', 'important');
+          el.style.setProperty('background-image', 'none', 'important');
+        });
+      // Restore decorative disks on inner footer section (cleared when parent plate is wiped)
+      document.querySelectorAll('.elementor-28308 .elementor-element-5f1b13c').forEach(function (el) {
+        el.style.removeProperty('background');
+        el.style.removeProperty('background-color');
+        el.style.removeProperty('background-image');
+      });
     } else {
       document.documentElement.style.setProperty('background', '#111111', 'important');
       document.documentElement.style.setProperty('background-color', '#111111', 'important');
