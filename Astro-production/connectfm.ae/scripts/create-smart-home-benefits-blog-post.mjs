@@ -8,7 +8,7 @@ import sharp from "sharp";
 
 const ROOT = process.cwd();
 const UPLOAD_DIR = path.join(ROOT, "public/wp-content/uploads/2026/09");
-const MEDIA_DIR = path.join(ROOT, "scripts/_tmp-docx-media");
+const MEDIA_DIR = path.join(ROOT, "scripts/_tmp-benefits-docx-media");
 const POSTS_PATH = path.join(ROOT, "src/data/posts.json");
 const TAGS_PATH = path.join(ROOT, "src/data/tags.json");
 
@@ -29,10 +29,10 @@ const CATEGORY_ID = 26;
 const NOW = "2026-09-01T10:00:00";
 
 const SRC = {
-  featured: path.join(MEDIA_DIR, "image1.jpg"),
-  advantages: path.join(MEDIA_DIR, "image2.png"),
+  featured: path.join(MEDIA_DIR, "image4.jpg"),
+  advantages: path.join(MEDIA_DIR, "image5.jpg"),
   benefits: path.join(MEDIA_DIR, "image3.png"),
-  cta: path.join(MEDIA_DIR, "image5.jpg"),
+  cta: path.join(MEDIA_DIR, "image1.jpg"),
 };
 
 fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -101,7 +101,7 @@ function buildArticleContent(featured, advantages, benefits, cta) {
   );
   p("<strong>That's where the real smart home automation benefits begin.</strong>");
   p(
-    "Smart home automation is a system that connects everything together, whether it's your devices, sensors, appliances, or controls. So they can communicate, respond automatically, and behave like a living human being. Everything can now be managed remotely. The benefits are obvious: it improves energy efficiency, security, convenience, and accessibility. You have control in your hand over everyday household tasks."
+    '<a href="/security/smart-homes/">Smart home automation</a> is a system that connects everything together, whether it\'s your devices, sensors, appliances, or controls. So they can communicate, respond automatically, and behave like a living human being. Everything can now be managed remotely. The benefits are obvious: it improves energy efficiency, security, convenience, and accessibility. You have control in your hand over everyday household tasks.'
   );
 
   h2("What Is Smart Home Automation?");
@@ -319,7 +319,7 @@ function buildArticleContent(featured, advantages, benefits, cta) {
     "The smart home automation benefits go far beyond controlling lights with your phone. A well-planned smart home can help you reduce energy waste, provide better security and remote monitoring, and enjoy greater convenience and improved accessibility. Its centralised control gives you the power to manage it from anywhere."
   );
   p(
-    "Start small and solve one genuine problem first. Then expand. After all, the best smart home does not constantly remind you that it is smart. It simply makes life easier. Connect FM is the reliable name that you can fully trust. We'll professionally turn your traditional home into a smart one. Let's talk to solve your problem today!"
+    'Start small and solve one genuine problem first. Then expand. After all, the best smart home does not constantly remind you that it is smart. It simply makes life easier. <a href="/">Connect FM</a> is the reliable name that you can fully trust. We\'ll professionally turn your traditional home into a smart one. Let\'s talk to solve your problem today!'
   );
 
   h2("FAQs");
@@ -466,38 +466,102 @@ function ensureTags(tagDefs) {
   return ids;
 }
 
-async function patchExistingPost() {
+function insertTitleAfterFeatured(bodyHtml, title) {
+  const titleWidget = `\n\t\t\t\t<div class="elementor-element elementor-element-6229posttitle elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="6229posttitle" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="theme-post-title.default">
+\t\t\t\t\t<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(title)}</h1>\t\t\t\t</div>`;
+  const marker = `wp-image-${NEW_ID}" alt="${escapeHtml(FEATURED_ALT)}"`;
+  const featuredIdx = bodyHtml.indexOf(marker);
+  if (featuredIdx < 0) throw new Error("featured image marker not found");
+  const afterFeatured = bodyHtml.indexOf(
+    '<div class="elementor-element elementor-element-5ea276d elementor-widget elementor-widget-theme-post-content',
+    featuredIdx,
+  );
+  if (afterFeatured < 0) throw new Error("post content widget not found after featured image");
+  if (bodyHtml.includes("elementor-element-6229posttitle")) {
+    return bodyHtml.replace(
+      /<div class="elementor-element elementor-element-6229posttitle[\s\S]*?<\/div>\s*(?=<div class="elementor-element elementor-element-5ea276d)/,
+      titleWidget.trim() + "\n\t\t\t\t",
+    );
+  }
+  return bodyHtml.slice(0, afterFeatured) + titleWidget + "\n\t\t\t\t" + bodyHtml.slice(afterFeatured);
+}
+
+function ensurePostTitleCss() {
+  const cssPath = path.join(ROOT, `public/wp-content/uploads/elementor/css/post-${NEW_ID}.css`);
+  if (!fs.existsSync(cssPath)) return;
+  let css = fs.readFileSync(cssPath, "utf8");
+  const block =
+    ".elementor-2619 .elementor-element.elementor-element-54bb6bf{display:none;}.elementor-2619 .elementor-element.elementor-element-6229posttitle{padding:0 0 1.5rem 0;}.elementor-2619.post-6229 .elementor-element.elementor-element-6229posttitle .elementor-heading-title,.elementor-2619 .post-6229 .elementor-element.elementor-element-6229posttitle .elementor-heading-title{font-family:\"DM Sans\";font-size:38px !important;font-weight:600;line-height:1.2em;color:#232932;}";
+  if (!css.includes("elementor-element-6229posttitle")) {
+    css += block;
+    fs.writeFileSync(cssPath, css);
+  }
+}
+
+async function refreshExistingPost() {
+  for (const [k, v] of Object.entries(SRC)) {
+    if (!fs.existsSync(v)) throw new Error(`Missing source image ${k}: ${v}`);
+  }
+
+  console.log("Optimizing images from DOCX media...");
+  const featured = await writeResponsive(SRC.featured, "Smart-Home-Automation-Benefits");
+  const advantages = await writeResponsive(SRC.advantages, "smart-home-automation-advantages");
+  const benefits = await writeResponsive(SRC.benefits, "benefits-of-smart-home-automation");
+  const cta = await writeResponsive(SRC.cta, "smart-home-automation-benefits-cta");
+
   const posts = JSON.parse(fs.readFileSync(POSTS_PATH, "utf8"));
   const post = posts.find((p) => p.id === NEW_ID);
   if (!post) throw new Error(`Post ${NEW_ID} not found`);
 
-  const asset = (baseName) => ({
-    url: `/wp-content/uploads/2026/09/${baseName}.webp`,
-    width: 1500,
-    height: 800,
-    srcset: `/wp-content/uploads/2026/09/${baseName}.webp 1500w`,
-    sizesDefault: "100vw",
-  });
-
-  const featured = asset("Smart-Home-Automation-Benefits");
-  const advantages = asset("smart-home-automation-advantages");
-  const benefits = asset("benefits-of-smart-home-automation");
-  const cta = asset("smart-home-automation-benefits-cta");
-
   const articleHtml = buildArticleContent(featured, advantages, benefits, cta);
   post.content = articleHtml;
-  post.bodyHtml = replaceWidgetContent(
+  post.featuredImage = featured.url;
+  post.modified = NOW;
+  if (post.seo) {
+    post.seo.ogImage = featured.url;
+  }
+
+  let bodyHtml = replaceWidgetContent(
     post.bodyHtml,
     "theme-post-content.default",
     `\n\t\t\t\t\t${articleHtml}\n\t\t\t\t`,
   );
+
+  const featInner = `\n\t\t\t\t\t\t\t<img loading="eager" width="${featured.width}" height="${featured.height}" src="${featured.url}" class="attachment-full size-full wp-image-${NEW_ID}" alt="${escapeHtml(FEATURED_ALT)}" srcset="${featured.srcset}" sizes="(max-width: ${featured.width}px) 100vw, ${featured.width}px" />\t\t\t\t\t\t\t`;
+  bodyHtml = replaceWidgetContent(bodyHtml, "theme-post-featured-image.default", featInner);
+  bodyHtml = replaceWidgetContent(
+    bodyHtml,
+    "theme-post-title.default",
+    `\n\t\t\t\t\t<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(TITLE)}</h1>\t\t\t\t`,
+  );
+  bodyHtml = insertTitleAfterFeatured(bodyHtml, TITLE);
+  ensurePostTitleCss();
+  post.bodyHtml = bodyHtml;
+
   fs.writeFileSync(POSTS_PATH, JSON.stringify(posts, null, 2) + "\n");
-  console.log("OK patched post content", POST_PATH);
+
+  const checks = {
+    featuredSrc: bodyHtml.includes(featured.url),
+    advantagesLink: articleHtml.includes('href="/security/smart-homes/"'),
+    ctaContact: articleHtml.includes('href="/contact/"'),
+    homepageLink: articleHtml.includes('<a href="/">Connect FM</a>'),
+    titleAfterFeatured: bodyHtml.includes("elementor-element-6229posttitle"),
+    advantagesImg: articleHtml.includes("smart-home-automation-advantages.webp"),
+    benefitsImg: articleHtml.includes("benefits-of-smart-home-automation.webp"),
+    ctaImg: articleHtml.includes("smart-home-automation-benefits-cta.webp"),
+  };
+  console.log("VERIFY", checks);
+  if (Object.values(checks).some((v) => v === false)) process.exit(1);
+  console.log("OK refreshed post", POST_PATH);
+}
+
+async function patchExistingPost() {
+  await refreshExistingPost();
 }
 
 async function main() {
-  if (process.argv.includes("--patch-existing")) {
-    await patchExistingPost();
+  if (process.argv.includes("--patch-existing") || process.argv.includes("--refresh-existing")) {
+    await refreshExistingPost();
     return;
   }
 

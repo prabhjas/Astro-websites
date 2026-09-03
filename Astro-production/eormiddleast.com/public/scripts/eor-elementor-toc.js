@@ -34,7 +34,14 @@
     return id;
   }
 
-  function buildList(headings, hierarchical, listTag) {
+  function stripHeadingNumberPrefix(text, numberedMarkers) {
+    const label = String(text || "").trim();
+    if (!numberedMarkers) return label;
+    // Headings often include "1." / "3.1" prefixes; ol markers add them via CSS counters.
+    return label.replace(/^(?:\d+(?:\.\d+)+\s+|\d+\.\s+)/, "");
+  }
+
+  function buildList(headings, hierarchical, listTag, numberedMarkers) {
     if (!hierarchical) {
       const list = document.createElement(listTag);
       list.className = "elementor-toc__list-wrapper";
@@ -47,7 +54,7 @@
         const a = document.createElement("a");
         a.href = `#${id}`;
         a.className = "elementor-toc__list-item-text elementor-toc__top-level";
-        a.textContent = (h.textContent || "").trim();
+        a.textContent = stripHeadingNumberPrefix(h.textContent, numberedMarkers);
         wrap.appendChild(a);
         li.appendChild(wrap);
         list.appendChild(li);
@@ -76,7 +83,7 @@
       a.className =
         "elementor-toc__list-item-text" +
         (parent.level === 0 ? " elementor-toc__top-level" : "");
-      a.textContent = (h.textContent || "").trim();
+      a.textContent = stripHeadingNumberPrefix(h.textContent, numberedMarkers);
       wrap.appendChild(a);
       li.appendChild(wrap);
       parent.list.appendChild(li);
@@ -124,8 +131,14 @@
       return;
     }
 
-    const listTag = settings.marker_view === "numbers" ? "ol" : "ul";
-    const list = buildList(headings, settings.hierarchical_view === "yes", listTag);
+    const numberedMarkers = settings.marker_view === "numbers";
+    const listTag = numberedMarkers ? "ol" : "ul";
+    const list = buildList(
+      headings,
+      settings.hierarchical_view === "yes",
+      listTag,
+      numberedMarkers,
+    );
     body.innerHTML = "";
     body.appendChild(list);
     widget.classList.add("eor-toc-hydrated");
