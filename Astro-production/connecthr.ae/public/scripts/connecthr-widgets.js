@@ -67,6 +67,28 @@
     );
   }
 
+  // Run `cb` once `el` is near the viewport — keeps below-the-fold autoplay
+  // media (YouTube backgrounds/widgets) out of the initial load / LCP path.
+  function whenNearViewport(el, cb, rootMargin = "300px 0px") {
+    if (!(el instanceof HTMLElement) || !("IntersectionObserver" in window)) {
+      window.addEventListener("load", () => setTimeout(cb, 1000), { once: true });
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            io.disconnect();
+            cb();
+            break;
+          }
+        }
+      },
+      { rootMargin },
+    );
+    io.observe(el);
+  }
+
   function markBackgroundVideoLoaded(container) {
     if (!container) return;
     container.classList.remove("elementor-loading", "elementor-invisible");
@@ -138,6 +160,62 @@
     });
   }
 
+  /**
+   * Facade YouTube *video widgets* that ARE visible on the current viewport.
+   * Elementor eagerly builds an autoplay iframe on frontend init even for a
+   * decorative loop far below the fold — that pulls googlevideo (>1 MB) + ad
+   * calls into the LCP path. Instead: keep the slot empty until the widget is
+   * near the viewport, then inject the iframe (IntersectionObserver). Idempotent
+   * — re-running strips any iframe Elementor re-injected while still pending.
+   */
+  function facadeYouTubeVideoWidgets() {
+    document.querySelectorAll(".elementor-widget-video").forEach((widget) => {
+      const raw = widget.getAttribute("data-settings") || "";
+      if (!/youtube/i.test(raw)) return;
+      if (widget.dataset.chrYtFacade === "loaded") return;
+
+      // Hidden on this viewport → suppressHiddenVideoWidgets owns it.
+      const hiddenDesktop =
+        widget.classList.contains("elementor-hidden-desktop") &&
+        window.matchMedia("(min-width: 1025px)").matches;
+      const hiddenMobile =
+        widget.classList.contains("elementor-hidden-mobile") &&
+        window.matchMedia("(max-width: 767px)").matches;
+      if (hiddenDesktop || hiddenMobile) return;
+
+      const slot = widget.querySelector(".elementor-video");
+      if (!slot) return;
+
+      // Already armed: just strip any iframe Elementor re-injected before IO fired.
+      if (widget.dataset.chrYtFacade === "pending") {
+        const stray = slot.querySelector("iframe");
+        if (stray) stray.remove();
+        return;
+      }
+
+      const s = parseSettings(widget);
+      const id = youtubeIdFromUrl(String(s.youtube_url || "").replace(/\\\//g, "/"));
+      if (!id) return;
+
+      widget.dataset.chrYtFacade = "pending";
+      slot.innerHTML = "";
+
+      const load = () => {
+        if (widget.dataset.chrYtFacade === "loaded") return;
+        widget.dataset.chrYtFacade = "loaded";
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allow", "autoplay; encrypted-media");
+        iframe.setAttribute("allowfullscreen", "");
+        iframe.title = "Video";
+        iframe.setAttribute("src", youtubeBackgroundEmbedSrc(id));
+        slot.replaceChildren(iframe);
+      };
+
+      whenNearViewport(widget, load);
+    });
+  }
+
   function ensureSingleYouTubeBackground(container, embedSrc) {
     if (!(container instanceof HTMLElement)) return null;
     if (container.dataset.chrBgVideo === "1") {
@@ -194,7 +272,13 @@
 
       const yt = youtubeIdFromUrl(link);
       if (yt) {
-        ensureSingleYouTubeBackground(container, youtubeBackgroundEmbedSrc(yt));
+        // Facade: build the autoplay YouTube background iframe only near viewport.
+        if (container.dataset.chrBgVideo !== "1" && !container.dataset.chrYtArmed) {
+          container.dataset.chrYtArmed = "1";
+          whenNearViewport(section, () =>
+            ensureSingleYouTubeBackground(container, youtubeBackgroundEmbedSrc(yt)),
+          );
+        }
         return;
       }
 
@@ -799,6 +883,9 @@
     initBgVideo();
     dedupeYouTubeBackgroundVideos();
     suppressHiddenVideoWidgets();
+    facadeYouTubeVideoWidgets();
+    // Elementor frontend init may re-inject an eager iframe — strip it while still pending.
+    [150, 700, 1900].forEach((ms) => setTimeout(facadeYouTubeVideoWidgets, ms));
     watchYouTubeBackgroundDupes();
     initCounters();
     initSticky();
@@ -819,6 +906,7 @@
     () => {
       dedupeYouTubeBackgroundVideos();
       suppressHiddenVideoWidgets();
+      facadeYouTubeVideoWidgets();
     },
     { once: true },
   );

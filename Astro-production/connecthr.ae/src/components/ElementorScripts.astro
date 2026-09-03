@@ -91,8 +91,18 @@
 <script is:inline src="/scripts/cf7-bridge.js?v=20260901e"></script>
 <script is:inline src="/scripts/accordion.js?v=20260901e"></script>
 <script is:inline src="/scripts/blog-load-more.js?v=20260901e"></script>
-<script is:inline src="/scripts/connecthr-widgets.js?v=20260901e"></script>
+<script is:inline src="/scripts/connecthr-widgets.js?v=20260901g"></script>
 <script is:inline>
+  // Facade decorative YouTube video widgets: rename their widget_type so Elementor
+  // never builds an eager autoplay iframe (that pulls ~2 MB of googlevideo + player
+  // JS into the LCP path). connecthr-widgets loads the real iframe on scroll instead.
+  // Classes are preserved, so layout/CLS is unchanged.
+  document.querySelectorAll(".elementor-widget-video").forEach((w) => {
+    if (!/youtube/i.test(w.getAttribute("data-settings") || "")) return;
+    w.setAttribute("data-chr-yt-widget", "1");
+    w.setAttribute("data-widget_type", "chr-video-facade.default");
+  });
+
   // Prevent Elementor lazy-bg CSS from wiping section backgrounds without its runtime
   document.querySelectorAll(".e-con, .elementor-section").forEach((el) => {
     el.classList.add("e-lazyloaded", "e-no-lazyload");
