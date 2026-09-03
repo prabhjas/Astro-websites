@@ -1,0 +1,168 @@
+/**
+ * Authors index — /author/
+ * Lists authors who have published posts (matches breadcrumb link from author archives).
+ */
+body.page-authors .l-main {
+  background: #fff;
+}
+
+.ng-authors-hero {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  background: #0b1347 center / cover no-repeat;
+}
+
+.ng-authors-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(11, 19, 71, 0.88) 18%, rgba(0, 74, 181, 0.72) 100%);
+  z-index: 1;
+}
+
+.ng-authors-hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.ng-authors-hero__title {
+  margin: 0 0 12px;
+  font-family: Poppins, sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.ng-authors-hero__desc {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.ng-authors-grid-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 56px 20px 72px;
+  box-sizing: border-box;
+}
+
+.ng-authors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.ng-authors-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 28px 22px 26px;
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.ng-authors-card:hover {
+  border-color: #004ab5;
+  box-shadow: 0 10px 28px rgba(0, 74, 181, 0.12);
+  transform: translateY(-2px);
+}
+
+.ng-authors-card__avatar,
+.ng-authors-card__placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 0 18px;
+  background: #eef2f7;
+  flex-shrink: 0;
+}
+
+.ng-authors-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ng-authors-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Poppins, sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: #004ab5;
+}
+
+.ng-authors-card__name {
+  margin: 0 0 8px;
+  font-family: Poppins, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #0b1347;
+}
+
+.ng-authors-card__bio {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4a5568;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .ng-authors-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ng-authors-hero__title {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 560px) {
+  .ng-authors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ng-authors-hero {
+    min-height: 220px;
+  }
+
+  .ng-authors-hero__inner {
+    padding: 48px 20px;
+  }
+
+  .ng-authors-hero__title {
+    font-size: 28px;
+  }
+
+  .ng-authors-grid-wrap {
+    padding: 40px 16px 56px;
+  }
+}

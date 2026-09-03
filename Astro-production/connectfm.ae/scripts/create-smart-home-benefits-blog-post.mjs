@@ -466,36 +466,26 @@ function ensureTags(tagDefs) {
   return ids;
 }
 
-function insertTitleAfterFeatured(bodyHtml, title) {
-  const titleWidget = `\n\t\t\t\t<div class="elementor-element elementor-element-6229posttitle elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="6229posttitle" data-element_type="widget" data-e-type="widget" data-settings="{&quot;ekit_we_effect_on&quot;:&quot;none&quot;}" data-widget_type="theme-post-title.default">
-\t\t\t\t\t<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(title)}</h1>\t\t\t\t</div>`;
-  const marker = `wp-image-${NEW_ID}" alt="${escapeHtml(FEATURED_ALT)}"`;
-  const featuredIdx = bodyHtml.indexOf(marker);
-  if (featuredIdx < 0) throw new Error("featured image marker not found");
-  const afterFeatured = bodyHtml.indexOf(
-    '<div class="elementor-element elementor-element-5ea276d elementor-widget elementor-widget-theme-post-content',
-    featuredIdx,
+/** Keep template title above featured image; strip any legacy below-image title + hide CSS. */
+function restoreTitleAboveFeatured(bodyHtml) {
+  return bodyHtml.replace(
+    /\n?\t*\s*<div class="elementor-element elementor-element-6229posttitle[\s\S]*?<\/div>\s*(?=<div class="elementor-element elementor-element-5ea276d)/,
+    "",
   );
-  if (afterFeatured < 0) throw new Error("post content widget not found after featured image");
-  if (bodyHtml.includes("elementor-element-6229posttitle")) {
-    return bodyHtml.replace(
-      /<div class="elementor-element elementor-element-6229posttitle[\s\S]*?<\/div>\s*(?=<div class="elementor-element elementor-element-5ea276d)/,
-      titleWidget.trim() + "\n\t\t\t\t",
-    );
-  }
-  return bodyHtml.slice(0, afterFeatured) + titleWidget + "\n\t\t\t\t" + bodyHtml.slice(afterFeatured);
 }
 
 function ensurePostTitleCss() {
   const cssPath = path.join(ROOT, `public/wp-content/uploads/elementor/css/post-${NEW_ID}.css`);
   if (!fs.existsSync(cssPath)) return;
   let css = fs.readFileSync(cssPath, "utf8");
-  const block =
-    ".elementor-2619 .elementor-element.elementor-element-54bb6bf{display:none;}.elementor-2619 .elementor-element.elementor-element-6229posttitle{padding:0 0 1.5rem 0;}.elementor-2619.post-6229 .elementor-element.elementor-element-6229posttitle .elementor-heading-title,.elementor-2619 .post-6229 .elementor-element.elementor-element-6229posttitle .elementor-heading-title{font-family:\"DM Sans\";font-size:38px !important;font-weight:600;line-height:1.2em;color:#232932;}";
-  if (!css.includes("elementor-element-6229posttitle")) {
-    css += block;
-    fs.writeFileSync(cssPath, css);
-  }
+  const cleaned = css
+    .replace(/\.elementor-2619 \.elementor-element\.elementor-element-54bb6bf\{display:none;\}/g, "")
+    .replace(/\.elementor-2619 \.elementor-element\.elementor-element-6229posttitle\{[^}]*\}/g, "")
+    .replace(
+      /\.elementor-2619\.post-6229 \.elementor-element\.elementor-element-6229posttitle[\s\S]*?color:#232932;\}/g,
+      "",
+    );
+  if (cleaned !== css) fs.writeFileSync(cssPath, cleaned);
 }
 
 async function refreshExistingPost() {
@@ -534,7 +524,7 @@ async function refreshExistingPost() {
     "theme-post-title.default",
     `\n\t\t\t\t\t<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(TITLE)}</h1>\t\t\t\t`,
   );
-  bodyHtml = insertTitleAfterFeatured(bodyHtml, TITLE);
+  bodyHtml = restoreTitleAboveFeatured(bodyHtml);
   ensurePostTitleCss();
   post.bodyHtml = bodyHtml;
 
@@ -545,7 +535,9 @@ async function refreshExistingPost() {
     advantagesLink: articleHtml.includes('href="/security/smart-homes/"'),
     ctaContact: articleHtml.includes('href="/contact/"'),
     homepageLink: articleHtml.includes('<a href="/">Connect FM</a>'),
-    titleAfterFeatured: bodyHtml.includes("elementor-element-6229posttitle"),
+    noTitleBelowFeatured: !bodyHtml.includes("elementor-element-6229posttitle"),
+    titleBeforeFeatured:
+      bodyHtml.indexOf("elementor-element-54bb6bf") < bodyHtml.indexOf("elementor-element-aa0ee56"),
     advantagesImg: articleHtml.includes("smart-home-automation-advantages.webp"),
     benefitsImg: articleHtml.includes("benefits-of-smart-home-automation.webp"),
     ctaImg: articleHtml.includes("smart-home-automation-benefits-cta.webp"),

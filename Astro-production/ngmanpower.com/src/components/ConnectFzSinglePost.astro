@@ -12,7 +12,22 @@ interface Props {
 }
 
 const { post, html } = Astro.props;
-const title = stripHtml(post.title);
+/** Prefer the visible on-page post title H1 so breadcrumb matches what readers see. */
+const titleFromBody = (() => {
+  const match = html.match(
+    /<h1\b[^>]*\b(?:post_title|entry-title)\b[^>]*>([\s\S]*?)<\/h1>/i,
+  );
+  if (!match) return "";
+  return stripHtml(match[1]);
+})();
+const title = titleFromBody || stripHtml(post.title);
+
+const breadcrumbHtml = `<nav class="ng-post-breadcrumb" aria-label="Breadcrumb"><ol class="ng-post-breadcrumb__list"><li class="ng-post-breadcrumb__item"><a class="ng-post-breadcrumb__link" href="/">Home</a></li><li class="ng-post-breadcrumb__item" aria-hidden="true"><span class="ng-post-breadcrumb__sep">➡️</span></li><li class="ng-post-breadcrumb__item"><a class="ng-post-breadcrumb__link" href="/insights/">Insight</a></li><li class="ng-post-breadcrumb__item" aria-hidden="true"><span class="ng-post-breadcrumb__sep">➡️</span></li><li class="ng-post-breadcrumb__item"><span class="ng-post-breadcrumb__current" aria-current="page">${title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")}</span></li></ol></nav>`;
+
+/** Place breadcrumb directly above Published/Updated metadata inside the article column. */
+const htmlWithBreadcrumb = /<time\b[^>]*\bpost_date\b/i.test(html)
+  ? html.replace(/<time\b[^>]*\bpost_date\b/i, `${breadcrumbHtml}$&`)
+  : `${breadcrumbHtml}${html}`;
 ---
 
 <div
@@ -21,7 +36,8 @@ const title = stripHtml(post.title);
   class={`elementor elementor-33241 elementor-location-single post-${post.id} post type-post status-publish format-standard hentry`}
   data-elementor-post-type="elementor_library"
 >
-  <h1 class="screen-reader-text">{title}</h1>
+  {/* Post title H1 lives in mirrored body HTML; keep this for a11y without duplicating H1. */}
+  <div class="screen-reader-text">{title}</div>
 
   <section
     class="elementor-section elementor-top-section elementor-element elementor-element-a78ec33 custom-blog elementor-section-boxed elementor-section-height-default"
@@ -53,7 +69,7 @@ const title = stripHtml(post.title);
                     data-element_type="widget"
                     data-widget_type="theme-post-content.default"
                   >
-                    <div class="elementor-widget-container" set:html={html} />
+                    <div class="elementor-widget-container" set:html={htmlWithBreadcrumb} />
                   </div>
                 </div>
               </div>
@@ -66,6 +82,70 @@ const title = stripHtml(post.title);
 </div>
 
 <style is:global>
+  /* Shared single-post breadcrumb — sits above Published/Updated inside article column. */
+  body.single-post .ng-post-breadcrumb {
+    display: block;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 0;
+    background: transparent;
+  }
+
+  body.single-post .ng-post-breadcrumb__list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.45rem;
+    margin: 0;
+    padding: 0;
+    font-family: Poppins, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #5a6578;
+  }
+
+  body.single-post .ng-post-breadcrumb__item {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  body.single-post .ng-post-breadcrumb__link {
+    color: #004ab5;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  body.single-post .ng-post-breadcrumb__link:hover {
+    color: #003a8f;
+    text-decoration: underline;
+  }
+
+  body.single-post .ng-post-breadcrumb__sep {
+    color: #9aa3b2;
+    font-size: 12px;
+    line-height: 1;
+    user-select: none;
+  }
+
+  body.single-post .ng-post-breadcrumb__current {
+    color: #0b1347;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 767px) {
+    body.single-post .ng-post-breadcrumb {
+      margin-bottom: 12px;
+    }
+
+    body.single-post .ng-post-breadcrumb__list {
+      font-size: 13px;
+      gap: 0.3rem 0.35rem;
+    }
+  }
+
   /* Shared single-post article typography (all NG Manpower posts). */
   body.single-post .elementor-33241 .elementor-element-9a52b64,
   body.single-post .elementor-widget-theme-post-content {

@@ -1,0 +1,100 @@
+---
+/**
+ * Authors index — /author/
+ * Breadcrumb target from individual author archives.
+ */
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  getAuthors,
+  getPostsByAuthor,
+  resolveLocalAuthorAvatar,
+  stripHtml,
+} from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+const BANNER = "/wp-content/uploads/2026/09/NG-author-Banner.png";
+
+const authors = getAuthors()
+  .map((author) => {
+    const posts = getPostsByAuthor(author.id);
+    const name = stripHtml(author.name);
+    const bio = (author.description || "").replace(/\r\n/g, " ").replace(/\s+/g, " ").trim();
+    const avatar = resolveLocalAuthorAvatar(author);
+    return {
+      author,
+      name,
+      bio,
+      posts,
+      postCount: posts.length,
+      avatarSrc: avatar?.src || "",
+      initials: name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((w) => w[0]?.toUpperCase() || "")
+        .join(""),
+    };
+  })
+  .filter((row) => row.postCount > 0 && !/@/.test(row.name))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout
+  currentPath="/author/"
+  menuActivePath="/insights/"
+  bodyClass="page-authors wp-theme-Impreza wp-child-theme-Impreza-child l-body"
+  seo={{
+    title: "Our Authors | NG Manpower",
+    description:
+      "Meet the NG Manpower authors behind our insights on manpower, outsourcing, and UAE employment.",
+    canonical: "/author/",
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Authors", url: "/author/" },
+      ]),
+    ],
+  }}
+  extraCss={["/css/page-design/authors-index.css"]}
+>
+  <section
+    class="ng-authors-hero"
+    style={`background-image:url('${BANNER}')`}
+  >
+    <div class="ng-authors-hero__inner">
+      <h1 class="ng-authors-hero__title">Our Authors</h1>
+      <p class="ng-authors-hero__desc">
+        Find out what our accomplished authors have to say through our professional blog.
+      </p>
+    </div>
+  </section>
+
+  <section class="ng-authors-grid-wrap" aria-label="Authors">
+    <div class="ng-authors-grid">
+      {
+        authors.map((row) => (
+          <a class="ng-authors-card" href={row.author.path}>
+            {row.avatarSrc ? (
+              <div class="ng-authors-card__avatar">
+                <img
+                  src={row.avatarSrc}
+                  alt={row.name}
+                  width="120"
+                  height="120"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ) : (
+              <div class="ng-authors-card__placeholder" aria-hidden="true">
+                {row.initials || "NG"}
+              </div>
+            )}
+            <h2 class="ng-authors-card__name">{row.name}</h2>
+            {row.bio && <p class="ng-authors-card__bio">{row.bio}</p>}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

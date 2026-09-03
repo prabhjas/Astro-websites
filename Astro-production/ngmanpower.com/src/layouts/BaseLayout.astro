@@ -48,7 +48,6 @@ const stylesheets = [
   ...new Set([
     ...baseCss,
     ...(imprezaInlineCss as string[]),
-    ...extraCss,
     "/css/wp-custom.css",
     "/css/wp-global-styles.css",
     "/css/wp-carousel-free-inline.css",
@@ -62,6 +61,8 @@ const stylesheets = [
     "/css/about-us-layout-fix.css",
     "/css/migration-overrides.css",
     "/css/ngmanpower-mobile-nav.css",
+    // Page/route CSS last so archive/card overrides beat global theme rules.
+    ...extraCss,
   ]),
 ];
 
@@ -103,5 +104,6 @@ const stylesheets = [
     </div>
     <ElementorFooter />
     <ElementorScripts />
+    <slot name="body-end" />
   </body>
 </html>

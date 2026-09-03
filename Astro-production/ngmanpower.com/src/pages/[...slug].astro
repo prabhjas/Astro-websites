@@ -2,9 +2,13 @@
 import { sanitizeMirrorHtml } from "@connect/site-cms";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
+import StickyPhoneContact from "../components/StickyPhoneContact.astro";
+import SidebarFormSticky from "../components/SidebarFormSticky.astro";
 import {
   getPageByPath,
   getPublishedPostByPath,
+  getAuthors,
+  applyLocalAuthorAvatarHtml,
   stripHtml,
   normalizePath,
 } from "../lib/content";
@@ -32,6 +36,15 @@ if (post) {
     /<h4>\s*More Articles\s*<\/h4>/gi,
     "<h4>Content Published by same Author:</h4>",
   );
+  // WP ajax "Load more" is unused on Astro single posts.
+  html = html.replace(
+    /<div class="g-loadmore\b[^"]*">[\s\S]*?<\/button>\s*<\/div>/gi,
+    "",
+  );
+  const author =
+    getAuthors().find((a) => a.id === post.author) ||
+    getAuthors().find((a) => a.slug === post.authorSlug);
+  html = applyLocalAuthorAvatarHtml(html, author);
 }
 
 const pageCrumbs = page
@@ -54,7 +67,7 @@ const pageCrumbs = page
 const postCrumbs = post
   ? [
       { name: "Home", href: "/" },
-      { name: "Insights", href: "/insights/" },
+      { name: "Insight", href: "/insights/" },
       { name: stripHtml(post.title) },
     ]
   : [];
@@ -104,9 +117,14 @@ const isListingArchive =
     page.wpType === "mt_listing_archive");
 
 /** Page/post CSS from content data only (Impreza — no Elementor kit CSS). */
+const SINGLE_POST_SIDEBAR_CSS = "/css/page-design/single-post-sidebar.css";
 const extraCss = page
   ? ([...(page.pageCss || [])].filter(Boolean) as string[])
-  : ([...(post!.pageCss || [])].filter(Boolean) as string[]);
+  : ([
+      ...(post!.pageCss || []),
+      // Shared Figma sidebar + sticky phone (all single posts).
+      SINGLE_POST_SIDEBAR_CSS,
+    ].filter(Boolean) as string[]);
 
 const postUsesElementor =
   !!post?.bodyHtml && /data-elementor-type=/.test(post.bodyHtml);
@@ -133,6 +151,14 @@ const pageBodyClass = page
       <Fragment set:html={html} />
     ) : (
       <ConnectFzSinglePost post={post!} html={html} />
+    )
+  }
+  {
+    post && (
+      <Fragment slot="body-end">
+        <SidebarFormSticky />
+        <StickyPhoneContact />
+      </Fragment>
     )
   }
 </BaseLayout>
