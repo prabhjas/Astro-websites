@@ -2179,6 +2179,14 @@
       '.elementor-share-btn_facebook .elementor-share-btn__icon{color:#fff;background:#1877f2;}',
       '.elementor-share-btn__icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;}',
       '.elementor-share-btn__icon svg{width:16px;height:16px;}',
+      /* Single-blog gradient icon+text: Elementor sets align-self:stretch on the icon,
+         which pins our fixed 32px circle to the top — force vertical mid-align. */
+      '.elementor-share-buttons--view-icon-text .elementor-share-btn{display:flex!important;align-items:center!important;}',
+      '.elementor-share-buttons--view-icon-text .elementor-share-btn__icon{' +
+        'align-self:center!important;margin-block:0!important;flex:0 0 32px!important;}' +
+      '.elementor-share-buttons--view-icon-text .elementor-share-btn__icon i{' +
+        'display:flex!important;align-items:center!important;justify-content:center!important;line-height:1!important;margin:0!important;}' +
+      '.elementor-share-buttons--view-icon-text .elementor-share-btn__text{display:flex!important;align-items:center!important;}',
       /* Pixfort sliding / animate-in (Privacy Policy intro, etc.) */
       '.animate-in,.group-animate-in{visibility:visible!important;opacity:1!important;}',
       '[data-anim-type="pix-sliding-text"] .pix-sliding-item,[data-anim-type="pix-sliding-text"].pix-animate .pix-sliding-item{opacity:1!important;transform:none!important;filter:none!important;visibility:visible!important;}',
@@ -2241,9 +2249,10 @@
       '.elementor-button-icon .fas,.elementor-button-icon .fa{margin-inline-end:.4em;}',
       /* overflow-x:hidden on html/body breaks position:sticky in Chrome — use clip instead */
       'html,body{overflow-x:clip!important;}',
-      /* Single-post sidebar contact form: CSS sticky (sticky_offset:100).
+      /* Single-post sidebar contact form: CSS sticky.
+         Header is not sticky on this brand — keep a small top gap (was 100px).
          Also covers Elementor post template sticky form section 10f1ddc. */
-      '@media (min-width:768px){.elementor-element-f006bfc,.elementor-element-10f1ddc{position:-webkit-sticky!important;position:sticky!important;top:100px!important;z-index:10;align-self:flex-start;width:100%;}',
+      '@media (min-width:768px){.elementor-element-f006bfc,.elementor-element-10f1ddc{position:-webkit-sticky!important;position:sticky!important;top:20px!important;z-index:10;align-self:flex-start;width:100%;}',
       '.elementor-element-966b194,.elementor-element-966b194 > .elementor-widget-wrap{overflow:visible!important;}}',
       /* Hide Elementor sticky spacer clones (flag chrome otherwise leaks via visibility:visible) */
       '.elementor-sticky__spacer,.elementor-sticky__spacer *{visibility:hidden!important;pointer-events:none!important;}',
@@ -2286,6 +2295,11 @@
       /* Footer full bleed */
       '.elementor-location-footer,.elementor-location-footer .elementor-section-stretched{width:100%!important;max-width:none!important;}',
       'body .container:has(> .elementor-location-footer){max-width:none!important;width:100%!important;padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;}',
+      /* Footer social icons — add gap (chrome used elementor-grid-0 / flush circles) */
+      '.elementor-element-eg-footer-social .elementor-social-icons-wrapper.elementor-grid{' +
+        'display:inline-flex!important;flex-wrap:wrap;align-items:center;justify-content:center;' +
+        'gap:12px!important;column-gap:12px!important;row-gap:12px!important;}' +
+      '.elementor-element-eg-footer-social .elementor-grid-item{margin:0!important;}',
       /* Sticky header above sticky sidebar forms (both default to z-index 99).
          Do NOT force top — that breaks Elementor sticky_parent parking (bottom:0)
          and stretches the form over the footer. */
@@ -3485,7 +3499,7 @@
       }
       if (window.matchMedia && window.matchMedia('(min-width: 768px)').matches) {
         el.style.setProperty('position', 'sticky', 'important');
-        el.style.setProperty('top', '100px', 'important');
+        el.style.setProperty('top', '20px', 'important');
         el.style.setProperty('z-index', '10', 'important');
         el.style.setProperty('align-self', 'flex-start', 'important');
       }
@@ -3507,7 +3521,7 @@
     var col = el.closest('.elementor-column');
     if (!col) return;
     var spacer = null;
-    var OFFSET = 100;
+    var OFFSET = 20;
 
     function clearPin() {
       el.style.removeProperty('position');
