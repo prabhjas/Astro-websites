@@ -155,6 +155,21 @@ Confirm at the destination, not at the release output.
 Pipedrive stops accepting leads on **24 September 2026**. Retiring it is
 `PIPEDRIVE_ENABLED=false` in the same env file — a config change, not a release.
 
+### A note on where this code lives
+
+Until September 2026 this site carried its **own copy** of `deliverStoredLead`,
+the lead types and the retry policy under `src/lib/leads/`, while the other 40
+sites re-exported them from `@connect/site-cms`. `file-store.ts` had already been
+migrated; the rest had not.
+
+That mattered more than it looks: changes to the shared package silently did not
+apply here, and a release would still report success. The multi-destination
+delivery work landed in `@connect/site-cms` and this site carried on writing
+single-destination records until the copies were removed.
+
+`src/lib/leads/` now re-exports from the shared package like every other site.
+`dashboard.ts` genuinely differs and remains local.
+
 ---
 
 ## Next document
