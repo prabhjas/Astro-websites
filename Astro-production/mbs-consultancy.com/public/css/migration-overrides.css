@@ -104,6 +104,19 @@ body.l-body {
   margin-bottom: 2rem;
 }
 
+/* post-850 Elementor custom CSS hides titles — show them */
+#blog-list .postlistingwrap h2,
+#blog-list .postlistingwrap h2 a {
+  visibility: visible !important;
+  color: #000 !important;
+  font-family: Inter, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.55;
+  margin-top: 12px;
+  margin-bottom: 10px;
+}
+
 /* Insights / blog listing — meta bar sits below thumb (live translate 48px) */
 #blog-list .articlepostthumbnailurl,
 .mbs-archive-list .articlepostthumbnailurl {
