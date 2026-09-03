@@ -101,14 +101,21 @@ export function applyMirrorHygiene(html) {
   out = out.replace(/<link\s+rel=["']wlwmanifest["'][^>]*>/gi, '');
   out = out.replace(/<link\s+rel=["']shortlink["'][^>]*>/gi, '');
 
+  // Only add loading="lazy" on real <img> elements — not <img> strings inside <script>.
+  const chunks = out.split(/(<script\b[\s\S]*?<\/script>|<style\b[\s\S]*?<\/style>)/gi);
   let imgIndex = 0;
-  out = out.replace(/<img\b([^>]*)>/gi, (full, attrs) => {
-    imgIndex += 1;
-    if (/loading\s*=/.test(attrs)) return full;
-    if (/fetchpriority\s*=\s*["']high["']/i.test(attrs)) return full;
-    if (imgIndex <= 2) return full;
-    return `<img${attrs} loading="lazy">`;
-  });
+  out = chunks
+    .map((chunk, i) => {
+      if (i % 2 === 1) return chunk;
+      return chunk.replace(/<img\b([^>]*)>/gi, (full, attrs) => {
+        imgIndex += 1;
+        if (/loading\s*=/.test(attrs)) return full;
+        if (/fetchpriority\s*=\s*["']high["']/i.test(attrs)) return full;
+        if (imgIndex <= 2) return full;
+        return `<img${attrs} loading="lazy">`;
+      });
+    })
+    .join('');
 
   return out;
 }

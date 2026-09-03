@@ -49,6 +49,7 @@ async function grabRuntimeBundles(runtimePath, baseUrl) {
 }
 
 const priority = [
+  "/wp-content/plugins/elementor/assets/lib/dialog/dialog.min.js",
   "/wp-content/plugins/elementor/assets/js/section-frontend-handlers.d85ab872da118940910d.bundle.min.js",
   "/wp-content/plugins/elementor/assets/js/shared-frontend-handlers.03caa53373b56d3bab67.bundle.min.js",
   "/wp-content/plugins/elementor/assets/js/image-carousel.6167d20b95b33386757b.bundle.min.js",

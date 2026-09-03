@@ -172,10 +172,11 @@
         const $el = window.jQuery(phone);
         if ($el.data("plugin_intlTelInput") || $el.data("intlTelInput")) {
           const full = $el.intlTelInput("getNumber");
-          if (full) return String(full).trim();
-          const data = $el.intlTelInput("getSelectedCountryData");
           const national = String(phone.value || "").replace(/\D/g, "");
+          if (full && national) return String(full).trim();
+          const data = $el.intlTelInput("getSelectedCountryData");
           if (national && data?.dialCode) return `+${data.dialCode}${national}`;
+          return national ? String(full || "").trim() : "";
         }
       }
     } catch {
@@ -184,7 +185,76 @@
     return String(phone.value || "").trim();
   }
 
+  const ROI_MONTHLY_SUB = 2500;
+  const ROI_TIME_SAVED = 0.8;
+  const ROI_ERROR_COST = 800;
+  const ROI_SIF_PENALTY = 500;
+
+  function isRoiCalculatorForm(form) {
+    return !!form.querySelector('[name="roi_percent"], #f_roi');
+  }
+
+  function computeRoiFromSliders() {
+    const hr = parseInt(document.getElementById("hrCount")?.value || "0", 10) || 0;
+    const sal = parseInt(document.getElementById("salary")?.value || "0", 10) || 0;
+    const hrs = parseInt(document.getElementById("hours")?.value || "0", 10) || 0;
+    const hrly = sal / 176;
+    const hrCost = hrly * hrs * hr;
+    const errCst = ROI_ERROR_COST * hr;
+    const manual = hrCost + errCst + ROI_SIF_PENALTY;
+    const withCHR = ROI_MONTHLY_SUB + hrCost * 0.2;
+    const netMo = manual - withCHR;
+    const netYr = netMo * 12;
+    const roi = netYr > 0 ? Math.round((netYr / (ROI_MONTHLY_SUB * 12)) * 100) : 0;
+    return { hr, sal, hrs, netMo, netYr, roi };
+  }
+
+  function injectRoiCalculatorFields(form) {
+    if (!isRoiCalculatorForm(form)) return;
+    const d = computeRoiFromSliders();
+    const setVal = (selector, value) => {
+      const el = form.querySelector(selector);
+      if (el) el.value = String(value);
+    };
+    setVal("#f_hr_count, [name='hr_count']", d.hr);
+    setVal("#f_salary, [name='avg_salary_aed']", d.sal);
+    setVal("#f_hours, [name='payroll_hours_per_month']", d.hrs);
+    setVal("#f_monthly, [name='monthly_savings_aed']", Math.round(d.netMo));
+    setVal("#f_annual, [name='annual_savings_aed']", Math.round(d.netYr));
+    setVal("#f_roi, [name='roi_percent']", d.roi);
+  }
+
+  function dispatchWpcf7MailSent(form) {
+    const wpcf7Root = form.closest(".wpcf7");
+    document.dispatchEvent(
+      new CustomEvent("wpcf7mailsent", {
+        bubbles: true,
+        detail: {
+          contactFormId: form.querySelector('[name="_wpcf7"]')?.value || "",
+          unitTag: wpcf7Root?.id || form.querySelector('[name="_wpcf7_unit_tag"]')?.value || "",
+        },
+      }),
+    );
+  }
+
+  function isPhoneRequired(form) {
+    const phoneEl = form.querySelector(
+      "input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']",
+    );
+    if (!phoneEl) return false;
+    if (isRoiCalculatorForm(form)) {
+      return (
+        phoneEl.getAttribute("aria-required") === "true" ||
+        phoneEl.classList.contains("wpcf7-validates-as-required")
+      );
+    }
+    return true;
+  }
+
   function detectFormName(form) {
+    if (isRoiCalculatorForm(form) || /\/roi-calculator\/?$/i.test(window.location.pathname)) {
+      return "Connect HR ROI Calculator";
+    }
     const heading = (
       form.closest(".elementor-widget-container, .elementor-element, section, .main-form")?.innerText ||
       form.innerText ||
@@ -390,7 +460,7 @@
       showFieldError(email, errors.email);
     }
 
-    if (phoneEl) {
+    if (phoneEl && isPhoneRequired(form)) {
       const digits = phone.replace(/\D/g, "");
       if (!phone) {
         errors.phone = "Phone number is required.";
@@ -434,6 +504,7 @@
         if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
 
         captureTrackingFields(form);
+        injectRoiCalculatorFields(form);
 
         const result = validate(form);
         if (!result.ok) {
@@ -449,6 +520,7 @@
         }
 
         captureTrackingFields(form);
+        injectRoiCalculatorFields(form);
         const fd = new FormData(form);
         if (result.phone) {
           fd.set("phonetext-597", result.phone);
@@ -533,6 +605,9 @@
             /* ignore */
           }
           showCf7Message(form, successMsg, false);
+          if (isRoiCalculatorForm(form)) {
+            dispatchWpcf7MailSent(form);
+          }
           // Re-assert after CF7/intlTel quirks (same as Evolution)
           setTimeout(() => showCf7Message(form, successMsg, false), 100);
           setTimeout(() => showCf7Message(form, successMsg, false), 300);

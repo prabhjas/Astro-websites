@@ -241,7 +241,9 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
   } else if (ecsList.length >= 2) {
     const gridHtml = data.posts.map((p) => buildInsightsCardHtml(p)).join('\n');
     $(ecsList[0]).html(gridHtml);
-    $(ecsList.slice(1)).each((_, el) => $(el).empty());
+    $(ecsList.slice(1)).each((_, el) => {
+      $(el).empty();
+    });
   } else if (ecsList.length === 1) {
     $(ecsList[0]).html(data.posts.map((p) => buildInsightsCardHtml(p)).join('\n'));
   }

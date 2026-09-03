@@ -10,6 +10,13 @@ import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import inlineHeadCss from "../data/inline-head.css?raw";
 import inlineHeadCssAr from "../data/inline-head.ar.css?raw";
+import cwvManifest from "../data/cwv-manifest.json";
+// All per-route critical CSS, loaded at build. Server-side only (never shipped to client).
+const criticalCssMap = import.meta.glob("../data/critical/*.css", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
 import { resolveInternalAdminDir } from "../env/server";
 import "../styles/global.css";
 
@@ -50,15 +57,40 @@ const htmlLang = isRtl ? "ar" : "en-AE";
  */
 const headInlineCss = isRtl ? inlineHeadCssAr : inlineHeadCss;
 
+/*
+ * Route-specific COMPLETE critical CSS (penthouse-generated, mobile above-the-fold).
+ * When a route has one, inline it and load the full stylesheet set non-blocking
+ * (asyncCss) so first paint isn't gated by the WP/Elementor CSS. Routes without a
+ * generated critical set keep the safe render-blocking path (no FOUC/CLS risk).
+ * Regenerate with scratchpad critcss/generate-critical.mjs after CSS changes.
+ */
+const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
+const cwvRoute = isRtl
+  ? undefined
+  : (
+      cwvManifest.routes as Record<
+        string,
+        { slug: string; hero?: Array<Record<string, string>> }
+      >
+    )[normalizedPath];
+const routeCriticalCss =
+  cwvRoute && criticalCssMap[`../data/critical/${cwvRoute.slug}.css`];
+const asyncCss = Boolean(routeCriticalCss);
+const heroPreloads = (asyncCss && cwvRoute?.hero) || [];
+
 /**
  * Stylesheet set = exact live-homepage order (live-css-order.json, captured by
  * scripts/extract-connecthr.mjs) + this page's Elementor CSS (extraCss) + local
  * migration helpers. Data-driven so it tracks Connect HR's real WP kit/plugins.
  */
+const bundled = new Set(liveCssOrder as string[]);
 const stylesheets = [
   ...new Set([
-    ...(liveCssOrder as string[]),
-    ...extraCss,
+    // Single render-blocking bundle of the 71 live-order sheets (scripts/build-css-head-bundle.mjs)
+    // — cuts request count without FOUC. Re-run that script if live-css-order.json changes.
+    "/css/_head-bundle.css",
+    // Page-specific Elementor CSS not already in the shared bundle.
+    ...extraCss.filter((h) => !bundled.has(h)),
     "/css/wp-custom.css",
     "/css/elementor-bg-fallback.css",
     "/css/migration-overrides.css",
@@ -71,8 +103,15 @@ const stylesheets = [
 <!doctype html>
 <html lang={htmlLang} dir={isRtl ? "rtl" : "ltr"}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} currentPath={currentPath} />
-    <style is:inline set:html={headInlineCss}></style>
+    <SEOHead
+      seo={seo}
+      fallback={fallback}
+      extraCss={stylesheets}
+      asyncCss={asyncCss}
+      heroPreloads={heroPreloads}
+      currentPath={currentPath}
+    />
+    <style is:inline set:html={routeCriticalCss ?? headInlineCss}></style>
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}

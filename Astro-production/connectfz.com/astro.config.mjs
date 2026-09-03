@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
+import leadSafeSlash from './scripts/lead-safe-slash-integration.mjs';
 
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
@@ -21,6 +22,7 @@ try {
 // (sitemap_index.xml.ts, page-sitemap.xml.ts, post-sitemap.xml.ts).
 // Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
 export default defineConfig({
+  integrations: [leadSafeSlash()],
   site: siteUrl,
   trailingSlash: "always",
   compressHTML: true,

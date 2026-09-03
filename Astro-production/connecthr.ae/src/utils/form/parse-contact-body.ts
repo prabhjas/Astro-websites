@@ -20,14 +20,34 @@ function findCountryCode(raw: Record<string, FormDataEntryValue>): string | unde
   return undefined;
 }
 
+function buildRoiMessage(get: (key: string) => string | undefined): string | undefined {
+  const roi = get('roi_percent');
+  const annual = get('annual_savings_aed');
+  if (!isMeaningfulValue(roi) && !isMeaningfulValue(annual)) return undefined;
+
+  const lines = [
+    'HR ROI Calculator Results',
+    '',
+    `HR headcount: ${get('hr_count') || '—'}`,
+    `Average salary (AED): ${get('avg_salary_aed') || '—'}`,
+    `Payroll hours/month: ${get('payroll_hours_per_month') || '—'}`,
+    `Monthly savings (AED): ${get('monthly_savings_aed') || '—'}`,
+    `Annual savings (AED): ${annual || '—'}`,
+    `ROI (%): ${roi || '—'}`,
+  ];
+  return lines.join('\n');
+}
+
 function buildMessage(
   get: (key: string) => string | undefined,
 ): string | undefined {
   const message = get('message') ?? get('your-message');
   const subject = get('your-subject') ?? get('subject');
+  const roiMessage = buildRoiMessage(get);
   if (subject && message) return `Subject: ${subject}\n\n${message}`;
   if (subject) return `Subject: ${subject}`;
-  return message;
+  if (message) return message;
+  return roiMessage;
 }
 
 export function parseContactFormBody(
@@ -102,5 +122,7 @@ export function parseContactFormBody(
     consent: get('consent'),
     honeypot: get('website') ?? get('honeypot'),
     submittedAt: get('submittedAt') ?? get('submitted_at'),
+    roiPercent: get('roi_percent'),
+    annualSavingsAed: get('annual_savings_aed'),
   };
 }

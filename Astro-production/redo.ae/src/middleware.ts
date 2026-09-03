@@ -31,10 +31,19 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Lead-safe: never redirect POST /api/contact — browsers treat 301 as GET and drop the body.
+    // Astro trailingSlash: 'always' would otherwise 301 bare /api/contact → /api/contact/.
+    if (pathname === '/api/contact' && method !== 'GET' && method !== 'HEAD') {
+      return context.rewrite(`/api/contact/${context.url.search}`);
+    }
+
     // Enforce trailingSlash: 'always' — bare paths (no file extension) redirect with slash.
     // 301 for GET/HEAD (SEO); 308 for POST/etc so method + body are preserved.
     if (pathname !== '/' && !pathname.endsWith('/') && !pathname.includes('.')) {
       const target = `${pathname}/${context.url.search}`;
+      if (method !== 'GET' && method !== 'HEAD' && pathname.startsWith('/api/')) {
+        return context.rewrite(target);
+      }
       const status = method === 'GET' || method === 'HEAD' ? 301 : 308;
       return new Response(null, {
         status,

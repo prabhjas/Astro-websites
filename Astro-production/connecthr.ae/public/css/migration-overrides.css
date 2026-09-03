@@ -489,14 +489,38 @@ div.wpcf7-response-output.sp-status-visible,
 
 /*
   Homepage dashboard demo (GSAP animate_box) — fit full frame.
-  Global cover sizing + 100vw crops sides when the box is narrower than viewport.
+  Stack a single iframe; flex was showing duplicate embeds side-by-side.
 */
 .elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
 .animate_box .elementor-background-video-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   container-type: size;
+  overflow: hidden;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner,
+.animate_box .e-con-inner {
+  position: relative;
+  min-height: inherit;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner > .elementor-widget-html,
+.animate_box .e-con-inner > .elementor-widget-html {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hide Elementor placeholder shells once iframe exists */
+.elementor-background-video-container .elementor-background-video-embed:not(iframe) {
+  display: none !important;
+}
+.elementor-background-video-container iframe.elementor-background-video-embed ~ iframe,
+.elementor-background-video-container iframe ~ iframe {
+  display: none !important;
 }
 
 .elementor-element.elementor-element-cdbecf6
@@ -517,6 +541,14 @@ div.wpcf7-response-output.sp-status-visible,
   min-height: 0;
   aspect-ratio: 16 / 9;
 }
+
+/* Reveal YouTube background once iframe is injected (Elementor loading classes stay otherwise). */
+.elementor-background-video-container.elementor-background-video-loaded,
+.elementor-background-video-container:has(iframe.elementor-background-video-embed) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .home-header > .elementor-container,
 .elementor-element-e9a775c > .elementor-container {
   position: relative;

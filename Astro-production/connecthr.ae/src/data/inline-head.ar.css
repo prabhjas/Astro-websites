@@ -32,7 +32,7 @@ img.wp-smiley, img.emoji {
 	font-family: 'General Sans';
 	font-style: normal;
 	font-weight: 400;
-	font-display: auto;
+	font-display: swap;
 	src: url('/wp-content/uploads/2025/07/GeneralSans-Regular.woff2') format('woff2'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Regular.woff') format('woff'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Regular.ttf') format('truetype');
@@ -41,7 +41,7 @@ img.wp-smiley, img.emoji {
 	font-family: 'General Sans';
 	font-style: normal;
 	font-weight: 500;
-	font-display: auto;
+	font-display: swap;
 	src: url('/wp-content/uploads/2025/07/GeneralSans-Medium.woff2') format('woff2'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Medium.woff') format('woff'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Medium.ttf') format('truetype');
@@ -50,7 +50,7 @@ img.wp-smiley, img.emoji {
 	font-family: 'General Sans';
 	font-style: normal;
 	font-weight: 600;
-	font-display: auto;
+	font-display: swap;
 	src: url('/wp-content/uploads/2025/07/GeneralSans-Semibold.woff2') format('woff2'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Semibold.woff') format('woff'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Semibold.ttf') format('truetype');
@@ -59,7 +59,7 @@ img.wp-smiley, img.emoji {
 	font-family: 'General Sans';
 	font-style: normal;
 	font-weight: 700;
-	font-display: auto;
+	font-display: swap;
 	src: url('/wp-content/uploads/2025/07/GeneralSans-Bold.woff2') format('woff2'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Bold.woff') format('woff'),
 		url('/wp-content/uploads/2025/07/GeneralSans-Bold.ttf') format('truetype');
