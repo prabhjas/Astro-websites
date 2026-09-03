@@ -177,6 +177,23 @@ export function getPrimaryCategoryName(post: PostEntry): string {
   return "Blog";
 }
 
+export function getPrimaryCategorySlug(post: PostEntry): string {
+  const cats = getCategories();
+  for (const id of post.categories || []) {
+    const cat = cats.find((c) => c.id === id);
+    if (cat?.slug) return cat.slug;
+  }
+  return "blog";
+}
+
+/** Newest published posts for a language (default en). */
+export function getLatestPosts(limit = 3, lang: "en" | "ar" = "en"): PostEntry[] {
+  return getPosts()
+    .filter((p) => (p.lang || "en") === lang)
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+    .slice(0, limit);
+}
+
 export function normalizePath(pathname: string): string {
   if (!pathname || pathname === "/") return "/";
   let p = pathname.split("?")[0].split("#")[0];

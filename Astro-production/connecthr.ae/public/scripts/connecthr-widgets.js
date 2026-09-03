@@ -4,15 +4,38 @@
  * and WP Rocket–style lazy images (data-lazy-src → src).
  */
 (() => {
+  const decodeSettingsRaw = (raw) =>
+    String(raw || "")
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/\\\//g, "/");
+
   const parseSettings = (el) => {
     const raw = el.getAttribute("data-settings") || "";
+    const decoded = decodeSettingsRaw(raw);
     try {
-      return JSON.parse(raw);
+      return JSON.parse(decoded);
     } catch {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        /* fall through */
+      }
       const out = {};
-      const m = raw.match(/background_video_link(?:&quot;|")\s*:\s*(?:&quot;|")([^&"]+)/);
-      if (m) out.background_video_link = m[1];
-      if (/(sticky(?:&quot;|")\s*:\s*(?:&quot;|")top)/.test(raw)) out.sticky = "top";
+      const bg = decoded.match(/"background_video_link"\s*:\s*"([^"]+)"/);
+      if (bg) out.background_video_link = bg[1];
+      const yt = decoded.match(/"youtube_url"\s*:\s*"([^"]+)"/);
+      if (yt) out.youtube_url = yt[1];
+      const controls = decoded.match(/"controls"\s*:\s*"([^"]+)"/);
+      if (controls) out.controls = controls[1];
+      const autoplay = decoded.match(/"autoplay"\s*:\s*"([^"]+)"/);
+      if (autoplay) out.autoplay = autoplay[1];
+      const mute = decoded.match(/"mute"\s*:\s*"([^"]+)"/);
+      if (mute) out.mute = mute[1];
+      const loop = decoded.match(/"loop"\s*:\s*"([^"]+)"/);
+      if (loop) out.loop = loop[1];
+      if (/"sticky"\s*:\s*"top"/.test(decoded)) out.sticky = "top";
       return out;
     }
   };
@@ -65,6 +88,28 @@
       `https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1` +
       `&autoplay=1&mute=1&loop=1&playlist=${videoId}`
     );
+  }
+
+  /** Regular Elementor video widgets — keep controls / autoplay from data-settings. */
+  function youtubePlayerEmbedSrc(videoId, settings = {}) {
+    const params = new URLSearchParams({
+      rel: "0",
+      playsinline: "1",
+      modestbranding: "1",
+    });
+    const controlsOn = String(settings.controls ?? "yes") !== "no";
+    params.set("controls", controlsOn ? "1" : "0");
+    if (settings.autoplay === "yes") {
+      params.set("autoplay", "1");
+      params.set("mute", settings.mute === "no" ? "0" : "1");
+    }
+    if (settings.loop === "yes") {
+      params.set("loop", "1");
+      params.set("playlist", videoId);
+    }
+    const start = Number(settings.start || 0);
+    if (start > 0) params.set("start", String(start));
+    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
   }
 
   // Run `cb` once `el` is near the viewport — keeps below-the-fold autoplay
@@ -186,16 +231,25 @@
       const slot = widget.querySelector(".elementor-video");
       if (!slot) return;
 
-      // Already armed: just strip any iframe Elementor re-injected before IO fired.
+      // Already armed: strip eager Elementor iframes until our lazy load fires.
       if (widget.dataset.chrYtFacade === "pending") {
-        const stray = slot.querySelector("iframe");
+        const stray = slot.querySelector("iframe:not([data-chr-yt-player])");
         if (stray) stray.remove();
         return;
       }
 
       const s = parseSettings(widget);
-      const id = youtubeIdFromUrl(String(s.youtube_url || "").replace(/\\\//g, "/"));
-      if (!id) return;
+      const id = youtubeIdFromUrl(
+        String(s.youtube_url || s.youtubeUrl || "").replace(/\\\//g, "/"),
+      );
+      // Fallback when JSON.parse failed on entity-encoded settings.
+      const idFallback =
+        id ||
+        youtubeIdFromUrl(
+          (raw.match(/youtube(?:_url)?(?:&quot;|")\s*:\s*(?:&quot;|")([^&"]+)/) ||
+            [])[1],
+        );
+      if (!idFallback) return;
 
       widget.dataset.chrYtFacade = "pending";
       slot.innerHTML = "";
@@ -205,10 +259,13 @@
         widget.dataset.chrYtFacade = "loaded";
         const iframe = document.createElement("iframe");
         iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allow", "autoplay; encrypted-media");
+        iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
         iframe.setAttribute("allowfullscreen", "");
+        iframe.setAttribute("loading", "lazy");
+        iframe.dataset.chrYtPlayer = "1";
         iframe.title = "Video";
-        iframe.setAttribute("src", youtubeBackgroundEmbedSrc(id));
+        // Player embed (not background cover) so the demo fills the 16:9 slot.
+        iframe.setAttribute("src", youtubePlayerEmbedSrc(idFallback, s));
         slot.replaceChildren(iframe);
       };
 
