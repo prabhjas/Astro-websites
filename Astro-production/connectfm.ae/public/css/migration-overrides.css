@@ -579,3 +579,11 @@ div.wpcf7-response-output.sp-status-visible,
 .e-n-menu-content .elementor-heading-title a:hover::after {
   content: none !important;
 }
+
+/* Hotfix DEV: post-6229 template title must stay visible (CF had stale display:none). */
+body.single-post.postid-6229 .elementor-2619 .elementor-element.elementor-element-54bb6bf,
+.elementor-2619.post-6229 .elementor-element.elementor-element-54bb6bf,
+.elementor-2619 .post-6229 .elementor-element.elementor-element-54bb6bf,
+.elementor.elementor-2619 .elementor-element.elementor-element-54bb6bf {
+  display: block !important;
+}
