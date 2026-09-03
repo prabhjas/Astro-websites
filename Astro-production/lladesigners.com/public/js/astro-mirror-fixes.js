@@ -2101,6 +2101,29 @@
       /* Author archive cards — force thumbnails visible (Elementor skin) */
       '.elementor-posts--skin-cards .elementor-post__thumbnail{min-height:160px;background:#e8e8e8;overflow:hidden;}',
       '.elementor-posts--skin-cards .elementor-post__thumbnail img{display:block!important;width:100%!important;height:auto!important;opacity:1!important;visibility:visible!important;max-height:none!important;}',
+      /* Single blog Relevant Post cards — equal box height */
+      '#relevant-post .elementor-posts-container.elementor-grid{align-items:stretch!important;}',
+      '#relevant-post article.elementor-post,#relevant-post .ecs-post-loop{' +
+        'height:100%!important;display:flex!important;flex-direction:column!important;}',
+      '#relevant-post .elementor-3743,#relevant-post .elementor-element-8b83320,' +
+        '#relevant-post .elementor-element-8b83320>.elementor-container,' +
+        '#relevant-post .elementor-element-d3856d7{' +
+        'height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important;}',
+      '#relevant-post .elementor-element-d3856d7>.elementor-widget-wrap{' +
+        'height:100%!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;' +
+        'align-content:flex-start!important;flex:1 1 auto!important;}',
+      '#relevant-post .elementor-element-3a9454b{width:100%!important;flex:0 0 100%!important;}',
+      '#relevant-post .elementor-element-3a9454b img{' +
+        'display:block!important;width:100%!important;height:auto!important;aspect-ratio:16/9;object-fit:cover;}',
+      '#relevant-post .elementor-element-262a50e{' +
+        'flex:1 1 auto!important;min-width:0!important;max-width:calc(100% - 96px)!important;}',
+      '#relevant-post .elementor-element-262a50e .elementor-post-info__terms-list{' +
+        'display:block!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}',
+      '#relevant-post .elementor-element-fd538d5{flex:0 0 auto!important;white-space:nowrap;}',
+      '#relevant-post .elementor-element-814c366{width:100%!important;flex:1 1 auto!important;}',
+      '#relevant-post .elementor-element-814c366 .elementor-heading-title{' +
+        'display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;' +
+        'min-height:calc(1.25em * 3);}',
       '.elementor-pagination .page-numbers{pointer-events:auto!important;cursor:pointer;position:relative;z-index:2;}',
       /* ez-toc — readable links, no visited fade, sticky column must show full list */
       '#ez-toc-container a.ez-toc-link,.ez-toc-container a.ez-toc-link{cursor:pointer;color:#444!important;opacity:1!important;}',
