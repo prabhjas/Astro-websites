@@ -89,20 +89,17 @@ function buildArticleContent(featured, center, cta) {
   // Content from DOCX — preserve wording; strip H1/H2/H3 labels and SEO/meta preamble.
   const blocks = [];
 
-  const p = (html, bold = false) => {
-    if (bold) blocks.push(`<p><strong>${html}</strong></p>`);
-    else blocks.push(`<p>${html}</p>`);
+  const p = (html) => {
+    blocks.push(`<p>${html}</p>`);
   };
   const h2 = (t) => blocks.push(`<h2>${escapeHtml(cleanHeading(t))}</h2>`);
   const h3 = (t) => blocks.push(`<h3>${escapeHtml(cleanHeading(t))}</h3>`);
 
   p(
-    "Picture yourself strolling into a cool, properly lit mansion without lifting a finger. Your home knows your every need before you ask for it. Nowadays, it is the real magic of smart home automation in Dubai.",
-    true
+    "Picture yourself strolling into a cool, properly lit mansion without lifting a finger. Your home knows your every need before you ask for it. Nowadays, it is the real magic of smart home automation in Dubai."
   );
   p(
-    "Property owners in the Emirates are moving away from basic electronics. They want maximum comfort, greater security, and genuine energy savings. With so many choices on the market, it may be hard to decide which arrangement is perfect for you.",
-    true
+    "Property owners in the Emirates are moving away from basic electronics. They want maximum comfort, greater security, and genuine energy savings. With so many choices on the market, it may be hard to decide which arrangement is perfect for you."
   );
   p(
     "This full guide has all you need to know. We let you easily move to the latest equipment, realistic pricing, and setup options for your luxury residential contemporary property."
@@ -110,8 +107,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("How Do You Define Smart Home Automation?");
   p(
-    `The <a href="/security/smart-homes/">smart home automation system</a> is the network of linked devices that you may use to manage lighting, temperature, and security remotely. It brings your home appliances together in one convenient platform. You can easily control your whole home space from your phone.`,
-    true
+    `The <a href="/security/smart-homes/">smart home automation system</a> is the network of linked devices that you may use to manage lighting, temperature, and security remotely. It brings your home appliances together in one convenient platform. You can easily control your whole home space from your phone.`
   );
 
   h3("Working Mechanism of a Smart Home Automation System");
@@ -126,8 +122,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Why Dubai is Getting a Surge in Smart Home Automation");
   p(
-    "Smart home automation in Dubai is seeing rapid growth owing to the Dubai Urban Master Plan and DEWA’s smart infrastructure ambition of the government. These schemes promote sustainable urban sprawl, energy efficiency, and high-tech living environments above residential buildings.",
-    true
+    "Smart home automation in Dubai is seeing rapid growth owing to the Dubai Urban Master Plan and DEWA’s smart infrastructure ambition of the government. These schemes promote sustainable urban sprawl, energy efficiency, and high-tech living environments above residential buildings."
   );
 
   h3("Privileges of Smart Home Automation");
@@ -142,8 +137,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Various Categories of Smart Home Automation Systems in Dubai");
   p(
-    "Your choice of smart home automation Dubai relies on your house architecture and lifestyle. It's a critical piece of electronic infrastructure for the modern home. Let's check over the main system categories for luxury real estate and contemporary houses in the UAE nowadays.",
-    true
+    "Your choice of smart home automation Dubai relies on your house architecture and lifestyle. It's a critical piece of electronic infrastructure for the modern home. Let's check over the main system categories for luxury real estate and contemporary houses in the UAE nowadays."
   );
 
   h3("Cabled Home Automation Systems");
@@ -168,8 +162,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Budget for Smart Home Automation Systems in Dubai");
   p(
-    "The cost of smart home automation in Dubai typically varies from 5000 Dirhams for basic packages to over 250,000 Dirhams for luxury homes. The overall expenditure varies greatly depending on property size, system complexity, and chosen brands. Plan your budget wisely for long-term enjoyment.",
-    true
+    "The cost of smart home automation in Dubai typically varies from 5000 Dirhams for basic packages to over 250,000 Dirhams for luxury homes. The overall expenditure varies greatly depending on property size, system complexity, and chosen brands. Plan your budget wisely for long-term enjoyment."
   );
 
   blocks.push(`<figure class="wp-block-table"><table>
@@ -198,8 +191,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Major Elements of a Smart Home Automation Solution in Dubai");
   p(
-    "A top-grade smart home automation solution in Dubai incorporates several technological elements to make your everyday chores easy. Learning about these elements can assist you in creating a pleasant, safe, and highly efficient living area that suits your lifestyle.",
-    true
+    "A top-grade smart home automation solution in Dubai incorporates several technological elements to make your everyday chores easy. Learning about these elements can assist you in creating a pleasant, safe, and highly efficient living area that suits your lifestyle."
   );
 
   h3("Automation Systems for Lighting and Weather Control");
@@ -224,8 +216,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Selecting the Best Smart Home Automation Company in Dubai");
   p(
-    "Choosing the proper partner for smart home automation in Dubai guarantees long-term credibility. You need a staff with demonstrated local experience and high technical abilities. They will assist you throughout the major elements to choose the appropriate expert contractor.",
-    true
+    "Choosing the proper partner for smart home automation in Dubai guarantees long-term credibility. You need a staff with demonstrated local experience and high technical abilities. They will assist you throughout the major elements to choose the appropriate expert contractor."
   );
 
   h3("Check Their Certifications");
@@ -265,8 +256,7 @@ function buildArticleContent(featured, center, cta) {
 
   h2("Wrapping Up: Smart Home Automation Really Worth It in Dubai 2026");
   p(
-    "Today’s competitive real estate market makes it well worth it for contemporary property owners to invest in smart home automation in Dubai. The regional market has fully transitioned from a premium novelty to a must-have industry staple.",
-    true
+    "Today’s competitive real estate market makes it well worth it for contemporary property owners to invest in smart home automation in Dubai. The regional market has fully transitioned from a premium novelty to a must-have industry staple."
   );
   p(
     "It gives you unrivaled energy savings, increased security on a daily basis, and far greater resale prices for the property. Let our dedicated professional team help you plan and develop your perfect future-ready smart living place now."

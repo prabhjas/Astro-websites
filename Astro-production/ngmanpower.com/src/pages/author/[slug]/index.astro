@@ -1,23 +1,26 @@
 ---
 /**
- * Author archive — mirrors live Elementor template 33086
+ * Author archive — Elementor template 33086
  * (hero + optional avatar/bio + LinkedIn + “Post By …” + 3-col shortcode grid).
- * @see https://ngmanpower.com/author/muhammad-faieezvistaoutsourcing-com/
+ * Paths are driven by author slug: /author/[author-slug]/
  */
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
-  authors,
+  getAuthors,
   getPostsByAuthor,
-  formatDate,
   stripHtml,
 } from "../../../lib/content";
 import { breadcrumbSchema } from "../../../lib/seo";
 
 export function getStaticPaths() {
-  return authors.map((author) => ({
-    params: { slug: author.slug },
-    props: { author },
-  }));
+  // One archive per author who has at least one published article.
+  return getAuthors()
+    .map((author) => ({ author, posts: getPostsByAuthor(author.id) }))
+    .filter(({ posts }) => posts.length > 0)
+    .map(({ author }) => ({
+      params: { slug: author.slug },
+      props: { author },
+    }));
 }
 
 const { author } = Astro.props;
@@ -48,34 +51,21 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function excerptText(html: string): string {
-  const raw = stripHtml(html || "").slice(0, 180).trim();
-  return raw ? `${raw}${raw.length >= 180 ? " […]" : ""}` : "";
-}
-
+/** Insights-style cards: featured image (banner baked in) + title only. */
 const cardsHtml = posts
   .map((post) => {
     const title = stripHtml(post.title);
     const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
     const img = (post.featuredImage || "").replace(/^https?:\/\/ngmanpower\.com/, "");
     const imgHtml = img
-      ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy">`
-      : `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#1f1f1f;" aria-hidden="true"></div>`;
-    const excerpt = excerptText(post.excerpt || post.content || "");
-    const date = formatDate(post.date);
-    return `<div class="main-post post-wrap filter main-profile">
-  <a href="${escapeHtml(href)}">
-    ${imgHtml}
-    <div class="post-ct">
-      <h3>${escapeHtml(title)}</h3>
-      ${excerpt ? `<p>${escapeHtml(excerpt)}</p>` : ""}
-      <div class="bottom-ct">
-        <div><i class="fa fa-calendar" aria-hidden="true"></i><span>${escapeHtml(date)}</span></div>
-        <div><span>Read More</span></div>
-      </div>
-    </div>
+      ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" width="800" height="450">`
+      : `<div class="ng-author-card__placeholder" aria-hidden="true"></div>`;
+    return `<article class="main-post filter main-profile ng-author-card">
+  <a class="ng-author-card__link" href="${escapeHtml(href)}">
+    <div class="ng-author-card__media">${imgHtml}</div>
+    <h3 class="ng-author-card__title">${escapeHtml(title)}</h3>
   </a>
-</div>`;
+</article>`;
   })
   .join("\n");
 ---
@@ -84,7 +74,7 @@ const cardsHtml = posts
   currentPath={author.path}
   bodyClass={`archive author author-${author.slug} author-${author.id} elementor-page-33086 elementor-template-full-width`}
   seo={{
-    title: `${name}, Author at Connect Free Zone`,
+    title: `${name}, Author at NG Manpower`,
     description: bio || `Articles by ${name}.`,
     canonical: author.path,
     schemas: [

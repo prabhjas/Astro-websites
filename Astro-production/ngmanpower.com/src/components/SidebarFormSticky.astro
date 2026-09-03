@@ -1,0 +1,37 @@
+---
+/**
+ * Wrap sidebar form block so the whole blue card sticks (not only CF7).
+ * All single posts.
+ */
+---
+
+<script is:inline>
+  (() => {
+    const run = () => {
+      const col = document.querySelector(
+        "body.single-post .type_sticky > .vc_column-inner",
+      );
+      if (!col || col.querySelector(".ng-sidebar-form-sticky")) return;
+
+      const start = col.querySelector(":scope > .sticky_r");
+      const title = col.querySelector(":scope > .us_custom_9fdbceef");
+      const desc = col.querySelector(":scope > .us_custom_f6aa9c65");
+      const form = col.querySelector(":scope > .wpcf7");
+      if (!title || !desc || !form) return;
+
+      const wrap = document.createElement("div");
+      wrap.className = "ng-sidebar-form-sticky";
+      (start || title).before(wrap);
+      if (start) wrap.appendChild(start);
+      wrap.appendChild(title);
+      wrap.appendChild(desc);
+      wrap.appendChild(form);
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", run, { once: true });
+    } else {
+      run();
+    }
+  })();
+</script>
