@@ -124,7 +124,7 @@ export function ensureHeadingScaleCss(html: string): string {
 }
 
 const FOOTER_SOCIAL_HTML = `
-				<div class="elementor-element elementor-element-eg-footer-social elementor-shape-circle elementor-grid-0 e-grid-align-center elementor-widget elementor-widget-social-icons" data-id="egfootersocial" data-element_type="widget" data-e-type="widget" data-widget_type="social-icons.default">
+				<div class="elementor-element elementor-element-eg-footer-social elementor-shape-circle elementor-grid-2 e-grid-align-center elementor-widget elementor-widget-social-icons" data-id="egfootersocial" data-element_type="widget" data-e-type="widget" data-widget_type="social-icons.default">
 				<div class="elementor-widget-container">
 							<div class="elementor-social-icons-wrapper elementor-grid" role="list">
 							<span class="elementor-grid-item" role="listitem">

@@ -170,13 +170,13 @@ export function serveLegacyPage(slug) {
   if (!html.includes('astro-mirror-fixes')) {
     html = html.replace(
       /<\/body>/i,
-      '<script src="/js/astro-mirror-fixes-v2.js?v=20260817-aboutimg" defer></script>\n</body>',
+      '<script src="/js/astro-mirror-fixes-v2.js?v=20260903-equalcards" defer></script>\n</body>',
     );
   } else {
     // Bust stale broken builds that browsers may have cached.
     html = html.replace(
-      /\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?/g,
-      '/js/astro-mirror-fixes-v2.js?v=20260817-aboutimg',
+      /\/js\/astro-mirror-fixes(?:-v2)?\.js(?:\?[^"']*)?/g,
+      '/js/astro-mirror-fixes-v2.js?v=20260903-equalcards',
     );
   }
 
