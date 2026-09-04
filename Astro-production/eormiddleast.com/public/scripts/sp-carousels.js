@@ -19,10 +19,14 @@
     const SwiperCtor = window.Swiper;
     if (!SwiperCtor) return;
 
-    document.querySelectorAll(".elementor-main-swiper, .swiper, .elementor-loop-container").forEach((el) => {
+    // Only fallback Elementor main swipers — bare `.swiper` / loop-containers are
+    // owned by Elementor or astro-mirror-fixes and throw if double-inited early.
+    document.querySelectorAll(".elementor-main-swiper").forEach((el) => {
       if (!(el instanceof HTMLElement)) return;
       if (el.swiper || el.classList.contains("swiper-initialized")) return;
-      if (!el.querySelector(".swiper-slide")) return;
+      if (!el.querySelector(".swiper-wrapper")) return;
+      const slides = el.querySelectorAll(".swiper-slide:not(.swiper-slide-duplicate)");
+      if (!slides.length) return;
 
       const settings = parseSettings(el);
       const parent = el.closest(".elementor-element") || el.parentElement;
@@ -51,10 +55,13 @@
           ? Number(spaceRaw?.size) || 30
           : Number(spaceRaw) || 30;
 
+      const wantLoop = settings.loop === "yes" || settings.infinite === "yes";
+      const canLoop = wantLoop && slides.length > Math.ceil(slidesPerView);
+
       try {
         new SwiperCtor(el, {
           slidesPerView: mobile,
-          loop: settings.loop !== "no" && settings.infinite !== "no",
+          loop: canLoop,
           speed: Number(settings.speed) || 500,
           autoplay:
             settings.autoplay === "yes"

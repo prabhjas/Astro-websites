@@ -9,7 +9,19 @@ const skip = new Set([
   "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
 ]);
 
-const scripts = (liveJsOrder as string[]).filter((src) => !skip.has(src));
+/** Prefer min Elementor bundles — fleet recovered *.bundle.min.js for the min webpack runtime. */
+function preferMinElementorSrc(src: string): string {
+  if (!/\/wp-content\/plugins\/elementor(?:-pro)?\/assets\/js\//.test(src)) return src;
+  if (src.includes(".min.js")) return src;
+  return src.replace(/\.js$/i, ".min.js");
+}
+
+const scripts = (liveJsOrder as string[])
+  .filter((src) => !skip.has(src))
+  .map(preferMinElementorSrc);
+
+const jqueryScripts = scripts.filter((src) => /\/jquery(?:\.min)?\.js$/i.test(src) || /jquery-migrate/i.test(src));
+const withoutJquery = scripts.filter((src) => !jqueryScripts.includes(src));
 
 /** Smart Slider scripts must load after the _N2 bootstrap and before the per-page init. */
 const smartSliderSrc = new Set([
@@ -19,10 +31,12 @@ const smartSliderSrc = new Set([
   "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js",
   "/wp-content/plugins/smart-slider-3/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js",
 ]);
-const smartSliderScripts = scripts.filter((src) => smartSliderSrc.has(src));
-const otherScripts = scripts.filter((src) => !smartSliderSrc.has(src));
+const smartSliderScripts = withoutJquery.filter((src) => smartSliderSrc.has(src));
+const otherScripts = withoutJquery.filter((src) => !smartSliderSrc.has(src));
 ---
 
+{/* jQuery first — Smart Slider / Elementor / honeypot all expect $ */}
+{jqueryScripts.map((src) => <script is:inline src={src} />)}
 {/* Smart Slider 3: live WP injects _N2 queue + SmartSliderSimple('n2-ss-*') inlines */}
 {smartSliderScripts.map((src) => <script is:inline src={src} />)}
 <script is:inline src="/scripts/smart-slider/init-home.js"></script>
@@ -32,12 +46,53 @@ const otherScripts = scripts.filter((src) => !smartSliderSrc.has(src));
     break_point: "921",
     isRtl: "",
     is_scroll_to_id: "1",
-    is_scroll_to_top: "1",
+    is_scroll_to_top: "",
     is_header_footer_builder_active: "1",
     responsive_cart_click: "flyout",
     is_dark_palette: "",
   };
 </script>
+{/* Elementor/CF7 locals expected by live-js-order scripts (no WP runtime on Astro) */}
+<script is:inline>
+  window.elementorFrontendConfig = window.elementorFrontendConfig || {
+    environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+    i18n: {},
+    is_rtl: false,
+    breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+    responsive: { breakpoints: {} },
+    version: "3.31.2",
+    is_static: false,
+    experimentalFeatures: {},
+    urls: { assets: "/wp-content/plugins/elementor/assets/" },
+    settings: { page: [], editorPreferences: [] },
+    kit: {},
+    post: { id: 0, title: "", excerpt: "", featuredImage: false },
+    elements: { data: {}, nestedElements: {}, hasPopUps: false },
+  };
+  window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
+    ajaxurl: "/api/contact/",
+    nonce: "astro",
+    urls: { assets: "/wp-content/plugins/elementor-pro/assets/", rest: "/" },
+    settings: {},
+    popup: { hasPopUps: false },
+  };
+  window.wpa_field_info = window.wpa_field_info || {};
+  window.wpcf7 = window.wpcf7 || {
+    cached: 0,
+    api: { root: "/wp-json/", namespace: "contact-form-7/v1" },
+  };
+  if (window.jQuery) window.$ = window.jQuery;
+  (function () {
+    var orig = window.getComputedStyle;
+    window.getComputedStyle = function (elt, pseudo) {
+      if (!(elt instanceof Element)) {
+        return orig.call(window, document.documentElement, pseudo);
+      }
+      return orig.call(window, elt, pseudo);
+    };
+  })();
+</script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 {otherScripts.map((src) => <script is:inline src={src} />)}
 
 <script is:inline src="/scripts/fix-content-image-srcset.js"></script>

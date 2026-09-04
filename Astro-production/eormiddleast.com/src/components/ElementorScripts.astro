@@ -6,6 +6,18 @@
 
 <script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
 <script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<script is:inline>
+  // Guard Elementor/plugin IntersectionObserver calls that pass null targets
+  (function () {
+    if (!window.IntersectionObserver) return;
+    var Proto = window.IntersectionObserver.prototype;
+    var orig = Proto.observe;
+    Proto.observe = function (target) {
+      if (!(target instanceof Element)) return;
+      return orig.call(this, target);
+    };
+  })();
+</script>
 <script is:inline src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"></script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
@@ -38,6 +50,7 @@
 </script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
 <script is:inline>
   window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {

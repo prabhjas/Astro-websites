@@ -125,6 +125,10 @@ const stylesheets = [
       window.__SP_CONTACT_ENDPOINT__ = contactEndpoint;
     </script>
     <script src="/runtime-gtm.js" defer data-runtime-gtm="1"></script>
+    {/* jQuery early — cleaned header/body inlines call jQuery(document).ready before footer ElementorScripts */}
+    <script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
+    <script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+    <script is:inline src="/wp-content/themes/datatech/assets/js/owl.carousel.min.js"></script>
   </head>
   <body
     class:list={[

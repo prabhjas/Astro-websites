@@ -69,6 +69,13 @@ function ensureScript(html: string, src: string): string {
   return html.replace(/<\/body>/i, `<script src="${src}" defer><\/script>\n</body>`);
 }
 
+/** Inject Elementor locals before body scripts (legacy mirrors omit WP localize). */
+function ensureElementorFrontendConfig(html: string): string {
+  if (html.includes("elementorFrontendConfig")) return html;
+  const stub = `<script>window.elementorFrontendConfig=window.elementorFrontendConfig||{environmentMode:{edit:!1,wpPreview:!1,isScriptDebug:!1},i18n:{},is_rtl:!1,breakpoints:{xs:0,sm:480,md:768,lg:1025,xl:1440,xxl:1600},responsive:{breakpoints:{}},version:"3.31.2",is_static:!1,experimentalFeatures:{},urls:{assets:"/wp-content/plugins/elementor/assets/"},settings:{page:[],editorPreferences:[]},kit:{},post:{id:0,title:"",excerpt:"",featuredImage:!1},elements:{data:{},nestedElements:{},hasPopUps:!1}};window.ElementorProFrontendConfig=window.ElementorProFrontendConfig||{ajaxurl:"/api/contact/",nonce:"astro",urls:{assets:"/wp-content/plugins/elementor-pro/assets/",rest:"/"},settings:{},popup:{hasPopUps:!1}};</script>`;
+  return html.replace(/<\/head>/i, `${stub}\n</head>`);
+}
+
 function ensureStylesheet(html: string, href: string): string {
   if (html.includes(href)) return html;
   return html.replace(
@@ -95,6 +102,7 @@ export function serveLegacyPage(slug: string): Response {
   });
   html = injectRuntimeGtmLoader(html);
   html = absolutizeSeoUrls(html, slug);
+  html = ensureElementorFrontendConfig(html);
   if (slug === "blog") {
     html = injectBlogApbPosts(html);
     html = ensureStylesheet(html, "/css/apb-ssr-fallback.css");

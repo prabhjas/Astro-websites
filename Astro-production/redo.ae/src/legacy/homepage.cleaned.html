@@ -3668,6 +3668,7 @@ with the Best Home Renovation Team in Dubai
   const steps = document.querySelectorAll('.cf7-step');
   const stepNumber = document.getElementById('step-number');
   let current = 0;
+  if (!steps.length) return;
 
   function showStep(index) {
     steps.forEach((step, i) => {
@@ -3700,6 +3701,7 @@ with the Best Home Renovation Team in Dubai
   // ✅ Disable/enable "Next" based on radio checked status
   function checkRadioRequired() {
     const currentStep = steps[current];
+    if (!currentStep) return;
     const radios = currentStep.querySelectorAll('input[type="radio"]');
     const nextBtn = currentStep.querySelector('.next-btn');
 
@@ -3730,6 +3732,7 @@ with the Best Home Renovation Team in Dubai
 document.addEventListener('DOMContentLoaded', function () {
   const radios = document.querySelectorAll('input[name="radio-689"]');
   const otherField = document.getElementById('other-text-wrap');
+  if (!radios.length || !otherField) return;
 
   function toggleOtherField() {
     const selected = document.querySelector('input[name="radio-689"]:checked');
@@ -3759,7 +3762,7 @@ document.addEventListener('wpcf7submit', function(event) {
     if (step6 && step7 && step6.style.display !== 'none') {
       // Hide step 6
       step6.style.display = 'none';
-		countstep.style.display = 'none';
+		if (countstep) countstep.style.display = 'none';
       
       // Show step 7
       step7.style.display = 'block';
@@ -3774,6 +3777,7 @@ document.addEventListener('wpcf7submit', function(event) {
 const fileInput = document.getElementById('file-upload');
   const fileNamesDiv = document.getElementById('file-names');
 
+  if (fileInput && fileNamesDiv) {
   fileInput.addEventListener('change', function () {
     const files = Array.from(fileInput.files);
     if (files.length) {
@@ -3782,6 +3786,7 @@ const fileInput = document.getElementById('file-upload');
       fileNamesDiv.textContent = '';
     }
   });
+  }
 
 </script><script>
 // Function to replace old URL with new URL
