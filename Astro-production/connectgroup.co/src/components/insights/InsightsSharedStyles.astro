@@ -51,18 +51,30 @@
   .bp-sheet,
   .bp-wrap,
   .bp-main,
-  .bp-content {
+  .bp-content,
+  .bp-related,
+  .bp-related__grid,
+  .bp-related__card,
+  .bp-related__media {
     max-width: 100%;
+    min-width: 0;
   }
   .bp-content img,
   .bp-content figure,
   .bp-content video,
   .bp-content iframe,
-  .bp-content table {
+  .bp-content table,
+  .bp-related__media img {
     max-width: 100% !important;
     height: auto !important;
   }
-  .bp-content figure {
+  .bp-related__media img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+  .bp-content figure,
+  .bp-related__media {
     overflow: hidden;
   }
 

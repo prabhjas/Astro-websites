@@ -6,8 +6,8 @@
  * - CF7 phone: flag sprites + Cloudflare country via /api/geo/country (not ipinfo.io)
  * - Nudges Elementor frontend init when available
  *
- * cache-bust: 20260904cg3 — Insights dark canvas + Contact-Us-Bg shorthand;
- * re-init intlTelInput for every unwrapped .cg-phone-input; block ipinfo.io.
+ * cache-bust: 20260904cg4 — rocket-lazy unwrap waits for jQuery/wp;
+ * Insights dark canvas + Contact-Us-Bg shorthand; block ipinfo.io.
  */
 (function () {
   function safe(fn) {
@@ -237,22 +237,91 @@
     } catch (e) {}
   }
 
-  /** WP Rocket leaves type="text/rocketlazyloadscript" on inline config — run it */
+  /**
+   * WP Rocket leaves type="text/rocketlazyloadscript" — enable those scripts.
+   * Externals first (async), then inlines after jQuery/wp deps exist so we don't
+   * throw "wp is not defined" / "$ is not a function" on author/archive shells.
+   */
   function unwrapRocketLazyScripts() {
+    var externals = [];
+    var inlines = [];
     document.querySelectorAll('script[type="text/rocketlazyloadscript"]').forEach(function (script) {
       var src = script.getAttribute('data-rocket-src');
+      var text = (script.textContent || '').trim();
       if (src && !script.getAttribute('src')) {
-        script.setAttribute('src', src);
-        script.removeAttribute('data-rocket-src');
-      } else if (!src && script.textContent && script.textContent.trim()) {
+        externals.push(script);
+      } else if (!src && text) {
+        inlines.push(script);
+      } else {
+        script.removeAttribute('type');
+      }
+    });
+
+    externals.forEach(function (script) {
+      var src = script.getAttribute('data-rocket-src');
+      script.setAttribute('src', src);
+      script.removeAttribute('data-rocket-src');
+      script.removeAttribute('type');
+    });
+
+    function depsReady(text) {
+      if (/\bwp\.i18n\b/.test(text) && !(window.wp && window.wp.i18n)) return false;
+      if (/\(jQuery\)|\bjQuery\b|\b\$\(/.test(text) && typeof window.jQuery !== 'function') return false;
+      return true;
+    }
+
+    function activateInline(script) {
+      if (!script || !script.parentNode) return;
+      var text = (script.textContent || '').trim();
+      if (!text) {
+        script.removeAttribute('type');
+        return;
+      }
+      try {
         var replacement = document.createElement('script');
         if (script.className) replacement.className = script.className;
         if (script.id) replacement.id = script.id;
-        replacement.textContent = script.textContent;
+        // Swallow dependency races instead of noisy console ReferenceErrors.
+        replacement.textContent = 'try{\n' + text + '\n}catch(_astroRocket){}';
         script.parentNode.replaceChild(replacement, script);
+      } catch (e) {
+        try {
+          script.remove();
+        } catch (_) {}
       }
-      script.removeAttribute('type');
-    });
+    }
+
+    function flushInlines() {
+      var pending = [];
+      inlines.forEach(function (script) {
+        var text = (script.textContent || '').trim();
+        if (!depsReady(text)) {
+          pending.push(script);
+          return;
+        }
+        activateInline(script);
+      });
+      inlines = pending;
+    }
+
+    flushInlines();
+    if (!inlines.length) return;
+
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      flushInlines();
+      if (!inlines.length || tries > 100) {
+        clearInterval(timer);
+        // Drop remaining fragile inlines rather than throwing forever.
+        inlines.forEach(function (script) {
+          try {
+            script.remove();
+          } catch (_) {}
+        });
+        inlines = [];
+      }
+    }, 50);
   }
 
   /** Scrollsequence (Global Footprint canvas scrub) */
