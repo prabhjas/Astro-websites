@@ -3,12 +3,11 @@
  * - Stops null DOM crashes that flood the console and break widgets
  * - Fallback counter animation when Elementor numerator does not run
  * - Fallback background video when Elementor does not inject <video>
- * - CF7 phone: flag sprites + IP-based country / dial-code selection
+ * - CF7 phone: flag sprites + Cloudflare country via /api/geo/country (not ipinfo.io)
  * - Nudges Elementor frontend init when available
  *
- * cache-bust: 20260904cg2 — Insights dark canvas + Contact-Us-Bg shorthand;
- * do not treat /insights or main.ig/.bp as light canvas (breaks header contrast);
- * re-init intlTelInput for every unwrapped .cg-phone-input (sidebar/footer forms).
+ * cache-bust: 20260904cg3 — Insights dark canvas + Contact-Us-Bg shorthand;
+ * re-init intlTelInput for every unwrapped .cg-phone-input; block ipinfo.io.
  */
 (function () {
   function safe(fn) {
@@ -18,6 +17,58 @@
       console.warn('[astro-mirror-fixes]', e);
     }
   }
+
+  /**
+   * Legacy WP country-phone scripts call ipinfo.io (CORS/406 on local + fleet).
+   * Rewrite to same-origin /api/geo/country (Cloudflare cf-ipcountry + AE fallback).
+   */
+  safe(function blockLegacyIpinfoGeo() {
+    if (window.__astroIpinfoBlocked) return;
+    window.__astroIpinfoBlocked = true;
+    var GEO = '/api/geo/country';
+
+    function isIpinfo(url) {
+      return typeof url === 'string' && /ipinfo\.io/i.test(url);
+    }
+
+    if (typeof window.fetch === 'function') {
+      var origFetch = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        try {
+          if (typeof input === 'string' && isIpinfo(input)) input = GEO;
+          else if (input && typeof input.url === 'string' && isIpinfo(input.url)) {
+            input = GEO;
+          }
+        } catch (e) {}
+        return origFetch(input, init);
+      };
+    }
+
+    function patchJqueryAjax() {
+      if (!window.jQuery || window.jQuery.__astroIpinfoPatched) return;
+      var $ = window.jQuery;
+      $.__astroIpinfoPatched = true;
+      var origAjax = $.ajax;
+      $.ajax = function (url, options) {
+        if (typeof url === 'object' && url !== null) {
+          options = url;
+          if (options && isIpinfo(options.url)) {
+            options = $.extend(true, {}, options, { url: GEO });
+          }
+          return origAjax.call(this, options);
+        }
+        if (isIpinfo(url)) url = GEO;
+        return origAjax.call(this, url, options);
+      };
+    }
+
+    patchJqueryAjax();
+    var jqTries = 0;
+    var jqTimer = setInterval(function () {
+      patchJqueryAjax();
+      if (window.jQuery || ++jqTries > 40) clearInterval(jqTimer);
+    }, 100);
+  });
 
   // Patch getElementById usage from inline WP scripts that assume #arrow exists
   safe(function () {
@@ -1316,10 +1367,13 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prefer clip so position:sticky (blog sidebar) still works.
-         Exception: Astro Insights (.ig/.bp) — overflow-x clip on html+body locks iOS scroll. */
+      /* Prefer clip so position:sticky (blog sidebar) still works on desktop.
+         Mobile: keep clip so wide CMS images cannot create horizontal scroll. */
       'html,body{overflow-x:clip;max-width:100vw;}',
-      'html:has(.ig),html:has(.ig) body,html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:visible!important;height:auto!important;max-height:none!important;}',
+      'html:has(.ig),html:has(.ig) body{overflow-x:clip!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}',
+      '@media (min-width:1100px){html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}}',
+      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body{overflow-x:clip!important;overflow-y:auto!important;}}',
+      '.bp-content img,.bp-content figure,.bp-content video,.bp-content iframe,.bp-content table{max-width:100%!important;height:auto!important;}',
       /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
          Exclude Contact Us + Figma Insights (.ig/.bp). */
       'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)):not(:has(main.ig)):not(:has(main.bp)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive):not(:has(main.ig)):not(:has(main.bp)){background:#111!important;background-color:#111!important;}',

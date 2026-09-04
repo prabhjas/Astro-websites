@@ -1,8 +1,10 @@
 ---
 /**
  * Figma v3 Insights / blog lead form — posts to /api/contact/.
- * UI/fields stay Insights-specific; attribution + phone + API match ContactForm.
- * variant: "footer" (listing/post contact) | "sidebar" (sticky post card)
+ * UI/fields stay Insights-specific; attribution + phone + API match site contact form.
+ *
+ * Script is a single hoisted module (no define:vars + import) so multi-instance
+ * pages never emit broken classic IIFEs that leak source text into the DOM.
  */
 import { SERVICE_CHIPS } from '../../lib/insights.ts';
 
@@ -34,6 +36,8 @@ const isSidebar = variant === 'sidebar';
   onsubmit="return false;"
   novalidate
   data-ig-lead-form
+  data-form-id={formId}
+  data-form-name={formName}
 >
   <input type="text" name="website" class="ig-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
   <input type="hidden" name="form_name" value={formName} />
@@ -142,14 +146,18 @@ const isSidebar = variant === 'sidebar';
   <p class="ig-form__status" hidden></p>
 </form>
 
-{/* jQuery + intlTelInput + mirror-fixes loaded once via InsightsChromeHead */}
-<script define:vars={{ formId, formName }}>
+<script>
   import { captureAttribution, populateAttributionFields } from '../../lib/attribution/client';
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById(formId);
-    if (!form || form.dataset.igLeadBound === '1') return;
+  function bindInsightsLeadForm(form) {
+    if (!(form instanceof HTMLFormElement) || form.dataset.igLeadBound === '1') return;
     form.dataset.igLeadBound = '1';
+
+    var formId = form.id || form.getAttribute('data-form-id') || 'insights-lead';
+    var formName =
+      form.getAttribute('data-form-name') ||
+      (form.querySelector('[name="form_name"]') && form.querySelector('[name="form_name"]').value) ||
+      'Connect Group Insights Lead Form';
 
     var chipRow = form.querySelector('[data-ig-chip-row]');
     var servicesInput = form.querySelector('[data-ig-services]');
@@ -170,7 +178,10 @@ const isSidebar = variant === 'sidebar';
       setHidden('submission_page_url', window.location.href);
       setHidden('referrer_url', document.referrer || '');
       if (!form.dataset.submissionId) {
-        form.dataset.submissionId = crypto.randomUUID();
+        form.dataset.submissionId =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
       }
       setHidden('submission_id', form.dataset.submissionId);
     }
@@ -179,11 +190,12 @@ const isSidebar = variant === 'sidebar';
       captureTracking();
     } catch (err) {}
 
-    // Live input guards — same as ContactForm
     var nameInputLive = form.querySelector('[name="name"]');
     if (nameInputLive) {
       nameInputLive.addEventListener('input', function () {
-        var cleaned = String(nameInputLive.value || '').replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s'-]/g, '').replace(/\s{2,}/g, ' ');
+        var cleaned = String(nameInputLive.value || '')
+          .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s'-]/g, '')
+          .replace(/\s{2,}/g, ' ');
         if (nameInputLive.value !== cleaned) nameInputLive.value = cleaned;
       });
     }
@@ -204,12 +216,14 @@ const isSidebar = variant === 'sidebar';
 
     if (chipRow && servicesInput) {
       chipRow.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-chip]');
+        var btn = e.target && e.target.closest ? e.target.closest('[data-chip]') : null;
         if (!btn) return;
         var value = btn.getAttribute('data-chip');
         if (btn.classList.contains('is-active')) {
           btn.classList.remove('is-active');
-          selected = selected.filter(function (v) { return v !== value; });
+          selected = selected.filter(function (v) {
+            return v !== value;
+          });
         } else {
           btn.classList.add('is-active');
           selected.push(value);
@@ -227,7 +241,9 @@ const isSidebar = variant === 'sidebar';
     }
 
     function clearErrors() {
-      form.querySelectorAll('.ig-form__error').forEach(function (el) { el.textContent = ''; });
+      form.querySelectorAll('.ig-form__error').forEach(function (el) {
+        el.textContent = '';
+      });
       if (status) {
         status.hidden = true;
         status.textContent = '';
@@ -262,7 +278,6 @@ const isSidebar = variant === 'sidebar';
       if (submitting) return;
 
       clearErrors();
-
       try {
         captureTracking();
       } catch (err) {}
@@ -272,10 +287,10 @@ const isSidebar = variant === 'sidebar';
       var emailInput = form.querySelector('[name="email"]');
       var phoneInput = form.querySelector('[name="phone"], .cg-phone-input');
       var messageInput = form.querySelector('[name="message"]');
-      var nameValue = (nameInput && nameInput.value || '').trim();
-      var emailValue = (emailInput && emailInput.value || '').trim();
-      var phoneValue = (phoneInput && phoneInput.value || '').replace(/\D/g, '');
-      var messageValue = (messageInput && messageInput.value || '').trim();
+      var nameValue = ((nameInput && nameInput.value) || '').trim();
+      var emailValue = ((emailInput && emailInput.value) || '').trim();
+      var phoneValue = ((phoneInput && phoneInput.value) || '').replace(/\D/g, '');
+      var messageValue = ((messageInput && messageInput.value) || '').trim();
       var clientErrors = {};
 
       if (!nameValue) clientErrors.name = 'Your name is required.';
@@ -289,7 +304,9 @@ const isSidebar = variant === 'sidebar';
       if (!emailValue) clientErrors.email = 'A valid email address is required.';
       else if (
         emailValue.indexOf('@') < 0 ||
-        !/^[a-z0-9](?:[a-z0-9._%+-]*[a-z0-9])?@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z]{2,})+$/i.test(emailValue)
+        !/^[a-z0-9](?:[a-z0-9._%+-]*[a-z0-9])?@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z]{2,})+$/i.test(
+          emailValue,
+        )
       ) {
         clientErrors.email = 'Please enter a valid email address.';
       }
@@ -311,15 +328,10 @@ const isSidebar = variant === 'sidebar';
 
       syncPhoneFullNumber();
 
-      // API requires message — UI keeps optional; fill from chips / default.
       if (!messageValue) {
-        if (selected.length) {
-          messageValue = 'Interested in: ' + selected.join(', ');
-        } else if (servicesInput && servicesInput.value) {
-          messageValue = 'Interested in: ' + servicesInput.value;
-        } else {
-          messageValue = 'Insights lead enquiry';
-        }
+        if (selected.length) messageValue = 'Interested in: ' + selected.join(', ');
+        else if (servicesInput && servicesInput.value) messageValue = 'Interested in: ' + servicesInput.value;
+        else messageValue = 'Insights lead enquiry';
         if (messageInput) messageInput.value = messageValue;
       } else if (selected.length) {
         messageValue = messageValue + '\n\nServices: ' + selected.join(', ');
@@ -352,7 +364,10 @@ const isSidebar = variant === 'sidebar';
               b.classList.remove('is-active');
             });
             if (servicesInput) servicesInput.value = '';
-            form.dataset.submissionId = crypto.randomUUID();
+            form.dataset.submissionId =
+              typeof crypto !== 'undefined' && crypto.randomUUID
+                ? crypto.randomUUID()
+                : String(Date.now());
             try {
               captureTracking();
             } catch (err) {}
@@ -379,5 +394,15 @@ const isSidebar = variant === 'sidebar';
           if (submitBtn) submitBtn.disabled = false;
         });
     });
-  });
+  }
+
+  function bindAllInsightsLeadForms() {
+    document.querySelectorAll('form[data-ig-lead-form]').forEach(bindInsightsLeadForm);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindAllInsightsLeadForms);
+  } else {
+    bindAllInsightsLeadForms();
+  }
 </script>
