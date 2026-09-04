@@ -1289,8 +1289,10 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prefer clip so position:sticky (blog sidebar) still works */
+      /* Prefer clip so position:sticky (blog sidebar) still works.
+         Exception: Astro Insights post (.bp) needs overflow-x:visible for sticky form. */
       'html,body{overflow-x:clip;max-width:100vw;}',
+      'html:has(.bp),html:has(.bp) body{overflow-x:visible!important;}',
       /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas).
          Exclude Contact Us (page-id-27093): shorthand background:#111 clears background-image. */
       'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
@@ -1356,9 +1358,11 @@
       '@media (max-width:991px){.elementor-32691 .elementor-element-718f66e{padding-top:110px!important;}}',
       '@media (min-width:992px){.elementor-32691 .elementor-element-718f66e{padding-top:120px!important;}}',
       /* Figma rebuild heroes — clear absolute overlay header (80px mobile / transparent desktop) */
-      '.chire-hero,.uaeo-hero,.cgbs-hero{margin-top:0!important;}',
-      '@media (max-width:991px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:110px!important;}}',
-      '@media (min-width:992px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:120px!important;}}',
+      '.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero,.bp-hero{margin-top:0!important;}',
+      '@media (max-width:991px){.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero{padding-top:110px!important;}}',
+      '@media (min-width:992px){.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero{padding-top:120px!important;}}',
+      '@media (max-width:991px){.bp-hero{padding-top:110px!important;}}',
+      '@media (min-width:992px){.bp-hero{padding-top:120px!important;}}',
       /* Legacy heroes pulled up with margin-top:-84px (freezone + container layouts) */
       '.elementor-element-6772549,.elementor-element-718f66e{margin-top:0!important;}',
       '@media (max-width:991px){.elementor-element-6772549,.elementor-element-718f66e{padding-top:110px!important;}}',
@@ -2163,6 +2167,10 @@
   }
 
   function isLightCanvasPage() {
+    // Figma Insights listing (.ig) + blog posts (.bp) use dark heroes — overlay header like marketing pages.
+    if (document.querySelector('main.ig, main.bp, .ig-hero, .bp-hero')) {
+      return false;
+    }
     var b = document.body;
     if (!b) return false;
     if (
@@ -2176,9 +2184,11 @@
       return true;
     }
     var path = (location.pathname || '').replace(/\/+$/, '') || '/';
+    // /insights is the Figma dark-hero listing — not light canvas
+    if (path === '/insights' || path.indexOf('/insights/') === 0) {
+      return false;
+    }
     return (
-      path === '/insights' ||
-      path.indexOf('/insights/') === 0 ||
       path.indexOf('/category/') === 0 ||
       path.indexOf('/tag/') === 0 ||
       path.indexOf('/author/') === 0
@@ -2248,8 +2258,8 @@
     }
     killAldLaserLoader();
 
-    // Overlay header on hero (Figma) — marketing pages only.
-    // Blog / Insights keep a normal-flow header so content is not flush under it.
+    // Overlay header on hero (Figma) — marketing pages + Insights (.ig/.bp).
+    // Legacy WP blog/archives keep a normal-flow header on the light canvas.
     if (!lightCanvas) {
       document
         .querySelectorAll(
