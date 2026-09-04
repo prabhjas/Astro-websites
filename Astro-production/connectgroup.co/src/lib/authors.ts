@@ -406,8 +406,13 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
     html = html.replace('</head>', `${authorFixCss}\n</head>`);
   }
 
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg2',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg2" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);
@@ -564,8 +569,13 @@ export function assembleAuthorDirectoryHtml(): string {
   if (!html.includes('astro-author-directory-css')) {
     html = html.replace('</head>', `${authorDirectoryCss}\n</head>`);
   }
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg2',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg2" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);

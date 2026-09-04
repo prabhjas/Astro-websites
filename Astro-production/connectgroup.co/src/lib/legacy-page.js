@@ -9,6 +9,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { applySharedChrome } from './shared-chrome.js';
+import { cwvOptimize } from './cwv-optimize.js';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://connectgroup.co')
   .trim()
@@ -55,9 +56,15 @@ export function serveLegacyPage(slug) {
       defaultOgImage: slug === 'homepage' || slug === 'Home' ? DEFAULT_OG_IMAGE : undefined,
     }),
   );
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg2',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg2" defer></script>\n</body>');
   }
+  html = cwvOptimize(html, path);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

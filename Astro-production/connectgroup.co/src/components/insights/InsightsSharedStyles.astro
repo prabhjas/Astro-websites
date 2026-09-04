@@ -25,10 +25,21 @@
     background: #060d1d !important;
   }
 
-  /* Override mirror-fixes html/body overflow-x:clip — that breaks sticky sidebar */
+  /*
+   * Override mirror-fixes html/body overflow-x:clip.
+   * On iOS, overflow-x clip/hidden on both html+body can lock vertical scroll;
+   * also breaks position:sticky on the sidebar form.
+   */
+  html:has(.ig),
+  html:has(.ig) body,
   html:has(.bp),
   html:has(.bp) body {
     overflow-x: visible !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    overscroll-behavior-y: auto;
+    touch-action: manipulation;
   }
 
   /* Insights + posts: dark canvas + transparent overlay header (white logo readable on hero) */
@@ -231,4 +242,19 @@
     width: 0 !important;
   }
   .ig-form .intl-tel-input { width: 100%; }
+  .ig-form .intl-tel-input .flag-container { z-index: 2; }
+  .ig-form .intl-tel-input input.cg-phone-input,
+  .ig-form .intl-tel-input input.wpcf7-phonetext {
+    padding-left: 96px !important;
+  }
+  .ig-form .selected-dial-code {
+    color: #fff !important;
+  }
+  .ig-form .intl-tel-input .selected-flag .iti-arrow {
+    border-top-color: #fff;
+  }
+  .ig-form .intl-tel-input .country-list {
+    color: #121212;
+    z-index: 40;
+  }
 </style>

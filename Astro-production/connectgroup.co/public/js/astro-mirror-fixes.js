@@ -5,6 +5,10 @@
  * - Fallback background video when Elementor does not inject <video>
  * - CF7 phone: flag sprites + IP-based country / dial-code selection
  * - Nudges Elementor frontend init when available
+ *
+ * cache-bust: 20260904cg2 — Insights dark canvas + Contact-Us-Bg shorthand;
+ * do not treat /insights or main.ig/.bp as light canvas (breaks header contrast);
+ * re-init intlTelInput for every unwrapped .cg-phone-input (sidebar/footer forms).
  */
 (function () {
   function safe(fn) {
@@ -1168,13 +1172,20 @@
       var dial = $input.siblings('.flag-container').find('.selected-flag .selected-dial-code').text();
       var name = $input.attr('name');
       if (!name) return;
-      var $hidden = $('input[name="' + name + '-country-code"]');
+      var $scope = $input.closest('form');
+      if (!$scope.length) $scope = $input.parent();
+      var $hidden = $scope.find('input[name="' + name + '-country-code"]');
       if ($hidden.length) $hidden.val(dial);
+    }
+
+    function phoneNeedsInit(el) {
+      return !!(el && !el.closest('.intl-tel-input'));
     }
 
     function applyCountry(code) {
       if (typeof window.jQuery === 'undefined') return;
       var $ = window.jQuery;
+      if (typeof $.fn.intlTelInput !== 'function') return;
       var country = (code || 'ae').toLowerCase();
       window.__astroPhoneCountry = country;
       var $phones = $('.wpcf7-phonetext, input.cg-phone-input');
@@ -1189,21 +1200,25 @@
             try { $el.intlTelInput('destroy'); } catch (eDestroy) {}
           }
         } catch (e) {}
-        $el.intlTelInput({
-          autoHideDialCode: true,
-          autoPlaceholder: 'aggressive',
-          nationalMode: true,
-          separateDialCode: true,
-          hiddenInput: 'full_number',
-          initialCountry: country,
-          preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
-          utilsScript: UTILS_JS,
-        });
-        try { $el.intlTelInput('setCountry', country); } catch (eSet) {}
-        syncDialCodeHidden($el);
-        $el.off('countrychange.astroPhone').on('countrychange.astroPhone', function () {
-          syncDialCodeHidden($(this));
-        });
+        try {
+          $el.intlTelInput({
+            autoHideDialCode: true,
+            autoPlaceholder: 'aggressive',
+            nationalMode: true,
+            separateDialCode: true,
+            hiddenInput: 'full_number',
+            initialCountry: country,
+            preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
+            utilsScript: UTILS_JS,
+          });
+          try { $el.intlTelInput('setCountry', country); } catch (eSet) {}
+          syncDialCodeHidden($el);
+          $el.off('countrychange.astroPhone').on('countrychange.astroPhone', function () {
+            syncDialCodeHidden($(this));
+          });
+        } catch (eInit) {
+          console.warn('[astro-mirror-fixes] intlTelInput init failed', eInit);
+        }
       });
 
       $countries.each(function () {
@@ -1230,14 +1245,26 @@
       window.__astroGeoCountryPromise = lookupCountryByIp();
     }
 
-    if (window.__astroPhoneCountryApplied) {
+    var hasUnwrappedPhone = false;
+    for (var pi = 0; pi < phones.length; pi++) {
+      if (phoneNeedsInit(phones[pi])) {
+        hasUnwrappedPhone = true;
+        break;
+      }
+    }
+
+    if (window.__astroPhoneCountryApplied && !hasUnwrappedPhone) {
       injectFlagSpriteCss();
       window.__astroGeoCountryPromise.then(function (code) {
         if (code && code !== (window.__astroPhoneCountry || '')) applyCountry(code);
       });
       return;
     }
-    if (window.__astroPhoneCountryPending) {
+    // Unwrapped Insights/contact phones remain — force re-init even if a prior field already applied.
+    if (hasUnwrappedPhone) {
+      window.__astroPhoneCountryApplied = false;
+    }
+    if (window.__astroPhoneCountryPending && !hasUnwrappedPhone) {
       var startedAt = window.__astroPhoneCountryStartedAt || 0;
       if (Date.now() - startedAt < 8000) {
         injectFlagSpriteCss();
@@ -1290,13 +1317,16 @@
     }
     style.textContent = [
       /* Prefer clip so position:sticky (blog sidebar) still works.
-         Exception: Astro Insights post (.bp) needs overflow-x:visible for sticky form. */
+         Exception: Astro Insights (.ig/.bp) — overflow-x clip on html+body locks iOS scroll. */
       'html,body{overflow-x:clip;max-width:100vw;}',
-      'html:has(.bp),html:has(.bp) body{overflow-x:visible!important;}',
-      /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas).
-         Exclude Contact Us (page-id-27093): shorthand background:#111 clears background-image. */
-      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
+      'html:has(.ig),html:has(.ig) body,html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:visible!important;height:auto!important;max-height:none!important;}',
+      /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
+         Exclude Contact Us + Figma Insights (.ig/.bp). */
+      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)):not(:has(main.ig)):not(:has(main.bp)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive):not(:has(main.ig)):not(:has(main.bp)){background:#111!important;background-color:#111!important;}',
+      'html:has(main.ig),html:has(main.bp),body:has(main.ig),body:has(main.bp){background:#060d1d!important;background-color:#060d1d!important;}',
       'body.astro-blog-post,body.single-post,body.page-id-18840,body.elementor-page-18840,body.blog,body.archive,html:has(body.astro-blog-post),html:has(body.single-post),html:has(body.page-id-18840),html:has(body.elementor-page-18840){background:#f8f9fa!important;background-color:#f8f9fa!important;background-image:none!important;}',
+      /* Figma Insights override light-canvas body classes if both ever present */
+      'html:has(main.ig) body,html:has(main.bp) body,body:has(main.ig),body:has(main.bp){background:#060d1d!important;background-color:#060d1d!important;background-image:none!important;}',
       /* Blog header stays in normal document flow (do not overlay like marketing heroes) */
       'body.astro-blog-post .elementor-location-header,body.single-post .elementor-location-header,body.blog .elementor-location-header,body.archive .elementor-location-header,body.page-id-18840 .elementor-location-header{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:100;}',
       /* Inner post top bar: mailto/tel + icon-box titles must stay white (not post-link red) */
@@ -2466,6 +2496,10 @@
     setTimeout(function () {
       safe(ensurePhoneCountryFields);
     }, 600);
+    // Insights pages mount multiple lead forms — re-scan for any still-unwrapped phones
+    setTimeout(function () {
+      safe(ensurePhoneCountryFields);
+    }, 1600);
     setTimeout(function () {
       safe(unwrapRocketLazyScripts);
       safe(nudgeElementor);

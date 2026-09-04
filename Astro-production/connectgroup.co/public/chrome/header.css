@@ -2543,14 +2543,21 @@ li#mega-menu-item-31469 { display: none !important; }
 
 /* === CG header chrome (authoritative — keep at file end) === */
 
-/* Kill thin top white/gray strip on marketing pages (not blog/insights light canvas) */
-html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)) {
+/* Kill thin top white/gray strip on marketing pages (not blog light canvas / Insights Figma) */
+html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(main.ig)):not(:has(main.bp)) {
   background: #111111 !important;
   background-color: #111111 !important;
 }
-body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive) {
+body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive):not(:has(main.ig)):not(:has(main.bp)) {
   background: #111111 !important;
   background-color: #111111 !important;
+}
+html:has(main.ig),
+html:has(main.bp),
+body:has(main.ig),
+body:has(main.bp) {
+  background: #060d1d !important;
+  background-color: #060d1d !important;
 }
 /* Insights index, categories, tags, single posts — keep readable light gray */
 html:has(body.astro-blog-post),
@@ -2568,7 +2575,9 @@ body.archive {
   background-image: none !important;
 }
 /* Contact Us (page 27093): keep full-bleed Contact-Us-Bg — do not solid-fill body */
-body.page-id-27093 {
+body.page-id-27093,
+body.elementor-page-27093 {
+  background: #111111 url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') center center / cover no-repeat scroll !important;
   background-color: #111111 !important;
   background-image: url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') !important;
   background-size: cover !important;
