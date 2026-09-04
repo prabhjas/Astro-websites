@@ -137,9 +137,20 @@ export function getAuthorProfileData(slug: string): {
   posts: BlogPost[];
   totalPosts: number;
 } | null {
-  const author = getAuthor(slug);
-  if (!author) return null;
+  let author = getAuthor(slug);
   const allPosts = getPostsByAuthorSlug(slug);
+  if (!author) {
+    if (!allPosts.length) return null;
+    const rawName = String(allPosts[0].author?.name || slug).replace(/<[^>]+>/g, '').trim() || slug;
+    author = {
+      slug,
+      name: rawName,
+      canonical: `/author/${slug}/`,
+      description: `Articles by ${rawName}`,
+      sourceUrl: `/author/${slug}/`,
+      migratedAt: new Date().toISOString(),
+    };
+  }
   return {
     author,
     posts: allPosts.slice(0, AUTHOR_INITIAL_POSTS),

@@ -10,8 +10,73 @@ import { applySharedChrome } from '../lib/shared-chrome.js';
 import { enrichMirrorSeoHtml } from '../lib/seo/enrich-mirror-meta';
 import { resolveSiteOrigin } from '../lib/seo/site-url';
 import { absolutizeMirrorSeoHtml } from '@connect/site-cms';
+import { buildInsightsCardHtml, getAllBlogPosts } from '../lib/blog.ts';
+import * as cheerio from 'cheerio';
 
 export const prerender = false;
+
+const INITIAL_CARDS = 15;
+
+function injectLatestBlogCards(html: string): string {
+  const $ = cheerio.load(html);
+  const posts = getAllBlogPosts();
+
+  const fillCard = ($card: ReturnType<typeof $>, post: (typeof posts)[0]) => {
+    const postUrl = `/${post.slug}/`;
+    const imgSrc = post.featuredImage?.src || '';
+    const desc = String(post.description || '')
+      .replace(/<[^>]+>/g, '')
+      .slice(0, 180);
+    const authorName = String(post.author?.name || '')
+      .replace(/<[^>]+>/g, '')
+      .trim();
+    let dateDisplay = post.publishedAt;
+    try {
+      dateDisplay = new Date(post.publishedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch {
+      /* keep iso */
+    }
+    $card.find('a[href]').attr('href', postUrl);
+    $card.find('h2 a, h3 a').first().text(post.title);
+    const $excerpt = $card.find('.elementor-widget-theme-post-excerpt p').first();
+    if ($excerpt.length && desc) $excerpt.text(desc);
+    if (authorName) $card.find('.elementor-post-info__item--type-author').first().text(authorName);
+    $card.find('time').first().text(dateDisplay);
+    if (imgSrc) {
+      $card.find('style').each((_, el) => {
+        const css = $(el).html() || '';
+        if (/background-image/i.test(css)) {
+          $(el).html(css.replace(/url\((['"]?)[^)'"]+\1\)/gi, `url("${imgSrc}")`));
+        }
+      });
+    }
+  };
+
+  const featuredGrid = $('.elementor-element-43bded0 .ecs-posts').first();
+  if (featuredGrid.length && posts[0]) {
+    const art = featuredGrid.find('article').first();
+    if (art.length) fillCard(art, posts[0]);
+  }
+  const recentGrid = $('.elementor-element-f9d7dad .ecs-posts').first();
+  if (recentGrid.length) {
+    recentGrid.find('article').each((i, el) => {
+      if (posts[i]) fillCard($(el), posts[i]);
+    });
+  }
+
+  const loadmore = $('.ecs-posts').filter((_, el) =>
+    String($(el).attr('data-settings') || '').includes('loadmore'),
+  ).first();
+  const grid = loadmore.length ? loadmore : $('.ecs-posts.elementor-posts-container').last();
+  if (grid.length) {
+    grid.html(posts.slice(0, INITIAL_CARDS).map(buildInsightsCardHtml).join('\n'));
+  }
+  return $.html();
+}
 
 function absolutizeBlogSeo(html: string): string {
   let origin = 'https://emiratisationgate.org';
@@ -119,6 +184,7 @@ if (!existsSync(cleanedPath)) {
 
 let html = readFileSync(cleanedPath, 'utf8');
 html = decorateBlogPage(injectRuntimeGtmLoader(applySharedChrome(html, 'blog')));
+html = injectLatestBlogCards(html);
 html = absolutizeBlogSeo(html);
 let siteOrigin = 'https://emiratisationgate.org';
 try {

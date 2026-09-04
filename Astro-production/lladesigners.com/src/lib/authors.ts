@@ -161,11 +161,22 @@ export function getAllAuthors(): Author[] {
 }
 
 export function getAuthorPageData(slug: string, page = 1): AuthorPageData | null {
-  const author = getAuthor(slug);
-  if (!author) return null;
+  let author = getAuthor(slug);
+  const posts = getPostsByAuthorSlug(slug);
+  if (!author) {
+    if (!posts.length) return null;
+    const rawName = String(posts[0].author?.name || slug).replace(/<[^>]+>/g, '').trim() || slug;
+    author = {
+      slug,
+      name: rawName,
+      canonical: `/author/${slug}/`,
+      description: `Articles by ${rawName}`,
+      sourceUrl: `/author/${slug}/`,
+      migratedAt: new Date().toISOString(),
+    };
+  }
 
   // Live dumps all author posts into the shortcode grid; JS shows 9 + Load More.
-  const posts = getPostsByAuthorSlug(slug);
   const totalPosts = posts.length;
   return { author, posts, currentPage: 1, totalPages: 1, totalPosts };
 }

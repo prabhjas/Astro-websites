@@ -1,12 +1,8 @@
 ---
 /**
- * Author archive pagination — prefer live mirrors under
- * src/legacy/author/<slug>/page/<n>.cleaned.html
+ * Author archive pagination — always assembled from live JSON posts.
  */
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { getAuthorPageData, serveAuthorArchive } from '../../../../lib/authors.ts';
-import { serveLegacyPage } from '../../../../lib/legacy-page.js';
 import { notFoundResponse } from '../../../../lib/not-found.js';
 
 export const prerender = false;
@@ -15,12 +11,6 @@ const slug = Astro.params.slug!;
 const page = Number(Astro.params.page || '1');
 if (!Number.isFinite(page) || page < 2) {
   return Astro.redirect(`/author/${slug}/`);
-}
-
-const mirrorSlug = `author/${slug}/page/${page}`;
-const mirror = join(process.cwd(), 'src/legacy', `${mirrorSlug}.cleaned.html`);
-if (existsSync(mirror)) {
-  return serveLegacyPage(mirrorSlug);
 }
 
 const data = getAuthorPageData(slug, page);

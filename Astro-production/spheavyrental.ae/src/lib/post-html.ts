@@ -13,7 +13,40 @@ function normalizeAttr(value: string): string {
   return value.replace(/&amp;/gi, "&").trim();
 }
 
-/** Replace or insert the hero featured image in the main post column (not related cards). */
+/** Replace img inside an Elementor featured-image widget starting at `featMarkerIdx`. */
+function replaceFeaturedWidgetImage(html: string, featMarkerIdx: number, img: string): string | null {
+  const absoluteFeat = html.lastIndexOf('<div class="elementor-element', featMarkerIdx);
+  if (absoluteFeat === -1) return null;
+  const containerIdx = html.indexOf('<div class="elementor-widget-container">', absoluteFeat);
+  if (containerIdx === -1) return null;
+
+  const contentStart = html.indexOf(">", containerIdx) + 1;
+  let depth = 1;
+  let pos = contentStart;
+  while (pos < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", pos);
+    const nextClose = html.indexOf("</div>", pos);
+    if (nextClose === -1) break;
+
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth += 1;
+      pos = nextOpen + 4;
+      continue;
+    }
+
+    depth -= 1;
+    if (depth === 0) {
+      return html.slice(0, contentStart) + img + html.slice(nextClose);
+    }
+    pos = nextClose + 6;
+  }
+  return null;
+}
+
+/**
+ * Update the hero featured image in the main post column (not related cards).
+ * Prefer replacing an existing main-column widget — never inject a second hero image.
+ */
 export function injectFeaturedImageHtml(
   html: string,
   featuredImage?: string,
@@ -24,12 +57,19 @@ export function injectFeaturedImageHtml(
   const src = escapeAttr(normalizeAttr(featuredImage.trim()));
   const alt = escapeAttr((title || "Featured image").trim());
   const img = `<img fetchpriority="high" decoding="async" width="800" height="450" src="${src}" class="attachment-large size-large" alt="${alt}" loading="eager">`;
-  const widget = `<div class="elementor-element elementor-element-dbe211f elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="dbe211f" data-element_type="widget" data-widget_type="theme-post-featured-image.default">
-				<div class="elementor-widget-container">
-					${img}				</div>
-				</div>
-				`;
 
+  const mainEnd = (() => {
+    const loop = html.indexOf("ecs-post-loop");
+    return loop === -1 ? html.length : loop;
+  })();
+  const main = html.slice(0, mainEnd);
+  const featMarker = "elementor-widget-theme-post-featured-image";
+  const featInMain = main.indexOf(featMarker);
+  if (featInMain !== -1) {
+    return replaceFeaturedWidgetImage(html, featInMain, img) ?? html;
+  }
+
+  // No hero widget yet — insert once before the main post title.
   const titleMarker = 'data-widget_type="theme-post-title.default"';
   let titleIdx = -1;
   let scan = 0;
@@ -43,44 +83,11 @@ export function injectFeaturedImageHtml(
   }
   if (titleIdx === -1) return html;
 
-  const wrapStart = html.lastIndexOf(
-    "elementor-widget-wrap elementor-element-populated",
-    titleIdx,
-  );
-  const between = html.slice(wrapStart, titleIdx);
-  const featIdx = between.indexOf("elementor-widget-theme-post-featured-image");
-
-  if (featIdx !== -1) {
-    const absoluteFeat = wrapStart + featIdx;
-    const containerIdx = html.indexOf(
-      '<div class="elementor-widget-container">',
-      absoluteFeat,
-    );
-    if (containerIdx === -1) return html;
-
-    const contentStart = html.indexOf(">", containerIdx) + 1;
-    let depth = 1;
-    let pos = contentStart;
-    while (pos < html.length && depth > 0) {
-      const nextOpen = html.indexOf("<div", pos);
-      const nextClose = html.indexOf("</div>", pos);
-      if (nextClose === -1) break;
-
-      if (nextOpen !== -1 && nextOpen < nextClose) {
-        depth += 1;
-        pos = nextOpen + 4;
-        continue;
-      }
-
-      depth -= 1;
-      if (depth === 0) {
-        return html.slice(0, contentStart) + img + html.slice(nextClose);
-      }
-      pos = nextClose + 6;
-    }
-    return html;
-  }
-
+  const widget = `<div class="elementor-element elementor-element-dbe211f elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="dbe211f" data-element_type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+					${img}				</div>
+				</div>
+				`;
   return html.slice(0, titleIdx) + widget + html.slice(titleIdx);
 }
 
@@ -115,6 +122,24 @@ function extractAuthorBox(html: string): { start: number; end: number; snippet: 
   return null;
 }
 
+function resolveAvatarSrc(authorAvatar: string | undefined, fallbackImg: string): string {
+  let src = normalizeAttr(authorAvatar || "");
+  if (!src) {
+    const srcMatch = fallbackImg.match(/\bsrc="([^"]*)"/i);
+    if (srcMatch) src = normalizeAttr(srcMatch[1]);
+  }
+  if (src.includes("gravatar.com")) {
+    try {
+      const url = new URL(src);
+      url.searchParams.set("s", "100");
+      src = url.toString();
+    } catch {
+      /* keep original */
+    }
+  }
+  return src;
+}
+
 function linkAuthorBoxSnippet(
   snippet: string,
   href: string,
@@ -122,39 +147,25 @@ function linkAuthorBoxSnippet(
   authorAvatar?: string,
 ): string {
   const avatarAlt = `Picture of ${displayName}`;
+  const safeHref = escapeAttr(href);
+  const safeName = escapeAttr(displayName);
   let out = snippet;
 
-  if (!/elementor-author-box__avatar[\s\S]*?<a[\s>]/i.test(out)) {
-    out = out.replace(
-      /(<div class="elementor-author-box__avatar">\s*)(<img\b[^>]*>)(\s*<\/div>)/i,
-      (_match, pre: string, img: string, post: string) => {
-        let src = normalizeAttr(authorAvatar || "");
-        const srcMatch = img.match(/\bsrc="([^"]*)"/i);
-        if (!src && srcMatch) src = normalizeAttr(srcMatch[1]);
-        if (src.includes("gravatar.com")) {
-          try {
-            const url = new URL(src);
-            url.searchParams.set("s", "100");
-            src = url.toString();
-          } catch {
-            /* keep original */
-          }
-        }
-        if (!src) return `${pre}${img}${post}`;
-        return `${pre}<a href="${escapeAttr(href)}"><img src="${escapeAttr(src)}" alt="${escapeAttr(avatarAlt)}" width="50" height="50" loading="eager" decoding="async"></a>${post}`;
-      },
-    );
-  }
+  // Always rewrite avatar + name from the live post author (bodyHtml is a frozen WP mirror).
+  out = out.replace(
+    /(<div class="elementor-author-box__avatar">\s*)(?:<a\b[^>]*>\s*)?(<img\b[^>]*>)(?:\s*<\/a>)?(\s*<\/div>)/i,
+    (_match, pre: string, img: string, post: string) => {
+      const src = resolveAvatarSrc(authorAvatar, img);
+      if (!src) return `${pre}${img}${post}`;
+      return `${pre}<a href="${safeHref}"><img src="${escapeAttr(src)}" alt="${escapeAttr(avatarAlt)}" width="50" height="50" loading="eager" decoding="async"></a>${post}`;
+    },
+  );
 
-  if (!/elementor-author-box__name[\s\S]*?<a[\s>]/i.test(out)) {
-    out = out.replace(
-      /(<h4 class="elementor-author-box__name">\s*)([\s\S]*?)(\s*<\/h4>)/i,
-      (_match, pre: string, text: string, post: string) => {
-        const name = text.replace(/\s+/g, " ").trim() || displayName;
-        return `${pre}<a href="${escapeAttr(href)}">${escapeAttr(name)}</a>${post}`;
-      },
-    );
-  }
+  out = out.replace(
+    /(<h4 class="elementor-author-box__name">\s*)(?:<a\b[^>]*>\s*)?([\s\S]*?)(?:\s*<\/a>)?(\s*<\/h4>)/i,
+    (_match, pre: string, _text: string, post: string) =>
+      `${pre}<a href="${safeHref}">${safeName}</a>${post}`,
+  );
 
   return out;
 }

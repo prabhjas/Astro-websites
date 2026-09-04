@@ -58,7 +58,7 @@ function ensureBasePost(template: InternalPost, slug: string): InternalPost {
   };
   base.og = base.og || { title: '', description: '' };
   base.twitter = base.twitter || { card: 'summary_large_image' };
-  base.author = base.author || { name: 'Connect Freelance', slug: 'connectfreelance' };
+  base.author = base.author || { name: 'Connect Freelance', slug: 'connectfreelance', url: '/author/connectfreelance/' };
   base.categories = base.categories || [];
   base.tags = base.tags || [];
   base.featuredImage = base.featuredImage ?? null;

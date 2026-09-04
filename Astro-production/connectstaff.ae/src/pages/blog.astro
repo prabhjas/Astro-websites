@@ -4,11 +4,26 @@
  * Load More uses /api/blog/load-more (WP admin-ajax is not available on Astro).
  */
 import { serveLegacyPage } from '../lib/legacy-page.js';
+import { buildInsightsCardHtml, getAllBlogPosts } from '../lib/blog.ts';
+import * as cheerio from 'cheerio';
 
 export const prerender = false;
 
 const INITIAL_CARDS = 16;
 const PER_PAGE = 16;
+
+function injectLatestBlogCards(html: string): string {
+  const $ = cheerio.load(html);
+  const loadmore = $('.ecs-posts').filter((_, el) =>
+    String($(el).attr('data-settings') || '').includes('loadmore'),
+  ).first();
+  const grid = loadmore.length ? loadmore : $('.ecs-posts.elementor-posts-container').first();
+  if (grid.length) {
+    const posts = getAllBlogPosts();
+    grid.html(posts.slice(0, INITIAL_CARDS).map(buildInsightsCardHtml).join('\n'));
+  }
+  return $.html();
+}
 
 function decorateBlogLoadMore(html: string): string {
   let out = html;
@@ -54,7 +69,7 @@ if (legacy.status !== 200) {
   return legacy;
 }
 
-const html = decorateBlogLoadMore(await legacy.text());
+const html = decorateBlogLoadMore(injectLatestBlogCards(await legacy.text()));
 
 return new Response(html, {
   headers: {

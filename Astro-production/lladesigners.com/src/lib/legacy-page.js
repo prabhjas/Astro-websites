@@ -10,6 +10,7 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 import { resolveSiteOrigin } from './seo/site-url.ts';
+import { injectOurBlogsCards } from './blog.ts';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://lladesigners.com')
   .trim()
@@ -132,7 +133,10 @@ export function serveLegacyPage(slug) {
   const raw = readFileSync(cleanedPath, 'utf-8');
   let html = correctOgType(
     promoteRocketAsyncCss(
-      ensureFaviconLinks(injectRuntimeGtmLoader(applySharedChrome(raw, slug))),
+      ensureFaviconLinks(injectRuntimeGtmLoader(applySharedChrome(
+        slug === 'our-blogs' ? injectOurBlogsCards(raw) : raw,
+        slug,
+      ))),
     ),
     slug,
   );

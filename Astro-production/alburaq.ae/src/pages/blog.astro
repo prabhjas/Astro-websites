@@ -8,8 +8,26 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
 import { applySharedChrome } from '../lib/shared-chrome.js';
 import { resolveSiteOrigin } from '../lib/seo/site-url';
+import { buildInsightsCardHtml, getAllBlogPosts } from '../lib/blog.ts';
+import * as cheerio from 'cheerio';
 
 export const prerender = false;
+
+const BLOG_INITIAL = 12;
+const BLOG_PER_PAGE = 6;
+
+function injectLatestBlogCards(html: string): string {
+  const $ = cheerio.load(html);
+  const loadmore = $('.ecs-posts').filter((_, el) =>
+    String($(el).attr('data-settings') || '').includes('loadmore'),
+  ).first();
+  const grid = loadmore.length ? loadmore : $('.ecs-posts.elementor-posts-container').first();
+  if (grid.length) {
+    const posts = getAllBlogPosts();
+    grid.html(posts.slice(0, BLOG_INITIAL).map(buildInsightsCardHtml).join('\n'));
+  }
+  return $.html();
+}
 
 function absolutizeBlogSeo(html: string): string {
   let origin = '';
@@ -47,8 +65,34 @@ function decorateBlogPage(html: string): string {
   );
   out = out.replace(
     /<script[^>]*src="[^"]*alburaq-blog-listing\.js[^"]*"[^>]*><\/script>/gi,
-    '<!-- alburaq-blog-listing removed — Impreza pagination -->',
+    '<!-- alburaq-blog-listing removed — Astro /api/blog/load-more -->',
   );
+
+  out = out.replace(
+    /<script[^>]*src="[^"]*ecs_ajax_pagination\.js[^"]*"[^>]*><\/script>/gi,
+    '<!-- ecs_ajax_pagination removed (Astro /api/blog/load-more) -->',
+  );
+  out = out.replace(
+    /<script[^>]*>\s*var\s+ecs_ajax_params\s*=[\s\S]*?<\/script>/gi,
+    '<!-- ecs_ajax_params removed -->',
+  );
+
+  // Wire Astro Load More (replaces ECS admin-ajax /blog/?page=2).
+  out = out.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-cs-blog-load-more data-next-page="2" data-per-page="${BLOG_PER_PAGE}" data-offset="${BLOG_INITIAL}" data-loading-text="Loading...">`,
+  );
+  out = out.replace(
+    /(<nav[^>]*ecs-load-more-button[\s\S]*?<a[^>]*href=")[^"]*(")/i,
+    '$1javascript:void(0)$2',
+  );
+
+  if (!out.includes('blog-load-more.js')) {
+    out = out.replace(
+      /<\/body>/i,
+      `<script src="/js/blog-load-more.js" defer></script>\n</body>`,
+    );
+  }
 
   if (!out.includes('astro-mirror-fixes.js')) {
     out = out.replace(
@@ -98,6 +142,7 @@ if (!existsSync(cleanedPath)) {
 }
 
 let html = readFileSync(cleanedPath, 'utf8');
+html = injectLatestBlogCards(html);
 html = absolutizeBlogSeo(decorateBlogPage(injectRuntimeGtmLoader(applySharedChrome(html, 'blog'))));
 
 return new Response(html, {

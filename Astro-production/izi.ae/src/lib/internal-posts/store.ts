@@ -58,7 +58,7 @@ function ensureBasePost(template: InternalPost, slug: string): InternalPost {
   };
   base.og = base.og || { title: '', description: '' };
   base.twitter = base.twitter || { card: 'summary_large_image' };
-  base.author = base.author || { name: 'IZI Rent a Car', slug: 'izi' };
+  base.author = base.author || { name: 'IZI Rent a Car', slug: 'izi', url: '/author/izi/' };
   base.categories = base.categories || [];
   base.tags = base.tags || [];
   base.featuredImage = base.featuredImage ?? null;

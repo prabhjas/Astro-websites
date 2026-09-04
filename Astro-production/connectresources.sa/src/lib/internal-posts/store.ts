@@ -59,7 +59,7 @@ function ensureBasePost(template: InternalPost, slug: string): InternalPost {
   };
   base.og = base.og || { title: '', description: '' };
   base.twitter = base.twitter || { card: 'summary_large_image' };
-  base.author = base.author || { name: 'Connect Resources Saudi', slug: 'connectresources-sa' };
+  base.author = base.author || { name: 'Connect Resources Saudi', slug: 'connectresources-sa', url: '/author/connectresources-sa/' };
   base.categories = base.categories || [];
   base.tags = base.tags || [];
   base.featuredImage = base.featuredImage ?? null;

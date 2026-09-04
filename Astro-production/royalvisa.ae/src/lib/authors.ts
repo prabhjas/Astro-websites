@@ -106,10 +106,21 @@ export function getAllAuthors(): Author[] {
 }
 
 export function getAuthorPageData(slug: string, page = 1): AuthorPageData | null {
-  const author = getAuthor(slug);
-  if (!author) return null;
-
+  let author = getAuthor(slug);
   const allPosts = getPostsByAuthorSlug(slug);
+  if (!author) {
+    if (!allPosts.length) return null;
+    const rawName = String(allPosts[0].author?.name || slug).replace(/<[^>]+>/g, '').trim() || slug;
+    author = {
+      slug,
+      name: rawName,
+      canonical: `/author/${slug}/`,
+      description: `Articles by ${rawName}`,
+      sourceUrl: `/author/${slug}/`,
+      migratedAt: new Date().toISOString(),
+    };
+  }
+
   const totalPosts = allPosts.length;
   const totalPages = Math.max(1, Math.ceil(totalPosts / AUTHOR_POSTS_PER_PAGE));
   const currentPage = Math.min(Math.max(1, page), totalPages);
