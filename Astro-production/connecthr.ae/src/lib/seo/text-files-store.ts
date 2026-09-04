@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import { ROBOTS_DISALLOW_PATHS } from './sitemap-config.ts';
+import { ROBOTS_DISALLOW_PATHS, DELETED_BLOG_PATHS } from './sitemap-config.ts';
 import { renderRobotsTxt } from './sitemap-xml.ts';
 
 export type ManagedTextFile = {
@@ -16,7 +16,11 @@ function filePath(rootDir: string, kind: ManagedTextKind): string {
 }
 
 export function defaultRobotsContent(siteOrigin: string): string {
-  return renderRobotsTxt(siteOrigin.replace(/\/$/, ''), ROBOTS_DISALLOW_PATHS);
+  const disallow = [
+    ...ROBOTS_DISALLOW_PATHS,
+    ...[...DELETED_BLOG_PATHS].sort(),
+  ];
+  return renderRobotsTxt(siteOrigin.replace(/\/$/, ''), disallow);
 }
 
 export function defaultLlmContent(): string {
