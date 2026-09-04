@@ -451,8 +451,13 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     html = html.replace('</head>', `${TOC_STYLES}\n</head>`);
   }
 
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg4',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
   }
 
   html = decodeProtectedEmailsInHtml(html);

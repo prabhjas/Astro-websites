@@ -30,6 +30,36 @@ function absoluteSeoUrl(value: string, fallbackPath = '/'): string {
   }
 }
 
+/** Drop 404 legacy assets + fragile WP Rocket races that flood author-shell consoles. */
+function sanitizeAuthorShellAssets(html: string): string {
+  let out = html
+    .replace(/<link[^>]+href=["'][^"']*block-library\/style\.min\.css[^"']*["'][^>]*>/gi, '')
+    .replace(/<link[^>]+href=["'][^"']*wpb-style\.min\.css[^"']*["'][^>]*>/gi, '')
+    .replace(/<script[^>]+src=["'][^"']*email-decode\.min\.js[^"']*["'][^>]*>\s*<\/script>/gi, '')
+    // These inlines assume wp/jQuery are already live; Rocket races them.
+    .replace(/<script[^>]*id=["']wp-i18n-js-after["'][^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<script[^>]*id=["']nbcpf-countryFlag-script-js-after["'][^>]*>[\s\S]*?<\/script>/gi, '');
+
+  // Author shells don't need WP Rocket delay — it runs inlines before jQuery resolves.
+  out = out.replace(
+    /<script>\(\(\)=>\{class RocketLazyLoadScripts[\s\S]*?RocketLazyLoadScripts\.run\(\)\}\)\(\);\s*<\/script>/i,
+    '',
+  );
+  // Also drop the IE nowprocket redirect helper sitting above it.
+  out = out.replace(
+    /<script>if\(navigator\.userAgent\.match\(\/MSIE\|Internet Explorer\/i\)[\s\S]*?<\/script>/i,
+    '',
+  );
+  out = out.replace(/\stype=["']text\/rocketlazyloadscript["']/gi, '');
+  out = out.replace(/\sdata-rocket-src=/gi, ' src=');
+  out = out.replace(/\sdata-rocket-type=["'][^"']*["']/gi, '');
+  out = out.replace(/\sdata-rocket-defer(?:=["'][^"']*["'])?/gi, '');
+  // Keep document order for legacy footer inlines that call jQuery immediately.
+  out = out.replace(/(<script\b[^>]*)\sdefer(?:=["'][^"']*["'])?/gi, '$1');
+  out = out.replace(/(<script\b[^>]*)\sasync(?:=["'][^"']*["'])?/gi, '$1');
+  return out;
+}
+
 export interface AuthorSocial {
   type: string;
   url: string;
@@ -406,8 +436,15 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
     html = html.replace('</head>', `${authorFixCss}\n</head>`);
   }
 
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  html = sanitizeAuthorShellAssets(html);
+
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg4',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);
@@ -564,8 +601,16 @@ export function assembleAuthorDirectoryHtml(): string {
   if (!html.includes('astro-author-directory-css')) {
     html = html.replace('</head>', `${authorDirectoryCss}\n</head>`);
   }
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+
+  html = sanitizeAuthorShellAssets(html);
+
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg4',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);

@@ -55,8 +55,13 @@ export function serveLegacyPage(slug) {
       defaultOgImage: slug === 'homepage' || slug === 'Home' ? DEFAULT_OG_IMAGE : undefined,
     }),
   );
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg4',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
   }
   return new Response(html, {
     headers: {

@@ -25,10 +25,57 @@
     background: #060d1d !important;
   }
 
-  /* Override mirror-fixes html/body overflow-x:clip — that breaks sticky sidebar */
+  /*
+   * Mobile: clip horizontal overflow (wide CMS images / chrome must not cause side-scroll).
+   * Desktop (≥1100): allow overflow-x visible so sticky sidebar form still works.
+   */
   html:has(.bp),
-  html:has(.bp) body {
-    overflow-x: visible !important;
+  html:has(.bp) body,
+  html:has(.ig),
+  html:has(.ig) body {
+    overflow-x: clip !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    max-width: 100vw;
+    overscroll-behavior-y: auto;
+  }
+  @media (min-width: 1100px) {
+    html:has(.bp),
+    html:has(.bp) body {
+      overflow-x: visible !important;
+    }
+  }
+
+  .bp,
+  .bp-sheet,
+  .bp-wrap,
+  .bp-main,
+  .bp-content,
+  .bp-related,
+  .bp-related__grid,
+  .bp-related__card,
+  .bp-related__media {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .bp-content img,
+  .bp-content figure,
+  .bp-content video,
+  .bp-content iframe,
+  .bp-content table,
+  .bp-related__media img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  .bp-related__media img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+  .bp-content figure,
+  .bp-related__media {
+    overflow: hidden;
   }
 
   /* Insights + posts: dark canvas + transparent overlay header (white logo readable on hero) */
@@ -231,4 +278,19 @@
     width: 0 !important;
   }
   .ig-form .intl-tel-input { width: 100%; }
+  .ig-form .intl-tel-input .flag-container { z-index: 2; }
+  .ig-form .intl-tel-input input.cg-phone-input,
+  .ig-form .intl-tel-input input.wpcf7-phonetext {
+    padding-left: 96px !important;
+  }
+  .ig-form .selected-dial-code {
+    color: #fff !important;
+  }
+  .ig-form .intl-tel-input .selected-flag .iti-arrow {
+    border-top-color: #fff;
+  }
+  .ig-form .intl-tel-input .country-list {
+    color: #121212;
+    z-index: 40;
+  }
 </style>
