@@ -1022,6 +1022,8 @@
       var paginationEl = widget.querySelector('.swiper-pagination');
       var nextEl = widget.querySelector('.elementor-swiper-button-next, .swiper-button-next');
       var prevEl = widget.querySelector('.elementor-swiper-button-prev, .swiper-button-prev');
+      // Only wire nav when both arrow nodes exist — partial config throws in Swiper 8.
+      var hasNav = !!(nextEl && prevEl);
 
       // When slide count equals/falls under slidesPerView, peek one partial card so it still slides like live.
       var desktopView = desktop;
@@ -1034,6 +1036,8 @@
       }
 
       var canLoop = settings.infinite === 'yes' && slideCount > Math.ceil(desktopView);
+      if (slideCount < 1) return;
+
       var swiperOptions = {
         slidesPerView: mobile,
         slidesPerGroup: parseInt(settings.slides_to_scroll || '1', 10) || 1,
@@ -1046,17 +1050,14 @@
         observeParents: true,
         allowTouchMove: true,
         pagination: paginationEl ? { el: paginationEl, clickable: true } : undefined,
-        navigation:
-          nextEl || prevEl
-            ? { nextEl: nextEl || undefined, prevEl: prevEl || undefined }
-            : undefined,
+        navigation: hasNav ? { nextEl: nextEl, prevEl: prevEl } : undefined,
         breakpoints: {
           768: { slidesPerView: tabletView, spaceBetween: gap },
           1025: { slidesPerView: desktopView, spaceBetween: gap },
         },
       };
 
-      if (settings.autoplay === 'yes') {
+      if (settings.autoplay === 'yes' && slideCount > 1) {
         swiperOptions.autoplay = {
           delay: parseInt(settings.autoplay_speed || '5000', 10) || 5000,
           disableOnInteraction: settings.pause_on_interaction === 'yes',
@@ -1069,7 +1070,22 @@
         new Swiper(wrap, swiperOptions);
         widget.dataset.astroLoopCarousel = '1';
       } catch (e) {
-        console.warn('[astro-mirror-fixes] loop carousel', e);
+        // Fallback without nav/autoplay modules that break on some static HTML dumps.
+        try {
+          new Swiper(wrap, {
+            slidesPerView: mobile,
+            spaceBetween: gap,
+            loop: false,
+            watchOverflow: true,
+            breakpoints: {
+              768: { slidesPerView: tabletView, spaceBetween: gap },
+              1025: { slidesPerView: desktopView, spaceBetween: gap },
+            },
+          });
+          widget.dataset.astroLoopCarousel = '1';
+        } catch (e2) {
+          console.warn('[astro-mirror-fixes] loop carousel', e2);
+        }
       }
     });
   }
