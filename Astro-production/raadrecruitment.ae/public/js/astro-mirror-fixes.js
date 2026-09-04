@@ -7,6 +7,37 @@
  * - Nudges Elementor frontend init when available
  */
 (function () {
+  // Minimal WP/Elementor/CF7 globals expected by cleaned HTML scripts (Astro has no WP runtime).
+  try {
+    window.elementorFrontendConfig = window.elementorFrontendConfig || {
+      environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+      i18n: {},
+      is_rtl: false,
+      breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+      responsive: { breakpoints: {} },
+      version: '3.31.2',
+      is_static: false,
+      experimentalFeatures: {},
+      urls: { assets: '/wp-content/plugins/elementor/assets/' },
+      settings: { page: [], editorPreferences: [] },
+      kit: {},
+      post: { id: 0, title: '', excerpt: '', featuredImage: false },
+      elements: { data: {}, nestedElements: {}, hasPopUps: false },
+    };
+    window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
+      ajaxurl: '/api/contact/',
+      nonce: 'astro',
+      urls: { assets: '/wp-content/plugins/elementor-pro/assets/', rest: '/' },
+      settings: {},
+      popup: { hasPopUps: false },
+    };
+    window.wpa_field_info = window.wpa_field_info || {};
+    window.wpcf7 = window.wpcf7 || {
+      cached: 0,
+      api: { root: '/wp-json/', namespace: 'contact-form-7/v1' },
+    };
+  } catch (e) {}
+
   function safe(fn) {
     try {
       fn();
