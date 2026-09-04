@@ -250,5 +250,18 @@ describe('project sitemap dataset (integration)', () => {
     assert.ok(data.indexItems.every((i) => i.loc.startsWith('https://example.com/')));
     assert.ok(data.indexItems.some((i) => i.loc.endsWith('/page-sitemap.xml')));
     assert.ok(data.indexItems.some((i) => i.loc.endsWith('/post-sitemap.xml')));
+
+    // Permanently deleted off-topic blogs must never reappear in post sitemaps.
+    const deletedSamples = [
+      '/golden-visa-uae/',
+      '/best-accounting-software-in-uae/',
+      '/al-wasl-tower/',
+    ];
+    for (const path of deletedSamples) {
+      assert.ok(
+        !data.posts.some((e) => e.url.endsWith(path) || e.url.includes(path)),
+        `deleted blog still in sitemap: ${path}`,
+      );
+    }
   });
 });

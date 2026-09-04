@@ -13,6 +13,7 @@ import { parse } from 'yaml';
 import { getPages, getPosts } from '../content.ts';
 import {
   EXCLUDED_PAGE_SLUGS,
+  isDeletedBlogPath,
   isNoIndexNoFollowPath,
   SITEMAP_ENTRY_LIMIT,
   type SitemapEntry,
@@ -125,6 +126,7 @@ function entriesFromLiveRows(
     const path = normaliseCanonicalPath(row.path);
     if (!path) continue;
     if (redirectSources.has(path)) continue;
+    if (isDeletedBlogPath(path)) continue;
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
     if (type === 'page' && EXCLUDED_PAGE_SLUGS.has(slug.split('/')[0] || '')) continue;
     if (isNoIndexNoFollowPath(path)) continue;
@@ -176,6 +178,7 @@ function entriesFromContentPosts(
     const path = normaliseCanonicalPath(post.path || `/${post.slug}/`);
     if (!path) continue;
     if (redirectSources.has(path)) continue;
+    if (isDeletedBlogPath(path)) continue;
     if (!isIndexableRobots(robotsString(post.seo?.robots))) continue;
 
     const canonical = post.seo?.canonical || path;
