@@ -1712,15 +1712,39 @@ div#five h2 {
 
 
 
-body.page-id-27093 {
+html body.page-id-27093,
+body.page-id-27093.elementor-page-27093 {
+    background: #111 url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') center center / cover no-repeat fixed !important;
     background-image: url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') !important;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-attachment: fixed !important;
+    background-color: #111 !important;
 }
 
 .page-id-27093 .bg-white{
     background-color:transparent !important;
+}
+
+/* Shared footer plate sits on the same Contact Us gradient; keep only-flower disks */
+.page-id-27093 #pix-page-footer,
+.page-id-27093 .elementor-location-footer,
+.page-id-27093 .elementor-28308,
+.page-id-27093 .elementor-28308 .elementor-element-27685fb,
+.page-id-27093 .elementor-28308 .elementor-element-27685fb:not(.elementor-motion-effects-element-type-background),
+.page-id-27093 .elementor-28308 .elementor-element-27685fb > .elementor-motion-effects-container > .elementor-motion-effects-layer,
+.page-id-27093 .elementor-28308 .elementor-element-27685fb > .elementor-background-overlay {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+@media (max-width: 991px) {
+  html body.page-id-27093,
+  body.page-id-27093.elementor-page-27093 {
+    background-attachment: scroll !important;
+  }
 }
 
 .page-id-27093 .selected-dial-code {

@@ -1,8 +1,16 @@
 import singleTemplate from "../data/single-post-template.html?raw";
 import archiveTemplate from "../data/archive-template.html?raw";
 import loopItemTemplate from "../data/loop-item-template.html?raw";
+import loopItem8245Template from "../data/loop-item-8245-template.html?raw";
 import type { PostEntry } from "./content-types";
-import { formatDate, getPrimaryCategoryName, getRelatedPosts, stripHtml } from "./content";
+import {
+  formatDate,
+  getLatestPosts,
+  getPrimaryCategoryName,
+  getPrimaryCategorySlug,
+  getRelatedPosts,
+  stripHtml,
+} from "./content";
 
 function escapeHtml(s: string): string {
   return String(s || "")
@@ -79,6 +87,98 @@ export function renderPostCard(post: PostEntry, categoryName = ""): string {
   html = html.replace(/elementor-location-archive/, "elementor-location-single");
 
   return html;
+}
+
+/** Loop template 8245 (hr-software blog row) — featured image only when assigned. */
+export function renderLoop8245Card(post: PostEntry): string {
+  const title = stripHtml(post.title);
+  const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+  const image = String(post.featuredImage || "").trim();
+  const category = getPrimaryCategoryName(post);
+  const catSlug = getPrimaryCategorySlug(post);
+  let html = loopItem8245Template;
+
+  if (!image) {
+    html = html.replace(
+      /<div class="elementor-element elementor-element-90bfb30[\s\S]*?<\/div>\s*<\/div>\s*(?=<div class="elementor-element elementor-element-1c15502)/,
+      "",
+    );
+  }
+
+  html = html.replace(/\{\{CARD_ID\}\}/g, String(post.id));
+  html = html.replace(/\{\{CARD_HREF\}\}/g, href);
+  html = html.replace(/\{\{CARD_TITLE\}\}/g, escapeHtml(title));
+  html = html.replace(/\{\{CARD_IMAGE\}\}/g, image);
+  html = html.replace(/\{\{CARD_DATE\}\}/g, formatCardDate(post.date));
+  html = html.replace(
+    /\{\{CARD_READ_TIME\}\}/g,
+    readingTime(post.bodyHtml || post.content || post.excerpt || ""),
+  );
+  html = html.replace(/\{\{CARD_CATEGORY\}\}/g, escapeHtml(category));
+  html = html.replace(/\{\{CARD_CAT_SLUG\}\}/g, escapeHtml(catSlug));
+  html = html.replace(/\{\{CARD_THUMB_CLASS\}\}/g, image ? "has-post-thumbnail " : "");
+
+  return html;
+}
+
+/**
+ * Replace Elementor loop-carousels with a static grid of the latest N posts.
+ * No swiper / bullets — featured image only when the post has one assigned.
+ */
+export function replaceLoopCarouselsWithLatestGrid(
+  pageHtml: string,
+  lang: "en" | "ar" = "en",
+  limit = 3,
+): string {
+  if (!pageHtml || !/elementor-widget-loop-carousel/.test(pageHtml)) return pageHtml;
+
+  const posts = getLatestPosts(limit, lang);
+  const cards = posts.map((p) => renderLoop8245Card(p)).join("\n");
+  let html = pageHtml;
+  let guard = 0;
+
+  while (guard++ < 8) {
+    const marker = html.indexOf("elementor-widget-loop-carousel");
+    if (marker < 0) break;
+    const start = html.lastIndexOf("<div", marker);
+    if (start < 0) break;
+    const end = findMatchingDivEnd(html, start);
+    if (end < 0) break;
+    const original = html.slice(start, end);
+    const idMatch = original.match(/\bdata-id="([^"]+)"/);
+    const dataId = idMatch?.[1] || "6ab9124";
+    const replacement = `<div class="elementor-element elementor-element-${dataId} elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-widget elementor-widget-loop-grid chr-latest-posts-grid" data-id="${dataId}" data-element_type="widget" data-e-type="widget" data-widget_type="loop-grid.post">
+				<div class="elementor-widget-container">
+					<div class="elementor-loop-container elementor-grid chr-latest-posts" data-chr-latest-posts="${limit}">
+${cards}
+					</div>
+				</div>
+				</div>`;
+    html = html.slice(0, start) + replacement + html.slice(end);
+  }
+
+  return html;
+}
+
+function findMatchingDivEnd(html: string, start: number): number {
+  let i = start;
+  let depth = 0;
+  while (i < html.length) {
+    if (html.startsWith("<div", i)) {
+      depth += 1;
+      i = html.indexOf(">", i) + 1;
+      if (i <= 0) return -1;
+      continue;
+    }
+    if (html.startsWith("</div>", i)) {
+      depth -= 1;
+      i += 6;
+      if (depth === 0) return i;
+      continue;
+    }
+    i += 1;
+  }
+  return -1;
 }
 
 function slugifyHeading(text: string): string {

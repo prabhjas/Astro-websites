@@ -1,6 +1,964 @@
 ---
-import { getInsightsPageData, serveArchivePage } from '../lib/archives.ts';
+/**
+ * Insights listing — CG v3.0 Figma (from-scratch rebuild)
+ * Desktop 3741:9313 · Tablet 6818:3773 · Mobile stacked.
+ * Featured = top 4 posts by stored contact leads (blog form / page URL).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InsightsChromeHead from '../components/insights/InsightsChromeHead.astro';
+import InsightsSharedStyles from '../components/insights/InsightsSharedStyles.astro';
+import { loadPageSeo } from '../lib/seo';
+import {
+  getFeaturedCards,
+  getInsightCards,
+  getTopicChips,
+  normalizeTopicLabel,
+  type InsightCard,
+} from '../lib/insights.ts';
 
-const data = getInsightsPageData(1);
-return serveArchivePage(data);
+export const prerender = false;
+
+const seo = loadPageSeo('insights');
+const allCards = getInsightCards().map((c) => ({
+  ...c,
+  category: normalizeTopicLabel(c.category),
+}));
+
+// Most Recent = absolute latest uploaded/published posts (newest first).
+const mostRecent = allCards.slice(0, 6);
+const mostRecentSlugs = new Set(mostRecent.map((c) => c.slug));
+
+// Featured = highest lead-converting blogs (seed + live form submits).
+// Skip posts already shown in Most Recent so sections do not duplicate.
+const leadFeatured = (await getFeaturedCards(16)).map((c) => ({
+  ...c,
+  category: normalizeTopicLabel(c.category),
+}));
+const featuredCards: typeof allCards = [];
+for (const card of leadFeatured) {
+  if (mostRecentSlugs.has(card.slug)) continue;
+  if ((card.leads || 0) <= 0) continue;
+  if (featuredCards.some((f) => f.slug === card.slug)) continue;
+  featuredCards.push(card);
+  if (featuredCards.length >= 4) break;
+}
+// Only if fewer than 4 lead posts exist outside Most Recent, fill by date.
+if (featuredCards.length < 4) {
+  for (const card of allCards) {
+    if (mostRecentSlugs.has(card.slug)) continue;
+    if (featuredCards.some((f) => f.slug === card.slug)) continue;
+    featuredCards.push(card);
+    if (featuredCards.length >= 4) break;
+  }
+}
+
+const featured = featuredCards[0] ?? null;
+const sideCards = featuredCards.slice(1, 4);
+const usedSlugs = new Set([...mostRecentSlugs, ...featuredCards.map((c) => c.slug)]);
+const topicCards = allCards.filter((c) => !usedSlugs.has(c.slug));
+const chips = getTopicChips(allCards);
+
+const PAGE_SIZE = 9;
+const initialTopic = topicCards.slice(0, PAGE_SIZE);
+const hasMoreTopic = topicCards.length > PAGE_SIZE;
+const img = '/insights/img';
+const contact = '/contact-us/';
+
+function blob(c: InsightCard) {
+  return [c.title, c.excerpt, c.author, c.category].join(' ').toLowerCase();
+}
 ---
+
+<BaseLayout seo={seo} canonical="/insights/">
+  <Fragment slot="head">
+    <InsightsChromeHead />
+    <InsightsSharedStyles />
+  </Fragment>
+
+  <main class="ig" data-ig-root>
+    <section class="ig-hero">
+      <div class="ig-hero__glow" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset={`${img}/hero-mobile.webp`} type="image/webp" />
+          <source media="(max-width: 767px)" srcset={`${img}/hero-mobile.png`} type="image/png" />
+          <source srcset={`${img}/hero-desktop.webp`} type="image/webp" />
+          <img src={`${img}/hero-desktop.png`} alt="" width="1440" height="400" decoding="async" />
+        </picture>
+      </div>
+      <div class="ig-wrap ig-hero__copy">
+        <h1>Get Latest Updates &amp; Insights</h1>
+        <p class="ig-hero__sub">Wanna Know How to How to kick Start a Business in Dubai UAE .</p>
+        <label class="ig-search">
+          <span class="ig-search__icon" aria-hidden="true">
+            <img src={`${img}/search.svg`} alt="" width="20" height="20" />
+          </span>
+          <input type="search" name="q" placeholder="Search articles by keywords" autocomplete="off" data-ig-search />
+        </label>
+      </div>
+    </section>
+
+    <div class="ig-sheet">
+      {featured && (
+        <section class="ig-block ig-featured">
+          <div class="ig-wrap">
+            <p class="ig-eyebrow">Featured</p>
+            <h2 class="ig-h2">You’ve got to read this</h2>
+
+            <a
+              class="ig-hero-card"
+              href={featured.href}
+              data-ig-card
+              data-category={featured.category}
+              data-search={blob(featured)}
+            >
+              <div class="ig-hero-card__media">
+                <img
+                  src={featured.image || `${img}/blog-card.webp`}
+                  alt={featured.imageAlt}
+                  width="1300"
+                  height="544"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+              <div class="ig-hero-card__glass">
+                <h3>{featured.title}</h3>
+                <p>{featured.excerpt}</p>
+                <div class="ig-meta ig-meta--light">
+                  <div class="ig-meta__left">
+                    <span>{featured.author}</span>
+                    <span>{featured.date}</span>
+                  </div>
+                  <span>{featured.category}</span>
+                </div>
+              </div>
+            </a>
+
+            {sideCards.length > 0 && (
+              <div class="ig-grid">
+                {sideCards.map((card) => (
+                  <a
+                    class="ig-card"
+                    href={card.href}
+                    data-ig-card
+                    data-category={card.category}
+                    data-search={blob(card)}
+                  >
+                    <div class="ig-card__visual">
+                      <div class="ig-card__media ig-card__media--tall">
+                        <img
+                          src={card.image || `${img}/blog-card.webp`}
+                          alt={card.imageAlt}
+                          width="420"
+                          height="280"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                      <div class="ig-card__glass">
+                        <div class="ig-meta ig-meta--light">
+                          <div class="ig-meta__left">
+                            <span>{card.author}</span>
+                            <span>{card.date}</span>
+                          </div>
+                          <span>{card.category}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ig-card__text">
+                      <h3>{card.title}</h3>
+                      <p>{card.excerpt}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {mostRecent.length > 0 && (
+        <section class="ig-block">
+          <div class="ig-wrap">
+            <h2 class="ig-h2">Most Recent</h2>
+            <div class="ig-grid">
+              {mostRecent.map((card) => (
+                <a
+                  class="ig-card"
+                  href={card.href}
+                  data-ig-card
+                  data-category={card.category}
+                  data-search={blob(card)}
+                >
+                  <div class="ig-card__visual">
+                    <div class="ig-card__media">
+                      <img
+                        src={card.image || `${img}/blog-card.webp`}
+                        alt={card.imageAlt}
+                        width="420"
+                        height="256"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    <div class="ig-card__glass">
+                      <div class="ig-meta ig-meta--light">
+                        <div class="ig-meta__left">
+                          <span>{card.author}</span>
+                          <span>{card.date}</span>
+                        </div>
+                        <span>{card.category}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ig-card__text">
+                    <h3>{card.title}</h3>
+                    <p>{card.excerpt}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section class="ig-block ig-cta-block">
+        <div class="ig-wrap">
+          <div class="ig-cta">
+            <picture class="ig-cta__bg" aria-hidden="true">
+              <source media="(max-width: 767px)" srcset={`${img}/cta-mobile.png`} type="image/png" />
+              <source srcset={`${img}/cta-desktop.webp`} type="image/webp" />
+              <img src={`${img}/cta-desktop.png`} alt="" width="1300" height="320" loading="lazy" decoding="async" />
+            </picture>
+            <img class="ig-cta__glow" src={`${img}/cta-abstract.png`} alt="" width="1300" height="320" loading="lazy" decoding="async" />
+            <div class="ig-cta__inner">
+              <h2>Launch strong in the UAE with our help</h2>
+              <p>
+                From the first brief to the final invoice, Connect Group manages every part of the engagement so
+                nothing falls outside the UAE legal framework.
+              </p>
+              <a class="ig-btn ig-btn--light" href={contact}>Talk to an Expert</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ig-block">
+        <div class="ig-wrap">
+          <h2 class="ig-h2">Articles by topic</h2>
+          <div class="ig-chips" role="tablist" aria-label="Filter by topic" data-ig-chips>
+            {chips.map((chip, i) => (
+              <button
+                type="button"
+                class:list={['ig-chip', i === 0 && 'is-on']}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                data-topic={chip}
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+
+          <div class="ig-grid" data-ig-topic-grid>
+            {initialTopic.map((card) => (
+              <a
+                class="ig-card"
+                href={card.href}
+                data-ig-card
+                data-ig-topic-card
+                data-category={card.category}
+                data-search={blob(card)}
+              >
+                <div class="ig-card__visual">
+                  <div class="ig-card__media">
+                    <img
+                      src={card.image || `${img}/blog-card.webp`}
+                      alt={card.imageAlt}
+                      width="420"
+                      height="256"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div class="ig-card__glass">
+                    <div class="ig-meta ig-meta--light">
+                      <div class="ig-meta__left">
+                        <span>{card.author}</span>
+                        <span>{card.date}</span>
+                      </div>
+                      <span>{card.category}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ig-card__text">
+                  <h3>{card.title}</h3>
+                  <p>{card.excerpt}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {hasMoreTopic && (
+            <div class="ig-more">
+              <button type="button" class="ig-btn ig-btn--dark" data-ig-load-more>Load More</button>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="application/json" id="ig-topic-posts" set:html={JSON.stringify(topicCards)} />
+  <script is:inline>
+    (function () {
+      var root = document.querySelector('[data-ig-root]');
+      if (!root) return;
+      var search = root.querySelector('[data-ig-search]');
+      var chips = root.querySelector('[data-ig-chips]');
+      var grid = root.querySelector('[data-ig-topic-grid]');
+      var loadBtn = root.querySelector('[data-ig-load-more]');
+      var raw = document.getElementById('ig-topic-posts');
+      var allTopic = [];
+      try { allTopic = JSON.parse((raw && raw.textContent) || '[]'); } catch (e) {}
+      var activeTopic = 'All';
+      var query = '';
+      var shown = Math.min(9, allTopic.length);
+      var PAGE = 9;
+
+      function matches(card) {
+        if (activeTopic !== 'All' && card.category !== activeTopic) return false;
+        if (!query) return true;
+        var b = [card.title, card.excerpt, card.author, card.category].join(' ').toLowerCase();
+        return b.indexOf(query) !== -1;
+      }
+      function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+      function setChip(name) {
+        activeTopic = name || 'All';
+        if (!chips) return;
+        chips.querySelectorAll('.ig-chip').forEach(function (b) {
+          var on = (b.getAttribute('data-topic') || '') === activeTopic;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+      function showFreshListing() {
+        query = '';
+        setChip('All');
+        shown = PAGE;
+        root.querySelectorAll('[data-ig-card], .ig-featured, .ig-block, .ig-more').forEach(function (el) {
+          el.hidden = false;
+        });
+        render();
+      }
+      function filterStatic() {
+        if (!query && activeTopic === 'All') {
+          root.querySelectorAll('[data-ig-card], .ig-featured, .ig-block, .ig-more').forEach(function (el) {
+            el.hidden = false;
+          });
+          return;
+        }
+        root.querySelectorAll('[data-ig-card]').forEach(function (el) {
+          if (el.hasAttribute('data-ig-topic-card')) return;
+          var cat = el.getAttribute('data-category') || '';
+          var b = el.getAttribute('data-search') || '';
+          var ok = (activeTopic === 'All' || cat === activeTopic) && (!query || b.indexOf(query) !== -1);
+          el.hidden = !ok;
+        });
+        // Hide whole blocks when every card inside is filtered out
+        root.querySelectorAll('.ig-featured, .ig-block').forEach(function (section) {
+          if (section.querySelector('[data-ig-chips], [data-ig-topic-grid], .ig-cta, .ig-more')) return;
+          var cards = section.querySelectorAll('[data-ig-card]');
+          if (!cards.length) return;
+          var any = false;
+          cards.forEach(function (c) { if (!c.hidden) any = true; });
+          section.hidden = !any;
+        });
+      }
+      function render() {
+        if (!grid) return;
+        var filtered = allTopic.filter(matches);
+        var slice = filtered.slice(0, shown);
+        grid.innerHTML = slice.map(function (card) {
+          var src = card.image || '/insights/img/blog-card.webp';
+          var media = '<img src="' + esc(src) + '" alt="' + esc(card.imageAlt) + '" width="420" height="256" loading="lazy" decoding="async" />';
+          return (
+            '<a class="ig-card" href="' + esc(card.href) + '" data-ig-card data-ig-topic-card data-category="' + esc(card.category) + '">' +
+              '<div class="ig-card__visual">' +
+                '<div class="ig-card__media">' + media + '</div>' +
+                '<div class="ig-card__glass"><div class="ig-meta ig-meta--light"><div class="ig-meta__left"><span>' + esc(card.author) + '</span><span>' + esc(card.date) + '</span></div><span>' + esc(card.category) + '</span></div></div>' +
+              '</div>' +
+              '<div class="ig-card__text"><h3>' + esc(card.title) + '</h3><p>' + esc(card.excerpt) + '</p></div>' +
+            '</a>'
+          );
+        }).join('');
+        if (loadBtn && loadBtn.parentElement) loadBtn.parentElement.hidden = filtered.length <= shown;
+      }
+      function apply() { filterStatic(); shown = PAGE; render(); }
+
+      if (chips) chips.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-topic]');
+        if (!btn) return;
+        setChip(btn.getAttribute('data-topic') || 'All');
+        apply();
+      });
+      if (search) {
+        var t;
+        function onSearchChange() {
+          var next = (search.value || '').trim().toLowerCase();
+          clearTimeout(t);
+          if (!next) {
+            showFreshListing();
+            return;
+          }
+          t = setTimeout(function () { query = next; apply(); }, 140);
+        }
+        search.addEventListener('input', onSearchChange);
+        search.addEventListener('search', onSearchChange);
+        search.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') e.preventDefault();
+          if (e.key === 'Escape') {
+            search.value = '';
+            showFreshListing();
+          }
+        });
+      }
+      if (loadBtn) loadBtn.addEventListener('click', function () { shown += PAGE; render(); });
+    })();
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .ig {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: var(--ig-ink);
+    background: var(--ig-dark);
+    overflow-x: clip;
+  }
+  .ig * { box-sizing: border-box; }
+  .ig h1, .ig h2, .ig h3, .ig h4, .ig h5, .ig h6,
+  .ig p, .ig li, .ig span, .ig a, .ig label, .ig button,
+  .ig figcaption, .ig blockquote {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  }
+  .ig-wrap {
+    width: min(100% - 32px, var(--ig-max));
+    margin-inline: auto;
+  }
+  @media (min-width: 768px) {
+    .ig-wrap { width: min(100% - 64px, var(--ig-max)); }
+  }
+  @media (min-width: 1100px) {
+    .ig-wrap { width: min(100% - 140px, var(--ig-max)); }
+  }
+
+  .ig-hero {
+    position: relative;
+    padding: 110px 0 72px;
+    color: #fff;
+    min-height: 320px;
+    overflow: hidden;
+  }
+  @media (min-width: 992px) {
+    .ig-hero { padding: 120px 0 80px; }
+  }
+  .ig-hero__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .ig-hero__glow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+  }
+  .ig-hero__copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 1292px;
+  }
+  .ig .ig-hero h1,
+  .ig-hero h1 {
+    margin: 0 !important;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+    font-size: clamp(2rem, 5.2vw, 4rem) !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    color: #ffffff !important;
+  }
+  .ig .ig-hero__sub,
+  .ig-hero__sub {
+    margin: 0 !important;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+    font-size: clamp(1.05rem, 2vw, 1.5rem) !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    max-width: 34ch;
+    color: #ffffff !important;
+  }
+  .ig-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: min(100%, 713px);
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .ig-search__icon { flex: none; display: flex; width: 20px; height: 20px; }
+  .ig-search__icon img { width: 20px; height: 20px; display: block; }
+  .ig-search input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 16px;
+  }
+  .ig-search input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+  .ig-sheet {
+    position: relative;
+    z-index: 2;
+    background: var(--ig-soft);
+    /* Large bottom curve into dark footer (Figma / live Insights) */
+    border-radius: 40px;
+    overflow: hidden;
+    padding-bottom: 48px;
+    margin-bottom: 0;
+  }
+  @media (min-width: 1100px) {
+    .ig-sheet {
+      border-radius: 70px;
+      padding-bottom: 72px;
+    }
+  }
+
+  .ig-block { padding: 40px 0 48px; }
+  .ig-featured {
+    background: #fff;
+    padding-top: 40px;
+    padding-bottom: 64px;
+  }
+  .ig-eyebrow {
+    margin: 0 0 4px;
+    color: var(--ig-muted);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .ig-h2 {
+    margin: 0 0 32px !important;
+    font-size: clamp(1.5rem, 2.8vw, 2rem) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--ig-ink) !important;
+    line-height: 1.3 !important;
+  }
+
+  .ig-hero-card {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 20px;
+  }
+  .ig-hero-card__media {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    aspect-ratio: 1300 / 544;
+    background: var(--ig-dark);
+  }
+  .ig-hero-card__media > img,
+  .ig-ph {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
+  .ig-ph { background: linear-gradient(145deg, #0b1630, #243a6e); }
+  /* Glass is a sibling of media (not inside overflow:hidden) so backdrop-filter works */
+  .ig-hero-card__glass {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    width: min(100%, 820px);
+    max-width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 0 24px 0 24px;
+    box-sizing: border-box;
+    color: #fafafa;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(0, 0, 0, 0.20);
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+  }
+  .ig-hero-card__glass .ig-meta {
+    width: 100%;
+    margin-top: 4px;
+  }
+  .ig-hero-card__glass h3 {
+    margin: 0 !important;
+    font-size: clamp(1.1rem, 2.2vw, 1.75rem) !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff !important;
+  }
+  .ig-hero-card__glass > p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: rgba(250, 250, 250, 0.9);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ig-grid {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 768px) {
+    .ig-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1100px) {
+    .ig-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  .ig-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+  }
+  .ig-card[hidden],
+  .ig-hero-card[hidden],
+  .ig-featured[hidden],
+  .ig-block[hidden],
+  [data-ig-card][hidden] {
+    display: none !important;
+  }
+  .ig-card__visual {
+    position: relative;
+  }
+  .ig-card__media {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    aspect-ratio: 384 / 256;
+    background: var(--ig-dark);
+  }
+  .ig-card__media--tall { aspect-ratio: 420 / 280; }
+  .ig-card__media > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
+  /* Sibling of media — outside overflow:hidden so blur works */
+  .ig-card__glass {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 12px 16px;
+    border-radius: 0 0 24px 24px;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(0, 0, 0, 0.20);
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  .ig-card__glass .ig-meta {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .ig-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ig-card__text h3 {
+    margin: 0 !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.02em !important;
+    color: var(--ig-ink) !important;
+  }
+  @media (min-width: 1100px) {
+    .ig-card__text h3 { font-size: 1.25rem !important; }
+  }
+  .ig-card__text p {
+    margin: 0;
+    color: var(--ig-muted);
+    font-size: 15px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ig-text-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    padding: 20px;
+    border-radius: 24px;
+    border: 0;
+    text-decoration: none;
+    color: inherit;
+    background: linear-gradient(180deg, #fdfdfd 0%, #f6f5fa 100%);
+    min-height: 180px;
+    box-sizing: border-box;
+  }
+
+  .ig-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--ig-ink2);
+    line-height: 1.4;
+  }
+  .ig-meta--light { color: #fff; font-size: 13px; }
+  .ig-meta__left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .ig-cta-block { padding-top: 8px; }
+  .ig-cta {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ig-r);
+    background: var(--ig-dark2);
+    min-height: 280px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 80px 24px;
+  }
+  @media (min-width: 1100px) {
+    .ig-cta { padding-inline: 70px; }
+  }
+  .ig-cta__bg,
+  .ig-cta__glow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .ig-cta__bg img,
+  .ig-cta__glow {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ig-cta__glow { opacity: 0.6; mix-blend-mode: screen; }
+  .ig-cta__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 860px;
+  }
+  .ig-cta__inner h2 {
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: clamp(1.6rem, 3.5vw, 3rem) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.3 !important;
+  }
+  .ig-cta__inner p {
+    margin: 0;
+    color: #d1d1d1;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    max-width: 814px;
+  }
+
+  .ig-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font: inherit;
+    font-weight: 700;
+    font-size: 18px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .ig-btn--light { background: #fff; color: #1a1a1a; }
+  .ig-btn--dark {
+    background: #121212;
+    color: #fff;
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 999px;
+  }
+
+  .ig-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 0 28px;
+  }
+  .ig-chip {
+    appearance: none;
+    border: 1px solid var(--ig-line);
+    background: #fff;
+    color: var(--ig-muted);
+    border-radius: 8px;
+    padding: 8px;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  @media (min-width: 768px) {
+    .ig-chip { font-size: 18px; }
+  }
+  .ig-chip.is-on {
+    background: #121212;
+    color: #fff;
+  }
+
+  .ig-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  /* Shared footer sits after .ig — match home spacing */
+  .ig + #pix-page-footer,
+  body:has(.ig) #pix-page-footer {
+    margin-top: 0 !important;
+  }
+  body:has(.ig) #pix-page-footer.bg-white {
+    background: transparent !important;
+  }
+
+  @media (max-width: 767px) {
+    .ig-hero { padding: 110px 0 56px; }
+    .ig-block { padding: 32px 0; }
+    .ig-featured { padding-bottom: 40px; }
+    .ig-h2 { margin-bottom: 24px !important; }
+    .ig-grid { gap: 24px; }
+
+    /* Featured: tall portrait card, inset glass with title + excerpt + meta */
+    .ig-hero-card { margin-bottom: 24px; }
+    .ig-hero-card__media {
+      aspect-ratio: 343 / 420;
+      border-radius: 24px;
+    }
+    .ig-hero-card__glass {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      width: auto;
+      max-width: none;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      gap: 10px;
+      padding: 16px;
+    }
+    .ig-hero-card__glass h3 {
+      font-size: 1.25rem !important;
+      line-height: 1.3 !important;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .ig-hero-card__glass > p {
+      font-size: 14px;
+      line-height: 1.45;
+      -webkit-line-clamp: 2;
+    }
+    .ig-hero-card__glass .ig-meta {
+      margin-top: 6px;
+      font-size: 12px;
+      align-items: flex-end;
+    }
+
+    /* Secondary / topic cards: landscape image + meta bar; title + excerpt below */
+    .ig-card { gap: 12px; }
+    .ig-card__media,
+    .ig-card__media--tall {
+      aspect-ratio: 343 / 220;
+      border-radius: 24px;
+    }
+    .ig-card__glass {
+      padding: 10px 14px;
+      border-radius: 0 0 24px 24px;
+    }
+    .ig-card__glass .ig-meta {
+      font-size: 12px;
+      align-items: flex-end;
+    }
+    .ig-card__text { gap: 6px; }
+    .ig-card__text h3 {
+      font-size: 1.125rem !important;
+      font-weight: 600 !important;
+      line-height: 1.35 !important;
+    }
+    .ig-card__text p {
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-line-clamp: 2;
+    }
+
+    .ig-cta { padding: 48px 20px; min-height: 240px; }
+    .ig-more { margin-bottom: 8px; }
+  }
+</style>

@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
+import cssHeadBundle from "./scripts/css-head-bundle-integration.mjs";
 
 const siteUrl = (
   process.env.PUBLIC_SITE_URL ||
@@ -24,6 +25,7 @@ export default defineConfig({
   site: siteUrl,
   trailingSlash: "always",
   compressHTML: true,
+  integrations: [cssHeadBundle()],
   // Static site by default; API routes set `prerender = false`
   output: "static",
   adapter: node({ mode: "standalone" }),
