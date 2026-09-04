@@ -1,10 +1,11 @@
 ---
 /**
  * Shared site footer (Elementor 28308 / #pix-page-footer).
- * Loads markup dynamically from /chrome/footer.html (same source as legacy injection).
+ * Loads markup + CSS dynamically from /chrome/* (same source as legacy injection).
  */
 ---
 
+<link rel="stylesheet" href="/chrome/footer.css" data-cg-shared-footer-css="1" />
 <div id="cg-shared-footer-root" class="cg-shared-chrome" data-chrome="footer" aria-busy="true"></div>
 <script is:inline>
   (function () {
