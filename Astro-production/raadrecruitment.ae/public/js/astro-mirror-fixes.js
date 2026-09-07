@@ -1534,7 +1534,7 @@
       }
       var pageUrl = window.location.href;
       var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
-      ensureHiddenField(form, 'form_name', 'Evolution Middle East Contact Form');
+      ensureHiddenField(form, 'form_name', 'RAAD Recruitment Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
       ensureHiddenField(form, 'submission_page_url', pageUrl);
@@ -1891,9 +1891,16 @@
       }
 
       // Reject links / HTML in any other visible text inputs.
+      // Skip tracking/attribution fields — captureTrackingFields() fills initial_url
+      // (and similar) with real page URLs before validate runs.
+      var TRACKING_FIELD_RE =
+        /^(gclid|gbraid|wbraid|gclsrc|fbclid|msclkid|twclid|initial_url|page_url|landing_page_url|submission_page_url|referrer_url|utm_|first_touch|last_touch|first_visit|latest_visit)/i;
       form.querySelectorAll('input[type="text"], input[type="search"], textarea').forEach(function (el) {
         if (!el || el.disabled || el.readOnly) return;
         if (el.classList.contains('wpcf7-phonetext') || el.classList.contains('cg-phone-input')) return;
+        var fieldName = String(el.getAttribute('name') || el.id || '');
+        if (TRACKING_FIELD_RE.test(fieldName)) return;
+        if (el.id === 'testgclid' || el.id === 'initial_url') return;
         var val = String(el.value || '');
         if (!val.trim()) return;
         if (fieldContainsLink(val) || fieldContainsHtml(val)) {

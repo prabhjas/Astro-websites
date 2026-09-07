@@ -1,10 +1,20 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { getAuthorProfileData, serveAuthorProfile } from '../../lib/authors.ts';
+import { serveLegacyPage } from '../../lib/legacy-page.js';
 import { notFoundResponse } from '../../lib/not-found.js';
 
 export const prerender = false;
 
 const slug = Astro.params.slug!;
+
+// Prefer pixel-perfect live Elementor mirror (matches https://emiratisationhub.com/author/{slug}/).
+const legacySlug = `author/${slug}`;
+if (existsSync(join(process.cwd(), 'src/legacy', `${legacySlug}.cleaned.html`))) {
+  return serveLegacyPage(legacySlug);
+}
+
 const data = getAuthorProfileData(slug);
 if (!data) {
   return notFoundResponse();

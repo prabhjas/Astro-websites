@@ -62,7 +62,8 @@
       window.fetch = function (input, init) {
         var url = typeof input === 'string' ? input : (input && input.url) || '';
         if (/\/wp-admin\/admin-ajax\.php/.test(url)) {
-          return Promise.resolve(new Response('0', {
+          // Empty body (not "0") so ECS does not append a literal zero into the posts grid.
+          return Promise.resolve(new Response('', {
             status: 200,
             headers: { 'Content-Type': 'text/html; charset=UTF-8' },
           }));
@@ -70,6 +71,29 @@
         return origFetch.apply(this, arguments);
       };
     }
+
+    // jQuery.ajax is what ECS Load More actually uses; stub empty instead of "0".
+    function patchJqueryAjax() {
+      if (!window.jQuery || window.__astroAdminAjaxJqueryPatched) return;
+      window.__astroAdminAjaxJqueryPatched = true;
+      var $ = window.jQuery;
+      var origAjax = $.ajax;
+      $.ajax = function (url, options) {
+        var opts = typeof url === 'object' ? url : options || {};
+        var reqUrl = typeof url === 'string' ? url : opts.url || '';
+        if (/\/wp-admin\/admin-ajax\.php/.test(String(reqUrl))) {
+          var success = opts.success;
+          var complete = opts.complete;
+          if (typeof success === 'function') success.call(opts, '', 'success', null);
+          if (typeof complete === 'function') complete.call(opts, null, 'success');
+          return $.Deferred().resolve('', 'success', null).promise();
+        }
+        return origAjax.apply(this, arguments);
+      };
+    }
+    patchJqueryAjax();
+    document.addEventListener('DOMContentLoaded', patchJqueryAjax);
+    window.addEventListener('load', patchJqueryAjax);
   });
 
 
