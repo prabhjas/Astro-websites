@@ -105,7 +105,7 @@ export const POST: APIRoute = async ({ request }) => {
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {
       // Browser posts CF7 field names (first-name, your-email, phonetext-*).
-      // Always run through parseContactFormBody - do not cast JSON as ContactFormInput.
+      // Always run through parseContactFormBody — do not cast JSON as ContactFormInput.
       const json = (bodyText ? JSON.parse(bodyText) : {}) as Record<string, unknown>;
       const raw: Record<string, FormDataEntryValue> = {};
       const arrays: Record<string, string[]> = {};
