@@ -8,7 +8,7 @@ redirects:
     to: /uae-company-setup/
     status: 301
 
-  # Pages not marked Done in Connect group asrto.xlsx (column D)
+  # Deleted pages (CG pages to be removed.xlsx) + earlier removals — 301 to home
   - from: /dubai-free-zone/
     to: /
     status: 301
@@ -25,5 +25,79 @@ redirects:
     to: /
     status: 301
   - from: /pittant-uae/
+    to: /
+    status: 301
+
+  # Added from CG pages to be removed.xlsx
+  - from: /ajman-free-zone/
+    to: /
+    status: 301
+  - from: /sharjah-freezone/
+    to: /
+    status: 301
+  - from: /abu-dhabi-free-zone/
+    to: /
+    status: 301
+  - from: /ras-al-khaimah-freezone/
+    to: /
+    status: 301
+  - from: /umm-al-quwain-freezone/
+    to: /
+    status: 301
+  - from: /dubai-mainland/
+    to: /
+    status: 301
+  - from: /abu-dhabi-mainland/
+    to: /
+    status: 301
+  - from: /sharjah-mainland/
+    to: /
+    status: 301
+  - from: /ajman-mainland/
+    to: /
+    status: 301
+  - from: /abu-dhabi-offshore/
+    to: /
+    status: 301
+  - from: /ras-al-khaimah-offshore/
+    to: /
+    status: 301
+  - from: /ajman-offshore/
+    to: /
+    status: 301
+  - from: /jebel-ali-offshore/
+    to: /
+    status: 301
+  - from: /business-licensing-uae/
+    to: /
+    status: 301
+  - from: /business-consultancy-services/
+    to: /
+    status: 301
+  - from: /corporate-sponsorship-services/
+    to: /
+    status: 301
+  - from: /cybersecurity-solutions/
+    to: /
+    status: 301
+  - from: /it-audit-consultancy/
+    to: /
+    status: 301
+  - from: /hosting-solutions/
+    to: /
+    status: 301
+  - from: /web-development/
+    to: /
+    status: 301
+  - from: /software-development/
+    to: /
+    status: 301
+  - from: /crm-marketing-solutions/
+    to: /
+    status: 301
+  - from: /online-marketing-services-in-uae/
+    to: /
+    status: 301
+  - from: /attendance-management/
     to: /
     status: 301
