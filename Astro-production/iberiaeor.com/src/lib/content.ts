@@ -32,7 +32,7 @@ export const site = siteJson as typeof siteJson & {
   footerQuickLinks: { label: string; href: string }[];
 };
 
-/** Live getters — always read from disk so dashboard edits apply in SSR/dev. */
+/** Live getters - always read from disk so dashboard edits apply in SSR/dev. */
 export function getPages(): PageEntry[] {
   return readPages();
 }
@@ -71,9 +71,9 @@ export const tags = readTags().filter((t) => !t.status || t.status === "active")
 export const authors = readAuthors();
 
 /**
- * SSR HTML enhancements — keep out of `[...slug].astro` (fleet unsafe-path rule).
+ * SSR HTML enhancements - keep out of `[...slug].astro` (fleet unsafe-path rule).
  * - Pages: Latest Post filter cards only
- * - Posts: filter cards + H1 under featured image (Mushtaq 2285cd746) — never on pages
+ * - Posts: filter cards + H1 under featured image (Mushtaq 2285cd746) - never on pages
  */
 function withLatestPostFilterHtml<T extends PageEntry | PostEntry>(entry: T): T {
   const raw = (entry.bodyHtml || entry.content || "") as string;

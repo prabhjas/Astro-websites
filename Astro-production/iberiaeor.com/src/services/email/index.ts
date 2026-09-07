@@ -52,7 +52,7 @@ function buildEmailBody(env: ServerEnv, form: NormalisedContactForm): { subject:
   const visible = lines.filter(([, value]) => isMeaningfulValue(value));
   const text = visible.map(([label, value]) => `${label}: ${value}`).join('\n');
   const html = `<pre style="font-family: sans-serif; white-space: pre-wrap;">${escapeHtml(text)}</pre>`;
-  const subject = `New enquiry: ${form.fullName} — ${env.websiteName}`;
+  const subject = `New enquiry: ${form.fullName} - ${env.websiteName}`;
 
   return { subject, text, html };
 }

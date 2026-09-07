@@ -1,5 +1,5 @@
 /**
- * Elementor Pro TOC fallback — fills TOC when the Pro webpack chunk fails/404s.
+ * Elementor Pro TOC fallback - fills TOC when the Pro webpack chunk fails/404s.
  */
 (function () {
   function ready(fn) {

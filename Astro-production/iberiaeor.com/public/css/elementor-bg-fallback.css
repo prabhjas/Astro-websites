@@ -1,4 +1,4 @@
-/* Iberia EOR — motion-effects background fallbacks (peer-site rules removed) */
+/* Iberia EOR - motion-effects background fallbacks (peer-site rules removed) */
 
 .elementor-189 .elementor-element.elementor-element-685e322:not(.elementor-motion-effects-element-type-background):not(:has(.elementor-motion-effects-layer)){background-image:url("/wp-content/uploads/2026/02/Bg.png");background-position:center center;background-repeat:no-repeat;background-size:cover;}
 .elementor-189 .elementor-element.elementor-element-685e322 > .elementor-motion-effects-container > .elementor-motion-effects-layer:not(:has(.elementor-motion-effects-layer)){background-image:url("/wp-content/uploads/2026/02/Bg.png");background-position:center center;background-repeat:no-repeat;background-size:cover;}

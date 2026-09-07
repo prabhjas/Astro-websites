@@ -19,7 +19,7 @@ const data = parse(await readFile(SRC, "utf8")) ?? {};
 const list = Array.isArray(data.redirects) ? data.redirects : [];
 
 const lines = [
-  "# Generated from src/data/redirects.yml — do not edit by hand",
+  "# Generated from src/data/redirects.yml - do not edit by hand",
   "# Run: npm run redirects:generate",
   "",
 ];

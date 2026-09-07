@@ -4,9 +4,9 @@
  * Handles three display modes (toggle, dual, dropdown) for the
  * ECS Dark Mode Switcher widget.  Persists the user's choice via
  * a cookie so PHP can add data-ecs-scheme="alt" to <html> before
- * first paint — cache-safe.
+ * first paint - cache-safe.
  *
- * No dependencies — vanilla JS, loaded in the footer.
+ * No dependencies - vanilla JS, loaded in the footer.
  */
 (function () {
 	'use strict';
@@ -122,7 +122,7 @@
 	}
 
 	/**
-	 * Click handler — handles toggle and dual buttons.
+	 * Click handler - handles toggle and dual buttons.
 	 */
 	function handleClick(event) {
 		var btn = event.target.closest('.ecs-dms-btn');
@@ -147,7 +147,7 @@
 	}
 
 	/**
-	 * Change handler — handles dropdown.
+	 * Change handler - handles dropdown.
 	 */
 	function handleDropdownChange(event) {
 		var select = event.target;

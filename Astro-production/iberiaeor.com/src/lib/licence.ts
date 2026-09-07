@@ -1,10 +1,10 @@
 /**
- * Trade licence facts (DET Dubai Unified Licence) — single source of truth for
+ * Trade licence facts (DET Dubai Unified Licence) - single source of truth for
  * the footer licence strip, the JSON-LD block and the llms.txt licence section.
  *
  * Values come from the DET licence document itself. Anything still blank is
  * omitted from the strip, and the strip stays hidden entirely until the licence
- * identifies a real company (see isLicenceComplete) — a half-populated
+ * identifies a real company (see isLicenceComplete) - a half-populated
  * compliance band is worse than none at all.
  */
 import { existsSync } from "node:fs";
@@ -30,7 +30,7 @@ export const licenceRows: Array<{ label: string; value: string }> = [
  * The strip renders only once the licence names a real company and a number.
  * Without a business name the lead sentence is nonsense and the band would
  * publish bare numbers under a "License Details" heading. Other fields (status,
- * type, legal type, expiry) are optional — unverified ones are simply left out
+ * type, legal type, expiry) are optional - unverified ones are simply left out
  * rather than guessed, since this is a compliance panel.
  */
 export function isLicenceComplete(): boolean {
@@ -40,7 +40,7 @@ export function isLicenceComplete(): boolean {
 /**
  * The scanned licence PDF is optional: the strip only offers "click here to
  * view" once the file is actually present in public/, so a missing upload can
- * never ship a dead link. Cached per process — public/ never changes at runtime.
+ * never ship a dead link. Cached per process - public/ never changes at runtime.
  */
 let pdfPresent: boolean | null = null;
 export function hasLicencePdf(): boolean {
@@ -61,7 +61,7 @@ export function hasLicencePdf(): boolean {
   return pdfPresent;
 }
 
-/** Heading of the llms.txt licence block — also the "already present" marker. */
+/** Heading of the llms.txt licence block - also the "already present" marker. */
 export const LICENCE_HEADING = "## Licence & Verification";
 
 /** Markdown licence block appended to /llms.txt and /llm.txt. */

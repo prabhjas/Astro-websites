@@ -1,4 +1,4 @@
-# Go-live server handoff — Iberia EOR (Astro)
+# Go-live server handoff - Iberia EOR (Astro)
 
 **Audience:** server / DevOps / Cloudflare admin  
 **Site:** `https://iberiaeor.com`  
@@ -25,7 +25,7 @@ SEO / GTM files are served by the **Node app**. Do not challenge or “Cache Eve
 
 Also allow marketing HTML, `/api/contact/`, `/api/geo/`, `/api/health/`, and bearer `/api/internal/*`.
 
-**Trailing slashes:** `trailingSlash: "always"` — prefer `/api/contact/`.
+**Trailing slashes:** `trailingSlash: "always"` - prefer `/api/contact/`.
 
 ### Cloudflare checklist
 
@@ -58,7 +58,7 @@ mkdir -p /opt/Astro-production/iberiaeor.com/.data
 chown -R site-iberiaeor:site-iberiaeor /opt/Astro-production/iberiaeor.com/.data
 
 # Env: .env.prod (root:site-iberiaeor 0640) + build .env (PUBLIC_SITE_URL only)
-# HOST/PORT live ONLY in the unit — never in .env / .env.prod
+# HOST/PORT live ONLY in the unit - never in .env / .env.prod
 
 cp /opt/Astro-production/iberiaeor.com/deploy/iberiaeor.service /etc/systemd/system/
 systemctl daemon-reload
@@ -99,6 +99,6 @@ Preserve on deploy/rsync: `.env.prod`, `.data/`. Never run `astro dev` in produc
 
 ## 5. Known pre-content limits
 
-- Live WordPress mirror not yet under `public/wp-content` — re-run Phase 01 malware scan when clone lands.
+- Live WordPress mirror not yet under `public/wp-content` - re-run Phase 01 malware scan when clone lands.
 - Homepage / CMS JSON may still be scaffold / peer leftovers until content conversion.
 - Redirect `from` paths are interim scaffold; replace with Iberia Rank Math/Redirection export when available (`imports/redirects/`).

@@ -1,4 +1,4 @@
-/* Clean EOR mobile nav — separate from footer; hidden unless opened on mobile */
+/* Clean EOR mobile nav - separate from footer; hidden unless opened on mobile */
 html.eor-mobile-menu-open,
 body.eor-mobile-menu-open {
   overflow: hidden !important;
@@ -67,7 +67,7 @@ body.eor-mobile-menu-open {
     align-items: center !important;
   }
 
-  /* Kill Elementor desktop + dropdown menus on mobile — we use #eor-mobile-drawer */
+  /* Kill Elementor desktop + dropdown menus on mobile - we use #eor-mobile-drawer */
   .sp-elementor-header .elementor-nav-menu--main,
   .sp-elementor-header nav.elementor-nav-menu--dropdown.elementor-nav-menu__container {
     display: none !important;
@@ -126,7 +126,7 @@ body.eor-mobile-menu-open {
     display: inline-block !important;
   }
 
-  /* Backdrop — only when menu open */
+  /* Backdrop - only when menu open */
   body.eor-mobile-menu-open #eor-mobile-backdrop {
     display: block !important;
     visibility: visible !important;
@@ -138,7 +138,7 @@ body.eor-mobile-menu-open {
     z-index: 10055;
   }
 
-  /* Drawer — only when menu open, never in page/footer flow */
+  /* Drawer - only when menu open, never in page/footer flow */
   body.eor-mobile-menu-open #eor-mobile-drawer {
     display: block !important;
     visibility: visible !important;

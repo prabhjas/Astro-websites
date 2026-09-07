@@ -234,7 +234,6 @@ const textTargets = [
   path.join(root, "src/pages/search.astro"),
   path.join(root, "src/pages/404.astro"),
   path.join(root, "src/components/AuthorHero.astro"),
-  path.join(root, "src/components/LicenceStrip.astro"),
   path.join(root, "src/components/PostCard.astro"),
   path.join(root, "src/lib/blog-card-html.ts"),
   path.join(root, "src/lib/eor-latest-post-filter.ts"),

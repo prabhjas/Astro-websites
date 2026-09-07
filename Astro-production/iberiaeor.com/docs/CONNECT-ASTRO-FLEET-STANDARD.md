@@ -1,16 +1,16 @@
-# Connect Group — Astro fleet standard
+# Connect Group - Astro fleet standard
 
 **Copy this file into every site repo** (`evolutionmiddleast`, `cbss`, `spheavyrental`, `iberiaworkforce`, …) and treat it as the shared contract.
 
 | Field | Value |
 |-------|--------|
-| **Version** | 1.0 — 2026-07-31 |
+| **Version** | 1.0 - 2026-07-31 |
 | **Reference site (source of truth)** | `evolutionmiddleast.com` → `/opt/Astro-production/evolutionmiddleast.com` |
 | **Host** | Astro box `178.105.150.67` · deploy root `/opt/Astro-production/` |
-| **Goal** | Same layout, same engine pins, same CMS API shape, same harden gates — before site #5 and before ~40 mirrors |
+| **Goal** | Same layout, same engine pins, same CMS API shape, same harden gates - before site #5 and before ~40 mirrors |
 
 **Repos that already implement this (or are closest):** Evolution Middle East.  
-**Repos that must catch up:** SP Heavy Rental (near-duplicate CMS — align pins + gates), CBSS (Astro 5 → 7 major), Iberia (prod process + 7.1 pin).
+**Repos that must catch up:** SP Heavy Rental (near-duplicate CMS - align pins + gates), CBSS (Astro 5 → 7 major), Iberia (prod process + 7.1 pin).
 
 ---
 
@@ -61,7 +61,7 @@ Every SSR site must declare **exact** versions (drop carets):
 | Tailwind (if used) | `4.x` exact | Iberia on 3.x must migrate or document exception |
 | `@connect/site-cms` (when exists) | **Exact** per site | Staged rollout: canary → rest; no `^` |
 
-**CBSS today:** Astro `5.12` + `@astrojs/node` `9.x` — treat upgrade as its **own milestone** (breaking). Do not ship new CBSS features on Astro 5.
+**CBSS today:** Astro `5.12` + `@astrojs/node` `9.x` - treat upgrade as its **own milestone** (breaking). Do not ship new CBSS features on Astro 5.
 
 **Lockfiles:** Generate on **Linux** (or include both `darwin` + `linux` optional bindings) so `pnpm install` / `npm ci` works on the server.
 
@@ -83,7 +83,7 @@ Every SSR site must declare **exact** versions (drop carets):
   dist/                     # or releases/<id> + current -> symlink
   deploy/                   # unit snippet, Caddy snippet, ROOT_SETUP notes
   docs/
-  .data/                    # leads, uploads, admin JSON — NOT in git
+  .data/                    # leads, uploads, admin JSON - NOT in git
 ```
 
 ### 3.2 Target monorepo (platform direction)
@@ -153,7 +153,7 @@ Authorization: Bearer <INTERNAL_JOB_SECRET>
 
 Also accepted: `x-internal-job-secret: <secret>` or `?secret=<secret>` (cron only).
 
-- **One secret per site** — never reuse across domains.
+- **One secret per site** - never reuse across domains.
 - Do **not** use dashboard session cookies as the machine credential.
 
 ### 5.2 Public
@@ -163,7 +163,7 @@ Also accepted: `x-internal-job-secret: <secret>` or `?secret=<secret>` (cron onl
 | GET | `/api/health` | Liveness |
 | POST | `/api/contact` | Lead capture (JSON) |
 
-### 5.3 Internal — reads (JSON)
+### 5.3 Internal - reads (JSON)
 
 | Method | Path |
 |--------|------|
@@ -177,7 +177,7 @@ Also accepted: `x-internal-job-secret: <secret>` or `?secret=<secret>` (cron onl
 | GET | `/api/internal/redirects` |
 | GET | `/api/internal/gtm` |
 
-### 5.4 Internal — writes
+### 5.4 Internal - writes
 
 Posts / categories / tags save+delete · redirects save/delete/bulk/import · GTM save · SEO text/llms/sitemap · uploads · PHP files · `POST /api/internal/retry-lead` · `GET|POST /api/internal/run-retries`.
 
@@ -200,7 +200,7 @@ WEBSITE_NAME=
 PIPEDRIVE_API_TOKEN=
 # ... site-specific Pipedrive fields
 
-# Do NOT set HOST or PORT here — systemd sets them.
+# Do NOT set HOST or PORT here - systemd sets them.
 ```
 
 ---
@@ -218,7 +218,7 @@ sudo site-ctl restart <unit-name>
 
 Preserve on deploy: `.env.prod`, `.data/`. Do not overwrite secrets with empty local files.
 
-### 6.2 Systemd template (Tier 1 — required)
+### 6.2 Systemd template (Tier 1 - required)
 
 ```ini
 [Service]
@@ -279,7 +279,7 @@ Per-site differences = **config / env / content**, not forked handlers.
 - Budget **~110–120 MB RSS** per SSR process; 40 SSR ≈ ~4.5 GB on a 15 GB box.
 - **Only** run Node if the site needs forms, `/api/*`, or CMS APIs.
 - Pure brochure → static build + Caddy `file_server` (0 MB Node).
-- Shard to 3–4 hosts only after ~10 SSR sites — **after** Tier 1 isolation + backups.
+- Shard to 3–4 hosts only after ~10 SSR sites - **after** Tier 1 isolation + backups.
 
 ---
 
@@ -371,7 +371,7 @@ Do **not** add site #5 until P0 is green and either `@connect/site-cms` exists o
 1. Copy **this entire file** into `docs/CONNECT-ASTRO-FLEET-STANDARD.md`.
 2. Replace hostname examples in §4–§5–§10 with that site’s domain.
 3. Tick §9 checklist for that repo.
-4. Prefer matching Evolution’s `src/pages/api/internal/**` and auth helper until the shared package lands — then delete the fork.
+4. Prefer matching Evolution’s `src/pages/api/internal/**` and auth helper until the shared package lands - then delete the fork.
 5. Do not invent a second dashboard or a second auth scheme.
 
 **Reference implementation:** `https://github.com/prabhjas/astro-evolutionmiddleast.com` (internal APIs, health, 404, Origin, env example).
@@ -392,13 +392,13 @@ Without Caddy access logs, cutovers and outages cannot be proved from the edge.
 
 ---
 
-## 14. Appendix — fleet state when this was written (Jul 2026)
+## 14. Appendix - fleet state when this was written (Jul 2026)
 
 | Site | Astro | `@astrojs/node` | Tailwind | TS | Gap vs this standard |
 |------|-------|-----------------|----------|-----|----------------------|
-| cbss.ae | 5.12 | 9.2 | — | 5.9 | Major Astro upgrade; older CMS subset |
+| cbss.ae | 5.12 | 9.2 | - | 5.9 | Major Astro upgrade; older CMS subset |
 | iberiaworkforce.com | 7.0.3 | 11.0 | 3.4 | 6.0 | Pin 7.1.6; Tailwind 4; **no `astro dev` in prod** |
-| evolutionmiddleast.com | 7.1.6 | 11.0 | — | 5.9 | Reference; still has `^` carets + root unit |
+| evolutionmiddleast.com | 7.1.6 | 11.0 | - | 5.9 | Reference; still has `^` carets + root unit |
 | spheavyrental.ae | 7.1.6 | 11.0 | 4.3 | 5.9 | Duplicate `/api/internal` tree → adopt `@connect/site-cms` |
 
 **Disk:** ~1.16 GB `node_modules` across 4 sites (~290 MB each) → ~12 GB at 40 with npm copies → **pnpm store** target ~1–2 GB.
@@ -407,9 +407,9 @@ Without Caddy access logs, cutovers and outages cannot be proved from the edge.
 
 **Blast radius (accept consciously):** one host + one Caddy + one flow server. Mitigate with Tier 1 isolation first; shard to 3–4 hosts only after ~10 SSR; push static sites off Node (CDN/object storage later). Shared CMS package must use **exact** versions + staged rollout so a bad release does not hit 40 sites at once.
 
-**Deploy gotcha (Evolution):** root-owned `.env` can block `astro build` in the prod tree — build in a writable staging dir or fix ownership; never overwrite `.env.prod` / `.data` on rsync.
+**Deploy gotcha (Evolution):** root-owned `.env` can block `astro build` in the prod tree - build in a writable staging dir or fix ownership; never overwrite `.env.prod` / `.data` on rsync.
 
-### Open questions (ops — resolve with Aaron)
+### Open questions (ops - resolve with Aaron)
 
 1. Off-box backup destination (S3 / B2 / VPS) and credential owner?
 2. Unix user naming: `site-evolutionmiddleast` vs short `site-evo`?
@@ -425,6 +425,6 @@ Detailed day-by-day execution: keep `docs/15-platform-work-plan.md` in the Evolu
 
 | Date | Change |
 |------|--------|
-| 2026-07-31 | v1.0 — Initial fleet standard from Evolution reference + Aaron platform review |
-| 2026-07-31 | v1.1 — Appendix: version matrix, disk/ops facts, observability, blast radius, open questions, deploy gotcha |
+| 2026-07-31 | v1.0 - Initial fleet standard from Evolution reference + Aaron platform review |
+| 2026-07-31 | v1.1 - Appendix: version matrix, disk/ops facts, observability, blast radius, open questions, deploy gotcha |
 | 2026-09-03 | Lead delivery: Flow added as a second, independent destination alongside Pipedrive (site id `iberiaeor`). Config in this site's backend env; adapter is shared in `@connect/site-cms`. Verify with `GET /api/internal/run-retries/?selftest=flow`. |

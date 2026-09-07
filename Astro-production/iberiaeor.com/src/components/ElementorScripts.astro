@@ -59,7 +59,7 @@
 <script is:inline src="/scripts/sp-carousels.js"></script>
 <script is:inline src="/wp-content/themes/datatech/assets/js/owl.carousel.min.js"></script>
 <script is:inline src="/scripts/eor-owl-blog.js"></script>
-<script is:inline src="/scripts/eor-mobile-nav.js"></script>
+<!-- eor-mobile-nav.js loads once from ElementorHeader (near the toggle) -->
 <script is:inline src="/scripts/elementor-counters.js"></script>
 <script is:inline src="/scripts/phone-flags.js"></script>
 <script is:inline src="/scripts/blog-load-more.js"></script>
@@ -118,7 +118,7 @@
     const styleSheet = [...document.styleSheets];
     // ensure container exists for column wrap backgrounds
     if (el.querySelector(":scope > .elementor-motion-effects-container")) return;
-    // Only inject if Elementor CSS targets this wrap's motion layer — heuristic: has background settings class on column
+    // Only inject if Elementor CSS targets this wrap's motion layer - heuristic: has background settings class on column
     if (!/background/i.test(parent.getAttribute("data-settings") || "")) return;
     const wrap = document.createElement("div");
     wrap.className = "elementor-motion-effects-container";

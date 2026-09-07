@@ -1,5 +1,5 @@
 /**
- * Dynamic llms.txt generator — mirrors sitemap discovery so AI crawlers always
+ * Dynamic llms.txt generator - mirrors sitemap discovery so AI crawlers always
  * see live published pages/posts, grouped like the curated SEO llms seed file.
  */
 import { getBlogPost } from '../blog.ts';

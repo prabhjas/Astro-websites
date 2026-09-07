@@ -1,41 +1,11 @@
+/**
+ * Legacy Load More alias under `/api/blog/`.
+ * Live Caddy may still route `/api/blog/*` here; frontend uses `/insights/load-more/`.
+ * Same handler + Elementor loop 213 HTML as insights route - do not diverge.
+ */
 import type { APIRoute } from "astro";
-import {
-  BLOG_LOAD_MORE_PER_PAGE,
-  renderInsightsCardsHtml,
-} from "../../../lib/blog-card-html";
-import { getPosts, paginate } from "../../../lib/content";
+import { GET as loadMoreGet } from "../../../lib/blog-load-more-handler";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url }) => {
-  const page = Math.max(1, Number(url.searchParams.get("page") || "1") || 1);
-  const perPage = Math.min(
-    24,
-    Math.max(1, Number(url.searchParams.get("perPage") || BLOG_LOAD_MORE_PER_PAGE) || BLOG_LOAD_MORE_PER_PAGE),
-  );
-
-  const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  const slice = paginate(sorted, page, perPage);
-  /** Insights archive + author pages use Elementor loop template 213. */
-  const html = renderInsightsCardsHtml(slice.items);
-
-  return new Response(
-    JSON.stringify({
-      ok: true,
-      page: slice.page,
-      perPage: slice.perPage,
-      total: slice.total,
-      totalPages: slice.totalPages,
-      hasMore: slice.hasNext,
-      nextPage: slice.hasNext ? slice.page + 1 : null,
-      html,
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "public, max-age=60",
-      },
-    },
-  );
-};
+export const GET: APIRoute = loadMoreGet;

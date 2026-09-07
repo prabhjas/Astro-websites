@@ -25,7 +25,7 @@ INTERNAL_ENHANCED_LIVE_DIR=.data/enhanced-live
 LEAD_STORE_DIR=.data/leads
 ```
 
-Do **not** set `HOST` / `PORT` in `.env.prod` — systemd/deployment must set them per site.
+Do **not** set `HOST` / `PORT` in `.env.prod` - systemd/deployment must set them per site.
 
 Generate lockfiles on Linux (or ensure optional platform packages for both `darwin` and `linux`) so `npm ci` works on the server.
 
@@ -34,7 +34,7 @@ Generate lockfiles on Linux (or ensure optional platform packages for both `darw
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/api/health` | Liveness `{ ok: true }` for Caddy/systemd |
-| — | stdout JSON | Form + Pipedrive events; middleware emits `http_access` for HTML/API |
+| - | stdout JSON | Form + Pipedrive events; middleware emits `http_access` for HTML/API |
 
 ## Read APIs (JSON)
 

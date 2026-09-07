@@ -1,6 +1,6 @@
 import { sanitizeCmsHtml } from '@connect/site-cms';
 /**
- * Dashboard posts store — backed by src/data/posts.json (Iberia EOR WP export shape).
+ * Dashboard posts store - backed by src/data/posts.json (Iberia EOR WP export shape).
  * Exposes Connect-style InternalPost for the existing editor UI.
  */
 import { existsSync, mkdirSync } from "node:fs";

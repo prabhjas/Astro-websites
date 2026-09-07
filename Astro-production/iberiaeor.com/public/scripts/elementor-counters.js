@@ -1,5 +1,5 @@
 /**
- * Elementor Counter fallback — animates .elementor-counter-number when in view.
+ * Elementor Counter fallback - animates .elementor-counter-number when in view.
  * Live relies on Elementor counter bundle + jquery-numerator; those often don't boot on Astro SSR.
  */
 (() => {
