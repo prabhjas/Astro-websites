@@ -1437,11 +1437,11 @@
     }
     style.textContent = [
       /* Prefer clip so position:sticky (blog sidebar) still works on desktop.
-         Mobile: keep clip so wide CMS images cannot create horizontal scroll. */
+         Mobile: keep clip so wide CMS images cannot create horizontal scroll; unlock vertical scroll for iOS. */
       'html,body{overflow-x:clip;max-width:100vw;}',
       'html:has(.ig),html:has(.ig) body{overflow-x:clip!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}',
       '@media (min-width:1100px){html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}}',
-      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body{overflow-x:clip!important;overflow-y:auto!important;}}',
+      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body,html:has(.ig),html:has(.ig) body{overflow-x:hidden!important;overflow-y:auto!important;max-width:100%!important;width:100%!important;height:auto!important;max-height:none!important;position:static!important;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom;}}',
       '.bp-content img,.bp-content figure,.bp-content video,.bp-content iframe,.bp-content table{max-width:100%!important;height:auto!important;}',
       /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
          Exclude Contact Us + Figma Insights (.ig/.bp). */

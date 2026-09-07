@@ -6,6 +6,7 @@ import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { unwrapWordpressNestedLists } from './cms-lists.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -441,7 +442,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
       '<!--ASTRO_BLOG:TITLE-->',
       `<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(post.title)}</h1>`,
     )
-    .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || ''))
+    .replace('<!--ASTRO_BLOG:CONTENT-->', unwrapWordpressNestedLists(sanitizeCmsHtml(post.contentHtml || '')))
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
