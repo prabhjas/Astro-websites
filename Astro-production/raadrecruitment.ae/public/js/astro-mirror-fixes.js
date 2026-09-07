@@ -1899,8 +1899,8 @@
         if (!el || el.disabled || el.readOnly) return;
         if (el.classList.contains('wpcf7-phonetext') || el.classList.contains('cg-phone-input')) return;
         var fieldName = String(el.getAttribute('name') || el.id || '');
-        if (TRACKING_FIELD_RE.test(fieldName)) return;
-        if (el.id === 'testgclid' || el.id === 'initial_url') return;
+        if (TRACKING_FIELD_RE.test(fieldName) || TRACKING_FIELD_RE.test(el.id || '')) return;
+        if (el.id === 'testgclid' || el.id === 'initial_url' || el.name === 'initial_url' || el.name === 'gclid') return;
         var val = String(el.value || '');
         if (!val.trim()) return;
         if (fieldContainsLink(val) || fieldContainsHtml(val)) {
