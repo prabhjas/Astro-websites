@@ -1290,9 +1290,17 @@
     }
     style.textContent = [
       /* Prefer clip so position:sticky (blog sidebar) still works.
-         Exception: Astro Insights post (.bp) needs overflow-x:visible for sticky form. */
+         Exception: Astro Insights post (.bp) needs overflow-x:visible for sticky form.
+         Mobile: never use overflow-x:clip/visible alone — it traps vertical scroll on iOS. */
       'html,body{overflow-x:clip;max-width:100vw;}',
       'html:has(.bp),html:has(.bp) body{overflow-x:visible!important;}',
+      '@media (max-width:1023px){',
+      'html:has(.bp),html:has(.bp) body,html:has(.ig),html:has(.ig) body{',
+      'overflow-x:hidden!important;overflow-y:auto!important;',
+      'max-width:100%!important;width:100%!important;height:auto!important;max-height:none!important;',
+      'position:static!important;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom;',
+      '}',
+      '}',
       /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas).
          Exclude Contact Us (page-id-27093): shorthand background:#111 clears background-image. */
       'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',

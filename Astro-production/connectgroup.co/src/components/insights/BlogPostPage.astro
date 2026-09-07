@@ -16,6 +16,7 @@ import {
   type BlogPost,
 } from '../../lib/blog.ts';
 import { getAuthor } from '../../lib/authors.ts';
+import { unwrapWordpressNestedLists } from '../../lib/cms-lists.ts';
 import { toInsightCard, displayAuthorName, normalizeTopicLabel } from '../../lib/insights.ts';
 import type { PageSeo } from '../../lib/seo';
 
@@ -50,7 +51,7 @@ const authorBio =
   authorProfile?.bio ||
   'Connect Group insights on business setup, workforce solutions, and operating in the UAE — practical guidance from our specialist brands.';
 const authorAvatar = authorProfile?.avatar?.src || '';
-const contentHtml = sanitizeCmsHtml(post.contentHtml || '');
+const contentHtml = unwrapWordpressNestedLists(sanitizeCmsHtml(post.contentHtml || ''));
 const dateLabel = (() => {
   try {
     return new Date(post.publishedAt).toLocaleDateString('en-GB', {
@@ -337,7 +338,16 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     color: #121212;
     background: var(--ig-dark);
+    max-width: 100%;
     /* Do not set overflow-x:clip here — it breaks position:sticky on the sidebar form */
+  }
+  @media (max-width: 1023px) {
+    .bp {
+      overflow-x: hidden;
+      overflow-y: visible;
+      width: 100%;
+      max-width: 100%;
+    }
   }
   .bp * { box-sizing: border-box; }
   .bp h1, .bp h2, .bp h3, .bp h4, .bp h5, .bp h6,
@@ -587,8 +597,37 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     color: #313131;
     font-size: 16px;
     line-height: 1.7;
+    list-style-position: outside;
   }
-  .bp-content li { margin-bottom: 0.5rem; }
+  .bp-content ul { list-style-type: disc; }
+  .bp-content ol { list-style-type: decimal; }
+  .bp-content li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.15rem;
+  }
+  .bp-content li::marker {
+    color: #121212;
+  }
+  /* WP wrapper li that only holds a nested list — never show a bullet for it */
+  .bp-content li[style*='list-style-type: none'],
+  .bp-content li[style*='list-style-type:none'] {
+    list-style: none !important;
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .bp-content li[style*='list-style-type: none']::marker,
+  .bp-content li[style*='list-style-type:none']::marker {
+    content: '' !important;
+    font-size: 0 !important;
+  }
+  .bp-content li[style*='list-style-type: none'] > ul,
+  .bp-content li[style*='list-style-type: none'] > ol,
+  .bp-content li[style*='list-style-type:none'] > ul,
+  .bp-content li[style*='list-style-type:none'] > ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
   .bp-content blockquote,
   .bp-content .wp-block-quote {
     margin: 2rem 0;

@@ -25,10 +25,30 @@
     background: #060d1d !important;
   }
 
-  /* Override mirror-fixes html/body overflow-x:clip — that breaks sticky sidebar */
-  html:has(.bp),
-  html:has(.bp) body {
-    overflow-x: visible !important;
+  /* Sticky sidebar (desktop) needs overflow-x:visible on html/body.
+     Mobile needs overflow-x:hidden + free overflow-y — visible+clip traps iOS scroll. */
+  @media (min-width: 1024px) {
+    html:has(.bp),
+    html:has(.bp) body {
+      overflow-x: visible !important;
+    }
+  }
+  @media (max-width: 1023px) {
+    html:has(.bp),
+    html:has(.bp) body,
+    html:has(.ig),
+    html:has(.ig) body {
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      height: auto !important;
+      max-height: none !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      position: static !important;
+      overscroll-behavior-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y pinch-zoom;
+    }
   }
 
   /* Insights + posts: dark canvas + transparent overlay header (white logo readable on hero) */
