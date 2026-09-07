@@ -1,11 +1,11 @@
 ---
 /**
- * Author archive pagination — prefer live mirrors under
- * src/legacy/author/<slug>/page/<n>.cleaned.html
+ * Author archive pagination — prefer live mirrors, inject current JSON posts.
  */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { getAuthorPageData, serveAuthorArchive } from '../../../../lib/authors.ts';
+import { injectAuthorMirrorCards } from '../../../../lib/blog.ts';
 import { serveLegacyPage } from '../../../../lib/legacy-page.js';
 import { notFoundResponse } from '../../../../lib/not-found.js';
 
@@ -17,13 +17,21 @@ if (!Number.isFinite(page) || page < 2) {
   return Astro.redirect(`/author/${slug}/`);
 }
 
+const data = getAuthorPageData(slug, page);
 const mirrorSlug = `author/${slug}/page/${page}`;
 const mirror = join(process.cwd(), 'src/legacy', `${mirrorSlug}.cleaned.html`);
 if (existsSync(mirror)) {
-  return serveLegacyPage(mirrorSlug);
+  const res = serveLegacyPage(mirrorSlug);
+  const html = data ? injectAuthorMirrorCards(await res.text(), data.posts) : await res.text();
+  return new Response(html, {
+    status: res.status,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=0',
+    },
+  });
 }
 
-const data = getAuthorPageData(slug, page);
 if (!data || data.totalPages < page) {
   return notFoundResponse();
 }

@@ -58,7 +58,7 @@ function ensureBasePost(template: InternalPost, slug: string): InternalPost {
   };
   base.og = base.og || { title: '', description: '' };
   base.twitter = base.twitter || { card: 'summary_large_image' };
-  base.author = base.author || { name: 'Emiratisation Gate', slug: 'emiratisationgate' };
+  base.author = base.author || { name: 'Emiratisation Gate', slug: 'emiratisationgate', url: '/author/emiratisationgate/' };
   base.categories = base.categories || [];
   base.tags = base.tags || [];
   base.featuredImage = base.featuredImage ?? null;

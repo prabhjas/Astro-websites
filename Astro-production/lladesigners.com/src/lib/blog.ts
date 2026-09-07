@@ -828,6 +828,61 @@ export function buildArchiveCardHtml(post: BlogPost): string {
 </article>`;
 }
 
+function listingDateDdMmYyyy(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  return `${dd}/${mm}/${d.getFullYear()}`;
+}
+
+function fillOurBlogsCard($card: any, post: BlogPost, $: any): void {
+  const postUrl = `/${post.slug}/`;
+  const imgSrc = post.featuredImage?.src || '';
+  const imgAlt = post.featuredImage?.alt || post.title;
+  const cats = post.categories
+    .slice(0, 4)
+    .map((c) => `<span class="elementor-post-info__terms-list-item">${escapeHtml(c.name)}</span>`)
+    .join(', ');
+
+  $card.find('a[href]').attr('href', postUrl);
+  $card.find('h2 a, h3 a, .elementor-heading-title a').first().text(post.title);
+  $card.find('time').text(listingDateDdMmYyyy(post.publishedAt));
+  const $terms = $card.find('.elementor-post-info__terms-list').first();
+  if ($terms.length) $terms.html(cats);
+  $card.find('img').each((_i: number, img: any) => {
+    if (!imgSrc) return;
+    $(img).attr('src', imgSrc);
+    $(img).attr('alt', imgAlt);
+    $(img).removeAttr('srcset');
+  });
+}
+
+/**
+ * Fill the live /our-blogs/ ECS grids (featured template 2499 + list 2556)
+ * from JSON so new CMS posts appear without changing card markup.
+ */
+export function injectOurBlogsCards(html: string): string {
+  const $ = cheerio.load(html);
+  const posts = getAllBlogPosts();
+  if (!posts.length) return html;
+
+  const featuredGrid = $('.elementor-element-b5655bd .ecs-posts').first();
+  const listGrid = $('.elementor-element-081de83 .ecs-posts').first();
+
+  if (featuredGrid.length && posts[0]) {
+    const art = featuredGrid.find('article').first();
+    if (art.length) fillOurBlogsCard(art, posts[0], $);
+  }
+  if (listGrid.length) {
+    const rest = posts.slice(1);
+    listGrid.find('article').each((i, el) => {
+      if (rest[i]) fillOurBlogsCard($(el), rest[i], $);
+    });
+  }
+  return $.html();
+}
+
 export function getAllBlogPosts(): BlogPost[] {
   return getAllBlogSlugs()
     .map((slug) => getBlogPost(slug))

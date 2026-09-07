@@ -92,8 +92,8 @@ const authors = getAuthors()
           <ul class="sp-author-directory">
             {authors.map((author) => (
               <li>
-                <a class="sp-author-card" href={author.path}>
-                  <span class="sp-author-card__media">
+                <article class="sp-author-card">
+                  <a class="sp-author-card__media" href={author.path}>
                     {author.avatar ? (
                       <img
                         src={author.avatarLarge}
@@ -108,28 +108,38 @@ const authors = getAuthors()
                         {author.displayName.slice(0, 1)}
                       </span>
                     )}
-                  </span>
-                  <span class="sp-author-card__meta">
-                    <span class="sp-author-card__row">
-                      <span class="sp-author-card__name">{author.displayName}</span>
-                      <span class="sp-author-card__social" aria-hidden="true">
-                        <img
-                          src="/wp-content/uploads/authors/linkedin.svg"
-                          alt=""
-                          width="24"
-                          height="24"
-                        />
-                      </span>
-                    </span>
-                    <span class="sp-author-card__role">
+                  </a>
+                  <div class="sp-author-card__meta">
+                    <div class="sp-author-card__row">
+                      <a class="sp-author-card__name" href={author.path}>
+                        {author.displayName}
+                      </a>
+                      {author.linkedin ? (
+                        <a
+                          class="sp-author-card__social"
+                          href={author.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${author.displayName} on LinkedIn`}
+                        >
+                          <img
+                            src="/wp-content/uploads/authors/linkedin.svg"
+                            alt=""
+                            width="24"
+                            height="24"
+                          />
+                        </a>
+                      ) : null}
+                    </div>
+                    <a class="sp-author-card__role" href={author.path}>
                       {author.designation
                         ? author.designation
                         : author.postCount === 1
                           ? "1 article"
                           : `${author.postCount} articles`}
-                    </span>
-                  </span>
-                </a>
+                    </a>
+                  </div>
+                </article>
               </li>
             ))}
           </ul>
