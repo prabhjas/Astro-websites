@@ -83,7 +83,7 @@ function buildTitleWidget(titleHtml: string): string {
   );
 }
 
-/** Remove only the primary single-post H1 title widget — keep related-card titles. */
+/** Remove only the primary single-post H1 title widget - keep related-card titles. */
 function removePrimaryPostTitleWidgets(html: string): string {
   let out = html;
   // Template id for the single H1 title in Elementor kit 234.

@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PostCard from "../components/PostCard.astro";
@@ -130,7 +129,7 @@ const postElementorId =
   post?.elementorCss?.match(/post-(\d+)\.css/)?.[1] ||
   String(post?.id || "");
 
-/** Elementor singles bury the H1 after TOC — place it under the featured image. */
+/** Elementor singles bury the H1 after TOC - place it under the featured image. */
 const postElementorHtml =
   postUsesElementor && post
     ? placeSinglePostTitleAfterFeaturedImage(post.bodyHtml || "", post.title)

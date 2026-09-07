@@ -123,7 +123,7 @@ export type ValidationResult =
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^\+?[\d\s().-]{7,20}$/;
-/** Letters (incl. accents), spaces, hyphen, apostrophe — no digits or URLs */
+/** Letters (incl. accents), spaces, hyphen, apostrophe - no digits or URLs */
 const NAME_RE = /^[\p{L}][\p{L}\s'.-]{0,99}$/u;
 const LINK_LIKE_RE = /https?:\/\/|www\.|@|\.(com|net|org|ae|io|co|info|biz|me|app|dev)(\b|\/|$)/i;
 

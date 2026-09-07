@@ -1,8 +1,6 @@
 ---
 export const prerender = false;
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AuthorHero from "../../../components/AuthorHero.astro";
-import Pagination from "../../../components/Pagination.astro";
+import AuthorArchive from "../../../components/AuthorArchive.astro";
 import {
   INSIGHTS_POSTS_PER_PAGE,
   renderInsightsCardsHtml,
@@ -29,43 +27,21 @@ const bio = stripHtml(author.description || "").trim();
 const cardsHtml = items.length ? renderInsightsCardsHtml(items) : "";
 ---
 
-<BaseLayout
-  currentPath={author.path}
+<AuthorArchive
+  author={author}
+  name={name}
+  bio={bio}
+  items={items}
+  cardsHtml={cardsHtml}
+  page={page}
+  totalPages={totalPages}
+  canonical={author.path}
+  title={`Author: ${name} | Iberia EOR`}
   bodyClass={`archive author author-page author-${author.slug} author-${author.id} elementor-default elementor-page elementor-page-author`}
-  extraCss={[
-    "/wp-content/uploads/elementor/css/post-213.css",
-    "/css/author-page.css",
+  schemas={[
+    breadcrumbSchema([
+      { name: "Home", url: "/" },
+      { name, url: author.path },
+    ]),
   ]}
-  seo={{
-    title: `Author: ${name} | Iberia EOR`,
-    description: bio || `Articles by ${name}.`,
-    canonical: author.path,
-    ogImage: author.avatar || undefined,
-    schemas: [
-      breadcrumbSchema([
-        { name: "Home", url: "/" },
-        { name, url: author.path },
-      ]),
-    ],
-  }}
->
-  <AuthorHero author={author} />
-
-  <section class="author-page-articles">
-    <div class="author-page-articles__inner">
-      <h2 class="author-page-articles__title">Articles By {name}</h2>
-      {
-        items.length ? (
-          <div
-            class="ecs-posts elementor-posts-container elementor-posts elementor-grid elementor-posts--skin-custom"
-            data-sp-author-grid="1"
-            set:html={cardsHtml}
-          />
-        ) : (
-          <p class="author-page-empty">No posts by this author.</p>
-        )
-      }
-      <Pagination page={page} totalPages={totalPages} basePath={author.path} />
-    </div>
-  </section>
-</BaseLayout>
+/>

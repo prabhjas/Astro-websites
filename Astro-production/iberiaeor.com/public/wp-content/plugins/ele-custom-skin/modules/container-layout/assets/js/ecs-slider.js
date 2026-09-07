@@ -30,7 +30,7 @@
 		}
 
 		// Defer init if hidden (e.g. inside display:none responsive-version on desktop).
-		// ResizeObserver fires when CSS shows the element — media query triggered by viewport change.
+		// ResizeObserver fires when CSS shows the element - media query triggered by viewport change.
 		if ( el.offsetWidth === 0 && typeof ResizeObserver !== 'undefined' ) {
 			el.setAttribute( 'data-ecs-swiper-init', 'pending' );
 			var ro = new ResizeObserver( function ( entries ) {
@@ -170,7 +170,7 @@
 		}
 
 		var built      = buildSwiperConfig( settings );
-		built.config.loop = false; // disable loop in editor — avoids duplicate [data-id] nodes
+		built.config.loop = false; // disable loop in editor - avoids duplicate [data-id] nodes
 
 		var swiperEl   = document.createElement( 'div' );
 		swiperEl.className = 'swiper ecs-swiper ecs-editor-swiper';
@@ -178,7 +178,7 @@
 		var wrapperEl  = document.createElement( 'div' );
 		wrapperEl.className = 'swiper-wrapper';
 
-		// Move real children into slides — preserves Backbone binding and allows editing
+		// Move real children into slides - preserves Backbone binding and allows editing
 		children.forEach( function ( child ) {
 			var slide = document.createElement( 'div' );
 			slide.className = 'swiper-slide';
@@ -219,7 +219,7 @@
 
 	function syncEditorSlider( containerEl ) {
 		// Backbone re-render may have removed .ecs-editor-swiper while leaving
-		// ecs-editor-slider-active class — reset so we fall through to rebuild.
+		// ecs-editor-slider-active class - reset so we fall through to rebuild.
 		if (
 			containerEl.classList.contains( 'ecs-editor-slider-active' ) &&
 			! containerEl.querySelector( ':scope > .ecs-editor-swiper' )
@@ -293,7 +293,7 @@
 			if ( getResolvedType( el ) !== 'slider' ) {
 				destroyEditorSlider( el );
 			} else if ( ! el.querySelector( ':scope > .ecs-editor-swiper' ) ) {
-				// Elementor re-rendered and removed our swiper DOM — rebuild it.
+				// Elementor re-rendered and removed our swiper DOM - rebuild it.
 				destroyEditorSlider( el ); // clears stale ecs-editor-slider-active class
 				syncEditorSlider( el );
 			}
@@ -310,12 +310,12 @@
 	 * Update Swiper config in-place without destroy/clone.
 	 * Called on settings panel changes (columns, speed, color, etc.).
 	 * Falls back to full syncEditorSlider only when HTML structure must change
-	 * (navigation type or loop — these require different DOM elements).
+	 * (navigation type or loop - these require different DOM elements).
 	 */
 	function updateEditorSliderParams( containerEl ) {
 		var swiperEl = containerEl.querySelector( ':scope > .ecs-editor-swiper' );
 		if ( ! swiperEl || ! swiperEl.swiper ) {
-			syncEditorSlider( containerEl ); // swiper missing — full rebuild
+			syncEditorSlider( containerEl ); // swiper missing - full rebuild
 			return;
 		}
 
@@ -332,7 +332,7 @@
 			return;
 		}
 
-		// Safe in-place param update — no cloning, no race condition
+		// Safe in-place param update - no cloning, no race condition
 		swiper.params.slidesPerView = built.config.slidesPerView;
 		swiper.params.speed         = built.config.speed;
 		swiper.params.spaceBetween  = built.config.spaceBetween;
@@ -411,7 +411,7 @@
 			setTimeout( syncAllEditorSliders, 800 );
 
 			// Settings panel changes (columns, colors, speed…) don't mutate the DOM so
-			// MutationObserver never fires. Update Swiper params in-place — no cloning,
+			// MutationObserver never fires. Update Swiper params in-place - no cloning,
 			// no race condition with Backbone re-renders.
 			try {
 				var settingsTimer = null;
@@ -425,7 +425,7 @@
 					clearTimeout( settingsTimer );
 					settingsTimer = setTimeout( updateAllEditorSliderParams, 150 );
 				} );
-				// Device mode switch changes which type is active — rebuild sliders.
+				// Device mode switch changes which type is active - rebuild sliders.
 				window.parent.elementor.channels.deviceMode.on( 'change', function () {
 					clearTimeout( settingsTimer );
 					settingsTimer = setTimeout( syncAllEditorSliders, 200 );
@@ -446,7 +446,7 @@
 		};
 
 		// components:init already fired by the time a footer script loads.
-		// Run directly — Backbone views are ready by DOMContentLoaded.
+		// Run directly - Backbone views are ready by DOMContentLoaded.
 		if ( document.readyState === 'loading' ) {
 			document.addEventListener( 'DOMContentLoaded', function () {
 				setTimeout( setupEditor, 300 );

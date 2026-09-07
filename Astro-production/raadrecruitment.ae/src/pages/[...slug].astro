@@ -1,12 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConnectFzSinglePost from "../components/ConnectFzSinglePost.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import {
   getPageByPath,
   getPublishedPostByPath,
-  stripHtml,
   normalizePath,
+  site,
+  stripHtml,
 } from "../lib/content";
+import { injectBreadcrumbsHtml } from "../lib/inject-breadcrumbs";
+import { renderBreadcrumbsHtml } from "../lib/render-breadcrumbs-html";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -24,31 +28,45 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const rawHtml = (("bodyHtml" in entry && entry.bodyHtml) || entry.content) as string;
 
-const pageCrumbs = page
-  ? (() => {
-      const crumbs = [
-        { name: "Home", href: "/" },
-        { name: stripHtml(page.title), href: undefined as string | undefined },
-      ];
-      const parts = path.replace(/^\/|\/$/g, "").split("/").filter(Boolean);
-      if (parts.length >= 2) {
-        crumbs.splice(1, 0, {
-          name: parts[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
-          href: `/${parts[0]}/`,
-        });
-      }
-      return crumbs;
-    })()
+/** Service detail pages = footer / nav service links (not About, Contact, Blog, Home). */
+const SERVICE_PATHS = new Set(
+  (site.footerServices || []).map((s) => normalizePath(s.href)),
+);
+const isServicePage = !!page && SERVICE_PATHS.has(path);
+
+const serviceLabel =
+  (site.footerServices || []).find((s) => normalizePath(s.href) === path)?.label ||
+  (page ? stripHtml(page.title) : "");
+const pageTitle = page ? stripHtml(page.title) : "";
+const postTitle = post ? stripHtml(post.title) : "";
+
+/** Visible + schema: Home → Service */
+const serviceCrumbs = isServicePage
+  ? [
+      { name: "Home", href: "/" },
+      { name: serviceLabel },
+    ]
   : [];
 
+/** Visible + schema: Home → Blog → Post (listing is /blog/, not /insights/) */
 const postCrumbs = post
   ? [
       { name: "Home", href: "/" },
-      { name: "Insights", href: "/insights/" },
-      { name: stripHtml(post.title) },
+      { name: "Blog", href: "/blog/" },
+      { name: postTitle },
     ]
+  : [];
+
+/** Non-service pages keep schema-only crumbs (no visible trail required). */
+const pageSchemaCrumbs = page
+  ? isServicePage
+    ? serviceCrumbs
+    : [
+        { name: "Home", href: "/" },
+        { name: pageTitle },
+      ]
   : [];
 
 const seo = page
@@ -59,11 +77,13 @@ const seo = page
       ogImage: page.seo.ogImage,
       schemas: [
         ...(page.seo.schemas || []),
-        breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
+        breadcrumbSchema(
+          pageSchemaCrumbs.map((c) => ({ name: c.name, url: c.href || path })),
+        ),
       ],
     }
   : {
-      title: post!.seo.title || stripHtml(post!.title),
+      title: post!.seo.title || postTitle,
       description: post!.seo.description || stripHtml(post!.excerpt),
       canonical: path,
       ogImage: post!.seo.ogImage || post!.featuredImage,
@@ -76,7 +96,7 @@ const seo = page
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
         articleSchema(
           {
-            title: stripHtml(post!.title),
+            title: postTitle,
             description: post!.seo.description || stripHtml(post!.excerpt),
             url: path,
             image: post!.featuredImage || post!.seo.ogImage,
@@ -95,7 +115,7 @@ const isListingArchive =
     path.startsWith("/locations/") ||
     page.wpType === "mt_listing_archive");
 
-/** Page/post CSS from content data only (Impreza — no Elementor kit CSS). */
+/** Page/post CSS from content data only (Impreza - no Elementor kit CSS). */
 const extraCss = page
   ? ([...(page.pageCss || [])].filter(Boolean) as string[])
   : ([...(post!.pageCss || [])].filter(Boolean) as string[]);
@@ -108,6 +128,24 @@ const pageBodyClass = page
     ? `archive tax-mt-listing-category term-${page.slug} page page-id-${page.id} taxonomy-listing-page`
     : `wp-singular page-template-default page page-id-${page.id} elementor-page elementor-page-${page.id}`
   : `wp-singular single single-post postid-${post!.id} post-${post!.id} post type-post status-publish elementor-page elementor-page-${post!.id}`;
+
+/** Inject crumbs into Elementor HTML at the correct spot (not a standalone bar). */
+const serviceCrumbHtml = isServicePage ? renderBreadcrumbsHtml(serviceCrumbs) : "";
+const postCrumbHtml = post ? renderBreadcrumbsHtml(postCrumbs) : "";
+
+const pageHtml =
+  page && isServicePage
+    ? injectBreadcrumbsHtml(rawHtml, serviceCrumbHtml, "service")
+    : rawHtml;
+
+const postHtml = post
+  ? injectBreadcrumbsHtml(
+      postUsesElementor ? post.bodyHtml || rawHtml : rawHtml,
+      postCrumbHtml,
+      "post",
+      { postTitle },
+    )
+  : "";
 ---
 
 <BaseLayout
@@ -120,11 +158,17 @@ const pageBodyClass = page
 >
   {
     page ? (
-      <Fragment set:html={html} />
+      <Fragment set:html={pageHtml} />
     ) : postUsesElementor ? (
-      <Fragment set:html={post!.bodyHtml} />
+      <Fragment set:html={postHtml} />
     ) : (
-      <ConnectFzSinglePost post={post!} html={html} />
+      <>
+        <div class="sp-page-breadcrumbs sp-page-breadcrumbs--inline">
+          <Breadcrumbs items={postCrumbs} />
+        </div>
+        <h1 class="sp-single-post-title">{postTitle}</h1>
+        <ConnectFzSinglePost post={post!} html={rawHtml} />
+      </>
     )
   }
 </BaseLayout>

@@ -1,4 +1,4 @@
-# S&P Heavy Machinery Rental — Astro
+# S&P Heavy Machinery Rental - Astro
 
 Production-ready Astro migration of [https://spheavyrental.ae/](https://spheavyrental.ae/).
 
@@ -32,7 +32,7 @@ npm run fetch-assets
 
 ## Central CMS & Pipedrive
 
-Per-site dashboard UI is removed. Ops run through bearer-authenticated `/api/internal/*` — see **[docs/ADMIN.md](docs/ADMIN.md)**.
+Per-site dashboard UI is removed. Ops run through bearer-authenticated `/api/internal/*` - see **[docs/ADMIN.md](docs/ADMIN.md)**.
 
 - Auth: `Authorization: Bearer <INTERNAL_JOB_SECRET>`
 - Public forms → `POST /api/contact/` (JSON) → local lead store → Pipedrive
@@ -56,5 +56,5 @@ docs/13-go-live-server-handoff.md
 ## Notes
 
 - Trailing slash always (`trailingSlash: "always"`).
-- Do not put `HOST`/`PORT` in production env files — leave those to systemd per site.
+- Do not put `HOST`/`PORT` in production env files - leave those to systemd per site.
 - Lockfile includes linux + darwin optional native bindings for CI/server `npm ci`.

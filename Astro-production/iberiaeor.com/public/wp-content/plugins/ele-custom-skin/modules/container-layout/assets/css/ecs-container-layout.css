@@ -33,7 +33,7 @@
 /*
  * Prevents the outer container from wrapping slides horizontally.
  * On editor (before JS runs), overflow-x:auto gives a scrollable preview.
- * On live, .ecs-swiper clips slides with overflow:hidden — the container
+ * On live, .ecs-swiper clips slides with overflow:hidden - the container
  * itself stays visible so absolutely-positioned arrows/dots are not clipped.
  */
 .e-con.e-ecs-slider {
@@ -51,7 +51,7 @@
  * Editor: real children are moved into swiper slides. Hide the now-empty
  * .e-con-inner (Boxed containers) so it doesn't occupy space or show
  * Elementor's "drag widget here" placeholder.
- * Full Width containers have no .e-con-inner — no rule needed.
+ * Full Width containers have no .e-con-inner - no rule needed.
  */
 .ecs-editor-slider-active > .e-con-inner {
 	display: none !important;
@@ -81,8 +81,8 @@
 
 /* ── Dual-render show/hide ────────────────────────────────────
  * When responsive overrides exist, PHP emits two versions:
- *   .ecs-custom-version    — desktop: template with children in slots
- *   .ecs-responsive-version — tablet/mobile: children as grid or slider
+ *   .ecs-custom-version    - desktop: template with children in slots
+ *   .ecs-responsive-version - tablet/mobile: children as grid or slider
  * CSS shows one at a time based on active breakpoint.
  * ──────────────────────────────────────────────────────────── */
 
@@ -136,7 +136,7 @@
 		width: 100% !important;
 	}
 
-	/* tablet=flex when responsive-version contains a swiper (mobile=slider) — reset slides to flex column */
+	/* tablet=flex when responsive-version contains a swiper (mobile=slider) - reset slides to flex column */
 	.e-con.e-ecs-custom.e-ecs-tablet-flex > .ecs-responsive-version > .ecs-swiper {
 		overflow: visible;
 	}
@@ -206,7 +206,7 @@
 		width: 100% !important;
 	}
 
-	/* mobile=flex when responsive-version contains a swiper (tablet=slider) — reset slides to flex column */
+	/* mobile=flex when responsive-version contains a swiper (tablet=slider) - reset slides to flex column */
 	.e-con.e-ecs-custom.e-ecs-mobile-flex > .ecs-responsive-version > .ecs-swiper {
 		overflow: visible;
 	}

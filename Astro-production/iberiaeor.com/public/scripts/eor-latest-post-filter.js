@@ -1,6 +1,6 @@
 /**
  * “The Latest Post” taxonomy filter (Blog + category tabs).
- * Elementor Pro’s refresh-loop endpoint is unavailable on Astro — filter in-DOM instead.
+ * Elementor Pro’s refresh-loop endpoint is unavailable on Astro - filter in-DOM instead.
  * Blog (__all) always shows at most 3 default cards; never loads more.
  */
 (() => {

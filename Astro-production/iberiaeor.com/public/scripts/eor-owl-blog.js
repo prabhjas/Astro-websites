@@ -1,6 +1,6 @@
 /**
  * Init Dreamit homepage blog owl-carousel (and other .owl-carousel widgets).
- * Scraped markup often has owl-loaded leftovers — destroy/rebuild cleanly.
+ * Scraped markup often has owl-loaded leftovers - destroy/rebuild cleanly.
  */
 (() => {
   if (window.__EOR_OWL_BOOTED__) return;

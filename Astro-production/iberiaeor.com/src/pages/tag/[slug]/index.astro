@@ -1,8 +1,5 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import Pagination from "../../../components/Pagination.astro";
-import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import TaxonomyArchive from "../../../components/TaxonomyArchive.astro";
 import {
   getTagBySlug,
   getPostsByTag,
@@ -10,7 +7,6 @@ import {
   POSTS_PER_PAGE,
   stripHtml,
 } from "../../../lib/content";
-import { breadcrumbSchema } from "../../../lib/seo";
 import { notFoundResponse } from "../../../lib/not-found";
 
 export const prerender = false;
@@ -22,41 +18,28 @@ if (!tag) {
 }
 const sorted = getPostsByTag(tag.id);
 const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const name = stripHtml(tag.name);
 ---
 
-<BaseLayout
+<TaxonomyArchive
   currentPath={tag.path}
-  seo={{
-    title: `Tag: ${stripHtml(tag.name)} | Iberia EOR`,
-    description: tag.description || `Posts tagged ${tag.name}.`,
-    canonical: tag.path,
-    schemas: [
-      breadcrumbSchema([
-        { name: "Home", url: "/" },
-        { name: "Blog", url: "/blog/" },
-        { name: tag.name, url: tag.path },
-      ]),
-    ],
-  }}
->
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Blog", href: "/blog/" }, { name: tag.name }]} />
-      <h1 set:html={tag.name} />
-    </div>
-  </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts with this tag.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={tag.path} />
-  </section>
-</BaseLayout>
+  title={`Tag: ${name} | Iberia EOR`}
+  description={tag.description || `Posts tagged ${tag.name}.`}
+  canonical={tag.path}
+  headingHtml={tag.name}
+  crumbs={[
+    { name: "Home", href: "/" },
+    { name: "Blog", href: "/blog/" },
+    { name: tag.name },
+  ]}
+  schemaCrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog/" },
+    { name: tag.name, url: tag.path },
+  ]}
+  items={items}
+  page={page}
+  totalPages={totalPages}
+  basePath={tag.path}
+  emptyMessage="No posts with this tag."
+/>

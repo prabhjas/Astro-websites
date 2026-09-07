@@ -129,3 +129,29 @@ span.select2.select2-container.select2-container--default {
 		width:90% !important;
 	}
 }
+
+.single-post h2 {
+  font-size: 36px;
+}
+
+.single-post h3 {
+  font-size: 28px;
+}
+
+.single-post h4 {
+  font-size: 22px;
+}
+
+.single-post h5 {
+  font-size: 18px;
+}
+
+.single-post h6 {
+  font-size: 16px;
+}
+
+/* Ensure single-post titles stay visible (Elementor hides .elementor-page-title) */
+body.single-post .sp-single-post-title {
+  display: block !important;
+  visibility: visible !important;
+}

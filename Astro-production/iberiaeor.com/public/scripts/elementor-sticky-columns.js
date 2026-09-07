@@ -19,7 +19,7 @@
       !!header.querySelector(
         '.elementor-sticky--active, [style*="position: fixed"], [style*="position:fixed"]',
       );
-    // Header scrolls away on single posts — keep a tight top gap only.
+    // Header scrolls away on single posts - keep a tight top gap only.
     if (!fixed) return 16;
     var h = Math.ceil(header.getBoundingClientRect().height);
     return Math.max(16, h + 8);

@@ -411,7 +411,7 @@ async function main() {
     const key = normalizePath(row.path);
     if (key === "/") continue;
     if (pageByPath.has(key)) continue;
-    // may be a post path mistakenly — skip if in posts later
+    // may be a post path mistakenly - skip if in posts later
     pageByPath.set(key, {
       id: 0,
       type: "page",

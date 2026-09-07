@@ -1,5 +1,5 @@
 /**
- * Sitemap data layer — Rank Math–style pages/posts for the SEO dashboard
+ * Sitemap data layer - Rank Math–style pages/posts for the SEO dashboard
  * and public /sitemap_index.xml endpoints.
  *
  * Discovery comes from pages.json / posts.json (the live content store), so new
@@ -41,7 +41,7 @@ const REDIRECTS_FILE = join(ROOT, 'src/data/redirects.yml');
 
 export type SitemapDataOptions = ResolveSiteOriginOptions & {
   entryLimit?: number;
-  /** INTERNAL_ADMIN_DIR — when set, merge dashboard priority/changefreq overrides. */
+  /** INTERNAL_ADMIN_DIR - when set, merge dashboard priority/changefreq overrides. */
   adminDir?: string;
 };
 

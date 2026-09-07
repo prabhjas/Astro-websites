@@ -1,5 +1,5 @@
 /**
- * SP Heavy blog Load More — Elementor/ECS replacement.
+ * SP Heavy blog Load More - Elementor/ECS replacement.
  * Appends into the image grid (data-sp-blog-grid), not the featured list.
  */
 (function () {
@@ -60,7 +60,7 @@
       loading = true;
       setLabel("Loading...");
 
-      // Front path — /api/blog/* is still routed to backend on this host (stale card HTML).
+      // Front path - /api/blog/* is still routed to backend on this host (stale card HTML).
       var url =
         "/insights/load-more/?page=" +
         encodeURIComponent(String(nextPage)) +

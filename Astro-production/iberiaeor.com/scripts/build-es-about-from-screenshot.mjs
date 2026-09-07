@@ -31,21 +31,21 @@ const REPLACEMENTS = [
     "IberiaEOR: Impulsado por nuestra gente, impulsado por su éxito",
   ],
   [
-    "We’re here for businesses that dare to grow—the ones ready to enter Spain and make an impact. With our expertise, we turn challenges into milestones, navigate compliance, manage teams, and help businesses thrive in new markets. With 300+ successful projects and operations in 14 locations, we’ve perfected EOR services. Your vision drives us, and we provide the tools to make it happen.",
-    "Estamos aquí para las empresas que se atreven a crecer—las que están listas para entrar en España y generar impacto. Con nuestra experiencia, convertimos los desafíos en hitos, gestionamos el cumplimiento, administramos equipos y ayudamos a las empresas a prosperar en nuevos mercados. Con más de 300 proyectos exitosos y operaciones en 14 ubicaciones, hemos perfeccionado los servicios EOR. Su visión nos impulsa, y nosotros aportamos las herramientas para hacerla realidad.",
+    "We’re here for businesses that dare to grow-the ones ready to enter Spain and make an impact. With our expertise, we turn challenges into milestones, navigate compliance, manage teams, and help businesses thrive in new markets. With 300+ successful projects and operations in 14 locations, we’ve perfected EOR services. Your vision drives us, and we provide the tools to make it happen.",
+    "Estamos aquí para las empresas que se atreven a crecer-las que están listas para entrar en España y generar impacto. Con nuestra experiencia, convertimos los desafíos en hitos, gestionamos el cumplimiento, administramos equipos y ayudamos a las empresas a prosperar en nuevos mercados. Con más de 300 proyectos exitosos y operaciones en 14 ubicaciones, hemos perfeccionado los servicios EOR. Su visión nos impulsa, y nosotros aportamos las herramientas para hacerla realidad.",
   ],
   [
-    "We're here for businesses that dare to grow—the ones ready to enter Spain and make an impact. With our expertise, we turn challenges into milestones, navigate compliance, manage teams, and help businesses thrive in new markets. With 300+ successful projects and operations in 14 locations, we've perfected EOR services. Your vision drives us, and we provide the tools to make it happen.",
-    "Estamos aquí para las empresas que se atreven a crecer—las que están listas para entrar en España y generar impacto. Con nuestra experiencia, convertimos los desafíos en hitos, gestionamos el cumplimiento, administramos equipos y ayudamos a las empresas a prosperar en nuevos mercados. Con más de 300 proyectos exitosos y operaciones en 14 ubicaciones, hemos perfeccionado los servicios EOR. Su visión nos impulsa, y nosotros aportamos las herramientas para hacerla realidad.",
+    "We're here for businesses that dare to grow-the ones ready to enter Spain and make an impact. With our expertise, we turn challenges into milestones, navigate compliance, manage teams, and help businesses thrive in new markets. With 300+ successful projects and operations in 14 locations, we've perfected EOR services. Your vision drives us, and we provide the tools to make it happen.",
+    "Estamos aquí para las empresas que se atreven a crecer-las que están listas para entrar en España y generar impacto. Con nuestra experiencia, convertimos los desafíos en hitos, gestionamos el cumplimiento, administramos equipos y ayudamos a las empresas a prosperar en nuevos mercados. Con más de 300 proyectos exitosos y operaciones en 14 ubicaciones, hemos perfeccionado los servicios EOR. Su visión nos impulsa, y nosotros aportamos las herramientas para hacerla realidad.",
   ],
   ["Understanding Employer Of Record Services", "Comprensión del empleador de servicios de registros"],
   [
-    "To redefine business expansion in Spain by creating a world where growth knows no limits. We aim to deliver 100% compliance, effortless solutions, and transformative opportunities—empowering companies to build their future with confidence. At IberiaEOR, we don’t just support businesses; we enable their success story.",
-    "Redefinir la expansión empresarial en España creando un mundo donde el crecimiento no conoce límites. Nuestro objetivo es ofrecer un cumplimiento del 100%, soluciones sencillas y oportunidades transformadoras—empoderando a las empresas para construir su futuro con confianza. En IberiaEOR, no solo apoyamos a las empresas; impulsamos su historia de éxito.",
+    "To redefine business expansion in Spain by creating a world where growth knows no limits. We aim to deliver 100% compliance, effortless solutions, and transformative opportunities-empowering companies to build their future with confidence. At IberiaEOR, we don’t just support businesses; we enable their success story.",
+    "Redefinir la expansión empresarial en España creando un mundo donde el crecimiento no conoce límites. Nuestro objetivo es ofrecer un cumplimiento del 100%, soluciones sencillas y oportunidades transformadoras-empoderando a las empresas para construir su futuro con confianza. En IberiaEOR, no solo apoyamos a las empresas; impulsamos su historia de éxito.",
   ],
   [
-    "To redefine business expansion in Spain by creating a world where growth knows no limits. We aim to deliver 100% compliance, effortless solutions, and transformative opportunities—empowering companies to build their future with confidence. At IberiaEOR, we don't just support businesses; we enable their success story.",
-    "Redefinir la expansión empresarial en España creando un mundo donde el crecimiento no conoce límites. Nuestro objetivo es ofrecer un cumplimiento del 100%, soluciones sencillas y oportunidades transformadoras—empoderando a las empresas para construir su futuro con confianza. En IberiaEOR, no solo apoyamos a las empresas; impulsamos su historia de éxito.",
+    "To redefine business expansion in Spain by creating a world where growth knows no limits. We aim to deliver 100% compliance, effortless solutions, and transformative opportunities-empowering companies to build their future with confidence. At IberiaEOR, we don't just support businesses; we enable their success story.",
+    "Redefinir la expansión empresarial en España creando un mundo donde el crecimiento no conoce límites. Nuestro objetivo es ofrecer un cumplimiento del 100%, soluciones sencillas y oportunidades transformadoras-empoderando a las empresas para construir su futuro con confianza. En IberiaEOR, no solo apoyamos a las empresas; impulsamos su historia de éxito.",
   ],
   ["We Have the Knowledge & Experience", "Nosotras tenemos el conocimiento y la experiencia"],
   ["Successfully Completed Projects", "Proyectos completados con éxito"],
@@ -65,8 +65,8 @@ const REPLACEMENTS = [
     "“IberiaEOR es nuestro verdadero socio en el crecimiento. Su experiencia y enfoque humano hacen que cada interacción sea un placer.”",
   ],
   [
-    "“Professional, responsive, and knowledgeable—Iberia EOR has been instrumental in our success across borders.”",
-    "“Profesionales, ágiles y con gran conocimiento—Iberia EOR ha sido clave en nuestro éxito más allá de las fronteras.”",
+    "“Professional, responsive, and knowledgeable-Iberia EOR has been instrumental in our success across borders.”",
+    "“Profesionales, ágiles y con gran conocimiento-Iberia EOR ha sido clave en nuestro éxito más allá de las fronteras.”",
   ],
   [
     "“Their team combines expertise with a personal touch, ensuring our needs are met. Iberia EOR stands out in the industry.”",

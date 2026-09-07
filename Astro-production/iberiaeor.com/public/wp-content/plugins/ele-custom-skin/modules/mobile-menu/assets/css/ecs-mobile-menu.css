@@ -1,5 +1,5 @@
 /* ============================================================
-   ECS Mobile Menu — WordPress Menu Responsive Layout Controls
+   ECS Mobile Menu - WordPress Menu Responsive Layout Controls
    ============================================================
 
    HOW IT WORKS
@@ -49,7 +49,7 @@
 	display: var( --ecs-nav-toggle-display, none ) !important;
 }
 
-/* Pointer visibility — reads --ecs-nav-ptr-vis set by the ecs_pointer_hide responsive
+/* Pointer visibility - reads --ecs-nav-ptr-vis set by the ecs_pointer_hide responsive
    control. visibility:hidden preserves layout space and does not block hover animations. */
 .ecs-nav-layout-horizontal .elementor-nav-menu--main .elementor-item::before,
 .ecs-nav-layout-horizontal .elementor-nav-menu--main .elementor-item::after,
@@ -67,7 +67,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   DROPDOWN ALIGNMENT — follows Toggle Button align
+   DROPDOWN ALIGNMENT - follows Toggle Button align
    Uses prefix_class ecs-toggle-align-{left|center|right} set
    by the Toggle Align CHOOSE control.
 
@@ -87,7 +87,7 @@
    This prevents overriding Smartmenus.js position calculations for
    nav menus using the native Elementor Breakpoint control (those
    have ecs-nav-layout-horizontal/vertical, not ecs-nav-layout-dropdown)
-   — Smartmenus sets left/top inline and CSS !important would win,
+   - Smartmenus sets left/top inline and CSS !important would win,
    misplacing the dropdown panel.
    ═══════════════════════════════════════════════════════════ */
 
@@ -146,7 +146,7 @@
    dropdown mode. These selectors have specificity 0,3,0 which
    beats the base variable rules (0,2,0) even at equal !important,
    so they override the inherited --ecs-nav-toggle-display:none.
-   Only targets horizontal/vertical — dropdown already works.
+   Only targets horizontal/vertical - dropdown already works.
    ═══════════════════════════════════════════════════════════ */
 
 @media (max-width: 767px) {

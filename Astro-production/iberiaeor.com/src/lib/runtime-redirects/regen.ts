@@ -3,7 +3,7 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
-/** Regenerate public/_redirects from YAML. Never throw — callers must still succeed. */
+/** Regenerate public/_redirects from YAML. Never throw - callers must still succeed. */
 export async function regenerateRedirectArtifacts(): Promise<{ ok: boolean; detail?: string }> {
   try {
     await execFileAsync("node", ["scripts/generate-redirects.mjs"], {

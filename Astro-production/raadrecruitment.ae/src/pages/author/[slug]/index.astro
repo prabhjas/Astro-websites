@@ -1,286 +1,98 @@
 ---
 /**
- * Author archive — mirrors live Elementor template 33086
- * (hero + optional avatar/bio + LinkedIn + “Post By …” + 3-col shortcode grid).
- * @see https://raadrecruitment.ae/author/muhammad-faieezvistaoutsourcing-com/
+ * Author archive — Elementor-861 blog cards + AJAX Load More
+ * (reuses /api/blog/load-more + blog-load-more.js).
  */
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import {
-  authors,
+  getAuthorBySlug,
   getPostsByAuthor,
-  formatDate,
+  paginate,
+  POSTS_PER_PAGE,
   stripHtml,
 } from "../../../lib/content";
+import { renderBlogCardsHtml } from "../../../lib/blog-card-html";
 import { breadcrumbSchema } from "../../../lib/seo";
+import { notFoundResponse } from "../../../lib/not-found";
 
-export function getStaticPaths() {
-  return authors.map((author) => ({
-    params: { slug: author.slug },
-    props: { author },
-  }));
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const author = getAuthorBySlug(slug);
+if (!author) {
+  return notFoundResponse();
 }
 
-const { author } = Astro.props;
-const posts = getPostsByAuthor(author.id);
+const sorted = getPostsByAuthor(author.id);
+const { items, hasNext } = paginate(sorted, 1, POSTS_PER_PAGE);
+const cardsHtml = items.length ? renderBlogCardsHtml(items) : "";
 const name = stripHtml(author.name);
-const bio = (author.description || "").replace(/\r\n/g, " ").replace(/\s+/g, " ").trim();
-
-/** Live shows a round avatar only for authors with an uploaded photo (not Gravatar). */
-function resolveAvatar(raw: string | undefined): string {
-  const src = (raw || "").replace(/^https?:\/\/raadrecruitment\.com/, "").trim();
-  if (!src || /gravatar\.com/i.test(src)) return "";
-  // Prefer a larger local size when only thumbnails exist in public/
-  return src
-    .replace(/-96x96\./, "-300x300.")
-    .replace(/-150x150\./, "-300x300.")
-    .replace(/\?.*$/, "");
-}
-
-const avatarSrc = resolveAvatar(author.avatar);
-const showAvatar = Boolean(avatarSrc);
-const showBio = Boolean(bio);
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function excerptText(html: string): string {
-  const raw = stripHtml(html || "").slice(0, 180).trim();
-  return raw ? `${raw}${raw.length >= 180 ? " […]" : ""}` : "";
-}
-
-const cardsHtml = posts
-  .map((post) => {
-    const title = stripHtml(post.title);
-    const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
-    const img = (post.featuredImage || "").replace(/^https?:\/\/raadrecruitment\.com/, "");
-    const imgHtml = img
-      ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(title)}" loading="lazy">`
-      : `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#1f1f1f;" aria-hidden="true"></div>`;
-    const excerpt = excerptText(post.excerpt || post.content || "");
-    const date = formatDate(post.date);
-    return `<div class="main-post post-wrap filter main-profile">
-  <a href="${escapeHtml(href)}">
-    ${imgHtml}
-    <div class="post-ct">
-      <h3>${escapeHtml(title)}</h3>
-      ${excerpt ? `<p>${escapeHtml(excerpt)}</p>` : ""}
-      <div class="bottom-ct">
-        <div><i class="fa fa-calendar" aria-hidden="true"></i><span>${escapeHtml(date)}</span></div>
-        <div><span>Read More</span></div>
-      </div>
-    </div>
-  </a>
-</div>`;
-  })
-  .join("\n");
+const bio = stripHtml(author.description || "").replace(/\s+/g, " ").trim();
 ---
 
 <BaseLayout
   currentPath={author.path}
-  bodyClass={`archive author author-${author.slug} author-${author.id} elementor-page-33086 elementor-template-full-width`}
+  bodyClass={`archive author author-${author.slug} author-${author.id}`}
   seo={{
-    title: `${name}, Author at Connect Free Zone`,
-    description: bio || `Articles by ${name}.`,
+    title: `${name}, Author at RAAD Recruitment`,
+    description: bio || `Articles by ${name} on RAAD Recruitment.`,
     canonical: author.path,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
+        { name: "Blog", url: "/blog/" },
         { name: "Authors", url: "/author/" },
         { name, url: author.path },
       ]),
     ],
   }}
-  extraCss={[
-    "/wp-content/plugins/elementor/assets/css/widget-heading.min.css",
-    "/wp-content/plugins/elementor/assets/css/widget-image.min.css",
-    "/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css",
-    "/wp-content/uploads/elementor/css/post-33086.css",
-    "/css/cfz-author-archive.css",
-  ]}
-  menuActivePath="/insights/"
+  extraCss={["/wp-content/uploads/elementor/css/post-861.css"]}
+  menuActivePath="/blog/"
 >
-  <div
-    data-elementor-type="archive"
-    data-elementor-id="33086"
-    class={`elementor elementor-33086 elementor-location-archive author-${author.slug}`}
-    data-elementor-post-type="elementor_library"
-  >
-    <section
-      class="elementor-section elementor-top-section elementor-element elementor-element-2f808f6 elementor-section-boxed elementor-section-height-default"
-      data-id="2f808f6"
-      data-element_type="section"
-      data-settings='{"background_background":"classic"}'
-    >
-      <div class="elementor-container elementor-column-gap-default">
-        <div
-          class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-9f91b2f"
-          data-id="9f91b2f"
-          data-element_type="column"
-        >
-          <div class="elementor-widget-wrap elementor-element-populated">
-            <div
-              class="elementor-element elementor-element-b363d20 elementor-widget elementor-widget-heading"
-              data-id="b363d20"
-              data-element_type="widget"
-              data-widget_type="heading.default"
-            >
-              <div class="elementor-widget-container">
-                <h1 class="elementor-heading-title elementor-size-default">{name}</h1>
-              </div>
-            </div>
-            {
-              showBio && (
-                <div
-                  class="elementor-element elementor-element-fadcc7a elementor-widget elementor-widget-heading"
-                  data-id="fadcc7a"
-                  data-element_type="widget"
-                  data-widget_type="heading.default"
-                >
-                  <div class="elementor-widget-container">
-                    <p class="elementor-heading-title elementor-size-default">{bio}</p>
-                  </div>
-                </div>
-              )
-            }
-          </div>
-        </div>
-      </div>
-    </section>
+  <section class="cfz-archive-hero">
+    <div class="cfz-archive-hero__inner">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Blog", href: "/blog/" },
+          { name: "Authors", href: "/author/" },
+          { name },
+        ]}
+      />
+      <h1>{name}</h1>
+      {bio ? <p class="cfz-archive-hero__bio">{bio}</p> : null}
+    </div>
+  </section>
 
-    <section
-      class="elementor-section elementor-top-section elementor-element elementor-element-9923ffb elementor-section-boxed elementor-section-height-default"
-      data-id="9923ffb"
-      data-element_type="section"
-    >
-      <div class="elementor-container elementor-column-gap-default">
-        <div
-          class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6fc8b09"
-          data-id="6fc8b09"
-          data-element_type="column"
-        >
-          <div class="elementor-widget-wrap elementor-element-populated">
-            {
-              showAvatar && (
-                <div
-                  class="elementor-element elementor-element-344f358 elementor-widget elementor-widget-image"
-                  data-id="344f358"
-                  data-element_type="widget"
-                  data-widget_type="image.default"
-                >
-                  <div class="elementor-widget-container">
-                    <img src={avatarSrc} alt={name} loading="lazy" />
-                  </div>
-                </div>
-              )
-            }
-            <div
-              class="elementor-element elementor-element-4b214f8 elementor-view-default elementor-widget elementor-widget-icon"
-              data-id="4b214f8"
-              data-element_type="widget"
-              data-widget_type="icon.default"
-            >
-              <div class="elementor-widget-container">
-                <div class="elementor-icon-wrapper">
-                  <div class="elementor-icon">
-                    <i aria-hidden="true" class="fab fa-linkedin" />
-                  </div>
-                </div>
+  <section class="cfz-archive-grid">
+    <h2 class="cfz-archive-grid__heading">Posts by {name}</h2>
+    {
+      items.length ? (
+        <>
+          <div
+            class="elementor-grid elementor-posts-container elementor-grid-3"
+            data-sp-author-grid
+            set:html={cardsHtml}
+          />
+          {
+            hasNext ? (
+              <div
+                class="cfz-archive-load-more"
+                data-sp-author-load-more
+                data-author-slug={author.slug}
+                data-per-page={String(POSTS_PER_PAGE)}
+              >
+                <button type="button" class="cfz-archive-load-more__btn">
+                  Load More
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section
-      class="elementor-section elementor-top-section elementor-element elementor-element-0bd910d elementor-section-boxed elementor-section-height-default"
-      data-id="0bd910d"
-      data-element_type="section"
-    >
-      <div class="elementor-container elementor-column-gap-default">
-        <div
-          class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-0efddac"
-          data-id="0efddac"
-          data-element_type="column"
-        >
-          <div class="elementor-widget-wrap elementor-element-populated">
-            <div
-              class="elementor-element elementor-element-d570478 elementor-widget elementor-widget-heading"
-              data-id="d570478"
-              data-element_type="widget"
-              data-widget_type="heading.default"
-            >
-              <div class="elementor-widget-container">
-                <h2 class="elementor-heading-title elementor-size-default">Post By {name}</h2>
-              </div>
-            </div>
-            <div
-              class="elementor-element elementor-element-121f319 elementor-widget elementor-widget-shortcode"
-              data-id="121f319"
-              data-element_type="widget"
-              data-widget_type="shortcode.default"
-            >
-              <div class="elementor-widget-container">
-                <div class="elementor-shortcode">
-                  {
-                    posts.length ? (
-                      <>
-                        <div class="filter-post" set:html={cardsHtml} />
-                        <div class="btn-load load-btn">
-                          <a href="#" id="loadMore">Load More</a>
-                        </div>
-                      </>
-                    ) : (
-                      <p>No posts by this author yet.</p>
-                    )
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <script is:inline>
-    document.addEventListener("DOMContentLoaded", function () {
-      var loadMore = document.getElementById("loadMore");
-      var posts = Array.prototype.slice.call(document.querySelectorAll(".main-post"));
-      if (!loadMore) return;
-      loadMore.style.display = "none";
-      if (posts.length > 9) {
-        posts.forEach(function (el, i) {
-          el.style.display = i < 9 ? "block" : "none";
-        });
-        loadMore.style.display = "inline-block";
-      } else {
-        posts.forEach(function (el) {
-          el.style.display = "block";
-        });
-      }
-      loadMore.addEventListener("click", function (e) {
-        e.preventDefault();
-        var hidden = posts.filter(function (el) {
-          return el.style.display === "none";
-        });
-        hidden.slice(0, 3).forEach(function (el) {
-          el.style.display = "block";
-        });
-        if (
-          posts.filter(function (el) {
-            return el.style.display === "none";
-          }).length === 0
-        ) {
-          loadMore.style.display = "none";
-          loadMore.classList.add("noContent");
-        }
-      });
-    });
-  </script>
+            ) : null
+          }
+        </>
+      ) : (
+        <p>No posts by this author yet.</p>
+      )
+    }
+  </section>
 </BaseLayout>

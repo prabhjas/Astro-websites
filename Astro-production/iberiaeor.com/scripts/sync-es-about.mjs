@@ -88,7 +88,7 @@ let res = await fetch(sourceUrl, {
 let html = await res.text();
 let title = (html.match(/<title>([^<]+)/i) || [])[1] || "";
 if (!res.ok || /page not found/i.test(title) || !/data-elementor-type="wp-page"/.test(html)) {
-  console.warn("pretty /es/about-us/ unavailable (", res.status, title.slice(0, 40), ") — using live About structure");
+  console.warn("pretty /es/about-us/ unavailable (", res.status, title.slice(0, 40), ") - using live About structure");
   sourceUrl = SOURCE;
   res = await fetch(sourceUrl, { headers: { "User-Agent": UA, Accept: "text/html" } });
   html = await res.text();
