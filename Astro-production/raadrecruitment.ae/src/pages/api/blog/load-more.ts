@@ -7,17 +7,33 @@ import {
   INSIGHTS_GRID_PER_PAGE,
   renderInsightsImprezaGridHtml,
 } from "../../../lib/insights-archive";
-import { getPosts, paginate } from "../../../lib/content";
+import {
+  getAuthorBySlug,
+  getPosts,
+  getPostsByAuthor,
+  normalizePath,
+  paginate,
+} from "../../../lib/content";
 
 export const prerender = false;
 
-function parseExclude(raw: string | null): Set<number> {
+function parseExcludeIds(raw: string | null): Set<number> {
   if (!raw) return new Set();
   return new Set(
     raw
       .split(",")
       .map((s) => Number(s.trim()))
       .filter((n) => Number.isFinite(n) && n > 0),
+  );
+}
+
+function parseExcludePaths(raw: string | null): Set<string> {
+  if (!raw) return new Set();
+  return new Set(
+    raw
+      .split(",")
+      .map((s) => normalizePath(s.trim()))
+      .filter(Boolean),
   );
 }
 
@@ -30,8 +46,34 @@ export const GET: APIRoute = async ({ url }) => {
     Math.max(1, Number(url.searchParams.get("perPage") || perPageDefault) || perPageDefault),
   );
 
-  const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  const exclude = parseExclude(url.searchParams.get("exclude"));
+  const authorSlug = (url.searchParams.get("authorSlug") || url.searchParams.get("author") || "")
+    .trim()
+    .toLowerCase();
+
+  let sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
+
+  if (authorSlug) {
+    const author = getAuthorBySlug(authorSlug);
+    if (!author) {
+      return new Response(JSON.stringify({ ok: false, error: "author_not_found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      });
+    }
+    sorted = getPostsByAuthor(author.id);
+  }
+
+  const excludeIds = parseExcludeIds(url.searchParams.get("exclude"));
+  const excludePaths = parseExcludePaths(url.searchParams.get("excludePaths"));
+  const useExclude = excludeIds.size > 0 || excludePaths.size > 0;
+
+  let pool = sorted;
+  if (excludeIds.size) {
+    pool = pool.filter((p) => !excludeIds.has(p.id));
+  }
+  if (excludePaths.size) {
+    pool = pool.filter((p) => !excludePaths.has(normalizePath(p.path)));
+  }
 
   let items: typeof sorted;
   let page: number;
@@ -41,19 +83,26 @@ export const GET: APIRoute = async ({ url }) => {
   let nextOffset: number | null;
   const total = sorted.length;
 
-  if (isImpreza) {
-    const remaining = exclude.size
-      ? sorted.filter((p) => !exclude.has(p.id))
-      : sorted.slice(Math.max(0, Number(url.searchParams.get("offset") || "0") || 0));
+  if (useExclude) {
+    // Append-next-batch mode (blog + author Load More)
+    items = pool.slice(0, perPage);
+    hasMore = pool.length > items.length;
+    nextOffset = null;
+    page = 1;
+    totalPages = Math.max(1, Math.ceil(pool.length / perPage));
+    nextPage = hasMore ? 2 : null;
+  } else if (isImpreza) {
+    const offset = Math.max(0, Number(url.searchParams.get("offset") || "0") || 0);
+    const remaining = pool.slice(offset);
     items = remaining.slice(0, perPage);
     hasMore = remaining.length > items.length;
-    nextOffset = null;
+    nextOffset = hasMore ? offset + items.length : null;
     page = 1;
     totalPages = Math.max(1, Math.ceil(remaining.length / perPage));
     nextPage = hasMore ? 2 : null;
   } else {
     page = Math.max(1, Number(url.searchParams.get("page") || "1") || 1);
-    const slice = paginate(sorted, page, perPage);
+    const slice = paginate(pool, page, perPage);
     items = slice.items;
     totalPages = slice.totalPages;
     hasMore = slice.hasNext;
@@ -75,6 +124,7 @@ export const GET: APIRoute = async ({ url }) => {
       hasMore,
       nextPage,
       nextOffset,
+      authorSlug: authorSlug || null,
       html,
     }),
     {

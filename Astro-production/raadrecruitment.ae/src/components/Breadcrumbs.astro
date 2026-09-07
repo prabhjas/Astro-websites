@@ -1,20 +1,30 @@
 ---
 interface Props {
   items: { name: string; href?: string }[];
+  /** Optional extra class on the nav (e.g. for page-chrome placement). */
+  class?: string;
 }
 
-const { items } = Astro.props;
+const { items, class: className = "" } = Astro.props;
+const navClass = ["sp-breadcrumbs", className].filter(Boolean).join(" ");
 ---
 
-<nav class="sp-breadcrumbs" aria-label="Breadcrumb">
+<nav class={navClass} aria-label="Breadcrumb">
   <ol>
     {
-      items.map((item, i) => (
-        <li>
-          {item.href && i < items.length - 1 ? <a href={item.href}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
-          {i < items.length - 1 ? <span class="sep">/</span> : null}
-        </li>
-      ))
+      items.map((item, i) => {
+        const isCurrent = i === items.length - 1;
+        return (
+          <li>
+            {!isCurrent && item.href ? (
+              <a href={item.href}>{item.name}</a>
+            ) : (
+              <span aria-current="page">{item.name}</span>
+            )}
+            {!isCurrent ? <span class="sep" aria-hidden="true">/</span> : null}
+          </li>
+        );
+      })
     }
   </ol>
 </nav>
@@ -30,8 +40,13 @@ const { items } = Astro.props;
     align-items: center;
   }
 
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
   .sep {
-    opacity: 0.5;
-    margin-left: 0.2rem;
+    opacity: 0.55;
   }
 </style>

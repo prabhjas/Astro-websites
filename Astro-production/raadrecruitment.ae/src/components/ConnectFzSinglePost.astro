@@ -4,7 +4,7 @@
  * Title hero, featured image, author box, share buttons, and
  * Contact Us Now sidebar are intentionally omitted.
  */
-import { stripHtml, type PostEntry } from "../lib/content";
+import { type PostEntry } from "../lib/content";
 
 interface Props {
   post: PostEntry;
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const { post, html } = Astro.props;
-const title = stripHtml(post.title);
 ---
 
 <div
@@ -21,8 +20,6 @@ const title = stripHtml(post.title);
   class={`elementor elementor-33241 elementor-location-single post-${post.id} post type-post status-publish format-standard hentry`}
   data-elementor-post-type="elementor_library"
 >
-  <h1 class="screen-reader-text">{title}</h1>
-
   <section
     class="elementor-section elementor-top-section elementor-element elementor-element-a78ec33 custom-blog elementor-section-boxed elementor-section-height-default"
     data-id="a78ec33"

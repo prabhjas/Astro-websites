@@ -1,6 +1,6 @@
 /**
- * Blog Load More — replaces ECS WordPress AJAX with Astro /api/blog/load-more.
- * Appends Elementor-861 cards into the existing ECS posts grid.
+ * Blog / Author Load More — Astro /api/blog/load-more.
+ * Appends Elementor-861 cards into the existing posts grid.
  *
  * Important: mirrored blog HTML uses live WP post IDs (e.g. post-5358), while
  * posts.json uses local CMS ids. Always exclude by permalink path.
@@ -28,7 +28,6 @@
     var seen = Object.create(null);
     var roots = [];
     if (scope && scope.querySelectorAll) roots.push(scope);
-    // Also exclude featured/sidecar ECS grids (e.g. latest post above the main grid).
     document.querySelectorAll(".ecs-posts.elementor-posts-container").forEach(function (g) {
       if (roots.indexOf(g) === -1) roots.push(g);
     });
@@ -48,31 +47,24 @@
     return paths;
   }
 
-  ready(function () {
-    var nav =
-      document.querySelector("[data-sp-blog-load-more]") ||
-      document.querySelector(".ecs-load-more-button");
-    if (!nav) return;
+  function bindLoadMore(options) {
+    var nav = document.querySelector(options.navSelector);
+    if (!nav) return null;
 
-    var grid =
-      document.querySelector("[data-sp-blog-grid]") ||
-      (function () {
-        var all = document.querySelectorAll(".ecs-posts.elementor-posts-container");
-        return all.length ? all[all.length - 1] : null;
-      })();
-    if (!grid) return;
+    var grid = document.querySelector(options.gridSelector);
+    if (!grid && options.gridFallback) grid = options.gridFallback();
+    if (!grid) return null;
 
     var btn = nav.querySelector("a.elementor-button, a, button");
-    if (!btn) return;
+    if (!btn) return null;
 
-    // Neutralize ECS WP admin-ajax href so only our handler runs.
     if (btn.tagName === "A") {
       btn.setAttribute("href", "#");
       btn.setAttribute("role", "button");
     }
 
-    // Live ECS widget loads 6 posts per click (not "however many are on screen").
-    var perPage = Number(nav.getAttribute("data-per-page") || "") || 6;
+    var perPage = Number(nav.getAttribute("data-per-page") || "") || options.defaultPerPage || 6;
+    var authorSlug = (nav.getAttribute("data-author-slug") || "").trim();
     var loading = false;
     var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
@@ -88,6 +80,7 @@
       if (event && event.stopPropagation) event.stopPropagation();
       if (loading || nav.hidden) return;
       loading = true;
+      btn.setAttribute("aria-busy", "true");
       setLabel("Loading...");
 
       var paths = collectShownPaths(grid);
@@ -95,6 +88,9 @@
         "/api/blog/load-more/?perPage=" +
         encodeURIComponent(String(perPage)) +
         (paths.length ? "&excludePaths=" + encodeURIComponent(paths.join(",")) : "&page=2");
+      if (authorSlug) {
+        url += "&authorSlug=" + encodeURIComponent(authorSlug);
+      }
 
       fetch(url, { headers: { Accept: "application/json" }, credentials: "same-origin" })
         .then(function (res) {
@@ -111,6 +107,7 @@
           } else {
             nav.hidden = true;
             nav.style.display = "none";
+            btn.setAttribute("aria-hidden", "true");
           }
         })
         .catch(function (err) {
@@ -119,17 +116,39 @@
         })
         .finally(function () {
           loading = false;
+          btn.removeAttribute("aria-busy");
         });
     }
 
     btn.addEventListener("click", onClick, true);
+    return onClick;
+  }
 
-    window.ECS_load_next_page = function () {
-      onClick({
-        preventDefault: function () {},
-        stopPropagation: function () {},
-        stopImmediatePropagation: function () {},
-      });
-    };
+  ready(function () {
+    var blogClick = bindLoadMore({
+      navSelector: "[data-sp-blog-load-more], .ecs-load-more-button",
+      gridSelector: "[data-sp-blog-grid]",
+      defaultPerPage: 6,
+      gridFallback: function () {
+        var all = document.querySelectorAll(".ecs-posts.elementor-posts-container");
+        return all.length ? all[all.length - 1] : null;
+      },
+    });
+
+    bindLoadMore({
+      navSelector: "[data-sp-author-load-more]",
+      gridSelector: "[data-sp-author-grid]",
+      defaultPerPage: 9,
+    });
+
+    if (blogClick) {
+      window.ECS_load_next_page = function () {
+        blogClick({
+          preventDefault: function () {},
+          stopPropagation: function () {},
+          stopImmediatePropagation: function () {},
+        });
+      };
+    }
   });
 })();
