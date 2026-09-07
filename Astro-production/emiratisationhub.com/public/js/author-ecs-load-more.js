@@ -141,7 +141,7 @@
 
         var exclude = existingSlugs(container);
         var url =
-          '/api/blog/load-more?slug=' +
+          '/api/blog/load-more/?slug=' +
           encodeURIComponent(authorSlug) +
           '&exclude=' +
           encodeURIComponent(exclude.join(',')) +
