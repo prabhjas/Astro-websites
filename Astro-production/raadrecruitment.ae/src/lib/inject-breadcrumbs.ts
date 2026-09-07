@@ -7,7 +7,6 @@
  *         (Elementor's `.elementor-page-title` is often `display:none` via --page-title-display)
  */
 import * as cheerio from "cheerio";
-import type { AnyNode, Element } from "domhandler";
 
 export type BreadcrumbInjectMode = "service" | "post";
 
@@ -36,17 +35,17 @@ function findFeaturedImageBeforeTitle($: cheerio.CheerioAPI) {
   const titleWidget = findPostTitleWidget($);
   if (!titleWidget?.length) return null;
   const wrap = titleWidget.parent();
-  const siblings = wrap.children(".elementor-element").toArray() as Element[];
-  const titleEl = titleWidget.get(0) as Element | undefined;
+  const siblings = wrap.children(".elementor-element");
+  const titleEl = titleWidget.get(0);
   if (!titleEl) return null;
-  const titleIdx = siblings.indexOf(titleEl);
+  const titleIdx = siblings.index(titleEl);
   if (titleIdx <= 0) return null;
 
   for (let i = titleIdx - 1; i >= 0; i--) {
-    const el = siblings[i];
-    const type = el.attribs?.["data-widget_type"] || "";
+    const el = siblings.eq(i);
+    const type = el.attr("data-widget_type") || "";
     if (type === "theme-post-featured-image.default") {
-      return $(el as AnyNode);
+      return el;
     }
   }
   return null;
