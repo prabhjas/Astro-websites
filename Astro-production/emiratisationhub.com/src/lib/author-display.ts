@@ -22,7 +22,9 @@ export const LIVE_AUTHOR_OVERRIDES: Record<
 > = {
   nakul: {
     name: 'Nakul',
+    title: 'Head of Recruitment',
     avatar: '/wp-content/uploads/2024/05/cropped-8.png',
+    bio: 'Nakul Sachdeva is Head of Recruitment at EmiratisationHub. His expertise has crossed multiple categories and channels with functional expertise in a variety of industries. He has 10 years of career in executive search firms and supported end to end Recruitment for Major Banks, Financial Institution, IT and Consulting firms based out of Toronto, Canada and Dubai, UAE. He manages end to end Recruitment at EmiratisationHub as well as serves as the client’s initial point of contact when seeking recruiting services.',
   },
   'binju-t-r': {
     name: 'Binju T. R',

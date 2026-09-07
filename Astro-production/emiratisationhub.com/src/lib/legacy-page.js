@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
+import { injectRelatedArticlesHtml } from './blog.ts';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://emiratisationhub.com')
   .trim()
@@ -228,7 +229,16 @@ export function serveLegacyPage(slug) {
     html = html.replace(/astro-mirror-fixes\.js(?:\?[^"']*)?/g, 'astro-mirror-fixes.js?v=20260819-icons3');
   }
 
+  // Author single: ECS Load More hits stubbed admin-ajax.php ("0") — replace with Astro API.
+  if (/^author\/[^/]+$/i.test(slug) && !html.includes('author-ecs-load-more.js')) {
+    html = html.replace(
+      /<\/body>/i,
+      '<script src="/js/author-ecs-load-more.js" defer></script>\n</body>',
+    );
+  }
+
   html = sanitizeMirrorHtml(html);
+  html = injectRelatedArticlesHtml(html, slug);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

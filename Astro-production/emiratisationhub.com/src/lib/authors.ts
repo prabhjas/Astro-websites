@@ -3,7 +3,6 @@
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 import { applySharedChrome } from './shared-chrome.js';
 import {
@@ -280,9 +279,27 @@ function wrapInAuthorShell(
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const $ = cheerio.load(html, { xml: { decodeEntities: false } } as any);
-  $('.elementor-location-archive').html(`<div class="emiratisationhub-author-page">${mainInner}</div>`);
-  html = $.html();
+
+  // Avoid cheerio here — it mangles WP Rocket / Elementor <script> bodies (</ becomes </=).
+  const archiveClass = 'elementor-location-archive';
+  const archiveClassIdx = html.indexOf(archiveClass);
+  if (archiveClassIdx < 0) {
+    throw new Error('Author shell missing elementor-location-archive container');
+  }
+  const archiveOpen = html.lastIndexOf('<div', archiveClassIdx);
+  const footerIdx = html.indexOf('elementor-location-footer', archiveClassIdx);
+  if (archiveOpen < 0 || footerIdx < 0) {
+    throw new Error('Author shell archive/footer markers not found');
+  }
+  const archiveClose = html.lastIndexOf('</div>', footerIdx);
+  if (archiveClose <= archiveOpen) {
+    throw new Error('Author shell archive close tag not found');
+  }
+  const openEnd = html.indexOf('>', archiveClassIdx) + 1;
+  html =
+    html.slice(0, openEnd) +
+    `<div class="emiratisationhub-author-page">${mainInner}</div>` +
+    html.slice(archiveClose);
 
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(meta.title)}</title>`);
 
@@ -355,8 +372,8 @@ export function assembleAuthorProfileHtml(data: {
   totalPosts: number;
 }): string {
   const { author, posts, totalPosts } = data;
-  const title = author.og?.title || `${author.name}, Author at KPMPRO`;
-  const description = author.description || author.bio || '';
+  const title = author.og?.title || `${author.name} | Author at Emiratisation Hub`;
+  const description = author.description || author.bio || `Articles by ${author.name}`;
   const main = buildAuthorProfileMain(author, posts, totalPosts);
   return wrapInAuthorShell(
     main,

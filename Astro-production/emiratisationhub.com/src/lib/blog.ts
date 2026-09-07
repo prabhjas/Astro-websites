@@ -861,8 +861,10 @@ export function buildPostCardHtml(post: BlogPost): string {
     ? `<img decoding="async" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" loading="lazy" />`
     : '';
 
+  // Match Elementor loop template 1985 markup (widget 173ffbd) so post-1985.css
+  // applies the correct 20px card title — not the single-post page-title size.
   return `<article id="${postDomId}" class="elementor-post elementor-grid-item ecs-post-loop ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}">
-				<div data-elementor-type="loop" data-elementor-id="1985" class="elementor elementor-1985 ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
+				<div data-elementor-type="loop" data-elementor-id="1985" class="elementor elementor-1985 elementor-location-single ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
 					<section class="elementor-section elementor-top-section elementor-element elementor-element-d3a6f07 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="d3a6f07" data-element_type="section" data-e-type="section">
 						<div class="elementor-container elementor-column-gap-default">
 					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-c251a4c" data-id="c251a4c" data-element_type="column" data-e-type="column">
@@ -906,7 +908,7 @@ export function buildPostCardHtml(post: BlogPost): string {
 				</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-ad018c1 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="ad018c1" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-element elementor-element-173ffbd elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="173ffbd" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
 				<div class="elementor-widget-container">
 					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
 				</div>
@@ -1006,6 +1008,91 @@ export function getPostsByCategorySlug(categorySlug: string): BlogPost[] {
   return getAllBlogPosts().filter((post) =>
     post.categories.some((cat) => getCategorySlug(cat) === categorySlug),
   );
+}
+
+/**
+ * Related articles for a single post: only posts that share a category or tag.
+ * Always excludes the current slug. Does not fill with unrelated recent posts.
+ */
+export function getRelatedPosts(post: BlogPost, limit = 4): BlogPost[] {
+  const catSlugs = new Set(post.categories.map((c) => getCategorySlug(c)));
+  const primarySlug = post.categories[0] ? getCategorySlug(post.categories[0]) : '';
+  const tagSlugs = new Set((post.tags || []).map((t) => t.slug).filter(Boolean));
+  const others = getAllBlogPosts().filter((p) => p.slug !== post.slug);
+
+  const scored = others
+    .map((p) => {
+      let score = 0;
+      for (let i = 0; i < p.categories.length; i++) {
+        const slug = getCategorySlug(p.categories[i]);
+        if (!catSlugs.has(slug)) continue;
+        const otherPrimary = i === 0;
+        score += otherPrimary && slug === primarySlug ? 5 : 3;
+      }
+      for (const tag of p.tags || []) {
+        if (tag.slug && tagSlugs.has(tag.slug)) score += 2;
+      }
+      return { p, score };
+    })
+    .filter((row) => row.score > 0);
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return new Date(b.p.publishedAt).getTime() - new Date(a.p.publishedAt).getTime();
+  });
+
+  return scored.map((row) => row.p).slice(0, limit);
+}
+
+/**
+ * Swap the frozen Elementor "Related Articles" grid (widget 14ff441) with
+ * cards for the current post. Leaves the heading and card chrome unchanged.
+ */
+export function injectRelatedArticlesHtml(html: string, slug: string): string {
+  if (!html || !slug) return html;
+  if (!/Related Articles/i.test(html)) return html;
+  if (!html.includes('elementor-element-14ff441')) return html;
+
+  const post = getBlogPost(slug);
+  if (!post) return html;
+
+  const related = getRelatedPosts(post, 4);
+
+  // Prefer the live posts widget in <body> — ignore any CSS selector text in <head>.
+  const bodyIdx = html.indexOf('<body');
+  const widgetIdx = html.indexOf('elementor-element-14ff441', bodyIdx > 0 ? bodyIdx : 0);
+  if (widgetIdx < 0) return html;
+  const ecsOpen = html.indexOf('ecs-posts', widgetIdx);
+  if (ecsOpen < 0) return html;
+
+  const firstArticle = html.indexOf('<article', ecsOpen);
+  if (firstArticle < 0) return html;
+
+  const footerIdx = html.indexOf('elementor-location-footer', firstArticle);
+  const searchEnd = footerIdx > 0 ? footerIdx : html.length;
+  const lastArticle = html.lastIndexOf('</article>', searchEnd);
+  if (lastArticle < firstArticle) return html;
+
+  const replaceEnd = lastArticle + '</article>'.length;
+  // Only same-category/tag posts — never keep the frozen WP snapshot fillers.
+  const cards = related.length ? related.map((p) => buildPostCardHtml(p)).join('\n') : '';
+  let out = html.slice(0, firstArticle) + cards + html.slice(replaceEnd);
+
+  // Keep related card titles at loop-1985 size (20px), not single-post page-title size.
+  if (!out.includes('astro-related-articles-css')) {
+    const css = `<style id="astro-related-articles-css">
+.elementor-element-14ff441 .elementor-1985 .elementor-element-173ffbd .elementor-heading-title{
+  font-family:Poppins,sans-serif;font-size:20px;font-weight:600;line-height:26px;letter-spacing:-0.6px;color:#121212;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.elementor-element-14ff441 .elementor-1985 .elementor-element-173ffbd .elementor-heading-title a{color:inherit;text-decoration:none}
+@media(max-width:1024px){.elementor-element-14ff441 .elementor-1985 .elementor-element-173ffbd .elementor-heading-title{font-size:18px;line-height:23px}}
+@media(max-width:767px){.elementor-element-14ff441 .elementor-1985 .elementor-element-173ffbd .elementor-heading-title{font-size:22px;line-height:28px}}
+</style>`;
+    out = /<\/head>/i.test(out) ? out.replace(/<\/head>/i, `${css}\n</head>`) : css + out;
+  }
+
+  return out;
 }
 
 export function getPostsByTagSlug(tagSlug: string): BlogPost[] {
