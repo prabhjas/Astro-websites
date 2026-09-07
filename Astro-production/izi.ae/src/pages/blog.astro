@@ -9,12 +9,38 @@ import { injectRuntimeGtmLoader } from '../lib/gtm/inject';
 import { applySharedChrome, injectLicenceSection } from '../lib/shared-chrome.js';
 import { resolveSiteOrigin } from '../lib/seo/site-url';
 import { fixBlogArchiveHeadings, applyLegacyMirrorHygiene } from '../lib/mirror-hygiene.js';
+import { buildInsightsCardHtml, getAllBlogPosts } from '../lib/blog.ts';
+import * as cheerio from 'cheerio';
 
 export const prerender = false;
 
 /** Initial ECS grid (widget 9a2f334) ships 6 cards; load more appends 6 per click. */
 const BLOG_INITIAL = 6;
 const BLOG_PER_PAGE = 6;
+
+function injectLatestBlogCards(html: string): string {
+  const $ = cheerio.load(html);
+  const posts = getAllBlogPosts();
+
+  const fillGrid = (sel: string, count: number) => {
+    const grid = $(sel).first();
+    if (grid.length && count > 0) {
+      grid.html(posts.slice(0, count).map(buildInsightsCardHtml).join('\n'));
+    }
+  };
+
+  fillGrid('.elementor-element-b218552 .ecs-posts', 2);
+  fillGrid('.elementor-element-7377deb .ecs-posts', $('.elementor-element-7377deb .ecs-posts article').length || 3);
+
+  const loadmore = $('.ecs-posts').filter((_, el) =>
+    String($(el).attr('data-settings') || '').includes('loadmore'),
+  ).first();
+  const grid = loadmore.length ? loadmore : $('.ecs-posts.elementor-posts-container').last();
+  if (grid.length) {
+    grid.html(posts.slice(0, BLOG_INITIAL).map(buildInsightsCardHtml).join('\n'));
+  }
+  return $.html();
+}
 
 function absolutizeBlogSeo(html: string): string {
   let origin = 'https://izi.ae';
@@ -127,6 +153,7 @@ if (!existsSync(cleanedPath)) {
 }
 
 let html = readFileSync(cleanedPath, 'utf8');
+html = injectLatestBlogCards(html);
 html = absolutizeBlogSeo(
   applyLegacyMirrorHygiene(
     decorateBlogPage(injectRuntimeGtmLoader(injectLicenceSection(applySharedChrome(html, 'blog')))),

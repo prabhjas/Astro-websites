@@ -974,7 +974,9 @@ export function getAllBlogPosts(): BlogPost[] {
   const rest = posts
     .filter((p) => !seen.has(p.slug))
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-  return [...ordered, ...rest];
+  // CMS posts not in the WP order file must appear first so newly published
+  // articles show at the top of Insights without a manual order-file edit.
+  return [...rest, ...ordered];
 }
 
 function loadWpBlogOrder(): string[] {

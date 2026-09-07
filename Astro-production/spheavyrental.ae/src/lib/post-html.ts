@@ -221,6 +221,24 @@ function extractAuthorBox(html: string): { start: number; end: number; snippet: 
   return null;
 }
 
+function resolveAvatarSrc(authorAvatar: string | undefined, fallbackImg: string): string {
+  let src = normalizeAttr(authorAvatar || "");
+  if (!src) {
+    const srcMatch = fallbackImg.match(/\bsrc="([^"]*)"/i);
+    if (srcMatch) src = normalizeAttr(srcMatch[1]);
+  }
+  if (src.includes("gravatar.com")) {
+    try {
+      const url = new URL(src);
+      url.searchParams.set("s", "100");
+      src = url.toString();
+    } catch {
+      /* keep original */
+    }
+  }
+  return src;
+}
+
 function linkAuthorBoxSnippet(
   snippet: string,
   href: string,
@@ -228,39 +246,25 @@ function linkAuthorBoxSnippet(
   authorAvatar?: string,
 ): string {
   const avatarAlt = `Picture of ${displayName}`;
+  const safeHref = escapeAttr(href);
+  const safeName = escapeAttr(displayName);
   let out = snippet;
 
-  if (!/elementor-author-box__avatar[\s\S]*?<a[\s>]/i.test(out)) {
-    out = out.replace(
-      /(<div class="elementor-author-box__avatar">\s*)(<img\b[^>]*>)(\s*<\/div>)/i,
-      (_match, pre: string, img: string, post: string) => {
-        let src = normalizeAttr(authorAvatar || "");
-        const srcMatch = img.match(/\bsrc="([^"]*)"/i);
-        if (!src && srcMatch) src = normalizeAttr(srcMatch[1]);
-        if (src.includes("gravatar.com")) {
-          try {
-            const url = new URL(src);
-            url.searchParams.set("s", "100");
-            src = url.toString();
-          } catch {
-            /* keep original */
-          }
-        }
-        if (!src) return `${pre}${img}${post}`;
-        return `${pre}<a href="${escapeAttr(href)}"><img src="${escapeAttr(src)}" alt="${escapeAttr(avatarAlt)}" width="50" height="50" loading="eager" decoding="async"></a>${post}`;
-      },
-    );
-  }
+  // Always rewrite avatar + name from the live post author (bodyHtml is a frozen WP mirror).
+  out = out.replace(
+    /(<div class="elementor-author-box__avatar">\s*)(?:<a\b[^>]*>\s*)?(<img\b[^>]*>)(?:\s*<\/a>)?(\s*<\/div>)/i,
+    (_match, pre: string, img: string, post: string) => {
+      const src = resolveAvatarSrc(authorAvatar, img);
+      if (!src) return `${pre}${img}${post}`;
+      return `${pre}<a href="${safeHref}"><img src="${escapeAttr(src)}" alt="${escapeAttr(avatarAlt)}" width="50" height="50" loading="eager" decoding="async"></a>${post}`;
+    },
+  );
 
-  if (!/elementor-author-box__name[\s\S]*?<a[\s>]/i.test(out)) {
-    out = out.replace(
-      /(<h4 class="elementor-author-box__name">\s*)([\s\S]*?)(\s*<\/h4>)/i,
-      (_match, pre: string, text: string, post: string) => {
-        const name = text.replace(/\s+/g, " ").trim() || displayName;
-        return `${pre}<a href="${escapeAttr(href)}">${escapeAttr(name)}</a>${post}`;
-      },
-    );
-  }
+  out = out.replace(
+    /(<h4 class="elementor-author-box__name">\s*)(?:<a\b[^>]*>\s*)?([\s\S]*?)(?:\s*<\/a>)?(\s*<\/h4>)/i,
+    (_match, pre: string, _text: string, post: string) =>
+      `${pre}<a href="${safeHref}">${safeName}</a>${post}`,
+  );
 
   return out;
 }

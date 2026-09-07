@@ -377,7 +377,10 @@ export function createOrUpdatePost(args: {
     post.slug = targetSlug;
   } else {
     const authors = readAuthors();
-    const author = authors.find((a) => a.slug === "faieez") || authors[0];
+    const author =
+      authors.find((a) => a.slug === "calvin-misquith") ||
+      authors.find((a) => a.slug === "nadeem-khan") ||
+      authors[0];
     post = {
       slug: targetSlug,
       title: args.title,

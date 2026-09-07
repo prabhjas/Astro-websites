@@ -639,9 +639,7 @@ ${
 }
 
 /**
- * Insights /blog/ Load More cards — Elementor loop template 124 (vertical grid).
- * Matches the static ECS grid in blog.cleaned.html (widget f2c45fb).
- * Do NOT use template 1176 here — that is a horizontal 50/50 skin.
+ * Insights /blog/ cards — Elementor loop template 850 (widget 5347921).
  */
 export function buildInsightsCardHtml(post: BlogPost): string {
   const categoriesHtml = post.categories
@@ -658,24 +656,24 @@ export function buildInsightsCardHtml(post: BlogPost): string {
     .map((c) => ` category-${(c.slug || getCategorySlug(c)).toLowerCase().replace(/\s+/g, '-')}`)
     .join('');
   const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
-  const classBits = `elementor-post elementor-grid-item ecs-post-loop ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}`;
+  const classBits = `elementor-post elementor-grid-item ecs-post-loop ${postDomId} post type-post status-publish format-standard has-post-thumbnail hentry${catClasses}`;
   const imgTag = imgSrc
     ? `<img loading="lazy" decoding="async" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" />`
     : '';
 
   return `<article id="${postDomId}" class="${classBits}">
-				<div data-elementor-type="loop" data-elementor-id="124" class="elementor elementor-124 ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
-					<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-236d962 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="236d962" data-element_type="section" data-e-type="section">
+				<div data-elementor-type="loop" data-elementor-id="850" class="elementor elementor-850 ${postDomId} post type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-8100068 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="8100068" data-element_type="section" data-e-type="section">
 						<div class="elementor-container elementor-column-gap-default">
-					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3251419" data-id="3251419" data-element_type="column" data-e-type="column">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-7ec623a4" data-id="7ec623a4" data-element_type="column" data-e-type="column">
 			<div class="elementor-widget-wrap elementor-element-populated">
-						<div class="elementor-element elementor-element-250e722 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="250e722" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+						<div class="elementor-element elementor-element-4cdc0e32 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="4cdc0e32" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
 				<div class="elementor-widget-container">
 																<a href="${postUrl}">
 							${imgTag}								</a>
 															</div>
 				</div>
-				<div class="elementor-element elementor-element-40acfd9 elementor-widget elementor-widget-post-info" data-id="40acfd9" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-element elementor-element-3efd3f1c elementor-widget elementor-widget-post-info" data-id="3efd3f1c" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
 				<div class="elementor-widget-container">
 							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
 								<li class="elementor-icon-list-item elementor-repeater-item-a806943 elementor-inline-item" itemprop="datePublished">
@@ -685,11 +683,11 @@ export function buildInsightsCardHtml(post: BlogPost): string {
 				</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-720193c elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="720193c" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-element elementor-element-adff9d elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="adff9d" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
 				<div class="elementor-widget-container">
-					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
+					<h3 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h3>				</div>
 				</div>
-				<div class="elementor-element elementor-element-494b02e elementor-widget elementor-widget-post-info" data-id="494b02e" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-element elementor-element-e441767 elementor-widget elementor-widget-post-info" data-id="e441767" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
 				<div class="elementor-widget-container">
 							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
 								<li class="elementor-icon-list-item elementor-repeater-item-bd96b6f elementor-inline-item" itemprop="about">

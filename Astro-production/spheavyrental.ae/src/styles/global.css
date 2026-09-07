@@ -629,6 +629,12 @@ body.sp-authors-page
   width: 24px;
   height: 24px;
   overflow: hidden;
+  display: block;
+  line-height: 0;
+}
+
+.sp-author-card__social:hover {
+  opacity: 0.85;
 }
 
 .sp-author-card__social img {

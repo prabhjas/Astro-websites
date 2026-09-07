@@ -85,4 +85,5 @@ export type AuthorEntry = {
   path: string;
   description: string;
   avatar: string;
+  linkedin?: string;
 };

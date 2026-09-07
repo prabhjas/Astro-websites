@@ -850,6 +850,56 @@ export function getAllBlogPosts(): BlogPost[] {
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
+/** Fill a frozen author-archive ECS grid from JSON so new posts appear without an author-shell. */
+export function injectAuthorMirrorCards(html: string, posts: BlogPost[]): string {
+  const $ = cheerio.load(html);
+  const grid = $('.ecs-posts').first();
+  if (!grid.length || !posts.length) return html;
+
+  const fillCard = ($card: any, post: BlogPost) => {
+    const postUrl = `/${post.slug}/`;
+    const imgSrc = post.featuredImage?.src || '';
+    let dateDisplay = post.publishedAt;
+    try {
+      dateDisplay = new Date(post.publishedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch {
+      /* keep */
+    }
+    $card.find('a[href]').attr('href', postUrl);
+    $card.find('h2 a, h3 a').first().text(post.title);
+    $card.find('time').first().text(dateDisplay);
+    if (imgSrc) {
+      $card.find('style').each((_i: number, el: any) => {
+        const css = $(el).html() || '';
+        if (/background-image/i.test(css)) {
+          $(el).html(css.replace(/url\((['"]?)[^)'"]+\1\)/gi, `url("${imgSrc}")`));
+        }
+      });
+      $card.find('img').attr('src', imgSrc).removeAttr('srcset');
+    }
+  };
+
+  const existing = grid.find('article');
+  const template = existing.first();
+  if (!template.length) return html;
+
+  existing.each((i, el) => {
+    if (posts[i]) fillCard($(el), posts[i]);
+  });
+  if (posts.length > existing.length && template.length) {
+    for (let i = existing.length; i < posts.length; i++) {
+      const clone = template.clone();
+      fillCard(clone, posts[i]);
+      grid.append(clone);
+    }
+  }
+  return $.html();
+}
+
 export function getAuthorSlugFromPost(post: BlogPost): string | null {
   if (post.author.slug) return post.author.slug;
   if (post.author.url) {
