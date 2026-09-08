@@ -96,6 +96,9 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   <Fragment slot="head">
     <InsightsChromeHead />
     <InsightsSharedStyles />
+    {post.schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(post.schema)} />
+    )}
   </Fragment>
 
   <main class="bp">
@@ -227,8 +230,8 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
                     <img
                       src={card.image || `${img}/blog-card.webp`}
                       alt={card.imageAlt}
-                      width="400"
-                      height="240"
+                      width="384"
+                      height="256"
                       loading="lazy"
                       decoding="async"
                     />
@@ -250,16 +253,6 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
           </div>
         </section>
       )}
-
-      <section class="bp-contact">
-        <div class="bp-wrap">
-          <InsightsLeadForm
-            formId={`blog-footer-${post.slug}`}
-            formName="Connect Group Blog Footer Form"
-            variant="footer"
-          />
-        </div>
-      </section>
     </div>
   </main>
 
@@ -469,9 +462,9 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   }
 
   .bp-feature {
-    border-radius: 20px;
+    border-radius: 24px;
     overflow: hidden;
-    background: #060d1d;
+    background: transparent;
     line-height: 0;
     width: 100%;
   }
@@ -480,8 +473,11 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     height: auto;
     max-width: 100%;
     display: block;
+    margin-inline: auto;
     object-fit: cover;
+    object-position: center center;
     aspect-ratio: 982 / 655;
+    border-radius: 0;
   }
 
   .bp-share {
@@ -553,10 +549,15 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     color: #313131;
     letter-spacing: -0.01em;
   }
+  @media (min-width: 768px) {
+    .bp-content {
+      font-size: 18px;
+    }
+  }
   .bp-content > *:first-child { margin-top: 0; }
   .bp-content p {
     margin: 0 0 1.5rem;
-    font-size: 16px;
+    font-size: inherit;
     line-height: 1.7;
   }
   .bp-content h2 {
@@ -583,19 +584,53 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     color: #121212;
   }
   .bp-content a { color: #4051b5; }
-  .bp-content img,
-  .bp-content figure {
-    max-width: 100%;
-    height: auto;
-    border-radius: 16px;
+  /* Center all post images; avoid CSS radius on transparent PNGs (causes black corner fringe) */
+  .bp-content figure,
+  .bp-content figure.wp-block-image,
+  .bp-content p:has(> a > figure),
+  .bp-content a:has(> figure) {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    line-height: 0;
+    text-align: center !important;
+    float: none !important;
   }
-  .bp-content figure { margin: 1.5rem 0; }
+  .bp-content a:has(> figure) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .bp-content img,
+  .bp-content figure img,
+  .bp-content .wp-block-image img {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    box-shadow: none !important;
+  }
   .bp-content ul,
   .bp-content ol {
     margin: 0 0 1.5rem;
     padding-left: 1.25rem;
     color: #313131;
-    font-size: 16px;
+    font-size: inherit;
     line-height: 1.7;
     list-style-position: outside;
   }
@@ -720,15 +755,20 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-aside { display: none; }
   .bp-inline-form { display: block; }
   @media (min-width: 1024px) {
+    .bp-layout {
+      align-items: start;
+    }
     .bp-aside {
       display: block;
       min-width: 0;
-    }
-    .bp-inline-form { display: none; }
-    .bp-aside__sticky {
       position: sticky;
       top: 96px;
       z-index: 3;
+      align-self: start;
+    }
+    .bp-inline-form { display: none; }
+    .bp-aside__sticky {
+      position: static;
     }
   }
 
@@ -757,6 +797,8 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-related__grid {
     display: grid;
     gap: 20px;
+    /* minmax(0,1fr) prevents grid blowout from long titles / meta on mobile */
+    grid-template-columns: minmax(0, 1fr);
   }
   @media (min-width: 768px) {
     .bp-related__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -765,6 +807,8 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 0;
+    max-width: 100%;
     text-decoration: none;
     color: inherit;
   }
@@ -773,16 +817,81 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     border-radius: 24px;
     overflow: hidden;
     aspect-ratio: 384 / 256;
-    background: var(--ig-dark);
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    background: transparent;
     border: 0.5px solid rgba(0, 0, 0, 0.1);
+    isolation: isolate;
+  }
+  @media (max-width: 767px) {
+    .bp-related {
+      padding: 32px 0 48px;
+    }
+    .bp-related h2 {
+      margin: 0 0 20px !important;
+    }
+    .bp-related__grid {
+      gap: 16px;
+    }
+    .bp-related__card {
+      gap: 12px;
+    }
+    /* Match Insights card ratio on mobile; cover so photos never stretch */
+    .bp-related__media {
+      aspect-ratio: 384 / 256 !important;
+      height: auto !important;
+      max-height: none !important;
+      min-height: 0 !important;
+      border-radius: 16px;
+    }
+    .bp-related__media img,
+    .bp-related__media .bp-ph {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none !important;
+      max-height: none !important;
+      object-fit: cover !important;
+      object-position: center center !important;
+      border-radius: 0 !important;
+    }
+    .bp-related__glass {
+      border-radius: 0 0 16px 16px;
+      padding: 10px 12px;
+    }
+    .bp-related__meta--on {
+      min-width: 0;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .bp-related__meta--on > div,
+    .bp-related__meta--on > span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bp-related__card h3 {
+      font-size: 1.05rem;
+      overflow-wrap: anywhere;
+    }
+    .bp-related__card > p {
+      overflow-wrap: anywhere;
+    }
   }
   .bp-related__media img,
   .bp-ph {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    max-width: none;
+    max-height: none;
+    object-fit: cover !important;
+    object-position: center center;
     display: block;
-    border-radius: 24px;
+    border-radius: 0;
   }
   .bp-ph { background: linear-gradient(160deg, #0b1630, #243a6e); }
   .bp-related__glass {
@@ -837,16 +946,5 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .bp-contact {
-    background: var(--ig-dark);
-    padding: 48px 0 64px;
-  }
-  @media (min-width: 768px) {
-    .bp-contact { padding: 64px 0 80px; }
-  }
-  .bp-contact .ig-form--footer {
-    margin-inline: auto;
   }
 </style>
