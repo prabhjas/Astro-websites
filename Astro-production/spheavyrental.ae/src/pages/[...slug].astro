@@ -9,10 +9,12 @@ import {
   getPublishedPostByPath,
   getRelatedPosts,
   getAuthorBySlug,
+  getAuthors,
   formatDate,
   stripHtml,
   normalizePath,
 } from "../lib/content";
+import type { AuthorEntry } from "../lib/content-types";
 import { prepareElementorPostHtml } from "../lib/post-html";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
@@ -60,7 +62,7 @@ const postCrumbs = post
   : [];
 
 const author = post
-  ? getAuthorBySlug(post.authorSlug) || getAuthors().find((a) => a.id === post.author) || getAuthors()[0]
+  ? getAuthorBySlug(post.authorSlug) || getAuthors().find((a: AuthorEntry) => a.id === post.author) || getAuthors()[0]
   : undefined;
 
 const seo = page
