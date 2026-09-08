@@ -4,6 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { dirname, join, resolve } from 'node:path';
 import type { LeadDeliveryAttemptRecord, LeadStoreEvent, LeadSubmissionRecord } from './types';
 import { assertValidPublicId, isValidPublicId, resolveContainedPath } from './public-id';
+import { normaliseDeliveries } from './destinations/types';
 
 type StoreKind = 'submissions' | 'attempts';
 
@@ -175,14 +176,25 @@ export class FileLeadStore {
     return records.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
   }
 
+  /**
+   * Leads with at least one destination whose retry is due.
+   *
+   * This deliberately does NOT filter on the record-level deliveryStatus and
+   * nextRetryAt any more. Those are aliases of the Pipedrive destination, so a
+   * lead where only Flow was owed a retry carried no top-level nextRetryAt and
+   * would never have been picked up.
+   */
   async listDueRetries(nowIso: string): Promise<LeadSubmissionRecord[]> {
     const submissions = await this.listSubmissions();
-    return submissions.filter(
-      (record) =>
-        record.deliveryStatus === 'retry_scheduled' &&
-        Boolean(record.nextRetryAt) &&
-        String(record.nextRetryAt) <= nowIso,
-    );
+    return submissions.filter((record) => {
+      const deliveries = normaliseDeliveries(record);
+      return Object.values(deliveries).some(
+        (delivery) =>
+          delivery.status === 'retry_scheduled' &&
+          Boolean(delivery.nextRetryAt) &&
+          String(delivery.nextRetryAt) <= nowIso,
+      );
+    });
   }
 
   async storeSubmission(record: LeadSubmissionRecord): Promise<void> {

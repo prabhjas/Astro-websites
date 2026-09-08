@@ -1,10 +1,11 @@
 ---
 /**
  * Shared site footer (Elementor 28308 / #pix-page-footer).
- * Loads markup dynamically from /chrome/footer.html (same source as legacy injection).
+ * Loads markup + CSS dynamically from /chrome/* (same source as legacy injection).
  */
 ---
 
+<link rel="stylesheet" href="/chrome/footer.css" data-cg-shared-footer-css="1" />
 <div id="cg-shared-footer-root" class="cg-shared-chrome" data-chrome="footer" aria-busy="true"></div>
 <script is:inline>
   (function () {
@@ -18,8 +19,15 @@
       })
       .then(function (html) {
         // Contact Us already has its own form — hide the shared footer CF7 block.
+        // Insights / blog posts use InsightsLeadForm — hide footer CF7 too (avoids
+        // duplicate phones + legacy ipinfo.io lookups from CF7 country-phone scripts).
         var path = (location.pathname || '').replace(/\/+$/, '') || '/';
-        if (path === '/contact-us') {
+        var hideFooterCf7 =
+          path === '/contact-us' ||
+          path === '/insights' ||
+          path.indexOf('/insights/') === 0 ||
+          !!document.querySelector('main.bp, main.ig, form[data-ig-lead-form]');
+        if (hideFooterCf7) {
           var tmp = document.createElement('div');
           tmp.innerHTML = html;
           var formSection = tmp.querySelector('.elementor-element-d5fdd9c');

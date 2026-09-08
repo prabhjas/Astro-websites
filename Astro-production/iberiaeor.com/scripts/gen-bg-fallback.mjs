@@ -22,7 +22,7 @@ const files = [
 ].filter((f) => fs.existsSync(f));
 
 const out = [];
-out.push("/* Motion-effects background fallbacks — only when layer DOM is absent */\n");
+out.push("/* Motion-effects background fallbacks - only when layer DOM is absent */\n");
 const seen = new Set();
 
 for (const file of files) {

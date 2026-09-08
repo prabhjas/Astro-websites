@@ -33,7 +33,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return context.redirect(target, 308);
     }
 
-    // Per-site dashboard UI removed — content/leads managed via central CMS → /api/internal/*
+    // Per-site dashboard UI removed - content/leads managed via central CMS → /api/internal/*
     if (
       pathname === '/internal/operations' ||
       pathname.startsWith('/internal/operations/') ||

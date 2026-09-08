@@ -19,6 +19,7 @@ import {
   NOINDEX_NOFOLLOW_ROBOTS,
 } from "../lib/seo/sitemap-config";
 import { notFoundResponse } from "../lib/not-found";
+import { isAuthorProfilePath, rebuildAuthorArticlesHtml } from "../lib/authors-articles";
 
 export const prerender = false;
 
@@ -42,6 +43,9 @@ if (page && path === "/insights/") {
     /<button class="w-btn us-btn-style_1">\s*<span class="w-btn-label">Load More<\/span>\s*<\/button>/gi,
     '<a href="#" class="w-btn us-btn-style_1" role="button"><span class="w-btn-label">Load More</span></a>',
   );
+}
+if (page && isAuthorProfilePath(path)) {
+  html = rebuildAuthorArticlesHtml(html, path);
 }
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
@@ -110,6 +114,7 @@ const extraCss = [
   ...smartSliderCssForHtml(html),
   ...((entry.pageCss as string[] | undefined) || []).filter((href) => href !== "/css/impreza-global.css"),
   ...(entryElementorCss ? [entryElementorCss] : []),
+  ...(path.startsWith("/authors") ? ["/css/page-design/authors-shared.css"] : []),
 ];
 
 const hasMainShell = /id=["']page-content["']/.test(html);

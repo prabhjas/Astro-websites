@@ -46,7 +46,7 @@ const $t = cheerio.load(tpl, { decodeEntities: false, xmlMode: false });
 
 // Title
 $t(".elementor-widget-theme-post-title .elementor-heading-title").html("<!--POST_TITLE-->");
-// Post info / date / author — keep structure, replace text nodes carefully
+// Post info / date / author - keep structure, replace text nodes carefully
 $t(".elementor-widget-theme-post-content .elementor-widget-container").html("<!--POST_CONTENT-->");
 
 // Featured image if present

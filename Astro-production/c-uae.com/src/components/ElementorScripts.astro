@@ -4,6 +4,80 @@
  */
 ---
 
+{/* Elementor Video loads YouTube IFrame API (enablejsapi). That API postMessages with
+    targetOrigin https://www.youtube.com and often mismatches the page origin (also on live).
+    Homepage widget 3033c0a is hidden on every breakpoint but still boots YT — skip those.
+    For any remaining embeds, strip enablejsapi so playback works without the API. */}
+<script is:inline>
+  (() => {
+    const neutralizeHiddenVideos = () => {
+      document.querySelectorAll(".elementor-widget-video").forEach((w) => {
+        const c = w.className || "";
+        const hiddenEverywhere =
+          /\belementor-hidden-desktop\b/.test(c) &&
+          /\belementor-hidden-tablet\b/.test(c) &&
+          /\belementor-hidden-mobile\b/.test(c);
+        if (!hiddenEverywhere) return;
+        w.setAttribute("data-widget_type", "html.default");
+        w.classList.remove("elementor-widget-video");
+        w.removeAttribute("data-settings");
+        const host = w.querySelector(".elementor-video, .elementor-wrapper");
+        if (host) host.replaceChildren();
+      });
+    };
+
+    // Must run synchronously before Elementor frontend.min.js (same component, below)
+    // so the hidden video never boots the YouTube IFrame API.
+    if (document.body) neutralizeHiddenVideos();
+    else document.addEventListener("DOMContentLoaded", neutralizeHiddenVideos, { once: true });
+
+    const isYtApi = (src) =>
+      /youtube\.com\/(?:iframe_api|[^\"']*www-widgetapi)/i.test(String(src || ""));
+    const stripApi = (iframe) => {
+      const src = iframe.getAttribute("src") || "";
+      if (!/youtube\.com\/embed\//i.test(src)) return;
+      try {
+        const u = new URL(src, location.href);
+        let changed = false;
+        ["enablejsapi", "origin", "widgetid"].forEach((k) => {
+          if (u.searchParams.has(k)) {
+            u.searchParams.delete(k);
+            changed = true;
+          }
+        });
+        if (changed) iframe.setAttribute("src", u.toString());
+      } catch (_) {
+        /* ignore bad URLs */
+      }
+    };
+    const obs = new MutationObserver((records) => {
+      for (const r of records) {
+        for (const n of r.addedNodes) {
+          if (n.nodeName === "SCRIPT" && isYtApi(n.src)) {
+            n.type = "text/plain";
+            n.remove();
+            continue;
+          }
+          if (n.nodeName === "IFRAME") stripApi(n);
+          if (n.querySelectorAll) {
+            n.querySelectorAll('iframe[src*="youtube.com/embed"]').forEach(stripApi);
+          }
+        }
+      }
+    });
+    obs.observe(document.documentElement, { childList: true, subtree: true });
+    const sweep = () => {
+      neutralizeHiddenVideos();
+      document.querySelectorAll('iframe[src*="youtube.com/embed"]').forEach(stripApi);
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", sweep);
+    } else {
+      sweep();
+    }
+    window.addEventListener("load", sweep);
+  })();
+</script>
 <script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
 <script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
 <script is:inline src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"></script>
@@ -12,6 +86,12 @@
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
 <script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
 <script is:inline>
+  window.wp = window.wp || {};
+  window.wp.i18n = window.wp.i18n || {
+    __: function (s) { return s; },
+    _x: function (s) { return s; },
+    sprintf: function (s) { return s; },
+  };
   window.elementorFrontendConfig = window.elementorFrontendConfig || {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
     i18n: { shareOnFacebook: "Share on Facebook", shareOnTwitter: "Share on Twitter", pinIt: "Pin it", download: "Download", downloadImage: "Download image", fullscreen: "Fullscreen", zoom: "Zoom", share: "Share", playVideo: "Play Video", previous: "Previous", next: "Next", close: "Close" },
@@ -37,8 +117,10 @@
     elements: { data: {}, nestedElements: {}, hasPopUps: false },
   };
 </script>
+<script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
 <script is:inline>
   window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {

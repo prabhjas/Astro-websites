@@ -1,19 +1,57 @@
 /**
- * Ensure industry-pages Smart Slider #n2-ss-3 shows content before/while JS inits,
- * and keep carousel images sized similarly to live.
+ * Ensure Smart Sliders show content before/while JS inits on service pages.
+ * Covers industries (#n2-ss-2/#n2-ss-3) and success stories (#n2-ss-4/#n2-ss-5/#n2-ss-6).
  */
-#n2-ss-3 {
+ss3-force-full-width {
+  opacity: 1 !important;
+  transform: none !important;
+  width: 100% !important;
+  left: 0 !important;
+  position: relative !important;
+}
+
+#n2-ss-2,
+#n2-ss-3,
+#n2-ss-4,
+#n2-ss-5,
+#n2-ss-6 {
   min-height: 220px;
 }
+
+#n2-ss-2:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-2:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active,
 #n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
-#n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active {
+#n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active,
+#n2-ss-4:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-4:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active,
+#n2-ss-5:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-5:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active,
+#n2-ss-6:not(.n2-ss-loaded) .n2-ss-slide:first-of-type,
+#n2-ss-6:not(.n2-ss-loaded) .n2-ss-slide.n2-ss-slide-active {
   transform: none !important;
   opacity: 1 !important;
   position: relative !important;
   z-index: 22 !important;
 }
+
+#n2-ss-2:not(.n2-ss-loaded) .n2-ss-slide-background,
+#n2-ss-3:not(.n2-ss-loaded) .n2-ss-slide-background,
+#n2-ss-4:not(.n2-ss-loaded) .n2-ss-slide-background,
+#n2-ss-5:not(.n2-ss-loaded) .n2-ss-slide-background,
+#n2-ss-6:not(.n2-ss-loaded) .n2-ss-slide-background {
+  transform: none !important;
+}
+
+#n2-ss-2 .n2-ss-item-image-content img,
+#n2-ss-2 .n2-ss-item-content img,
 #n2-ss-3 .n2-ss-item-image-content img,
-#n2-ss-3 .n2-ss-item-content img {
+#n2-ss-3 .n2-ss-item-content img,
+#n2-ss-4 .n2-ss-item-image-content img,
+#n2-ss-4 .n2-ss-item-content img,
+#n2-ss-5 .n2-ss-item-image-content img,
+#n2-ss-5 .n2-ss-item-content img,
+#n2-ss-6 .n2-ss-item-image-content img,
+#n2-ss-6 .n2-ss-item-content img {
   max-width: 100%;
   height: auto;
   display: block;

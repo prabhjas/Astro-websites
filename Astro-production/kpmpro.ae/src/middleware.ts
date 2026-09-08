@@ -31,8 +31,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Lead-safe: rewrite bare POST /api/contact before Astro trailingSlash 301 drops the body.
+    if (pathname === '/api/contact' && method !== 'GET' && method !== 'HEAD') {
+      return context.rewrite(`/api/contact/${context.url.search}`);
+    }
+
     // API routes must keep their native Astro routing (no slash normalization/redirect mapping).
     if (pathname.startsWith('/api/')) {
+      if (method !== 'GET' && method !== 'HEAD' && !pathname.endsWith('/') && !pathname.includes('.')) {
+        return context.rewrite(`${pathname}/${context.url.search}`);
+      }
       return next();
     }
 

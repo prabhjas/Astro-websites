@@ -1,5 +1,5 @@
 /**
- * Categories / tags store — backed by src/data/categories.json & tags.json.
+ * Categories / tags store - backed by src/data/categories.json & tags.json.
  */
 import type { CategoryEntry, TagEntry } from "../content-types";
 import {

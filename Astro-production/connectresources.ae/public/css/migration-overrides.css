@@ -278,6 +278,24 @@ section.mainacclerationrow .us_custom_ee5e22b5 .w-text-value {
   padding-left: 0 !important;
 }
 
+/*
+ * Author profiles (/authors/*/) — Banner hero uses margin-top: 6rem in page CSS.
+ * Zero the global first-section header padding so content isn't pushed down twice.
+ */
+.header_hor .cr-site-header ~ main.l-main > .l-section.us_custom_cb0d1e95:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main > .l-section.us_custom_cb0d1e95:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main.l-main > .l-section.us_custom_bad31fca:first-of-type > .l-section-h.i-cf,
+.header_hor .cr-site-header ~ main > .l-section.us_custom_bad31fca:first-of-type > .l-section-h.i-cf {
+  padding-top: 0 !important;
+}
+
+/* Author headshots are not full-width heroes — beat first-section img { width:100% }. */
+.l-main .l-section.us_custom_cb0d1e95:first-of-type .w-image img,
+.l-main .l-section.us_custom_bad31fca:first-of-type .w-image img {
+  width: auto !important;
+  max-width: 286px !important;
+}
+
 /* Insights / blog sidebar “Write to us” lilac box — keep fields inset */
 .box_padding .ult-content-box,
 .ult-content-box-container.box_padding > .ult-content-box {
@@ -715,24 +733,223 @@ img[src*="mohre-logo-en"] {
   background: #0b1447 !important;
 }
 
+/*
+ * Global footer styling from impreza-home-design.css (home page).
+ * Elementor pages do not load that sheet, so footer us_custom classes
+ * were unstyled and the copyright bar did not match live/home.
+ */
+.l-footer .link_color a {
+  color: #fff !important;
+}
+
+.l-footer .us_custom_203e0e77 {
+  background: #0b1347 url(/assets/images/2023/08/Group-133.svg) no-repeat center right / 5% !important;
+}
+
+.l-footer .us_custom_95e24538 {
+  padding-bottom: 0 !important;
+  background: #0b1347 !important;
+}
+
+.l-footer .us_custom_53fe076b {
+  padding-bottom: 6rem !important;
+  background: #0b1347 no-repeat center right / 5% !important;
+}
+
+.l-footer .us_custom_4af741be {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.l-footer .us_custom_c38153fc {
+  color: #242424 !important;
+}
+
+.l-footer .us_custom_e1160d37 {
+  color: #fff !important;
+  font-size: 24px !important;
+  line-height: 1.4 !important;
+  font-weight: 700 !important;
+}
+
+.l-footer .us_custom_e28183d5 {
+  text-align: center !important;
+}
+
+/* Footer logo — match header ush_image_1 (225×75 desktop, 48px mobile) */
+.l-footer .us_custom_862ca0c5,
+.l-footer .us_custom_862ca0c5 .w-image-h,
+.l-footer .us_custom_0f6a41aa,
+.l-footer .us_custom_0f6a41aa .w-image-h {
+  width: 225px !important;
+  max-width: 225px !important;
+}
+
+.l-footer .us_custom_862ca0c5 img,
+.l-footer .us_custom_0f6a41aa img {
+  width: 225px !important;
+  max-width: 225px !important;
+  height: auto !important;
+  max-height: 75px !important;
+  display: block;
+}
+
+.l-footer .us_custom_e9ebbd9e {
+  margin-top: 0.8rem !important;
+}
+
+.l-footer .us_custom_cdf14ffd {
+  margin-top: 2rem !important;
+}
+
+.l-footer .us_custom_3ba9bfb4 {
+  text-align: left !important;
+}
+
+.l-footer .us_custom_0f5ead74 {
+  width: 20px !important;
+}
+
+.l-footer .us_custom_6ba06b44 {
+  text-align: center !important;
+  font-size: 14px !important;
+}
+
+.l-footer .us_custom_f73f4019 {
+  font-size: 16px !important;
+}
+
+/*
+ * Footer icon sizes — desktop/live reference.
+ * Social: ~20px font icons in a row; certification badges: ~57px.
+ */
+@media (min-width: 601px) {
+  .l-footer .us_custom_203e0e77 .aio-tooltip {
+    display: inline-block;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+
+  .l-footer .us_custom_203e0e77 .aio-tooltip:last-of-type {
+    margin-right: 0;
+  }
+
+  .l-footer .us_custom_203e0e77 .aio-icon.icon_pr_ar,
+  .l-footer .us_custom_203e0e77 .aio-icon.icon_pr_ar i {
+    font-size: 20px !important;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff !important;
+  }
+
+  .l-footer .us_custom_e9ebbd9e.w-hwrapper {
+    --hwrapper-gap: 1.2rem;
+  }
+
+  .l-footer .us_custom_e9ebbd9e .w-image,
+  .l-footer .us_custom_e9ebbd9e .w-image-h {
+    width: 57px;
+    max-width: 57px;
+  }
+
+  .l-footer .us_custom_e9ebbd9e .w-image img {
+    width: 57px !important;
+    height: 57px !important;
+    max-width: 57px !important;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .l-footer .us_custom_203e0e77 {
+    background: #0b1347 url(/assets/images/2023/08/Group-133.svg) no-repeat center right / 5% !important;
+  }
+
+  .l-footer .us_custom_53fe076b {
+    background: #0b1347 no-repeat center right / 5% !important;
+  }
+
+  .l-footer .us_custom_3ba9bfb4 {
+    text-align: inherit !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .l-footer .us_custom_203e0e77 {
+    background: #0b1347 url(/assets/images/2023/08/Group-133.svg) no-repeat center right / 10% !important;
+  }
+
+  .l-footer .us_custom_53fe076b {
+    background: #0b1347 no-repeat center right / 10% !important;
+  }
+
+  .l-footer .us_custom_3ba9bfb4 {
+    text-align: inherit !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .l-footer .us_custom_862ca0c5,
+  .l-footer .us_custom_862ca0c5 .w-image-h,
+  .l-footer .us_custom_0f6a41aa,
+  .l-footer .us_custom_0f6a41aa .w-image-h {
+    width: auto !important;
+    max-width: 225px !important;
+  }
+
+  .l-footer .us_custom_862ca0c5 img,
+  .l-footer .us_custom_0f6a41aa img {
+    width: auto !important;
+    max-width: 225px !important;
+    max-height: 48px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .l-footer .us_custom_203e0e77 {
+    background: #0b1347 url(/assets/images/2023/08/Group-133.svg) no-repeat center right / 5% !important;
+  }
+
+  /* Mobile footer band — match impreza-home-design.css (home page) */
+  .l-footer .us_custom_e28183d5 {
+    text-align: center !important;
+  }
+
+  .l-footer .us_custom_53fe076b {
+    background: #0b1347 no-repeat center right / 5% !important;
+  }
+
+  .l-footer .us_custom_3ba9bfb4 {
+    text-align: center !important;
+  }
+
+  .l-footer .us_custom_6ba06b44 {
+    text-align: center !important;
+    font-size: 14px !important;
+  }
+}
+
 @media (max-width: 1024px) {
-  .l-footer .g-cols.stacking_default.via_flex > .wpb_column.i_rrrr,
-  .l-footer .g-cols.via_flex > .wpb_column.i_rrrr {
+  /* Mobile-only footer band: 2-col link grid + full-width branding row */
+  .l-footer .us_custom_53fe076b .g-cols.stacking_default.via_flex > .wpb_column.i_rrrr,
+  .l-footer .us_custom_53fe076b .g-cols.via_flex > .wpb_column.i_rrrr {
     width: 50% !important;
     margin-top: 0;
     margin-bottom: 1rem;
   }
 
-  .l-footer .g-cols.stacking_default.via_flex > .wpb_column.i_r,
-  .l-footer .g-cols.via_flex > .wpb_column.i_r {
+  .l-footer .us_custom_53fe076b .g-cols.via_flex > .wpb_column.vc_col-sm-1\/5:not(.i_rrrr):not(.i_r) {
+    width: 100% !important;
+  }
+
+  /* Tablet expand band (hide_on_default middle section) */
+  .l-footer .us_custom_95e24538 .g-cols.stacking_default.via_flex > .wpb_column.i_r,
+  .l-footer .us_custom_95e24538 .g-cols.via_flex > .wpb_column.i_r {
     width: 33% !important;
     margin-top: 0;
     margin-bottom: 1rem;
-  }
-
-  /* Keep social / ISO band full width above the 2-col link grid */
-  .l-footer .footer_middle.hide_on_default .g-cols.via_flex > .wpb_column.vc_col-sm-1\/5:not(.i_rrrr):not(.i_r) {
-    width: 100% !important;
   }
 }
 
@@ -1070,5 +1287,48 @@ body.elementor-page-66853 #lp-form select {
     text-align: center !important;
     font-size: 28px !important;
     line-height: 1.2 !important;
+  }
+}
+
+/*
+ * Footer logo size — must match header .ush_image_1 (225×75).
+ * Loaded last so impreza-home-design 30% rules cannot win.
+ */
+.l-footer .us_custom_862ca0c5.w-image,
+.l-footer .us_custom_862ca0c5.w-image .w-image-h,
+.l-footer .us_custom_0f6a41aa.w-image,
+.l-footer .us_custom_0f6a41aa.w-image .w-image-h {
+  width: 225px !important;
+  max-width: 225px !important;
+  min-width: 225px !important;
+}
+
+.l-footer .us_custom_862ca0c5.w-image img,
+.l-footer .us_custom_0f6a41aa.w-image img {
+  width: 225px !important;
+  max-width: 225px !important;
+  min-width: 225px !important;
+  height: auto !important;
+  max-height: 75px !important;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .l-footer .us_custom_862ca0c5.w-image,
+  .l-footer .us_custom_862ca0c5.w-image .w-image-h,
+  .l-footer .us_custom_0f6a41aa.w-image,
+  .l-footer .us_custom_0f6a41aa.w-image .w-image-h {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 225px !important;
+  }
+
+  .l-footer .us_custom_862ca0c5.w-image img,
+  .l-footer .us_custom_0f6a41aa.w-image img {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 225px !important;
+    max-height: 48px !important;
   }
 }

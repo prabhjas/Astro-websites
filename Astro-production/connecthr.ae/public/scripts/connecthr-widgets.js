@@ -4,15 +4,38 @@
  * and WP Rocket–style lazy images (data-lazy-src → src).
  */
 (() => {
+  const decodeSettingsRaw = (raw) =>
+    String(raw || "")
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/\\\//g, "/");
+
   const parseSettings = (el) => {
     const raw = el.getAttribute("data-settings") || "";
+    const decoded = decodeSettingsRaw(raw);
     try {
-      return JSON.parse(raw);
+      return JSON.parse(decoded);
     } catch {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        /* fall through */
+      }
       const out = {};
-      const m = raw.match(/background_video_link(?:&quot;|")\s*:\s*(?:&quot;|")([^&"]+)/);
-      if (m) out.background_video_link = m[1];
-      if (/(sticky(?:&quot;|")\s*:\s*(?:&quot;|")top)/.test(raw)) out.sticky = "top";
+      const bg = decoded.match(/"background_video_link"\s*:\s*"([^"]+)"/);
+      if (bg) out.background_video_link = bg[1];
+      const yt = decoded.match(/"youtube_url"\s*:\s*"([^"]+)"/);
+      if (yt) out.youtube_url = yt[1];
+      const controls = decoded.match(/"controls"\s*:\s*"([^"]+)"/);
+      if (controls) out.controls = controls[1];
+      const autoplay = decoded.match(/"autoplay"\s*:\s*"([^"]+)"/);
+      if (autoplay) out.autoplay = autoplay[1];
+      const mute = decoded.match(/"mute"\s*:\s*"([^"]+)"/);
+      if (mute) out.mute = mute[1];
+      const loop = decoded.match(/"loop"\s*:\s*"([^"]+)"/);
+      if (loop) out.loop = loop[1];
+      if (/"sticky"\s*:\s*"top"/.test(decoded)) out.sticky = "top";
       return out;
     }
   };
@@ -59,6 +82,239 @@
     return m ? m[1] : "";
   }
 
+  function youtubeBackgroundEmbedSrc(videoId) {
+    // No enablejsapi — avoids www-widgetapi postMessage origin noise on background loops.
+    return (
+      `https://www.youtube.com/embed/${videoId}?controls=0&rel=0&playsinline=1` +
+      `&autoplay=1&mute=1&loop=1&playlist=${videoId}`
+    );
+  }
+
+  /** Regular Elementor video widgets — keep controls / autoplay from data-settings. */
+  function youtubePlayerEmbedSrc(videoId, settings = {}) {
+    const params = new URLSearchParams({
+      rel: "0",
+      playsinline: "1",
+      modestbranding: "1",
+    });
+    const controlsOn = String(settings.controls ?? "yes") !== "no";
+    params.set("controls", controlsOn ? "1" : "0");
+    if (settings.autoplay === "yes") {
+      params.set("autoplay", "1");
+      params.set("mute", settings.mute === "no" ? "0" : "1");
+    }
+    if (settings.loop === "yes") {
+      params.set("loop", "1");
+      params.set("playlist", videoId);
+    }
+    const start = Number(settings.start || 0);
+    if (start > 0) params.set("start", String(start));
+    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+  }
+
+  // Run `cb` once `el` is near the viewport — keeps below-the-fold autoplay
+  // media (YouTube backgrounds/widgets) out of the initial load / LCP path.
+  function whenNearViewport(el, cb, rootMargin = "300px 0px") {
+    if (!(el instanceof HTMLElement) || !("IntersectionObserver" in window)) {
+      window.addEventListener("load", () => setTimeout(cb, 1000), { once: true });
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            io.disconnect();
+            cb();
+            break;
+          }
+        }
+      },
+      { rootMargin },
+    );
+    io.observe(el);
+  }
+
+  function markBackgroundVideoLoaded(container) {
+    if (!container) return;
+    container.classList.remove("elementor-loading", "elementor-invisible");
+    container.classList.add("elementor-background-video-loaded");
+    const host =
+      container.closest("[data-settings*='background_video']") ||
+      container.closest(".animate_box, .elementor-element");
+    if (host) host.classList.add("elementor-background-video-loaded");
+  }
+
+  function revealYouTubeBackground(container, iframe) {
+    if (!container || !iframe) return;
+    const show = () => markBackgroundVideoLoaded(container);
+    iframe.addEventListener("load", show, { once: true });
+    show();
+    [400, 1200, 2500].forEach((ms) => setTimeout(show, ms));
+  }
+
+  function dedupeYouTubeBackgroundVideos() {
+    document.querySelectorAll(".elementor-background-video-container").forEach((container) => {
+      const iframes = [...container.querySelectorAll("iframe")];
+      if (!iframes.length) {
+        container
+          .querySelectorAll(".elementor-background-video-embed:not(iframe)")
+          .forEach((el) => el.remove());
+        return;
+      }
+
+      const keeper =
+        iframes.find((f) => /youtube\.com\/embed\//.test(f.getAttribute("src") || "")) ||
+        iframes[0];
+      keeper.classList.add("elementor-background-video-embed");
+
+      // Stable single iframe — skip DOM writes (MutationObserver was looping here).
+      if (
+        container.dataset.chrBgVideo === "1" &&
+        iframes.length === 1 &&
+        container.childElementCount === 1 &&
+        container.firstElementChild === keeper
+      ) {
+        return;
+      }
+
+      if (iframes.length > 1 || container.childElementCount > 1 || container.firstElementChild !== keeper) {
+        container.dataset.chrDedupeLock = "1";
+        container.replaceChildren(keeper);
+        delete container.dataset.chrDedupeLock;
+      }
+      container.dataset.chrBgVideo = "1";
+      revealYouTubeBackground(container, keeper);
+    });
+  }
+
+  /** Elementor still inits hidden responsive video widgets — strip iframes to avoid YT API noise. */
+  function suppressHiddenVideoWidgets() {
+    document.querySelectorAll(".elementor-widget-video").forEach((widget) => {
+      if (widget.dataset.chrVideoSuppressed === "1") return;
+      const hidden =
+        widget.classList.contains("elementor-hidden-desktop") &&
+        window.matchMedia("(min-width: 1025px)").matches;
+      const hiddenMobile =
+        widget.classList.contains("elementor-hidden-mobile") &&
+        window.matchMedia("(max-width: 767px)").matches;
+      if (!hidden && !hiddenMobile) return;
+      widget.querySelectorAll("iframe").forEach((node) => node.remove());
+      const slot = widget.querySelector(".elementor-video");
+      if (slot) slot.innerHTML = "";
+      widget.dataset.chrVideoSuppressed = "1";
+    });
+  }
+
+  /**
+   * Facade YouTube *video widgets* that ARE visible on the current viewport.
+   * Elementor eagerly builds an autoplay iframe on frontend init even for a
+   * decorative loop far below the fold — that pulls googlevideo (>1 MB) + ad
+   * calls into the LCP path. Instead: keep the slot empty until the widget is
+   * near the viewport, then inject the iframe (IntersectionObserver). Idempotent
+   * — re-running strips any iframe Elementor re-injected while still pending.
+   */
+  function facadeYouTubeVideoWidgets() {
+    document.querySelectorAll(".elementor-widget-video").forEach((widget) => {
+      const raw = widget.getAttribute("data-settings") || "";
+      if (!/youtube/i.test(raw)) return;
+      if (widget.dataset.chrYtFacade === "loaded") return;
+
+      // Hidden on this viewport → suppressHiddenVideoWidgets owns it.
+      const hiddenDesktop =
+        widget.classList.contains("elementor-hidden-desktop") &&
+        window.matchMedia("(min-width: 1025px)").matches;
+      const hiddenMobile =
+        widget.classList.contains("elementor-hidden-mobile") &&
+        window.matchMedia("(max-width: 767px)").matches;
+      if (hiddenDesktop || hiddenMobile) return;
+
+      const slot = widget.querySelector(".elementor-video");
+      if (!slot) return;
+
+      // Already armed: strip eager Elementor iframes until our lazy load fires.
+      if (widget.dataset.chrYtFacade === "pending") {
+        const stray = slot.querySelector("iframe:not([data-chr-yt-player])");
+        if (stray) stray.remove();
+        return;
+      }
+
+      const s = parseSettings(widget);
+      const id = youtubeIdFromUrl(
+        String(s.youtube_url || s.youtubeUrl || "").replace(/\\\//g, "/"),
+      );
+      // Fallback when JSON.parse failed on entity-encoded settings.
+      const idFallback =
+        id ||
+        youtubeIdFromUrl(
+          (raw.match(/youtube(?:_url)?(?:&quot;|")\s*:\s*(?:&quot;|")([^&"]+)/) ||
+            [])[1],
+        );
+      if (!idFallback) return;
+
+      widget.dataset.chrYtFacade = "pending";
+      slot.innerHTML = "";
+
+      const load = () => {
+        if (widget.dataset.chrYtFacade === "loaded") return;
+        widget.dataset.chrYtFacade = "loaded";
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+        iframe.setAttribute("allowfullscreen", "");
+        iframe.setAttribute("loading", "lazy");
+        iframe.dataset.chrYtPlayer = "1";
+        iframe.title = "Video";
+        // Player embed (not background cover) so the demo fills the 16:9 slot.
+        iframe.setAttribute("src", youtubePlayerEmbedSrc(idFallback, s));
+        slot.replaceChildren(iframe);
+      };
+
+      whenNearViewport(widget, load);
+    });
+  }
+
+  function ensureSingleYouTubeBackground(container, embedSrc) {
+    if (!(container instanceof HTMLElement)) return null;
+    if (container.dataset.chrBgVideo === "1") {
+      const existing = container.querySelector("iframe");
+      if (existing && container.childElementCount === 1) return existing;
+    }
+
+    let iframe = container.querySelector("iframe");
+    if (!iframe) {
+      iframe = document.createElement("iframe");
+      iframe.className = "elementor-background-video-embed";
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("allowfullscreen", "");
+      iframe.setAttribute("allow", "autoplay; encrypted-media");
+      iframe.title = "Background video";
+    } else {
+      iframe.classList.add("elementor-background-video-embed");
+    }
+
+    const current = iframe.getAttribute("src") || "";
+    if (!current.includes("youtube.com/embed/")) iframe.setAttribute("src", embedSrc);
+
+    if (container.childElementCount !== 1 || container.firstElementChild !== iframe) {
+      container.dataset.chrDedupeLock = "1";
+      container.replaceChildren(iframe);
+      delete container.dataset.chrDedupeLock;
+    }
+    container.dataset.chrBgVideo = "1";
+    revealYouTubeBackground(container, iframe);
+    return iframe;
+  }
+
+  function watchYouTubeBackgroundDupes() {
+    if (watchYouTubeBackgroundDupes.bound) return;
+    watchYouTubeBackgroundDupes.bound = true;
+    // Timed passes only — MutationObserver + replaceChildren caused infinite loops / tab crash.
+    [100, 600, 1800].forEach((ms) => setTimeout(dedupeYouTubeBackgroundVideos, ms));
+    window.addEventListener("elementor/frontend/init", () => setTimeout(dedupeYouTubeBackgroundVideos, 400), {
+      once: true,
+    });
+  }
+
   function initBgVideo() {
     document.querySelectorAll("[data-settings*='background_video'], [data-settings*='background_background']").forEach((section) => {
       const s = parseSettings(section);
@@ -73,18 +329,13 @@
 
       const yt = youtubeIdFromUrl(link);
       if (yt) {
-        if (container.querySelector("iframe.elementor-background-video-embed")) return;
-        const origin = encodeURIComponent(window.location.origin);
-        const iframe = document.createElement("iframe");
-        iframe.className = "elementor-background-video-embed";
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allowfullscreen", "");
-        iframe.setAttribute("allow", "autoplay; encrypted-media");
-        iframe.title = "Background video";
-        iframe.src =
-          `https://www.youtube.com/embed/${yt}?controls=0&rel=0&playsinline=1&enablejsapi=1` +
-          `&autoplay=1&mute=1&loop=1&playlist=${yt}&origin=${origin}`;
-        container.appendChild(iframe);
+        // Facade: build the autoplay YouTube background iframe only near viewport.
+        if (container.dataset.chrBgVideo !== "1" && !container.dataset.chrYtArmed) {
+          container.dataset.chrYtArmed = "1";
+          whenNearViewport(section, () =>
+            ensureSingleYouTubeBackground(container, youtubeBackgroundEmbedSrc(yt)),
+          );
+        }
         return;
       }
 
@@ -102,6 +353,7 @@
       video.setAttribute("muted", "");
       const play = video.play();
       if (play && play.catch) play.catch(() => {});
+      markBackgroundVideoLoaded(container);
     });
 
     // Fallback: videos present without walking sections
@@ -682,8 +934,16 @@
   }
 
   function init() {
+    if (init.done) return;
+    init.done = true;
     hydrateLazyMedia();
     initBgVideo();
+    dedupeYouTubeBackgroundVideos();
+    suppressHiddenVideoWidgets();
+    facadeYouTubeVideoWidgets();
+    // Elementor frontend init may re-inject an eager iframe — strip it while still pending.
+    [150, 700, 1900].forEach((ms) => setTimeout(facadeYouTubeVideoWidgets, ms));
+    watchYouTubeBackgroundDupes();
     initCounters();
     initSticky();
     initPopups();
@@ -692,8 +952,19 @@
     initSearchWidgets();
   }
 
-  init();
-  document.addEventListener("DOMContentLoaded", init);
-  window.addEventListener("load", init);
-  [200, 800, 2000].forEach((ms) => setTimeout(init, ms));
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+  window.addEventListener("load", () => setTimeout(dedupeYouTubeBackgroundVideos, 300), { once: true });
+  window.addEventListener(
+    "elementor/frontend/init",
+    () => {
+      dedupeYouTubeBackgroundVideos();
+      suppressHiddenVideoWidgets();
+      facadeYouTubeVideoWidgets();
+    },
+    { once: true },
+  );
 })();

@@ -1,0 +1,75 @@
+---
+/**
+ * Shared author archive shell (page 1 + /page/N/).
+ * Preserves AuthorHero, insights cards (template 213), pagination, SEO.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AuthorHero from "./AuthorHero.astro";
+import Pagination from "./Pagination.astro";
+import type { AuthorEntry, PostEntry } from "../lib/content";
+import { breadcrumbSchema } from "../lib/seo";
+
+interface Props {
+  author: AuthorEntry;
+  name: string;
+  bio: string;
+  items: PostEntry[];
+  cardsHtml: string;
+  page: number;
+  totalPages: number;
+  canonical: string;
+  title: string;
+  bodyClass: string;
+  schemas: ReturnType<typeof breadcrumbSchema>[];
+}
+
+const {
+  author,
+  name,
+  bio,
+  items,
+  cardsHtml,
+  page,
+  totalPages,
+  canonical,
+  title,
+  bodyClass,
+  schemas,
+} = Astro.props;
+---
+
+<BaseLayout
+  currentPath={author.path}
+  bodyClass={bodyClass}
+  extraCss={[
+    "/wp-content/uploads/elementor/css/post-213.css",
+    "/css/author-page.css",
+  ]}
+  seo={{
+    title,
+    description: bio || `Articles by ${name}.`,
+    canonical,
+    ogImage: author.avatar || undefined,
+    schemas,
+  }}
+>
+  <AuthorHero author={author} />
+
+  <section class="author-page-articles">
+    <div class="author-page-articles__inner">
+      <h2 class="author-page-articles__title">Articles By {name}</h2>
+      {
+        items.length ? (
+          <div
+            class="ecs-posts elementor-posts-container elementor-posts elementor-grid elementor-posts--skin-custom"
+            data-sp-author-grid="1"
+            set:html={cardsHtml}
+          />
+        ) : (
+          <p class="author-page-empty">No posts by this author.</p>
+        )
+      }
+      <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+    </div>
+  </section>
+</BaseLayout>

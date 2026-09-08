@@ -483,4 +483,90 @@ body.single-post .elementor-652 .elementor-widget-theme-post-featured-image img,
   }
 }
 
+/* Blog/content tables — restore grid layout on dark post canvas */
+.sp-page-content .sp-table-wrap,
+.elementor-widget-theme-post-content .sp-table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0 1.75rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sp-page-content table,
+.sp-page-content .sp-data-table,
+.elementor-widget-theme-post-content table,
+.elementor-widget-theme-post-content .sp-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  display: table !important;
+  table-layout: auto;
+}
+
+.sp-page-content table thead,
+.sp-page-content .sp-data-table thead,
+.elementor-widget-theme-post-content table thead,
+.elementor-widget-theme-post-content .sp-data-table thead {
+  display: table-header-group !important;
+}
+
+.sp-page-content table tbody,
+.sp-page-content .sp-data-table tbody,
+.elementor-widget-theme-post-content table tbody,
+.elementor-widget-theme-post-content .sp-data-table tbody {
+  display: table-row-group !important;
+}
+
+.sp-page-content table tr,
+.sp-page-content .sp-data-table tr,
+.elementor-widget-theme-post-content table tr,
+.elementor-widget-theme-post-content .sp-data-table tr {
+  display: table-row !important;
+}
+
+.sp-page-content table th,
+.sp-page-content table td,
+.sp-page-content .sp-data-table th,
+.sp-page-content .sp-data-table td,
+.elementor-widget-theme-post-content table th,
+.elementor-widget-theme-post-content table td,
+.elementor-widget-theme-post-content .sp-data-table th,
+.elementor-widget-theme-post-content .sp-data-table td {
+  display: table-cell !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-family: "SF Pro Display", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  vertical-align: top;
+  text-align: left;
+}
+
+.sp-page-content table th,
+.sp-page-content .sp-data-table th,
+.elementor-widget-theme-post-content table th,
+.elementor-widget-theme-post-content .sp-data-table th {
+  background: rgba(255, 221, 4, 0.12);
+  font-weight: 700;
+}
+
+.sp-page-content table tbody tr:nth-child(even) td,
+.sp-page-content .sp-data-table tbody tr:nth-child(even) td,
+.elementor-widget-theme-post-content table tbody tr:nth-child(even) td,
+.elementor-widget-theme-post-content .sp-data-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 767px) {
+  .sp-page-content table th,
+  .sp-page-content table td,
+  .sp-page-content .sp-data-table th,
+  .sp-page-content .sp-data-table td,
+  .elementor-widget-theme-post-content table th,
+  .elementor-widget-theme-post-content table td,
+  .elementor-widget-theme-post-content .sp-data-table th,
+  .elementor-widget-theme-post-content .sp-data-table td {
+    padding: 0.6rem 0.75rem;
+    font-size: 14px;
+  }
+}
 

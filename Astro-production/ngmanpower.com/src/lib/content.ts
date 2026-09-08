@@ -13,6 +13,8 @@ import type {
   PostEntry,
   TagEntry,
 } from "./content-types";
+import fs from "node:fs";
+import path from "node:path";
 
 export type {
   AuthorEntry,
@@ -110,8 +112,13 @@ export function getPostsByTag(tagId: number): PostEntry[] {
 }
 
 export function getPostsByAuthor(authorId: number): PostEntry[] {
+  const author = getAuthors().find((a) => a.id === authorId);
   return getPosts()
-    .filter((p) => p.author === authorId)
+    .filter(
+      (p) =>
+        p.author === authorId ||
+        (!!author?.slug && p.authorSlug === author.slug),
+    )
     .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
 
@@ -165,6 +172,65 @@ export function absoluteUrl(pathname: string, mediaOrigin?: string): string {
 
 export function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Prefer a local uploaded author photo (not Gravatar) for the single-post
+ * author box — same assets used on /author/[slug]/.
+ */
+function publicAssetExists(webPath: string): boolean {
+  const rel = webPath.replace(/^\//, "");
+  return [
+    path.join(process.cwd(), "public", rel),
+    path.join(process.cwd(), "dist", "client", rel),
+  ].some((p) => fs.existsSync(p));
+}
+
+export function resolveLocalAuthorAvatar(
+  author: AuthorEntry | undefined,
+): { src: string; srcset: string } | null {
+  if (!author?.avatar) return null;
+  let src = author.avatar.replace(LIVE_HOST_RE, "").trim();
+  if (!src || /gravatar\.com/i.test(src)) return null;
+  src = src.replace(/\?.*$/, "");
+  if (!src.startsWith("/")) src = `/${src}`;
+
+  const withSize = (size: string) =>
+    src
+      .replace(/-\d+x\d+\.(png|jpe?g|webp)$/i, `-${size}.$1`)
+      .replace(/\.(png|jpe?g|webp)$/i, (m, ext, offset, full) =>
+        /-\d+x\d+\./i.test(full) ? m : `-${size}.${ext}`,
+      );
+
+  const sizeOrder = ["128x128", "150x150", "180x180", "300x300", "96x96", "90x90"];
+  const existing = sizeOrder.map(withSize).filter(publicAssetExists);
+  if (publicAssetExists(src) && !existing.includes(src)) existing.push(src);
+  if (!existing.length) return null;
+
+  const primary = existing[0];
+  const large =
+    existing.find((p) => /-(300x300|256x256|200x200)\./.test(p)) || existing[existing.length - 1];
+  return { src: primary, srcset: `${large} 2x` };
+}
+
+/** Swap Gravatar (or empty) post author avatars for the author's local upload. */
+export function applyLocalAuthorAvatarHtml(
+  html: string,
+  author: AuthorEntry | undefined,
+): string {
+  const avatar = resolveLocalAuthorAvatar(author);
+  if (!avatar || !html) return html;
+  return html.replace(
+    /(<div class="post-author-ava"[^>]*>\s*<img\b)([^>]*)(>)/gi,
+    (_full, open: string, attrs: string, close: string) => {
+      let next = attrs
+        .replace(/\ssrc="[^"]*"/i, ` src="${avatar.src}"`)
+        .replace(/\ssrcset="[^"]*"/i, ` srcset="${avatar.srcset}"`);
+      if (!/\ssrc="/i.test(next)) next += ` src="${avatar.src}"`;
+      if (!/\ssrcset="/i.test(next)) next += ` srcset="${avatar.srcset}"`;
+      return `${open}${next}${close}`;
+    },
+  );
 }
 
 export function formatDate(date: string): string {

@@ -1,0 +1,75 @@
+---
+/**
+ * Shared category/tag archive shell - same layout/SEO pattern as before.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "./PostCard.astro";
+import Pagination from "./Pagination.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import type { PostEntry } from "../lib/content";
+import { breadcrumbSchema } from "../lib/seo";
+
+interface Props {
+  currentPath: string;
+  title: string;
+  description: string;
+  canonical: string;
+  headingHtml: string;
+  descriptionHtml?: string;
+  crumbs: { name: string; href?: string }[];
+  schemaCrumbs: { name: string; url: string }[];
+  items: PostEntry[];
+  page: number;
+  totalPages: number;
+  basePath: string;
+  emptyMessage: string;
+}
+
+const {
+  currentPath,
+  title,
+  description,
+  canonical,
+  headingHtml,
+  descriptionHtml,
+  crumbs,
+  schemaCrumbs,
+  items,
+  page,
+  totalPages,
+  basePath,
+  emptyMessage,
+} = Astro.props;
+---
+
+<BaseLayout
+  currentPath={currentPath}
+  seo={{
+    title,
+    description,
+    canonical,
+    schemas: [breadcrumbSchema(schemaCrumbs)],
+  }}
+>
+  <section class="sp-archive-hero">
+    <div class="sp-container">
+      <Breadcrumbs items={crumbs} />
+      <h1 set:html={headingHtml} />
+      {descriptionHtml && <p set:html={descriptionHtml} />}
+    </div>
+  </section>
+  <section class="sp-container" style="padding: 1rem 0 4rem">
+    {
+      items.length ? (
+        <div class="sp-blog-grid">
+          {items.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      ) : (
+        <p>{emptyMessage}</p>
+      )
+    }
+    <Pagination page={page} totalPages={totalPages} basePath={basePath} />
+  </section>
+</BaseLayout>

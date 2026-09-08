@@ -18,7 +18,7 @@ export function injectRuntimeGtmLoader(html: string): string {
 export function stripLegacyAnalytics(html: string): string {
   // Match one tag pair at a time and decide per block. A greedy pattern that spans
   // from one <script> to a later </script> can swallow </head>, canonical and most
-  // of the document — do not reintroduce cross-boundary regexes here.
+  // of the document - do not reintroduce cross-boundary regexes here.
   let out = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (block) => {
     if (/googletagmanager\.com\/(?:gtm\.js|ns\.html|gtag\/js)/i.test(block)) return '';
     if (/['"]GTM-[A-Z0-9]+['"]/.test(block) && /dataLayer|gtm\.js|googletagmanager/i.test(block)) return '';

@@ -1,0 +1,409 @@
+---
+/**
+ * Figma v3 Insights / blog lead form — posts to /api/contact/.
+ * UI/fields stay Insights-specific; attribution + phone + API match site contact form.
+ *
+ * Script is a single hoisted module (no define:vars + import) so multi-instance
+ * pages never emit broken classic IIFEs that leak source text into the DOM.
+ */
+import { SERVICE_CHIPS } from '../../lib/insights.ts';
+
+interface Props {
+  formId?: string;
+  formName?: string;
+  variant?: 'footer' | 'sidebar';
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  formId = 'insights-lead',
+  formName = 'Connect Group Insights Lead Form',
+  variant = 'footer',
+  title = 'Start Your Journey With Us',
+  subtitle =
+    "Let us know what you're looking for, and we'll help you take the next step.",
+} = Astro.props;
+
+const isSidebar = variant === 'sidebar';
+---
+
+<form
+  id={formId}
+  class:list={['ig-form', isSidebar ? 'ig-form--sidebar' : 'ig-form--footer']}
+  method="post"
+  action="/api/contact/"
+  onsubmit="return false;"
+  novalidate
+  data-ig-lead-form
+  data-form-id={formId}
+  data-form-name={formName}
+>
+  <input type="text" name="website" class="ig-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="form_name" value={formName} />
+  <input type="hidden" name="form_id" value={formId} />
+  <input type="hidden" name="submission_id" value="" />
+  <input type="hidden" name="page_url" value="" />
+  <input type="hidden" name="referrer_url" value="" />
+  <input type="hidden" name="initial_url" value="" />
+  <input type="hidden" name="landing_page_url" value="" />
+  <input type="hidden" name="submission_page_url" value="" />
+  <input type="hidden" name="utm_source" value="" />
+  <input type="hidden" name="utm_medium" value="" />
+  <input type="hidden" name="utm_campaign" value="" />
+  <input type="hidden" name="utm_term" value="" />
+  <input type="hidden" name="utm_content" value="" />
+  <input type="hidden" name="gclid" value="" />
+  <input type="hidden" name="gbraid" value="" />
+  <input type="hidden" name="wbraid" value="" />
+  <input type="hidden" name="fbclid" value="" />
+  <input type="hidden" name="msclkid" value="" />
+  <input type="hidden" name="campaign_id" value="" />
+  <input type="hidden" name="adgroup_id" value="" />
+  <input type="hidden" name="group_id" value="" />
+  <input type="hidden" name="creative_id" value="" />
+  <input type="hidden" name="keyword" value="" />
+  <input type="hidden" name="matchtype" value="" />
+  <input type="hidden" name="device" value="" />
+  <input type="hidden" name="network" value="" />
+  <input type="hidden" name="placement" value="" />
+  <input type="hidden" name="target" value="" />
+  <input type="hidden" name="target_id" value="" />
+  <input type="hidden" name="adposition" value="" />
+  <input type="hidden" name="loc_physical_ms" value="" />
+  <input type="hidden" name="loc_interest_ms" value="" />
+  <input type="hidden" name="gad_source" value="" />
+  <input type="hidden" name="source" value="" />
+  <input type="hidden" name="first_touch_payload" value="" />
+  <input type="hidden" name="last_touch_payload" value="" />
+  <input type="hidden" name="first_visit_at" value="" />
+  <input type="hidden" name="latest_visit_at" value="" />
+  <input type="hidden" name="submitted_at" value="" />
+  <input type="hidden" name="services" value="" data-ig-services />
+
+  <div class="ig-form__intro">
+    <h2 class="ig-form__title">{title}</h2>
+    <p class="ig-form__subtitle">{subtitle}</p>
+  </div>
+
+  <label class="ig-form__field">
+    <span>Full name*</span>
+    <input type="text" name="name" required autocomplete="name" placeholder="Your name" />
+    <span class="ig-form__error" data-error-for="name"></span>
+  </label>
+
+  {isSidebar ? (
+    <>
+      <label class="ig-form__field">
+        <span>Email ID*</span>
+        <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+        <span class="ig-form__error" data-error-for="email"></span>
+      </label>
+      <label class="ig-form__field">
+        <span>Contact Number*</span>
+        <input type="tel" name="phone" class="cg-phone-input wpcf7-phonetext" autocomplete="tel" required />
+        <input type="hidden" name="phone-country-code" value="" />
+        <span class="ig-form__error" data-error-for="phone"></span>
+      </label>
+    </>
+  ) : (
+    <div class="ig-form__row">
+      <label class="ig-form__field">
+        <span>Email ID*</span>
+        <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" />
+        <span class="ig-form__error" data-error-for="email"></span>
+      </label>
+      <label class="ig-form__field">
+        <span>Contact Number*</span>
+        <input type="tel" name="phone" class="cg-phone-input wpcf7-phonetext" autocomplete="tel" required />
+        <input type="hidden" name="phone-country-code" value="" />
+        <span class="ig-form__error" data-error-for="phone"></span>
+      </label>
+    </div>
+  )}
+
+  {!isSidebar && (
+    <fieldset class="ig-form__chips">
+      <legend>
+        <span class="ig-form__chips-title">Let’s Personalize Your Experience</span>
+        <span class="ig-form__chips-hint">You can select one or more options that apply to your needs.</span>
+      </legend>
+      <div class="ig-form__chip-row" data-ig-chip-row>
+        {SERVICE_CHIPS.map((chip) => (
+          <button type="button" class="ig-form__chip" data-chip={chip}>{chip}</button>
+        ))}
+      </div>
+    </fieldset>
+  )}
+
+  <label class="ig-form__field">
+    <span>Message (Optional)</span>
+    <textarea name="message" rows={isSidebar ? 3 : 4} placeholder="Type your message..."></textarea>
+    <span class="ig-form__error" data-error-for="message"></span>
+  </label>
+
+  <button type="submit" class="ig-form__submit">Submit</button>
+  <p class="ig-form__status" hidden></p>
+</form>
+
+<script>
+  // @ts-nocheck — classic DOM form helpers; publisher `astro check` treats this module strictly.
+  import { captureAttribution, populateAttributionFields } from '../../lib/attribution/client';
+
+  function bindInsightsLeadForm(form) {
+    if (!(form instanceof HTMLFormElement) || form.dataset.igLeadBound === '1') return;
+    form.dataset.igLeadBound = '1';
+
+    var formId = form.id || form.getAttribute('data-form-id') || 'insights-lead';
+    var formName =
+      form.getAttribute('data-form-name') ||
+      (form.querySelector('[name="form_name"]') && form.querySelector('[name="form_name"]').value) ||
+      'Connect Group Insights Lead Form';
+
+    var chipRow = form.querySelector('[data-ig-chip-row]');
+    var servicesInput = form.querySelector('[data-ig-services]');
+    var selected = [];
+    var status = form.querySelector('.ig-form__status');
+    var submitBtn = form.querySelector('[type="submit"]');
+    var submitting = false;
+
+    function setHidden(name, value) {
+      var input = form.querySelector('[name="' + name + '"]');
+      if (input) input.value = value || '';
+    }
+
+    function captureTracking() {
+      var captured = captureAttribution(formId, formName);
+      populateAttributionFields(form, captured.firstTouch, captured.lastTouch);
+      setHidden('page_url', window.location.href);
+      setHidden('submission_page_url', window.location.href);
+      setHidden('referrer_url', document.referrer || '');
+      if (!form.dataset.submissionId) {
+        form.dataset.submissionId =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now()) + '-' + Math.random().toString(16).slice(2);
+      }
+      setHidden('submission_id', form.dataset.submissionId);
+    }
+
+    try {
+      captureTracking();
+    } catch (err) {}
+
+    var nameInputLive = form.querySelector('[name="name"]');
+    if (nameInputLive) {
+      nameInputLive.addEventListener('input', function () {
+        var cleaned = String(nameInputLive.value || '')
+          .replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s'-]/g, '')
+          .replace(/\s{2,}/g, ' ');
+        if (nameInputLive.value !== cleaned) nameInputLive.value = cleaned;
+      });
+    }
+    var emailInputLive = form.querySelector('[name="email"]');
+    if (emailInputLive) {
+      emailInputLive.addEventListener('input', function () {
+        var cleaned = String(emailInputLive.value || '').replace(/\s+/g, '');
+        if (emailInputLive.value !== cleaned) emailInputLive.value = cleaned;
+      });
+    }
+    var phoneInputLive = form.querySelector('[name="phone"], .cg-phone-input');
+    if (phoneInputLive) {
+      phoneInputLive.addEventListener('input', function () {
+        var cleaned = String(phoneInputLive.value || '').replace(/[^\d]/g, '');
+        if (phoneInputLive.value !== cleaned) phoneInputLive.value = cleaned;
+      });
+    }
+
+    if (chipRow && servicesInput) {
+      chipRow.addEventListener('click', function (e) {
+        var btn = e.target && e.target.closest ? e.target.closest('[data-chip]') : null;
+        if (!btn) return;
+        var value = btn.getAttribute('data-chip');
+        if (btn.classList.contains('is-active')) {
+          btn.classList.remove('is-active');
+          selected = selected.filter(function (v) {
+            return v !== value;
+          });
+        } else {
+          btn.classList.add('is-active');
+          selected.push(value);
+        }
+        servicesInput.value = selected.join(', ');
+      });
+    }
+
+    function stayOnForm() {
+      if (status && status.scrollIntoView) {
+        status.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      } else if (form.scrollIntoView) {
+        form.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      }
+    }
+
+    function clearErrors() {
+      form.querySelectorAll('.ig-form__error').forEach(function (el) {
+        el.textContent = '';
+      });
+      if (status) {
+        status.hidden = true;
+        status.textContent = '';
+        status.classList.remove('ig-form__status--error', 'ig-form__status--success');
+      }
+    }
+
+    function showFieldErrors(errors) {
+      if (!errors) return;
+      Object.keys(errors).forEach(function (key) {
+        var el = form.querySelector('[data-error-for="' + key + '"]');
+        if (el) el.textContent = errors[key];
+      });
+    }
+
+    function syncPhoneFullNumber() {
+      var phone = form.querySelector('.cg-phone-input');
+      var countryCodeInput = form.querySelector('[name="phone-country-code"]');
+      if (window.jQuery && phone && window.jQuery(phone).data('plugin_intlTelInput')) {
+        try {
+          var full = window.jQuery(phone).intlTelInput('getNumber');
+          if (full) phone.value = full;
+          var dial = window.jQuery(phone).intlTelInput('getSelectedCountryData');
+          if (dial && countryCodeInput) countryCodeInput.value = '+' + dial.dialCode;
+        } catch (err) {}
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (submitting) return;
+
+      clearErrors();
+      try {
+        captureTracking();
+      } catch (err) {}
+      setHidden('submitted_at', new Date().toISOString());
+
+      var nameInput = form.querySelector('[name="name"]');
+      var emailInput = form.querySelector('[name="email"]');
+      var phoneInput = form.querySelector('[name="phone"], .cg-phone-input');
+      var messageInput = form.querySelector('[name="message"]');
+      var nameValue = ((nameInput && nameInput.value) || '').trim();
+      var emailValue = ((emailInput && emailInput.value) || '').trim();
+      var phoneValue = ((phoneInput && phoneInput.value) || '').replace(/\D/g, '');
+      var messageValue = ((messageInput && messageInput.value) || '').trim();
+      var clientErrors = {};
+
+      if (!nameValue) clientErrors.name = 'Your name is required.';
+      else if (
+        /@|\d|\./.test(nameValue) ||
+        /\b[A-Za-zÀ-ÖØ-öø-ÿ0-9][A-Za-zÀ-ÖØ-öø-ÿ0-9-]*\.[A-Za-z]{2,}(?:\.[A-Za-z]{2,})*\b/.test(nameValue) ||
+        !/^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s'-]+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(nameValue)
+      ) {
+        clientErrors.name = 'Please enter a valid name.';
+      }
+      if (!emailValue) clientErrors.email = 'A valid email address is required.';
+      else if (
+        emailValue.indexOf('@') < 0 ||
+        !/^[a-z0-9](?:[a-z0-9._%+-]*[a-z0-9])?@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z]{2,})+$/i.test(
+          emailValue,
+        )
+      ) {
+        clientErrors.email = 'Please enter a valid email address.';
+      }
+      if (!phoneValue) clientErrors.phone = 'A valid phone number is required.';
+      else if (phoneValue.length < 7 || phoneValue.length > 15) {
+        clientErrors.phone = 'Please enter a valid phone number.';
+      }
+
+      if (Object.keys(clientErrors).length) {
+        showFieldErrors(clientErrors);
+        if (status) {
+          status.hidden = false;
+          status.textContent = 'Please provide all required information.';
+          status.classList.add('ig-form__status--error');
+        }
+        stayOnForm();
+        return;
+      }
+
+      syncPhoneFullNumber();
+
+      if (!messageValue) {
+        if (selected.length) messageValue = 'Interested in: ' + selected.join(', ');
+        else if (servicesInput && servicesInput.value) messageValue = 'Interested in: ' + servicesInput.value;
+        else messageValue = 'Insights lead enquiry';
+        if (messageInput) messageInput.value = messageValue;
+      } else if (selected.length) {
+        messageValue = messageValue + '\n\nServices: ' + selected.join(', ');
+        if (messageInput) messageInput.value = messageValue;
+      }
+
+      submitting = true;
+      if (submitBtn) submitBtn.disabled = true;
+
+      fetch('/api/contact/', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+        credentials: 'same-origin',
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            return { ok: res.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          if (!status) return;
+          status.hidden = false;
+          if (result.ok && result.data && result.data.success) {
+            status.classList.add('ig-form__status--success');
+            status.textContent = result.data.message || 'Thank you — we will be in touch shortly.';
+            form.reset();
+            selected = [];
+            form.querySelectorAll('.ig-form__chip.is-active').forEach(function (b) {
+              b.classList.remove('is-active');
+            });
+            if (servicesInput) servicesInput.value = '';
+            form.dataset.submissionId =
+              typeof crypto !== 'undefined' && crypto.randomUUID
+                ? crypto.randomUUID()
+                : String(Date.now());
+            try {
+              captureTracking();
+            } catch (err) {}
+            stayOnForm();
+            return;
+          }
+          status.classList.add('ig-form__status--error');
+          status.textContent =
+            (result.data && result.data.message) ||
+            'We could not submit your enquiry at the moment. Please try again shortly.';
+          showFieldErrors(result.data && result.data.errors);
+          stayOnForm();
+        })
+        .catch(function () {
+          if (status) {
+            status.hidden = false;
+            status.classList.add('ig-form__status--error');
+            status.textContent = 'We could not submit your enquiry at the moment. Please try again shortly.';
+          }
+          stayOnForm();
+        })
+        .finally(function () {
+          submitting = false;
+          if (submitBtn) submitBtn.disabled = false;
+        });
+    });
+  }
+
+  function bindAllInsightsLeadForms() {
+    document.querySelectorAll('form[data-ig-lead-form]').forEach(bindInsightsLeadForm);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindAllInsightsLeadForms);
+  } else {
+    bindAllInsightsLeadForms();
+  }
+</script>

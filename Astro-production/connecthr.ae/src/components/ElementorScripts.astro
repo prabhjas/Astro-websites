@@ -10,6 +10,7 @@
 <script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
 <script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
+<script is:inline src="/wp-content/plugins/elementor/assets/lib/dialog/dialog.min.js"></script>
 <script is:inline>
   window.elementorFrontendConfig = window.elementorFrontendConfig || {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
@@ -36,11 +37,59 @@
     elements: { data: {}, nestedElements: {}, hasPopUps: true },
   };
 </script>
+<script is:inline src="/scripts/elementor-counters.js?v=20260901e"></script>
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
+<script is:inline>
+  // Block Elementor YouTube background-video handler — connecthr-widgets owns a single iframe.
+  (function () {
+    function patch() {
+      const eh = window.elementorFrontend?.elementsHandler;
+      if (!eh || eh.__chrBgVideoPatch) return Boolean(eh);
+      eh.__chrBgVideoPatch = true;
+      const orig = eh.attachHandler.bind(eh);
+      eh.attachHandler = function (name, cb, ...rest) {
+        if (name === "background-video") {
+          return orig(
+            name,
+            function ($scope) {
+              const node = $scope?.[0];
+              const raw = node?.getAttribute?.("data-settings") || "";
+              if (/youtube/i.test(raw)) return;
+              return cb.apply(this, arguments);
+            },
+            ...rest,
+          );
+        }
+        return orig(name, cb, ...rest);
+      };
+      return true;
+    }
+    if (!patch()) {
+      const t = setInterval(() => {
+        if (patch()) clearInterval(t);
+      }, 10);
+      setTimeout(() => clearInterval(t), 5000);
+    }
+  })();
+</script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
 <script is:inline>
+  // Elementor Pro loop carousel / masonry expect WP globals that Astro doesn't ship.
+  window.wp = window.wp || {};
+  window.wp.i18n = window.wp.i18n || {
+    __: (s) => s,
+    _x: (s) => s,
+    _n: (s) => s,
+    _nx: (s) => s,
+    sprintf: (s, ...args) =>
+      String(s).replace(/%(\d+\$)?[sd]/g, () => String(args.shift() ?? "")),
+    isRTL: () => document.documentElement.dir === "rtl",
+    setLocaleData: () => {},
+    getLocaleData: () => ({}),
+  };
   window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
     ajaxurl: "/api/contact/",
     nonce: "astro",
@@ -52,13 +101,22 @@
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
 <script is:inline src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
 <script is:inline src="/scripts/swiper.min.js"></script>
-<script is:inline src="/scripts/sp-carousels.js"></script>
-<script is:inline src="/scripts/phone-flags.js"></script>
-<script is:inline src="/scripts/cf7-bridge.js"></script>
-<script is:inline src="/scripts/accordion.js"></script>
-<script is:inline src="/scripts/blog-load-more.js"></script>
-<script is:inline src="/scripts/connecthr-widgets.js"></script>
+<script is:inline src="/scripts/phone-flags.js?v=20260901e"></script>
+<script is:inline src="/scripts/cf7-bridge.js?v=20260904a"></script>
+<script is:inline src="/scripts/accordion.js?v=20260901e"></script>
+<script is:inline src="/scripts/blog-load-more.js?v=20260901e"></script>
+<script is:inline src="/scripts/connecthr-widgets.js?v=20260903a"></script>
 <script is:inline>
+  // Facade decorative YouTube video widgets: rename their widget_type so Elementor
+  // never builds an eager autoplay iframe (that pulls ~2 MB of googlevideo + player
+  // JS into the LCP path). connecthr-widgets loads the real iframe on scroll instead.
+  // Classes are preserved, so layout/CLS is unchanged.
+  document.querySelectorAll(".elementor-widget-video").forEach((w) => {
+    if (!/youtube/i.test(w.getAttribute("data-settings") || "")) return;
+    w.setAttribute("data-chr-yt-widget", "1");
+    w.setAttribute("data-widget_type", "chr-video-facade.default");
+  });
+
   // Prevent Elementor lazy-bg CSS from wiping section backgrounds without its runtime
   document.querySelectorAll(".e-con, .elementor-section").forEach((el) => {
     el.classList.add("e-lazyloaded", "e-no-lazyload");

@@ -982,7 +982,9 @@ export function injectHomepageLatestBlog(html: string, count = 3): string {
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-d3dabbd>.elementor-container,
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-a830b31,
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-a830b31>.elementor-widget-wrap{height:100%;display:flex!important;flex-direction:column;flex:1 1 auto}
-.elementor-element-6dc4045 .elementor-5894 .elementor-element-5ee249c img{width:100%;height:220px;object-fit:cover;display:block}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-5ee249c .elementor-widget-container{height:220px;overflow:hidden}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-5ee249c .elementor-widget-container a{display:flex;align-items:center;justify-content:center;height:220px;width:100%;background:#f6f8fa}
+.elementor-element-6dc4045 .elementor-5894 .elementor-element-5ee249c img{width:100%;height:220px;object-fit:contain;display:block}
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-f1ba8fd{min-height:4.2em}
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-f1ba8fd .elementor-heading-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.4em}
 .elementor-element-6dc4045 .elementor-5894 .elementor-element-bf5a7f6{min-height:4.2em;flex:1 1 auto}

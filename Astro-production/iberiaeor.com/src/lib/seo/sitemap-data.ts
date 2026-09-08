@@ -1,5 +1,5 @@
 /**
- * Sitemap data layer — Rank Math–style pages/posts for the SEO dashboard
+ * Sitemap data layer - Rank Math–style pages/posts for the SEO dashboard
  * and public /sitemap_index.xml endpoints.
  *
  * Discovery comes from pages.json / posts.json (the live content store), so new
@@ -13,6 +13,7 @@ import { parse } from 'yaml';
 import { getPages, getPosts } from '../content.ts';
 import {
   EXCLUDED_PAGE_SLUGS,
+  EXCLUDED_SITEMAP_PATHS,
   SITEMAP_ENTRY_LIMIT,
   type SitemapEntry,
 } from './sitemap-config.ts';
@@ -40,7 +41,7 @@ const REDIRECTS_FILE = join(ROOT, 'src/data/redirects.yml');
 
 export type SitemapDataOptions = ResolveSiteOriginOptions & {
   entryLimit?: number;
-  /** INTERNAL_ADMIN_DIR — when set, merge dashboard priority/changefreq overrides. */
+  /** INTERNAL_ADMIN_DIR - when set, merge dashboard priority/changefreq overrides. */
   adminDir?: string;
 };
 
@@ -128,6 +129,7 @@ function entriesFromLiveRows(
   for (const row of rows) {
     const path = normaliseCanonicalPath(row.path);
     if (!path) continue;
+    if (EXCLUDED_SITEMAP_PATHS.has(path)) continue;
     if (redirectSources.has(path)) continue;
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
     if (type === 'page' && EXCLUDED_PAGE_SLUGS.has(slug.split('/')[0] || '')) continue;
@@ -151,6 +153,7 @@ function entriesFromContentPages(
   for (const page of getPages()) {
     const path = normaliseCanonicalPath(page.path || `/${page.slug}/`);
     if (!path) continue;
+    if (EXCLUDED_SITEMAP_PATHS.has(path)) continue;
     const slug = path === '/' ? '' : path.replace(/^\/|\/$/g, '');
     const topSlug = slug.split('/')[0] || '';
     if (EXCLUDED_PAGE_SLUGS.has(topSlug)) continue;
@@ -218,19 +221,20 @@ export function listStaticPageSlugs(): string[] {
 }
 
 /**
- * pages.json / posts.json decide what the site actually serves.
- * For public Rank Math child sitemaps on EOR, prefer the synced live snapshot
- * when present so page/post/guides/country/eor lists match production.
- * Content store still fills gaps if a snapshot bucket is empty.
+ * pages.json / posts.json are the source of truth for indexable URLs.
+ * Synced sitemap-urls.json only enriches lastmod when a path exists in both.
  */
-function preferLiveSnapshot(snapshot: SitemapEntry[], content: SitemapEntry[]): SitemapEntry[] {
-  if (snapshot.length) {
-    const lastmodByUrl = new Map(content.map((entry) => [entry.url, entry.lastmod]));
-    return snapshot.map((entry) =>
-      entry.lastmod ? entry : { ...entry, lastmod: lastmodByUrl.get(entry.url) },
-    );
-  }
-  return content;
+function mergeContentWithLiveSnapshot(
+  snapshot: SitemapEntry[],
+  content: SitemapEntry[],
+): SitemapEntry[] {
+  const lastmodByUrl = new Map(
+    snapshot.filter((entry) => entry.lastmod).map((entry) => [entry.url, entry.lastmod]),
+  );
+  return content.map((entry) => ({
+    ...entry,
+    lastmod: entry.lastmod || lastmodByUrl.get(entry.url),
+  }));
 }
 
 export function collectPageEntries(
@@ -255,7 +259,7 @@ export function collectPageEntries(
       return true;
     }
   });
-  const entries = preferLiveSnapshot(
+  const entries = mergeContentWithLiveSnapshot(
     entriesFromLiveRows(live?.pages, 'page', siteOrigin, redirectSources),
     contentPages,
   );
@@ -268,7 +272,7 @@ export function collectPostEntries(
 ): SitemapEntry[] {
   const redirectSources = loadRedirectSources();
   const live = readLiveSitemapFile();
-  const entries = preferLiveSnapshot(
+  const entries = mergeContentWithLiveSnapshot(
     entriesFromLiveRows(live?.posts, 'post', siteOrigin, redirectSources),
     entriesFromContentPosts(siteOrigin, redirectSources),
   );

@@ -57,6 +57,8 @@ export type ContactFormInput = {
   consent?: string | boolean;
   honeypot?: string;
   submittedAt?: string;
+  roiPercent?: string;
+  annualSavingsAed?: string;
 };
 
 export type NormalisedContactForm = {
@@ -216,6 +218,15 @@ export function normaliseFormData(input: ContactFormInput): NormalisedContactFor
   };
 }
 
+function isRoiCalculatorForm(input: ContactFormInput): boolean {
+  const formName = input.formName?.trim() ?? '';
+  return (
+    (formName.length > 0 && /roi/i.test(formName)) ||
+    isMeaningfulValue(input.roiPercent) ||
+    isMeaningfulValue(input.annualSavingsAed)
+  );
+}
+
 export function validateContactForm(input: ContactFormInput): ValidationResult {
   if (isMeaningfulValue(input.honeypot)) {
     return {
@@ -246,8 +257,11 @@ export function validateContactForm(input: ContactFormInput): ValidationResult {
   }
 
   const phoneDigits = data.phone.replace(/\D/g, '');
+  const roiForm = isRoiCalculatorForm(input);
   if (!isMeaningfulValue(data.phone)) {
-    errors.phone = 'Phone number is required.';
+    if (!roiForm) {
+      errors.phone = 'Phone number is required.';
+    }
   } else if (/[a-zA-Z]/.test(data.phone)) {
     errors.phone = 'Phone number can only contain digits.';
   } else if (!PHONE_RE.test(data.phone) || phoneDigits.length < 7 || phoneDigits.length > 15) {

@@ -23,6 +23,19 @@ span.gd-color {
   font-size: 20px;
 }
 
+.single-post .elementor-widget-theme-post-content ul {
+  padding-bottom: 20px;
+}
+
+/* Elementor post CSS hides the last crumb; show Home → Blog → post title */
+.single-post .elementor-widget-elementskit-breadcrumb .ekit-breadcrumb li:last-child {
+  display: list-item !important;
+}
+
+.single-post .elementor-widget-elementskit-breadcrumb .ekit-breadcrumb li:nth-last-child(2).brd_sep {
+  display: list-item !important;
+}
+
 @media (max-width: 1023px) {
  h1 {
     font-weight: 600;

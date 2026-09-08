@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import {
+  BLOG_LOAD_MORE_PER_PAGE,
+  renderBlogCardsHtml,
+} from "../../lib/blog-card-html";
 import { getCategories, getPageByPath, getPosts, stripHtml } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
 
@@ -10,11 +13,22 @@ export const prerender = false;
 const page = getPageByPath("/blog/");
 if (!page) throw new Error("Blog page missing");
 
-const totalPosts = getPosts().length;
+const sortedPosts = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
+const totalPosts = sortedPosts.length;
 let html = page.bodyHtml || page.content;
 
 const initialItems = (html.match(/e-loop-item-/g) || []).length || BLOG_LOAD_MORE_PER_PAGE;
+const cards = renderBlogCardsHtml(sortedPosts.slice(0, initialItems));
 const hasMore = totalPosts > initialItems;
+
+html = html.replace(
+  /(<div[^>]*class="[^"]*elementor-loop-container[^"]*"[^>]*>)([\s\S]*?)(<\/div>\s*(?:<div[^>]*class="[^"]*e-loop__load-more|<\/div>\s*<div[^>]*class="[^"]*e-load-more))/i,
+  (_full, open, inner, closeStart) => {
+    const styleMatch = String(inner).match(/<style\b[^>]*>[\s\S]*?<\/style>/i);
+    const styleBlock = styleMatch ? styleMatch[0] + "\n" : "";
+    return `${open}${styleBlock}${cards}${closeStart}`;
+  },
+);
 
 if (hasMore) {
   html = html.replace(
@@ -55,7 +69,7 @@ html = html.replace(/<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi, (_full, at
   return `<div${attrs}>`;
 });
 
-const posts = getPosts();
+const posts = sortedPosts;
 const usedCatIds = new Set(posts.flatMap((p) => p.categories || []));
 const catOptions = getCategories()
   .filter((c) => usedCatIds.has(c.id))

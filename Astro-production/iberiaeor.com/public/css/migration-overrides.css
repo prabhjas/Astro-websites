@@ -35,7 +35,7 @@ div.wpa {
 }
 
 /*
-  Desktop Services dropdown — icons, width, nested flyout (no clip / overlap).
+  Desktop Services dropdown - icons, width, nested flyout (no clip / overlap).
 */
 @media (min-width: 1025px) {
   .sp-elementor-header,
@@ -90,7 +90,7 @@ div.wpa {
     transform: rotate(-90deg);
   }
 
-  /* First-level Services panel — wide enough for longest label */
+  /* First-level Services panel - wide enough for longest label */
   .sp-elementor-header
     .elementor-nav-menu--main
     > .elementor-nav-menu
@@ -247,7 +247,7 @@ nav.rank-math-breadcrumb .last {
 }
 
 /*
-  Dark solid blue heroes (Elementor #0246FF) — pale Home + white current.
+  Dark solid blue heroes (Elementor #0246FF) - pale Home + white current.
   HR Services Spain = elementor-183 (Elementor CSS: a #A9E2FA / text #FFFFFF).
 */
 body.elementor-page-183 nav.rank-math-breadcrumb,
@@ -326,7 +326,7 @@ body.single nav.sp-breadcrumbs,
   display: none !important;
 }
 
-/* Page/footer Contact Form (.main-form) — match live Iberia + screenshot */
+/* Page/footer Contact Form (.main-form) - match live Iberia + screenshot */
 .main-form .wpcf7 input[type="text"],
 .main-form .wpcf7 input[type="email"],
 .main-form .wpcf7 input[type="tel"],
@@ -383,7 +383,7 @@ body.single nav.sp-breadcrumbs,
   background: #0036cc !important;
   color: #fff !important;
 }
-/* Phone flag chrome — dial-code strip stays inside the input border */
+/* Phone flag chrome - dial-code strip stays inside the input border */
 .main-form .intl-tel-input,
 .wpcf7-form .intl-tel-input,
 .sp-form .intl-tel-input,
@@ -393,7 +393,7 @@ body.single nav.sp-breadcrumbs,
   position: relative !important;
   display: block !important;
 }
-/* Margin lives on the wrapper only — otherwise flag-container stretches into the gap */
+/* Margin lives on the wrapper only - otherwise flag-container stretches into the gap */
 .main-form .intl-tel-input input.wpcf7-phonetext,
 .main-form .intl-tel-input input[type="tel"],
 .main-form .intl-tel-input input[type="text"],
@@ -476,7 +476,7 @@ body.single nav.sp-breadcrumbs,
 }
 
 
-/* Single-post sidebar form (.sp-form) — white fields, orange submit (live post-234 custom CSS) */
+/* Single-post sidebar form (.sp-form) - white fields, orange submit (live post-234 custom CSS) */
 .sp-form .wpcf7 input[type="text"],
 .sp-form .wpcf7 input[type="email"],
 .sp-form .wpcf7 input[type="tel"],
@@ -537,13 +537,13 @@ body.single nav.sp-breadcrumbs,
 
 /*
   Live site canvas: Hello Elementor body is white (or transparent → white).
-  Do NOT force a black body — Core Services + Contact sections inherit white.
+  Do NOT force a black body - Core Services + Contact sections inherit white.
   Dark sections get backgrounds from Elementor CSS + elementor-bg-fallback.css.
 */
 
 /*
   Single posts: keep header transparent like other pages (Elementor #FFDD0400).
-  With body margin 0, the dark post canvas sits behind white nav — matches live overlay.
+  With body margin 0, the dark post canvas sits behind white nav - matches live overlay.
   Do not force a solid black header bar.
 */
 
@@ -573,7 +573,7 @@ input[name^="countrytext-"],
   display: none !important;
 }
 
-/* We only use intlTelInput for phone — hide countrySelect chrome only.
+/* We only use intlTelInput for phone - hide countrySelect chrome only.
    Do NOT hide .country-list globally: intl-tel-input uses that class for its dropdown. */
 .country-select:not(.intl-tel-input .country-list),
 .country-select-input,
@@ -626,7 +626,7 @@ body > ul.country-list.country-select-list {
   }
 }
 
-/* Client logo image carousels — keep logos readable in a single row */
+/* Client logo image carousels - keep logos readable in a single row */
 .elementor-widget-image-carousel .swiper-slide {
   display: flex;
   align-items: center;
@@ -670,6 +670,28 @@ body > ul.country-list.country-select-list {
 .elementor-accordion .elementor-accordion-icon {
   display: inline-flex;
   align-items: center;
+}
+
+/*
+  FAQ questions use <h5 class="elementor-*-title"> (was <a>).
+  Neutralize UA heading styles so typography stays class/widget-driven.
+*/
+.elementor-tab-title .elementor-accordion-title,
+.elementor-tab-title .elementor-toggle-title {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  cursor: inherit;
+}
+
+.elementor-tab-title a,
+.elementor-tab-title h5.elementor-accordion-title,
+.elementor-tab-title h5.elementor-toggle-title {
+  color: inherit;
 }
 
 /* Contact form validation + status (visible on dark catalog forms) */
@@ -746,7 +768,7 @@ div.wpcf7-response-output.sp-status-visible,
   border-color: #dc3232 !important;
 }
 
-/* Contact Us: orange info column — white text/links + paper-plane icons */
+/* Contact Us: orange info column - white text/links + paper-plane icons */
 .elementor-1706 .elementor-element-857c984 .icon-box-content,
 .elementor-1706 .elementor-element-857c984 .icon-box-content p,
 .elementor-1706 .elementor-element-857c984 .icon-box-content a,

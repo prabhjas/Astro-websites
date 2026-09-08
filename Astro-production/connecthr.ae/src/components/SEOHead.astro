@@ -7,10 +7,21 @@ interface Props {
   seo?: SeoInput;
   fallback?: SeoData;
   extraCss?: string[];
+  /** Load extraCss non-render-blocking (only when complete critical CSS is inlined). */
+  asyncCss?: boolean;
+  /** LCP preload link descriptors for this route (from cwv-manifest). */
+  heroPreloads?: Array<Record<string, string>>;
   currentPath?: string;
 }
 
-const { seo = {}, fallback, extraCss = [], currentPath = "/" } = Astro.props;
+const {
+  seo = {},
+  fallback,
+  extraCss = [],
+  asyncCss = false,
+  heroPreloads = [],
+  currentPath = "/",
+} = Astro.props;
 const meta = resolveSeo(seo, fallback);
 const hreflangAlternates = resolveHreflangAlternates(currentPath);
 const ogLocale = currentPath.startsWith("/ar/") || currentPath === "/ar" ? "ar_AE" : "en_US";
@@ -20,6 +31,26 @@ const schemas = [organizationSchema(), ...meta.schemas];
 
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{
+  /* Above-the-fold brand font (self-hosted) — preload on routes with inlined critical
+     CSS so the hero heading paints in the correct face immediately (LCP) without a
+     font-swap shift (CLS). */
+  asyncCss && (
+    <>
+      <link rel="preload" as="font" type="font/woff2" href="/wp-content/uploads/2025/07/GeneralSans-Bold.woff2" crossorigin />
+      <link rel="preload" as="font" type="font/woff2" href="/wp-content/uploads/2025/07/GeneralSans-Semibold.woff2" crossorigin />
+      <link rel="preload" as="font" type="font/woff2" href="/wp-content/uploads/2025/07/GeneralSans-Medium.woff2" crossorigin />
+      <link rel="preload" as="font" type="font/woff2" href="/wp-content/uploads/2025/07/GeneralSans-Regular.woff2" crossorigin />
+    </>
+  )
+}
+{
+  /* Route LCP preloads (hero image/video poster) from cwv-manifest — discovered
+     late otherwise (CSS backgrounds / JS-driven video), so hint them high-priority. */
+  heroPreloads.map((p) => <link rel="preload" {...p} />)
+}
 <title>{meta.title}</title>
 <meta name="description" content={meta.description} />
 <meta name="robots" content={meta.robots} />
@@ -55,9 +86,35 @@ const schemas = [organizationSchema(), ...meta.schemas];
 <link rel="apple-touch-icon" href={site.favicon} />
 
 {
-  extraCss.map((href) => (
-    <link rel="stylesheet" href={href} />
-  ))
+  asyncCss ? (
+    <>
+      {/*
+        Per-viewport CSS delivery. The inlined critical CSS is generated for the
+        MOBILE above-the-fold, so:
+        - Mobile: load the full CSS non-blocking (media="print" → all onload). Fast
+          FCP; the inline critical covers the mobile fold → no shift.
+        - Desktop (≥1025px): a second <link> with media="(min-width:1025px)" is
+          render-blocking on desktop (mobile critical doesn't cover the desktop fold,
+          so we must have the full CSS before paint to avoid CLS). Desktop is fast
+          enough to render-block. Same URL → served from cache, no double download.
+        - <noscript>: plain blocking links when JS is off.
+      */}
+      {extraCss.map((href) => (
+        <link
+          rel="stylesheet"
+          href={href}
+          media="print"
+          onload="this.media='all';this.onload=null;"
+        />
+      ))}
+      {extraCss.map((href) => (
+        <link rel="stylesheet" href={href} media="(min-width: 1025px)" />
+      ))}
+      <noscript set:html={extraCss.map((h) => `<link rel="stylesheet" href="${h}">`).join("")} />
+    </>
+  ) : (
+    extraCss.map((href) => <link rel="stylesheet" href={href} />)
+  )
 }
 
 {

@@ -19,7 +19,7 @@ try {
 
 // Rank Math–style robots/sitemaps live under src/pages/
 // (sitemap_index.xml.ts, page-sitemap.xml.ts, post-sitemap.xml.ts).
-// Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
+// Do not add @astrojs/sitemap - it would emit a competing sitemap-index.xml.
 export default defineConfig({
   site: siteUrl,
   trailingSlash: "always",

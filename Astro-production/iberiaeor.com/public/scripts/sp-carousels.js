@@ -82,7 +82,7 @@
       wrap.style.transitionDuration = "";
     }
     el.style.overflow = "hidden";
-    // Don't force display:block — it can break Elementor flex column widths
+    // Don't force display:block - it can break Elementor flex column widths
   }
 
   function wireNav(sw, next, prev) {
@@ -180,7 +180,7 @@
     const canLoop = wantLoop && slides > Math.max(deskView, tabView, mobView);
     const autoplayDelay = num(settings.autoplay_speed, 5000);
 
-    // Minimal options — Elementor Swiper throws if nav/pagination/a11y els are stale
+    // Minimal options - Elementor Swiper throws if nav/pagination/a11y els are stale
     const base = {
       slidesPerView: mobView,
       spaceBetween: space,

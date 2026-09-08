@@ -160,11 +160,14 @@
     return "";
   }
 
+  function phoneInput(form) {
+    return form.querySelector(
+      "input.wpcf7-phonetext, input[name^='phonetext-'], input[name='your-phone'], input[name='phone'], input[type='tel']",
+    );
+  }
+
   function getPhoneValue(form) {
-    const phone =
-      form.querySelector(
-        "input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']",
-      );
+    const phone = phoneInput(form);
     if (!phone) return "";
 
     try {
@@ -172,10 +175,11 @@
         const $el = window.jQuery(phone);
         if ($el.data("plugin_intlTelInput") || $el.data("intlTelInput")) {
           const full = $el.intlTelInput("getNumber");
-          if (full) return String(full).trim();
-          const data = $el.intlTelInput("getSelectedCountryData");
           const national = String(phone.value || "").replace(/\D/g, "");
+          if (full && national) return String(full).trim();
+          const data = $el.intlTelInput("getSelectedCountryData");
           if (national && data?.dialCode) return `+${data.dialCode}${national}`;
+          return national ? String(full || "").trim() : "";
         }
       }
     } catch {
@@ -184,7 +188,74 @@
     return String(phone.value || "").trim();
   }
 
+  const ROI_MONTHLY_SUB = 2500;
+  const ROI_TIME_SAVED = 0.8;
+  const ROI_ERROR_COST = 800;
+  const ROI_SIF_PENALTY = 500;
+
+  function isRoiCalculatorForm(form) {
+    return !!form.querySelector('[name="roi_percent"], #f_roi');
+  }
+
+  function computeRoiFromSliders() {
+    const hr = parseInt(document.getElementById("hrCount")?.value || "0", 10) || 0;
+    const sal = parseInt(document.getElementById("salary")?.value || "0", 10) || 0;
+    const hrs = parseInt(document.getElementById("hours")?.value || "0", 10) || 0;
+    const hrly = sal / 176;
+    const hrCost = hrly * hrs * hr;
+    const errCst = ROI_ERROR_COST * hr;
+    const manual = hrCost + errCst + ROI_SIF_PENALTY;
+    const withCHR = ROI_MONTHLY_SUB + hrCost * 0.2;
+    const netMo = manual - withCHR;
+    const netYr = netMo * 12;
+    const roi = netYr > 0 ? Math.round((netYr / (ROI_MONTHLY_SUB * 12)) * 100) : 0;
+    return { hr, sal, hrs, netMo, netYr, roi };
+  }
+
+  function injectRoiCalculatorFields(form) {
+    if (!isRoiCalculatorForm(form)) return;
+    const d = computeRoiFromSliders();
+    const setVal = (selector, value) => {
+      const el = form.querySelector(selector);
+      if (el) el.value = String(value);
+    };
+    setVal("#f_hr_count, [name='hr_count']", d.hr);
+    setVal("#f_salary, [name='avg_salary_aed']", d.sal);
+    setVal("#f_hours, [name='payroll_hours_per_month']", d.hrs);
+    setVal("#f_monthly, [name='monthly_savings_aed']", Math.round(d.netMo));
+    setVal("#f_annual, [name='annual_savings_aed']", Math.round(d.netYr));
+    setVal("#f_roi, [name='roi_percent']", d.roi);
+  }
+
+  function dispatchWpcf7MailSent(form) {
+    const wpcf7Root = form.closest(".wpcf7");
+    document.dispatchEvent(
+      new CustomEvent("wpcf7mailsent", {
+        bubbles: true,
+        detail: {
+          contactFormId: form.querySelector('[name="_wpcf7"]')?.value || "",
+          unitTag: wpcf7Root?.id || form.querySelector('[name="_wpcf7_unit_tag"]')?.value || "",
+        },
+      }),
+    );
+  }
+
+  function isPhoneRequired(form) {
+    const phoneEl = phoneInput(form);
+    if (!phoneEl) return false;
+    if (isRoiCalculatorForm(form)) {
+      return (
+        phoneEl.getAttribute("aria-required") === "true" ||
+        phoneEl.classList.contains("wpcf7-validates-as-required")
+      );
+    }
+    return true;
+  }
+
   function detectFormName(form) {
+    if (isRoiCalculatorForm(form) || /\/roi-calculator\/?$/i.test(window.location.pathname)) {
+      return "Connect HR ROI Calculator";
+    }
     const heading = (
       form.closest(".elementor-widget-container, .elementor-element, section, .main-form")?.innerText ||
       form.innerText ||
@@ -328,7 +399,7 @@
     });
 
     const phoneFields = form.querySelectorAll(
-      "input.wpcf7-phonetext, input[name='phonetext-597'], input[name='phone'], input[type='tel']",
+      "input.wpcf7-phonetext, input[name^='phonetext-'], input[name='phone'], input[type='tel']",
     );
     phoneFields.forEach((el) => {
       el.setAttribute("inputmode", "numeric");
@@ -348,10 +419,9 @@
       );
     const last = form.querySelector("[name='last-name'], [name='lastName']");
     const email = form.querySelector("[name='your-email'], [name='email']");
-    const phoneEl =
-      form.querySelector(
-        "input.wpcf7-phonetext, input[name='your-phone'], input[name='phonetext-597'], input[name='phone'], input[type='tel']",
-      );
+    const phoneEl = phoneInput(form);
+    const company = form.querySelector("[name='company-name']");
+    const employeeCount = form.querySelector("[name='select-19']");
 
     if (first) sanitizeNameInput(first);
     if (last) sanitizeNameInput(last);
@@ -390,7 +460,7 @@
       showFieldError(email, errors.email);
     }
 
-    if (phoneEl) {
+    if (phoneEl && isPhoneRequired(form)) {
       const digits = phone.replace(/\D/g, "");
       if (!phone) {
         errors.phone = "Phone number is required.";
@@ -401,6 +471,22 @@
       } else if (!PHONE_RE.test(phone) || digits.length < 7 || digits.length > 15) {
         errors.phone = "Enter a valid phone number.";
         showFieldError(phoneEl, errors.phone);
+      }
+    }
+
+    if (company && company.classList.contains("wpcf7-validates-as-required")) {
+      const companyVal = String(company.value || "").trim();
+      if (!companyVal) {
+        errors.company = "Company name is required.";
+        showFieldError(company, errors.company);
+      }
+    }
+
+    if (employeeCount && employeeCount.classList.contains("wpcf7-validates-as-required")) {
+      const countVal = String(employeeCount.value || "").trim();
+      if (!countVal) {
+        errors.employees = "Employee count is required.";
+        showFieldError(employeeCount, errors.employees);
       }
     }
 
@@ -420,138 +506,150 @@
     });
   }
 
-  function wireForm(form) {
-    if (!(form instanceof HTMLFormElement) || form.dataset.spContactWired === "1") return;
-    form.dataset.spContactWired = "1";
+  async function submitContactForm(form) {
+    if (!(form instanceof HTMLFormElement)) return;
+    if (form.__chrSubmitting) return;
+    form.__chrSubmitting = true;
+
+    captureTrackingFields(form);
+    injectRoiCalculatorFields(form);
+
+    const result = validate(form);
+    if (!result.ok) {
+      form.__chrSubmitting = false;
+      form.classList.add("invalid");
+      showCf7Message(
+        form,
+        Object.values(result.errors)[0] || "Please fill in all required fields.",
+        true,
+      );
+      const firstInvalid = form.querySelector(".sp-field-invalid");
+      firstInvalid?.focus?.();
+      return;
+    }
+
+    captureTrackingFields(form);
+    injectRoiCalculatorFields(form);
+    const fd = new FormData(form);
+    if (result.phone) {
+      const phoneEl = phoneInput(form);
+      const phoneName = phoneEl?.getAttribute("name");
+      if (phoneName) fd.set(phoneName, result.phone);
+      fd.set("phonetext-597", result.phone);
+      fd.set("phone", result.phone);
+      if (!fd.get("your-phone")) fd.set("your-phone", result.phone);
+    }
+    const fullName = fd.get("full-name") || fd.get("full_name") || fd.get("your-name");
+    if (fullName && !fd.get("name")) fd.set("name", String(fullName));
+    if (!fd.get("page_url")) fd.set("page_url", window.location.href);
+    if (!fd.get("initial_url")) fd.set("initial_url", window.location.href);
+    if (!fd.get("form_name")) fd.set("form_name", detectFormName(form));
+    if (!fd.get("submission_id")) fd.set("submission_id", crypto.randomUUID());
+    if (!fd.get("submitted_at")) fd.set("submitted_at", new Date().toISOString());
+
+    const payload = {};
+    const arrays = {};
+    fd.forEach((value, key) => {
+      if (typeof value !== "string") return;
+      if (key.endsWith("[]")) {
+        const arrayKey = key.slice(0, -2);
+        if (!arrays[arrayKey]) arrays[arrayKey] = [];
+        arrays[arrayKey].push(value);
+        return;
+      }
+      payload[key] = value;
+    });
+    Object.keys(arrays).forEach((k) => {
+      payload[k] = arrays[k];
+    });
+
+    const submitBtn = form.querySelector('[type="submit"], input[type="submit"], button.wpcf7-submit');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute("aria-busy", "true");
+    }
+    form.classList.add("submitting");
+    showCf7Message(form, "Sending…", false);
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false || data.ok === false) {
+        if (data.errors && typeof data.errors === "object") {
+          const map = {
+            name: "[name='first-name'], [name='your-name']",
+            lastName: "[name='last-name']",
+            email: "[name='your-email'], [name='email']",
+            phone: "input.wpcf7-phonetext, input[name^='phonetext-'], [name='phone']",
+            company: "[name='company-name']",
+          };
+          for (const [key, msg] of Object.entries(data.errors)) {
+            const sel = map[key];
+            if (sel) showFieldError(form.querySelector(sel), String(msg));
+          }
+        }
+        throw new Error(data.message || data.error || FAIL_MSG);
+      }
+
+      const successMsg = data.message || SUCCESS_MSG;
+      try {
+        const emailEl = form.querySelector("[name='your-email'], [name='email'], [name='sub2']");
+        const phoneEl = phoneInput(form);
+        pushLeadToDataLayer(
+          emailEl && emailEl.value ? String(emailEl.value).trim() : "",
+          result.phone || (phoneEl && phoneEl.value ? String(phoneEl.value).trim() : ""),
+          (data && (data.submissionId || data.submission_id)) || form.dataset.submissionId || "",
+        );
+      } catch (e) {}
+
+      clearLegacyFormFields(form);
+      clearErrors(form);
+      try {
+        const phone = form.querySelector("input.wpcf7-phonetext");
+        const country = window.__SP_PHONE_COUNTRY__ || "ae";
+        if (phone && window.jQuery?.(phone).data("plugin_intlTelInput")) {
+          window.jQuery(phone).intlTelInput("setCountry", country);
+        }
+      } catch {
+        /* ignore */
+      }
+      showCf7Message(form, successMsg, false);
+      if (isRoiCalculatorForm(form)) {
+        dispatchWpcf7MailSent(form);
+      }
+      // Re-assert after CF7/intlTel quirks (same as Evolution)
+      setTimeout(() => showCf7Message(form, successMsg, false), 100);
+      setTimeout(() => showCf7Message(form, successMsg, false), 300);
+    } catch (err) {
+      showCf7Message(
+        form,
+        err instanceof Error ? err.message : FAIL_MSG,
+        true,
+      );
+    } finally {
+      form.__chrSubmitting = false;
+      form.classList.remove("submitting");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-busy");
+      }
+    }
+  }
+
+  function prepareForm(form) {
+    if (!(form instanceof HTMLFormElement)) return;
+    // Neutralize native CF7 hash navigation if JS interception somehow misses a submit.
+    if (/#wpcf7-/i.test(form.getAttribute("action") || "") || /javascript:/i.test(form.getAttribute("action") || "")) {
+      form.setAttribute("action", "#");
+    }
+    form.setAttribute("novalidate", "novalidate");
     wireInputGuards(form);
     captureTrackingFields(form);
-
-    form.addEventListener(
-      "submit",
-      async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
-
-        captureTrackingFields(form);
-
-        const result = validate(form);
-        if (!result.ok) {
-          form.classList.add("invalid");
-          showCf7Message(
-            form,
-            Object.values(result.errors)[0] || "Please fill in all required fields.",
-            true,
-          );
-          const firstInvalid = form.querySelector(".sp-field-invalid");
-          firstInvalid?.focus?.();
-          return;
-        }
-
-        captureTrackingFields(form);
-        const fd = new FormData(form);
-        if (result.phone) {
-          fd.set("phonetext-597", result.phone);
-          fd.set("phone", result.phone);
-          if (!fd.get("your-phone")) fd.set("your-phone", result.phone);
-        }
-        const fullName = fd.get("full-name") || fd.get("full_name") || fd.get("your-name");
-        if (fullName && !fd.get("name")) fd.set("name", String(fullName));
-        if (!fd.get("page_url")) fd.set("page_url", window.location.href);
-        if (!fd.get("initial_url")) fd.set("initial_url", window.location.href);
-        if (!fd.get("form_name")) fd.set("form_name", detectFormName(form));
-        if (!fd.get("submission_id")) fd.set("submission_id", crypto.randomUUID());
-        if (!fd.get("submitted_at")) fd.set("submitted_at", new Date().toISOString());
-
-        const payload = {};
-        const arrays = {};
-        fd.forEach((value, key) => {
-          if (typeof value !== "string") return;
-          if (key.endsWith("[]")) {
-            const arrayKey = key.slice(0, -2);
-            if (!arrays[arrayKey]) arrays[arrayKey] = [];
-            arrays[arrayKey].push(value);
-            return;
-          }
-          payload[key] = value;
-        });
-        Object.keys(arrays).forEach((k) => {
-          payload[k] = arrays[k];
-        });
-
-        const submitBtn = form.querySelector('[type="submit"], input[type="submit"], button.wpcf7-submit');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.setAttribute("aria-busy", "true");
-        }
-        form.classList.add("submitting");
-        showCf7Message(form, "Sending…", false);
-
-        try {
-          const res = await fetch(endpoint, {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: { Accept: "application/json", "Content-Type": "application/json" },
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok || data.success === false || data.ok === false) {
-            if (data.errors && typeof data.errors === "object") {
-              const map = {
-                name: "[name='first-name'], [name='your-name']",
-                lastName: "[name='last-name']",
-                email: "[name='your-email'], [name='email']",
-                phone: "input.wpcf7-phonetext, [name='phonetext-597'], [name='phone']",
-              };
-              for (const [key, msg] of Object.entries(data.errors)) {
-                const sel = map[key];
-                if (sel) showFieldError(form.querySelector(sel), String(msg));
-              }
-            }
-            throw new Error(data.message || data.error || FAIL_MSG);
-          }
-
-          const successMsg = data.message || SUCCESS_MSG;
-          try {
-            const emailEl = form.querySelector("[name='your-email'], [name='email'], [name='sub2']");
-            const phoneEl = form.querySelector("input.wpcf7-phonetext, input[name='phone'], input[type='tel'], input[name^='phonetext-']");
-            pushLeadToDataLayer(
-              emailEl && emailEl.value ? String(emailEl.value).trim() : "",
-              phoneEl && phoneEl.value ? String(phoneEl.value).trim() : "",
-              (data && (data.submissionId || data.submission_id)) || form.dataset.submissionId || "",
-            );
-          } catch (e) {}
-
-          clearLegacyFormFields(form);
-          clearErrors(form);
-          try {
-            const phone = form.querySelector("input.wpcf7-phonetext");
-            const country = window.__SP_PHONE_COUNTRY__ || "ae";
-            if (phone && window.jQuery?.(phone).data("plugin_intlTelInput")) {
-              window.jQuery(phone).intlTelInput("setCountry", country);
-            }
-          } catch {
-            /* ignore */
-          }
-          showCf7Message(form, successMsg, false);
-          // Re-assert after CF7/intlTel quirks (same as Evolution)
-          setTimeout(() => showCf7Message(form, successMsg, false), 100);
-          setTimeout(() => showCf7Message(form, successMsg, false), 300);
-        } catch (err) {
-          showCf7Message(
-            form,
-            err instanceof Error ? err.message : FAIL_MSG,
-            true,
-          );
-        } finally {
-          form.classList.remove("submitting");
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.removeAttribute("aria-busy");
-          }
-        }
-      },
-      true,
-    );
+    form.dataset.spContactPrepared = "1";
   }
 
   function boot() {
@@ -561,7 +659,32 @@
         el.setAttribute("aria-hidden", "true");
       }
     });
-    document.querySelectorAll("form.wpcf7-form, .wpcf7 form, form[data-sp-contact-form]").forEach(wireForm);
+    document.querySelectorAll("form.wpcf7-form, .wpcf7 form, form[data-sp-contact-form]").forEach(prepareForm);
+  }
+
+  if (!window.__CHR_CF7_BRIDGE_BOUND__) {
+    window.__CHR_CF7_BRIDGE_BOUND__ = true;
+    // Document-level capture — works even if Elementor moves/recreates popup forms.
+    document.addEventListener(
+      "submit",
+      (event) => {
+        const form = event.target;
+        if (!(form instanceof HTMLFormElement)) return;
+        if (!form.classList.contains("wpcf7-form") && !form.closest(".wpcf7") && !form.hasAttribute("data-sp-contact-form")) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+        prepareForm(form);
+        submitContactForm(form);
+      },
+      true,
+    );
+    window.addEventListener("chr:popup-opened", () => {
+      setTimeout(boot, 0);
+      setTimeout(boot, 100);
+    });
   }
 
   if (document.readyState === "loading") {

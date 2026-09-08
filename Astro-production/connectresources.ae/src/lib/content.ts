@@ -137,9 +137,10 @@ export function getPostsByTag(tagId: number): PostEntry[] {
 }
 
 export function getPostsByAuthor(authorId: number): PostEntry[] {
-  return getPosts()
+  return getBlogPosts()
     .filter((p) => p.author === authorId)
-    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+    .slice()
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date) || (b.id || 0) - (a.id || 0));
 }
 
 export function getRelatedPosts(post: PostEntry, limit = 3): PostEntry[] {

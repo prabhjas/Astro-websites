@@ -63,7 +63,7 @@ export function normaliseSiteOrigin(input: string): string {
   url.username = '';
   url.password = '';
 
-  // URL.href for origins includes a trailing slash — strip it
+  // URL.href for origins includes a trailing slash - strip it
   return url.origin;
 }
 

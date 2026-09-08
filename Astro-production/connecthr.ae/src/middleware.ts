@@ -22,6 +22,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const method = context.request.method;
 
   const respond = async (): Promise<Response> => {
+    // Lead-safe: never redirect POST /api/contact — some edges still turn bare-path POSTs into 301/GET and drop the body.
+    if (pathname === '/api/contact' && method !== 'GET' && method !== 'HEAD') {
+      return context.rewrite(`/api/contact/${context.url.search}`);
+    }
+
     // Enforce trailingSlash: 'always' for API + (legacy) internal paths (308 keeps POST body)
     if (
       pathname !== '/' &&

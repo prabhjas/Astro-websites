@@ -7,9 +7,9 @@ import {
   stripHtml,
   normalizePath,
 } from "../lib/content";
-import { renderSinglePostShell } from "../lib/blog-shell";
+import { renderSinglePostShell, replaceLoopCarouselsWithLatestGrid } from "../lib/blog-shell";
 import singlePostCss from "../data/single-post-css.json";
-import { articleSchema, breadcrumbSchema } from "../lib/seo";
+import { articleSchema, breadcrumbSchema, seoRobotsFlags } from "../lib/seo";
 import { isNoIndexNoFollowPath } from "../lib/seo/sitemap-config";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -29,7 +29,11 @@ if (!page && !caseStudy && !post) {
 
 const entry = page || caseStudy || post!;
 const lang: "en" | "ar" = path.startsWith("/ar/") || path === "/ar/" ? "ar" : "en";
-const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const html =
+  page || caseStudy
+    ? replaceLoopCarouselsWithLatestGrid(String(rawHtml || ""), lang, 3)
+    : rawHtml;
 
 const homeCrumb = lang === "ar" ? { name: "الرئيسية", href: "/ar/" } : { name: "Home", href: "/" };
 
@@ -46,6 +50,11 @@ const postCrumbs = post
     ]
   : [];
 
+const pathRobots = {
+  noindex: isNoIndexNoFollowPath(path),
+  nofollow: isNoIndexNoFollowPath(path),
+};
+
 const seo =
   page || caseStudy
     ? {
@@ -53,8 +62,7 @@ const seo =
         description: entry.seo.description,
         canonical: path,
         ogImage: entry.seo.ogImage,
-        noindex: isNoIndexNoFollowPath(path),
-        nofollow: isNoIndexNoFollowPath(path),
+        ...seoRobotsFlags(entry.seo.robots, pathRobots),
         schemas: [
           ...(entry.seo.schemas || []),
           breadcrumbSchema(pageCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -69,8 +77,7 @@ const seo =
         publishedTime: post!.date,
         modifiedTime: post!.modified,
         authorName: post!.authorName,
-        noindex: isNoIndexNoFollowPath(path),
-        nofollow: isNoIndexNoFollowPath(path),
+        ...seoRobotsFlags(post!.seo.robots, pathRobots),
         schemas: [
           ...(post!.seo.schemas || []),
           breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),

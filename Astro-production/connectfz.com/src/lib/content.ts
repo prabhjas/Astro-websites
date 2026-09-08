@@ -41,6 +41,13 @@ export function getPosts(includeNonPublished = false): PostEntry[] {
   return rows.filter((p) => !p.status || p.status === "published");
 }
 
+/** Newest-first — use for blog archives and load-more APIs. */
+export function getPostsSortedByDate(includeNonPublished = false): PostEntry[] {
+  return [...getPosts(includeNonPublished)].sort(
+    (a, b) => +new Date(b.date) - +new Date(a.date),
+  );
+}
+
 export function getCategories(includeTrash = false): CategoryEntry[] {
   const rows = readCategories();
   if (includeTrash) return rows;

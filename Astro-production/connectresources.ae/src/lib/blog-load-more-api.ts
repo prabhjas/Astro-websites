@@ -1,10 +1,12 @@
 import {
   BLOG_LOAD_MORE_PER_PAGE,
   INSIGHTS_MAIN_GRID_CATEGORY_SLUGS,
+  renderAuthorGridCardsHtml,
   renderBlogCardsHtml,
   renderImprezaGridCardsHtml,
+  AUTHOR_ARTICLES_PER_PAGE,
 } from "./blog-card-html";
-import { getCategories, getBlogPosts, paginate, type PostEntry } from "./content";
+import { getCategories, getBlogPosts, getPostsByAuthor, paginate, type PostEntry } from "./content";
 
 /** Category slugs used by the main ajax grid on /insights/ (us_grid_3). */
 function filterInsightsGridPosts(posts: PostEntry[]): PostEntry[] {
@@ -19,16 +21,21 @@ function filterInsightsGridPosts(posts: PostEntry[]): PostEntry[] {
 
 export async function handleBlogLoadMoreGet(url: URL): Promise<Response> {
   const page = Math.max(1, Number(url.searchParams.get("page") || "1") || 1);
+  const format = (url.searchParams.get("format") || "elementor").toLowerCase();
+  const gridParams = url.searchParams.getAll("grid").map((v) => v.toLowerCase());
+  const grid = gridParams.includes("author")
+    ? "author"
+    : (gridParams[0] || url.searchParams.get("grid") || "").toLowerCase();
+  const authorId = Number(url.searchParams.get("authorId") || "0") || 0;
+  const perPageDefault =
+    format === "impreza" && grid === "author" ? AUTHOR_ARTICLES_PER_PAGE : BLOG_LOAD_MORE_PER_PAGE;
   const perPage = Math.min(
     24,
     Math.max(
       1,
-      Number(url.searchParams.get("perPage") || BLOG_LOAD_MORE_PER_PAGE) ||
-        BLOG_LOAD_MORE_PER_PAGE,
+      Number(url.searchParams.get("perPage") || perPageDefault) || perPageDefault,
     ),
   );
-  const format = (url.searchParams.get("format") || "elementor").toLowerCase();
-  const grid = (url.searchParams.get("grid") || "").toLowerCase();
   const exclude = new Set(
     String(url.searchParams.get("exclude") || "")
       .split(",")
@@ -37,7 +44,9 @@ export async function handleBlogLoadMoreGet(url: URL): Promise<Response> {
   );
 
   let sorted = getBlogPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
-  if (format === "impreza" && grid === "insights") {
+  if (format === "impreza" && grid === "author" && authorId > 0) {
+    sorted = getPostsByAuthor(authorId);
+  } else if (format === "impreza" && grid === "insights") {
     sorted = filterInsightsGridPosts(sorted);
   }
   if (exclude.size) {
@@ -57,9 +66,11 @@ export async function handleBlogLoadMoreGet(url: URL): Promise<Response> {
     : paginate(sorted, page, perPage);
 
   const html =
-    format === "impreza"
-      ? renderImprezaGridCardsHtml(slice.items)
-      : renderBlogCardsHtml(slice.items);
+    format === "impreza" && grid === "author"
+      ? renderAuthorGridCardsHtml(slice.items)
+      : format === "impreza"
+        ? renderImprezaGridCardsHtml(slice.items)
+        : renderBlogCardsHtml(slice.items);
 
   const remaining = exclude.size ? Math.max(0, sorted.length - slice.items.length) : null;
 

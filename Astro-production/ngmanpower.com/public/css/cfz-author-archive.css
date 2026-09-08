@@ -1,238 +1,224 @@
-/* NG Manpower author archive post grid (from live shortcode) */
-.filter-wrap{
-    display:flex;
-    justify-content:space-between;
-	  align-items: center;
+/* NG Manpower author archive — scoped overrides beat global .filter-post / .post-wrap rules */
+
+.elementor-33086 .elementor-section.elementor-section-boxed > .elementor-container {
+  max-width: 1140px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
 }
 
-.filter-box {
-    width: 22%;
+.elementor-33086 .elementor-element-9923ffb {
+  margin-bottom: 8px;
 }
 
-
-.filter-box div:nth-child(1){
-    margin-right:20px;
-    width:50%;
+.elementor-33086 .elementor-element-0bd910d {
+  padding-top: 12px !important;
+  padding-bottom: 48px !important;
 }
 
-.filter-box div:nth-child(2){
-    width:50%;
+/* “Post By …” heading */
+.elementor-33086 .elementor-element-d570478 {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  text-align: left !important;
 }
 
-.filter-box span {
-    color: #0B1347;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 40px;  
+.elementor-33086 .elementor-element-d570478 .elementor-widget-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+  overflow: visible !important;
 }
 
-.filter-post{
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 30px;
-    margin-top:30px;
+.elementor-33086 .elementor-element-d570478 .elementor-heading-title {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 4px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  color: #0b1347 !important;
+  background: transparent !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  text-transform: none !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
 }
 
-.post-wrap img{
-    width:100%;
-    margin-bottom:10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+/* Kill global smartslider / customizer archive grid padding on this page */
+.elementor-33086 .filter-post,
+.elementor-33086 .elementor-shortcode .filter-post {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 28px !important;
+  margin-top: 20px !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-.post-wrap span{
-    color: #333;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height:25.6px; 
-    letter-spacing: 0.32px;
-    font-family: "SF Pro Display", SF Pro Display;
+.elementor-33086 .ng-author-card,
+.elementor-33086 article.ng-author-card {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #fff !important;
+  border: 1px solid #e6e6e6 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
-.post-wrap h3 {
-    color: #000;
-    font-size: 22px !important;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 30px !important;
-    letter-spacing: 0.48px;
-    margin-top: 0px;
-    margin-bottom: 10px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-family: "Poppins", Sans-serif;
+.elementor-33086 .ng-author-card__link {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  height: 100% !important;
 }
 
-.post-wrap p {
-    font-family: "Poppins", Sans-serif;
-    color: #333;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 25px;
-    letter-spacing: 0.36px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.elementor-33086 .ng-author-card__media {
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  border-radius: 10px 10px 0 0 !important;
+  background: #f3f5f8 !important;
+  flex: 0 0 auto !important;
 }
 
-
-.bottom-ct {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.elementor-33086 .ng-author-card__media img,
+.elementor-33086 .ng-author-card img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  vertical-align: top !important;
 }
 
-.bottom-ct span{
-    font-family: "Poppins", Sans-serif;
+.elementor-33086 .ng-author-card__placeholder {
+  aspect-ratio: 16 / 9;
+  background: #1f1f1f;
 }
 
-.cat-name{
-    border-radius: 5px;
-    background: #EDECFF;
-    padding:10px 15px;
-    font-size: 12px;
-    margin-right:10px;
-    color:#23369B !important;
+/* Title area — beat global .post-wrap h3 line-clamp rules */
+.elementor-33086 .ng-author-card__title,
+.elementor-33086 .ng-author-card h3.ng-author-card__title,
+.elementor-33086 .ng-author-card h3 {
+  color: #004ab5 !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0 !important;
+  padding: 18px 18px 22px !important;
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: unset !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  max-height: none !important;
+  height: auto !important;
+  min-height: 4.4em !important; /* keep row of cards visually even for 2–3 lines */
+  flex: 1 1 auto !important;
+  box-sizing: border-box !important;
 }
 
-.post-wrap{
-   background:#fff; 
-   box-shadow: 0px 4px 15px -5px rgba(0,0,0,0.1);
-   border-radius: 10px;
+.elementor-33086 .load-btn,
+.elementor-33086 .btn-load {
+  text-align: center !important;
+  margin: 40px 0 10px !important;
 }
 
-.post-ct{
-    padding:20px 15px;
-} 
-.fa-calendar:before {
-    content: "\f133";
-    font-family: fontawesome;
-    margin-right: 6px;
-    color: #333;
+.elementor-33086 #loadMore {
+  color: #0b1347 !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.32px !important;
+  border: 2px solid #0b1347 !important;
+  padding: 10px 20px !important;
+  text-decoration: none !important;
+  background: transparent !important;
+  transition: 0.3s;
 }
 
-.bottom-ct a {
-    color: #a2111ed6;
+.elementor-33086 #loadMore:hover {
+  background: #0d3f86 !important;
+  border-color: #0d3f86 !important;
+  color: #fff !important;
 }
 
-.filter-wrap h2{
-    color: #000;
-    font-family: SF Pro Display;
-    font-size: 26px;
-    font-style: normal;
-}
-
-span.cat-name {
-    display: inline-table;
-    margin-bottom: 10px;
-}
-
-
-.load-btn {
-    text-align: center;
-    margin-top: 70px;
-}
-
-#loadMore:hover {
-    background: #0d3f86;
-    border: 2px solid  #0d3f86;
-    color: #fff;
-}
-#loadMore {
-    color: #0B1347;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0.32px;
-    border: 2px solid #0B1347;
-    padding: 10px 20px;
-}
-
-.custom-pagination {
-    margin-top: 50px;
-    text-align: center;
-}
-
-.custom-pagination a.page-numbers {
-    color: #03030396;
-    font-size: 21px;
-    padding: 0px 25px;
-    font-weight: 600;
-}
-
-.custom-pagination span.page-numbers.current {
-    color: #000;
-    font-size: 21px;
-    padding: 12px 20px;
-    font-weight: 600;
-    background:#fff;
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-    margin: 0px 10px;
-}
-
-.custom-pagination a.prev.page-numbers,
-.custom-pagination a.next.page-numbers{
-    font-size:28px !important;
-}
-
-
-.main-profile {
-  display: none;
-}
-#loadMore {
-  transition: .3s;
-}
-
-.noContent {
+.elementor-33086 .noContent {
   color: #000 !important;
   background-color: transparent !important;
   pointer-events: none;
 }
 
-.btn-load {
-    text-align: center;
-    margin: 50px 0px;
+/* JS toggles visibility; start hidden for load-more */
+.elementor-33086 .main-profile {
+  display: none;
+}
+
+@media only screen and (max-width: 991px) {
+  .elementor-33086 .filter-post,
+  .elementor-33086 .elementor-shortcode .filter-post {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    padding: 0 !important;
+  }
+
+  .elementor-33086 .elementor-element-d570478 .elementor-heading-title {
+    font-size: 24px !important;
+  }
+
+  .elementor-33086 .ng-author-card__title,
+  .elementor-33086 .ng-author-card h3 {
+    font-size: 16px !important;
+    min-height: 4em !important;
+  }
 }
 
 @media only screen and (max-width: 767px) {
-    .filter-post{
-        grid-template-columns: repeat(1,1fr);
-    }
-    
-    .filter-wrap h2 {
-      font-size: 20px;
-    }
-    
-    .filter-box {
-      width: 50%;
-    }
-}
+  .elementor-33086 .filter-post,
+  .elementor-33086 .elementor-shortcode .filter-post {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+  }
 
+  .elementor-33086 .elementor-section.elementor-section-boxed > .elementor-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 
-@media screen and (min-device-width:768px), screen and (max-width:991px) {
-    .post-wrap span {
-        color: #333;
-        font-size: 13px;
-    }
+  .elementor-33086 .elementor-element-d570478 .elementor-heading-title {
+    font-size: 22px !important;
+  }
 
-    .post-wrap h3 {
-        font-size: 21px;
-        line-height: 25.6px;
-    }
-
-    .post-wrap span {
-        font-size: 12px;
-    }
-
-    .bottom-ct a {
-        font-size: 14px;
-    }
+  .elementor-33086 .ng-author-card__title,
+  .elementor-33086 .ng-author-card h3 {
+    min-height: 0 !important;
+  }
 }

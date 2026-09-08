@@ -253,7 +253,7 @@ export function parseRankMathRedirectImport(content: string): RuntimeRedirectRul
           "",
       ).trim();
 
-      // Do NOT fall back to entry.url for destination — Rank Math often puts the
+      // Do NOT fall back to entry.url for destination - Rank Math often puts the
       // source path in `url`, which produced self-redirects.
       const to = String(
         entry.to ||

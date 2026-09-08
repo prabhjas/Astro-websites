@@ -1,5 +1,4 @@
 ---
-import { sanitizeMirrorHtml } from '@connect/site-cms';
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PostCard from "../components/PostCard.astro";
@@ -12,6 +11,8 @@ import {
   stripHtml,
   normalizePath,
 } from "../lib/content";
+import { enhanceLatestPostFilterHtml } from "../lib/eor-latest-post-filter";
+import { placeSinglePostTitleAfterFeaturedImage } from "../lib/single-post-title";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -29,7 +30,9 @@ if (!page && !post) {
 }
 
 const entry = page || post!;
-const html = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
+const html = enhanceLatestPostFilterHtml(
+  (("bodyHtml" in entry && entry.bodyHtml) || entry.content) as string,
+);
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
 const pageCrumbs = page
@@ -126,8 +129,19 @@ const postElementorId =
   post?.elementorCss?.match(/post-(\d+)\.css/)?.[1] ||
   String(post?.id || "");
 
-/** Landing-style page: hide shared site chrome only (page body unchanged). */
-const hideSharedChrome = path === "/eor-services/";
+/** Elementor singles bury the H1 after TOC - place it under the featured image. */
+const postElementorHtml =
+  postUsesElementor && post
+    ? placeSinglePostTitleAfterFeaturedImage(post.bodyHtml || "", post.title)
+    : "";
+
+/** Landing-style pages: hide shared site header/footer only (page body unchanged). */
+const LANDING_PAGES_WITHOUT_CHROME = new Set([
+  "/eor-services/",
+  "/iberia-eor-landing-page-english-1/",
+  "/es/iberia-eor-landing-page-english-2/",
+]);
+const hideSharedChrome = LANDING_PAGES_WITHOUT_CHROME.has(path);
 ---
 
 <BaseLayout
@@ -150,7 +164,7 @@ const hideSharedChrome = path === "/eor-services/";
     page ? (
       <div class="sp-page-content" set:html={html} />
     ) : postUsesElementor ? (
-      <div class="sp-page-content" set:html={post!.bodyHtml} />
+      <div class="sp-page-content" set:html={postElementorHtml} />
     ) : (
       <article class="sp-article sp-container">
         <header class="sp-article__header">

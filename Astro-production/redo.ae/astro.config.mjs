@@ -1,6 +1,7 @@
 // @ts-check
 import node from '@astrojs/node';
 import { defineConfig } from 'astro/config';
+import leadSafeSlash from './scripts/lead-safe-slash-integration.mjs';
 
 /** Canonical production origin — prefer PUBLIC_SITE_URL. */
 const siteUrl = (
@@ -16,6 +17,7 @@ const siteUrl = (
 // Do not add @astrojs/sitemap — it would emit a competing sitemap-index.xml.
 // Node adapter enables SSR endpoints like POST /api/contact while keeping pages static.
 export default defineConfig({
+  integrations: [leadSafeSlash()],
   site: siteUrl,
   output: 'static',
   adapter: node({ mode: 'standalone' }),

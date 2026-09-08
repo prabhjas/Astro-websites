@@ -166,8 +166,9 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
 
   $('head').append([getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n'));
 
-  if (!$('script[src="/js/astro-mirror-fixes.js"]').length) {
-    $('body').append('<script src="/js/astro-mirror-fixes.js" defer></script>');
+  $('script[src*="astro-mirror-fixes.js"]').attr('src', '/js/astro-mirror-fixes.js?v=20260904cg4');
+  if (!$('script[src*="astro-mirror-fixes.js"]').length) {
+    $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>');
   }
 
   return injectRuntimeGtmLoader($.html());
@@ -192,8 +193,13 @@ function assembleTagHtml(data: ArchivePageData): string {
   if (!html.includes('astro-tag-archive-css')) {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  if (html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
+      '/js/astro-mirror-fixes.js?v=20260904cg4',
+    );
+  } else {
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
   }
 
   return injectRuntimeGtmLoader(html);

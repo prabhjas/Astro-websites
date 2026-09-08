@@ -1,6 +1,6 @@
 /**
  * Author archive Load More — replaces broken WP ECS admin-ajax (which returns "0").
- * Loads further posts from /api/author/load-more and shows "No more post found" when done.
+ * Loads further posts from /api/blog/load-more and shows "No more post found" when done.
  */
 (function () {
   var path = window.location.pathname || '';
@@ -141,7 +141,7 @@
 
         var exclude = existingSlugs(container);
         var url =
-          '/api/author/load-more?slug=' +
+          '/api/blog/load-more/?slug=' +
           encodeURIComponent(authorSlug) +
           '&exclude=' +
           encodeURIComponent(exclude.join(',')) +

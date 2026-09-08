@@ -73,6 +73,8 @@ const stylesheets = [
   ...new Set([
     ...baseCss,
     ...extraCss,
+    /* Footer us_custom classes from live/home — Elementor pages omit this sheet */
+    "/css/impreza-home-design.css",
     "/css/migration-overrides.css",
     "/css/menu-no-hash.css",
     ...(showHomeAnnouncement ? ["/css/home-announcement-bar-v2.css"] : []),

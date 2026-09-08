@@ -7,6 +7,37 @@
  * - Nudges Elementor frontend init when available
  */
 (function () {
+  // Minimal WP/Elementor/CF7 globals expected by cleaned HTML scripts (Astro has no WP runtime).
+  try {
+    window.elementorFrontendConfig = window.elementorFrontendConfig || {
+      environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
+      i18n: {},
+      is_rtl: false,
+      breakpoints: { xs: 0, sm: 480, md: 768, lg: 1025, xl: 1440, xxl: 1600 },
+      responsive: { breakpoints: {} },
+      version: '3.31.2',
+      is_static: false,
+      experimentalFeatures: {},
+      urls: { assets: '/wp-content/plugins/elementor/assets/' },
+      settings: { page: [], editorPreferences: [] },
+      kit: {},
+      post: { id: 0, title: '', excerpt: '', featuredImage: false },
+      elements: { data: {}, nestedElements: {}, hasPopUps: false },
+    };
+    window.ElementorProFrontendConfig = window.ElementorProFrontendConfig || {
+      ajaxurl: '/api/contact/',
+      nonce: 'astro',
+      urls: { assets: '/wp-content/plugins/elementor-pro/assets/', rest: '/' },
+      settings: {},
+      popup: { hasPopUps: false },
+    };
+    window.wpa_field_info = window.wpa_field_info || {};
+    window.wpcf7 = window.wpcf7 || {
+      cached: 0,
+      api: { root: '/wp-json/', namespace: 'contact-form-7/v1' },
+    };
+  } catch (e) {}
+
   function safe(fn) {
     try {
       fn();
@@ -1503,7 +1534,7 @@
       }
       var pageUrl = window.location.href;
       var initial = (typeof resolveInitialLandingUrl === 'function' ? resolveInitialLandingUrl() : (sessionStorage.getItem('cg_initial_url') || pageUrl));
-      ensureHiddenField(form, 'form_name', 'Evolution Middle East Contact Form');
+      ensureHiddenField(form, 'form_name', 'RAAD Recruitment Contact Form');
       ensureHiddenField(form, 'form_id', form.id || 'legacy-contact-form');
       ensureHiddenField(form, 'page_url', pageUrl);
       ensureHiddenField(form, 'submission_page_url', pageUrl);
@@ -1860,9 +1891,16 @@
       }
 
       // Reject links / HTML in any other visible text inputs.
+      // Skip tracking/attribution fields — captureTrackingFields() fills initial_url
+      // (and similar) with real page URLs before validate runs.
+      var TRACKING_FIELD_RE =
+        /^(gclid|gbraid|wbraid|gclsrc|fbclid|msclkid|twclid|initial_url|page_url|landing_page_url|submission_page_url|referrer_url|utm_|first_touch|last_touch|first_visit|latest_visit)/i;
       form.querySelectorAll('input[type="text"], input[type="search"], textarea').forEach(function (el) {
         if (!el || el.disabled || el.readOnly) return;
         if (el.classList.contains('wpcf7-phonetext') || el.classList.contains('cg-phone-input')) return;
+        var fieldName = String(el.getAttribute('name') || el.id || '');
+        if (TRACKING_FIELD_RE.test(fieldName) || TRACKING_FIELD_RE.test(el.id || '')) return;
+        if (el.id === 'testgclid' || el.id === 'initial_url' || el.name === 'initial_url' || el.name === 'gclid') return;
         var val = String(el.value || '');
         if (!val.trim()) return;
         if (fieldContainsLink(val) || fieldContainsHtml(val)) {

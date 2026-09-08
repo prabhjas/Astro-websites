@@ -300,15 +300,21 @@ div.wpcf7-response-output.sp-status-visible,
   display: block;
 }
 
-/* Elementor responsive visibility (kit may omit these on Astro) */
+/* Elementor responsive visibility — match kit breakpoints (not "tablet = all ≤1024").
+   Wrong tablet max-width was hiding mobile-only video widgets (home /dummy/). */
 @media (max-width: 767px) {
   .elementor-hidden-mobile,
   .elementor-hidden-phone {
     display: none !important;
   }
 }
-@media (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 992px) {
   .elementor-hidden-tablet {
+    display: none !important;
+  }
+}
+@media (min-width: 993px) and (max-width: 1024px) {
+  .elementor-hidden-tablet_extra {
     display: none !important;
   }
 }
@@ -489,14 +495,38 @@ div.wpcf7-response-output.sp-status-visible,
 
 /*
   Homepage dashboard demo (GSAP animate_box) — fit full frame.
-  Global cover sizing + 100vw crops sides when the box is narrower than viewport.
+  Stack a single iframe; flex was showing duplicate embeds side-by-side.
 */
 .elementor-element.elementor-element-cdbecf6 .elementor-background-video-container,
 .animate_box .elementor-background-video-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   container-type: size;
+  overflow: hidden;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner,
+.animate_box .e-con-inner {
+  position: relative;
+  min-height: inherit;
+}
+
+.elementor-element.elementor-element-cdbecf6 .e-con-inner > .elementor-widget-html,
+.animate_box .e-con-inner > .elementor-widget-html {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hide Elementor placeholder shells once iframe exists */
+.elementor-background-video-container .elementor-background-video-embed:not(iframe) {
+  display: none !important;
+}
+.elementor-background-video-container iframe.elementor-background-video-embed ~ iframe,
+.elementor-background-video-container iframe ~ iframe {
+  display: none !important;
 }
 
 .elementor-element.elementor-element-cdbecf6
@@ -517,6 +547,49 @@ div.wpcf7-response-output.sp-status-visible,
   min-height: 0;
   aspect-ratio: 16 / 9;
 }
+
+/* Reveal YouTube background once iframe is injected (Elementor loading classes stay otherwise). */
+.elementor-background-video-container.elementor-background-video-loaded,
+.elementor-background-video-container:has(iframe.elementor-background-video-embed) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/*
+  Elementor video widgets (e.g. /hr-software/ "See How It Works").
+  Kit CSS sizes iframe as height:100% of .elementor-wrapper, but the iframe lives
+  inside .elementor-video which has no height — so the player collapses to a tiny
+  box inside a black 16:9 frame. Fill the aspect-ratio slot like the homepage demo.
+*/
+.elementor-widget-video .elementor-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--video-aspect-ratio, 16 / 9);
+  overflow: hidden;
+  background: #000;
+}
+.elementor-widget-video .elementor-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.elementor-widget-video .elementor-wrapper iframe,
+.elementor-widget-video .elementor-video iframe {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  transform: none !important;
+  border: 0;
+  display: block;
+}
+
 .home-header > .elementor-container,
 .elementor-element-e9a775c > .elementor-container {
   position: relative;
@@ -662,14 +735,32 @@ div.wpcf7-response-output.sp-status-visible,
   box-shadow: 0 1px 2px 0 rgba(10, 13, 18, 0.05);
 }
 
-/* Loop cards (2618): keep theme-post-title visible (kit may hide .elementor-page-title) */
+/*
+  Loop / blog cards: theme-post-title uses .elementor-page-title.
+  Page CSS often sets --page-title-display:none (hides the real H1), which also
+  hides every card title. Force titles visible inside loops + archive grids.
+*/
+.e-loop-item .elementor-widget-theme-post-title.elementor-page-title,
+.e-loop-item .elementor-page-title,
+.elementor-loop-container .elementor-page-title,
+.elementor-widget-loop-carousel .elementor-page-title,
+.elementor-widget-loop-grid .elementor-page-title,
 .elementor-2618 .elementor-widget-theme-post-title.elementor-page-title,
 .elementor-2618 .elementor-element-6ff835e.elementor-page-title,
-.ecs-posts .elementor-2618 .elementor-page-title {
+.elementor-8245 .elementor-widget-theme-post-title.elementor-page-title,
+.elementor-8245 .elementor-element-4430167.elementor-page-title,
+.ecs-posts .elementor-page-title,
+.ecs-post-loop .elementor-page-title,
+.elementor-posts-container .elementor-post__title {
   display: block !important;
 }
+
 .elementor-2618 .elementor-element-6ff835e .elementor-heading-title,
-.elementor-2618 .elementor-element-6ff835e .elementor-heading-title a {
+.elementor-2618 .elementor-element-6ff835e .elementor-heading-title a,
+.elementor-8245 .elementor-element-4430167 .elementor-heading-title,
+.elementor-8245 .elementor-element-4430167 .elementor-heading-title a,
+.e-loop-item .elementor-widget-theme-post-title .elementor-heading-title,
+.e-loop-item .elementor-widget-theme-post-title .elementor-heading-title a {
   display: block;
   color: #2c2b2c !important;
   font-family: "General Sans", Sans-serif;
@@ -680,9 +771,44 @@ div.wpcf7-response-output.sp-status-visible,
 }
 @media (max-width: 767px) {
   .elementor-2618 .elementor-element-6ff835e .elementor-heading-title,
-  .elementor-2618 .elementor-element-6ff835e .elementor-heading-title a {
+  .elementor-2618 .elementor-element-6ff835e .elementor-heading-title a,
+  .elementor-8245 .elementor-element-4430167 .elementor-heading-title,
+  .elementor-8245 .elementor-element-4430167 .elementor-heading-title a,
+  .e-loop-item .elementor-widget-theme-post-title .elementor-heading-title,
+  .e-loop-item .elementor-widget-theme-post-title .elementor-heading-title a {
     font-size: 20px;
     line-height: 24px;
+  }
+}
+
+/* Latest posts: static 3-up grid (no swiper / bullets) */
+.chr-latest-posts-grid .chr-latest-posts,
+.elementor-widget-loop-grid .chr-latest-posts {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+  width: 100%;
+}
+.chr-latest-posts-grid .e-loop-item,
+.chr-latest-posts .e-loop-item {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+.chr-latest-posts-grid .swiper,
+.chr-latest-posts-grid .swiper-wrapper,
+.chr-latest-posts-grid .swiper-pagination,
+.chr-latest-posts-grid .elementor-swiper-button {
+  display: none !important;
+}
+@media (max-width: 1024px) {
+  .chr-latest-posts-grid .chr-latest-posts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .chr-latest-posts-grid .chr-latest-posts {
+    grid-template-columns: 1fr;
   }
 }
 

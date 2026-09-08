@@ -1,5 +1,5 @@
 /**
- * Re-pull homepage Elementor body from live (full page — previous extract was truncated).
+ * Re-pull homepage Elementor body from live (full page - previous extract was truncated).
  */
 import fs from "node:fs";
 import path from "node:path";

@@ -14,6 +14,17 @@ export type SeoInput = {
   authorName?: string;
 };
 
+export function seoRobotsFlags(
+  robots?: { index?: string; follow?: string } | null,
+  pathFlags?: { noindex?: boolean; nofollow?: boolean },
+): { noindex: boolean; nofollow: boolean } {
+  const noindex =
+    Boolean(pathFlags?.noindex) || robots?.index?.toLowerCase() === "noindex";
+  const nofollow =
+    Boolean(pathFlags?.nofollow) || robots?.follow?.toLowerCase() === "nofollow";
+  return { noindex, nofollow };
+}
+
 function decodeDeep(value: unknown): unknown {
   if (typeof value === "string") return decodeHtmlEntities(value);
   if (Array.isArray(value)) return value.map(decodeDeep);

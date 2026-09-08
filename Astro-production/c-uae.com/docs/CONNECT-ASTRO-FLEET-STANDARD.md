@@ -427,3 +427,4 @@ Detailed day-by-day execution: keep `docs/15-platform-work-plan.md` in the Evolu
 |------|--------|
 | 2026-07-31 | v1.0 — Initial fleet standard from Evolution reference + Aaron platform review |
 | 2026-07-31 | v1.1 — Appendix: version matrix, disk/ops facts, observability, blast radius, open questions, deploy gotcha |
+| 2026-09-04 | Lead delivery: Flow added as a second, independent destination alongside Pipedrive (site id `cuae`). Config in this site's backend env; adapter is shared in `@connect/site-cms`. Verify with `GET /api/internal/run-retries/?selftest=flow`. |

@@ -35,20 +35,20 @@ const cardsHtml = items.length ? renderBlogCardsHtml(items) : "";
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: "Insights", url: "/insights/" },
+        { name: "Blog", url: "/blog/" },
         { name: tag.name, url: tag.path },
       ]),
     ],
   }}
   extraCss={["/wp-content/uploads/elementor/css/post-540.css"]}
-  menuActivePath="/insights/"
+  menuActivePath="/blog/"
 >
   <section class="cfz-archive-hero">
     <div class="cfz-archive-hero__inner">
       <Breadcrumbs
         items={[
           { name: "Home", href: "/" },
-          { name: "Insights", href: "/insights/" },
+          { name: "Blog", href: "/blog/" },
           { name: stripHtml(tag.name) },
         ]}
       />

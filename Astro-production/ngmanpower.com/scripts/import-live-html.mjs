@@ -489,15 +489,23 @@ async function main() {
       date: new Date().toISOString().replace("Z", ""),
       modified: new Date().toISOString().replace("Z", ""),
       ...(isPost
-        ? {
-            categories: [],
-            tags: [],
-            author: 1,
-            authorName: "NG Manpower",
-            authorSlug: "ng-manpower",
-            featuredImage: ogImageClean || "",
-            status: "published",
-          }
+        ? (() => {
+            const byline =
+              contentHtml.match(
+                /href="\/author\/([a-z0-9\-]+)\/"[^>]*class="fn"[^>]*(?:\s+aria-label="([^"]*)")?[^>]*>([^<]*)</i,
+              ) || [];
+            const authorSlug = byline[1] || "ng-manpower";
+            const authorName = (byline[2] || byline[3] || "NG Manpower").trim() || "NG Manpower";
+            return {
+              categories: [],
+              tags: [],
+              author: 1,
+              authorName,
+              authorSlug,
+              featuredImage: ogImageClean || "",
+              status: "published",
+            };
+          })()
         : {}),
       elementorCss: pageCss.find((h) => /\/elementor\/css\/post-\d+/.test(h)) || "",
       pageCss: pageCss.filter((h) => !/\/elementor\/css\/post-\d+/.test(h)),

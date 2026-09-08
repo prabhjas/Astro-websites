@@ -166,7 +166,7 @@ async function main() {
     sources.push(join(PUBLIC, "css", name));
   }
   walk(join(PUBLIC, "wp-content/uploads/elementor/css"), sources);
-  // Skip theme junk / peer leftover CSS (wpr-used.css etc.) — only Iberia data + Elementor CSS
+  // Skip theme junk / peer leftover CSS (wpr-used.css etc.) - only Iberia data + Elementor CSS
   walk(join(ROOT, "src/data"), sources);
 
   const scanFiles = [];

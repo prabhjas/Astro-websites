@@ -12,6 +12,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "css:bundle": "node scripts/build-css-head-bundle.mjs",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
     "extract": "node scripts/extract-connecthr.mjs",

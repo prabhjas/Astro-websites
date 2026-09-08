@@ -3,8 +3,11 @@
  * - Stops null DOM crashes that flood the console and break widgets
  * - Fallback counter animation when Elementor numerator does not run
  * - Fallback background video when Elementor does not inject <video>
- * - CF7 phone: flag sprites + IP-based country / dial-code selection
+ * - CF7 phone: flag sprites + Cloudflare country via /api/geo/country (not ipinfo.io)
  * - Nudges Elementor frontend init when available
+ *
+ * cache-bust: 20260904cg4 — rocket-lazy unwrap waits for jQuery/wp;
+ * Insights dark canvas + Contact-Us-Bg shorthand; block ipinfo.io.
  */
 (function () {
   function safe(fn) {
@@ -14,6 +17,58 @@
       console.warn('[astro-mirror-fixes]', e);
     }
   }
+
+  /**
+   * Legacy WP country-phone scripts call ipinfo.io (CORS/406 on local + fleet).
+   * Rewrite to same-origin /api/geo/country (Cloudflare cf-ipcountry + AE fallback).
+   */
+  safe(function blockLegacyIpinfoGeo() {
+    if (window.__astroIpinfoBlocked) return;
+    window.__astroIpinfoBlocked = true;
+    var GEO = '/api/geo/country';
+
+    function isIpinfo(url) {
+      return typeof url === 'string' && /ipinfo\.io/i.test(url);
+    }
+
+    if (typeof window.fetch === 'function') {
+      var origFetch = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        try {
+          if (typeof input === 'string' && isIpinfo(input)) input = GEO;
+          else if (input && typeof input.url === 'string' && isIpinfo(input.url)) {
+            input = GEO;
+          }
+        } catch (e) {}
+        return origFetch(input, init);
+      };
+    }
+
+    function patchJqueryAjax() {
+      if (!window.jQuery || window.jQuery.__astroIpinfoPatched) return;
+      var $ = window.jQuery;
+      $.__astroIpinfoPatched = true;
+      var origAjax = $.ajax;
+      $.ajax = function (url, options) {
+        if (typeof url === 'object' && url !== null) {
+          options = url;
+          if (options && isIpinfo(options.url)) {
+            options = $.extend(true, {}, options, { url: GEO });
+          }
+          return origAjax.call(this, options);
+        }
+        if (isIpinfo(url)) url = GEO;
+        return origAjax.call(this, url, options);
+      };
+    }
+
+    patchJqueryAjax();
+    var jqTries = 0;
+    var jqTimer = setInterval(function () {
+      patchJqueryAjax();
+      if (window.jQuery || ++jqTries > 40) clearInterval(jqTimer);
+    }, 100);
+  });
 
   // Patch getElementById usage from inline WP scripts that assume #arrow exists
   safe(function () {
@@ -182,22 +237,91 @@
     } catch (e) {}
   }
 
-  /** WP Rocket leaves type="text/rocketlazyloadscript" on inline config — run it */
+  /**
+   * WP Rocket leaves type="text/rocketlazyloadscript" — enable those scripts.
+   * Externals first (async), then inlines after jQuery/wp deps exist so we don't
+   * throw "wp is not defined" / "$ is not a function" on author/archive shells.
+   */
   function unwrapRocketLazyScripts() {
+    var externals = [];
+    var inlines = [];
     document.querySelectorAll('script[type="text/rocketlazyloadscript"]').forEach(function (script) {
       var src = script.getAttribute('data-rocket-src');
+      var text = (script.textContent || '').trim();
       if (src && !script.getAttribute('src')) {
-        script.setAttribute('src', src);
-        script.removeAttribute('data-rocket-src');
-      } else if (!src && script.textContent && script.textContent.trim()) {
+        externals.push(script);
+      } else if (!src && text) {
+        inlines.push(script);
+      } else {
+        script.removeAttribute('type');
+      }
+    });
+
+    externals.forEach(function (script) {
+      var src = script.getAttribute('data-rocket-src');
+      script.setAttribute('src', src);
+      script.removeAttribute('data-rocket-src');
+      script.removeAttribute('type');
+    });
+
+    function depsReady(text) {
+      if (/\bwp\.i18n\b/.test(text) && !(window.wp && window.wp.i18n)) return false;
+      if (/\(jQuery\)|\bjQuery\b|\b\$\(/.test(text) && typeof window.jQuery !== 'function') return false;
+      return true;
+    }
+
+    function activateInline(script) {
+      if (!script || !script.parentNode) return;
+      var text = (script.textContent || '').trim();
+      if (!text) {
+        script.removeAttribute('type');
+        return;
+      }
+      try {
         var replacement = document.createElement('script');
         if (script.className) replacement.className = script.className;
         if (script.id) replacement.id = script.id;
-        replacement.textContent = script.textContent;
+        // Swallow dependency races instead of noisy console ReferenceErrors.
+        replacement.textContent = 'try{\n' + text + '\n}catch(_astroRocket){}';
         script.parentNode.replaceChild(replacement, script);
+      } catch (e) {
+        try {
+          script.remove();
+        } catch (_) {}
       }
-      script.removeAttribute('type');
-    });
+    }
+
+    function flushInlines() {
+      var pending = [];
+      inlines.forEach(function (script) {
+        var text = (script.textContent || '').trim();
+        if (!depsReady(text)) {
+          pending.push(script);
+          return;
+        }
+        activateInline(script);
+      });
+      inlines = pending;
+    }
+
+    flushInlines();
+    if (!inlines.length) return;
+
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      flushInlines();
+      if (!inlines.length || tries > 100) {
+        clearInterval(timer);
+        // Drop remaining fragile inlines rather than throwing forever.
+        inlines.forEach(function (script) {
+          try {
+            script.remove();
+          } catch (_) {}
+        });
+        inlines = [];
+      }
+    }, 50);
   }
 
   /** Scrollsequence (Global Footprint canvas scrub) */
@@ -1168,13 +1292,20 @@
       var dial = $input.siblings('.flag-container').find('.selected-flag .selected-dial-code').text();
       var name = $input.attr('name');
       if (!name) return;
-      var $hidden = $('input[name="' + name + '-country-code"]');
+      var $scope = $input.closest('form');
+      if (!$scope.length) $scope = $input.parent();
+      var $hidden = $scope.find('input[name="' + name + '-country-code"]');
       if ($hidden.length) $hidden.val(dial);
+    }
+
+    function phoneNeedsInit(el) {
+      return !!(el && !el.closest('.intl-tel-input'));
     }
 
     function applyCountry(code) {
       if (typeof window.jQuery === 'undefined') return;
       var $ = window.jQuery;
+      if (typeof $.fn.intlTelInput !== 'function') return;
       var country = (code || 'ae').toLowerCase();
       window.__astroPhoneCountry = country;
       var $phones = $('.wpcf7-phonetext, input.cg-phone-input');
@@ -1189,21 +1320,25 @@
             try { $el.intlTelInput('destroy'); } catch (eDestroy) {}
           }
         } catch (e) {}
-        $el.intlTelInput({
-          autoHideDialCode: true,
-          autoPlaceholder: 'aggressive',
-          nationalMode: true,
-          separateDialCode: true,
-          hiddenInput: 'full_number',
-          initialCountry: country,
-          preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
-          utilsScript: UTILS_JS,
-        });
-        try { $el.intlTelInput('setCountry', country); } catch (eSet) {}
-        syncDialCodeHidden($el);
-        $el.off('countrychange.astroPhone').on('countrychange.astroPhone', function () {
-          syncDialCodeHidden($(this));
-        });
+        try {
+          $el.intlTelInput({
+            autoHideDialCode: true,
+            autoPlaceholder: 'aggressive',
+            nationalMode: true,
+            separateDialCode: true,
+            hiddenInput: 'full_number',
+            initialCountry: country,
+            preferredCountries: ['ae', 'sa', 'pk', 'in', 'gb', 'us'],
+            utilsScript: UTILS_JS,
+          });
+          try { $el.intlTelInput('setCountry', country); } catch (eSet) {}
+          syncDialCodeHidden($el);
+          $el.off('countrychange.astroPhone').on('countrychange.astroPhone', function () {
+            syncDialCodeHidden($(this));
+          });
+        } catch (eInit) {
+          console.warn('[astro-mirror-fixes] intlTelInput init failed', eInit);
+        }
       });
 
       $countries.each(function () {
@@ -1230,14 +1365,26 @@
       window.__astroGeoCountryPromise = lookupCountryByIp();
     }
 
-    if (window.__astroPhoneCountryApplied) {
+    var hasUnwrappedPhone = false;
+    for (var pi = 0; pi < phones.length; pi++) {
+      if (phoneNeedsInit(phones[pi])) {
+        hasUnwrappedPhone = true;
+        break;
+      }
+    }
+
+    if (window.__astroPhoneCountryApplied && !hasUnwrappedPhone) {
       injectFlagSpriteCss();
       window.__astroGeoCountryPromise.then(function (code) {
         if (code && code !== (window.__astroPhoneCountry || '')) applyCountry(code);
       });
       return;
     }
-    if (window.__astroPhoneCountryPending) {
+    // Unwrapped Insights/contact phones remain — force re-init even if a prior field already applied.
+    if (hasUnwrappedPhone) {
+      window.__astroPhoneCountryApplied = false;
+    }
+    if (window.__astroPhoneCountryPending && !hasUnwrappedPhone) {
       var startedAt = window.__astroPhoneCountryStartedAt || 0;
       if (Date.now() - startedAt < 8000) {
         injectFlagSpriteCss();
@@ -1289,11 +1436,20 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prefer clip so position:sticky (blog sidebar) still works */
+      /* Prefer clip so position:sticky (blog sidebar) still works on desktop.
+         Mobile: keep clip so wide CMS images cannot create horizontal scroll. */
       'html,body{overflow-x:clip;max-width:100vw;}',
-      /* Dark chrome for marketing pages only — NOT blog/insights (light gray canvas) */
-      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive){background:#111!important;background-color:#111!important;}',
+      'html:has(.ig),html:has(.ig) body{overflow-x:clip!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}',
+      '@media (min-width:1100px){html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}}',
+      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body{overflow-x:clip!important;overflow-y:auto!important;}}',
+      '.bp-content img,.bp-content figure,.bp-content video,.bp-content iframe,.bp-content table{max-width:100%!important;height:auto!important;}',
+      /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
+         Exclude Contact Us + Figma Insights (.ig/.bp). */
+      'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)):not(:has(main.ig)):not(:has(main.bp)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive):not(:has(main.ig)):not(:has(main.bp)){background:#111!important;background-color:#111!important;}',
+      'html:has(main.ig),html:has(main.bp),body:has(main.ig),body:has(main.bp){background:#060d1d!important;background-color:#060d1d!important;}',
       'body.astro-blog-post,body.single-post,body.page-id-18840,body.elementor-page-18840,body.blog,body.archive,html:has(body.astro-blog-post),html:has(body.single-post),html:has(body.page-id-18840),html:has(body.elementor-page-18840){background:#f8f9fa!important;background-color:#f8f9fa!important;background-image:none!important;}',
+      /* Figma Insights override light-canvas body classes if both ever present */
+      'html:has(main.ig) body,html:has(main.bp) body,body:has(main.ig),body:has(main.bp){background:#060d1d!important;background-color:#060d1d!important;background-image:none!important;}',
       /* Blog header stays in normal document flow (do not overlay like marketing heroes) */
       'body.astro-blog-post .elementor-location-header,body.single-post .elementor-location-header,body.blog .elementor-location-header,body.archive .elementor-location-header,body.page-id-18840 .elementor-location-header{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:100;}',
       /* Inner post top bar: mailto/tel + icon-box titles must stay white (not post-link red) */
@@ -1317,11 +1473,14 @@
       'overflow:visible!important;',
       '}',
       '}',
-      /* Contact Us only: restore full-bleed page background (not a second site header) */
-      'body.page-id-27093{background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;}',
+      /* Contact Us only: full-bleed page background (beat theme/body shorthand rules) */
+      'html body.page-id-27093,html body.elementor-page-27093,body.page-id-27093.elementor-page-27093{background:#111 url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp") center center / cover no-repeat fixed!important;background-color:#111!important;background-image:url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")!important;background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important;background-attachment:fixed!important;}',
       'body.page-id-27093 .elementor-27130.elementor-location-header,body.page-id-27093 .elementor-27130 .header-new{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
       '@media (max-width:991px){body.page-id-27093 .elementor-27130 .header-new{background:rgba(6,13,29,.4)!important;background-color:rgba(6,13,29,.4)!important;}}',
       'body.page-id-27093 .elementor-27093 > .elementor-element-3f99223{padding-top:120px!important;}',
+      /* Contact Us: drop shared footer section plate so page gradient continues; keep only-flower disks */
+      'body.page-id-27093 #pix-page-footer,body.page-id-27093 #pix-page-footer.bg-white,body.page-id-27093 .elementor-location-footer,body.page-id-27093 .elementor-28308,body.page-id-27093 .elementor-28308 .elementor-element-27685fb,body.page-id-27093 .elementor-28308 .elementor-element-27685fb:not(.elementor-motion-effects-element-type-background),body.page-id-27093 .elementor-28308 .elementor-element-27685fb>.elementor-motion-effects-container>.elementor-motion-effects-layer,body.page-id-27093 .elementor-28308 .elementor-element-27685fb>.elementor-background-overlay{background:transparent!important;background-color:transparent!important;background-image:none!important;}',
+      '@media (max-width:991px){body.page-id-27093,html body.page-id-27093{background-attachment:scroll!important;}}',
       '.ald_laser_loader,.ald_laser_loader.show,.ald_loader_progress{display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;width:0!important;pointer-events:none!important;background:none!important;box-shadow:none!important;z-index:-1!important;}',
       /* Header: desktop transparent overlay; mobile glass via mobile-nav.css */
       '.elementor-27554.elementor-location-header,.elementor-27130.elementor-location-header{position:absolute;top:0;left:0;right:0;width:100%;z-index:100;background-color:transparent!important;background-image:none!important;}',
@@ -1352,9 +1511,11 @@
       '@media (max-width:991px){.elementor-32691 .elementor-element-718f66e{padding-top:110px!important;}}',
       '@media (min-width:992px){.elementor-32691 .elementor-element-718f66e{padding-top:120px!important;}}',
       /* Figma rebuild heroes — clear absolute overlay header (80px mobile / transparent desktop) */
-      '.chire-hero,.uaeo-hero,.cgbs-hero{margin-top:0!important;}',
-      '@media (max-width:991px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:110px!important;}}',
-      '@media (min-width:992px){.chire-hero,.uaeo-hero,.cgbs-hero{padding-top:120px!important;}}',
+      '.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero,.bp-hero{margin-top:0!important;}',
+      '@media (max-width:991px){.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero{padding-top:110px!important;}}',
+      '@media (min-width:992px){.chire-hero,.uaeo-hero,.cgbs-hero,.ig-hero{padding-top:120px!important;}}',
+      '@media (max-width:991px){.bp-hero{padding-top:110px!important;}}',
+      '@media (min-width:992px){.bp-hero{padding-top:120px!important;}}',
       /* Legacy heroes pulled up with margin-top:-84px (freezone + container layouts) */
       '.elementor-element-6772549,.elementor-element-718f66e{margin-top:0!important;}',
       '@media (max-width:991px){.elementor-element-6772549,.elementor-element-718f66e{padding-top:110px!important;}}',
@@ -2159,6 +2320,10 @@
   }
 
   function isLightCanvasPage() {
+    // Figma Insights listing (.ig) + blog posts (.bp) use dark heroes — overlay header like marketing pages.
+    if (document.querySelector('main.ig, main.bp, .ig-hero, .bp-hero')) {
+      return false;
+    }
     var b = document.body;
     if (!b) return false;
     if (
@@ -2172,9 +2337,11 @@
       return true;
     }
     var path = (location.pathname || '').replace(/\/+$/, '') || '/';
+    // /insights is the Figma dark-hero listing — not light canvas
+    if (path === '/insights' || path.indexOf('/insights/') === 0) {
+      return false;
+    }
     return (
-      path === '/insights' ||
-      path.indexOf('/insights/') === 0 ||
       path.indexOf('/category/') === 0 ||
       path.indexOf('/tag/') === 0 ||
       path.indexOf('/author/') === 0
@@ -2185,7 +2352,11 @@
     // Dark page chrome — kills white/gray flash above absolute transparent header.
     // Contact Us (page-id-27093) keeps Contact-Us-Bg image on body — only solid-fill html.
     // Blog / Insights / archives need the light theme canvas (bg-gray-2 / #f8f9fa), not #111.
-    var isContactUs = document.body && document.body.classList.contains('page-id-27093');
+    var isContactUs =
+      (document.body &&
+        (document.body.classList.contains('page-id-27093') ||
+          document.body.classList.contains('elementor-page-27093'))) ||
+      /\/contact-us\/?$/.test(location.pathname || '');
     var lightCanvas = !isContactUs && isLightCanvasPage();
     if (lightCanvas) {
       document.documentElement.style.setProperty('background', '#f8f9fa', 'important');
@@ -2196,6 +2367,12 @@
     } else if (isContactUs) {
       document.documentElement.style.setProperty('background', '#111111', 'important');
       document.documentElement.style.setProperty('background-color', '#111111', 'important');
+      // One shorthand so later background-color-only rules cannot wipe the image.
+      document.body.style.setProperty(
+        'background',
+        '#111111 url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp") center center / cover no-repeat fixed',
+        'important',
+      );
       document.body.style.setProperty(
         'background-image',
         'url("/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp")',
@@ -2204,9 +2381,28 @@
       document.body.style.setProperty('background-size', 'cover', 'important');
       document.body.style.setProperty('background-repeat', 'no-repeat', 'important');
       document.body.style.setProperty('background-position', 'center center', 'important');
+      document.body.style.setProperty(
+        'background-attachment',
+        window.matchMedia('(max-width: 991px)').matches ? 'scroll' : 'fixed',
+        'important',
+      );
       document.body.style.setProperty('background-color', '#111111', 'important');
-      // Clear shorthand that would wipe the image if set earlier
-      document.body.style.removeProperty('background');
+      // Let the Contact Us gradient continue behind the shared footer plate
+      document
+        .querySelectorAll(
+          '#pix-page-footer, .elementor-location-footer, .elementor-28308, .elementor-28308 .elementor-element-27685fb, .elementor-28308 .elementor-element-27685fb > .elementor-background-overlay',
+        )
+        .forEach(function (el) {
+          el.style.setProperty('background', 'transparent', 'important');
+          el.style.setProperty('background-color', 'transparent', 'important');
+          el.style.setProperty('background-image', 'none', 'important');
+        });
+      // Restore decorative disks on inner footer section (cleared when parent plate is wiped)
+      document.querySelectorAll('.elementor-28308 .elementor-element-5f1b13c').forEach(function (el) {
+        el.style.removeProperty('background');
+        el.style.removeProperty('background-color');
+        el.style.removeProperty('background-image');
+      });
     } else {
       document.documentElement.style.setProperty('background', '#111111', 'important');
       document.documentElement.style.setProperty('background-color', '#111111', 'important');
@@ -2215,8 +2411,8 @@
     }
     killAldLaserLoader();
 
-    // Overlay header on hero (Figma) — marketing pages only.
-    // Blog / Insights keep a normal-flow header so content is not flush under it.
+    // Overlay header on hero (Figma) — marketing pages + Insights (.ig/.bp).
+    // Legacy WP blog/archives keep a normal-flow header on the light canvas.
     if (!lightCanvas) {
       document
         .querySelectorAll(
@@ -2423,6 +2619,10 @@
     setTimeout(function () {
       safe(ensurePhoneCountryFields);
     }, 600);
+    // Insights pages mount multiple lead forms — re-scan for any still-unwrapped phones
+    setTimeout(function () {
+      safe(ensurePhoneCountryFields);
+    }, 1600);
     setTimeout(function () {
       safe(unwrapRocketLazyScripts);
       safe(nudgeElementor);

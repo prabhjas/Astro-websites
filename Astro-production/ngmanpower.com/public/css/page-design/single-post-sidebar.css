@@ -1,0 +1,570 @@
+/**
+ * Shared single-post sidebar (all posts).
+ * Source: NG-Manpower BLOG POST PAGE V2 — nodes 157:9511 + 162:10325 + 147:8390
+ * Keeps all existing widgets/content; CSS-only visual match.
+ */
+body.single-post .vc_column_container.type_sticky > .vc_column-inner {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-content: start !important;
+  row-gap: 0 !important;
+  column-gap: 0 !important;
+  height: auto !important;
+  top: auto !important;
+  width: 100% !important;
+  max-width: 456px !important;
+  margin-left: auto !important;
+}
+
+/* ========== TOP CTA CARD (Figma 157:9511) ========== */
+body.single-post .type_sticky > .vc_column-inner > .ult-content-box-container:not(.sticky_r) {
+  grid-row: 1 / span 5 !important;
+  grid-column: 1 !important;
+  z-index: 0 !important;
+  position: relative !important;
+  margin: 0 0 41px !important; /* 612 - (92+479) ≈ 41px gap to form card in Figma */
+  min-height: 479px !important;
+  border-radius: 15px !important;
+  border: 1px solid #dfeeff !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .ult-content-box-container:not(.sticky_r) .ult-content-box {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 15px !important;
+  border: 0 !important;
+  background-color: #ffffff !important;
+  background-size: cover !important;
+  background-position: 70% center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Light white wash (Figma gradient), NOT a dark overlay */
+body.single-post .type_sticky > .vc_column-inner > .ult-content-box-container:not(.sticky_r)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 15px;
+  background-image: linear-gradient(
+    105.2deg,
+    rgba(255, 255, 255, 0.6) 21.4%,
+    rgba(255, 255, 255, 0) 69.95%
+  );
+}
+
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd,
+body.single-post .type_sticky > .vc_column-inner > .us_custom_b969157f,
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper {
+  grid-column: 1 !important;
+  z-index: 2 !important;
+  position: relative !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+/* Title: Absolute Zero #004AB5, ~29px, left-aligned */
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd {
+  grid-row: 1 !important;
+  align-self: start !important;
+  margin: 0 !important;
+  padding: 100px 30px 5px !important;
+  color: #004ab5 !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd p,
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd strong {
+  color: #004ab5 !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 29px !important;
+  line-height: 1.4 !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd + .us_custom_b969157f {
+  grid-row: 2 !important;
+}
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd + .us_custom_b969157f + .us_custom_b969157f {
+  grid-row: 3 !important;
+}
+body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd + .us_custom_b969157f + .us_custom_b969157f + .us_custom_b969157f {
+  grid-row: 4 !important;
+}
+
+/* Check pills: full-width white bars, radius 5px */
+body.single-post .type_sticky > .vc_column-inner > .us_custom_b969157f {
+  margin: 0 30px 5px !important;
+  padding: 10px 25px !important;
+  border-radius: 5px !important;
+  background: #ffffff !important;
+  color: #00133e !important;
+  box-shadow: none !important;
+  width: calc(100% - 60px) !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .us_custom_b969157f p {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  color: #00133e !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .us_custom_b969157f img.icon_r {
+  width: 20px !important;
+  height: 20px !important;
+  flex: 0 0 20px !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+}
+
+/* CTA button: #004AB5, radius 8px, 20px white */
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper {
+  grid-row: 5 !important;
+  align-self: end !important;
+  margin: 5px 30px 70px !important;
+  padding: 0 !important;
+  width: calc(100% - 60px) !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper .w-btn,
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper .us_custom_2d9ebfef {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  border: 0 !important;
+  background: #004ab5 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper .w-btn:hover {
+  background: #003d96 !important;
+  color: #ffffff !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper .w-btn-label {
+  color: #ffffff !important;
+  font-family: Poppins, Manrope, sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+}
+
+/* ========== FORM CARD (Figma 162:10325) — whole block sticky ========== */
+body.single-post .type_sticky .ng-sidebar-form-sticky {
+  grid-column: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 15px !important;
+  background: #004ab5 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+body.single-post .type_sticky .ng-sidebar-form-sticky > .sticky_r {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  background: transparent !important;
+}
+
+body.single-post .type_sticky .ng-sidebar-form-sticky > .sticky_r .ult-content-box {
+  display: none !important;
+}
+
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_9fdbceef,
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_f6aa9c65,
+body.single-post .type_sticky .ng-sidebar-form-sticky > .wpcf7 {
+  background: transparent !important;
+  margin: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Form title: white Bold 32px */
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_9fdbceef {
+  padding: 31px 30px 8px !important;
+  position: relative !important;
+}
+
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_9fdbceef p {
+  color: #ffffff !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 32px !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  max-width: 345px !important;
+}
+
+/* Description under title */
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_f6aa9c65 {
+  padding: 0 30px 24px !important;
+  position: relative !important;
+}
+
+body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_f6aa9c65 p {
+  color: #ffffff !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+  max-width: 401px !important;
+  padding-right: 0 !important;
+}
+
+/* ========== Sticky phone widget (viewport-fixed, hover slide) ========== */
+body.single-post .ng-sticky-phone {
+  position: fixed;
+  top: 42%;
+  right: 0;
+  z-index: 2147483000;
+  display: block;
+  width: 47px;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  isolation: isolate;
+}
+
+body.single-post .ng-sticky-phone__inner {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  text-decoration: none;
+  color: inherit;
+}
+
+body.single-post .ng-sticky-phone__panel {
+  position: absolute;
+  right: 37px; /* sits under/next to the circle */
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 168px;
+  min-height: 64px;
+  padding: 10px 22px 10px 16px;
+  border-radius: 15px 0 0 15px;
+  background: #ffffff;
+  box-shadow: 0 3px 5px 5px rgba(0, 0, 0, 0.1);
+  font-family: Poppins, sans-serif;
+  line-height: 1.35;
+  transform: translate(100%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.28s ease;
+  will-change: transform, opacity;
+}
+
+body.single-post .ng-sticky-phone:hover .ng-sticky-phone__panel,
+body.single-post .ng-sticky-phone:focus-within .ng-sticky-phone__panel {
+  transform: translate(0, -50%);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.single-post .ng-sticky-phone__label {
+  color: #000000;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+body.single-post .ng-sticky-phone__label strong {
+  font-weight: 600;
+}
+
+body.single-post .ng-sticky-phone__number {
+  color: #000000;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+body.single-post .ng-sticky-phone__btn {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 47px;
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  background: #004ab5;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 74, 181, 0.35);
+}
+
+body.single-post .ng-sticky-phone__btn svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+/* Touch / coarse pointers: icon-only (tap to call) */
+@media (hover: none), (pointer: coarse) {
+  body.single-post .ng-sticky-phone:hover .ng-sticky-phone__panel,
+  body.single-post .ng-sticky-phone:focus-within .ng-sticky-phone__panel {
+    transform: translate(100%, -50%);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 600px) {
+  body.single-post .ng-sticky-phone {
+    top: auto;
+    bottom: 88px;
+    width: 44px;
+    height: 56px;
+  }
+
+  body.single-post .ng-sticky-phone__btn {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+}
+
+/* White nested form panel */
+body.single-post .type_sticky .ng-sidebar-form-sticky > .wpcf7 {
+  border-radius: 0 0 15px 15px !important;
+  padding: 0 23px 28px !important;
+  position: relative !important;
+  top: auto !important;
+  background: transparent !important;
+}
+
+body.single-post .type_sticky > .vc_column-inner > .wpcf7 form,
+body.single-post .type_sticky .wpcf7 form {
+  background: #ffffff !important;
+  border-radius: 15px !important;
+  padding: 35px 39px 20px !important; /* ≈ px 30 + inner 9 from Figma */
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+body.single-post .type_sticky .wpcf7 .label_r {
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+body.single-post .type_sticky .wpcf7 .label_r:empty,
+body.single-post .type_sticky .wpcf7 .label_r:not(:has(label)):not(:has(input)):not(:has(textarea)):not(:has(.wpcf7-form-control-wrap)) {
+  display: none !important;
+}
+
+body.single-post .type_sticky .wpcf7 .label_r,
+body.single-post .type_sticky .wpcf7 .label_r label,
+body.single-post .type_sticky .wpcf7 .label_r p {
+  color: #000e29 !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  margin-bottom: 0 !important;
+  line-height: 1.5 !important;
+}
+
+body.single-post .type_sticky .wpcf7 .iti {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  border-bottom: 1px solid #c7ced7 !important;
+  margin: 0 0 0 !important;
+}
+
+body.single-post .type_sticky .wpcf7 .iti__selected-flag {
+  background: transparent !important;
+}
+
+body.single-post .type_sticky .wpcf7 input.wpcf7-form-control,
+body.single-post .type_sticky .wpcf7 textarea.wpcf7-form-control,
+body.single-post .type_sticky .wpcf7 input.inside_label,
+body.single-post .type_sticky .wpcf7 textarea.inside_label,
+body.single-post .type_sticky .wpcf7 textarea,
+body.single-post .type_sticky .wpcf7 .iti input {
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 0 !important;
+  border-bottom: 1px solid #c7ced7 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #000e29 !important;
+  font-family: Poppins, sans-serif !important;
+  font-size: 16px !important;
+  padding: 0 !important;
+  margin: 5px 0 0 !important;
+}
+
+body.single-post .type_sticky .wpcf7 .iti input {
+  border-bottom: 0 !important;
+  margin: 0 !important;
+}
+
+body.single-post .type_sticky
+  input.wpcf7-form-control.wpcf7-phonetext.wpcf7-validates-as-required.wpcf7-text.wpcf7-validates-as-phonetext.inside_label {
+  padding-left: 110px !important;
+}
+
+body.single-post .type_sticky .wpcf7 input::placeholder,
+body.single-post .type_sticky .wpcf7 textarea::placeholder {
+  color: #acb8c8 !important;
+}
+
+body.single-post .type_sticky .wpcf7 textarea,
+body.single-post .type_sticky .wpcf7 textarea.wpcf7-textarea,
+body.single-post .type_sticky .wpcf7 textarea.inside_label {
+  min-height: 44px !important;
+  max-height: 88px !important;
+  height: 56px !important;
+  resize: vertical !important;
+}
+
+body.single-post .type_sticky .wpcf7 .wpcf7-form-control-wrap[data-name="countrytext-787"],
+body.single-post .type_sticky .wpcf7 .hidden-fields-container,
+body.single-post .type_sticky .wpcf7 .wpcf7-display-none,
+body.single-post .type_sticky .wpcf7 [style*="display: none"],
+body.single-post .type_sticky .wpcf7 [style*="display:none"] {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Submit: Vivid Sky Blue #00CFFF */
+body.single-post .type_sticky .wpcf7 button.button_r,
+body.single-post .type_sticky .wpcf7 input.wpcf7-submit {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 54px !important;
+  margin-top: 10px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: #00cfff !important;
+  color: #00133e !important;
+  font-family: Poppins, Manrope, sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  padding: 12px 24px !important;
+}
+
+body.single-post .type_sticky .wpcf7 button.button_r:hover {
+  background: #33d9ff !important;
+}
+
+@media (min-width: 901px) {
+  body.single-post .vc_column_container.type_sticky > .vc_column-inner {
+    position: relative !important;
+    top: auto !important;
+    height: 100% !important;
+  }
+
+  /* Reset form-only sticky from wp-custom.css — stick the whole blue section */
+  body.single-post .type_sticky .wpcf7.us_custom_73228f27,
+  body.single-post .type_sticky .wpcf7 {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  body.single-post .type_sticky .ng-sidebar-form-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 30px !important;
+    z-index: 5 !important;
+    align-self: start !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body.single-post .vc_column_container.type_sticky > .vc_column-inner {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  body.single-post .type_sticky > .vc_column-inner > .ult-content-box-container:not(.sticky_r) {
+    min-height: 420px !important;
+  }
+
+  body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd p,
+  body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd strong {
+    font-size: 26px !important;
+  }
+
+  body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_9fdbceef p {
+    font-size: 28px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  body.single-post .type_sticky > .vc_column-inner > .us_custom_2c8110fd {
+    padding: 72px 22px 5px !important;
+  }
+
+  body.single-post .type_sticky > .vc_column-inner > .us_custom_b969157f {
+    margin-left: 22px !important;
+    margin-right: 22px !important;
+    width: calc(100% - 44px) !important;
+    padding: 10px 16px !important;
+  }
+
+  body.single-post .type_sticky > .vc_column-inner > .w-btn-wrapper {
+    margin: 5px 22px 32px !important;
+    width: calc(100% - 44px) !important;
+  }
+
+  body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_f6aa9c65 {
+    padding: 0 22px 20px !important;
+  }
+
+  body.single-post .type_sticky .ng-sidebar-form-sticky > .us_custom_f6aa9c65 p {
+    max-width: 100% !important;
+    padding-right: 0 !important;
+    margin: 0 0 16px !important;
+  }
+
+  body.single-post .type_sticky > .vc_column-inner > .wpcf7 form,
+  body.single-post .type_sticky .wpcf7 form {
+    padding: 24px 20px 18px !important;
+  }
+}

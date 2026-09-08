@@ -3,7 +3,7 @@ import {
   BLOG_LOAD_MORE_PER_PAGE,
   renderBlogCardsHtml,
 } from "../../../lib/blog-card-html";
-import { getPosts, paginate } from "../../../lib/content";
+import { getPostsSortedByDate, paginate } from "../../../lib/content";
 
 export const prerender = false;
 
@@ -14,7 +14,7 @@ export const GET: APIRoute = async ({ url }) => {
     Math.max(1, Number(url.searchParams.get("perPage") || BLOG_LOAD_MORE_PER_PAGE) || BLOG_LOAD_MORE_PER_PAGE),
   );
 
-  const sorted = getPosts().sort((a, b) => +new Date(b.date) - +new Date(a.date));
+  const sorted = getPostsSortedByDate();
   const slice = paginate(sorted, page, perPage);
   const html = renderBlogCardsHtml(slice.items);
 
