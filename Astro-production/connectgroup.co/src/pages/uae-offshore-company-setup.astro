@@ -527,7 +527,7 @@ const intel = [
   </script>
   <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/pixfort-core/dist/front/index.bundle-898a720260c818ad1bb5.js?ver=1785312815" defer></script>
   <script is:inline src="/wp-content/cache/min/1/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=1785312815" defer></script>
-  <script is:inline src="/js/astro-mirror-fixes.js" defer></script>
+  <script is:inline src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>
 </BaseLayout>
 
 <style>
@@ -702,10 +702,10 @@ const intel = [
 
   /* MARKET INTEL */
   .uaeo-intel { padding-top: 30px; }
-  .uaeo-intel .uaeo-cards3 { margin-top: 34px; }
-  .uaeo-intel-card { background: #fafafa; border: 1px solid #ececf3; border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; display: block; }
-  .uaeo-intel-card img { width: 100%; aspect-ratio: 16 / 10.5; object-fit: cover; border-radius: 12px; padding: 18px 18px 0; }
-  .uaeo-intel-body { padding: 20px 22px 24px; }
+  .uaeo-intel .uaeo-cards3 { margin-top: 34px; align-items: stretch; }
+  .uaeo-intel-card { background: #fafafa; border: 1px solid #ececf3; border-radius: 16px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%; }
+  .uaeo-intel-card img { width: 100%; aspect-ratio: 16 / 10.5; object-fit: cover; border-radius: 12px; padding: 18px 18px 0; flex: 0 0 auto; }
+  .uaeo-intel-body { padding: 20px 22px 24px; flex: 1 1 auto; }
   .uaeo-intel-body h3 { color: #1a1a1a; font-size: 21px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
   .uaeo-intel-body p { color: var(--uaeo-silver); font-size: 15px; margin: 0; }
 
