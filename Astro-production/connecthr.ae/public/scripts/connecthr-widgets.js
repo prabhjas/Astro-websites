@@ -528,6 +528,10 @@
   }
 
   function closePopup() {
+    if (typeof window.__chrClosePopup === "function") {
+      window.__chrClosePopup();
+      return;
+    }
     const modal = document.getElementById("chr-popup-modal");
     if (!modal) return;
     const msg = modal.querySelector(".dialog-message");
@@ -543,6 +547,10 @@
   }
 
   function openPopup(id) {
+    if (typeof window.__chrOpenPopup === "function") {
+      window.__chrOpenPopup(id);
+      return;
+    }
     if (!id) return;
     const source = document.querySelector(`[data-elementor-type="popup"][data-elementor-id="${id}"]`);
     if (!source) return;
@@ -575,7 +583,7 @@
   }
 
   function initPopups() {
-    if (initPopups.bound) return;
+    if (window.__chrPopupsInited || initPopups.bound) return;
     initPopups.bound = true;
     const host = document.querySelector("[data-chr-popups]");
     if (host) {
