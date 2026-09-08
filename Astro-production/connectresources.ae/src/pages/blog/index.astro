@@ -34,7 +34,7 @@ const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
     <section class="l-section">
       <div class="l-section-h i-cf">
         <div class="sp-blog-grid">
-          {items.map((post) => <PostCard post={post} />)}
+          {items.map((post, i) => <PostCard post={post} priority={i === 0} />)}
         </div>
         <Pagination basePath="/blog/" page={page} totalPages={totalPages} />
       </div>

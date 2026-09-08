@@ -37,6 +37,23 @@ if (!page && !post) {
 const entry = page || post!;
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
 let html = sanitizeMirrorHtml((("bodyHtml" in entry && entry.bodyHtml) || entry.content || "") as string);
+
+/*
+ * Reserve Ultimate-VC spacer heights server-side. `ultimate.min.js` sets each `.ult-spacer`'s
+ * height from its `data-height*` attributes ON LOAD, so ~86 spacers grow from 0 → their height
+ * after paint, reflowing the fold (the CLS on VC-designed pages). Applying the height at build
+ * time (data-height-mobile, which is identical to the desktop value for ~99% of them) makes the
+ * page the correct height at first paint; the JS then sets the same value → no shift. Preserves
+ * the exact design spacing on both viewports.
+ */
+html = html.replace(/<div\b[^>]*\bclass="ult-spacer[^"]*"[^>]*>/gi, (tag) => {
+  const h = (tag.match(/data-height-mobile="(\d+)"/) || [])[1] ?? (tag.match(/data-height="(\d+)"/) || [])[1];
+  if (h == null) return tag;
+  return /style="/i.test(tag)
+    ? tag.replace(/style="([^"]*)"/i, (_m, s) => `style="${s}height:${h}px;"`)
+    : tag.replace(/<div\b/i, `<div style="height:${h}px"`);
+});
+
 /** Astro sanitizes `<button>` in set:html; Impreza load-more needs a clickable control. */
 if (page && path === "/insights/") {
   html = html.replace(
@@ -129,6 +146,16 @@ const bodyClass = page
       ? `page wp-singular page-template-default page-id-${page.id} elementor-default elementor-kit-873 elementor-page elementor-page-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`
       : `page wp-singular page-template-default page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline wpb-js-composer vc_responsive`
   : `single single-${post!.type || "post"} postid-${post!.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body header_hor links_underline`;
+
+/* Which frontend script groups this page's body actually uses — so text pages don't pay the
+   main-thread cost of the slider/form/accordion libs. Conservative: any plausible marker → load. */
+const scriptNeeds = {
+  vc: /vc_row|wpb_wrapper|upb_|ult-|data-bg-override|data-row-effect|owl-carousel/i.test(html),
+  sliders: /nextend|n2-ss|smartslider|smart-slider/i.test(html),
+  royalslider: /royalslider|rsslide|magnific|w-gallery|prettyphoto|lightbox|w-image-h/i.test(html),
+  accordion: /accordion/i.test(html),
+  forms: /wpcf7|contact-form-7|wpforms/i.test(html),
+};
 ---
 
 <BaseLayout
@@ -140,6 +167,7 @@ const bodyClass = page
   menuActivePath={post ? "/blog/" : undefined}
   loadElementor={isElementorPage}
   hideSiteChrome={isElementorCanvas}
+  scriptNeeds={scriptNeeds}
 >
   {
     renderRawHtml ? (
