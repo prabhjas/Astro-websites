@@ -1,6 +1,6 @@
 ---
 import { getBlogPageData, serveArchivePage } from '../../../lib/archives.ts';
-import { getAllBlogPosts, ARCHIVE_POSTS_PER_PAGE } from '../../../lib/blog.ts';
+import { getAllBlogPosts, BLOG_INDEX_GRID_SIZE } from '../../../lib/blog.ts';
 
 export const prerender = false;
 
@@ -10,7 +10,7 @@ if (!Number.isFinite(page) || page < 2) {
 }
 
 const total = getAllBlogPosts().length;
-const totalPages = Math.max(1, Math.ceil(total / ARCHIVE_POSTS_PER_PAGE));
+const totalPages = Math.max(1, Math.ceil(total / BLOG_INDEX_GRID_SIZE));
 if (page > totalPages) {
   return new Response('Not found', { status: 404 });
 }
