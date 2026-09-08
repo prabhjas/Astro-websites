@@ -2543,38 +2543,50 @@ li#mega-menu-item-31469 { display: none !important; }
 
 /* === CG header chrome (authoritative — keep at file end) === */
 
-/* Kill thin top white/gray strip on marketing pages (not blog/insights light canvas) */
-html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)) {
+/* Kill thin top white/gray strip on marketing pages (not blog/insights light canvas).
+   Exclude Contact Us (27093): shorthand background:#111 clears Contact-Us-Bg.
+   Exclude Figma Insights (.ig / .bp): those pages own their dark canvas. */
+html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)):not(:has(.ig)):not(:has(.bp)) {
   background: #111111 !important;
   background-color: #111111 !important;
 }
-body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.blog):not(.archive) {
+body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive):not(:has(.ig)):not(:has(.bp)) {
   background: #111111 !important;
   background-color: #111111 !important;
 }
-/* Insights index, categories, tags, single posts — keep readable light gray */
-html:has(body.astro-blog-post),
-html:has(body.single-post),
-html:has(body.page-id-18840),
-html:has(body.elementor-page-18840),
-body.astro-blog-post,
-body.single-post,
-body.page-id-18840,
-body.elementor-page-18840,
-body.blog,
-body.archive {
+/* Legacy WP Insights index / categories / tags / single posts — light gray canvas.
+   Do not apply to Figma Insights listing (.ig) or post chrome (.bp). */
+html:has(body.astro-blog-post):not(:has(.ig)):not(:has(.bp)),
+html:has(body.single-post):not(:has(.ig)):not(:has(.bp)),
+html:has(body.page-id-18840):not(:has(.ig)):not(:has(.bp)),
+html:has(body.elementor-page-18840):not(:has(.ig)):not(:has(.bp)),
+body.astro-blog-post:not(:has(.ig)):not(:has(.bp)),
+body.single-post:not(:has(.ig)):not(:has(.bp)),
+body.page-id-18840:not(:has(.ig)):not(:has(.bp)),
+body.elementor-page-18840:not(:has(.ig)):not(:has(.bp)),
+body.blog:not(:has(.ig)):not(:has(.bp)),
+body.archive:not(:has(.ig)):not(:has(.bp)) {
   background: #f8f9fa !important;
   background-color: #f8f9fa !important;
   background-image: none !important;
 }
-/* Contact Us (page 27093): keep full-bleed Contact-Us-Bg — do not solid-fill body */
-body.page-id-27093 {
+/* Contact Us (page 27093): full-bleed Contact-Us-Bg — beat long :not() solid-fill chains */
+html body.page-id-27093,
+html body.elementor-page-27093,
+body.page-id-27093.elementor-page-27093 {
+  background: #111111 url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') center center / cover no-repeat fixed !important;
   background-color: #111111 !important;
   background-image: url('/wp-content/uploads/2025/08/Contact-Us-Bg-Desktop-scaled.webp') !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
   background-position: center center !important;
-  background-attachment: scroll !important;
+  background-attachment: fixed !important;
+}
+@media (max-width: 991px) {
+  html body.page-id-27093,
+  html body.elementor-page-27093 {
+    background-attachment: scroll !important;
+  }
 }
 .ald_laser_loader,
 .ald_laser_loader.show,
