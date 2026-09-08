@@ -7,10 +7,12 @@ import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 import { applySharedChrome, stripStrayWhatsappText } from './shared-chrome.js';
 import { injectBlogGridImageStyles } from './blog-grid-images.ts';
+import { injectBlogHeadingHierarchy } from './blog-heading-hierarchy.ts';
 import {
   ARCHIVE_POSTS_PER_PAGE,
   BLOG_INDEX_GRID_SIZE,
   BLOG_INDEX_SIDE_SIZE,
+  BLOG_INDEX_TOP_COUNT,
   TAG_POSTS_PER_PAGE,
   buildArchiveCardHtml,
   buildInsightsCardHtml,
@@ -204,8 +206,9 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
     const featured = data.posts[0] ? buildInsightsCardHtml(data.posts[0]) : '';
     const sidePosts = data.posts.slice(1, 1 + BLOG_INDEX_SIDE_SIZE);
     const sideHtml = sidePosts.map((p) => buildSideStackCardHtml(p)).join('\n');
+    // Grid must skip featured + side so posts are not repeated below the hero.
     const gridPosts = useLoadMore
-      ? data.posts.slice(0, BLOG_INDEX_GRID_SIZE)
+      ? data.posts.slice(BLOG_INDEX_TOP_COUNT, BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE)
       : data.posts;
     const gridHtml = gridPosts.map((p) => buildInsightsCardHtml(p)).join('\n');
     $(ecsList[0]).html(featured);
@@ -251,10 +254,12 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
 /** Wire ECS Load More to /api/blog/load-more (same offsets as injected page-1 grid). */
 function decorateBlogLoadMore(html: string): string {
   let out = injectBlogGridImageStyles(html);
+  // Skip featured (1) + side stack + initial grid cards already on the page.
+  const loadMoreOffset = BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE;
 
   out = out.replace(
     /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${BLOG_INDEX_GRID_SIZE}" data-loading-text="Loading...">`,
+    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${loadMoreOffset}" data-loading-text="Loading...">`,
   );
 
   out = out.replace(
@@ -414,6 +419,9 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
   html = applySharedChrome(html, data.type === 'blog' ? 'blog' : 'default');
+  if (data.type === 'blog') {
+    html = injectBlogHeadingHierarchy(html);
+  }
   if (data.type === 'blog' && data.currentPage === 1) {
     html = decorateBlogLoadMore(html);
   } else {
