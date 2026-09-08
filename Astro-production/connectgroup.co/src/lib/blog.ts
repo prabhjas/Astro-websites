@@ -6,7 +6,6 @@ import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
-import { unwrapWordpressNestedLists } from './cms-lists.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -442,7 +441,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
       '<!--ASTRO_BLOG:TITLE-->',
       `<h1 class="elementor-heading-title elementor-size-default">${escapeHtml(post.title)}</h1>`,
     )
-    .replace('<!--ASTRO_BLOG:CONTENT-->', unwrapWordpressNestedLists(sanitizeCmsHtml(post.contentHtml || '')))
+    .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || ''))
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
@@ -455,10 +454,10 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   if (html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
-      '/js/astro-mirror-fixes.js?v=20260904cg4',
+      '/js/astro-mirror-fixes.js?v=20260908sticky1',
     );
   } else {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260908sticky1" defer></script>\n</body>');
   }
 
   html = decodeProtectedEmailsInHtml(html);
