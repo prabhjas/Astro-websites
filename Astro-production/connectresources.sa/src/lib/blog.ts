@@ -641,7 +641,11 @@ ${
 /** Initial Insights grid size (widget f2c45fb) before Load More. */
 export const BLOG_INDEX_GRID_SIZE = 12;
 /** Side “Recent” stack size (widget ae907e6, template 133). */
+/** Insights side-stack cards (hero right) — Elementor loop template 133. */
 export const BLOG_INDEX_SIDE_SIZE = 3;
+
+/** Posts shown above the main grid on /blog/ (1 featured + side stack). */
+export const BLOG_INDEX_TOP_COUNT = 1 + BLOG_INDEX_SIDE_SIZE;
 
 /**
  * Insights side-stack cards — Elementor loop template 133 (50/50 thumb + meta).

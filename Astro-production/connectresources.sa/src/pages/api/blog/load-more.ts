@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import {
   ARCHIVE_POSTS_PER_PAGE,
   BLOG_INDEX_GRID_SIZE,
+  BLOG_INDEX_TOP_COUNT,
   buildInsightsCardHtml,
   getAllBlogPosts,
 } from '../../../lib/blog';
@@ -10,6 +11,8 @@ export const prerender = false;
 
 /** Insights page shows 12 ECS cards initially (template 124 grid), then 6 per Load More. */
 const DEFAULT_PER_PAGE = 6;
+/** Default skip = featured + side + first grid page (matches decorateBlogLoadMore). */
+const DEFAULT_OFFSET = BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE;
 
 export const GET: APIRoute = async ({ url }) => {
   const page = Math.max(1, Number(url.searchParams.get('page') || '1') || 1);
@@ -17,10 +20,10 @@ export const GET: APIRoute = async ({ url }) => {
     24,
     Math.max(1, Number(url.searchParams.get('perPage') || DEFAULT_PER_PAGE) || DEFAULT_PER_PAGE),
   );
-  // Skip cards already rendered in the SSR page-1 grid (f2c45fb)
+  // Skip cards already rendered in the SSR hero + page-1 grid
   const offset = Math.max(
     0,
-    Number(url.searchParams.get('offset') || String(BLOG_INDEX_GRID_SIZE)) || BLOG_INDEX_GRID_SIZE,
+    Number(url.searchParams.get('offset') || String(DEFAULT_OFFSET)) || DEFAULT_OFFSET,
   );
 
   const sorted = getAllBlogPosts();
