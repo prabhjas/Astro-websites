@@ -432,12 +432,16 @@ div#transaction_hide,
  * style_1 forces white text on transparent bg → invisible labels.
  */
 a.w-btn.us-btn-style_1.us_custom_c3dee5f9,
+a.w-btn.us_custom_c3dee5f9,
+a.w-btn.viewbtn.has_text_color,
 a.w-btn.us-btn-style_1.us_custom_8aa68b52 {
   color: #ae121e !important;
   background: transparent !important;
   border: 1px solid #ae121e !important;
 }
 a.w-btn.us-btn-style_1.us_custom_c3dee5f9 .w-btn-label,
+a.w-btn.us_custom_c3dee5f9 .w-btn-label,
+a.w-btn.viewbtn.has_text_color .w-btn-label,
 a.w-btn.us-btn-style_1.us_custom_8aa68b52 .w-btn-label {
   color: #ae121e !important;
   background: transparent !important;
@@ -446,12 +450,18 @@ a.w-btn.us-btn-style_1.us_custom_8aa68b52 .w-btn-label {
   box-shadow: none !important;
 }
 a.w-btn.us-btn-style_1.us_custom_c3dee5f9:before,
+a.w-btn.us_custom_c3dee5f9:before,
+a.w-btn.viewbtn.has_text_color:before,
 a.w-btn.us-btn-style_1.us_custom_8aa68b52:before {
   display: none !important;
   border: none !important;
 }
 .no-touch a.w-btn.us-btn-style_1.us_custom_c3dee5f9:hover,
 .no-touch a.w-btn.us-btn-style_1.us_custom_c3dee5f9:hover .w-btn-label,
+.no-touch a.w-btn.us_custom_c3dee5f9:hover,
+.no-touch a.w-btn.us_custom_c3dee5f9:hover .w-btn-label,
+.no-touch a.w-btn.viewbtn.has_text_color:hover,
+.no-touch a.w-btn.viewbtn.has_text_color:hover .w-btn-label,
 .no-touch a.w-btn.us-btn-style_1.us_custom_8aa68b52:hover,
 .no-touch a.w-btn.us-btn-style_1.us_custom_8aa68b52:hover .w-btn-label {
   color: #000000 !important;
@@ -517,16 +527,26 @@ a.w-btn.us-btn-style_1.us_custom_8aa68b52:before {
  * Impreza sets `.w-popup-trigger { background: none }`, which strips
  * `us-btn-style_1` fill on popup CTAs (white label on transparent bg).
  */
+.w-popup-trigger.type_btn.w-btn,
 .w-popup-trigger.type_btn.w-btn.us-btn-style_1 {
-  background: var(--color-content-primary);
-  border-color: var(--color-content-primary);
-  padding: 0.8em 1.6em;
-  width: auto;
+  background: var(--color-content-primary, #c2121f) !important;
+  border-color: var(--color-content-primary, #c2121f) !important;
+  padding: 0.8em 1.6em !important;
+  width: auto !important;
   color: #ffffff !important;
 }
+.w-popup-trigger.type_btn.w-btn .w-btn-label,
+.w-popup-trigger.type_btn.w-btn.us-btn-style_1 .w-btn-label {
+  color: #ffffff !important;
+}
+.no-touch .w-popup-trigger.type_btn.w-btn:hover,
 .no-touch .w-popup-trigger.type_btn.w-btn.us-btn-style_1:hover {
-  background: var(--color-content-primary-hover, var(--color-content-primary));
-  border-color: var(--color-content-primary-hover, var(--color-content-primary));
+  background: var(--color-content-primary-hover, #a00e19) !important;
+  border-color: var(--color-content-primary-hover, #a00e19) !important;
+  color: #ffffff !important;
+}
+.no-touch .w-popup-trigger.type_btn.w-btn:hover .w-btn-label,
+.no-touch .w-popup-trigger.type_btn.w-btn.us-btn-style_1:hover .w-btn-label {
   color: #ffffff !important;
 }
 

@@ -1245,3 +1245,28 @@ body.home.cr-announcement-hidden .cr-site-header .l-header {
     --header-height: calc(106px + var(--cr-announcement-height));
   }
 }
+
+/* Homepage outline CTAs: ensure solid red border + label, transparent bg */
+a.w-btn.us_custom_c3dee5f9,
+a.w-btn.viewbtn.has_text_color,
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9 {
+  color: #ae121e !important;
+  background: transparent !important;
+  border: 1px solid #ae121e !important;
+}
+a.w-btn.us_custom_c3dee5f9 .w-btn-label,
+a.w-btn.viewbtn.has_text_color .w-btn-label,
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9 .w-btn-label {
+  color: #ae121e !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+a.w-btn.us_custom_c3dee5f9:before,
+a.w-btn.viewbtn.has_text_color:before,
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9:before {
+  display: none !important;
+  border: none !important;
+}
+
