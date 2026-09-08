@@ -83,7 +83,19 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  
+  // Unclosed "Prepared for Astro" comments can swallow <meta viewport> and force
+  // mobile Chrome into ~980px layout (sidebar form stays on the right).
+  html = html.replace(
+    /(<!--\s*Prepared for Astro Phase 1[^>]{0,160}?)(<meta|<script|<link)/i,
+    (match, comment, next) => (comment.includes('-->') ? match : `${comment} -->\n${next}`),
+  );
+  if (!/<meta\s[^>]*name=["']viewport["']/i.test(html)) {
+    html = html.replace(
+      /<head([^>]*)>/i,
+      '<head$1>\n<meta name="viewport" content="width=device-width, initial-scale=1">',
+    );
+  }
+
   const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
@@ -91,7 +103,7 @@ export function serveLegacyPage(slug) {
     // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
   html = html.replace(
     /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
-    'src=$1/js/astro-mirror-fixes.js?v=contact-slash-20260814$1'
+    'src=$1/js/astro-mirror-fixes.js?v=mobile-header-title-2-20260908$1'
   );
 
   return new Response(html, {

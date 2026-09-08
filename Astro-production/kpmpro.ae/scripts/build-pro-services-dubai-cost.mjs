@@ -605,8 +605,8 @@ html = html.replace(
 html = html.replaceAll('2026-06-08T04:56:12+00:00', PUBLISHED);
 html = html.replaceAll('2026-07-20T06:19:05+00:00', PUBLISHED);
 html = html.replace(
-  /Prepared for Astro Phase 1[^<]+/,
-  `Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()}`,
+  /<!--\s*Prepared for Astro Phase 1[^>]*-->/,
+  `<!-- Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()} -->`,
 );
 
 html = html.replace(
