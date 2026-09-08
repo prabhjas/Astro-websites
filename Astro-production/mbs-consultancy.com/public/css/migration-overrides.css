@@ -382,8 +382,14 @@ body.l-body {
   }
 }
 
-/* Mobile footer — compact © row (Impreza height_medium adds 4rem padding otherwise) */
+/* Mobile footer — compact © row, but keep scroll room past WhatsApp float */
 @media (max-width: 600px) {
+  /* Theme sets overflow:hidden on canvas at ≤599px; that can trap/clip end scroll */
+  .l-canvas {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+  }
+
   .l-footer .us_custom_c0b36b58 {
     padding-bottom: 1rem !important;
   }
@@ -397,16 +403,25 @@ body.l-body {
   }
   .l-footer section.us_custom_3a69d467,
   .l-footer .us_custom_3a69d467 {
-    padding: 0 !important;
+    padding: 0.5rem 0 0 !important;
     margin: 0 !important;
   }
   .l-footer section.us_custom_3a69d467.height_medium > .l-section-h {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
+  /* Space below © so Contact Info / phone / address / copyright clear the float + home bar */
   .l-footer#page-footer {
-    padding-bottom: 0 !important;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)) !important;
     margin-bottom: 0 !important;
+  }
+
+  /* Blog sticky sidebar form — static on mobile so it does not affect page scroll end */
+  .contact_blogpage.type_sticky,
+  .contact_blogpage.type_sticky > .vc_column-inner,
+  .vc_column_container.contact_blogpage.type_sticky > .vc_column-inner {
+    position: static !important;
+    top: auto !important;
   }
 }
 
