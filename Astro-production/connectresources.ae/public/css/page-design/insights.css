@@ -262,6 +262,38 @@ body ul.w-nav-list.level_1.hover_underline {
     font-weight: 700 !important;
 }
 
+/*
+ * layout_38092 horizontal cards (image | meta+title): unconstrained full-size
+ * images expand the flex item and crush the text column to ~1 word wide.
+ */
+.layout_38092 .usg_hwrapper_1 {
+    width: 100%;
+}
+.layout_38092 .usg_hwrapper_1 > .usg_post_image_1 {
+    flex: 1 1 55%;
+    max-width: 58%;
+    min-width: 0;
+}
+.layout_38092 .usg_hwrapper_1 > .usg_post_image_1 img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+.layout_38092 .usg_hwrapper_1 > .usg_vwrapper_1 {
+    flex: 1 1 40%;
+    min-width: 0;
+}
+@media (max-width: 600px) {
+    .layout_38092 .usg_hwrapper_1 {
+        flex-direction: column;
+    }
+    .layout_38092 .usg_hwrapper_1 > .usg_post_image_1 {
+        max-width: 100%;
+        flex-basis: 100%;
+    }
+}
+
 a.term-1007 , a.term-1002{
     background: #2E3A8B;
     padding: 2px;
@@ -1327,7 +1359,7 @@ a.w-sharing-item{
 	padding:5px 0px !important;
 }
 
- .text_gradient p {
+ .text_gradient h2 {
     background: var(--gradient-red-yellow, linear-gradient(135deg, #F23342 0%, #FFA95A 100%));*/
     background-clip: text;
     -webkit-background-clip: text;
@@ -1458,7 +1490,7 @@ a.w-sharing-item{
     margin: 0px;
 }
 	
-.text_gradient p {
+.text_gradient h2 {
     font-size: 22px;
 }	
 	
