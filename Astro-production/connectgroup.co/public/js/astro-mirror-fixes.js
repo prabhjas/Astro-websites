@@ -1436,13 +1436,22 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prefer clip so position:sticky (blog sidebar) still works on desktop.
-         Mobile: keep clip so wide CMS images cannot create horizontal scroll; unlock vertical scroll for iOS. */
+      /* Prefer clip so wide CMS images cannot create horizontal scroll on mobile.
+         Blog posts (.bp): from sidebar breakpoint, both axes must be visible —
+         overflow-y:auto + overflow-x:visible collapses to overflow-x:auto and breaks sticky. */
       'html,body{overflow-x:clip;max-width:100vw;}',
       'html:has(.ig),html:has(.ig) body{overflow-x:clip!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}',
-      '@media (min-width:1100px){html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}}',
-      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body,html:has(.ig),html:has(.ig) body{overflow-x:hidden!important;overflow-y:auto!important;max-width:100%!important;width:100%!important;height:auto!important;max-height:none!important;position:static!important;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom;}}',
+      '@media (min-width:1024px){html:has(.bp),html:has(.bp) body{overflow:visible!important;overflow-x:visible!important;overflow-y:visible!important;height:auto!important;max-height:none!important;}}',
+      '@media (max-width:1023px){html:has(.bp),html:has(.bp) body{overflow-x:clip!important;overflow-y:auto!important;}}',
       '.bp-content img,.bp-content figure,.bp-content video,.bp-content iframe,.bp-content table{max-width:100%!important;height:auto!important;}',
+      /* UAE Market Intel (Elementor loop cards) — equal white-card height in each row */
+      '.custom-blog .elementor-posts-container.elementor-grid,.elementor-element-0236dda .elementor-posts-container.elementor-grid{align-items:stretch!important;}',
+      '.custom-blog .elementor-post.elementor-grid-item,.elementor-element-0236dda .elementor-post.elementor-grid-item{display:flex!important;height:100%!important;}',
+      '.custom-blog .elementor-post>.elementor,.elementor-element-0236dda .elementor-post>.elementor{display:flex!important;flex-direction:column!important;width:100%!important;height:100%!important;flex:1 1 auto;}',
+      '.custom-blog .elementor-post .elementor-section,.custom-blog .elementor-post .elementor-container,.custom-blog .elementor-post .elementor-column,.custom-blog .elementor-post .elementor-widget-wrap,.elementor-element-0236dda .elementor-post .elementor-section,.elementor-element-0236dda .elementor-post .elementor-container,.elementor-element-0236dda .elementor-post .elementor-column,.elementor-element-0236dda .elementor-post .elementor-widget-wrap{height:100%!important;display:flex!important;flex-direction:column!important;width:100%!important;}',
+      '.custom-blog .elementor-post .elementor-element-c81ee82,.elementor-element-0236dda .elementor-post .elementor-element-c81ee82{height:100%!important;display:flex!important;flex-direction:column!important;flex:1 1 auto!important;}',
+      '.custom-blog .elementor-post .elementor-image-box-wrapper,.elementor-element-0236dda .elementor-post .elementor-image-box-wrapper{display:flex!important;flex-direction:column!important;height:100%!important;flex:1 1 auto!important;}',
+      '.custom-blog .elementor-post .elementor-image-box-content,.elementor-element-0236dda .elementor-post .elementor-image-box-content{flex:1 1 auto!important;}',
       /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
          Exclude Contact Us + Figma Insights (.ig/.bp). */
       'html:not(:has(body.astro-blog-post)):not(:has(body.single-post)):not(:has(body.page-id-18840)):not(:has(body.elementor-page-18840)):not(:has(body.page-id-27093)):not(:has(main.ig)):not(:has(main.bp)),body:not(.astro-blog-post):not(.single-post):not(.page-id-18840):not(.elementor-page-18840):not(.page-id-27093):not(.elementor-page-27093):not(.blog):not(.archive):not(:has(main.ig)):not(:has(main.bp)){background:#111!important;background-color:#111!important;}',
