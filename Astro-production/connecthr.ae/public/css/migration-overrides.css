@@ -160,7 +160,8 @@ div.wpcf7-response-output.sp-status-visible,
 }
 
 /* Elementor Pro demo popups (mirrored markup + vanilla open/close) */
-#chr-popup-modal {
+#chr-popup-modal,
+[id^="elementor-popup-modal-"] {
   display: none;
   position: fixed;
   inset: 0;
@@ -171,10 +172,13 @@ div.wpcf7-response-output.sp-status-visible,
   padding: 1rem;
   pointer-events: none;
 }
-#chr-popup-modal.dialog-visible {
+#chr-popup-modal.dialog-visible,
+[id^="elementor-popup-modal-"]:not([style*="display: none"]):not([style*="display:none"]) {
   display: flex !important;
+  pointer-events: all;
 }
-#chr-popup-modal .dialog-widget-content {
+#chr-popup-modal .dialog-widget-content,
+[id^="elementor-popup-modal-"] .dialog-widget-content {
   position: relative;
   max-width: min(1100px, 100%);
   width: 100%;
@@ -185,7 +189,8 @@ div.wpcf7-response-output.sp-status-visible,
   box-shadow: none;
   pointer-events: all;
 }
-#chr-popup-modal .dialog-lightbox-message {
+#chr-popup-modal .dialog-lightbox-message,
+[id^="elementor-popup-modal-"] .dialog-message {
   width: 100%;
   max-height: 94vh;
   overflow: auto;
