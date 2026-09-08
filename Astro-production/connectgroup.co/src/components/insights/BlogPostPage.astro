@@ -50,7 +50,30 @@ const authorBio =
   authorProfile?.bio ||
   'Connect Group insights on business setup, workforce solutions, and operating in the UAE — practical guidance from our specialist brands.';
 const authorAvatar = authorProfile?.avatar?.src || '';
-const contentHtml = sanitizeCmsHtml(post.contentHtml || '');
+/** Drop spacer-only paragraphs WP leaves as `<p>&nbsp;</p>` / empty `<p></p>`. */
+function stripEmptyParagraphs(html: string): string {
+  return html
+    .replace(/<p\b[^>]*>(?:\s|\u00a0|&nbsp;|&#160;|&#xA0;|<br\s*\/?>)*<\/p>/gi, '')
+    .replace(/(\s*\n){3,}/g, '\n\n');
+}
+/**
+ * Gutenberg often emits `<ul><li><ul>…</ul></li></ul>`. Sanitize strips
+ * `list-style:none` on the wrapper `<li>`, which yields double bullets — unwrap.
+ */
+function flattenWpNestedLists(html: string): string {
+  const re =
+    /<(ul|ol)(\s[^>]*)?>\s*<li(?:\s[^>]*)?>\s*(<(ul|ol)(?:\s[^>]*)?>[\s\S]*?<\/\4>)\s*<\/li>\s*<\/\1>/gi;
+  let prev = '';
+  let out = html;
+  while (out !== prev) {
+    prev = out;
+    out = out.replace(re, '$3');
+  }
+  return out;
+}
+const contentHtml = flattenWpNestedLists(
+  stripEmptyParagraphs(sanitizeCmsHtml(stripEmptyParagraphs(post.contentHtml || ''))),
+);
 const dateLabel = (() => {
   try {
     return new Date(post.publishedAt).toLocaleDateString('en-GB', {
@@ -441,17 +464,17 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-main {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     min-width: 0;
   }
   @media (min-width: 768px) {
-    .bp-main { gap: 32px; }
+    .bp-main { gap: 24px; }
   }
 
   .bp-feature {
     border-radius: 20px;
     overflow: hidden;
-    background: #060d1d;
+    background: transparent;
     line-height: 0;
     width: 100%;
   }
@@ -461,7 +484,8 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     max-width: 100%;
     display: block;
     object-fit: cover;
-    aspect-ratio: 982 / 655;
+    aspect-ratio: 3 / 2;
+    background: #f0f0f0;
   }
 
   .bp-share {
@@ -490,7 +514,7 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     background: #fff;
     border: 1px solid rgba(209, 209, 209, 0.5);
     border-radius: 20px;
-    padding: 20px;
+    padding: 24px;
   }
   .bp-toc__title {
     margin: 0 0 16px;
@@ -509,16 +533,18 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   }
   .bp-toc a {
     display: flex;
-    gap: 8px;
+    gap: 14px;
     align-items: flex-start;
     text-decoration: none;
     color: #121212;
   }
   .bp-toc a span {
     flex: none;
+    min-width: 1.6em;
     font-size: 12px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.5;
+    color: #9a9a9a;
   }
   .bp-toc a em {
     font-style: normal;
@@ -533,10 +559,14 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     color: #313131;
     letter-spacing: -0.01em;
   }
+  @media (min-width: 768px) {
+    .bp-content { font-size: 18px; }
+  }
   .bp-content > *:first-child { margin-top: 0; }
+  .bp-content p:empty { display: none !important; margin: 0 !important; padding: 0 !important; }
   .bp-content p {
-    margin: 0 0 1.5rem;
-    font-size: 16px;
+    margin: 0 0 1.25rem;
+    font-size: inherit;
     line-height: 1.7;
   }
   .bp-content h2 {
@@ -565,23 +595,41 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-content a { color: #4051b5; }
   .bp-content img,
   .bp-content figure {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
     border-radius: 16px;
+  }
+  .bp-content img[style],
+  .bp-content figure[style] {
+    width: auto !important;
+    max-width: 100% !important;
   }
   .bp-content figure { margin: 1.5rem 0; }
   .bp-content ul,
   .bp-content ol {
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.25rem;
     padding-left: 1.25rem;
     color: #313131;
-    font-size: 16px;
+    font-size: inherit;
     line-height: 1.7;
   }
   .bp-content li { margin-bottom: 0.5rem; }
+  .bp-content li:last-child { margin-bottom: 0; }
+  /* WP wraps lists as <ul><li><ul><li>…; sanitize strips list-style:none → double bullets */
+  .bp-content li:has(> ul),
+  .bp-content li:has(> ol) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bp-content li:has(> ul) > ul,
+  .bp-content li:has(> ol) > ol {
+    margin: 0;
+    padding-left: 0;
+  }
   .bp-content blockquote,
   .bp-content .wp-block-quote {
-    margin: 2rem 0;
+    margin: 1.75rem 0;
     padding: 24px;
     border: 0;
     border-radius: 20px;
@@ -678,6 +726,7 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     }
     .bp-inline-form { display: none; }
     .bp-aside__sticky {
+      position: -webkit-sticky;
       position: sticky;
       top: 96px;
       z-index: 3;
@@ -801,5 +850,4 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
 </style>
