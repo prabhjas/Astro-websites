@@ -345,6 +345,8 @@ export function createOrUpdatePost(args: {
   metaDescription: string;
   noIndex: boolean;
   noFollow: boolean;
+  authorSlug?: string;
+  author?: string;
   featuredImage?: { publicUrl: string; fileName: string } | null;
 }): { slug: string; action: "create" | "update" } {
   const now = new Date().toISOString();
@@ -371,13 +373,21 @@ export function createOrUpdatePost(args: {
     }
   }
 
+  const authors = readAuthors();
+  const resolvedAuthor =
+    (args.authorSlug
+      ? authors.find((a) => a.slug === safeSlug(args.authorSlug || ""))
+      : undefined) ||
+    (args.author
+      ? authors.find((a) => a.name === args.author || a.slug === safeSlug(args.author || ""))
+      : undefined);
+
   let post: InternalPost;
   if (isUpdate && existing) {
     post = JSON.parse(JSON.stringify(existing)) as InternalPost;
     post.slug = targetSlug;
   } else {
-    const authors = readAuthors();
-    const author = authors.find((a) => a.slug === "faieez") || authors[0];
+    const author = resolvedAuthor || authors.find((a) => a.slug === "faieez") || authors[0];
     post = {
       slug: targetSlug,
       title: args.title,
@@ -399,6 +409,11 @@ export function createOrUpdatePost(args: {
       toc: [],
       headings: [],
     };
+  }
+
+  if (resolvedAuthor) {
+    post.author = resolvedAuthor.name;
+    post.authorSlug = resolvedAuthor.slug;
   }
 
   const previousStatus = post.status;

@@ -1,31 +1,44 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BLOG_LOAD_MORE_PER_PAGE } from "../../lib/blog-card-html";
+import {
+  BLOG_LOAD_MORE_PER_PAGE,
+  INSIGHTS_FEATURED_COUNT,
+  INSIGHTS_LATEST_COUNT,
+  renderBlogCardsHtml,
+  renderInsightsFeaturedCardsHtml,
+  replaceEcsPostsInner,
+} from "../../lib/blog-card-html";
 import { getPageByPath, getPosts } from "../../lib/content";
 import { breadcrumbSchema } from "../../lib/seo";
 
 export const prerender = false;
 
 /**
- * Live archive is /insights/ (Elementor). Keep markup; wire Load More to our API.
+ * Live archive is /insights/ (Elementor). Keep chrome; rebuild post grids from live data.
+ * Featured (left) = newest; Latest (right) = next 2 only — no overlap with featured.
  */
 const page = getPageByPath("/insights/");
 if (!page) throw new Error("Insights page missing");
 
-const totalPosts = getPosts().length;
-const INITIAL_GRID = 12;
-const hasMore = totalPosts > INITIAL_GRID;
+const sorted = [...getPosts()].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+const featured = sorted.slice(0, INSIGHTS_FEATURED_COUNT);
+const latest = sorted.slice(INSIGHTS_FEATURED_COUNT, INSIGHTS_FEATURED_COUNT + INSIGHTS_LATEST_COUNT);
+const initialShown = featured.length + latest.length;
+const hasMore = sorted.length > initialShown;
 
 let html = page.bodyHtml || page.content;
+
+html = replaceEcsPostsInner(html, 1, renderInsightsFeaturedCardsHtml(featured));
+html = replaceEcsPostsInner(html, 2, renderBlogCardsHtml(latest));
 
 if (hasMore) {
   html = html.replace(
     /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
-    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${INITIAL_GRID}">`,
+    `<nav$1 data-sp-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${initialShown}">`,
   );
   html = html.replace(
     /(<a href=")\/(?:blog|insights)\/\?page=2(" class="elementor-button-link elementor-button)/i,
-    `$1/insights/page/2/$2`,
+    `$1/insights/$2`,
   );
 } else {
   html = html.replace(/<nav[^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*>[\s\S]*?<\/nav>/i, "");
@@ -74,4 +87,5 @@ const extraCss = [
   }}
 >
   <div class="sp-page-content" set:html={html} />
+  <script is:inline src="/scripts/blog-load-more.js"></script>
 </BaseLayout>
