@@ -21,10 +21,20 @@ body {
 /*
   Site-wide: first page hero tucks under the transparent header.
   Header is 74px; Elementor page CSS still ships -70px on many templates.
+  Excludes loop templates and post cards so cards keep their normal margin/spacing.
 */
-.elementor:not(.elementor-location-header):not(.elementor-location-footer)
+.elementor:not(.elementor-location-header):not(.elementor-location-footer):not([data-elementor-type="loop"]):not(.elementor-540):not(.elementor-534)
   > .elementor-section.elementor-top-section:first-child {
   margin-top: calc(-1 * var(--sp-header-offset)) !important;
+}
+
+/* Ensure post cards inside loops (blog grid, blog list, related posts) never get negative top margin */
+.ecs-posts .elementor > .elementor-section.elementor-top-section:first-child,
+.ecs-post-loop .elementor > .elementor-section.elementor-top-section:first-child,
+[data-elementor-type="loop"] > .elementor-section.elementor-top-section:first-child,
+.elementor-540 > .elementor-section.elementor-top-section:first-child,
+.elementor-534 > .elementor-section.elementor-top-section:first-child {
+  margin-top: 0 !important;
 }
 
 /*
@@ -201,6 +211,12 @@ div.wpcf7-response-output.sp-status-visible,
   border-color: #dc3232 !important;
 }
 
+/* Single post: ensure relative articles heading has clean clearance above cards */
+body.single-post .elementor-element-6778b68,
+.elementor-652 .elementor-element-6778b68 {
+  margin-bottom: 24px !important;
+}
+
 /* Single post: author + share row — same layout/styling on every blog post */
 body.single-post .elementor-element-0077714,
 .elementor-652 .elementor-element-0077714 {
@@ -248,12 +264,34 @@ body.single-post .elementor-author-box__avatar img,
 }
 
 body.single-post .elementor-author-box__name,
-.elementor-652 .elementor-author-box__name {
+.elementor-652 .elementor-author-box__name,
+body.single-post .elementor-author-box__name a,
+.elementor-652 .elementor-author-box__name a,
+.elementor-author-box .elementor-author-box__name,
+.elementor-author-box .elementor-author-box__name a {
   color: #ffffff !important;
   margin: 0 !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   line-height: 1.3 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+body.single-post .elementor-author-box__name a:hover,
+body.single-post .elementor-author-box__name a:focus,
+body.single-post .elementor-author-box__name:hover a,
+body.single-post .elementor-author-box:hover .elementor-author-box__name a,
+.elementor-652 .elementor-author-box__name a:hover,
+.elementor-652 .elementor-author-box__name a:focus,
+.elementor-652 .elementor-author-box__name:hover a,
+.elementor-652 .elementor-author-box:hover .elementor-author-box__name a,
+.elementor-author-box .elementor-author-box__name a:hover,
+.elementor-author-box .elementor-author-box__name a:focus,
+.elementor-author-box .elementor-author-box__name:hover a,
+.elementor-author-box:hover .elementor-author-box__name a {
+  color: #ffdd04 !important;
+  text-decoration: none !important;
 }
 
 body.single-post .elementor-widget-share-buttons .elementor-grid,

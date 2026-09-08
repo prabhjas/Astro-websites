@@ -59,6 +59,10 @@ const postCrumbs = post
     ]
   : [];
 
+const author = post
+  ? getAuthorBySlug(post.authorSlug) || getAuthors().find((a) => a.id === post.author) || getAuthors()[0]
+  : undefined;
+
 const seo = page
   ? {
       title: page.seo.title,
@@ -78,7 +82,7 @@ const seo = page
       ogType: "article" as const,
       publishedTime: post!.date,
       modifiedTime: post!.modified,
-      authorName: post!.authorName,
+      authorName: author?.name || post!.authorName,
       schemas: [
         ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -89,7 +93,7 @@ const seo = page
           image: post!.featuredImage || post!.seo.ogImage,
           datePublished: post!.date,
           dateModified: post!.modified,
-          authorName: post!.authorName,
+          authorName: author?.name || post!.authorName,
         }),
       ],
     };
@@ -111,9 +115,9 @@ const postHtml =
   post?.bodyHtml && postUsesElementor
     ? prepareElementorPostHtml(
         post.bodyHtml,
-        post,
+        author ? { ...post, authorName: author.name, authorSlug: author.slug } : post,
         related,
-        getAuthorBySlug(post.authorSlug)?.avatar,
+        author?.avatar,
       )
     : post?.bodyHtml;
 ---
@@ -150,10 +154,10 @@ const postHtml =
           <h1 set:html={post!.title} />
           <div class="sp-article__meta">
             <time datetime={post!.date}>{formatDate(post!.date)}</time>
-            {post!.authorName && (
+            {(author?.name || post!.authorName) && (
               <>
                 {" "}
-                · <a href={`/author/${post!.authorSlug}/`}>{post!.authorName}</a>
+                · <a href={`/author/${author?.slug || post!.authorSlug}/`}>{author?.name || post!.authorName}</a>
               </>
             )}
             {catNames.length > 0 && (
