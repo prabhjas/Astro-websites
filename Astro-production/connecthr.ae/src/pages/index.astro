@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageByPath } from "../lib/content";
 import { computeScriptNeeds } from "../lib/script-needs";
 import { promoteHeroImages } from "../lib/promote-hero";
+import { disableCloudflareEmailObfuscation } from "../lib/cloudflare-email";
 import cwvManifest from "../data/cwv-manifest.json";
 
 export const prerender = false;
@@ -16,7 +17,8 @@ const heroHrefs = (
 )
   .filter((h) => (h.as ?? "image") === "image" && h.href)
   .map((h) => h.href as string);
-const html = promoteHeroImages(String(page.bodyHtml || page.content || ""), heroHrefs);
+const htmlBase = promoteHeroImages(String(page.bodyHtml || page.content || ""), heroHrefs);
+const html = disableCloudflareEmailObfuscation(htmlBase);
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,

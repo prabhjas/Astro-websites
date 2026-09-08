@@ -436,6 +436,15 @@ function blob(c: InsightCard) {
     color: var(--ig-ink);
     background: var(--ig-dark);
     overflow-x: clip;
+    max-width: 100%;
+  }
+  @media (max-width: 1023px) {
+    .ig {
+      overflow-x: hidden;
+      overflow-y: visible;
+      width: 100%;
+      max-width: 100%;
+    }
   }
   .ig * { box-sizing: border-box; }
   .ig h1, .ig h2, .ig h3, .ig h4, .ig h5, .ig h6,

@@ -37,8 +37,17 @@ export function getPages(): PageEntry[] {
 
 export function getPosts(includeNonPublished = false): PostEntry[] {
   const rows = readPosts();
-  if (includeNonPublished) return rows;
-  return rows.filter((p) => !p.status || p.status === "published");
+  const filtered = includeNonPublished
+    ? rows
+    : rows.filter((p) => !p.status || p.status === "published");
+  // Guard against accidental duplicate slug rows in posts.json.
+  const seen = new Set<string>();
+  return filtered.filter((p) => {
+    const key = p.slug || p.path;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 export function getCategories(includeTrash = false): CategoryEntry[] {

@@ -5,13 +5,18 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
-import { stripStrayWhatsappText } from './shared-chrome.js';
+import { applySharedChrome, stripStrayWhatsappText } from './shared-chrome.js';
+import { injectBlogGridImageStyles } from './blog-grid-images.ts';
+import { injectBlogHeadingHierarchy } from './blog-heading-hierarchy.ts';
 import {
   ARCHIVE_POSTS_PER_PAGE,
+  BLOG_INDEX_GRID_SIZE,
+  BLOG_INDEX_SIDE_SIZE,
+  BLOG_INDEX_TOP_COUNT,
   TAG_POSTS_PER_PAGE,
   buildArchiveCardHtml,
-  buildFeaturedPostCardHtml,
-  buildPostCardHtml,
+  buildInsightsCardHtml,
+  buildSideStackCardHtml,
   getAllBlogPosts,
   getAllCategorySlugs,
   getAllTagSlugs,
@@ -20,6 +25,9 @@ import {
   getPostsByTagSlug,
   type BlogPost,
 } from './blog.ts';
+
+/** Matches live ECS load-more page size on widget f2c45fb. */
+const BLOG_LOAD_MORE_PER_PAGE = 6;
 
 const ROOT = process.cwd();
 const INSIGHTS_PATH = join(ROOT, 'src/legacy/blog.cleaned.html');
@@ -184,25 +192,46 @@ function getArchiveBasePath(data: ArchivePageData): string {
   return `/tag/${data.slug}/`;
 }
 
-/** Blog + category pages use the Blog Elementor template + Evolution loop cards. */
+/**
+ * Blog + category pages use blog.cleaned.html with three ECS loops:
+ * 1246cae featured (template 124, 1 card) · ae907e6 side (template 133, 3) · f2c45fb grid (template 124, 12 + load more).
+ * Same SSR inject pattern as kpmpro — JSON posts drive the listing; do not hand-edit cards in the shell.
+ */
 function injectInsightsContent(html: string, data: ArchivePageData): string {
-  const $ = cheerio.load(html);
+  const $ = cheerio.load(html, { decodeEntities: false } as any);
   const ecsList = $('.ecs-posts');
+  const useLoadMore = data.type === 'blog' && data.currentPage === 1;
 
-  // Evolution blog has two loops: featured (grid-1 / template 714) + grid (grid-3 / template 244).
-  if (ecsList.length >= 2) {
-    const featured = data.posts[0] ? buildFeaturedPostCardHtml(data.posts[0]) : '';
-    const gridHtml = data.posts.map((p) => buildPostCardHtml(p)).join('\n');
+  if (ecsList.length >= 3) {
+    const featured = data.posts[0] ? buildInsightsCardHtml(data.posts[0]) : '';
+    const sidePosts = data.posts.slice(1, 1 + BLOG_INDEX_SIDE_SIZE);
+    const sideHtml = sidePosts.map((p) => buildSideStackCardHtml(p)).join('\n');
+    // Grid must skip featured + side so posts are not repeated below the hero.
+    const gridPosts = useLoadMore
+      ? data.posts.slice(BLOG_INDEX_TOP_COUNT, BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE)
+      : data.posts;
+    const gridHtml = gridPosts.map((p) => buildInsightsCardHtml(p)).join('\n');
+    $(ecsList[0]).html(featured);
+    $(ecsList[1]).html(sideHtml);
+    $(ecsList[2]).html(gridHtml);
+  } else if (ecsList.length === 2) {
+    const featured = data.posts[0] ? buildInsightsCardHtml(data.posts[0]) : '';
+    const gridHtml = data.posts.slice(1).map((p) => buildInsightsCardHtml(p)).join('\n');
     $(ecsList[0]).html(featured);
     $(ecsList[1]).html(gridHtml);
   } else if (ecsList.length === 1) {
-    $(ecsList[0]).html(data.posts.map((p) => buildPostCardHtml(p)).join('\n'));
+    $(ecsList[0]).html(data.posts.map((p) => buildInsightsCardHtml(p)).join('\n'));
   }
 
-  const pagination = buildPaginationHtml(getArchiveBasePath(data), data.currentPage, data.totalPages);
   const pagNav = $('.elementor-pagination').first();
-  if (pagNav.length) pagNav.replaceWith(pagination);
-  else if (ecsList.length) $(ecsList[ecsList.length - 1]).parent().append(pagination);
+  if (useLoadMore) {
+    // Keep ECS Load More; strip Elementor numbered pagination if present.
+    if (pagNav.length) pagNav.remove();
+  } else {
+    const pagination = buildPaginationHtml(getArchiveBasePath(data), data.currentPage, data.totalPages);
+    if (pagNav.length) pagNav.replaceWith(pagination);
+    else if (ecsList.length) $(ecsList[ecsList.length - 1]).parent().append(pagination);
+  }
 
   if (data.type === 'category') {
     const heading = `<h1 class="astro-archive-heading">${escapeHtml(data.title)}</h1>`;
@@ -219,11 +248,36 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
 
   $('head').append([getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n'));
 
-  if (!$('script[src*="astro-mirror-fixes.js"]').length) {
-    $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260730-nav" defer></script>');
+  return $.html();
+}
+
+/** Wire ECS Load More to /api/blog/load-more (same offsets as injected page-1 grid). */
+function decorateBlogLoadMore(html: string): string {
+  let out = injectBlogGridImageStyles(html);
+  // Skip featured (1) + side stack + initial grid cards already on the page.
+  const loadMoreOffset = BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE;
+
+  out = out.replace(
+    /<nav([^>]*class="[^"]*ecs-load-more-button[^"]*"[^>]*)>/i,
+    `<nav$1 data-cs-blog-load-more="1" data-next-page="2" data-per-page="${BLOG_LOAD_MORE_PER_PAGE}" data-offset="${loadMoreOffset}" data-loading-text="Loading...">`,
+  );
+
+  out = out.replace(
+    /(<nav[^>]*ecs-load-more-button[^>]*>[\s\S]*?<a[^>]*href=")[^"]*(")/i,
+    '$1javascript:void(0)$2',
+  );
+
+  if (!out.includes('blog-load-more.js')) {
+    out = out.replace(/<\/body>/i, `<script src="/js/blog-load-more.js" defer></script>\n</body>`);
+  }
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(/<\/body>/i, `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`);
+  }
+  if (!out.includes('cf-email-decode.js')) {
+    out = out.replace(/<\/body>/i, `<script src="/js/cf-email-decode.js" defer></script>\n</body>`);
   }
 
-  return injectRuntimeGtmLoader($.html());
+  return out;
 }
 
 /** Tag pages use live Elementor archive template 24660 (archive_cards skin). */
@@ -283,15 +337,31 @@ function patchArchiveMeta(html: string, data: ArchivePageData): string {
 
 export function getBlogPageData(page = 1): ArchivePageData {
   const allPosts = getAllBlogPosts();
-  const paged = paginatePosts(allPosts, page);
   const canonical =
     page === 1 ? `${ORIGIN}/blog/` : `${ORIGIN}/blog/page/${page}/`;
 
+  // Page 1: pass the full ordered list so inject can fill featured + side + 12-card grid;
+  // remaining posts load via /api/blog/load-more (kpmpro-style dynamic listing).
+  if (page === 1) {
+    return {
+      type: 'blog',
+      title: 'Insights on HR, Payroll, and Business Solutions',
+      description:
+        'Latest articles from Connect Resources Saudi on HR, visas, recruitment, Emiratisation, and business in Saudi Arabia.',
+      canonical,
+      posts: allPosts,
+      currentPage: 1,
+      totalPages: Math.max(1, Math.ceil(allPosts.length / BLOG_INDEX_GRID_SIZE)),
+      totalPosts: allPosts.length,
+    };
+  }
+
+  const paged = paginatePosts(allPosts, page, BLOG_INDEX_GRID_SIZE);
   return {
     type: 'blog',
     title: 'Insights on HR, Payroll, and Business Solutions',
     description:
-      'Latest articles from Connect Resources Saudi on HR, visas, recruitment, Emiratisation, and business in Abu Dhabi.',
+      'Latest articles from Connect Resources Saudi on HR, visas, recruitment, Emiratisation, and business in Saudi Arabia.',
     canonical,
     ...paged,
   };
@@ -348,6 +418,18 @@ export function assembleArchiveHtml(data: ArchivePageData): string {
   let html = readFileSync(INSIGHTS_PATH, 'utf8');
   html = injectInsightsContent(html, data);
   html = patchArchiveMeta(html, data);
+  html = applySharedChrome(html, data.type === 'blog' ? 'blog' : 'default');
+  if (data.type === 'blog') {
+    html = injectBlogHeadingHierarchy(html);
+  }
+  if (data.type === 'blog' && data.currentPage === 1) {
+    html = decorateBlogLoadMore(html);
+  } else {
+    html = injectBlogGridImageStyles(html);
+    if (!html.includes('astro-mirror-fixes.js')) {
+      html = html.replace(/<\/body>/i, `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`);
+    }
+  }
   return injectRuntimeGtmLoader(stripStrayWhatsappText(html));
 }
 

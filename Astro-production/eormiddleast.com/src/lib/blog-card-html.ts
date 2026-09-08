@@ -1,11 +1,10 @@
-import { getCategories, stripHtml, type PostEntry } from "./content";
-
-/** Matches Elementor loop template 540 (featured image + category + title + excerpt + CTA). */
-const CATEGORY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><path d="M21.8418 7.18675C21.7417 6.95231 21.5978 6.73915 21.4178 6.55875C21.232 6.37182 21.011 6.22346 20.7677 6.12221C20.5243 6.02096 20.2633 5.9688 19.9998 5.96875H7.99977C7.70277 5.96875 7.42177 6.10075 7.23077 6.32775L2.23077 12.3278C1.92177 12.6988 1.92177 13.2378 2.23077 13.6088L7.23077 19.6087C7.42177 19.8367 7.70277 19.9688 7.99977 19.9688H19.9998C20.2616 19.9698 20.521 19.9189 20.7631 19.819C21.0051 19.7191 21.2249 19.5722 21.4098 19.3867C21.5967 19.2009 21.7451 18.98 21.8463 18.7366C21.9476 18.4933 21.9997 18.2323 21.9998 17.9688V7.96875C21.9998 7.70342 21.9471 7.44275 21.8418 7.18675Z" fill="#FFDD04"></path></svg>`;
-
-const ARROW_ICON = `<svg aria-hidden="true" class="e-font-icon-svg e-fas-arrow-right" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg>`;
+import { formatDate, getCategories, stripHtml, type PostEntry } from "./content";
 
 export const BLOG_LOAD_MORE_PER_PAGE = 12;
+/** Left featured card on /insights/ News & Articles. */
+export const INSIGHTS_FEATURED_COUNT = 1;
+/** Right "// LATEST" list — live Elementor layout shows exactly 2 posts. */
+export const INSIGHTS_LATEST_COUNT = 2;
 
 function escapeAttr(value: string): string {
   return value
@@ -13,15 +12,6 @@ function escapeAttr(value: string): string {
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-}
-
-function categoryLabel(post: PostEntry): string {
-  const cats = getCategories();
-  for (const id of post.categories) {
-    const hit = cats.find((c) => c.id === id);
-    if (hit?.name) return hit.name;
-  }
-  return "Blog";
 }
 
 function categoryClass(post: PostEntry): string {
@@ -33,72 +23,152 @@ function categoryClass(post: PostEntry): string {
   return "category-blog";
 }
 
-function cardImage(post: PostEntry): string {
+function excerptText(post: PostEntry, max = 120): string {
+  const raw = stripHtml(post.excerpt || post.content || "").slice(0, max).trim();
+  return raw ? `${raw}${raw.length >= max ? "…" : ""}` : "";
+}
+
+function postHref(post: PostEntry): string {
+  return post.path.endsWith("/") ? post.path : `${post.path}/`;
+}
+
+function thumbClass(post: PostEntry): string {
+  return post.featuredImage || post.seo?.ogImage ? "has-post-thumbnail" : "";
+}
+
+function featuredImageBlock(post: PostEntry): string {
   const src = (post.featuredImage || post.seo?.ogImage || "").trim();
+  const href = escapeAttr(postHref(post));
   if (!src) {
-    return `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#1f1f1f;" aria-hidden="true"></div>`;
+    return `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#e8eef5;" aria-hidden="true"></div>`;
   }
   const alt = escapeAttr(stripHtml(post.title) || "Post image");
-  return `<img decoding="async" width="800" height="450" src="${escapeAttr(src)}" class="attachment-large size-large" alt="${alt}" loading="lazy">`;
+  return `<a href="${href}">
+							<img loading="lazy" decoding="async" width="1140" height="641" src="${escapeAttr(src)}" class="attachment-large size-large" alt="${alt}">								</a>`;
 }
 
-function excerptText(post: PostEntry): string {
-  const raw = stripHtml(post.excerpt || post.content || "").slice(0, 160).trim();
-  return raw ? `${raw}${raw.length >= 160 ? "…" : ""}` : "";
-}
-
-/** HTML for one Elementor-style blog grid card. */
-export function renderBlogCardHtml(post: PostEntry): string {
+/** Featured card — Elementor loop template 21423 (image + author + date + title + excerpt). */
+export function renderInsightsFeaturedCardHtml(post: PostEntry): string {
   const title = stripHtml(post.title);
-  const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
-  const cat = categoryLabel(post);
+  const href = escapeAttr(postHref(post));
   const catClass = categoryClass(post);
-  const thumbClass = post.featuredImage ? "has-post-thumbnail" : "";
-  const excerpt = excerptText(post);
-  const tagClasses = (post.tags || [])
-    .map((id) => `tag-${id}`)
-    .join(" ");
+  const thumb = thumbClass(post);
+  const excerpt = escapeAttr(excerptText(post, 140));
+  const author = escapeAttr(stripHtml(post.authorName || ""));
+  const dateLabel = escapeAttr(formatDate(post.date));
 
-  return `<article id="post-${post.id}" class="elementor-post elementor-grid-item ecs-post-loop post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass} ${tagClasses}">
-				<div data-elementor-type="loop" data-elementor-id="540" class="elementor elementor-540 post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass}" data-elementor-post-type="elementor_library">
-					<section class="elementor-section elementor-top-section elementor-element elementor-element-b01304e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="b01304e" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-						<div class="elementor-container elementor-column-gap-no">
-					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-730151a col-hov" data-id="730151a" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+  return `<article id="post-${post.id}" class="elementor-post elementor-grid-item ecs-post-loop post-${post.id} post type-post status-publish format-standard ${thumb} hentry ${catClass}">
+				<div data-elementor-type="loop" data-elementor-id="21423" class="elementor elementor-21423 post-${post.id} post type-post status-publish format-standard ${thumb} hentry ${catClass}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-ddd640c elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="ddd640c" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dfcf983" data-id="dfcf983" data-element_type="column" data-e-type="column">
 			<div class="elementor-widget-wrap elementor-element-populated">
-						<div class="elementor-element elementor-element-dbe211f elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="dbe211f" data-element_type="widget" data-widget_type="theme-post-featured-image.default">
+						<div class="elementor-element elementor-element-47754f8 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="47754f8" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
 				<div class="elementor-widget-container">
-															${cardImage(post)}															</div>
+																${featuredImageBlock(post)}
+															</div>
 				</div>
-				<div class="elementor-element elementor-element-c3ca6b8 elementor-align-left elementor-widget elementor-widget-post-info" data-id="c3ca6b8" data-element_type="widget" data-widget_type="post-info.default">
+				<div class="elementor-element elementor-element-bc5e5f3 elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="bc5e5f3" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
 				<div class="elementor-widget-container">
 							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
-								<li class="elementor-icon-list-item elementor-repeater-item-ef9c6cb elementor-inline-item" itemprop="about">
-										<span class="elementor-icon-list-icon">
-								${CATEGORY_ICON}							</span>
-									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
-										<span class="elementor-post-info__terms-list">
-				<span class="elementor-post-info__terms-list-item">${escapeAttr(cat)}</span>				</span>
-					</span>
+								<li class="elementor-icon-list-item elementor-repeater-item-2140026 elementor-inline-item" itemprop="author">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										${author}					</span>
 								</li>
 				</ul>
 						</div>
 				</div>
-				<div class="elementor-element elementor-element-af1da43 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="af1da43" data-element_type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-element elementor-element-0264f91 elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="0264f91" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
 				<div class="elementor-widget-container">
-					<h2 class="elementor-heading-title elementor-size-default"><a href="${escapeAttr(href)}">${escapeAttr(title)}</a></h2>				</div>
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-2140026 elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time datetime="${escapeAttr(post.date)}">${dateLabel}</time>					</span>
+								</li>
+				</ul>
+						</div>
 				</div>
-				<div class="elementor-element elementor-element-feef7b2 elementor-widget elementor-widget-theme-post-excerpt" data-id="feef7b2" data-element_type="widget" data-widget_type="theme-post-excerpt.default">
+				<div class="elementor-element elementor-element-cd863d9 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="cd863d9" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
 				<div class="elementor-widget-container">
-					<p>${escapeAttr(excerpt)}				</p></div>
+					<h3 class="elementor-heading-title elementor-size-default"><a href="${href}">${escapeAttr(title)}</a></h3>				</div>
 				</div>
-				<div class="elementor-element elementor-element-e0046b6 elementor-widget elementor-widget-button" data-id="e0046b6" data-element_type="widget" data-widget_type="button.default">
+				<div class="elementor-element elementor-element-43c46ca elementor-widget elementor-widget-theme-post-excerpt" data-id="43c46ca" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
+				<div class="elementor-widget-container">
+					<p>${excerpt}				</p></div>
+				</div>
+				<div class="elementor-element elementor-element-4579f9c elementor-widget elementor-widget-button" data-id="4579f9c" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
 				<div class="elementor-widget-container">
 									<div class="elementor-button-wrapper">
-					<a class="elementor-button elementor-button-link elementor-size-sm" href="${escapeAttr(href)}">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="${href}">
 						<span class="elementor-button-content-wrapper">
 						<span class="elementor-button-icon">
-				${ARROW_ICON}			</span>
-									<span class="elementor-button-text">Read MORE</span>
+				<i aria-hidden="true" class="fas fa-arrow-right"></i>			</span>
+									<span class="elementor-button-text">Read More</span>
+					</span>
+					</a>
+				</div>
+								</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>`;
+}
+
+/** Grid card — Elementor loop template 21445 (author + date + title + excerpt). */
+export function renderBlogCardHtml(post: PostEntry): string {
+  const title = stripHtml(post.title);
+  const href = escapeAttr(postHref(post));
+  const catClass = categoryClass(post);
+  const thumb = thumbClass(post);
+  const excerpt = escapeAttr(excerptText(post, 90));
+  const author = escapeAttr(stripHtml(post.authorName || ""));
+  const dateLabel = escapeAttr(formatDate(post.date));
+
+  return `<article id="post-${post.id}" class="elementor-post elementor-grid-item ecs-post-loop post-${post.id} post type-post status-publish format-standard ${thumb} hentry ${catClass}">
+				<div data-elementor-type="loop" data-elementor-id="21445" class="elementor elementor-21445 post-${post.id} post type-post status-publish format-standard ${thumb} hentry ${catClass}" data-elementor-post-type="elementor_library">
+					<section class="elementor-section elementor-top-section elementor-element elementor-element-5b30a6a newsletter-title elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="5b30a6a" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-ea53409" data-id="ea53409" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-817203b elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="817203b" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-2140026 elementor-inline-item" itemprop="author">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										${author}					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-6146a4a elementor-widget__width-auto elementor-widget elementor-widget-post-info" data-id="6146a4a" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-2140026 elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time datetime="${escapeAttr(post.date)}">${dateLabel}</time>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-734dd72 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="734dd72" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h3 class="elementor-heading-title elementor-size-default"><a href="${href}">${escapeAttr(title)}</a></h3>				</div>
+				</div>
+				<div class="elementor-element elementor-element-0e99783 elementor-widget elementor-widget-theme-post-excerpt" data-id="0e99783" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-excerpt.default">
+				<div class="elementor-widget-container">
+					<p>${excerpt}				</p></div>
+				</div>
+				<div class="elementor-element elementor-element-887701e elementor-widget elementor-widget-button" data-id="887701e" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+				<div class="elementor-widget-container">
+									<div class="elementor-button-wrapper">
+					<a class="elementor-button elementor-button-link elementor-size-sm" href="${href}">
+						<span class="elementor-button-content-wrapper">
+						<span class="elementor-button-icon">
+				<i aria-hidden="true" class="fas fa-arrow-right"></i>			</span>
+									<span class="elementor-button-text">Read More</span>
 					</span>
 					</a>
 				</div>
@@ -114,4 +184,43 @@ export function renderBlogCardHtml(post: PostEntry): string {
 
 export function renderBlogCardsHtml(posts: PostEntry[]): string {
   return posts.map(renderBlogCardHtml).join("\n");
+}
+
+export function renderInsightsFeaturedCardsHtml(posts: PostEntry[]): string {
+  return posts.map(renderInsightsFeaturedCardHtml).join("\n");
+}
+
+/** Replace inner HTML of the Nth `.ecs-posts` container (1-based). */
+export function replaceEcsPostsInner(html: string, nth: number, innerHtml: string): string {
+  const re = /<div([^>]*class="[^"]*ecs-posts[^"]*"[^>]*)>/gi;
+  const opens: { index: number; length: number }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) {
+    opens.push({ index: m.index, length: m[0].length });
+  }
+  const target = opens[nth - 1];
+  if (!target) return html;
+
+  let pos = target.index + target.length;
+  let depth = 1;
+  while (pos < html.length && depth > 0) {
+    const nextOpen = html.indexOf("<div", pos);
+    const nextClose = html.indexOf("</div>", pos);
+    if (nextClose < 0) break;
+    if (nextOpen >= 0 && nextOpen < nextClose) {
+      depth += 1;
+      pos = nextOpen + 4;
+    } else {
+      depth -= 1;
+      if (depth === 0) {
+        return (
+          html.slice(0, target.index + target.length) +
+          `\n${innerHtml}\n` +
+          html.slice(nextClose)
+        );
+      }
+      pos = nextClose + 6;
+    }
+  }
+  return html;
 }
