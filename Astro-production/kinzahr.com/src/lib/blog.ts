@@ -6,6 +6,7 @@ import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { LIVE_AUTHOR_ROSTER, pickLiveAuthorForPostSlug } from './author-roster.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -141,11 +142,23 @@ export function getRawBlogPost(slug: string): BlogPost | null {
 /**
  * Get a blog post for frontend rendering. Returns null for draft/trashed posts.
  * Use getRawBlogPost() for admin/dashboard access.
+ * Authors are remapped onto the live Figma roster (deterministic per slug).
  */
 export function getBlogPost(slug: string): BlogPost | null {
   const post = getRawBlogPost(slug);
   if (!post) return null;
-  return isPublishedPost(post) ? post : null;
+  if (!isPublishedPost(post)) return null;
+  const live = pickLiveAuthorForPostSlug(post.slug || slug);
+  return {
+    ...post,
+    author: {
+      name: live.name,
+      slug: live.slug,
+      url: `/author/${live.slug}/`,
+    },
+    // Force rebuild of author chrome so legacy HTML does not keep old names.
+    authorHtml: undefined,
+  };
 }
 
 export function slugifyHeading(text: string): string {
@@ -270,7 +283,7 @@ export function buildTocHtml(toc: TocEntry[]): string {
 }
 
 /** Bust Cloudflare/browser cache for mirror-fixes (JS is max-age=86400 without ?v=). */
-export const MIRROR_FIXES_CACHE_BUST = 'eor-blog-css-20260909';
+export const MIRROR_FIXES_CACHE_BUST = 'author-roster-20260909';
 
 export function bustMirrorFixesHtml(html: string): string {
   if (!html) return html;
@@ -401,13 +414,20 @@ function buildCategoryHtml(categories: BlogPost['categories']): string {
 
 function buildAuthorHtml(author: BlogPost['author'], post: BlogPost): string {
   const name = escapeHtml(author.name || 'KinzaHR');
-  const slug = author.slug || (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'connect-2');
+  const slug =
+    author.slug ||
+    (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'vesna-milic');
   const url = `/author/${slug}/`;
-  const readingTime = Math.max(1, Math.ceil(stripHtml(post.contentHtml || '').split(/\s+/).filter(Boolean).length / 200));
+  const live = LIVE_AUTHOR_ROSTER.find((a) => a.slug === slug);
+  const avatarSrc = live?.avatar || '/wp-content/uploads/2024/05/vesna-milic.png';
+  const readingTime = Math.max(
+    1,
+    Math.ceil(stripHtml(post.contentHtml || '').split(/\s+/).filter(Boolean).length / 200),
+  );
   return `<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
   <li class="elementor-icon-list-item elementor-repeater-item-4a012f8 elementor-inline-item" itemprop="author">
     <a href="${url}">
-      <span class="elementor-icon-list-icon"><img class="elementor-avatar" src="/wp-content/uploads/2024/05/Nakul-Sachdeva-2-96x96.png" alt="Picture of ${name}" loading="lazy"></span>
+      <span class="elementor-icon-list-icon"><img class="elementor-avatar" src="${avatarSrc}" alt="Picture of ${name}" loading="lazy" width="96" height="96"></span>
       <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">${name}</span>
     </a>
   </li>
@@ -646,6 +666,119 @@ export function buildPopularArticleCardHtml(post: BlogPost): string {
 }
 
 /**
+ * Rewrite author byline, author-box bio, and meta in legacy Elementor post mirrors
+ * to the live Figma roster. Most Kinza posts are served from cleaned HTML.
+ */
+export function injectLiveAuthorIntoMirrorHtml(html: string, post: BlogPost): string {
+  if (!html || !post?.author?.slug || !post.author.name) return html;
+
+  const name = post.author.name;
+  const slug = post.author.slug;
+  const url = `/author/${slug}/`;
+  const live = LIVE_AUTHOR_ROSTER.find((a) => a.slug === slug);
+  const avatarSrc = live?.avatar || `/wp-content/uploads/2024/05/${slug}.png`;
+  const bio = (live?.bio || '').trim();
+  const safeName = escapeHtml(name);
+  const safeBio = escapeHtml(bio);
+
+  let out = html;
+
+  // Post-info author row (avatar + name + link)
+  out = out.replace(
+    /<li([^>]*itemprop=["']author["'][^>]*)>[\s\S]*?<\/li>/i,
+    `<li$1>
+						<a href="${url}">
+											<span class="elementor-icon-list-icon">
+								<img class="elementor-avatar" src="${avatarSrc}" alt="Picture of ${safeName}" loading="lazy" width="96" height="96">
+							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										${safeName}					</span>
+									</a>
+				</li>`,
+  );
+
+  // Elementor author-box under post content
+  if (/elementor-author-box/i.test(out)) {
+    out = out.replace(
+      /(<a href=")[^"]*("\s+class="elementor-author-box__avatar">)/i,
+      `$1${url}$2`,
+    );
+    out = out.replace(
+      /(class="elementor-author-box__avatar">\s*<img\s+[^>]*?\bsrc=")[^"]*(")/i,
+      `$1${avatarSrc}$2`,
+    );
+    out = out.replace(
+      /(class="elementor-author-box__avatar">\s*<img\s+[^>]*?\balt=")[^"]*(")/i,
+      `$1Picture of ${safeName}$2`,
+    );
+    out = out.replace(
+      /(<div class="elementor-author-box__text">\s*<a href=")[^"]*(")/i,
+      `$1${url}$2`,
+    );
+    out = out.replace(
+      /(<div class="elementor-author-box__name">)\s*[^<]*?(<\/div>)/i,
+      `$1\n\t\t\t\t\t\t\t${safeName}\t\t\t\t\t\t$2`,
+    );
+    if (bio) {
+      if (/elementor-author-box__bio/i.test(out)) {
+        out = out.replace(
+          /(<div class="elementor-author-box__bio">)[\s\S]*?(<\/div>)/i,
+          `$1\n\t\t\t\t\t\t${safeBio}\t\t\t\t\t$2`,
+        );
+      } else {
+        out = out.replace(
+          /(<\/div>\s*<\/div>\s*<\/div>\s*<\/div>\s*<div class="elementor-element elementor-element-9c6d476)/i,
+          `<div class="elementor-author-box__bio">\n\t\t\t\t\t\t${safeBio}\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t$1`,
+        );
+      }
+    }
+  }
+
+  // Meta author
+  if (/name=["']author["']/i.test(out)) {
+    out = out.replace(
+      /<meta\s+name=["']author["']\s+content=["'][^"']*["']\s*\/?>/i,
+      `<meta name="author" content="${safeName}" />`,
+    );
+  }
+
+  // JSON-LD Person / author name + url (best-effort)
+  out = out.replace(
+    /("author"\s*:\s*\{\s*"@type"\s*:\s*"Person"\s*,\s*"name"\s*:\s*")[^"]*(")/i,
+    `$1${safeName}$2`,
+  );
+  out = out.replace(
+    /("author"\s*:\s*\{\s*"@type"\s*:\s*"Person"\s*,\s*"name"\s*:\s*"[^"]*"\s*,\s*"url"\s*:\s*")[^"]*(")/i,
+    `$1${url}$2`,
+  );
+
+  // Legacy schema still embeds Nakul's old biography / avatar caption
+  if (bio) {
+    const jsonBio = JSON.stringify(bio).slice(1, -1);
+    out = out.replace(
+      /I currently work as Head of Recruitment and Sales at Kinza HR in Dubai, UAE\.[\s\S]*?Verticals - IT, Finance and Banking, Insurance, Healthcare, FMCG, Retail, and more\./g,
+      jsonBio,
+    );
+  }
+  out = out.replace(/"caption"\s*:\s*"Nakul Sachdeva"/g, `"caption":"${safeName}"`);
+  out = out.replace(
+    /\/wp-content\/uploads\/2024\/05\/Nakul-Sachdeva-2(?:-\d+x\d+)?\.png/g,
+    avatarSrc,
+  );
+
+  // Leftover retired author archive URLs → live author for this post
+  out = out.replace(
+    /\/author\/(?:dylan-wesley|tanzyn-giovanna-amisha-stanley|binju-t-robert|siva-rama-krishnan|nakul)\//gi,
+    url,
+  );
+  if (slug !== 'nakul-sachdeva') {
+    out = out.replace(/\/author\/nakul-sachdeva\//gi, url);
+  }
+
+  return out;
+}
+
+/**
  * Replace the frozen Popular Articles grid with related cards for this post.
  */
 export function injectPopularArticlesHtml(html: string, post: BlogPost): string {
@@ -736,7 +869,8 @@ function decodeProtectedEmailsInHtml(html: string): string {
 }
 
 export function serveBlogPost(post: BlogPost): Response {
-  const html = assembleBlogPostHtml(post);
+  let html = assembleBlogPostHtml(post);
+  html = injectLiveAuthorIntoMirrorHtml(html, post);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

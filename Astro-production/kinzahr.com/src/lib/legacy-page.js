@@ -11,6 +11,7 @@ import { applySharedChrome } from './shared-chrome.js';
 import { cwvOptimize } from './cwv-optimize.js';
 import {
   getBlogPost,
+  injectLiveAuthorIntoMirrorHtml,
   injectPopularArticlesHtml,
   injectElementorTocHtml,
   bustMirrorFixesHtml,
@@ -76,10 +77,11 @@ export function serveLegacyPage(slug) {
 
   html = sanitizeMirrorHtml(html);
 
-  // Dynamic Popular Articles + static Elementor TOC for blog posts that still use a legacy HTML mirror.
+  // Dynamic Popular Articles + live Figma author byline + static Elementor TOC for blog mirrors.
   const post = getBlogPost(slug);
   if (post) {
     html = injectPopularArticlesHtml(html, post);
+    html = injectLiveAuthorIntoMirrorHtml(html, post);
     html = injectElementorTocHtml(html, post.toc || []);
     if (!html.includes('astro-blog-toc-css')) {
       html = html.replace(/<\/head>/i, `${BLOG_POST_FIX_STYLES}\n</head>`);
