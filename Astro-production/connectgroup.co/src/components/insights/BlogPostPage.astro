@@ -3,7 +3,6 @@
  * Blog post — CG v3.0 Figma (from-scratch rebuild)
  * Desktop 6748:19797 · Tablet 6762:3125 · Mobile 6762:3429.
  */
-import { sanitizeCmsHtml } from '@connect/site-cms';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InsightsChromeHead from './InsightsChromeHead.astro';
 import InsightsSharedStyles from './InsightsSharedStyles.astro';
@@ -17,6 +16,7 @@ import {
 } from '../../lib/blog.ts';
 import { getAuthor } from '../../lib/authors.ts';
 import { toInsightCard, displayAuthorName, normalizeTopicLabel } from '../../lib/insights.ts';
+import { sanitizeBlogHtml } from '../../lib/sanitize-blog-html.ts';
 import type { PageSeo } from '../../lib/seo';
 
 interface Props {
@@ -72,7 +72,7 @@ function flattenWpNestedLists(html: string): string {
   return out;
 }
 const contentHtml = flattenWpNestedLists(
-  stripEmptyParagraphs(sanitizeCmsHtml(stripEmptyParagraphs(post.contentHtml || ''))),
+  stripEmptyParagraphs(sanitizeBlogHtml(stripEmptyParagraphs(post.contentHtml || ''))),
 );
 const dateLabel = (() => {
   try {
