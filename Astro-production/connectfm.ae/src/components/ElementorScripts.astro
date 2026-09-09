@@ -12,6 +12,23 @@
 <script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
 <script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
 <script is:inline>
+  // Elementor Pro loop/masonry handlers expect WP globals that Astro doesn't ship.
+  window.wp = window.wp || {};
+  window.wp.i18n = window.wp.i18n || {
+    __: function (s) { return s; },
+    _x: function (s) { return s; },
+    _n: function (s) { return s; },
+    _nx: function (s) { return s; },
+    sprintf: function (s) {
+      var args = Array.prototype.slice.call(arguments, 1);
+      return String(s).replace(/%(\d+\$)?[sd]/g, function () {
+        return String(args.shift() ?? "");
+      });
+    },
+    isRTL: function () { return document.documentElement.dir === "rtl"; },
+    setLocaleData: function () {},
+    getLocaleData: function () { return {}; },
+  };
   window.elementorFrontendConfig = window.elementorFrontendConfig || {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
     i18n: { shareOnFacebook: "Share on Facebook", shareOnTwitter: "Share on Twitter", pinIt: "Pin it", download: "Download", downloadImage: "Download image", fullscreen: "Fullscreen", zoom: "Zoom", share: "Share", playVideo: "Play Video", previous: "Previous", next: "Next", close: "Close" },
