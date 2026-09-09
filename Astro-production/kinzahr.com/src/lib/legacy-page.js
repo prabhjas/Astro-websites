@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
-import { getBlogPost, injectPopularArticlesHtml } from './blog.ts';
+import { getBlogPost, injectLiveAuthorIntoMirrorHtml, injectPopularArticlesHtml } from './blog.ts';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://kinzahr.com')
   .trim()
@@ -68,10 +68,11 @@ export function serveLegacyPage(slug) {
 
   html = sanitizeMirrorHtml(html);
 
-  // Dynamic Popular Articles for blog posts that still use a legacy HTML mirror.
+  // Dynamic Popular Articles + live Figma author byline for blog post mirrors.
   const post = getBlogPost(slug);
   if (post) {
     html = injectPopularArticlesHtml(html, post);
+    html = injectLiveAuthorIntoMirrorHtml(html, post);
   }
 
   return new Response(html, {

@@ -11,6 +11,11 @@ import {
   getPostsByAuthorSlug,
   type BlogPost,
 } from './blog.ts';
+import {
+  LIVE_AUTHOR_ROSTER,
+  LIVE_AUTHOR_SLUGS,
+  isLiveAuthorSlug,
+} from './author-roster.ts';
 
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
@@ -68,53 +73,28 @@ export interface AuthorPageData {
   totalPosts: number;
 }
 
-/** Authors that have published posts — display order for /author/. */
-const LIVE_AUTHOR_ORDER = [
-  'nakul-sachdeva',
-  'dylan-wesley',
-  'tanzyn-giovanna-amisha-stanley',
-  'binju-t-robert',
-  'siva-rama-krishnan',
-];
+/** Figma author set — display order for /author/. */
+const LIVE_AUTHOR_ORDER = LIVE_AUTHOR_SLUGS;
 
 const LIVE_AUTHOR_OVERRIDES: Record<
   string,
   { name?: string; title?: string; bio?: string; avatar?: string; linkedin?: string }
-> = {
-  'nakul-sachdeva': {
-    name: 'Nakul Sachdeva',
-    title: 'Head of Recruitment & Business Development',
-    avatar: '/wp-content/uploads/2024/05/Nakul-Sachdeva-2.png',
-    linkedin: 'https://www.linkedin.com/in/nakul-sachdeva-717590118/',
-  },
-  'dylan-wesley': {
-    name: 'Dylan Wesley',
-    title: 'Business Development Manager',
-    avatar: '/wp-content/uploads/2024/05/dylan-wesley-portrait.png',
-    linkedin: 'https://www.linkedin.com/in/dylan-wright-405298254/',
-  },
-  'tanzyn-giovanna-amisha-stanley': {
-    name: 'Tanzyn Giovanna',
-    title: 'Recruitment & Sales',
-    avatar: '/wp-content/uploads/2024/05/tanzyn-giovanna-portrait.png',
-    linkedin: 'https://www.linkedin.com/in/tanzyn-stanley/',
-  },
-  'binju-t-robert': {
-    name: 'Binju T. Robert',
-    title: 'HR & Marketing Specialist',
-    avatar: '/wp-content/uploads/2024/05/binju-t-robert-portrait.png',
-    linkedin: 'https://www.linkedin.com/in/binju-tr/',
-  },
-  'siva-rama-krishnan': {
-    name: 'Siva Rama Krishnan',
-    title: 'Global Talent Consultant',
-    avatar: '/wp-content/uploads/2024/05/siva-rama-krishnan-lg.jpg',
-    linkedin: 'https://www.linkedin.com/in/siva-rama-krishna-kv-690620119/',
-  },
-};
+> = Object.fromEntries(
+  LIVE_AUTHOR_ROSTER.map((a) => [
+    a.slug,
+    {
+      name: a.name,
+      title: a.title || '',
+      bio: a.bio || '',
+      avatar: a.avatar,
+      linkedin: a.linkedin,
+    },
+  ]),
+);
 
 const DEFAULT_LINKEDIN = 'https://www.linkedin.com/company/kinzahr/';
 const AUTHOR_BANNER_BG = '#0F202B';
+const AUTHOR_BANNER_IMAGE = '/wp-content/uploads/2024/05/authors-banner-texture.png';
 
 function escapeHtml(text: string): string {
   return text
@@ -171,8 +151,8 @@ export function getAuthor(slug: string): Author | null {
     ...raw,
     slug,
     name,
-    title: override.title || raw.title || '',
-    bio: (override.bio || raw.bio || '').trim(),
+    title: override.title ?? raw.title ?? '',
+    bio: (override.bio ?? raw.bio ?? '').trim(),
     avatar: avatarSrc
       ? { src: avatarSrc, alt: name }
       : raw.avatar?.src
@@ -180,7 +160,7 @@ export function getAuthor(slug: string): Author | null {
         : null,
     social,
     canonical: raw.canonical || `/author/${slug}/`,
-    description: raw.description || (override.bio || raw.bio || '').trim(),
+    description: (override.bio ?? raw.bio ?? raw.description ?? '').trim(),
   };
 }
 
@@ -191,6 +171,7 @@ export function getAllAuthors(): Author[] {
 }
 
 export function getAuthorPageData(slug: string, page = 1): AuthorPageData | null {
+  if (!isLiveAuthorSlug(slug)) return null;
   const author = getAuthor(slug);
   if (!author) return null;
 
@@ -210,21 +191,15 @@ export interface AuthorDirectoryEntry {
 }
 
 export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
-  const entries = getAllAuthors()
-    .map((author) => ({
+  // Only the Figma author set — always list them (posts assigned dynamically).
+  return LIVE_AUTHOR_ORDER.map((slug) => {
+    const author = getAuthor(slug);
+    if (!author) return null;
+    return {
       author,
       postCount: getPostsByAuthorSlug(author.slug).length,
-    }))
-    .filter((entry) => entry.postCount > 0);
-
-  const preferred = LIVE_AUTHOR_ORDER.map((slug) => entries.find((entry) => entry.author.slug === slug)).filter(
-    (entry): entry is AuthorDirectoryEntry => Boolean(entry),
-  );
-  const preferredSlugs = new Set(preferred.map((e) => e.author.slug));
-  const rest = entries
-    .filter((e) => !preferredSlugs.has(e.author.slug))
-    .sort((a, b) => a.author.name.localeCompare(b.author.name));
-  return [...preferred, ...rest];
+    };
+  }).filter((entry): entry is AuthorDirectoryEntry => entry !== null);
 }
 
 function avatarHtml(author: Author, className: string, width: number, height: number): string {
@@ -345,10 +320,10 @@ function buildLoadMoreHtml(author: Author, totalPosts: number, shown: number): s
 
 function authorPagesCss(): string {
   return `<style id="kinza-author-pages-css">
-/* Figma Author-Pages · archive 11:1394 · single 1:2155 */
+/* Figma Author-Pages · archive 4835:9647 · single 4842:12789 */
 .kinza-author-page{font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif;color:#070C13;background:#fff}
 .kinza-authors-hero{
-  background:${AUTHOR_BANNER_BG};box-sizing:border-box;height:326px;min-height:326px;
+  background:${AUTHOR_BANNER_BG} url("${AUTHOR_BANNER_IMAGE}") center/cover no-repeat;box-sizing:border-box;height:326px;min-height:326px;
   display:flex;align-items:center;justify-content:center;
   text-align:center;color:#fff;padding:40px 20px
 }
@@ -366,11 +341,11 @@ function authorPagesCss(): string {
 .kinza-author-card__media{display:block;line-height:0;text-decoration:none}
 .kinza-author-card__image{
   width:282px;max-width:100%;height:269px;object-fit:cover;object-position:center top;
-  display:block;border-radius:0;background:#e8e8ef
+  display:block;border-radius:20px;background:#e8e8ef
 }
 .kinza-author-card__image--placeholder{
   display:flex;align-items:center;justify-content:center;
-  font-size:42px;font-weight:700;color:#24495F;background:#e8e8ef
+  font-size:42px;font-weight:700;color:#24495F;background:#e8e8ef;border-radius:20px
 }
 .kinza-author-card__meta{
   display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-top:12px;min-height:58px
@@ -385,23 +360,23 @@ function authorPagesCss(): string {
 .kinza-author-card__linkedin:hover{opacity:.85}
 .kinza-author-card__linkedin svg,.kinza-author-profile__linkedin svg{width:24px;height:24px;display:block}
 
-/* Single author — Figma AUTHOR PAGE Desktop 1:2155 · Frame 465 (400) */
+/* Single author — Figma AUTHOR PAGE Desktop 4842:12789 */
 .kinza-author-profile{padding:0;background:#fff}
 .kinza-author-profile__banner{
-  background:${AUTHOR_BANNER_BG};box-sizing:border-box;min-height:0;height:auto;
-  padding:40px 20px;display:flex;align-items:flex-start
+  background:${AUTHOR_BANNER_BG} url("${AUTHOR_BANNER_IMAGE}") center/cover no-repeat;box-sizing:border-box;min-height:0;height:auto;
+  padding:40px 20px;display:flex;align-items:center
 }
 .kinza-author-profile__media,.kinza-author-profile__bg{display:none!important}
 .kinza-author-profile__inner{
-  max-width:1280px;width:100%;margin:0 auto;display:flex;gap:25px;align-items:flex-start
+  max-width:1280px;width:100%;margin:0 auto;display:flex;gap:25px;align-items:center
 }
 .kinza-author-profile__avatar{flex:0 0 262px;width:262px}
 .kinza-author-profile__image{
   width:262px;height:250px;object-fit:cover;object-position:center top;display:block;
-  border-radius:0;background:rgba(255,255,255,.12)
+  border-radius:20px;background:rgba(255,255,255,.12)
 }
 .kinza-author-profile__image--placeholder{
-  display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:700;color:#fff;background:rgba(255,255,255,.15)
+  display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:700;color:#fff;background:rgba(255,255,255,.15);border-radius:20px
 }
 .kinza-author-profile__content{
   flex:1;min-width:0;max-width:993px;padding-top:0;color:#fff;
@@ -425,7 +400,7 @@ function authorPagesCss(): string {
   margin:0;font-size:16px;line-height:1.45;color:#fff;font-weight:400;max-width:993px
 }
 
-/* POPULAR ARTICLES — Figma 1:2168 */
+/* POPULAR ARTICLES */
 .kinza-author-articles{padding:50px 20px 94px;background:#fff}
 .kinza-author-articles__inner{max-width:1280px;margin:0 auto}
 .kinza-author-articles__title{
@@ -437,7 +412,6 @@ function authorPagesCss(): string {
 .kinza-author-posts{
   display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 50px;margin:0
 }
-/* Figma ithem service ~391×538 — Kinza card shadow matches blog cards */
 .kinza-article-card{
   background:#fff;border:0;border-radius:0;overflow:hidden;
   display:flex;flex-direction:column;min-height:100%;
