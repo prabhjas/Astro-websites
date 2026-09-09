@@ -163,7 +163,7 @@ function buildArticleContent(processImg, cta) {
   );
   ul(["Employee", "Department", "Door", "Location", "Time."]);
 
-  h4("Anti-Spoofing &amp; Liveness Detection:");
+  h4("Anti-Spoofing & Liveness Detection:");
   p(
     "Facial recognition should never rely on basic image matching. Attackers can attempt to present photographs. They can either use digital images or other artificial representations. NIST identifies these attempts as presentation attacks and evaluates technologies designed to detect them. Liveness detection determines whether the system is seeing a real person.",
   );
@@ -185,7 +185,7 @@ function buildArticleContent(processImg, cta) {
     "The system removes much of that routine. The initial investment can be higher than a basic card reader. Never make your decision by looking at price. You should compare ownership's total cost. Don't focus only on the purchase price.",
   );
 
-  h3("Health &amp; Hygiene Benefits:");
+  h3("Health & Hygiene Benefits:");
   p("A facial recognition access system requires no physical contact.");
   p(
     "That matters in high-traffic environments such as offices, residential buildings, healthcare facilities, and shared workspaces.",
@@ -272,7 +272,7 @@ function buildArticleContent(processImg, cta) {
     "Entry and mid-range facial recognition terminals can cost around 400 to 2500 dirhams. Enterprise-grade devices can reach five thousand dirhams or more based on capabilities. One UAE security provider gives indicative ranges of four hundred to nine hundred dirhams for entry-level systems. On the other side, 1000 to 2500 dirhams for mid-range systems and two thousand to over five thousand dirhams for enterprise devices.",
   );
 
-  h3("Installation &amp; Software Licensing");
+  h3("Installation & Software Licensing");
   p(
     "Hardware represents only the project's part. Your quotation may also include electronic locks, door controllers, exit switches, power supplies, cabling and networking, software licenses, user enrollment, CCTV and HR integration, visitor management, and annual maintenance.",
   );
@@ -282,10 +282,10 @@ function buildArticleContent(processImg, cta) {
     "Expect the price to increase when you need more doors, more users, outdoor-rated hardware, higher security levels, multi-factor authentication, cloud management, CCTV integration, HR/payroll integration, visitor management, advanced reporting, and lasting maintenance.",
   );
 
-  h2("Is Facial Recognition Access Control Safe &amp; Compliant?");
+  h2("Is Facial Recognition Access Control Safe & Compliant?");
   p("It can be secure, but you must design the system responsibly.");
 
-  h3("UAE PDPL &amp; Data Privacy Requirements:");
+  h3("UAE PDPL & Data Privacy Requirements:");
   p(
     "UAE's Federal Decree-Law classifies biometric data as sensitive personal data. Facial images used for identification can trigger huge privacy considerations.",
   );
@@ -296,7 +296,7 @@ function buildArticleContent(processImg, cta) {
     "You should, as a responsible business owner, therefore establish a clear purpose for collecting facial data. Provide them with appropriate legal grounds for processing, transparent employee or resident notices, and defined retention periods. It's your duty to clear every doubt regarding access restrictions, strong security controls, and procedures for handling data requests and incidents.",
   );
 
-  h3("How Facial Data Is Stored &amp; Protected?");
+  h3("How Facial Data Is Stored & Protected?");
   p("You should ask your vendor upfront what happens after enrollment.");
   p("Good questions include:");
   ul([

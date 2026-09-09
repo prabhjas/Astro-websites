@@ -1,0 +1,1184 @@
+{
+  "routes": {
+    "/": {
+      "slug": "home",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/03/Hero-Graphics-Mobile.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/about-us": {
+      "slug": "about-us",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/04/Hero-mob-about.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/blog": {
+      "slug": "blog",
+      "hero": []
+    },
+    "/contact-us": {
+      "slug": "contact-us",
+      "hero": []
+    },
+    "/industries": {
+      "slug": "industries",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/Oil-Gas.jpg",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/industries/audit-accounting": {
+      "slug": "industries-audit-accounting",
+      "hero": []
+    },
+    "/industries/banking-finance": {
+      "slug": "industries-banking-finance",
+      "hero": []
+    },
+    "/industries/construction-and-engineering": {
+      "slug": "industries-construction-and-engineering",
+      "hero": []
+    },
+    "/industries/health-care": {
+      "slug": "industries-health-care",
+      "hero": []
+    },
+    "/industries/it-technology": {
+      "slug": "industries-it-technology",
+      "hero": []
+    },
+    "/industries/logistics-transport-and-warehousing": {
+      "slug": "industries-logistics-transport-and-warehousing",
+      "hero": []
+    },
+    "/industries/oil-gas": {
+      "slug": "industries-oil-gas",
+      "hero": []
+    },
+    "/industries/sales-marketing": {
+      "slug": "industries-sales-marketing",
+      "hero": []
+    },
+    "/map": {
+      "slug": "map",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/6/41/27.png",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/platform": {
+      "slug": "platform",
+      "hero": []
+    },
+    "/privacy-policy": {
+      "slug": "privacy-policy",
+      "hero": []
+    },
+    "/services": {
+      "slug": "services",
+      "hero": []
+    },
+    "/services/contingent-staffing": {
+      "slug": "services-contingent-staffing",
+      "hero": []
+    },
+    "/services/contingent-staffing/uae": {
+      "slug": "services-contingent-staffing-uae",
+      "hero": []
+    },
+    "/services/contingent-staffing/usa": {
+      "slug": "services-contingent-staffing-usa",
+      "hero": []
+    },
+    "/services/emiratisation": {
+      "slug": "services-emiratisation",
+      "hero": []
+    },
+    "/services/employee-visa-outsourcing": {
+      "slug": "services-employee-visa-outsourcing",
+      "hero": []
+    },
+    "/services/employee-visa-outsourcing/uae": {
+      "slug": "services-employee-visa-outsourcing-uae",
+      "hero": []
+    },
+    "/services/employee-visa-outsourcing/usa": {
+      "slug": "services-employee-visa-outsourcing-usa",
+      "hero": []
+    },
+    "/services/employer-of-record": {
+      "slug": "services-employer-of-record",
+      "hero": []
+    },
+    "/services/employer-of-record/uae": {
+      "slug": "services-employer-of-record-uae",
+      "hero": []
+    },
+    "/services/employer-of-record/usa": {
+      "slug": "services-employer-of-record-usa",
+      "hero": []
+    },
+    "/services/executive-search-firm": {
+      "slug": "services-executive-search-firm",
+      "hero": []
+    },
+    "/services/executive-search-firm/uae": {
+      "slug": "services-executive-search-firm-uae",
+      "hero": []
+    },
+    "/services/executive-search-firm/usa": {
+      "slug": "services-executive-search-firm-usa",
+      "hero": []
+    },
+    "/services/mass-hiring-volume-staffing": {
+      "slug": "services-mass-hiring-volume-staffing",
+      "hero": []
+    },
+    "/services/mass-hiring-volume-staffing/uae": {
+      "slug": "services-mass-hiring-volume-staffing-uae",
+      "hero": []
+    },
+    "/services/mass-hiring-volume-staffing/usa": {
+      "slug": "services-mass-hiring-volume-staffing-usa",
+      "hero": []
+    },
+    "/services/outplacement-services": {
+      "slug": "services-outplacement-services",
+      "hero": []
+    },
+    "/services/outplacement-services/uae": {
+      "slug": "services-outplacement-services-uae",
+      "hero": []
+    },
+    "/services/outplacement-services/usa": {
+      "slug": "services-outplacement-services-usa",
+      "hero": []
+    },
+    "/services/payroll-management": {
+      "slug": "services-payroll-management",
+      "hero": []
+    },
+    "/services/payroll-management/uae": {
+      "slug": "services-payroll-management-uae",
+      "hero": []
+    },
+    "/services/payroll-management/usa": {
+      "slug": "services-payroll-management-usa",
+      "hero": []
+    },
+    "/services/peo": {
+      "slug": "services-peo",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/05/Professional-Employer-Organization-hero-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/services/peo/uae": {
+      "slug": "services-peo-uae",
+      "hero": []
+    },
+    "/services/peo/usa": {
+      "slug": "services-peo-usa",
+      "hero": []
+    },
+    "/services/permanent-hiring": {
+      "slug": "services-permanent-hiring",
+      "hero": []
+    },
+    "/services/permanent-hiring/uae": {
+      "slug": "services-permanent-hiring-uae",
+      "hero": []
+    },
+    "/services/permanent-hiring/usa": {
+      "slug": "services-permanent-hiring-usa",
+      "hero": []
+    },
+    "/services/pro-services": {
+      "slug": "services-pro-services",
+      "hero": []
+    },
+    "/services/pro-services/uae": {
+      "slug": "services-pro-services-uae",
+      "hero": []
+    },
+    "/services/pro-services/usa": {
+      "slug": "services-pro-services-usa",
+      "hero": []
+    },
+    "/services/rpo": {
+      "slug": "services-rpo",
+      "hero": []
+    },
+    "/services/rpo/uae": {
+      "slug": "services-rpo-uae",
+      "hero": []
+    },
+    "/services/rpo/usa": {
+      "slug": "services-rpo-usa",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/04/Hero.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/services/talent-mapping-and-market-intelligence": {
+      "slug": "services-talent-mapping-and-market-intelligence",
+      "hero": []
+    },
+    "/services/talent-mapping-and-market-intelligence/uae": {
+      "slug": "services-talent-mapping-and-market-intelligence-uae",
+      "hero": []
+    },
+    "/services/talent-mapping-and-market-intelligence/usa": {
+      "slug": "services-talent-mapping-and-market-intelligence-usa",
+      "hero": []
+    },
+    "/services/temporary-staffing": {
+      "slug": "services-temporary-staffing",
+      "hero": []
+    },
+    "/services/temporary-staffing/uae": {
+      "slug": "services-temporary-staffing-uae",
+      "hero": []
+    },
+    "/services/temporary-staffing/usa": {
+      "slug": "services-temporary-staffing-usa",
+      "hero": []
+    },
+    "/terms-of-use": {
+      "slug": "terms-of-use",
+      "hero": []
+    },
+    "/annual-leave-in-uae": {
+      "slug": "annual-leave-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/01/annual-leave-uae-labour-law-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/benefits-of-executive-search-firms-in-uae": {
+      "slug": "benefits-of-executive-search-firms-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/10/benefits-of-executive-search-firms-uae-1024x576.jpg",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/benefits-of-healthcare-recruitment-agencies-dubai": {
+      "slug": "benefits-of-healthcare-recruitment-agencies-dubai",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/11/Blog-Featured-Image-4-1-1024x576.jpg",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/benefits-of-temporary-staffing": {
+      "slug": "benefits-of-temporary-staffing",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/08/The-benefits-of-temporary-staffing-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/bulk-hiring-guide": {
+      "slug": "bulk-hiring-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/09/bulk-hiring-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/c-suite-executive-search-firms-us-hiring-guide": {
+      "slug": "c-suite-executive-search-firms-us-hiring-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/07/How-US-Companies-Hire-C-Level-Executives-Using-Search-Firms-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/compassionate-leave-uae": {
+      "slug": "compassionate-leave-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/06/compassionate-leave-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/contingent-staffing-helps-to-recruit-it-professionals": {
+      "slug": "contingent-staffing-helps-to-recruit-it-professionals",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/06/Contingent-Recruitment-Services-for-IT-Professionals-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/contract-staffing-uae-guide": {
+      "slug": "contract-staffing-uae-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/06/what-is-contract-staffing-in-dubai-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/contract-vs-full-time": {
+      "slug": "contract-vs-full-time",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/09/contract-vs-full-time-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/corporate-tax-uae": {
+      "slug": "corporate-tax-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/01/corporate-tax-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/difference-between-rpo-and-msp": {
+      "slug": "difference-between-rpo-and-msp",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/difference-between-MPS-and-RPO-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/emergency-leave-in-uae": {
+      "slug": "emergency-leave-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/05/Emergency-Leave-in-the-UAE-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/emiratisation-in-the-private-sector": {
+      "slug": "emiratisation-in-the-private-sector",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/04/Navigating-Emiratisation-in-the-Private-Sector-1024x576.jpg",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/emiratisation-in-uae-labour-law": {
+      "slug": "emiratisation-in-uae-labour-law",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/emiratisation-in-uae-labour-law-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/employee-benefits-in-uae": {
+      "slug": "employee-benefits-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/07/employee-compensation-and-benefits-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/employee-engagement-activities": {
+      "slug": "employee-engagement-activities",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/09/employee-engagement-activities-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/employees-rights-in-uae": {
+      "slug": "employees-rights-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/05/employee-rights-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/employer-of-record-uae-complete-guide": {
+      "slug": "employer-of-record-uae-complete-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/04/Employer-of-Record-in-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/employment-contracts-uae": {
+      "slug": "employment-contracts-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/04/UAE-Employment-Contract-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/evolution-of-it-industry-in-dubai": {
+      "slug": "evolution-of-it-industry-in-dubai",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/11/The-Evolution-of-IT-Companies-in-Dubai-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/executive-search-firms-hr-marketing-sales-leaders-usa": {
+      "slug": "executive-search-firms-hr-marketing-sales-leaders-usa",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/05/executive-search-firms-for-HR-leaders-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/executive-search-process-guide": {
+      "slug": "executive-search-process-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/04/Executive-search-process-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/global-employer-of-record-guide": {
+      "slug": "global-employer-of-record-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/07/global-employer-of-record-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/headhunters-dubai-guide": {
+      "slug": "headhunters-dubai-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/08/headhunters-dubai-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/headhunters-vs-executive-search": {
+      "slug": "headhunters-vs-executive-search",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/06/headhunters-vs-executive-search-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/hire-employees-in-usa-without-a-company": {
+      "slug": "hire-employees-in-usa-without-a-company",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/08/How-to-Hire-Employees-in-the-USA-Without-Setting-Up-a-Company.jpg",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/hiring-mistakes": {
+      "slug": "hiring-mistakes",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/10/featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/hospitality-recruitment-guide": {
+      "slug": "hospitality-recruitment-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/07/dubai-nursing-recruitment-agencies-1-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-can-you-attract-top-it-talent-in-the-uae": {
+      "slug": "how-can-you-attract-top-it-talent-in-the-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/12/How-Can-You-Attract-Top-IT-Talent-in-the-UAE-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-emiratisation-in-uae-is-shaping-the-future-of-employment": {
+      "slug": "how-emiratisation-in-uae-is-shaping-the-future-of-employment",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/01/How-Emiratisation-in-UAE-is-Shaping-the-Future-of-Employment-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-hr-outsourcing-in-dubai-saves-costs": {
+      "slug": "how-hr-outsourcing-in-dubai-saves-costs",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/08/hr-outsourcing-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-outplacement-services-in-uae-can-benefit-employers-and-employees": {
+      "slug": "how-outplacement-services-in-uae-can-benefit-employers-and-employees",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/12/How-Outplacement-Services-in-UAE-Can-Benefit-Employers-and-Employees-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-to-choose-right-eor-and-peo-services": {
+      "slug": "how-to-choose-right-eor-and-peo-services",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/09/How-to-Choose-EOR-and-PEO-Services-for-Your-Business-in-Dubai-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-to-find-the-best-staffing-agency-in-dubai-for-your-hiring-needs": {
+      "slug": "how-to-find-the-best-staffing-agency-in-dubai-for-your-hiring-needs",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/12/How-to-Find-the-Best-Staffing-Agency-in-Dubai-for-Your-Hiring-Needs-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-to-implement-rpo-in-your-organization": {
+      "slug": "how-to-implement-rpo-in-your-organization",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/09/Implementing-Recruitment-Process-Outsourcing-in-Your-Organization-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-to-overcome-recruitment-challenges-for-marketing-roles-in-dubai": {
+      "slug": "how-to-overcome-recruitment-challenges-for-marketing-roles-in-dubai",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/12/How-to-Overcome-Recruitment-Challenges-for-Marketing-Roles-in-Dubai.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-us-finance-firms-hire-executives": {
+      "slug": "how-us-finance-firms-hire-executives",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/07/finance-executive-search-firm-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/how-us-tech-companies-use-executive-search-firms": {
+      "slug": "how-us-tech-companies-use-executive-search-firms",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/06/executive-search-firms-in-the-tech-industry-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/impact-of-emiratisation-on-businesses-in-uae": {
+      "slug": "impact-of-emiratisation-on-businesses-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/08/Impact-of-Emiratisation-on-Businesses-in-UAE-Featured-Image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/internal-and-external-recruitment": {
+      "slug": "internal-and-external-recruitment",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/10/internal-and-external-recruitment-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/job-offer-letter-sample": {
+      "slug": "job-offer-letter-sample",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/Job-Offer-Letter-in-the-UAE-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/jobs-in-dubai": {
+      "slug": "jobs-in-dubai",
+      "hero": []
+    },
+    "/life-sciences-executive-search-guide": {
+      "slug": "life-sciences-executive-search-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/07/How-Life-Sciences-Companies-in-the-USA-Use-Executive-Search-Firms-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/local-employment-services": {
+      "slug": "local-employment-services",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/local-employment-services-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/maternity-leave-in-uae": {
+      "slug": "maternity-leave-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/maternity-leave-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/minimum-wage-in-uae": {
+      "slug": "minimum-wage-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/minimum-wage-in-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/mohre-labour-contract-check-online": {
+      "slug": "mohre-labour-contract-check-online",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/08/mohre-labour-contract-check-online-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/mol-uae": {
+      "slug": "mol-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/07/MOL-UAE-MOL-UAE-Number-MOL-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/must-have-hr-policies-as-a-small-business-owner": {
+      "slug": "must-have-hr-policies-as-a-small-business-owner",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/12/6-Must-Have-HR-Policies-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/notice-period-in-uae": {
+      "slug": "notice-period-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/07/notice-period-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/objectives-of-recruitment": {
+      "slug": "objectives-of-recruitment",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/10/objectives-of-recruitment-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/onboarding-process-in-uae": {
+      "slug": "onboarding-process-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/07/onboarding-process-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/outpass-uae": {
+      "slug": "outpass-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/outpass-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/part-time-jobs-in-dubai": {
+      "slug": "part-time-jobs-in-dubai",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/04/part-time-jobs-in-dubai-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/payroll-outsourcing-dubai-guide": {
+      "slug": "payroll-outsourcing-dubai-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/05/payroll-outsourcing-in-dubai-1-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/recruitment-agencies-in-uae": {
+      "slug": "recruitment-agencies-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/recruitment-agencies-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/recruitment-agency-guide-uae": {
+      "slug": "recruitment-agency-guide-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/Find-Your-Perfect-Recruitment-Partner-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/recruitment-challenges-and-solutions": {
+      "slug": "recruitment-challenges-and-solutions",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/05/Overcome-Recruitment-Challenges-in-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/recruitment-process-in-uae": {
+      "slug": "recruitment-process-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/06/recruitment-Process-in-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/recruitment-process-outsourcing-trends-and-innovations": {
+      "slug": "recruitment-process-outsourcing-trends-and-innovations",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/09/Recruitment-Process-Outsourcing-Trends-And-Innovations-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/remote-jobs-for-females-in-uae": {
+      "slug": "remote-jobs-for-females-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/01/work-from-home-jobs-in-dubai-for-ladies-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/resignation-letter-sample-uae": {
+      "slug": "resignation-letter-sample-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/07/resignation-letter-sample-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/salary-certificate-uae": {
+      "slug": "salary-certificate-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/06/salary-certificate-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/salary-check-uae": {
+      "slug": "salary-check-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/04/salary-check-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/salary-increment-letter": {
+      "slug": "salary-increment-letter",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/04/salary-increment-letter-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/staffing-vs-recruitment-differences": {
+      "slug": "staffing-vs-recruitment-differences",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/12/Difference-Between-Staffing-and-Recruiting-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/tech-talent-acquisition-in-dubai-guide": {
+      "slug": "tech-talent-acquisition-in-dubai-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/08/tech-recruitment-dubai-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/types-of-leaves-uae": {
+      "slug": "types-of-leaves-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/04/Types-of-leaves-in-uae-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/uae-labour-complaint-number": {
+      "slug": "uae-labour-complaint-number",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/05/A-Guide-to-Filing-a-Labor-Complaint-in-the-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/uae-labour-contract-changes-guide": {
+      "slug": "uae-labour-contract-changes-guide",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/01/UAE-Labour-Law-Contract-Changes-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/uae-medical-test-for-employment-visa": {
+      "slug": "uae-medical-test-for-employment-visa",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/05/UAE-Medical-Test-for-Employment-Visa-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/uae-unemployment-insurance-scheme": {
+      "slug": "uae-unemployment-insurance-scheme",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/Find-Your-Perfect-Recruitment-Partner-featured-image-1.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/unlimited-contract-uae": {
+      "slug": "unlimited-contract-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/12/unlimited-contract-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/vat-in-uae": {
+      "slug": "vat-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2022/11/How-to-Calculate-VAT-in-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/walk-in-interview-in-abu-dhabi": {
+      "slug": "walk-in-interview-in-abu-dhabi",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/01/walk-in-interview-in-abu-dhabi-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/what-is-an-employer-of-record": {
+      "slug": "what-is-an-employer-of-record",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2026/06/what-is-an-employer-of-record-complete-guide-blog-featured-image-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/what-is-an-executive-search-firm": {
+      "slug": "what-is-an-executive-search-firm",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/09/What-Is-an-Executive-Search-Firm-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/why-banking-consultants-are-important": {
+      "slug": "why-banking-consultants-are-important",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/11/Why-Banking-Consultants-in-Dubai-Are-Key-to-Your-Success-blog-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/why-businesses-need-mass-hiring-services-in-uae": {
+      "slug": "why-businesses-need-mass-hiring-services-in-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2025/09/Why-Businesses-Need-Mass-Hiring-Services-in-the-UAE-Blog-Featured-Image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/work-permit-number-uae": {
+      "slug": "work-permit-number-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/work-permit-number-uae-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/work-permit-uae": {
+      "slug": "work-permit-uae",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2023/03/work-permit-UAE-1024x576.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    },
+    "/wps-salary": {
+      "slug": "wps-salary",
+      "hero": [
+        {
+          "as": "image",
+          "fetchpriority": "high",
+          "href": "/wp-content/uploads/2024/03/Understanding-the-Mandatory-WPS-Registration-featured-image.webp",
+          "media": "(max-width: 767px)"
+        }
+      ]
+    }
+  }
+}

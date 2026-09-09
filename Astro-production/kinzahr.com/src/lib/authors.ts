@@ -9,6 +9,8 @@ import { applySharedChrome } from './shared-chrome.js';
 import {
   getPostExcerpt,
   getPostsByAuthorSlug,
+  bustMirrorFixesHtml,
+  MIRROR_FIXES_CACHE_BUST,
   type BlogPost,
 } from './blog.ts';
 
@@ -567,8 +569,12 @@ function finalizeHtml(html: string, slug: string): string {
     out = out.replace('</head>', `${authorPagesCss()}\n</head>`);
   }
   if (!out.includes('astro-mirror-fixes.js')) {
-    out = out.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    out = out.replace(
+      '</body>',
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
   }
+  out = bustMirrorFixesHtml(out);
   if (!out.includes('author-load-more.js')) {
     out = out.replace('</body>', '<script src="/js/author-load-more.js" defer></script>\n</body>');
   }

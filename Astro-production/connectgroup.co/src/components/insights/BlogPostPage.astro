@@ -3,7 +3,6 @@
  * Blog post — CG v3.0 Figma (from-scratch rebuild)
  * Desktop 6748:19797 · Tablet 6762:3125 · Mobile 6762:3429.
  */
-import { sanitizeCmsHtml } from '@connect/site-cms';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InsightsChromeHead from './InsightsChromeHead.astro';
 import InsightsSharedStyles from './InsightsSharedStyles.astro';
@@ -17,6 +16,7 @@ import {
 } from '../../lib/blog.ts';
 import { getAuthor } from '../../lib/authors.ts';
 import { toInsightCard, displayAuthorName, normalizeTopicLabel } from '../../lib/insights.ts';
+import { sanitizeBlogHtml } from '../../lib/sanitize-blog-html.ts';
 import type { PageSeo } from '../../lib/seo';
 
 interface Props {
@@ -72,7 +72,7 @@ function flattenWpNestedLists(html: string): string {
   return out;
 }
 const contentHtml = flattenWpNestedLists(
-  stripEmptyParagraphs(sanitizeCmsHtml(stripEmptyParagraphs(post.contentHtml || ''))),
+  stripEmptyParagraphs(sanitizeBlogHtml(stripEmptyParagraphs(post.contentHtml || ''))),
 );
 const dateLabel = (() => {
   try {
@@ -329,6 +329,17 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
             // Last resort: prompt so the user can still copy manually.
             window.prompt('Copy this link:', url);
           });
+      });
+
+      // Blog FAQ accordion: one open item at a time
+      document.querySelectorAll('.bp-content .bp-faq').forEach(function (root) {
+        root.addEventListener('toggle', function (e) {
+          var item = e.target;
+          if (!item || item.tagName !== 'DETAILS' || !item.open) return;
+          root.querySelectorAll('details.bp-faq__item[open]').forEach(function (other) {
+            if (other !== item) other.open = false;
+          });
+        }, true);
       });
 
       // Fire-and-forget view count for Featured ranking (deduped server-side via cookie).
@@ -604,7 +615,89 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     width: auto !important;
     max-width: 100% !important;
   }
-  .bp-content figure { margin: 1.5rem 0; }
+  .bp-content figure {
+    display: block;
+    margin: 1.5rem auto;
+    text-align: center;
+  }
+  .bp-content figure img,
+  .bp-content > p > img,
+  .bp-content p img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bp-content .bp-img-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .bp-content .bp-img-center img {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bp-content .bp-cta-banner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+  .bp-content .bp-cta-banner img {
+    width: 100%;
+    height: auto !important;
+    display: block;
+    margin-inline: auto;
+  }
+  @media (min-width: 1024px) {
+    .bp-content .bp-cta-banner,
+    .bp-content .bp-cta-banner img {
+      max-width: 90% !important;
+    }
+  }
+  .bp-content .bp-faq {
+    display: grid;
+    gap: 10px;
+    margin: 1.25rem 0 0;
+  }
+  .bp-content .bp-faq__item {
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .bp-content .bp-faq__q {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 18px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #121212;
+  }
+  .bp-content .bp-faq__q::-webkit-details-marker { display: none; }
+  .bp-content .bp-faq__q::after {
+    content: '+';
+    flex: none;
+    width: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+    color: #767676;
+  }
+  .bp-content .bp-faq__item[open] .bp-faq__q::after { content: '–'; }
+  .bp-content .bp-faq__a {
+    padding: 0 18px 16px;
+    color: #313131;
+  }
+  .bp-content .bp-faq__a p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #555;
+  }
   .bp-content ul,
   .bp-content ol {
     margin: 0 0 1.25rem;

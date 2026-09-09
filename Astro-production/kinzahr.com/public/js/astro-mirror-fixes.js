@@ -1810,6 +1810,11 @@
         'width:auto!important;height:auto!important;margin:0!important;color:#fff!important;}' +
       '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-share-btn__icon svg{' +
         'width:16px!important;height:16px!important;fill:currentColor!important;}',
+      /* Popular Articles cards: kill Elementor padding-bottom aspect box when CSS late/cached */
+      '.elementor-posts--skin-cards .elementor-post__thumbnail{position:relative!important;overflow:hidden!important;' +
+        'aspect-ratio:16/9;padding-bottom:0!important;min-height:0!important;height:auto!important;background:#e8e8e8;}',
+      '.elementor-posts--skin-cards .elementor-post__thumbnail img{position:absolute!important;inset:0!important;' +
+        'width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;max-width:none!important;}',
       /* Pixfort sliding / animate-in (Privacy Policy intro, etc.) */
       '.animate-in,.group-animate-in{visibility:visible!important;opacity:1!important;}',
       '[data-anim-type="pix-sliding-text"] .pix-sliding-item,[data-anim-type="pix-sliding-text"].pix-animate .pix-sliding-item{opacity:1!important;transform:none!important;filter:none!important;visibility:visible!important;}',
