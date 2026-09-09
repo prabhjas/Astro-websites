@@ -440,6 +440,81 @@ div#subscriptionsformblog div#wpcf7-f86-p850-o1 .row.lab_sp2 input[type="email"]
     overflow: hidden !important;
 }
 
+/* FAQ accordion — Master Accordion (click to expand) */
+.w-post-elm.post_content .mbs-post-faq {
+    margin: 0.75em 0 1em;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-advanced-accordion {
+    width: 100%;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-item {
+    margin-bottom: 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-title-icon {
+    flex: 1;
+    min-width: 0;
+}
+.w-post-elm.post_content .mbs-post-faq h3.jltma-accordion-title-text {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: #1a1a1a;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-toggle-icon {
+    flex: none;
+    width: 1.5rem;
+    text-align: center;
+    color: #767676;
+    font-size: 14px;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header .jltma-el-accordion-icon-closed {
+    display: none;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header .jltma-el-accordion-icon-opened {
+    display: inline-block;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.show .jltma-el-accordion-icon-closed,
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active-default.show .jltma-el-accordion-icon-closed,
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active .jltma-el-accordion-icon-closed {
+    display: inline-block;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.show .jltma-el-accordion-icon-opened,
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active-default.show .jltma-el-accordion-icon-opened,
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active .jltma-el-accordion-icon-opened {
+    display: none;
+}
+/* first item starts open */
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active-default .jltma-el-accordion-icon-closed {
+    display: inline-block;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-header.active-default .jltma-el-accordion-icon-opened {
+    display: none;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-tab-content {
+    padding: 0 16px 14px;
+}
+.w-post-elm.post_content .mbs-post-faq .jltma-accordion-tab-content p {
+    margin: 0 !important;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #505050;
+}
+
 /* Author bio */
 .w-post-elm.post_author.avapos_left {
     display: flex !important;
