@@ -269,6 +269,67 @@ export function buildTocHtml(toc: TocEntry[]): string {
 </div>`;
 }
 
+/** Bust Cloudflare/browser cache for mirror-fixes (JS is max-age=86400 without ?v=). */
+export const MIRROR_FIXES_CACHE_BUST = 'eor-blog-css-20260909';
+
+export function bustMirrorFixesHtml(html: string): string {
+  if (!html) return html;
+  return html.replace(
+    /src=(["'])\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
+    `src=$1/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}$1`,
+  );
+}
+
+/** Static Elementor TOC list — avoids spinner when Elementor Pro TOC chunk fails. */
+export function buildElementorTocListHtml(toc: TocEntry[]): string {
+  const clean = (toc || []).map(sanitizeTocEntry).filter((entry): entry is TocEntry => Boolean(entry));
+  if (!clean.length) return '';
+
+  type TocNode = { entry: TocEntry; children: TocEntry[] };
+  const roots: TocNode[] = [];
+  for (const entry of clean) {
+    if (entry.level === 3 && roots.length) {
+      roots[roots.length - 1].children.push(entry);
+    } else {
+      roots.push({ entry, children: [] });
+    }
+  }
+
+  const items = roots
+    .map((node) => {
+      const childHtml = node.children.length
+        ? `<ol class="elementor-toc__list">${node.children
+            .map(
+              (child) =>
+                `<li class="elementor-toc__list-item"><a href="#${child.id}" class="elementor-toc__list-item-text-wrapper"><div class="elementor-toc__list-item-text">${escapeHtml(child.text)}</div></a></li>`,
+            )
+            .join('')}</ol>`
+        : '';
+      return `<li class="elementor-toc__list-item"><a href="#${node.entry.id}" class="elementor-toc__list-item-text-wrapper"><div class="elementor-toc__list-item-text">${escapeHtml(node.entry.text)}</div></a>${childHtml}</li>`;
+    })
+    .join('');
+
+  return `<div class="elementor-toc__list-wrapper"><ol class="elementor-toc__list">${items}</ol></div>`;
+}
+
+/** Replace Elementor TOC spinner / empty body with a static heading list. */
+export function injectElementorTocHtml(html: string, toc: TocEntry[]): string {
+  const list = buildElementorTocListHtml(toc);
+  if (!html || !list) return html;
+  if (!html.includes('elementor-widget-table-of-contents')) return html;
+
+  let out = html.replace(
+    /<div class="elementor-toc__spinner-container">[\s\S]*?<\/div>/i,
+    list,
+  );
+  // Remove Elementor's "No headings were found" empty-state text if present.
+  out = out.replace(
+    /<div class="elementor-message elementor-message-danger">[\s\S]*?No headings were found on this page\.[\s\S]*?<\/div>/i,
+    '',
+  );
+  return out;
+}
+
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
@@ -454,8 +515,23 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 .astro-blog-breadcrumb__item:hover{text-decoration:underline}
 .astro-blog-breadcrumb__item--current{color:#333;font-weight:500}
 .astro-blog-breadcrumb__sep{color:#999}
+/* Elementor TOC: hide spinner once we inject a static list (no Elementor Pro chunk needed) */
+.elementor-widget-table-of-contents .elementor-toc__spinner-container{display:none!important;}
+.elementor-toc__list-wrapper{margin:0;padding:0;}
+.elementor-toc__list{margin:0;padding-left:1.25rem;list-style:decimal;}
+.elementor-toc__list .elementor-toc__list{list-style:disc;margin:.35rem 0 .35rem .5rem;}
+.elementor-toc__list-item-text-wrapper{color:#23369b;text-decoration:none;}
+.elementor-toc__list-item-text-wrapper:hover{color:#d71216;text-decoration:underline;}
+/* Popular Articles cards: avoid double-height gray box when Elementor absolute-fill CSS is late/missing */
+.elementor-posts--skin-cards .elementor-post__thumbnail{position:relative!important;overflow:hidden!important;aspect-ratio:16/9;padding-bottom:0!important;min-height:0!important;height:auto!important;background:#e8e8e8;}
+.elementor-posts--skin-cards .elementor-post__thumbnail img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;max-width:none!important;}
 </style>
-<script id="astro-blog-toc-js">
+`;
+
+/** Shared blog-post CSS (TOC + Popular Articles cards) — also used by legacy mirrors. */
+export const BLOG_POST_FIX_STYLES = TOC_STYLES;
+
+const TOC_SCRIPT = `<script id="astro-blog-toc-js">
 (function(){
   function boot(){
     document.querySelectorAll('.bd_toc_container.astro-blog-toc').forEach(function(box){
@@ -619,17 +695,22 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
   html = injectPopularArticlesHtml(html, post);
+  html = injectElementorTocHtml(html, post.toc || []);
   html = patchHeadMeta(html, post);
   html = injectBlogSchemas(html, post);
 
   if (!html.includes('astro-blog-toc-css')) {
-    html = html.replace('</head>', `${TOC_STYLES}\n</head>`);
+    html = html.replace('</head>', `${TOC_STYLES}\n${TOC_SCRIPT}\n</head>`);
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace(
+      '</body>',
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
   }
 
+  html = bustMirrorFixesHtml(html);
   html = decodeProtectedEmailsInHtml(html);
 
   return injectRuntimeGtmLoader(html);

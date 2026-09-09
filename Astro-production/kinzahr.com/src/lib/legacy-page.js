@@ -9,7 +9,14 @@ import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 import { cwvOptimize } from './cwv-optimize.js';
-import { getBlogPost, injectPopularArticlesHtml } from './blog.ts';
+import {
+  getBlogPost,
+  injectPopularArticlesHtml,
+  injectElementorTocHtml,
+  bustMirrorFixesHtml,
+  MIRROR_FIXES_CACHE_BUST,
+  BLOG_POST_FIX_STYLES,
+} from './blog.ts';
 
 const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'https://kinzahr.com')
   .trim()
@@ -69,11 +76,23 @@ export function serveLegacyPage(slug) {
 
   html = sanitizeMirrorHtml(html);
 
-  // Dynamic Popular Articles for blog posts that still use a legacy HTML mirror.
+  // Dynamic Popular Articles + static Elementor TOC for blog posts that still use a legacy HTML mirror.
   const post = getBlogPost(slug);
   if (post) {
     html = injectPopularArticlesHtml(html, post);
+    html = injectElementorTocHtml(html, post.toc || []);
+    if (!html.includes('astro-blog-toc-css')) {
+      html = html.replace(/<\/head>/i, `${BLOG_POST_FIX_STYLES}\n</head>`);
+    }
   }
+
+  if (!html.includes('astro-mirror-fixes.js')) {
+    html = html.replace(
+      /<\/body>/i,
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
+  }
+  html = bustMirrorFixesHtml(html);
 
   html = cwvOptimize(html, path);
   return new Response(html, {

@@ -4,7 +4,13 @@
  * Load More uses /api/blog/load-more (WP admin-ajax is not available on Astro).
  */
 import { serveLegacyPage } from '../lib/legacy-page.js';
-import { buildInsightsCardHtml, getAllBlogPosts, getCategorySlug } from '../lib/blog.ts';
+import {
+  buildInsightsCardHtml,
+  bustMirrorFixesHtml,
+  getAllBlogPosts,
+  getCategorySlug,
+  MIRROR_FIXES_CACHE_BUST,
+} from '../lib/blog.ts';
 import * as cheerio from 'cheerio';
 
 export const prerender = false;
@@ -90,9 +96,10 @@ function decorateBlogLoadMore(html: string, categorySlug: string): string {
   if (!out.includes('astro-mirror-fixes.js')) {
     out = out.replace(
       /<\/body>/i,
-      `<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>`,
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
     );
   }
+  out = bustMirrorFixesHtml(out);
 
   if (!out.includes('cf-email-decode.js')) {
     out = out.replace(
