@@ -1,0 +1,27 @@
+---
+description: Bust Cloudflare/browser cache when changing fleet public JS/CSS served without hashed filenames
+alwaysApply: true
+---
+
+# Fleet public asset cache bust (non-negotiable)
+
+## Lesson (Kinza 2026-09-09)
+
+Live served **stale** `/js/astro-mirror-fixes.js` (`cf-cache-status: HIT`, `max-age=86400`) while HTML had no `?v=`. Local looked fine; live had broken share icons, sticky form helpers, TOC/cards CSS from the old JS.
+
+## Rule
+
+Whenever you change **`public/js/*.js`** or **`public/css/*.css`** that pages load by **fixed path** (no content hash in the filename):
+
+1. **Bump a query cache-bust** on every HTML rewriter that injects that URL (`?v=yyyy-mm-dd-slug` or site constant like `MIRROR_FIXES_CACHE_BUST`).
+2. Prefer a **single constant** (e.g. Kinza `MIRROR_FIXES_CACHE_BUST` in `src/lib/blog.ts`) + `bustMirrorFixesHtml()` so blog, legacy, author, and archive paths stay in sync.
+3. Do **not** rename to `*-v2.js` as a cache-bust strategy (CWV / fleet policy).
+4. After publish, spot-check live HTML for the new `?v=` and that the JS response is not an old `CF` HIT of the previous body.
+
+## Kinza specifically
+
+- Constant: `Astro-production/kinzahr.com/src/lib/blog.ts` → `MIRROR_FIXES_CACHE_BUST`
+- Rewrite helper: `bustMirrorFixesHtml()`
+- Call sites: `assembleBlogPostHtml`, `legacy-page.js`, `authors.ts`, `archives.ts`, `blog.astro`
+
+Bump the constant on **any** change to `public/js/astro-mirror-fixes.js` or author/blog HTML that depends on its injected CSS/behavior.
