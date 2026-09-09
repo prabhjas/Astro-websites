@@ -304,7 +304,7 @@ ${buildToc(TOC_SECTIONS)}
 ${h2('Quick Answer to What Happens if You Miss Your UAE Trade License Renewal Deadline')}
 ${p('If you miss your UAE trade license renewal deadline, you might not automatically receive a 30-day grace period. For mainland companies, there is no grace period that removes late-renewal consequences, and penalties can begin after expiry. Depending on the regulatory authority and your extent of delay, consequences can escalate from fines and service restrictions to license suspension, visa issues, blacklisting, or forced company closure.')}
 
-<p><a href="/trade-license-renewal/"><img decoding="async" class="aligncenter size-large wp-image-tlr-service" src="${SERVICE_CTA}" alt="trade license renewal uae" width="1024" height="370" /></a></p>
+<p><a href="/trade-license-renewal/"><img decoding="async" class="aligncenter size-large wp-image-tlr-service" src="${SERVICE_CTA}" alt="trade license renewal uae" width="1024" height="546" /></a></p>
 
 ${h2('UAE Trade License Renewal Basics')}
 ${p('This is how trade license renewal UAE process works:')}
@@ -496,7 +496,7 @@ ${ol([
 ])}
 ${p('If your license has been expired for an extended period, contact the free zone directly before assuming that a standard online renewal is still available.')}
 
-<p><a href="/contact-us/"><img decoding="async" class="aligncenter size-large wp-image-tlr-contact" src="${CONTACT_CTA}" alt="trade license renewal in uae" width="1024" height="546" /></a></p>
+<p><a href="/contact-us/"><img decoding="async" class="aligncenter size-large wp-image-tlr-contact" src="${CONTACT_CTA}" alt="trade license renewal in UAE" width="1024" height="370" /></a></p>
 
 ${h2('How to Avoid This Next Year')}
 ${p('A simple compliance system can prevent a missed deadline from turning into a business disruption.')}

@@ -25,6 +25,30 @@ function normalizeLegacyDocumentUrls(html) {
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
 }
 
+/**
+ * Move FAQPage JSON-LD out of the article body into <head>.
+ * Body placement gets swallowed into the last hidden FAQ accordion panel
+ * after client enhancement, so Rich Results / schema tools miss FAQ schema.
+ */
+function hoistFaqPageJsonLd(html) {
+  let out = String(html || '');
+  const blocks = [];
+  out = out.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (match, attrs, body) => {
+    if (!/type\s*=\s*["']application\/ld\+json["']/i.test(attrs)) return match;
+    if (!/"@type"\s*:\s*"FAQPage"/i.test(body)) return match;
+    blocks.push(`<script type="application/ld+json">${body.trim()}</script>`);
+    return '';
+  });
+  if (!blocks.length) return html;
+  out = out.replace(/<p>\s*<\/p>/gi, '');
+  const headEnd = out.search(/<\/head>/i);
+  if (headEnd === -1) return html;
+  const head = out.slice(0, headEnd);
+  const unique = blocks.filter((block) => !head.includes(block));
+  if (!unique.length) return out;
+  return out.replace(/<\/head>/i, `${unique.join('\n')}\n</head>`);
+}
+
 /** Resolve migrated relative SEO URLs to the canonical production origin. */
 function absolutizeSeoUrls(html, slug = 'homepage') {
   const fallbackPath = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
@@ -99,11 +123,12 @@ export function serveLegacyPage(slug) {
   const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
+  html = hoistFaqPageJsonLd(html);
 
-    // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
+    // Bust Cloudflare/browser cache when mirror-fixes behavior changes (keep one current ?v= only).
   html = html.replace(
     /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
-    'src=$1/js/astro-mirror-fixes.js?v=mobile-header-title-2-20260908$1'
+    'src=$1/js/astro-mirror-fixes.js?v=blog-faq-schema-20260909$1'
   );
 
   return new Response(html, {
