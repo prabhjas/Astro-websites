@@ -488,6 +488,115 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 })();
 </script>`;
 
+/**
+ * Related posts for Popular Articles: prefer shared category/tag, then fill
+ * with recent posts so the 3-card grid stays populated.
+ */
+export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
+  const catSlugs = new Set(post.categories.map((c) => getCategorySlug(c)));
+  const primarySlug = post.categories[0] ? getCategorySlug(post.categories[0]) : '';
+  const tagSlugs = new Set((post.tags || []).map((t) => t.slug).filter(Boolean));
+  const others = getAllBlogPosts().filter((p) => p.slug !== post.slug);
+
+  const scored = others
+    .map((p) => {
+      let score = 0;
+      for (let i = 0; i < p.categories.length; i++) {
+        const slug = getCategorySlug(p.categories[i]);
+        if (!catSlugs.has(slug)) continue;
+        score += i === 0 && slug === primarySlug ? 5 : 3;
+      }
+      for (const tag of p.tags || []) {
+        if (tag.slug && tagSlugs.has(tag.slug)) score += 2;
+      }
+      return { p, score };
+    })
+    .filter((row) => row.score > 0);
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return new Date(b.p.publishedAt).getTime() - new Date(a.p.publishedAt).getTime();
+  });
+
+  const related = scored.map((row) => row.p);
+  if (related.length >= limit) return related.slice(0, limit);
+
+  const seen = new Set(related.map((p) => p.slug));
+  for (const p of others) {
+    if (seen.has(p.slug)) continue;
+    related.push(p);
+    seen.add(p.slug);
+    if (related.length >= limit) break;
+  }
+  return related;
+}
+
+/** Elementor posts.cards skin used by Popular Articles (widget 80908c4). */
+export function buildPopularArticleCardHtml(post: BlogPost): string {
+  const category = post.categories[0];
+  const img = post.featuredImage;
+  const imgSrc = img?.src || '';
+  const imgAlt = escapeHtml(img?.alt || post.title);
+  const excerpt = escapeHtml(getPostExcerpt(post, 120).replace(/…$/, ''));
+  const postUrl = `/${post.slug}/`;
+  const title = escapeHtml(post.title);
+  const catClass = category
+    ? ` category-${(category.slug || getCategorySlug(category)).toLowerCase().replace(/\s+/g, '-')}`
+    : '';
+  const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
+
+  const imgTag = imgSrc
+    ? `<img loading="lazy" width="1920" height="1080" src="${imgSrc}" class="attachment-full size-full" alt="${imgAlt}" decoding="async">`
+    : '';
+
+  return `<article class="elementor-post elementor-grid-item ${postDomId} post type-post status-publish format-standard has-post-thumbnail hentry${catClass}" role="listitem">
+			<div class="elementor-post__card">
+				<a class="elementor-post__thumbnail__link" href="${postUrl}" tabindex="-1"><div class="elementor-post__thumbnail">${imgTag}</div></a>
+				<div class="elementor-post__text">
+				<h3 class="elementor-post__title">
+			<a href="${postUrl}">
+				${title}			</a>
+		</h3>
+				<div class="elementor-post__excerpt">
+			<p>${excerpt}</p>
+		</div>
+		
+		<a class="elementor-post__read-more" href="${postUrl}" aria-label="Read more about ${title}" tabindex="-1">
+			Read More »		</a>
+
+				</div>
+					</div>
+		</article>`;
+}
+
+/**
+ * Replace the frozen Popular Articles grid with related cards for this post.
+ */
+export function injectPopularArticlesHtml(html: string, post: BlogPost): string {
+  if (!html || !/Popular Articles/i.test(html)) return html;
+  if (!html.includes('elementor-element-80908c4')) return html;
+
+  const bodyIdx = html.indexOf('<body');
+  const widgetIdx = html.indexOf('elementor-element-80908c4', bodyIdx > 0 ? bodyIdx : 0);
+  if (widgetIdx < 0) return html;
+
+  const containerOpen = html.indexOf('elementor-posts-container', widgetIdx);
+  if (containerOpen < 0) return html;
+
+  const firstArticle = html.indexOf('<article', containerOpen);
+  if (firstArticle < 0) return html;
+
+  const footerIdx = html.indexOf('elementor-location-footer', firstArticle);
+  const searchEnd = footerIdx > 0 ? footerIdx : html.length;
+  const lastArticle = html.lastIndexOf('</article>', searchEnd);
+  if (lastArticle < firstArticle) return html;
+
+  const replaceEnd = lastArticle + '</article>'.length;
+  const related = getRelatedPosts(post, 3);
+  const cards = related.map((p) => buildPopularArticleCardHtml(p)).join('\n');
+  return html.slice(0, firstArticle) + cards + html.slice(replaceEnd);
+}
+
 /** Assemble final HTML from shell template + post data. */
 export function assembleBlogPostHtml(post: BlogPost): string {
   if (!existsSync(SHELL_PATH)) {
@@ -509,6 +618,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
+  html = injectPopularArticlesHtml(html, post);
   html = patchHeadMeta(html, post);
   html = injectBlogSchemas(html, post);
 
