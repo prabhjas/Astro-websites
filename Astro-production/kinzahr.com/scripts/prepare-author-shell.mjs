@@ -1,65 +1,61 @@
 #!/usr/bin/env node
 /**
- * Extract a reusable author archive shell from a live WordPress author page.
- * Usage: node scripts/prepare-author-shell.mjs [url]
+ * Build author archive shell from Kinza homepage chrome (header/footer untouched).
+ * Usage: node scripts/prepare-author-shell.mjs
  */
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as cheerio from 'cheerio';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
-const SHELL_DIR = join(ROOT, 'src/legacy/author-shell');
-const ORIGIN = 'https://connectgroup.co';
-const REF_URL = process.argv[2] || `${ORIGIN}/author/kate-williams/`;
+const SOURCE = join(ROOT, 'src/legacy/homepage.cleaned.html');
+const OUT_DIR = join(ROOT, 'src/legacy/author-shell');
+const OUT = join(OUT_DIR, 'template.html');
 
-const MARKERS = {
-  profile: '<!--ASTRO_AUTHOR:PROFILE-->',
-  postsHeading: '<!--ASTRO_AUTHOR:POSTS_HEADING-->',
-  posts: '<!--ASTRO_AUTHOR:POSTS-->',
-  pagination: '<!--ASTRO_AUTHOR:PAGINATION-->',
-};
+const BODY = `
+<div class="kinza-author-page" data-astro-author-page>
+  <!--ASTRO_AUTHOR:PROFILE-->
+  <section class="kinza-author-articles">
+    <div class="kinza-author-articles__inner">
+      <!--ASTRO_AUTHOR:POSTS_HEADING-->
+      <div class="kinza-author-posts ecs-posts elementor-posts-container" data-kinza-author-posts>
+        <!--ASTRO_AUTHOR:POSTS-->
+      </div>
+      <div class="kinza-author-loadmore-wrap" data-kinza-author-loadmore-wrap>
+        <!--ASTRO_AUTHOR:PAGINATION-->
+      </div>
+    </div>
+  </section>
+</div>
+`.trim();
 
 async function main() {
-  console.log('Fetching reference author archive:', REF_URL);
-  const res = await fetch(REF_URL, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ConnectGroupAstro/1.0)' },
-  });
-  if (!res.ok) throw new Error(`Failed to fetch ${REF_URL}: ${res.status}`);
-  let html = await res.text();
+  const raw = await readFile(SOURCE, 'utf8');
+  const $ = cheerio.load(raw, { decodeEntities: false });
 
-  html = html.replaceAll('https://connectgroup.co/', '/');
-  html = html.replaceAll('http://connectgroup.co/', '/');
-
-  const $ = cheerio.load(html, { decodeEntities: false });
-  const archive = $('[data-elementor-type="archive"]').first();
-  if (!archive.length) throw new Error('Author archive markup not found');
-
-  const sections = archive.children('section');
-  const profileSection = sections.first();
-  const postsSection = sections.eq(1);
-
-  profileSection.replaceWith(
-    `<section class="elementor-section elementor-top-section astro-author-profile-section">${MARKERS.profile}</section>`,
-  );
-
-  postsSection.find('h2.elementor-heading-title').first().replaceWith(MARKERS.postsHeading);
-
-  const ecs = postsSection.find('.ecs-posts').first();
-  if (ecs.length) {
-    ecs.empty().append(MARKERS.posts);
+  const header = $('[data-elementor-type="header"]').first();
+  const footer = $('[data-elementor-type="footer"]').first();
+  if (!header.length || !footer.length) {
+    throw new Error('Homepage chrome (header/footer) not found');
   }
 
-  postsSection.find('.ecs-load-more, .e-load-more, [class*="load-more"]').remove();
-  const pag = postsSection.find('.elementor-pagination').first();
-  if (pag.length) pag.replaceWith(MARKERS.pagination);
-  else postsSection.append(`<motion.div class="astro-author-pagination">${MARKERS.pagination}</motion.div>`);
+  // Remove all siblings between header and footer (page body only).
+  let node = header[0].nextSibling;
+  while (node && node !== footer[0]) {
+    const next = node.nextSibling;
+    $(node).remove();
+    node = next;
+  }
+  header.after(`\n${BODY}\n`);
 
-  await mkdir(SHELL_DIR, { recursive: true });
-  const outPath = join(SHELL_DIR, 'template.html');
-  await writeFile(outPath, $.html(), 'utf8');
-  console.log('Wrote', outPath);
+  $('title').text('Authors - KinzaHR');
+  $('body').attr('class', 'author archive kinza-author-archive');
+
+  await mkdir(OUT_DIR, { recursive: true });
+  await writeFile(OUT, $.html(), 'utf8');
+  console.log('Wrote', OUT);
 }
 
 main().catch((err) => {
