@@ -411,8 +411,8 @@ html = html.replace(
 // modified dates
 html = html.replaceAll('2026-07-03T09:38:40+00:00', MODIFIED);
 html = html.replace(
-  /Prepared for Astro Phase 1[^<]+/,
-  `Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()}`,
+  /<!--\s*Prepared for Astro Phase 1[^>]*-->/,
+  `<!-- Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()} -->`,
 );
 
 writeFileSync(OUT, html);

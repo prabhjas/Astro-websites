@@ -2000,6 +2000,61 @@
       '.elementor-element-966b194,.elementor-element-966b194 > .elementor-widget-wrap{overflow:visible!important;}',
       /* KPM Pro blog sticky_form: clear sticky header (was top:40px and clipped). */
       '.sticky_form,.elementor-element-a13bdb2.sticky_form{position:-webkit-sticky!important;position:sticky!important;top:110px!important;z-index:10;align-self:flex-start;}}',
+      /* Blog single: stack content + contact form on mobile (form above Relative Articles).
+         Do NOT target header columns — that stacked logo/phone/menu vertically. */
+      '@media (max-width:767px){',
+      '.elementor-location-single .elementor-col-66.elementor-top-column,',
+      '.elementor-location-single .elementor-col-33.elementor-top-column,',
+      'body.single .elementor-location-single .elementor-col-66,',
+      'body.single .elementor-location-single .elementor-col-33,',
+      '.elementor-location-single .elementor-top-section:not(.elementor-hidden-desktop):not(.elementor-hidden-mobile) .elementor-col-66.elementor-top-column,',
+      '.elementor-location-single .elementor-top-section .elementor-col-66.elementor-top-column,',
+      '.elementor-location-single .elementor-top-section .elementor-col-33.elementor-top-column:has(.sticky_form),',
+      '.elementor-location-single .elementor-top-section .elementor-col-33.elementor-top-column:has(.bg_form){width:100%!important;max-width:100%!important;flex:0 0 100%!important;}',
+      '.elementor-location-single .elementor-top-section > .elementor-container:has(.sticky_form),',
+      '.elementor-location-single .elementor-top-section > .elementor-container:has(.bg_form),',
+      '.elementor-location-single .elementor-top-section > .elementor-container:has(.elementor-col-66){flex-wrap:wrap!important;flex-direction:column!important;}',
+      '.sticky_form,.elementor-element-a13bdb2.sticky_form,.bg_form.sticky_form{position:static!important;top:auto!important;width:100%!important;max-width:100%!important;}',
+      '.elementor-location-single .elementor-column:has(.sticky_form),',
+      '.elementor-location-single .elementor-column:has(.bg_form.sticky_form){width:100%!important;max-width:100%!important;flex:0 0 100%!important;order:2;}',
+      '.elementor-location-single .elementor-column.elementor-col-66:has(+ .elementor-column .sticky_form),',
+      '.elementor-location-single .elementor-column.elementor-col-66:has(+ .elementor-column .bg_form){order:1;}',
+      /* Mobile header: one row — logo left, phone + burger right */
+      '.elementor-location-header .elementor-hidden-desktop > .elementor-container{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;padding-left:8px!important;padding-right:8px!important;gap:8px!important;min-height:64px!important;}',
+      '.elementor-location-header .elementor-hidden-desktop > .elementor-container > .elementor-column{width:auto!important;max-width:none!important;flex:0 0 auto!important;}',
+      '.elementor-location-header .elementor-hidden-desktop > .elementor-container > .elementor-column:first-child{flex:1 1 auto!important;min-width:0!important;}',
+      '.elementor-location-header .elementor-hidden-desktop .elementor-widget-image img{max-height:44px!important;width:auto!important;height:auto!important;}',
+      '.elementor-location-header .elementor-hidden-desktop .elementor-menu-toggle{margin:0!important;padding:6px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}',
+      '.elementor-location-header .elementor-hidden-desktop .elementor-widget-wrap{display:flex!important;align-items:center!important;justify-content:flex-end!important;min-height:44px!important;}',
+      '.elementor-location-header .elementor-hidden-desktop > .elementor-container > .elementor-column:first-child .elementor-widget-wrap{justify-content:flex-start!important;}',
+      /* Blog title + gutters on mobile */
+      '.elementor-widget-theme-post-title .elementor-heading-title,',
+      '.elementor-element-33400e9 .elementor-heading-title{font-size:28px!important;line-height:1.25!important;word-break:break-word!important;}',
+      /* Duplicate in-content H2 title — hide on mobile (H1 already shown above) */
+      '.elementor-element-26553fd{display:none!important;}',
+      '.elementor-widget-theme-post-title > .elementor-widget-container,',
+      '.elementor-widget-theme-post-excerpt > .elementor-widget-container,',
+      '.elementor-widget-breadcrumbs > .elementor-widget-container,',
+      '.elementor-widget-post-info > .elementor-widget-container,',
+      '.elementor-location-single .elementor-col-66.elementor-top-column > .elementor-widget-wrap,',
+      'body.single .elementor-col-66.elementor-top-column > .elementor-widget-wrap,',
+      '.ast-breadcrumbs-wrapper,',
+      '.ast-breadcrumbs,',
+      'nav.rank-math-breadcrumb,',
+      '.elementor-location-single .elementor-col-100.elementor-top-column:has(.elementor-widget-theme-post-title) > .elementor-widget-wrap{padding-left:8px!important;padding-right:8px!important;box-sizing:border-box!important;}',
+      '}',
+      /* Blog FAQs (h2 + h3/p) → click accordion */
+      '.kpm-faq-accordion{margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:10px;}',
+      '.kpm-faq-item{border:1px solid #e4e7ee;border-radius:8px;background:#fff;overflow:hidden;}',
+      '.kpm-faq-question{width:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:14px 16px!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important;background-color:#fff!important;color:#0f2a48!important;font-family:Manrope,sans-serif!important;font-size:17px!important;font-weight:700!important;line-height:1.35!important;text-align:left!important;cursor:pointer!important;}',
+      '.kpm-faq-question:hover,.kpm-faq-question:focus,.kpm-faq-question:active,.kpm-faq-question:focus-visible{background:#f7f9fc!important;background-color:#f7f9fc!important;color:#0f2a48!important;border-color:transparent!important;outline:none!important;box-shadow:none!important;}',
+      '.kpm-faq-question-text,.kpm-faq-question:hover .kpm-faq-question-text,.kpm-faq-question:focus .kpm-faq-question-text,.kpm-faq-item.is-open .kpm-faq-question-text{color:#0f2a48!important;}',
+      '.kpm-faq-icon,.kpm-faq-question:hover .kpm-faq-icon,.kpm-faq-item.is-open .kpm-faq-icon{flex:none;width:1.5rem;text-align:center;color:#0f2a48!important;font-size:20px;font-weight:400;line-height:1;}',
+      '.kpm-faq-item.is-open .kpm-faq-question,.kpm-faq-item.is-open .kpm-faq-question:hover{background:#f7f9fc!important;background-color:#f7f9fc!important;color:#0f2a48!important;}',
+      '.kpm-faq-answer{padding:0 16px 14px;color:#6f6f6f!important;font-size:16px;line-height:1.55;}',
+      '.kpm-faq-answer[hidden]{display:none!important;}',
+      '.kpm-faq-answer p{margin:0 0 .75em;}',
+      '.kpm-faq-answer p:last-child{margin-bottom:0;}',
       /* Contact form response — readable on light cards; .form-design keeps white on dark/green forms */
       '.wpcf7-form .wpcf7-response-output{display:none;margin:12px 0 .5em;padding:.75em 1em;border:2px solid #0f2a48;background:#f4f7fb;color:#0f2a48;border-radius:6px;font-size:14px;line-height:1.45;min-height:1.4em;text-align:center;font-weight:600;}',
       '.wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ok,.wpcf7 form.sent .wpcf7-response-output{display:block!important;color:#0a7a3e!important;border-color:#0a7a3e!important;background:#e8f8ef!important;text-align:center;margin-top:12px!important;}',
@@ -3115,9 +3170,251 @@
     setTimeout(onScroll, 500);
   }
 
+  /**
+   * Blog sidebar CF7: on mobile, keep form out of the right column and
+   * place it above "Relative Articles" (full width).
+   * Also treats missing viewport / 980px layout as mobile via screen width.
+   */
+  function stackBlogContactFormOnMobile() {
+    var form = document.querySelector(
+      '.sticky_form.bg_form, .bg_form.sticky_form, section.sticky_form, .elementor-element-a13bdb2',
+    );
+    if (!form) return;
+    var formCol = form.closest('.elementor-column');
+    if (!formCol) return;
+    var row = formCol.parentElement;
+    if (!row) return;
+
+    if (!formCol._astroFormHome) {
+      var home = document.createComment('astro-blog-form-col-home');
+      row.insertBefore(home, formCol);
+      formCol._astroFormHome = home;
+    }
+
+    var relatedAnchor = null;
+    document.querySelectorAll('p, h2, h3, h4, .elementor-heading-title').forEach(function (el) {
+      if (relatedAnchor) return;
+      if (/^\s*Relative Articles\s*$/i.test((el.textContent || '').trim())) {
+        relatedAnchor =
+          el.closest('.elementor-top-section') ||
+          el.closest('section.elementor-section') ||
+          el.closest('.elementor-element') ||
+          el;
+      }
+    });
+
+    function isMobile() {
+      var vv = window.visualViewport && window.visualViewport.width;
+      var candidates = [
+        window.innerWidth || 9999,
+        document.documentElement.clientWidth || 9999,
+        vv || 9999,
+        (window.screen && window.screen.width) || 9999,
+      ];
+      return Math.min.apply(null, candidates) <= 767;
+    }
+
+    function apply() {
+      var mobile = isMobile();
+      var contentCol = row.querySelector('.elementor-col-66');
+      if (mobile) {
+        if (contentCol) {
+          contentCol.style.setProperty('width', '100%', 'important');
+          contentCol.style.setProperty('max-width', '100%', 'important');
+          contentCol.style.setProperty('flex', '0 0 100%', 'important');
+        }
+        formCol.style.setProperty('width', '100%', 'important');
+        formCol.style.setProperty('max-width', '100%', 'important');
+        formCol.style.setProperty('flex', '0 0 100%', 'important');
+        row.style.setProperty('flex-wrap', 'wrap', 'important');
+        row.style.setProperty('flex-direction', 'column', 'important');
+        form.style.setProperty('position', 'static', 'important');
+        form.style.setProperty('top', 'auto', 'important');
+
+        if (relatedAnchor && relatedAnchor.parentNode) {
+          relatedAnchor.parentNode.insertBefore(formCol, relatedAnchor);
+        } else if (contentCol && contentCol.parentNode === row) {
+          row.appendChild(formCol);
+        }
+      } else {
+        if (contentCol) {
+          contentCol.style.removeProperty('width');
+          contentCol.style.removeProperty('max-width');
+          contentCol.style.removeProperty('flex');
+        }
+        formCol.style.removeProperty('width');
+        formCol.style.removeProperty('max-width');
+        formCol.style.removeProperty('flex');
+        row.style.removeProperty('flex-wrap');
+        row.style.removeProperty('flex-direction');
+        form.style.removeProperty('position');
+        form.style.removeProperty('top');
+        var homeNode = formCol._astroFormHome;
+        if (homeNode && homeNode.parentNode) {
+          homeNode.parentNode.insertBefore(formCol, homeNode.nextSibling);
+        }
+      }
+    }
+
+    apply();
+    if (!window.__astroBlogFormStackBound) {
+      window.__astroBlogFormStackBound = true;
+      window.addEventListener('resize', apply);
+      if (window.visualViewport) window.visualViewport.addEventListener('resize', apply);
+    }
+  }
+
+  /**
+   * Convert plain blog FAQ blocks (H2 "FAQs" + H3 question / answer siblings)
+   * into click-to-expand accordion items across all posts that use this pattern.
+   */
+  function isFaqSchemaNode(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.matches && el.matches('script[type="application/ld+json"]')) {
+      return /"@type"\s*:\s*"FAQPage"/i.test(el.textContent || '');
+    }
+    if (!el.matches || !el.matches('p, div')) return false;
+    var scripts = el.querySelectorAll ? el.querySelectorAll('script[type="application/ld+json"]') : [];
+    if (!scripts.length) return false;
+    for (var i = 0; i < scripts.length; i += 1) {
+      if (/"@type"\s*:\s*"FAQPage"/i.test(scripts[i].textContent || '')) return true;
+    }
+    return false;
+  }
+
+  function isFaqBoundaryNode(el) {
+    if (!el || el.nodeType !== 1) return true;
+    if (el.matches('h2, h3')) return true;
+    if (el.classList && el.classList.contains('kpm-faq-accordion')) return true;
+    if (isFaqSchemaNode(el)) return true;
+    if (el.matches('.ssba, .ssba-modern-2, .ssbp-wrap, .ssbp-list, .sharedaddy, .jp-relatedposts')) return true;
+    if (el.className && /\b(ssba|ssbp|sharedaddy|jp-relatedposts)\b/i.test(String(el.className))) return true;
+    return false;
+  }
+
+  /** Keep FAQPage JSON-LD in <head> so crawlers/tools still see it after accordion hides answers. */
+  function hoistFaqPageSchemas() {
+    var head = document.head;
+    if (!head) return;
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function (script) {
+      if (!/"@type"\s*:\s*"FAQPage"/i.test(script.textContent || '')) return;
+      if (script.closest('head')) return;
+      var parent = script.parentElement;
+      head.appendChild(script);
+      if (parent && parent !== head && !parent.children.length && !(parent.textContent || '').trim()) {
+        parent.remove();
+      }
+    });
+  }
+
+  function enhanceBlogHeadingFaqs() {
+    hoistFaqPageSchemas();
+    document.querySelectorAll('h2').forEach(function (heading) {
+      var label = (heading.textContent || '').replace(/\s+/g, ' ').trim().replace(/:$/, '');
+      if (!/^FAQs?$/i.test(label)) return;
+      if (heading.dataset.astroFaqDone === '1') return;
+
+      var items = [];
+      var node = heading.nextElementSibling;
+      while (node) {
+        if (node.matches('h2')) break;
+        if (node.classList && node.classList.contains('kpm-faq-accordion')) break;
+        if (isFaqSchemaNode(node)) {
+          node = node.nextElementSibling;
+          continue;
+        }
+        if (node.matches('h3')) {
+          var question = node;
+          var body = [];
+          var cursor = node.nextElementSibling;
+          while (cursor && !isFaqBoundaryNode(cursor)) {
+            body.push(cursor);
+            cursor = cursor.nextElementSibling;
+          }
+          if (body.length) items.push({ question: question, body: body });
+          node = cursor;
+          continue;
+        }
+        node = node.nextElementSibling;
+      }
+
+      if (items.length < 2) return;
+      heading.dataset.astroFaqDone = '1';
+
+      var wrap = document.createElement('div');
+      wrap.className = 'kpm-faq-accordion';
+      wrap.setAttribute('role', 'region');
+      wrap.setAttribute('aria-label', 'FAQs');
+      items[0].question.parentNode.insertBefore(wrap, items[0].question);
+
+      items.forEach(function (item, idx) {
+        var panelId = 'kpm-faq-panel-' + idx + '-' + Math.random().toString(36).slice(2, 7);
+        var row = document.createElement('div');
+        row.className = 'kpm-faq-item';
+
+        if (item.question.id) {
+          var anchor = document.createElement('span');
+          anchor.id = item.question.id;
+          anchor.setAttribute('aria-hidden', 'true');
+          row.appendChild(anchor);
+        }
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'kpm-faq-question';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-controls', panelId);
+        var text = document.createElement('span');
+        text.className = 'kpm-faq-question-text';
+        text.textContent = (item.question.textContent || '').trim();
+        var icon = document.createElement('span');
+        icon.className = 'kpm-faq-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = '+';
+        btn.appendChild(text);
+        btn.appendChild(icon);
+
+        var panel = document.createElement('div');
+        panel.className = 'kpm-faq-answer';
+        panel.id = panelId;
+        panel.hidden = true;
+        item.body.forEach(function (el) {
+          panel.appendChild(el);
+        });
+        item.question.remove();
+
+        row.appendChild(btn);
+        row.appendChild(panel);
+        wrap.appendChild(row);
+
+        btn.addEventListener('click', function () {
+          var willOpen = btn.getAttribute('aria-expanded') !== 'true';
+          wrap.querySelectorAll('.kpm-faq-item').forEach(function (other) {
+            var otherBtn = other.querySelector('.kpm-faq-question');
+            var otherPanel = other.querySelector('.kpm-faq-answer');
+            var otherIcon = other.querySelector('.kpm-faq-icon');
+            other.classList.remove('is-open');
+            if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+            if (otherIcon) otherIcon.textContent = '+';
+            if (otherPanel) otherPanel.hidden = true;
+          });
+          if (willOpen) {
+            row.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            icon.textContent = '−';
+            panel.hidden = false;
+          }
+        });
+      });
+    });
+  }
+
   function boot() {
     safe(injectMirrorCss);
     safe(ensureIconAndSwiperCss);
+    safe(stackBlogContactFormOnMobile);
+    safe(hoistFaqPageSchemas);
+    safe(enhanceBlogHeadingFaqs);
     safe(preferCssStickyPostForm);
     safe(wireLegacyContactForms);
     safe(unwrapRocketLazyScripts);
@@ -3158,6 +3455,7 @@
       safe(ensurePhoneCountryFields);
       safe(ensureNavMenus);
       safe(preferCssStickyPostForm);
+      safe(enhanceBlogHeadingFaqs);
       safe(ensureHaCarousel);
       safe(ensureKinzaFormSkin);
       safe(ensureTaxonomyFilter);
