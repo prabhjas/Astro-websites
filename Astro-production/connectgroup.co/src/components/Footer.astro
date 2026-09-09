@@ -22,15 +22,8 @@
       })
       .then(function (html) {
         // Contact Us already has its own form — hide the shared footer CF7 block.
-        // Insights / blog posts use InsightsLeadForm — hide footer CF7 too (avoids
-        // duplicate phones + legacy ipinfo.io lookups from CF7 country-phone scripts).
         var path = (location.pathname || '').replace(/\/+$/, '') || '/';
-        var hideFooterCf7 =
-          path === '/contact-us' ||
-          path === '/insights' ||
-          path.indexOf('/insights/') === 0 ||
-          !!document.querySelector('main.bp, main.ig, form[data-ig-lead-form]');
-        if (hideFooterCf7) {
+        if (path === '/contact-us') {
           var tmp = document.createElement('div');
           tmp.innerHTML = html;
           var formSection = tmp.querySelector('.elementor-element-d5fdd9c');
