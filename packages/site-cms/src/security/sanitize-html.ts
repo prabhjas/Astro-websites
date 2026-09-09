@@ -63,6 +63,8 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
     'small',
     'mark',
     'time',
+    'details',
+    'summary',
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target', 'rel', 'title', 'class', 'id'],
@@ -71,6 +73,8 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
     video: ['src', 'controls', 'poster', 'width', 'height', 'class', 'id'],
     audio: ['src', 'controls', 'class', 'id'],
     iframe: ['src', 'width', 'height', 'title', 'allow', 'allowfullscreen', 'frameborder', 'loading', 'class', 'id'],
+    details: ['open', 'class', 'id'],
+    summary: ['class', 'id'],
     '*': ['class', 'id', 'title', 'role'],
   },
   allowedSchemes: ['http', 'https', 'mailto', 'tel'],
