@@ -97,6 +97,10 @@ export function getAuthorBySlug(slug: string): AuthorEntry | undefined {
   return getAuthors().find((a) => a.slug === slug);
 }
 
+export function getAuthorById(id: number): AuthorEntry | undefined {
+  return getAuthors().find((a) => a.id === id);
+}
+
 export function getPostsByCategory(categoryId: number): PostEntry[] {
   return getPosts()
     .filter((p) => p.categories.includes(categoryId))

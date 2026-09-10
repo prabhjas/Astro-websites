@@ -8,6 +8,7 @@ import {
   decodeHtmlEntities,
   estimateReadingMinutes,
   formatInsightsDate,
+  getAuthorById,
   getAuthorBySlug,
   stripHtml,
 } from "../lib/content";
@@ -22,9 +23,16 @@ const path = post.path;
 const shareUrl = path.startsWith("http") ? path : path;
 const readingMins = estimateReadingMinutes(post.content || "");
 const dateLabel = formatInsightsDate(post.date);
-const authorLabel = post.authorName || "Connect Zone";
-const authorHref = post.authorSlug ? `/author/${post.authorSlug}/` : undefined;
-const author = post.authorSlug ? getAuthorBySlug(post.authorSlug) : undefined;
+const author =
+  (post.authorSlug ? getAuthorBySlug(post.authorSlug) : undefined) ||
+  (post.author ? getAuthorById(post.author) : undefined);
+const authorLabel =
+  (post.authorName || "").trim() ||
+  (author?.name || "").trim() ||
+  "Connect Zone";
+const authorSlug = (post.authorSlug || author?.slug || "").trim();
+const authorHref =
+  authorSlug && !/^\d+$/.test(authorSlug) ? `/author/${authorSlug}/` : undefined;
 const rawAvatar = (author?.avatar || "").trim();
 const avatarIsLogo =
   !rawAvatar ||
