@@ -17,6 +17,8 @@ const SITE_ORIGIN = (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || 'htt
 
 /** Rank Math ImageObject used on homepage — audit gap: missing og:image meta. */
 const DEFAULT_OG_IMAGE = '/wp-content/uploads/2025/09/Frame.png';
+/** Contact Us share image — Connect Group logo (page had no og:image). */
+const CONTACT_OG_IMAGE = '/wp-content/uploads/2022/03/logo-connect-group-color-1.png';
 
 /** @param {string} slug */
 export function serveLegacyPage(slug) {
@@ -49,11 +51,17 @@ export function serveLegacyPage(slug) {
 
   const path = !slug || slug === 'homepage' || slug === 'Home' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   const raw = readFileSync(cleanedPath, 'utf-8');
+  const defaultOgImage =
+    slug === 'homepage' || slug === 'Home'
+      ? DEFAULT_OG_IMAGE
+      : slug === 'contact-us'
+        ? CONTACT_OG_IMAGE
+        : undefined;
   let html = sanitizeMirrorHtml(
     absolutizeMirrorSeoHtml(injectRuntimeGtmLoader(applySharedChrome(raw, slug)), {
       siteOrigin: SITE_ORIGIN,
       path,
-      defaultOgImage: slug === 'homepage' || slug === 'Home' ? DEFAULT_OG_IMAGE : undefined,
+      defaultOgImage,
     }),
   );
   if (html.includes('astro-mirror-fixes.js')) {
