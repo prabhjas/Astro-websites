@@ -33,11 +33,10 @@ function categoryClass(post: PostEntry): string {
   return "category-blog";
 }
 
+const DEFAULT_CARD_IMAGE = "/wp-content/uploads/figma/cz-featured-placeholder.jpg";
+
 function cardImage(post: PostEntry): string {
-  const src = (post.featuredImage || post.seo?.ogImage || "").trim();
-  if (!src) {
-    return `<div class="sp-blog-card-placeholder" style="aspect-ratio:16/9;background:#1f1f1f;" aria-hidden="true"></div>`;
-  }
+  const src = (post.featuredImage || post.seo?.ogImage || DEFAULT_CARD_IMAGE).trim() || DEFAULT_CARD_IMAGE;
   const alt = escapeAttr(stripHtml(post.title) || "Post image");
   return `<img decoding="async" width="800" height="450" src="${escapeAttr(src)}" class="attachment-large size-large" alt="${alt}" loading="lazy">`;
 }

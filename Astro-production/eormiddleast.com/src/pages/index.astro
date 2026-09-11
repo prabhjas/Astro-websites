@@ -8,10 +8,38 @@ export const prerender = false;
 const page = getPageByPath("/");
 if (!page) throw new Error("Home page missing from content data");
 
-const html = page.bodyHtml || page.content;
+/** Prepare Dreamit blog as Owl slider: clean classes, max 8 cards. */
+function fixHomeBlogHtml(raw: string): string {
+  const MAX = 8;
+  return raw.replace(
+    /<div class="blog_wrap[^"]*">([\s\S]*?)<\/div>\s*(?=<\/div>\s*<\/div>\s*<\/div>\s*<\/section>|<div class="elementor-element)/,
+    (_full, inner: string) => {
+      // Split into slide chunks (col-md-12 wrappers)
+      const slides: string[] = [];
+      const re =
+        /(?:<!--\s*single blog\s*-->\s*)?<div class="col-md-12[\s\S]*?(?=(?:<!--\s*single blog\s*-->)|(?:<div class="col-md-12)|$)/gi;
+      let m: RegExpExecArray | null;
+      const src = inner;
+      while ((m = re.exec(src)) && slides.length < MAX) {
+        const chunk = m[0].trim();
+        if (chunk.includes("single_blog_adn") || chunk.includes("col-md-12")) {
+          slides.push(chunk);
+        }
+      }
+      // Fallback: if regex missed, keep original inner but strip owl-loaded
+      if (slides.length < 2) {
+        return `<div class="blog_wrap blog_carousel owl-carousel curosel-style">${inner}</div>`;
+      }
+      return `<div class="blog_wrap blog_carousel owl-carousel curosel-style">\n${slides.slice(0, MAX).join("\n")}\n</div>`;
+    },
+  );
+}
+
+const html = fixHomeBlogHtml(page.bodyHtml || page.content || "");
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
+  "/css/eor-home-blog.css?v=20260911-owl",
 ];
 const bodyClass = `home page page-id-${page.id} elementor-page elementor-page-${page.id}`;
 ---

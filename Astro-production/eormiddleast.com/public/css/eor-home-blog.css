@@ -1,0 +1,126 @@
+/* Homepage blog Owl slider — 3 visible */
+.elementor-18041 .elementor-widget-blogpost .blog_wrap.owl-carousel,
+.elementor-18041 .blog_wrap.blog_carousel.owl-carousel {
+  display: none;
+  width: 100%;
+}
+
+.elementor-18041 .elementor-widget-blogpost .blog_wrap.owl-carousel.owl-loaded,
+.elementor-18041 .blog_wrap.blog_carousel.owl-carousel.owl-loaded {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.elementor-18041 .blog_wrap.owl-carousel .owl-item {
+  float: left;
+}
+
+.elementor-18041 .blog_wrap.owl-carousel .owl-item > .col-md-12 {
+  width: 100% !important;
+  max-width: 100% !important;
+  float: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Side gutters so orange arrows sit clear of the cards */
+.elementor-18041 .elementor-element-1a222f6a > .elementor-widget-container {
+  overflow: visible !important;
+  padding-left: 70px !important;
+  padding-right: 70px !important;
+  box-sizing: border-box;
+}
+
+.elementor-18041 .elementor-element-1a222f6a .blog_style_two,
+.elementor-18041 .elementor-element-1a222f6a [class*="blog_style_two"] {
+  overflow: visible !important;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.elementor-18041 .elementor-widget-blogpost .owl-nav {
+  display: block !important;
+}
+
+.elementor-18041 .elementor-widget-blogpost .owl-nav .owl-prev,
+.elementor-18041 .elementor-widget-blogpost .owl-nav .owl-next,
+.elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-prev,
+.elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-next,
+.elementor-18041 .curosel-style .owl-nav div.owl-prev,
+.elementor-18041 .curosel-style .owl-nav div.owl-next {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  opacity: 1 !important;
+}
+
+/* Sit in the side gutters, not on the cards */
+.elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-prev,
+.elementor-18041 .elementor-widget-blogpost .curosel-style .owl-nav .owl-prev,
+.elementor-18041 .curosel-style .owl-nav .owl-prev {
+  left: -68px !important;
+  right: auto !important;
+}
+
+.elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-next,
+.elementor-18041 .elementor-widget-blogpost .curosel-style .owl-nav .owl-next,
+.elementor-18041 .curosel-style .owl-nav .owl-next {
+  right: -68px !important;
+  left: auto !important;
+}
+
+/* Visit Blog — clear space under the slider */
+.elementor-18041 .elementor-element-c7542ef {
+  margin-top: 40px !important;
+  margin-bottom: 20px !important;
+  padding-top: 0 !important;
+  clear: both;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+}
+
+.elementor-18041 .elementor-element-3979e9d7 {
+  overflow: visible !important;
+  padding-bottom: 64px !important;
+}
+
+@media (max-width: 1024px) {
+  .elementor-18041 .elementor-element-1a222f6a > .elementor-widget-container {
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+  }
+
+  .elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-prev,
+  .elementor-18041 .curosel-style .owl-nav .owl-prev {
+    left: -44px !important;
+  }
+
+  .elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-next,
+  .elementor-18041 .curosel-style .owl-nav .owl-next {
+    right: -44px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .elementor-18041 .elementor-element-1a222f6a > .elementor-widget-container {
+    padding-left: 36px !important;
+    padding-right: 36px !important;
+  }
+
+  .elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-prev,
+  .elementor-18041 .curosel-style .owl-nav .owl-prev {
+    left: -30px !important;
+  }
+
+  .elementor-18041 .blog_wrap.curosel-style .owl-nav .owl-next,
+  .elementor-18041 .curosel-style .owl-nav .owl-next {
+    right: -30px !important;
+  }
+
+  .elementor-18041 .elementor-element-c7542ef {
+    margin-top: 32px !important;
+  }
+}
