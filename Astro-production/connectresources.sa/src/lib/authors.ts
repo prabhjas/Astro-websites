@@ -1,9 +1,11 @@
 /**
- * Author archive types, shell assembly, and content loading.
+ * Author directory + single-author archive for Connect Resources Saudi.
+ * Figma: Connect-Resources-Saudi node 1209-2952 — grey portraits, color on hover.
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { applySharedChrome } from './shared-chrome.js';
 import {
   AUTHOR_POSTS_PER_PAGE,
   buildPostCardHtml,
@@ -16,9 +18,26 @@ const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
 const ORIGIN = 'https://connectresources.sa';
 
+const AUTHOR_BANNER_IMAGE = '/wp-content/uploads/2025/01/Background-Insights-image.webp';
+const LINKEDIN_ICON = '/wp-content/uploads/2024/05/author-linkedin.svg';
+
+/** Directory order matching Figma author set (L→R). */
+const LIVE_AUTHOR_ORDER = ['timothy-partridge', 'gregg-steyn', 'david-walsh', 'dylan-wesley'];
+
+/** Figma hover border: 10px linear-gradient(#EBFFED → Third #7FD884) */
+const HOVER_BORDER_LIGHT = '#EBFFED';
+const HOVER_BORDER_THIRD = '#7FD884';
+
 export interface AuthorSocial {
   type: string;
   url: string;
+}
+
+export interface AuthorAvatar {
+  src: string;
+  alt?: string;
+  gray?: string;
+  color?: string;
 }
 
 export interface Author {
@@ -26,7 +45,7 @@ export interface Author {
   name: string;
   title?: string;
   bio?: string;
-  avatar?: { src: string; alt?: string };
+  avatar?: AuthorAvatar | null;
   social?: AuthorSocial[];
   canonical: string;
   description?: string;
@@ -49,41 +68,16 @@ export interface AuthorPageData {
   totalPosts: number;
 }
 
-const LIVE_AUTHOR_ORDER = [
-  'kate-williams',
-  'liam-doherty',
-  'sahiba',
-  'david-walsh',
-  'vijoy-vijayanandan',
-  'nakul',
-  'timothy-patridge',
-  'harneet',
-];
-
-const LIVE_AUTHOR_OVERRIDES: Record<string, { name?: string; title?: string; avatar?: string }> = {
-  'kate-williams': {
-    name: 'Kate Williams',
-    title: 'Managing Broker/Partner, e-PRO',
-    avatar: '/wp-content/uploads/2024/05/KW.png',
-  },
-  'liam-doherty': { avatar: '/wp-content/uploads/2024/05/LD.png' },
-  sahiba: { avatar: '/wp-content/uploads/2024/05/SM.png' },
-  'david-walsh': { avatar: '/wp-content/uploads/2024/05/DW.png' },
-  'vijoy-vijayanandan': { avatar: '/wp-content/uploads/2024/05/VV.png' },
-  nakul: {
-    title: 'Head of Recruitment & Business Development',
-    avatar: '/wp-content/uploads/2024/05/NS.png',
-  },
-  'timothy-patridge': { name: 'Timothy Partridge', avatar: '/wp-content/uploads/2024/05/TP.png' },
-  harneet: { avatar: '/wp-content/uploads/2024/05/HB.png' },
-};
-
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+function escapeAttr(value: string): string {
+  return escapeHtml(value);
 }
 
 export function getAllAuthorSlugs(): string[] {
@@ -137,11 +131,12 @@ export interface AuthorDirectoryEntry {
 
 export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
   const entries = getAllAuthors()
+    .filter((author) => LIVE_AUTHOR_ORDER.includes(author.slug) || getPostsByAuthorSlug(author.slug).length > 0)
+    .filter((author) => author.slug !== 'connect-staff')
     .map((author) => ({
       author,
       postCount: getPostsByAuthorSlug(author.slug).length,
-    }))
-    .filter((entry) => entry.postCount > 0);
+    }));
 
   const preferred = LIVE_AUTHOR_ORDER.map((slug) => entries.find((entry) => entry.author.slug === slug)).filter(
     (entry): entry is AuthorDirectoryEntry => Boolean(entry),
@@ -149,51 +144,96 @@ export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
   return preferred.length ? preferred : entries.sort((a, b) => a.author.name.localeCompare(b.author.name));
 }
 
+function avatarPair(author: Author): { gray: string; color: string; alt: string } {
+  const gray = author.avatar?.gray || author.avatar?.src || '';
+  const color = author.avatar?.color || author.avatar?.src || gray;
+  const alt = escapeHtml(author.avatar?.alt || author.name);
+  return { gray, color, alt };
+}
+
+function linkedinUrl(author: Author): string | null {
+  const link = author.social?.find((s) => /linkedin/i.test(s.type) || /linkedin\.com/i.test(s.url));
+  return link?.url || null;
+}
+
+function linkedinHtml(author: Author, className: string, withLabel = false): string {
+  const url = linkedinUrl(author);
+  if (!url) return '';
+  const label = withLabel ? `<span class="${className}-label">LinkedIn</span>` : '';
+  return `<a class="${className}" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(author.name)} on LinkedIn">
+    <img src="${LINKEDIN_ICON}" width="15" height="15" alt="" decoding="async" />
+    ${label}
+  </a>`;
+}
+
+function buildHoverAvatarHtml(
+  author: Author,
+  className: string,
+  width: number,
+  height: number,
+): string {
+  const { gray, color, alt } = avatarPair(author);
+  if (!gray) {
+    return `<span class="${className} ${className}--placeholder" aria-hidden="true">${escapeHtml(author.name.charAt(0))}</span>`;
+  }
+  return `<span class="${className}">
+    <span class="${className}-frame">
+      <img class="${className}__gray" width="${width}" height="${height}" src="${escapeAttr(gray)}" alt="${alt}" loading="lazy" decoding="async" />
+      <img class="${className}__color" width="${width}" height="${height}" src="${escapeAttr(color)}" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    </span>
+  </span>`;
+}
+
+function buildAuthorDirectoryHeroHtml(): string {
+  return `<section class="crsa-authors-hero" aria-label="Authors">
+    <div class="crsa-authors-hero__inner">
+      <h1 class="crsa-authors-hero__title">Our Authors</h1>
+      <p class="crsa-authors-hero__subtitle">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
+    </div>
+  </section>`;
+}
+
+function buildAuthorDirectoryCardHtml(entry: AuthorDirectoryEntry): string {
+  const { author } = entry;
+  const href = `/author/${author.slug}/`;
+  const title = author.title ? `<p class="crsa-author-card__title">${escapeHtml(author.title)}</p>` : '';
+  const li = linkedinHtml(author, 'crsa-author-card__linkedin', true);
+
+  return `<article class="crsa-author-card">
+    <a class="crsa-author-card__media" href="${href}">
+      ${buildHoverAvatarHtml(author, 'crsa-author-card__image', 230, 316)}
+    </a>
+    ${li}
+    <h2 class="crsa-author-card__name"><a href="${href}">${escapeHtml(author.name)}</a></h2>
+    ${title}
+  </article>`;
+}
+
+function buildAuthorDirectoryPostsHtml(entries: AuthorDirectoryEntry[]): string {
+  return `<div class="crsa-author-directory">${entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n')}</div>`;
+}
+
 function buildProfileHtml(author: Author): string {
-  const name = escapeHtml(author.name);
-  const title = author.title ? escapeHtml(author.title) : '';
-  const bio = author.bio ? escapeHtml(author.bio) : '';
-  const avatarSrc = author.avatar?.src || '';
-  const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
+  const title = author.title ? `<p class="crsa-author-profile__role">${escapeHtml(author.title)}</p>` : '';
+  const bioText = (author.bio || '').trim();
+  const bio = bioText ? `<div class="crsa-author-profile__bio"><p>${escapeHtml(bioText)}</p></div>` : '';
+  const { color, gray, alt } = avatarPair(author);
+  const portraitSrc = color || gray;
+  const portrait = portraitSrc
+    ? `<img class="crsa-author-profile__image" width="299" height="412" src="${escapeAttr(portraitSrc)}" alt="${alt}" loading="eager" decoding="async" />`
+    : `<span class="crsa-author-profile__image crsa-author-profile__image--placeholder" aria-hidden="true">${escapeHtml(author.name.charAt(0))}</span>`;
 
-  const avatarHtml = avatarSrc
-    ? `<div class="elementor-element elementor-element-c5e7b22 elementor-widget elementor-widget-image" data-widget_type="image.default">
-        <img width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" class="attachment-large size-large" loading="lazy" />
-      </div>`
-    : '';
-
-  const linkedin = author.social?.find((s) => s.type === 'linkedin');
-  const linkedinHtml = linkedin
-    ? `<div class="elementor-element elementor-element-6ff7a74 elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-widget_type="icon.default">
-        <div class="elementor-icon-wrapper">
-          <a class="elementor-icon" href="${escapeHtml(linkedin.url)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
-          </a>
-        </div>
-      </div>`
-    : '';
-
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-58abf12 elementor-section-boxed elementor-section-height-default" data-id="58abf12" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dce297d" data-id="dce297d" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <section class="elementor-section elementor-inner-section elementor-element elementor-element-c10a2ed main-auth elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="c10a2ed" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-bee1fb5">
-                <div class="elementor-widget-wrap elementor-element-populated">${avatarHtml}</div>
-              </div>
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-3c484b8">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-b5d8e9f elementor-widget__width-auto elementor-widget elementor-widget-heading" data-widget_type="heading.default">
-                    <p class="elementor-heading-title elementor-size-default">${name}</p>
-                  </div>
-                  ${linkedinHtml}
-                  ${title ? `<div class="elementor-element elementor-element-2e0fb4e elementor-widget elementor-widget-heading" data-widget_type="heading.default"><span class="elementor-heading-title elementor-size-default">${title}</span></div>` : ''}
-                  ${bio ? `<div class="elementor-element elementor-element-bb840a7 elementor-widget elementor-widget-heading" data-widget_type="heading.default"><p class="elementor-heading-title elementor-size-default">${bio}</p></div>` : ''}
-                </div>
-              </div>
-            </div>
-          </section>
+  return `<section class="crsa-author-profile" aria-label="${escapeHtml(author.name)}">
+    <div class="crsa-author-profile__banner">
+      <div class="crsa-author-profile__inner">
+        <div class="crsa-author-profile__avatar">${portrait}</div>
+        <div class="crsa-author-profile__content">
+          <div class="crsa-author-profile__heading">
+            <h1 class="crsa-author-profile__name">${escapeHtml(author.name)}</h1>
+            ${linkedinHtml(author, 'crsa-author-profile__linkedin')}
+          </div>
+          ${title}
+          ${bio}
         </div>
       </div>
     </div>
@@ -201,46 +241,7 @@ function buildProfileHtml(author: Author): string {
 }
 
 function buildPostsHeadingHtml(author: Author): string {
-  return `<h2 class="elementor-heading-title elementor-size-default">Latest Articles by ${escapeHtml(author.name)}</h2>`;
-}
-
-function buildAuthorDirectoryHeroHtml(): string {
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-f45c242 astro-author-hero elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f45c242" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6c55a7e" data-id="6c55a7e" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <div class="elementor-element elementor-element-d0b4ef6 elementor-widget elementor-widget-heading" data-id="d0b4ef6" data-widget_type="heading.default">
-            <h2 class="elementor-heading-title elementor-size-default">Our Authors</h2>
-          </div>
-          <div class="elementor-element elementor-element-6ed679f elementor-widget elementor-widget-heading" data-id="6ed679f" data-widget_type="heading.default">
-            <p class="elementor-heading-title elementor-size-default">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>`;
-}
-
-function buildAuthorDirectoryCardHtml(entry: AuthorDirectoryEntry): string {
-  const { author } = entry;
-  const override = LIVE_AUTHOR_OVERRIDES[author.slug] || {};
-  const name = escapeHtml(override.name || author.name);
-  const title = escapeHtml(override.title || author.title || '');
-  const avatarSrc = override.avatar || author.avatar?.src || '/wp-content/uploads/2024/05/KW.png';
-  const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
-  const href = `/author/${author.slug}/`;
-
-  return `<article class="astro-author-card">
-    <a class="astro-author-card__image-link" href="${href}">
-      <img class="astro-author-card__image attachment-medium size-medium" width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" loading="lazy" decoding="async" />
-    </a>
-    <h3 class="elementor-heading-title elementor-size-default astro-author-card__name"><a href="${href}">${name}</a></h3>
-    ${title ? `<p class="elementor-heading-title elementor-size-default astro-author-card__title">${title}</p>` : ''}
-  </article>`;
-}
-
-function buildAuthorDirectoryPostsHtml(entries: AuthorDirectoryEntry[]): string {
-  return entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n');
+  return `<h2 class="crsa-author-articles__title">Latest Articles by ${escapeHtml(author.name)}</h2>`;
 }
 
 function buildPaginationHtml(author: Author, currentPage: number, totalPages: number): string {
@@ -264,8 +265,7 @@ function buildPaginationHtml(author: Author, currentPage: number, totalPages: nu
   }
 
   if (currentPage < totalPages) {
-    const next = `${base}page/${currentPage + 1}/`;
-    items.push(`<a class="next page-numbers" href="${next}">Next</a>`);
+    items.push(`<a class="next page-numbers" href="${base}page/${currentPage + 1}/">Next</a>`);
   }
 
   return `<nav class="navigation pagination elementor-pagination" aria-label="Posts"><div class="nav-links">${items.join('\n')}</div></nav>`;
@@ -274,12 +274,10 @@ function buildPaginationHtml(author: Author, currentPage: number, totalPages: nu
 function patchHeadMeta(html: string, data: AuthorPageData): string {
   const { author, currentPage, totalPages } = data;
   const pageSuffix = currentPage > 1 ? ` - Page ${currentPage} of ${totalPages}` : '';
-  const title = author.og?.title || `${author.name}, Author at Connect Group${pageSuffix}`;
+  const title = author.og?.title || `${author.name}, Author at Connect Resources Saudi${pageSuffix}`;
   const description = author.description || author.bio || '';
   const canonical =
-    currentPage === 1
-      ? author.canonical
-      : `${ORIGIN}/author/${author.slug}/page/${currentPage}/`;
+    currentPage === 1 ? `${ORIGIN}/author/${author.slug}/` : `${ORIGIN}/author/${author.slug}/page/${currentPage}/`;
 
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
 
@@ -306,21 +304,16 @@ function patchHeadMeta(html: string, data: AuthorPageData): string {
     /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i,
     `<meta property="og:description" content="${escapeHtml(author.og?.description || description)}" />`,
   );
-  out = out.replace(
-    /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i,
-    `<meta property="og:url" content="${canonical}" />`,
-  );
+  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
 
   return out;
 }
 
-function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntry[]): string {
-  const first = entries[0]?.author;
-  const title = 'Author - Connect Group';
+function patchAuthorDirectoryHeadMeta(html: string): string {
+  const title = 'Authors - Connect Resources Saudi';
   const description =
     'Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.';
   const canonical = `${ORIGIN}/author/`;
-  const ogImage = first?.avatar?.src ? (first.avatar.src.startsWith('http') ? first.avatar.src : `${ORIGIN}${first.avatar.src}`) : `${ORIGIN}/wp-content/uploads/2024/05/KW.png`;
 
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
 
@@ -333,12 +326,6 @@ function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntr
     out = out.replace('</head>', `<meta name="description" content="${escapeHtml(description)}" />\n</head>`);
   }
 
-  if (out.includes('name="robots"')) {
-    out = out.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i, '<meta name="robots" content="nofollow, noindex" />');
-  } else {
-    out = out.replace('</head>', '<meta name="robots" content="nofollow, noindex" />\n</head>');
-  }
-
   if (out.includes('rel="canonical"')) {
     out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${canonical}" />`);
   } else {
@@ -346,70 +333,222 @@ function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntr
   }
 
   out = out.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${title}" />`);
-  out = out.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(description)}" />`);
+  out = out.replace(
+    /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i,
+    `<meta property="og:description" content="${escapeHtml(description)}" />`,
+  );
   out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
-  out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${ogImage}" />`);
-  out = out.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:title" content="${title}" />`);
-  out = out.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(description)}" />`);
-  out = out.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:image" content="${ogImage}" />`);
 
   return out;
 }
 
+function authorPagesCss(): string {
+  return `<style id="crsa-author-pages-css">
+/* Figma Connect-Resources-Saudi · Authors 1209:2952 — white directory + mint hover */
+[data-author-directory] .astro-author-profile-section,
+[data-author-directory] .elementor-element-fbd336b{
+  background:#fff !important;padding:0 !important;margin:0 !important;
+}
+[data-author-directory] .elementor-element-fbd336b > .elementor-container{
+  max-width:1280px;width:100%;margin-inline:auto;padding:0 !important;box-sizing:border-box;
+}
+[data-author-directory] .elementor-element-fbd336b .elementor-column,
+[data-author-directory] .elementor-element-fbd336b .elementor-widget-wrap,
+[data-author-directory] .elementor-element-fbd336b .elementor-widget,
+[data-author-directory] .elementor-element-fbd336b .elementor-widget-container,
+[data-author-directory] .elementor-element-fbd336b .ecs-posts{
+  width:100% !important;max-width:none !important;box-sizing:border-box;
+}
+[data-author-directory] .elementor-element-fbd336b .elementor-widget-wrap{
+  padding:0 !important;
+}
+[data-author-directory] .ecs-posts.elementor-posts-container{
+  display:block !important;grid-template-columns:none !important;gap:0 !important;
+}
+
+.crsa-authors-hero{
+  background:#fff;box-sizing:border-box;padding:80px 0 0;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.crsa-authors-hero__inner{
+  max-width:695px;width:100%;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+.crsa-authors-hero__title{
+  margin:0 !important;font-family:"Libre Franklin",sans-serif !important;
+  font-size:42px !important;font-weight:700 !important;line-height:1.2 !important;
+  letter-spacing:0 !important;color:#1A1A1A !important;
+}
+.crsa-authors-hero__subtitle{
+  margin:0 !important;max-width:695px;width:100%;text-align:center;
+  font-family:"Libre Franklin",sans-serif !important;
+  font-size:20px !important;font-style:normal !important;font-weight:400 !important;
+  line-height:150% !important;color:#1F232B !important;
+}
+
+/* Figma: 1280px container — 4 equal columns, aspect 8/11, 40px gap under subtitle */
+.crsa-author-directory{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 32px;
+  width:100%;max-width:1280px;margin:0 auto;padding:40px 20px 100px;box-sizing:border-box;
+}
+.crsa-author-card{
+  width:100%;max-width:none;margin:0;text-align:left;min-width:0;
+  font-family:"Libre Franklin",sans-serif;
+}
+.crsa-author-card__media{display:block;text-decoration:none;position:relative}
+.crsa-author-card__image{position:relative;display:block;width:100%}
+.crsa-author-card__image-frame{
+  position:relative;display:block;width:100%;height:auto;aspect-ratio:8/11;
+  border-radius:15px;overflow:hidden;background:#f0f0f0;
+  box-sizing:border-box;border:10px solid transparent;
+  transition:border-color .3s ease, background .3s ease;
+  background-clip:padding-box;
+}
+.crsa-author-card__image img.crsa-author-card__image__gray,
+.crsa-author-card__image img.crsa-author-card__image__color{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;border-radius:5px;transition:opacity .35s ease;
+}
+.crsa-author-card__image__gray{opacity:1;z-index:1;filter:grayscale(1)}
+.crsa-author-card__image__color{opacity:0;z-index:2;filter:none}
+
+/* Hover — Figma: border 10px, radius 15px, linear-gradient(#EBFFED → Third #7FD884) */
+.crsa-author-card:hover .crsa-author-card__image-frame,
+.crsa-author-card__media:focus-visible .crsa-author-card__image-frame{
+  border-color:transparent;
+  background:
+    linear-gradient(#f0f0f0,#f0f0f0) padding-box,
+    linear-gradient(180deg, ${HOVER_BORDER_LIGHT} 0%, ${HOVER_BORDER_THIRD} 100%) border-box;
+  box-shadow:none;
+}
+.crsa-author-card:hover .crsa-author-card__image__gray,
+.crsa-author-card__media:focus-visible .crsa-author-card__image__gray{opacity:0}
+.crsa-author-card:hover .crsa-author-card__image__color,
+.crsa-author-card__media:focus-visible .crsa-author-card__image__color{opacity:1}
+
+.crsa-author-card__linkedin{
+  display:inline-flex;align-items:center;gap:6px;margin:14px 0 8px;
+  text-decoration:none;color:#4A4D52 !important;font-size:14px !important;font-weight:400;line-height:1;
+}
+.crsa-author-card__linkedin img{width:14px;height:14px;display:block;opacity:1;filter:none}
+.crsa-author-card__linkedin-label{
+  font-family:"Libre Franklin",sans-serif !important;font-size:14px !important;font-weight:400;color:#4A4D52 !important;
+}
+.crsa-author-card__linkedin:hover{color:#1E1E1E !important}
+.crsa-author-card__name{
+  margin:0 !important;font-family:"Libre Franklin",sans-serif !important;
+  font-size:24px !important;font-style:normal !important;font-weight:700 !important;
+  line-height:140% !important;color:#1E1E1E !important;
+}
+.crsa-author-card__name a{color:inherit !important;text-decoration:none}
+.crsa-author-card__title{
+  margin:6px 0 0 !important;font-family:"Libre Franklin",sans-serif !important;
+  font-size:14px !important;font-style:normal !important;font-weight:400 !important;
+  line-height:150% !important;color:#4D4D4D !important;
+}
+
+/* Single author profile (kept for /author/{slug}/) */
+.crsa-author-profile{padding:0;background:#fff}
+.crsa-author-profile__banner{
+  background:#0B3D2E url("${AUTHOR_BANNER_IMAGE}") center/cover no-repeat;
+  box-sizing:border-box;padding:48px 20px;display:flex;align-items:center;
+}
+.crsa-author-profile__inner{
+  max-width:1280px;width:100%;margin:0 auto;display:flex;gap:32px;align-items:center;
+}
+.crsa-author-profile__avatar{flex:0 0 220px;width:220px}
+.crsa-author-profile__image{
+  width:220px;height:303px;object-fit:cover;object-position:center top;display:block;
+  border-radius:20px;background:rgba(255,255,255,.12);
+}
+.crsa-author-profile__image--placeholder{
+  display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:700;color:#fff;
+  background:rgba(255,255,255,.15);border-radius:20px;width:220px;height:303px;
+}
+.crsa-author-profile__content{flex:1;min-width:0;color:#fff;font-family:"Libre Franklin",sans-serif}
+.crsa-author-profile__heading{display:flex;align-items:flex-start;gap:12px;margin:0 0 8px;flex-wrap:wrap}
+.crsa-author-profile__name{margin:0;font-size:42px;font-weight:700;line-height:1.15;color:#fff}
+.crsa-author-profile__linkedin{
+  width:28px;height:28px;margin-top:10px;display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:4px;padding:6px;box-sizing:border-box;
+}
+.crsa-author-profile__linkedin img{width:15px;height:15px;display:block}
+.crsa-author-profile__linkedin:hover{opacity:.85}
+.crsa-author-profile__role{margin:0 0 14px;font-size:18px;font-weight:500;line-height:1.4;color:#fff}
+.crsa-author-profile__bio p{margin:0;font-size:16px;font-weight:400;line-height:1.6;color:rgba(255,255,255,.92);max-width:760px}
+.crsa-author-articles__title{
+  font-family:"Libre Franklin",sans-serif;font-size:32px;font-weight:700;line-height:1.3;
+  color:#070C13;margin:0 0 28px;text-align:left;
+}
+[data-astro-author-page]:not([data-author-directory]) .elementor-element-fbd336b{padding:50px 20px 70px !important;background:#fff}
+[data-astro-author-page]:not([data-author-directory]) .elementor-element-fbd336b > .elementor-container{max-width:1280px;margin-inline:auto}
+[data-astro-author-page]:not([data-author-directory]) .ecs-posts.elementor-posts-container{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px;
+}
+@media (max-width:1100px){
+  .crsa-author-directory{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 28px}
+  .crsa-authors-hero__title{font-size:40px !important}
+  .crsa-author-profile__name{font-size:34px}
+}
+@media (max-width:767px){
+  .crsa-authors-hero{padding:48px 0 0}
+  .crsa-authors-hero__title{font-size:32px !important}
+  .crsa-authors-hero__subtitle{font-size:18px !important}
+  .crsa-author-directory{grid-template-columns:1fr;justify-items:stretch;padding:40px 20px 60px;gap:36px}
+  .crsa-author-card{max-width:none}
+  .crsa-author-card__image-frame{height:auto;min-height:0}
+  .crsa-author-card__name{font-size:20px !important}
+  .crsa-author-profile__inner{flex-direction:column;text-align:center;gap:20px}
+  .crsa-author-profile__heading{justify-content:center}
+  .crsa-author-profile__name{font-size:30px}
+  .crsa-author-profile__bio p{margin-inline:auto}
+  .crsa-author-articles__title{font-size:24px;text-align:center}
+  [data-astro-author-page]:not([data-author-directory]) .ecs-posts.elementor-posts-container{grid-template-columns:1fr}
+}
+</style>`;
+}
+
+function stripAuthorPageCta(html: string): string {
+  // Hide leftover blog "Reach out" CTA if present in chrome/footer
+  if (!/Reach out with any/i.test(html)) return html;
+  return html.replace(
+    /<section\b[^>]*>[\s\S]*?Reach out with any[\s\S]*?<\/section>/i,
+    '<!-- author-page: CTA removed -->',
+  );
+}
+
+function finalizeHtml(html: string, slug: string): string {
+  let out = applySharedChrome(html, slug);
+  out = stripAuthorPageCta(out);
+  if (!out.includes('crsa-author-pages-css')) {
+    out = out.replace('</head>', `${authorPagesCss()}\n</head>`);
+  }
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  }
+  return injectRuntimeGtmLoader(out);
+}
+
 export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
   if (!existsSync(SHELL_PATH)) {
-    throw new Error('Author shell missing. Run: npm run prepare:author-shell');
+    throw new Error('Author shell missing. Run: node scripts/prepare-author-shell.mjs');
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
   const { author, posts, currentPage, totalPages } = data;
-
   const postsHtml = posts.map((p) => buildPostCardHtml(p)).join('\n');
 
   html = html
     .replace('<!--ASTRO_AUTHOR:PROFILE-->', buildProfileHtml(author))
     .replace('<!--ASTRO_AUTHOR:POSTS_HEADING-->', buildPostsHeadingHtml(author))
-    .replace('<!--ASTRO_AUTHOR:POSTS-->', postsHtml)
+    .replace('<!--ASTRO_AUTHOR:POSTS-->', postsHtml || '<p class="crsa-author-empty">No articles yet.</p>')
     .replace('<!--ASTRO_AUTHOR:PAGINATION-->', buildPaginationHtml(author, currentPage, totalPages));
 
   html = patchHeadMeta(html, data);
-
-  const loopCssPath = join(ROOT, 'src/legacy/loop-card-24831.css.html');
-  const loopCss = existsSync(loopCssPath) ? readFileSync(loopCssPath, 'utf8') : '';
-  const authorFixCss = `<style id="astro-author-archive-css">
-.e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle;fill:currentColor}
-.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:16/9;object-position:center center}
-.ecs-posts.elementor-posts-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px}
-@media (max-width:767px){.ecs-posts.elementor-posts-container{grid-template-columns:1fr}}
-.astro-author-profile-section,
-.elementor-element-58abf12{padding:40px 0 20px;background:#f5f5f5}
-.elementor-element-58abf12 > .elementor-container{max-width:var(--container-max-width,1140px);margin-inline:auto}
-.main-auth{border-bottom:2px solid #241F7A;background:#fff;box-shadow:0 0 10px rgba(0,0,0,.07);border-radius:8px;padding:30px 40px;max-width:100%}
-.main-auth .elementor-widget-image img{width:180px;height:180px;object-fit:cover;border-radius:50%;display:block;margin:0 auto}
-.main-auth .elementor-element-b5d8e9f .elementor-heading-title{font-size:32px;font-weight:700;margin:0;color:#070c13}
-.main-auth .elementor-element-2e0fb4e .elementor-heading-title{font-size:16px;color:#666;font-weight:500}
-.main-auth .elementor-element-bb840a7 .elementor-heading-title{font-size:16px;line-height:1.6;color:#333;font-weight:400}
-.main-auth .elementor-icon svg{width:20px;height:20px;fill:#0a66c2}
-@media (max-width:767px){.main-auth{padding:24px 20px}}
-</style>`;
-
-  if (!html.includes('elementor-post-24831') && loopCss) {
-    html = html.replace('</head>', `${loopCss}\n</head>`);
-  }
-  if (!html.includes('astro-author-archive-css')) {
-    html = html.replace('</head>', `${authorFixCss}\n</head>`);
-  }
-
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
-  }
-
-  return injectRuntimeGtmLoader(html);
+  return finalizeHtml(html, `author/${author.slug}`);
 }
 
 export function serveAuthorArchive(data: AuthorPageData): Response {
-  const html = assembleAuthorArchiveHtml(data);
-  return new Response(html, {
+  return new Response(assembleAuthorArchiveHtml(data), {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=0',
@@ -419,7 +558,7 @@ export function serveAuthorArchive(data: AuthorPageData): Response {
 
 export function assembleAuthorDirectoryHtml(): string {
   if (!existsSync(SHELL_PATH)) {
-    throw new Error('Author shell missing. Run: npm run prepare:author-shell');
+    throw new Error('Author shell missing. Run: node scripts/prepare-author-shell.mjs');
   }
 
   const entries = getAuthorDirectoryEntries();
@@ -431,143 +570,13 @@ export function assembleAuthorDirectoryHtml(): string {
     .replace('<!--ASTRO_AUTHOR:POSTS-->', buildAuthorDirectoryPostsHtml(entries))
     .replace('<!--ASTRO_AUTHOR:PAGINATION-->', '');
 
-  html = patchAuthorDirectoryHeadMeta(html, entries);
-
-  const authorDirectoryCss = `<style id="astro-author-directory-css">
-/* Live Elementor page 21412 mirror */
-.astro-author-hero,
-.elementor-element-f45c242{
-  background-image:url("/wp-content/uploads/2024/05/Rectangle-462.png");
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  padding:70px 0 80px;
-}
-.astro-author-hero .elementor-widget-wrap,
-.elementor-element-6c55a7e > .elementor-widget-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.astro-author-hero .elementor-element-d0b4ef6,
-.astro-author-hero .elementor-element-6ed679f{text-align:center}
-.astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:56px;
-  font-weight:500;
-  line-height:1.2;
-  color:#FFFFFF;
-  margin:0 0 5px;
-}
-.astro-author-hero .elementor-element-6ed679f{
-  width:555px;
-  max-width:100%;
-}
-.astro-author-hero .elementor-element-6ed679f .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:18px;
-  font-weight:500;
-  line-height:1.3em;
-  color:#FFFFFF;
-  margin:0;
-}
-.elementor-element-fbd336b{
-  background:transparent;
-  padding-top:50px !important;
-  padding-bottom:50px !important;
-}
-.elementor-element-6e1eaf5{display:none!important}
-.elementor-widget-posts .elementor-widget-container{padding-top:0}
-.ecs-posts.elementor-posts-container{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:30px 20px;
-  justify-items:center;
-}
-.astro-author-card{
-  text-align:center;
-  width:100%;
-  max-width:320px;
-  margin:0 auto;
-}
-.astro-author-card__image-link{display:inline-block;text-decoration:none;line-height:0}
-.astro-author-card__image{
-  width:200px;
-  max-width:100%;
-  height:auto;
-  display:block;
-  margin:0 auto 12px;
-  border-radius:0;
-  object-fit:contain;
-  box-shadow:none;
-}
-.ecs-posts .astro-author-card__name,
-.ecs-posts h3.astro-author-card__name.elementor-heading-title,
-.astro-author-card__name.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:24px !important;
-  font-weight:700 !important;
-  line-height:1.3em !important;
-  margin:0 0 4px;
-  text-align:center;
-  color:#070C13;
-}
-.ecs-posts .astro-author-card__name a,
-.astro-author-card__name a{
-  font-family:inherit !important;
-  font-size:inherit !important;
-  font-weight:inherit !important;
-  line-height:inherit !important;
-  color:#070C13 !important;
-  text-decoration:none;
-}
-.ecs-posts .astro-author-card__title,
-.ecs-posts p.astro-author-card__title.elementor-heading-title,
-.astro-author-card__title.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:15px !important;
-  font-weight:400 !important;
-  line-height:1.3em !important;
-  color:#666666 !important;
-  margin:0;
-  text-align:center;
-}
-@media (max-width:1024px){
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:45px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:18px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media (max-width:767px){
-  .astro-author-hero,.elementor-element-f45c242{padding:50px 0 60px}
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:40px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:22px !important}
-  .ecs-posts .astro-author-card__title,
-  .ecs-posts p.astro-author-card__title.elementor-heading-title,
-  .astro-author-card__title.elementor-heading-title{font-size:16px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:1fr}
-  .elementor-element-fbd336b{padding:30px 0}
-}
-</style>`;
-
-  if (!html.includes('astro-author-directory-css')) {
-    html = html.replace('</head>', `${authorDirectoryCss}\n</head>`);
-  }
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
-  }
-
-  return injectRuntimeGtmLoader(html);
+  html = html.replace('data-astro-author-page', 'data-astro-author-page data-author-directory');
+  html = patchAuthorDirectoryHeadMeta(html);
+  return finalizeHtml(html, 'author');
 }
 
 export function serveAuthorDirectory(): Response {
-  const html = assembleAuthorDirectoryHtml();
-  return new Response(html, {
+  return new Response(assembleAuthorDirectoryHtml(), {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=0',

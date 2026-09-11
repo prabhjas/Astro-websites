@@ -94,6 +94,13 @@ const baseCss = [
 
 const LEGACY_WIDGETS_CSS = "/wp-content/plugins/dreamit-elementor-extension/assets/css/widgets-style.css";
 const FIXED_WIDGETS_CSS = `${LEGACY_WIDGETS_CSS}?v=20260807-1`;
+/** Query bust for this wave's rewritten fixed-path CSS (Cloudflare max-age). */
+const CSS_QUERY_BUST: Record<string, string> = {
+  "/css/eor-home-blog.css": "?v=20260911-owl",
+  "/wp-content/uploads/elementor/css/post-18041.css": "?v=20260911-owl",
+  "/wp-content/uploads/elementor/css/post-21414.css": "?v=20260911-imgs",
+  "/wp-content/uploads/elementor/css/post-28566.css": "?v=20260911-imgs",
+};
 
 const stylesheets = [
   ...new Set(
@@ -107,7 +114,12 @@ const stylesheets = [
       "/css/eor-mobile-nav.css",
     ]
       .filter((href) => !SP_KIT_BLOCKLIST.has(href) && !href.includes("/elementor/css/post-19.css"))
-      .map((href) => href.split("?")[0] === LEGACY_WIDGETS_CSS ? FIXED_WIDGETS_CSS : href),
+      .map((href) => {
+        const base = href.split("?")[0];
+        if (base === LEGACY_WIDGETS_CSS) return FIXED_WIDGETS_CSS;
+        const bust = CSS_QUERY_BUST[base];
+        return bust ? `${base}${bust}` : href;
+      }),
   ),
 ];
 

@@ -50,7 +50,8 @@ const stylesheets = [
     ...chromeCss,
     ...extraCss,
     // Live WP Additional CSS is concatenated into migration-overrides.css
-    "/css/migration-overrides-v2.css",
+    // Query bust: Rajpal featured-card / cross-brand image CSS (2026-09-11)
+    "/css/migration-overrides-v2.css?v=20260911-cards",
     "/css/menu-no-hash-v2.css",
   ]),
 ];
