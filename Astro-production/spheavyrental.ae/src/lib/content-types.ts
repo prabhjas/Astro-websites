@@ -51,6 +51,8 @@ export type PostEntry = {
   authorName: string;
   authorSlug: string;
   featuredImage: string;
+  /** Optional alt for the hero featured image (falls back to post title). */
+  featuredImageAlt?: string;
   seo: SeoData;
   elementorCss?: string;
   pageCss?: string[];

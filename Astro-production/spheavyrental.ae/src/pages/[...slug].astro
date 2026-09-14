@@ -9,12 +9,10 @@ import {
   getPublishedPostByPath,
   getRelatedPosts,
   getAuthorBySlug,
-  getAuthors,
   formatDate,
   stripHtml,
   normalizePath,
 } from "../lib/content";
-import type { AuthorEntry } from "../lib/content-types";
 import { prepareElementorPostHtml } from "../lib/post-html";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
@@ -61,10 +59,6 @@ const postCrumbs = post
     ]
   : [];
 
-const author = post
-  ? getAuthorBySlug(post.authorSlug) || getAuthors().find((a: AuthorEntry) => a.id === post.author) || getAuthors()[0]
-  : undefined;
-
 const seo = page
   ? {
       title: page.seo.title,
@@ -84,7 +78,7 @@ const seo = page
       ogType: "article" as const,
       publishedTime: post!.date,
       modifiedTime: post!.modified,
-      authorName: author?.name || post!.authorName,
+      authorName: post!.authorName,
       schemas: [
         ...(post!.seo.schemas || []),
         breadcrumbSchema(postCrumbs.map((c) => ({ name: c.name, url: c.href || path }))),
@@ -95,7 +89,7 @@ const seo = page
           image: post!.featuredImage || post!.seo.ogImage,
           datePublished: post!.date,
           dateModified: post!.modified,
-          authorName: author?.name || post!.authorName,
+          authorName: post!.authorName,
         }),
       ],
     };
@@ -117,9 +111,9 @@ const postHtml =
   post?.bodyHtml && postUsesElementor
     ? prepareElementorPostHtml(
         post.bodyHtml,
-        author ? { ...post, authorName: author.name, authorSlug: author.slug } : post,
+        post,
         related,
-        author?.avatar,
+        getAuthorBySlug(post.authorSlug)?.avatar,
       )
     : post?.bodyHtml;
 ---
@@ -156,10 +150,10 @@ const postHtml =
           <h1 set:html={post!.title} />
           <div class="sp-article__meta">
             <time datetime={post!.date}>{formatDate(post!.date)}</time>
-            {(author?.name || post!.authorName) && (
+            {post!.authorName && (
               <>
                 {" "}
-                · <a href={`/author/${author?.slug || post!.authorSlug}/`}>{author?.name || post!.authorName}</a>
+                · <a href={`/author/${post!.authorSlug}/`}>{post!.authorName}</a>
               </>
             )}
             {catNames.length > 0 && (
@@ -180,7 +174,7 @@ const postHtml =
           <figure style="margin: 0 0 1.75rem">
             <img
               src={post!.featuredImage}
-              alt={stripHtml(post!.title)}
+              alt={post!.featuredImageAlt || stripHtml(post!.title)}
               width="1200"
               height="675"
               loading="eager"

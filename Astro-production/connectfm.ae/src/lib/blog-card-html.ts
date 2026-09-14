@@ -87,7 +87,7 @@ export function renderBlogCardHtml(post: PostEntry): string {
   const imgSrc = resolveImageSrc(post.featuredImage || post.seo?.ogImage || "");
   const img = imgSrc
     ? `<a href="${escapeAttr(href)}">
-							<img loading="lazy" decoding="async" width="800" height="534" src="${escapeAttr(imgSrc)}" class="attachment-large size-large" alt="${escapeAttr(title)}" />								</a>`
+							<img loading="lazy" decoding="async" width="640" height="400" src="${escapeAttr(imgSrc)}" class="attachment-large size-large" alt="${escapeAttr(title)}" />								</a>`
     : `<a href="${escapeAttr(href)}" aria-label="${escapeAttr(title)}"></a>`;
 
   return `<div data-elementor-type="loop-item" data-elementor-id="2553" class="elementor elementor-2553 e-loop-item e-loop-item-${post.id} post-${post.id} post type-post status-publish format-standard ${thumbClass} hentry ${catClass} ${tagClasses}" data-elementor-post-type="elementor_library">

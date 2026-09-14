@@ -300,13 +300,14 @@ export function prepareElementorPostHtml(
 
   const title = stripHtml(post.title);
   const featuredImage = (post.featuredImage || post.seo?.ogImage || "").trim();
+  const featuredAlt = (post.featuredImageAlt || title).trim();
 
   let out = html;
   if (relatedPosts.length && out.includes("ecs-posts")) {
     out = replaceEcsPostsInner(out, 1, renderBlogCardsHtml(relatedPosts));
   }
 
-  out = injectFeaturedImageHtml(out, featuredImage, title);
+  out = injectFeaturedImageHtml(out, featuredImage, featuredAlt);
   out = linkAuthorBoxHtml(out, post.authorSlug, post.authorName, authorAvatar);
 
   return out;

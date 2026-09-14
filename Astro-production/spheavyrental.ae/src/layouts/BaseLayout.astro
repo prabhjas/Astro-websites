@@ -77,6 +77,11 @@ const baseCss = [
   ...(liveCssOrder as string[]).filter((href) => !globalCss.includes(href) && !href.includes("/elementor/css/post-10.css")),
 ];
 
+/** Query bust for this wave's rewritten fixed-path CSS (Cloudflare max-age). */
+const CSS_QUERY_BUST: Record<string, string> = {
+  "/css/migration-overrides.css": "?v=20260914-yellow",
+};
+
 const stylesheets = [
   ...new Set([
     ...baseCss,
@@ -85,7 +90,11 @@ const stylesheets = [
     "/css/elementor-bg-fallback.css",
     "/css/migration-overrides.css",
   ]),
-];
+].map((href) => {
+  const base = href.split("?")[0];
+  const bust = CSS_QUERY_BUST[base];
+  return bust ? `${base}${bust}` : href;
+});
 
 ---
 

@@ -125,10 +125,10 @@ export function serveLegacyPage(slug) {
   html = sanitizeMirrorHtml(html);
   html = hoistFaqPageJsonLd(html);
 
-    // Bust Cloudflare/browser cache when mirror-fixes behavior changes (keep one current ?v= only).
+    // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
   html = html.replace(
     /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
-    'src=$1/js/astro-mirror-fixes.js?v=blog-faq-schema-20260909$1'
+    'src=$1/js/astro-mirror-fixes.js?v=mofa-spacing-20260914$1'
   );
 
   return new Response(html, {

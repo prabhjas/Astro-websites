@@ -2043,6 +2043,12 @@
       'nav.rank-math-breadcrumb,',
       '.elementor-location-single .elementor-col-100.elementor-top-column:has(.elementor-widget-theme-post-title) > .elementor-widget-wrap{padding-left:8px!important;padding-right:8px!important;box-sizing:border-box!important;}',
       '}',
+      /* Blog post body: tighten paragraph rhythm */
+      '.elementor-widget-theme-post-content .elementor-widget-container > p{margin:0 0 .7em!important;line-height:1.55!important;}',
+      '.elementor-widget-theme-post-content .elementor-widget-container > ul,.elementor-widget-theme-post-content .elementor-widget-container > ol{margin:.25em 0 .85em!important;}',
+      '.elementor-widget-theme-post-content .elementor-widget-container > ul li,.elementor-widget-theme-post-content .elementor-widget-container > ol li{margin:0 0 .4em!important;}',
+      '.elementor-widget-theme-post-content .elementor-widget-container > h2{margin:1.35em 0 .55em!important;}',
+      '.elementor-widget-theme-post-content .elementor-widget-container > h3{margin:1.1em 0 .45em!important;}',
       /* Blog FAQs (h2 + h3/p) → click accordion */
       '.kpm-faq-accordion{margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:10px;}',
       '.kpm-faq-item{border:1px solid #e4e7ee;border-radius:8px;background:#fff;overflow:hidden;}',

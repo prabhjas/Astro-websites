@@ -87,4 +87,6 @@ export type AuthorEntry = {
   path: string;
   description: string;
   avatar: string;
+  /** Optional role/title shown on the Authors directory. */
+  designation?: string;
 };

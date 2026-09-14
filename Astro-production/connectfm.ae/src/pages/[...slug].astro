@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PostCard from "../components/PostCard.astro";
 import {
+  getAuthors,
   getCategories,
   getPageByPath,
   getPublishedPostByPath,
@@ -13,6 +14,7 @@ import {
 } from "../lib/content";
 import { resolveUploadUrlsInHtml } from "../lib/resolve-upload-urls";
 import { rewriteElementorPostBreadcrumb } from "../lib/post-breadcrumb";
+import { rewriteElementorAuthorBoxes } from "../lib/post-author-box";
 import { articleSchema, breadcrumbSchema } from "../lib/seo";
 import { notFoundResponse } from "../lib/not-found";
 
@@ -37,8 +39,21 @@ const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content || "";
  */
 let html = resolveUploadUrlsInHtml(rawHtml);
 // Single posts (Elementor): force Home → Blog → [Post Title], keep ekit separators/styles.
+// Also sync author boxes to the post author and link to /author/{slug}/.
 if (post) {
   html = rewriteElementorPostBreadcrumb(html, stripHtml(post.title));
+  const authorEntry =
+    getAuthors().find((a) => a.id === post.author) ||
+    getAuthors().find((a) => a.slug === post.authorSlug);
+  const authorPath =
+    authorEntry?.path ||
+    (post.authorSlug ? `/author/${post.authorSlug}/` : "");
+  html = rewriteElementorAuthorBoxes(html, {
+    name: authorEntry?.name || post.authorName,
+    path: authorPath,
+    avatar: authorEntry?.avatar || "",
+    description: authorEntry?.description || "",
+  });
 }
 const catNames = post ? getCategories().filter((c) => post.categories.includes(c.id)) : [];
 
