@@ -469,6 +469,12 @@ body.single-post .elementor-652 .elementor-widget-theme-post-featured-image img,
   display: block;
 }
 
+/* Blog post body links — brand yellow on all single posts */
+.elementor-widget-theme-post-content a,
+.sp-article__content a {
+  color: #FFDD04 !important;
+}
+
 @media (max-width: 767px) {
   body.page-id-144 .elementor-534 .elementor-element-de6bda7,
   body.page-id-144 .elementor-534 .elementor-element-de6bda7 > .elementor-element-populated,

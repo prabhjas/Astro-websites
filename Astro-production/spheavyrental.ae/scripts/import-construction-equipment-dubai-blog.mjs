@@ -70,7 +70,7 @@ function h4(t) {
   return `<h4><span style="color: #ffffff;">${t}</span></h4>\n`;
 }
 function a(href, text) {
-  return `<a style="color: #ffffff;" href="${href}">${text}</a>`;
+  return `<a style="color: #FFDD04;" href="${href}">${text}</a>`;
 }
 function b(text) {
   return `<b>${text}</b>`;

@@ -174,7 +174,7 @@ const postHtml =
           <figure style="margin: 0 0 1.75rem">
             <img
               src={post!.featuredImage}
-              alt={stripHtml(post!.title)}
+              alt={post!.featuredImageAlt || stripHtml(post!.title)}
               width="1200"
               height="675"
               loading="eager"
