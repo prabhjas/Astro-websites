@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import Pagination from "../../../components/Pagination.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
-import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import AuthorArchiveCard from "../../../components/AuthorArchiveCard.astro";
+import {
+  authors,
+  getPostsByAuthor,
+  stripHtml,
+} from "../../../lib/content";
+import { AUTHOR_ARCHIVE_PER_PAGE } from "../../../lib/author-archive-html";
 import { breadcrumbSchema } from "../../../lib/seo";
 
 export function getStaticPaths() {
@@ -14,43 +18,414 @@ export function getStaticPaths() {
 }
 
 const { author } = Astro.props;
+const name = stripHtml(author.name);
+const bio = stripHtml(author.description || "");
+const designation = author.designation?.trim() || "";
+const avatar = author.avatar || "";
+const BANNER = "/wp-content/uploads/2026/09/cfm-authors-banner.png";
+
 const sorted = getPostsByAuthor(author.id);
-const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const initialItems = sorted.slice(0, AUTHOR_ARCHIVE_PER_PAGE);
+const hasMore = sorted.length > AUTHOR_ARCHIVE_PER_PAGE;
+const title = `Author: ${name} | Connect FM`;
+const description =
+  bio || `Articles and guides by ${name} on Connect FM — facilities management insights for the UAE.`;
 ---
 
 <BaseLayout
   currentPath={author.path}
+  bodyClass="cfm-author-archive-page"
   seo={{
-    title: `Author: ${stripHtml(author.name)} | Connect UAE`,
-    description: author.description || `Articles by ${author.name}.`,
+    title,
+    description,
     canonical: author.path,
+    ogImage: avatar || BANNER,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: author.name, url: author.path },
+        { name: "Authors", url: "/author/" },
+        { name: name, url: author.path },
       ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        name,
+        description,
+        url: `https://connectfm.ae${author.path}`,
+        mainEntity: {
+          "@type": "Person",
+          name,
+          description: bio || undefined,
+          image: avatar || undefined,
+          url: `https://connectfm.ae${author.path}`,
+        },
+      },
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
+  <section class="cfm-author-archive-hero" aria-labelledby="cfm-author-archive-heading">
+    <div class="cfm-author-archive-hero__media">
+      <img
+        src={BANNER}
+        alt="Connect FM author profile banner"
+        width="1440"
+        height="472"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="cfm-author-archive-hero__content">
+      <div class="sp-container cfm-author-archive-hero__inner">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Authors", href: "/author/" },
+            { name },
+          ]}
+        />
+        <div class="cfm-author-archive-hero__profile">
+          <div class="cfm-author-archive-hero__avatar" aria-hidden={!avatar}>
+            {
+              avatar ? (
+                <img
+                  src={avatar}
+                  alt={`${name} — Connect FM author`}
+                  width="160"
+                  height="160"
+                  decoding="async"
+                />
+              ) : (
+                <span class="cfm-author-archive-hero__initials">{name.slice(0, 1).toUpperCase()}</span>
+              )
+            }
+          </div>
+          <div class="cfm-author-archive-hero__text">
+            <h1 id="cfm-author-archive-heading">{name}</h1>
+            {designation && <p class="cfm-author-archive-hero__role">{designation}</p>}
+            {
+              bio ? (
+                <p class="cfm-author-archive-hero__bio">{bio}</p>
+              ) : (
+                <p class="cfm-author-archive-hero__bio">
+                  Explore articles and guides published by {name} on Connect FM.
+                </p>
+              )
+            }
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
-    {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p>No posts by this author.</p>
-      )
-    }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
+
+  <section class="cfm-author-archive-posts" aria-label={`Posts by ${name}`}>
+    <div class="sp-container">
+      {
+        initialItems.length ? (
+          <>
+            <div class="cfm-author-archive-grid" data-cfm-author-grid="1">
+              {initialItems.map((post) => (
+                <AuthorArchiveCard post={post} />
+              ))}
+            </div>
+            {
+              hasMore && (
+                <div
+                  class="cfm-author-archive-loadmore"
+                  data-cfm-author-load-more="1"
+                  data-author-id={String(author.id)}
+                  data-next-page="2"
+                  data-per-page={String(AUTHOR_ARCHIVE_PER_PAGE)}
+                  data-offset={String(initialItems.length)}
+                >
+                  <button type="button" class="cfm-author-archive-loadmore__btn">
+                    Load More
+                  </button>
+                </div>
+              )
+            }
+          </>
+        ) : (
+          <p class="cfm-author-archive-empty">No posts by this author.</p>
+        )
+      }
+    </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  body.cfm-author-archive-page .site-main > .page-content {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.cfm-author-archive-page .site-main {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero {
+    position: relative;
+    isolation: isolate;
+    color: #fff;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    aspect-ratio: 1440 / 472;
+    min-height: 240px;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: clamp(1.25rem, 3.5vw, 2.75rem) 0;
+    background: none;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero .sp-breadcrumbs {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero .sp-breadcrumbs a:hover {
+    color: #ffdd04;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__profile {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 1.35rem 1.6rem;
+    align-items: center;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 18px;
+    padding: 3px;
+    background: linear-gradient(135deg, #1ec8e8 0%, #2bb673 42%, #f0c419 100%);
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__avatar img,
+  .cfm-author-archive-page .cfm-author-archive-hero__initials {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    display: block;
+    object-fit: cover;
+    background: #eef3f7;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__initials {
+    display: grid;
+    place-items: center;
+    font-family: "DM Sans", sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #0b4f7a;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero h1 {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    line-height: 1.15;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__role {
+    margin: 0 0 0.55rem;
+    color: #ffdd04;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-hero__bio {
+    margin: 0;
+    max-width: 42rem;
+    color: #fff;
+    font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+    line-height: 1.55;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-posts {
+    background: #fff;
+    color: #111;
+    padding: 2.5rem 0 4.5rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-empty {
+    margin: 0;
+    color: #555;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__media {
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: #e8eef3;
+    margin-bottom: 0.9rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__cat {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin: 0 0 0.55rem;
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    background: #dff3fb;
+    color: #0b6ea8;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1.3;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__title {
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 0.55rem;
+    color: #111;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__title a:hover {
+    color: #0b6ea8;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.86rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-post-card__dot {
+    opacity: 0.7;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-loadmore {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-loadmore__btn {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    background: #0b6ea8;
+    color: #fff;
+    font-family: "DM Sans", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-loadmore__btn:hover {
+    background: #095a8a;
+  }
+
+  .cfm-author-archive-page .cfm-author-archive-loadmore__btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  @media (max-width: 1024px) {
+    .cfm-author-archive-page .cfm-author-archive-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cfm-author-archive-page .cfm-author-archive-hero {
+      aspect-ratio: auto;
+      min-height: 280px;
+    }
+
+    .cfm-author-archive-page .cfm-author-archive-hero__content {
+      align-items: flex-end;
+      padding-bottom: 1.5rem;
+    }
+
+    .cfm-author-archive-page .cfm-author-archive-hero__profile {
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 0.9rem 1rem;
+    }
+
+    .cfm-author-archive-page .cfm-author-archive-hero__avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 14px;
+    }
+
+    .cfm-author-archive-page .cfm-author-archive-hero__avatar img,
+    .cfm-author-archive-page .cfm-author-archive-hero__initials {
+      border-radius: 11px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cfm-author-archive-page .cfm-author-archive-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
