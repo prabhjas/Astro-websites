@@ -1,7 +1,10 @@
 /**
- * Elementor Pro TOC fallback — builds links from post H2/H3 when the Pro widget stays empty.
+ * Elementor TOC — only headings from THIS post (title + theme-post-content).
+ * Ignores related-post / sidebar / footer H1–H2 that Elementor Pro otherwise includes.
  */
 (function () {
+  var updating = false;
+
   function ready(fn) {
     if (document.readyState !== "loading") fn();
     else document.addEventListener("DOMContentLoaded", fn);
@@ -18,7 +21,10 @@
   }
 
   function ensureId(el, used) {
-    if (el.id) return el.id;
+    if (el.id) {
+      used[el.id] = true;
+      return el.id;
+    }
     var base = slugify(el.textContent) || "section";
     var id = base;
     var n = 2;
@@ -30,67 +36,135 @@
     return id;
   }
 
-  function fillToc(widget) {
-    if (!widget || widget.dataset.spTocFilled === "1") return;
-    var bodyList = widget.querySelector(".elementor-toc__list-wrapper, .elementor-toc__body ol, .elementor-toc__body ul");
-    var existing = widget.querySelectorAll(".elementor-toc__list-item a, .elementor-toc a[href^='#']");
-    if (existing.length) {
-      widget.dataset.spTocFilled = "1";
-      return;
+  function collectPostHeadings() {
+    var headings = [];
+    var seen = typeof WeakSet !== "undefined" ? new WeakSet() : null;
+    var seenList = [];
+
+    function pushUnique(el) {
+      if (!el) return;
+      if (seen) {
+        if (seen.has(el)) return;
+        seen.add(el);
+      } else {
+        if (seenList.indexOf(el) !== -1) return;
+        seenList.push(el);
+      }
+      headings.push(el);
     }
 
+    // Main post H1 only (first title widget — not related cards later in the DOM).
+    var mainTitle =
+      document.querySelector(
+        ".elementor-location-single .elementor-widget-theme-post-title h1",
+      ) ||
+      document.querySelector(".elementor-2619 .elementor-widget-theme-post-title h1") ||
+      document.querySelector("article .elementor-widget-theme-post-title h1");
+    pushUnique(mainTitle);
+
+    // Article body only — never related posts / author / footer blocks.
     var contentRoot =
       document.querySelector(".elementor-widget-theme-post-content") ||
-      document.querySelector(".elementor-2619 .elementor-element-c0a0c0a, .sp-page-content") ||
       document.querySelector(".sp-page-content");
-    if (!contentRoot) return;
+    if (contentRoot) {
+      // Site TOC settings use h1 + h2 (section titles). Skip h3 FAQ questions etc.
+      contentRoot.querySelectorAll("h2").forEach(pushUnique);
+    }
 
-    var headings = contentRoot.querySelectorAll("h2, h3");
-    if (!headings.length) return;
+    return headings;
+  }
 
+  function textFingerprint(headings) {
+    return headings
+      .map(function (h) {
+        return (h.textContent || "").trim();
+      })
+      .filter(Boolean)
+      .join("\n");
+  }
+
+  function listFingerprint(widget) {
+    var links = widget.querySelectorAll(".elementor-toc__list-item a, .elementor-toc a[href^='#']");
+    var parts = [];
+    links.forEach(function (a) {
+      parts.push((a.textContent || "").trim());
+    });
+    return parts.filter(Boolean).join("\n");
+  }
+
+  function buildListHtml(headings) {
     var used = {};
     var items = [];
     headings.forEach(function (h) {
       var text = (h.textContent || "").trim();
       if (!text) return;
       var id = ensureId(h, used);
-      var level = h.tagName === "H3" ? "elementor-toc__list-item--level-2" : "elementor-toc__list-item--level-1";
       items.push(
-        '<li class="elementor-toc__list-item ' +
-          level +
-          '"><a href="#' +
+        '<li class="elementor-toc__list-item elementor-toc__list-item--level-1">' +
+          '<a href="#' +
           id +
-          '" class="elementor-toc__list-item-text elementor-toc__list-item-text--level-' +
-          (h.tagName === "H3" ? "3" : "2") +
-          '"><span class="elementor-toc__list-item-text-wrapper">' +
+          '" class="elementor-toc__list-item-text elementor-toc__list-item-text--level-2">' +
+          '<span class="elementor-toc__list-item-text-wrapper">' +
           text.replace(/</g, "&lt;") +
           "</span></a></li>",
       );
     });
-    if (!items.length) return;
+    if (!items.length) return "";
+    return '<ol class="elementor-toc__list-wrapper">' + items.join("") + "</ol>";
+  }
 
-    var html = '<ol class="elementor-toc__list-wrapper">' + items.join("") + "</ol>";
+  function fillToc(widget) {
+    if (!widget) return;
+    var headings = collectPostHeadings();
+    if (!headings.length) return;
+
+    var expected = textFingerprint(headings);
+    if (widget.dataset.spTocScoped === "1" && listFingerprint(widget) === expected) {
+      return;
+    }
+
+    var html = buildListHtml(headings);
+    if (!html) return;
+
     var body = widget.querySelector(".elementor-toc__body");
     if (body) {
-      // Remove spinner / empty placeholder
       body.innerHTML = html;
-    } else if (bodyList) {
-      bodyList.outerHTML = html;
     } else {
       var header = widget.querySelector(".elementor-toc__header");
       if (header) header.insertAdjacentHTML("afterend", '<div class="elementor-toc__body">' + html + "</div>");
-      else widget.insertAdjacentHTML("beforeend", html);
+      else widget.insertAdjacentHTML("beforeend", '<div class="elementor-toc__body">' + html + "</div>");
     }
+    widget.dataset.spTocScoped = "1";
     widget.dataset.spTocFilled = "1";
   }
 
-  ready(function () {
-    function run() {
-      document.querySelectorAll(".elementor-widget-table-of-contents, .elementor-toc").forEach(fillToc);
+  function run() {
+    if (updating) return;
+    updating = true;
+    try {
+      document
+        .querySelectorAll(".elementor-widget-table-of-contents, .elementor-toc")
+        .forEach(fillToc);
+    } finally {
+      updating = false;
     }
+  }
+
+  ready(function () {
     run();
-    // Elementor may mount late
+    // Beat Elementor Pro's page-wide TOC scan (related-post H2s).
+    setTimeout(run, 200);
     setTimeout(run, 600);
-    setTimeout(run, 1800);
+    setTimeout(run, 1500);
+    setTimeout(run, 3000);
+
+    var toc = document.querySelector(".elementor-widget-table-of-contents, .elementor-toc");
+    if (toc && typeof MutationObserver !== "undefined") {
+      var obs = new MutationObserver(function () {
+        if (updating) return;
+        run();
+      });
+      obs.observe(toc, { childList: true, subtree: true });
+    }
   });
 })();
