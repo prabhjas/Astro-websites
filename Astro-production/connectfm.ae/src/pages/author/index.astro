@@ -1,0 +1,336 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import AuthorCard from "../../components/AuthorCard.astro";
+import { getAuthors, getPostsByAuthor, stripHtml } from "../../lib/content";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = true;
+
+const PATH = "/author/";
+const BANNER = "/wp-content/uploads/2026/09/cfm-authors-banner.png";
+const BANNER_FALLBACK = BANNER;
+
+/** Prefer published authors; exclude system/email accounts from the directory. */
+const HIDDEN_AUTHOR_SLUGS = new Set([
+  "muhammad-faieezvistaoutsourcing-com",
+  "m-mushtaquevistaoutsourcing-com",
+  "m-tabishvistaoutsourcing-com",
+]);
+
+const allAuthors = getAuthors().filter((author) => {
+  if (HIDDEN_AUTHOR_SLUGS.has(author.slug)) return false;
+  if (/@/.test(author.name)) return false;
+  return true;
+});
+const withPosts = allAuthors
+  .map((author) => ({ author, count: getPostsByAuthor(author.id).length }))
+  .filter((row) => row.count > 0)
+  .sort((a, b) => b.count - a.count || stripHtml(a.author.name).localeCompare(stripHtml(b.author.name)));
+
+const listed = (withPosts.length ? withPosts : allAuthors.map((author) => ({ author, count: 0 }))).map(
+  (row) => row.author,
+);
+
+const title = "Authors | Connect FM";
+const description =
+  "Meet the Connect FM authors behind our facilities management, security, plumbing, and HVAC guides for Dubai and the UAE.";
+---
+
+<BaseLayout
+  currentPath={PATH}
+  bodyClass="cfm-authors-page"
+  seo={{
+    title,
+    description,
+    canonical: PATH,
+    ogImage: BANNER,
+    schemas: [
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Authors", url: PATH },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Authors",
+        description,
+        url: "https://connectfm.ae/author/",
+        isPartOf: {
+          "@type": "WebSite",
+          name: "Connect FM",
+          url: "https://connectfm.ae/",
+        },
+      },
+    ],
+  }}
+>
+  <section class="cfm-authors-hero" aria-labelledby="cfm-authors-heading">
+    <div class="cfm-authors-hero__media">
+      <img
+        src={BANNER_FALLBACK}
+        alt="Connect FM Authors page banner"
+        width="1440"
+        height="472"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="cfm-authors-hero__content">
+      <div class="sp-container cfm-authors-hero__inner">
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Authors" }]} />
+        <h1 id="cfm-authors-heading">Authors</h1>
+        <p>
+          Insights from Connect FM specialists covering facilities management, smart security, plumbing,
+          HVAC, and property care across the UAE.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cfm-authors-list" aria-label="Author directory">
+    <div class="sp-container">
+      {
+        listed.length ? (
+          <ul class="cfm-authors-list__grid">
+            {listed.map((author) => (
+              <li>
+                <AuthorCard author={author} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="cfm-authors-list__empty">No authors found.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* Full-bleed banner — escape theme/page-content padding */
+  body.cfm-authors-page .site-main > .page-content {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.cfm-authors-page .site-main {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .cfm-authors-page .cfm-authors-hero {
+    position: relative;
+    isolation: isolate;
+    color: #fff;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    aspect-ratio: 1440 / 472;
+    min-height: 200px;
+  }
+
+  .cfm-authors-page .cfm-authors-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cfm-authors-page .cfm-authors-hero__media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .cfm-authors-page .cfm-authors-hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 3rem) 0;
+    background: none;
+  }
+
+  .cfm-authors-page .cfm-authors-hero__inner {
+    text-align: left;
+  }
+
+  .cfm-authors-page .cfm-authors-hero .sp-breadcrumbs {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .cfm-authors-page .cfm-authors-hero .sp-breadcrumbs a:hover {
+    color: #ffdd04;
+  }
+
+  .cfm-authors-page .cfm-authors-hero h1 {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(2.4rem, 6vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0 0 0.75rem;
+    color: #fff;
+    line-height: 1.1;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .cfm-authors-page .cfm-authors-hero p {
+    max-width: 40rem;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    line-height: 1.55;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  }
+
+  .cfm-authors-page .cfm-authors-list {
+    background: #fff;
+    color: #111;
+    padding: 2.75rem 0 4.5rem;
+  }
+
+  .cfm-authors-page .cfm-authors-list__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .cfm-authors-page .cfm-authors-list__empty {
+    margin: 0;
+    color: #555;
+  }
+
+  .cfm-authors-page .cfm-author-card {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 1.5rem 1.75rem;
+    align-items: start;
+    padding: 0.25rem 0;
+  }
+
+  .cfm-authors-page .cfm-author-card__media {
+    display: block;
+    width: 160px;
+    height: 160px;
+    border-radius: 18px;
+    padding: 3px;
+    background: linear-gradient(135deg, #1ec8e8 0%, #2bb673 42%, #f0c419 100%);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .cfm-authors-page .cfm-author-card__media img,
+  .cfm-authors-page .cfm-author-card__initials {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    display: block;
+    object-fit: cover;
+    background: #eef3f7;
+  }
+
+  .cfm-authors-page .cfm-author-card__initials {
+    display: grid;
+    place-items: center;
+    font-family: "DM Sans", sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #0b4f7a;
+  }
+
+  .cfm-authors-page .cfm-author-card__name {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    line-height: 1.2;
+    color: #111;
+  }
+
+  .cfm-authors-page .cfm-author-card__name a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .cfm-authors-page .cfm-author-card__name a:hover {
+    color: #0b6ea8;
+  }
+
+  .cfm-authors-page .cfm-author-card__role {
+    margin: 0 0 0.65rem;
+    color: #0b6ea8;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .cfm-authors-page .cfm-author-card__bio {
+    margin: 0 0 0.85rem;
+    color: #333;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .cfm-authors-page .cfm-author-card__link {
+    display: inline-flex;
+    align-items: center;
+    color: #0b6ea8;
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+  }
+
+  .cfm-authors-page .cfm-author-card__link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .cfm-authors-page .cfm-authors-hero__content {
+      padding: 1.5rem 0;
+      align-items: flex-end;
+    }
+
+    .cfm-authors-page .cfm-author-card {
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 1rem 1.1rem;
+    }
+
+    .cfm-authors-page .cfm-author-card__media {
+      width: 112px;
+      height: 112px;
+      border-radius: 14px;
+    }
+
+    .cfm-authors-page .cfm-author-card__media img,
+    .cfm-authors-page .cfm-author-card__initials {
+      border-radius: 11px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .cfm-authors-page .cfm-author-card {
+      grid-template-columns: 1fr;
+      justify-items: start;
+    }
+
+    .cfm-authors-page .cfm-author-card__media {
+      width: 132px;
+      height: 132px;
+    }
+  }
+</style>

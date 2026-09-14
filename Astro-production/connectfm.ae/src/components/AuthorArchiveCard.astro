@@ -1,0 +1,54 @@
+---
+import { formatDate, getCategories, stripHtml, type PostEntry } from "../lib/content";
+import { estimateReadMinutes } from "../lib/author-archive-html";
+
+interface Props {
+  post: PostEntry;
+}
+
+function decodeEntities(value: string): string {
+  return value
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ");
+}
+
+const { post } = Astro.props;
+const title = decodeEntities(stripHtml(post.title));
+const href = post.path.endsWith("/") ? post.path : `${post.path}/`;
+const imgSrc = (post.featuredImage || post.seo?.ogImage || "").trim();
+const dateLabel = formatDate(post.date);
+const minutes = estimateReadMinutes(post);
+const cats = getCategories();
+const cat = (post.categories || [])
+  .map((id) => cats.find((c) => c.id === id))
+  .find((c) => c?.name);
+const catName = cat ? decodeEntities(stripHtml(cat.name)) : "Blog";
+const catPath = cat?.path || (cat?.slug ? `/category/${cat.slug}/` : "/blog/");
+---
+
+<article class="cfm-author-post-card">
+  <a class:list={["cfm-author-post-card__media", !imgSrc && "cfm-author-post-card__media--empty"]} href={href} aria-label={title}>
+    {
+      imgSrc ? (
+        <img src={imgSrc} alt={title} width="640" height="400" loading="lazy" decoding="async" />
+      ) : null
+    }
+  </a>
+  <div class="cfm-author-post-card__body">
+    <a class="cfm-author-post-card__cat" href={catPath}>{catName}</a>
+    <h3 class="cfm-author-post-card__title">
+      <a href={href}>{title}</a>
+    </h3>
+    <p class="cfm-author-post-card__meta">
+      <span class="cfm-author-post-card__date">{dateLabel}</span>
+      <span class="cfm-author-post-card__dot" aria-hidden="true">·</span>
+      <span class="cfm-author-post-card__read">{minutes} min read</span>
+    </p>
+  </div>
+</article>

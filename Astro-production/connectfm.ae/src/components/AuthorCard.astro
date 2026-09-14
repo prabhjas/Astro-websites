@@ -1,0 +1,52 @@
+---
+import type { AuthorEntry } from "../lib/content-types";
+import { stripHtml } from "../lib/content";
+
+interface Props {
+  author: AuthorEntry;
+}
+
+const { author } = Astro.props;
+const name = stripHtml(author.name);
+const bio = stripHtml(author.description || "");
+const designation = author.designation?.trim() || "";
+const avatar = author.avatar || "";
+const alt = `${name} — Connect FM author`;
+---
+
+<article class="cfm-author-card">
+  <a class="cfm-author-card__media" href={author.path} aria-label={`View articles by ${name}`}>
+    {
+      avatar ? (
+        <img
+          src={avatar}
+          alt={alt}
+          width="160"
+          height="160"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="cfm-author-card__initials" aria-hidden="true">
+          {name.slice(0, 1).toUpperCase()}
+        </span>
+      )
+    }
+  </a>
+  <div class="cfm-author-card__body">
+    <h2 class="cfm-author-card__name">
+      <a href={author.path}>{name}</a>
+    </h2>
+    {designation && <p class="cfm-author-card__role">{designation}</p>}
+    {
+      bio ? (
+        <p class="cfm-author-card__bio">{bio}</p>
+      ) : (
+        <p class="cfm-author-card__bio">
+          Read articles and guides published by {name} on Connect FM.
+        </p>
+      )
+    }
+    <a class="cfm-author-card__link" href={author.path}>View author profile</a>
+  </div>
+</article>

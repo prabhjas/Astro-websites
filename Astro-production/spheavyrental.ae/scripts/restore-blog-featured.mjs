@@ -16,7 +16,7 @@ const FEATURED_BY_SLUG = {
   'generator-rental-cost':
     '/wp-content/uploads/2025/06/Generator-Rental-Service-Page-image.webp',
   'how-to-choose-the-right-heavy-machinery-for-rent':
-    '/wp-content/uploads/2026/04/Renting-Heavy-Machinery-in-the-UAE-e1775538016961.webp',
+    '/wp-content/uploads/2026/09/How-to-Choose-the-Right-Heavy-Machinery-for-Rent.jpg',
 };
 
 const posts = JSON.parse(fs.readFileSync(postsPath, 'utf8'));

@@ -3,15 +3,21 @@ import {
   BLOG_LOAD_MORE_PER_PAGE,
   renderBlogCardsHtml,
 } from "../../../lib/blog-card-html";
-import { getPosts, getPostsByCategory } from "../../../lib/content";
+import {
+  AUTHOR_ARCHIVE_PER_PAGE,
+  renderAuthorArchiveCardsHtml,
+} from "../../../lib/author-archive-html";
+import { getPosts, getPostsByAuthor, getPostsByCategory } from "../../../lib/content";
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ url }) => {
   const page = Math.max(1, Number(url.searchParams.get("page") || "1") || 1);
+  const authorId = Number(url.searchParams.get("authorId") || "0") || 0;
+  const defaultPerPage = authorId > 0 ? AUTHOR_ARCHIVE_PER_PAGE : BLOG_LOAD_MORE_PER_PAGE;
   const perPage = Math.min(
     24,
-    Math.max(1, Number(url.searchParams.get("perPage") || BLOG_LOAD_MORE_PER_PAGE) || BLOG_LOAD_MORE_PER_PAGE),
+    Math.max(1, Number(url.searchParams.get("perPage") || defaultPerPage) || defaultPerPage),
   );
   const offsetParam = url.searchParams.get("offset");
   const offset =
@@ -21,13 +27,18 @@ export const GET: APIRoute = async ({ url }) => {
   const categoryId = Number(url.searchParams.get("categoryId") || "0") || 0;
 
   const sorted = (
-    categoryId > 0 ? getPostsByCategory(categoryId) : getPosts()
+    authorId > 0
+      ? getPostsByAuthor(authorId)
+      : categoryId > 0
+        ? getPostsByCategory(categoryId)
+        : getPosts()
   ).sort((a, b) => +new Date(b.date) - +new Date(a.date));
   const items = sorted.slice(offset, offset + perPage);
   const total = sorted.length;
   const nextOffset = offset + items.length;
   const hasMore = nextOffset < total;
-  const html = renderBlogCardsHtml(items);
+  const html =
+    authorId > 0 ? renderAuthorArchiveCardsHtml(items) : renderBlogCardsHtml(items);
 
   return new Response(
     JSON.stringify({
