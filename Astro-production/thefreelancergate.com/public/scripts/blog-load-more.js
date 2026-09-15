@@ -73,6 +73,7 @@
       setLabel("Loading...");
 
       var categoryId = nav.getAttribute("data-category-id") || "";
+      var authorId = nav.getAttribute("data-author-id") || "";
       var url =
         "/api/blog/load-more/?page=" +
         encodeURIComponent(String(nextPage)) +
@@ -82,7 +83,8 @@
         encodeURIComponent(String(offset)) +
         "&layout=" +
         encodeURIComponent(layout) +
-        (categoryId ? "&categoryId=" + encodeURIComponent(categoryId) : "");
+        (categoryId ? "&categoryId=" + encodeURIComponent(categoryId) : "") +
+        (authorId ? "&authorId=" + encodeURIComponent(authorId) : "");
 
       fetch(url, {
         headers: { Accept: "application/json" },
@@ -105,15 +107,10 @@
             nextPage = data.nextPage;
             nav.setAttribute("data-next-page", String(nextPage));
             if (btn.tagName === "A") {
-              var base = categoryId
-                ? window.location.pathname
-                : "/insights/page/" + nextPage + "/";
-              btn.setAttribute(
-                "href",
-                categoryId
-                  ? base.replace(/\/?$/, "/") + "?page=" + nextPage
-                  : base,
-              );
+              // Keep href on current archive; pagination URLs are 301'd away.
+              // Click still uses preventDefault + API load-more.
+              var basePath = window.location.pathname.replace(/\/?$/, "/");
+              btn.setAttribute("href", basePath);
             }
             setLabel(defaultLabel);
           } else {

@@ -81,7 +81,7 @@ const related = post ? getRelatedPosts(post, 3) : [];
 const postCrumbs = post
   ? [
       { name: "Home", href: "/" },
-      { name: "Blog", href: "/blog/" },
+      { name: "Insights", href: "/insights/" },
       { name: stripHtml(post.title) },
     ]
   : [];
@@ -157,6 +157,33 @@ const postExtraCss = postIsImprezaBody
         ),
     )
   : extraCss;
+
+/** Inject breadcrumbs into first Impreza section so fixed-header offset applies. */
+function withImprezaBreadcrumbs(bodyHtml: string): string {
+  const crumbs = postCrumbs
+    .map((item, i) => {
+      const sep =
+        i > 0
+          ? `<li class="sp-breadcrumbs__sep" aria-hidden="true">/</li>`
+          : "";
+      const node =
+        item.href && i < postCrumbs.length - 1
+          ? `<li class="sp-breadcrumbs__item"><a href="${item.href}">${item.name}</a></li>`
+          : `<li class="sp-breadcrumbs__item"><span aria-current="page">${item.name}</span></li>`;
+      return `${sep}${node}`;
+    })
+    .join("");
+  const nav = `<div class="sp-single-post-breadcrumbs blog-breadcrumb"><nav class="sp-breadcrumbs" aria-label="Breadcrumb"><ol>${crumbs}</ol></nav></div>`;
+  if (/class="l-section-h[^"]*"/i.test(bodyHtml)) {
+    return bodyHtml.replace(/(<div class="l-section-h[^"]*"[^>]*>)/i, `$1${nav}`);
+  }
+  if (/<main[^>]*class="[^"]*l-main[^"]*"/i.test(bodyHtml)) {
+    return bodyHtml.replace(/(<main[^>]*>)/i, `$1${nav}`);
+  }
+  return `${nav}${bodyHtml}`;
+}
+
+const imprezaHtml = postIsImprezaBody ? withImprezaBreadcrumbs(html) : html;
 ---
 
 <BaseLayout
@@ -180,7 +207,7 @@ const postExtraCss = postIsImprezaBody
     page ? (
       <div class="sp-page-content" set:html={html} />
     ) : postIsImprezaBody ? (
-      <div class="l-canvas type_wide sp-single-post-chrome" set:html={html} />
+      <div class="l-canvas type_wide sp-single-post-chrome" set:html={imprezaHtml} />
     ) : (
       <article class="sp-single-post">
         <Breadcrumbs items={postCrumbs} />

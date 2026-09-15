@@ -10,10 +10,20 @@ const { items } = Astro.props;
   <ol>
     {
       items.map((item, i) => (
-        <li>
-          {item.href && i < items.length - 1 ? <a href={item.href}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
-          {i < items.length - 1 ? <span class="sep">/</span> : null}
-        </li>
+        <>
+          {i > 0 ? (
+            <li class="sp-breadcrumbs__sep" aria-hidden="true">
+              /
+            </li>
+          ) : null}
+          <li class="sp-breadcrumbs__item">
+            {item.href && i < items.length - 1 ? (
+              <a href={item.href}>{item.name}</a>
+            ) : (
+              <span aria-current="page">{item.name}</span>
+            )}
+          </li>
+        </>
       ))
     }
   </ol>
@@ -24,14 +34,33 @@ const { items } = Astro.props;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
     gap: 0.35rem;
     margin: 0;
     padding: 0;
-    align-items: center;
+    line-height: 1;
   }
 
-  .sep {
+  .sp-breadcrumbs__item,
+  .sp-breadcrumbs__sep {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .sp-breadcrumbs__sep {
     opacity: 0.5;
-    margin-left: 0.2rem;
+  }
+
+  a,
+  span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
   }
 </style>

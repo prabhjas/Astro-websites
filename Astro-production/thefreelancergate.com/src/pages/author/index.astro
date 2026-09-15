@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAuthors, getPageByPath, getPostsByAuthor, stripHtml } from "../../lib/content";
+import { initialsAvatarDataUri } from "../../lib/post-author";
+import { breadcrumbSchema } from "../../lib/seo";
+
+export const prerender = true;
+
+const FEATURED_ORDER = [
+  "oskars-pelens",
+  "sreya-sarkar",
+  "timothy-duncan",
+  "romee-giri",
+  "gian-orillo",
+  "mehvish-beg",
+  "michelle-solon",
+  "desery-dandan",
+  "jerryl-alva",
+];
+
+const cmsPage = getPageByPath("/author/");
+const pageCss = [
+  ...(cmsPage?.pageCss || []),
+  ...(cmsPage?.elementorCss ? [cmsPage.elementorCss] : []),
+];
+
+const authors = getAuthors()
+  .map((author) => {
+    const name = stripHtml(author.name).trim();
+    const role = stripHtml(author.description || "").trim();
+    const hasPhoto =
+      Boolean(author.avatar) && !/default-avatar\.svg$/i.test(author.avatar);
+    return {
+      ...author,
+      displayName: name,
+      role,
+      postCount: getPostsByAuthor(author.id).length,
+      photo: hasPhoto ? author.avatar : initialsAvatarDataUri(name),
+      hasPhoto,
+      featuredRank: FEATURED_ORDER.indexOf(author.slug),
+    };
+  })
+  .filter((author) => author.postCount > 0 && author.featuredRank >= 0)
+  .sort((a, b) => {
+    const aFeat = a.featuredRank >= 0 ? a.featuredRank : 999;
+    const bFeat = b.featuredRank >= 0 ? b.featuredRank : 999;
+    if (aFeat !== bFeat) return aFeat - bFeat;
+    return a.displayName.localeCompare(b.displayName);
+  });
+
+const intro =
+  "Learn from our talented writers on a variety of topics. They all contribute invaluable experience to our site for professionals.";
+---
+
+<BaseLayout
+  currentPath="/author/"
+  menuActivePath="/author/"
+  theme="impreza"
+  bodyClass="tfg-authors-page"
+  extraCss={pageCss}
+  fallback={cmsPage?.seo}
+  seo={{
+    title: cmsPage?.seo?.title || "Our Authors | The Freelancer Gate",
+    description: cmsPage?.seo?.description || intro,
+    canonical: "/author/",
+    ogImage: cmsPage?.seo?.ogImage,
+    schemas: [
+      ...(cmsPage?.seo?.schemas || []),
+      breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Authors", url: "/author/" },
+      ]),
+    ],
+  }}
+>
+  <section class="tfg-authors-hero" aria-label="Our Authors">
+    <img
+      class="tfg-authors-hero__banner"
+      src="/images/authors/authors-banner.png?v=2"
+      alt=""
+      width="1922"
+      height="339"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="tfg-authors-hero__inner sp-container">
+      <h1 class="tfg-authors-hero__title">
+        Our <span>Authors</span>
+      </h1>
+      <p class="tfg-authors-hero__intro">{intro}</p>
+    </div>
+  </section>
+
+  <section class="tfg-authors-grid-wrap">
+    <div class="sp-container">
+      {
+        authors.length ? (
+          <ul class="tfg-authors-grid">
+            {authors.map((author) => (
+              <li>
+                <a class="tfg-author-card" href={author.path}>
+                  <span class="tfg-author-card__avatar">
+                    <img
+                      src={author.photo}
+                      alt=""
+                      width="160"
+                      height="160"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span class="tfg-author-card__name">{author.displayName}</span>
+                  <span class="tfg-author-card__role">
+                    {author.role ||
+                      (author.postCount === 1
+                        ? "1 article"
+                        : `${author.postCount} articles`)}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="tfg-authors-empty">No authors found.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

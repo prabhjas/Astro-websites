@@ -1,9 +1,15 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import Pagination from "../../../components/Pagination.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
-import { authors, getPostsByAuthor, paginate, POSTS_PER_PAGE, stripHtml } from "../../../lib/content";
+import {
+  authors,
+  getPostsByAuthor,
+  stripHtml,
+} from "../../../lib/content";
+import {
+  IMPREZA_GRID_PER_PAGE,
+  renderImprezaGridCardsHtml,
+} from "../../../lib/blog-card-html";
 import { breadcrumbSchema } from "../../../lib/seo";
 
 export function getStaticPaths() {
@@ -15,42 +21,84 @@ export function getStaticPaths() {
 
 const { author } = Astro.props;
 const sorted = getPostsByAuthor(author.id);
-const { items, page, totalPages } = paginate(sorted, 1, POSTS_PER_PAGE);
+const perPage = IMPREZA_GRID_PER_PAGE;
+const initialItems = sorted.slice(0, perPage);
+const cardsHtml = renderImprezaGridCardsHtml(initialItems);
+const hasMore = sorted.length > initialItems.length;
+const name = stripHtml(author.name);
 ---
 
 <BaseLayout
   currentPath={author.path}
+  menuActivePath="/author/"
+  theme="impreza"
+  bodyClass="tfg-authors-page"
+  extraCss={["/css/author-archive-grid.css"]}
   seo={{
-    title: `Author: ${stripHtml(author.name)} | The Freelancer Gate`,
-    description: author.description || `Articles by ${author.name}.`,
+    title: `Author: ${name} | The Freelancer Gate`,
+    description: author.description || `Articles by ${name}.`,
     canonical: author.path,
     schemas: [
       breadcrumbSchema([
         { name: "Home", url: "/" },
-        { name: author.name, url: author.path },
+        { name: "Authors", url: "/author/" },
+        { name: name, url: author.path },
       ]),
     ],
   }}
 >
-  <section class="sp-archive-hero">
-    <div class="sp-container">
-      <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: author.name }]} />
-      <h1 set:html={author.name} />
-      {author.description && <p set:html={author.description} />}
+  <section class="tfg-authors-hero tfg-authors-hero--single" aria-label={name}>
+    <img
+      class="tfg-authors-hero__banner"
+      src="/images/authors/authors-banner.png?v=2"
+      alt=""
+      width="1922"
+      height="339"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="tfg-authors-hero__inner sp-container">
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Authors", href: "/author/" },
+          { name: name },
+        ]}
+      />
+      <h1 class="tfg-authors-hero__title">{name}</h1>
+      {author.description && <p class="tfg-authors-hero__intro" set:html={author.description} />}
     </div>
   </section>
-  <section class="sp-container" style="padding: 1rem 0 4rem">
+
+  <section class="tfg-author-posts">
     {
-      items.length ? (
-        <div class="sp-blog-grid">
-          {items.map((post) => (
-            <PostCard post={post} />
-          ))}
+      initialItems.length ? (
+        <div class="w-grid type_grid layout_1473 cols_4" id="us_grid_author">
+          <div class="w-grid-list" data-sp-blog-grid="1" set:html={cardsHtml} />
+          {
+            hasMore ? (
+              <div
+                class="g-loadmore"
+                data-sp-blog-load-more="1"
+                data-layout="impreza"
+                data-next-page="2"
+                data-per-page={String(perPage)}
+                data-offset={String(initialItems.length)}
+                data-author-id={String(author.id)}
+              >
+                <div class="g-preloader type_1">
+                  <div />
+                </div>
+                <button type="button" class="w-btn us-btn-style_2">
+                  <span class="w-btn-label">Load More</span>
+                </button>
+              </div>
+            ) : null
+          }
         </div>
       ) : (
-        <p>No posts by this author.</p>
+        <p class="tfg-authors-empty">No posts by this author.</p>
       )
     }
-    <Pagination page={page} totalPages={totalPages} basePath={author.path} />
   </section>
 </BaseLayout>
