@@ -1,20 +1,25 @@
 /**
  * Author archive types, shell assembly, and content loading.
+ * Posts come from posts-index.json (CFS has no src/content/blog JSON store).
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject';
 import {
-  AUTHOR_POSTS_PER_PAGE,
-  buildPostCardHtml,
-  getPostsByAuthorSlug,
-  type BlogPost,
-} from './blog.ts';
+  getIndexedPosts,
+  getIndexedLaw,
+  buildCafCardHtml,
+  type IndexedPost,
+} from './posts-index.ts';
 
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
 const ORIGIN = '';
+/** Brand author owns all mirrored posts/law until per-author attribution exists. */
+export const BRAND_AUTHOR_SLUG = 'company-formation-saudi';
+/** Initial author archive batch + Load More page size. */
+export const AUTHOR_ARCHIVE_LOAD_MORE = 8;
 
 export interface AuthorSocial {
   type: string;
@@ -43,39 +48,20 @@ export interface Author {
 
 export interface AuthorPageData {
   author: Author;
-  posts: BlogPost[];
+  posts: IndexedPost[];
   currentPage: number;
   totalPages: number;
   totalPosts: number;
 }
 
-const LIVE_AUTHOR_ORDER = [
-  'kate-williams',
-  'liam-doherty',
-  'sahiba',
-  'david-walsh',
-  'vijoy-vijayanandan',
-  'nakul',
-  'timothy-patridge',
-  'harneet',
-];
+const LIVE_AUTHOR_ORDER = [BRAND_AUTHOR_SLUG];
 
 const LIVE_AUTHOR_OVERRIDES: Record<string, { name?: string; title?: string; avatar?: string }> = {
-  'kate-williams': {
-    name: 'Kate Williams',
-    title: 'Managing Broker/Partner, e-PRO',
-    avatar: '/wp-content/uploads/2024/05/KW.png',
+  [BRAND_AUTHOR_SLUG]: {
+    name: 'Company Formation Saudi',
+    title: 'Business Setup Experts',
+    avatar: '/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png',
   },
-  'liam-doherty': { avatar: '/wp-content/uploads/2024/05/LD.png' },
-  sahiba: { avatar: '/wp-content/uploads/2024/05/SM.png' },
-  'david-walsh': { avatar: '/wp-content/uploads/2024/05/DW.png' },
-  'vijoy-vijayanandan': { avatar: '/wp-content/uploads/2024/05/VV.png' },
-  nakul: {
-    title: 'Head of Recruitment & Business Development',
-    avatar: '/wp-content/uploads/2024/05/NS.png',
-  },
-  'timothy-patridge': { name: 'Timothy Partridge', avatar: '/wp-content/uploads/2024/05/TP.png' },
-  harneet: { avatar: '/wp-content/uploads/2024/05/HB.png' },
 };
 
 function escapeHtml(text: string): string {
@@ -105,18 +91,56 @@ export function getAllAuthors(): Author[] {
     .filter((author): author is Author => author !== null);
 }
 
+function sortByDateDesc(a: IndexedPost, b: IndexedPost): number {
+  const ta = Date.parse(a.publishedAt || a.modifiedAt || '') || 0;
+  const tb = Date.parse(b.publishedAt || b.modifiedAt || '') || 0;
+  return tb - ta;
+}
+
+/** All mirrored posts/law attributed to the brand author (or name match). */
+export function getIndexedPostsByAuthorSlug(authorSlug: string): IndexedPost[] {
+  const all = [...getIndexedPosts(), ...getIndexedLaw()].sort(sortByDateDesc);
+  if (authorSlug === BRAND_AUTHOR_SLUG) return all;
+
+  const author = getAuthor(authorSlug);
+  if (!author) return [];
+  const name = author.name.trim().toLowerCase();
+  return all.filter((p) => String(p.author || '').trim().toLowerCase() === name);
+}
+
 export function getAuthorPageData(slug: string, page = 1): AuthorPageData | null {
   const author = getAuthor(slug);
   if (!author) return null;
 
-  const allPosts = getPostsByAuthorSlug(slug);
+  const allPosts = getIndexedPostsByAuthorSlug(slug);
   const totalPosts = allPosts.length;
-  const totalPages = Math.max(1, Math.ceil(totalPosts / AUTHOR_POSTS_PER_PAGE));
-  const currentPage = Math.min(Math.max(1, page), totalPages);
-  const start = (currentPage - 1) * AUTHOR_POSTS_PER_PAGE;
-  const posts = allPosts.slice(start, start + AUTHOR_POSTS_PER_PAGE);
+  // Load More UX: always serve the first batch on the archive page (no numbered pages).
+  const totalPages = 1;
+  const currentPage = 1;
+  const posts = allPosts.slice(0, AUTHOR_ARCHIVE_LOAD_MORE);
 
   return { author, posts, currentPage, totalPages, totalPosts };
+}
+
+/** HTML cards for author Load More API. */
+export function buildAuthorArchiveCardsHtml(posts: IndexedPost[]): string {
+  return posts.map((p) => buildCafCardHtml(p)).join('\n');
+}
+
+export function getAuthorArchiveSlice(slug: string, offset: number, limit = AUTHOR_ARCHIVE_LOAD_MORE) {
+  const all = getIndexedPostsByAuthorSlug(slug);
+  const safeOffset = Math.max(0, offset);
+  const safeLimit = Math.min(24, Math.max(1, limit));
+  const slice = all.slice(safeOffset, safeOffset + safeLimit);
+  const nextOffset = safeOffset + slice.length;
+  return {
+    posts: slice,
+    html: buildAuthorArchiveCardsHtml(slice),
+    total: all.length,
+    offset: safeOffset,
+    nextOffset,
+    hasMore: nextOffset < all.length,
+  };
 }
 
 export interface AuthorDirectoryEntry {
@@ -128,7 +152,7 @@ export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
   const entries = getAllAuthors()
     .map((author) => ({
       author,
-      postCount: getPostsByAuthorSlug(author.slug).length,
+      postCount: getIndexedPostsByAuthorSlug(author.slug).length,
     }))
     .filter((entry) => entry.postCount > 0);
 
@@ -138,51 +162,129 @@ export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
   return preferred.length ? preferred : entries.sort((a, b) => a.author.name.localeCompare(b.author.name));
 }
 
-function buildProfileHtml(author: Author): string {
-  const name = escapeHtml(author.name);
-  const title = author.title ? escapeHtml(author.title) : '';
-  const bio = author.bio ? escapeHtml(author.bio) : '';
-  const avatarSrc = author.avatar?.src || '';
+/** True for mirror blog posts only — never law articles/pages. */
+export function isIndexedBlogPostSlug(slug: string): boolean {
+  const norm = String(slug || '')
+    .replace(/^\/+|\/+$/g, '')
+    .toLowerCase();
+  if (!norm) return false;
+  if (norm === 'law' || norm.startsWith('law/') || norm.includes('/law/')) return false;
+
+  const lawHit = getIndexedLaw().some((p) => {
+    const s = String(p.slug || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+    const u = String(p.url || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+    return s === norm || u === norm;
+  });
+  if (lawHit) return false;
+
+  return getIndexedPosts().some((p) => {
+    const s = String(p.slug || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+    const u = String(p.url || '').replace(/^\/+|\/+$/g, '').toLowerCase();
+    return s === norm || u === norm;
+  });
+}
+
+/** Compact author card injected at the end of blog posts (not law). */
+export function buildPostAuthorBoxHtml(authorSlug = BRAND_AUTHOR_SLUG): string {
+  const author = getAuthor(authorSlug) || getAuthor(BRAND_AUTHOR_SLUG);
+  if (!author) return '';
+
+  const override = LIVE_AUTHOR_OVERRIDES[author.slug] || {};
+  const name = escapeHtml(override.name || author.name);
+  const title = escapeHtml(override.title || author.title || '');
+  const bio = escapeHtml(author.bio || author.description || '');
+  const avatarSrc =
+    override.avatar ||
+    author.avatar?.src ||
+    '/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png';
   const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
+  const href = `/author/${author.slug}/`;
 
-  const avatarHtml = avatarSrc
-    ? `<div class="elementor-element elementor-element-c5e7b22 elementor-widget elementor-widget-image" data-widget_type="image.default">
-        <img width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" class="attachment-large size-large" loading="lazy" />
-      </div>`
-    : '';
+  return `<aside class="cfs-post-author-box" aria-label="About the author">
+  <div class="cfs-post-author-box__inner">
+    <a class="cfs-post-author-box__visual" href="${href}" aria-label="${name}">
+      <span class="cfs-post-author-box__plate">
+        <span class="cfs-post-author-box__circle">
+          <img class="cfs-post-author-box__image" width="160" height="160" src="${avatarSrc}" alt="${avatarAlt}" loading="lazy" decoding="async" />
+          <span class="cfs-post-author-box__accent" aria-hidden="true"></span>
+        </span>
+      </span>
+    </a>
+    <div class="cfs-post-author-box__meta">
+      <p class="cfs-post-author-box__label">About the author</p>
+      <h3 class="cfs-post-author-box__name"><a href="${href}">${name}</a></h3>
+      ${title ? `<p class="cfs-post-author-box__title">${title}</p>` : ''}
+      ${bio ? `<p class="cfs-post-author-box__bio">${bio}</p>` : ''}
+      <p class="cfs-post-author-box__cta"><a href="${href}">View all posts</a></p>
+    </div>
+  </div>
+</aside>
+<style id="cfs-post-author-box-css">
+.cfs-post-author-box{max-width:1140px;margin:36px auto 48px;padding:0 20px;box-sizing:border-box}
+.cfs-post-author-box__inner{display:flex;gap:28px;align-items:center;background:#f7f4ef;border:1px solid #ece7df;border-radius:16px;padding:24px 28px}
+.cfs-post-author-box__visual{flex:0 0 auto;text-decoration:none}
+.cfs-post-author-box__plate{display:flex;align-items:center;justify-content:center;width:140px;height:140px;background:#f58220;border-radius:18px;padding:14px;box-sizing:border-box}
+.cfs-post-author-box__circle{position:relative;width:100%;aspect-ratio:1;border-radius:50%;background:#0c2c5a;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cfs-post-author-box__image{width:78%;height:78%;object-fit:contain;display:block}
+.cfs-post-author-box__accent{position:absolute;left:50%;bottom:10px;width:0;height:0;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:14px solid #f58220}
+.cfs-post-author-box__meta{flex:1 1 auto;min-width:0}
+.cfs-post-author-box__label{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b7280}
+.cfs-post-author-box__name{margin:0 0 6px;font-size:26px;line-height:1.15;font-weight:700}
+.cfs-post-author-box__name a{color:#00a8b5;text-decoration:none}
+.cfs-post-author-box__name a:hover{opacity:.85}
+.cfs-post-author-box__title{margin:0 0 10px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#111}
+.cfs-post-author-box__bio{margin:0 0 12px;font-size:15px;line-height:1.55;color:#222}
+.cfs-post-author-box__cta{margin:0}
+.cfs-post-author-box__cta a{color:#f58220;font-weight:700;text-decoration:none}
+.cfs-post-author-box__cta a:hover{text-decoration:underline}
+@media (max-width:767px){
+  .cfs-post-author-box{margin:28px auto 36px;padding:0 16px}
+  .cfs-post-author-box__inner{flex-direction:column;align-items:flex-start;padding:20px;gap:16px}
+  .cfs-post-author-box__plate{width:120px;height:120px}
+  .cfs-post-author-box__name{font-size:22px}
+}
+</style>`;
+}
 
+const AUTHOR_BANNER_SRC = '/wp-content/uploads/2026/09/author-banner.png';
+const AUTHOR_ARCHIVE_BANNER_SRC = '/wp-content/uploads/2026/09/author-archive-banner.png';
+
+function buildProfileHtml(author: Author): string {
+  const override = LIVE_AUTHOR_OVERRIDES[author.slug] || {};
+  const name = escapeHtml(override.name || author.name);
+  const title = escapeHtml(override.title || author.title || '');
+  const bio = escapeHtml(author.bio || author.description || '');
+  const avatarSrc =
+    override.avatar ||
+    author.avatar?.src ||
+    '/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png';
+  const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
   const linkedin = author.social?.find((s) => s.type === 'linkedin');
   const linkedinHtml = linkedin
-    ? `<div class="elementor-element elementor-element-6ff7a74 elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-widget_type="icon.default">
-        <div class="elementor-icon-wrapper">
-          <a class="elementor-icon" href="${escapeHtml(linkedin.url)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
-          </a>
-        </div>
-      </div>`
+    ? `<a class="cfs-author-profile__linkedin" href="${escapeHtml(linkedin.url)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45zM22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2z"/></svg>
+      </a>`
     : '';
 
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-58abf12 elementor-section-boxed elementor-section-height-default" data-id="58abf12" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dce297d" data-id="dce297d" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <section class="elementor-section elementor-inner-section elementor-element elementor-element-c10a2ed main-auth elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="c10a2ed" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-bee1fb5">
-                <div class="elementor-widget-wrap elementor-element-populated">${avatarHtml}</div>
-              </div>
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-3c484b8">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-b5d8e9f elementor-widget__width-auto elementor-widget elementor-widget-heading" data-widget_type="heading.default">
-                    <p class="elementor-heading-title elementor-size-default">${name}</p>
-                  </div>
-                  ${linkedinHtml}
-                  ${title ? `<div class="elementor-element elementor-element-2e0fb4e elementor-widget elementor-widget-heading" data-widget_type="heading.default"><span class="elementor-heading-title elementor-size-default">${title}</span></div>` : ''}
-                  ${bio ? `<div class="elementor-element elementor-element-bb840a7 elementor-widget elementor-widget-heading" data-widget_type="heading.default"><p class="elementor-heading-title elementor-size-default">${bio}</p></div>` : ''}
-                </div>
-              </div>
-            </div>
-          </section>
+  return `<section class="cfs-author-profile" aria-label="${name}">
+    <img class="cfs-author-profile__bg" src="${AUTHOR_ARCHIVE_BANNER_SRC}" alt="" width="1920" height="420" decoding="async" fetchpriority="high" />
+    <div class="cfs-author-profile__inner">
+      <div class="cfs-author-profile__card">
+        <div class="cfs-author-profile__visual" aria-hidden="false">
+          <span class="cfs-author-profile__plate">
+            <span class="cfs-author-profile__circle">
+              <img class="cfs-author-profile__image" width="220" height="220" src="${avatarSrc}" alt="${avatarAlt}" loading="eager" decoding="async" />
+              <span class="cfs-author-profile__accent" aria-hidden="true"></span>
+            </span>
+          </span>
+        </div>
+        <div class="cfs-author-profile__meta">
+          <div class="cfs-author-profile__name-row">
+            <h1 class="cfs-author-profile__name">${name}</h1>
+            ${linkedinHtml}
+          </div>
+          ${title ? `<p class="cfs-author-profile__title">${title}</p>` : ''}
+          ${bio ? `<p class="cfs-author-profile__bio">${bio}</p>` : ''}
         </div>
       </div>
     </div>
@@ -190,21 +292,21 @@ function buildProfileHtml(author: Author): string {
 }
 
 function buildPostsHeadingHtml(author: Author): string {
-  return `<h2 class="elementor-heading-title elementor-size-default">Latest Articles by ${escapeHtml(author.name)}</h2>`;
+  return `<h2 class="cfs-author-posts-heading">Latest Articles by ${escapeHtml(author.name)}</h2>`;
 }
 
 function buildAuthorDirectoryHeroHtml(): string {
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-f45c242 astro-author-hero elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f45c242" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6c55a7e" data-id="6c55a7e" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <div class="elementor-element elementor-element-d0b4ef6 elementor-widget elementor-widget-heading" data-id="d0b4ef6" data-widget_type="heading.default">
-            <h2 class="elementor-heading-title elementor-size-default">Our Authors</h2>
-          </div>
-          <div class="elementor-element elementor-element-6ed679f elementor-widget elementor-widget-heading" data-id="6ed679f" data-widget_type="heading.default">
-            <p class="elementor-heading-title elementor-size-default">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
-          </div>
-        </div>
+  return `<section class="cfs-author-hero" aria-label="Authors">
+    <img class="cfs-author-hero__bg" src="${AUTHOR_BANNER_SRC}" alt="" width="1920" height="520" decoding="async" fetchpriority="high" />
+    <div class="cfs-author-hero__inner">
+      <div class="cfs-author-hero__copy">
+        <nav class="cfs-author-hero__crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true"> / </span>
+          <span class="cfs-author-hero__crumb-current">Author</span>
+        </nav>
+        <h1 class="cfs-author-hero__title">Authors</h1>
+        <p class="cfs-author-hero__desc">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
       </div>
     </div>
   </section>`;
@@ -215,55 +317,54 @@ function buildAuthorDirectoryCardHtml(entry: AuthorDirectoryEntry): string {
   const override = LIVE_AUTHOR_OVERRIDES[author.slug] || {};
   const name = escapeHtml(override.name || author.name);
   const title = escapeHtml(override.title || author.title || '');
-  const avatarSrc = override.avatar || author.avatar?.src || '/wp-content/uploads/2024/05/KW.png';
+  const avatarSrc =
+    override.avatar ||
+    author.avatar?.src ||
+    '/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png';
   const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
   const href = `/author/${author.slug}/`;
 
-  return `<article class="astro-author-card">
-    <a class="astro-author-card__image-link" href="${href}">
-      <img class="astro-author-card__image attachment-medium size-medium" width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" loading="lazy" decoding="async" />
+  return `<article class="cfs-author-card">
+    <a class="cfs-author-card__visual" href="${href}" aria-label="${name}">
+      <span class="cfs-author-card__plate">
+        <span class="cfs-author-card__circle">
+          <img class="cfs-author-card__image" width="220" height="220" src="${avatarSrc}" alt="${avatarAlt}" loading="lazy" decoding="async" />
+          <span class="cfs-author-card__accent" aria-hidden="true"></span>
+        </span>
+      </span>
     </a>
-    <h3 class="elementor-heading-title elementor-size-default astro-author-card__name"><a href="${href}">${name}</a></h3>
-    ${title ? `<p class="elementor-heading-title elementor-size-default astro-author-card__title">${title}</p>` : ''}
+    <h3 class="cfs-author-card__name"><a href="${href}">${name}</a></h3>
+    ${title ? `<p class="cfs-author-card__title">${title}</p>` : ''}
   </article>`;
 }
 
 function buildAuthorDirectoryPostsHtml(entries: AuthorDirectoryEntry[]): string {
-  return entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n');
+  return `<div class="cfs-author-directory-grid">${entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n')}</div>`;
 }
 
-function buildPaginationHtml(author: Author, currentPage: number, totalPages: number): string {
-  if (totalPages <= 1) return '';
+function buildAuthorArchivePostsHtml(posts: IndexedPost[], author: Author, totalPosts: number): string {
+  const cards = buildAuthorArchiveCardsHtml(posts);
+  const offset = posts.length;
+  const hasMore = offset < totalPosts;
+  const loadMore = hasMore
+    ? `<div class="cfs-author-load-more-wrap">
+  <button type="button" class="cfs-author-load-more" data-cfs-author-load-more data-author-slug="${escapeHtml(author.slug)}" data-offset="${offset}" data-per-page="${AUTHOR_ARCHIVE_LOAD_MORE}" data-total="${totalPosts}">Load more</button>
+</div>`
+    : '';
 
-  const base = `/author/${author.slug}/`;
-  const items: string[] = [];
-
-  if (currentPage > 1) {
-    const prev = currentPage === 2 ? base : `${base}page/${currentPage - 1}/`;
-    items.push(`<a class="prev page-numbers" href="${prev}">Previous</a>`);
-  }
-
-  for (let p = 1; p <= totalPages; p++) {
-    const href = p === 1 ? base : `${base}page/${p}/`;
-    if (p === currentPage) {
-      items.push(`<span aria-current="page" class="page-numbers current">${p}</span>`);
-    } else {
-      items.push(`<a class="page-numbers" href="${href}">${p}</a>`);
-    }
-  }
-
-  if (currentPage < totalPages) {
-    const next = `${base}page/${currentPage + 1}/`;
-    items.push(`<a class="next page-numbers" href="${next}">Next</a>`);
-  }
-
-  return `<nav class="navigation pagination elementor-pagination" aria-label="Posts"><div class="nav-links">${items.join('\n')}</div></nav>`;
+  return `<div id="caf-post-layout-container" class="caf-post-layout-container data-target-div1 post-layout1 cfs-author-caf">
+  <div id="manage-ajax-response" class="caf-row" data-cfs-author-posts>
+    ${cards}
+  </div>
+  ${loadMore}
+</div>`;
 }
 
 function patchHeadMeta(html: string, data: AuthorPageData): string {
   const { author, currentPage, totalPages } = data;
   const pageSuffix = currentPage > 1 ? ` - Page ${currentPage} of ${totalPages}` : '';
-  const title = author.og?.title || `${author.name}, Author at Connect Group${pageSuffix}`;
+  const baseTitle = author.og?.title || `${author.name}, Author at Company Formation Saudi`;
+  const title = `${baseTitle}${pageSuffix}`;
   const description = author.description || author.bio || '';
   const canonical =
     currentPage === 1
@@ -305,11 +406,15 @@ function patchHeadMeta(html: string, data: AuthorPageData): string {
 
 function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntry[]): string {
   const first = entries[0]?.author;
-  const title = 'Author - Connect Group';
+  const title = 'Author - Company Formation Saudi';
   const description =
-    'Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.';
+    'Guides and articles from Company Formation Saudi on company setup, labor law, visas, and doing business in Saudi Arabia.';
   const canonical = `${ORIGIN}/author/`;
-  const ogImage = first?.avatar?.src ? (first.avatar.src.startsWith('http') ? first.avatar.src : `${ORIGIN}${first.avatar.src}`) : `${ORIGIN}/wp-content/uploads/2024/05/KW.png`;
+  const ogImage = first?.avatar?.src
+    ? first.avatar.src.startsWith('http')
+      ? first.avatar.src
+      : `${ORIGIN}${first.avatar.src}`
+    : `${ORIGIN}/wp-content/uploads/2022/12/cropped-company_formation_logo-removebg-preview-270x270.png`;
 
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
 
@@ -351,37 +456,232 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const { author, posts, currentPage, totalPages } = data;
-
-  const postsHtml = posts.map((p) => buildPostCardHtml(p)).join('\n');
+  const { author, posts, totalPosts } = data;
+  const profileHtml = buildProfileHtml(author);
+  const postsHtml = buildAuthorArchivePostsHtml(posts, author, totalPosts);
 
   html = html
-    .replace('<!--ASTRO_AUTHOR:PROFILE-->', buildProfileHtml(author))
+    .replace('<!--ASTRO_AUTHOR:PROFILE-->', '')
     .replace('<!--ASTRO_AUTHOR:POSTS_HEADING-->', buildPostsHeadingHtml(author))
     .replace('<!--ASTRO_AUTHOR:POSTS-->', postsHtml)
-    .replace('<!--ASTRO_AUTHOR:PAGINATION-->', buildPaginationHtml(author, currentPage, totalPages));
+    .replace('<!--ASTRO_AUTHOR:PAGINATION-->', '');
+
+  // Full-bleed profile banner outside Elementor boxed content.
+  if (html.includes('class="elementor elementor-author-shell"')) {
+    html = html.replace(
+      /(<div\b[^>]*class="elementor elementor-author-shell"[^>]*>)/i,
+      `${profileHtml}\n$1`,
+    );
+  } else if (/<body[^>]*>/i.test(html)) {
+    html = html.replace(/<body[^>]*>/i, (m) => `${m}\n${profileHtml}\n`);
+  } else {
+    html = profileHtml + html;
+  }
 
   html = patchHeadMeta(html, data);
 
   const loopCssPath = join(ROOT, 'src/legacy/loop-card-24831.css.html');
   const loopCss = existsSync(loopCssPath) ? readFileSync(loopCssPath, 'utf8') : '';
+  const cafHeadAssets = `<link rel="stylesheet" id="tc-caf-common-style-css" href="/wp-content/plugins/category-ajax-filter/assets/css/common/common.min.css?ver=2.8.5.1" media="all" />
+<link rel="stylesheet" id="tc-caf-post-layout1-css" href="/wp-content/plugins/category-ajax-filter/assets/css/post/post-layout1.min.css?ver=2.8.5.1" media="all" />
+<link rel="stylesheet" id="tc-caf-font-awesome-style-css" href="/wp-content/plugins/category-ajax-filter/assets/css/fontawesome/css/font-awesome.min.css?ver=2.8.5.1" media="all" />
+<style id="tc-caf-author-archive-inline-css">
+#caf-post-layout-container.data-target-div1.post-layout1{background-color:transparent;font-family:inherit}
+.data-target-div1 .caf-post-layout1 .caf-post-title{background-color:transparent!important;padding:20px 4px 14px!important;margin:0!important}
+.data-target-div1 .caf-post-layout1 .caf-post-title h2,
+.data-target-div1 .caf-post-layout1 .caf-post-title h2 a{
+  color:#2ba2a3!important;
+  font-family:inherit;
+  text-transform:inherit;
+  font-size:20px!important;
+  font-weight:700!important;
+  line-height:1.35!important;
+}
+.data-target-div1 .caf-post-layout1 .caf-meta-content i{color:#18407c}
+.data-target-div1 .caf-post-layout1 span.author,
+.data-target-div1 .caf-post-layout1 span.date,
+.data-target-div1 .caf-post-layout1 span.comment{font-family:inherit}
+.data-target-div1 .caf-post-layout1 .caf-content{font-family:inherit}
+.data-target-div1 .caf-post-layout1 .caf-content-read-more,
+.data-target-div1 .caf-post-layout1 a.caf-read-more{display:none!important}
+.cfs-author-caf{max-width:1200px;margin:0 auto;padding:0 16px 24px}
+.ecs-posts.elementor-posts-container{display:block!important;padding:0!important;gap:0!important}
+.ecs-posts.elementor-posts-container > .cfs-author-caf{width:100%}
+.navigation.pagination.elementor-pagination{display:none!important}
+.cfs-author-load-more-wrap{display:flex;justify-content:center;padding:8px 0 40px;clear:both}
+.cfs-author-load-more{
+  appearance:none;
+  border:2px solid #f58220;
+  background:#fff;
+  color:#18407c;
+  font-size:15px;
+  font-weight:700;
+  line-height:1;
+  padding:14px 28px;
+  border-radius:4px;
+  cursor:pointer;
+}
+.cfs-author-load-more:hover{
+  background:#fff7f0;
+  color:#f58220;
+  border-color:#f58220;
+}
+.cfs-author-load-more.is-loading{opacity:.65;pointer-events:none}
+.cfs-author-load-more.is-hidden{display:none!important}
+</style>`;
   const authorFixCss = `<style id="astro-author-archive-css">
-.e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle;fill:currentColor}
-.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:16/9;object-position:center center}
-.ecs-posts.elementor-posts-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px}
-@media (max-width:767px){.ecs-posts.elementor-posts-container{grid-template-columns:1fr}}
-.astro-author-profile-section,
-.elementor-element-58abf12{padding:40px 0 20px;background:#f5f5f5}
-.elementor-element-58abf12 > .elementor-container{max-width:var(--container-max-width,1140px);margin-inline:auto}
-.main-auth{border-bottom:2px solid #241F7A;background:#fff;box-shadow:0 0 10px rgba(0,0,0,.07);border-radius:8px;padding:30px 40px;max-width:100%}
-.main-auth .elementor-widget-image img{width:180px;height:180px;object-fit:cover;border-radius:50%;display:block;margin:0 auto}
-.main-auth .elementor-element-b5d8e9f .elementor-heading-title{font-size:32px;font-weight:700;margin:0;color:#070c13}
-.main-auth .elementor-element-2e0fb4e .elementor-heading-title{font-size:16px;color:#666;font-weight:500}
-.main-auth .elementor-element-bb840a7 .elementor-heading-title{font-size:16px;line-height:1.6;color:#333;font-weight:400}
-.main-auth .elementor-icon svg{width:20px;height:20px;fill:#0a66c2}
-@media (max-width:767px){.main-auth{padding:24px 20px}}
+:root{
+  --cfs-author-teal:#00a8b5;
+  --cfs-author-orange:#f58220;
+  --cfs-author-navy:#0c2c5a;
+  --cfs-author-text:#222;
+}
+.cfs-author-posts-heading{
+  max-width:1200px;
+  margin:8px auto 24px;
+  padding:0 24px;
+  font-size:28px;
+  font-weight:700;
+  color:#111;
+}
+.cfs-author-profile{
+  position:relative;
+  overflow:hidden;
+  display:block;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 0 36px !important;
+  padding:0 !important;
+  min-height:300px;
+  background:#f7f4ef url("${AUTHOR_ARCHIVE_BANNER_SRC}") center / cover no-repeat;
+  line-height:0;
+}
+.cfs-author-profile__bg{
+  position:absolute;
+  inset:0;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  object-fit:cover;
+  object-position:center;
+  opacity:0;
+  pointer-events:none;
+}
+.cfs-author-profile__inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+  max-width:1200px;
+  width:100%;
+  min-height:300px;
+  margin:0 auto;
+  padding:36px 24px;
+  line-height:normal;
+}
+.cfs-author-profile__card{
+  display:flex;
+  align-items:center;
+  gap:36px;
+  width:100%;
+  max-width:920px;
+}
+.cfs-author-profile__visual{flex:0 0 auto}
+.cfs-author-profile__plate{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:210px;
+  height:210px;
+  background:var(--cfs-author-orange);
+  border-radius:22px;
+  padding:18px;
+  box-sizing:border-box;
+}
+.cfs-author-profile__circle{
+  position:relative;
+  width:100%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:var(--cfs-author-navy);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.cfs-author-profile__image{
+  width:78%;
+  height:78%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+}
+.cfs-author-profile__accent{
+  position:absolute;
+  left:50%;
+  bottom:12px;
+  width:0;height:0;
+  transform:translateX(-50%);
+  border-left:11px solid transparent;
+  border-right:11px solid transparent;
+  border-bottom:18px solid var(--cfs-author-orange);
+  z-index:2;
+}
+.cfs-author-profile__meta{flex:1 1 auto;min-width:0}
+.cfs-author-profile__name-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 8px;
+}
+.cfs-author-profile__name{
+  margin:0;
+  font-size:clamp(28px, 3.4vw, 42px);
+  line-height:1.1;
+  font-weight:700;
+  color:var(--cfs-author-teal);
+}
+.cfs-author-profile__linkedin{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  border-radius:4px;
+  background:#0a66c2;
+  color:#fff;
+  text-decoration:none;
+  flex:0 0 auto;
+}
+.cfs-author-profile__linkedin:hover{opacity:.9}
+.cfs-author-profile__title{
+  margin:0 0 12px;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:#111;
+}
+.cfs-author-profile__bio{
+  margin:0;
+  max-width:560px;
+  font-size:15px;
+  line-height:1.55;
+  color:var(--cfs-author-text);
+}
+@media (max-width:767px){
+  .cfs-author-profile{min-height:auto}
+  .cfs-author-profile__inner{min-height:0;padding:28px 16px}
+  .cfs-author-profile__card{flex-direction:column;align-items:flex-start;gap:18px}
+  .cfs-author-profile__plate{width:160px;height:160px;padding:14px;border-radius:18px}
+  .cfs-author-posts-heading{font-size:22px;margin-top:0}
+}
 </style>`;
 
+  if (!html.includes('tc-caf-post-layout1-css')) {
+    html = html.replace('</head>', `${cafHeadAssets}\n</head>`);
+  }
   if (!html.includes('elementor-post-24831') && loopCss) {
     html = html.replace('</head>', `${loopCss}\n</head>`);
   }
@@ -391,6 +691,42 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
 
   if (!html.includes('astro-mirror-fixes.js')) {
     html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+  }
+
+  if (!html.includes('data-cfs-author-load-more-script')) {
+    const loadMoreScript = `<script data-cfs-author-load-more-script>
+(function(){
+  var btn=document.querySelector('[data-cfs-author-load-more]');
+  var list=document.querySelector('[data-cfs-author-posts]');
+  if(!btn||!list) return;
+  btn.addEventListener('click', function(){
+    if(btn.classList.contains('is-loading')) return;
+    var slug=btn.getAttribute('data-author-slug')||'';
+    var offset=Number(btn.getAttribute('data-offset')||'0')||0;
+    var perPage=Number(btn.getAttribute('data-per-page')||'8')||8;
+    btn.classList.add('is-loading');
+    btn.textContent='Loading…';
+    fetch('/api/author/load-more?slug='+encodeURIComponent(slug)+'&offset='+offset+'&perPage='+perPage)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(!data||!data.ok) throw new Error('load failed');
+        if(data.html) list.insertAdjacentHTML('beforeend', data.html);
+        btn.setAttribute('data-offset', String(data.nextOffset||offset));
+        if(!data.hasMore){
+          btn.classList.add('is-hidden');
+        } else {
+          btn.classList.remove('is-loading');
+          btn.textContent='Load more';
+        }
+      })
+      .catch(function(){
+        btn.classList.remove('is-loading');
+        btn.textContent='Load more';
+      });
+  });
+})();
+</script>`;
+    html = html.replace(/<\/body>/i, `${loadMoreScript}\n</body>`);
   }
 
   return injectRuntimeGtmLoader(html);
@@ -413,134 +749,209 @@ export function assembleAuthorDirectoryHtml(): string {
 
   const entries = getAuthorDirectoryEntries();
   let html = readFileSync(SHELL_PATH, 'utf8');
+  const heroHtml = buildAuthorDirectoryHeroHtml();
 
   html = html
-    .replace('<!--ASTRO_AUTHOR:PROFILE-->', buildAuthorDirectoryHeroHtml())
+    .replace('<!--ASTRO_AUTHOR:PROFILE-->', '')
     .replace('<!--ASTRO_AUTHOR:POSTS_HEADING-->', '')
     .replace('<!--ASTRO_AUTHOR:POSTS-->', buildAuthorDirectoryPostsHtml(entries))
     .replace('<!--ASTRO_AUTHOR:PAGINATION-->', '');
 
+  // Full-bleed: place hero after theme header, outside Elementor boxed content.
+  if (html.includes('class="elementor elementor-author-shell"')) {
+    html = html.replace(
+      /(<div\b[^>]*class="elementor elementor-author-shell"[^>]*>)/i,
+      `${heroHtml}\n$1`,
+    );
+  } else if (/<body[^>]*>/i.test(html)) {
+    html = html.replace(/<body[^>]*>/i, (m) => `${m}\n${heroHtml}\n`);
+  } else {
+    html = heroHtml + html;
+  }
+
   html = patchAuthorDirectoryHeadMeta(html, entries);
 
   const authorDirectoryCss = `<style id="astro-author-directory-css">
-/* Live Elementor page 21412 mirror */
-.astro-author-hero,
-.elementor-element-f45c242{
-  background-image:url("/wp-content/uploads/2024/05/Rectangle-462.png");
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  padding:70px 0 80px;
+:root{
+  --cfs-author-teal:#00a8b5;
+  --cfs-author-orange:#f58220;
+  --cfs-author-navy:#0c2c5a;
+  --cfs-author-text:#333333;
 }
-.astro-author-hero .elementor-widget-wrap,
-.elementor-element-6c55a7e > .elementor-widget-wrap{
+.elementor-author-shell > .elementor-section.elementor-section-boxed{
+  max-width:none !important;
+}
+.elementor-author-shell .elementor-container{
+  max-width:1200px;
+  margin-inline:auto;
+  width:100%;
+}
+.elementor-author-shell .astro-author-page,
+.elementor-author-shell .elementor-widget-wrap{
+  text-align:left !important;
+}
+/* Full-bleed banner under site header */
+.cfs-author-hero{
+  position:relative;
+  overflow:hidden;
+  display:block;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 0 48px !important;
+  padding:0 !important;
+  left:auto !important;
+  right:auto !important;
+  background:#fff;
+  line-height:0;
+}
+.cfs-author-hero__bg{
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  height:auto !important;
+  object-fit:cover;
+  object-position:center;
+}
+.cfs-author-hero__inner{
+  position:absolute;
+  inset:0;
+  z-index:1;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:center;
-  text-align:center;
+  box-sizing:border-box;
+  max-width:1200px;
+  width:100%;
+  margin:0 auto;
+  padding:0 24px;
+  text-align:left;
+  line-height:normal;
+  pointer-events:none;
 }
-.astro-author-hero .elementor-element-d0b4ef6,
-.astro-author-hero .elementor-element-6ed679f{text-align:center}
-.astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:56px;
+.cfs-author-hero__copy{
+  max-width:min(480px, 48%);
+  pointer-events:auto;
+}
+.cfs-author-hero__crumbs{
+  font-size:14px;
   font-weight:500;
-  line-height:1.2;
-  color:#FFFFFF;
-  margin:0 0 5px;
+  color:#6b7280;
+  margin:0 0 18px;
 }
-.astro-author-hero .elementor-element-6ed679f{
-  width:555px;
-  max-width:100%;
+.cfs-author-hero__crumbs a{color:#6b7280;text-decoration:none}
+.cfs-author-hero__crumbs a:hover{color:var(--cfs-author-teal)}
+.cfs-author-hero__crumb-current{color:var(--cfs-author-teal)}
+.cfs-author-hero__title{
+  margin:0 0 14px;
+  font-size:clamp(40px, 5vw, 64px);
+  line-height:1.05;
+  font-weight:700;
+  color:var(--cfs-author-teal);
+  letter-spacing:-0.02em;
 }
-.astro-author-hero .elementor-element-6ed679f .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:18px;
-  font-weight:500;
-  line-height:1.3em;
-  color:#FFFFFF;
+.cfs-author-hero__desc{
   margin:0;
-}
-.elementor-element-fbd336b{
-  background:transparent;
-  padding-top:50px !important;
-  padding-bottom:50px !important;
+  max-width:420px;
+  font-size:15px;
+  line-height:1.55;
+  color:var(--cfs-author-text);
 }
 .elementor-element-6e1eaf5{display:none!important}
-.elementor-widget-posts .elementor-widget-container{padding-top:0}
 .ecs-posts.elementor-posts-container{
+  display:block !important;
+  padding:0 16px 64px !important;
+}
+.cfs-author-directory-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:30px 20px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:40px 28px;
+  max-width:1100px;
+  margin:0 auto;
   justify-items:center;
 }
-.astro-author-card{
+.cfs-author-card{
   text-align:center;
   width:100%;
-  max-width:320px;
-  margin:0 auto;
+  max-width:230px;
 }
-.astro-author-card__image-link{display:inline-block;text-decoration:none;line-height:0}
-.astro-author-card__image{
-  width:200px;
-  max-width:100%;
-  height:auto;
-  display:block;
-  margin:0 auto 12px;
-  border-radius:0;
+.cfs-author-card__visual{display:block;text-decoration:none;color:inherit}
+.cfs-author-card__plate{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  aspect-ratio:1 / 1.05;
+  background:var(--cfs-author-orange);
+  border-radius:18px;
+  padding:18px;
+  box-sizing:border-box;
+}
+.cfs-author-card__circle{
+  position:relative;
+  width:100%;
+  max-width:170px;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:var(--cfs-author-navy);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.cfs-author-card__image{
+  width:78%;
+  height:78%;
   object-fit:contain;
-  box-shadow:none;
+  object-position:center;
+  display:block;
 }
-.ecs-posts .astro-author-card__name,
-.ecs-posts h3.astro-author-card__name.elementor-heading-title,
-.astro-author-card__name.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:24px !important;
-  font-weight:700 !important;
-  line-height:1.3em !important;
-  margin:0 0 4px;
-  text-align:center;
-  color:#070C13;
+.cfs-author-card__accent{
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  width:0;height:0;
+  transform:translateX(-50%);
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-bottom:16px solid var(--cfs-author-orange);
+  z-index:2;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.15));
 }
-.ecs-posts .astro-author-card__name a,
-.astro-author-card__name a{
-  font-family:inherit !important;
-  font-size:inherit !important;
-  font-weight:inherit !important;
-  line-height:inherit !important;
-  color:#070C13 !important;
+.cfs-author-card__name{
+  margin:16px 0 4px;
+  font-size:22px;
+  font-weight:700;
+  line-height:1.25;
+  color:var(--cfs-author-teal);
+}
+.cfs-author-card__name a{
+  color:inherit !important;
   text-decoration:none;
 }
-.ecs-posts .astro-author-card__title,
-.ecs-posts p.astro-author-card__title.elementor-heading-title,
-.astro-author-card__title.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:15px !important;
-  font-weight:400 !important;
-  line-height:1.3em !important;
-  color:#666666 !important;
+.cfs-author-card__name a:hover{opacity:.85}
+.cfs-author-card__title{
   margin:0;
-  text-align:center;
+  font-size:14px;
+  line-height:1.35;
+  color:#111;
+  font-weight:500;
 }
 @media (max-width:1024px){
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:45px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:18px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cfs-author-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px}
+  .cfs-author-hero__copy{max-width:min(420px, 52%)}
 }
 @media (max-width:767px){
-  .astro-author-hero,.elementor-element-f45c242{padding:50px 0 60px}
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:40px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:22px !important}
-  .ecs-posts .astro-author-card__title,
-  .ecs-posts p.astro-author-card__title.elementor-heading-title,
-  .astro-author-card__title.elementor-heading-title{font-size:16px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:1fr}
-  .elementor-element-fbd336b{padding:30px 0}
+  .cfs-author-hero{margin-bottom:32px}
+  .cfs-author-hero__inner{align-items:flex-start;padding:20px}
+  .cfs-author-hero__copy{
+    max-width:none;
+    width:100%;
+    padding:14px 14px 16px;
+    border-radius:12px;
+    background:rgba(255,255,255,.94);
+  }
+  .cfs-author-hero__title{font-size:36px}
+  .cfs-author-directory-grid{grid-template-columns:1fr;gap:28px}
+  .cfs-author-card{max-width:260px}
 }
 </style>`;
 
