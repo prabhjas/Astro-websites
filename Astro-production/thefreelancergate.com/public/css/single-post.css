@@ -238,3 +238,57 @@ body.single-post .post-author-ava img.avatar {
   object-fit: cover;
   border-radius: 50%;
 }
+
+/* Dynamic breadcrumbs above Impreza single-post body (inside first .l-section-h) */
+body.single-post .sp-single-post-breadcrumbs {
+  width: 100%;
+  margin: 0 0 0.85rem;
+  padding: 0;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs {
+  margin: 0;
+  color: #6b6b6b;
+  font-size: 0.875rem;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs__sep {
+  opacity: 0.5;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs a:hover {
+  color: #0ee4aa;
+}
+
+body.single-post .sp-single-post-breadcrumbs .sp-breadcrumbs [aria-current="page"] {
+  color: #17171a;
+}
+
+/* Easy TOC — keep headings clear of fixed header when jumping via hash */
+body.single-post .ez-toc-section,
+body.single-post span.ez-toc-section[id] {
+  scroll-margin-top: calc(var(--header-height, 80px) + 0.75rem);
+}

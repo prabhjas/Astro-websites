@@ -159,8 +159,38 @@
 
 .sp-breadcrumbs {
   font-size: 0.875rem;
+  line-height: 1;
   color: #bdbdbd;
   margin: 0 0 1.25rem;
+}
+
+.sp-breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.sp-breadcrumbs li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.sp-breadcrumbs a,
+.sp-breadcrumbs span {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .sp-breadcrumbs a {
@@ -313,3 +343,198 @@
 .sp-form__hint a {
   color: #ffdd04;
 }
+
+/* Authors directory + archive hero (The Freelancer Gate) */
+.tfg-authors-page {
+  background: #fff;
+}
+
+/* Fixed Impreza header sits over content — offset author heroes */
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content > .tfg-authors-hero {
+  padding-top: calc(var(--header-height, 80px) + 0.75rem);
+}
+
+body.header_hor .l-header.pos_fixed ~ .sp-impreza-content > .tfg-authors-hero--single {
+  padding-top: var(--header-height, 80px);
+  padding-bottom: clamp(1.25rem, 3vw, 2rem);
+  min-height: clamp(220px, 28vw, 320px);
+}
+
+.tfg-authors-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: clamp(220px, 26vw, 300px);
+  overflow: hidden;
+  background-color: #0b1b4d; /* fallback only while image loads */
+  text-align: center;
+  color: #fff;
+}
+
+.tfg-authors-hero.tfg-authors-hero--single {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tfg-authors-hero--single .tfg-authors-hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(1140px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.tfg-authors-hero--single .sp-breadcrumbs {
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 0.65rem;
+  width: 100%;
+}
+
+.tfg-authors-hero--single .sp-breadcrumbs ol {
+  justify-content: center;
+  align-items: center;
+}
+
+.tfg-authors-hero--single .sp-breadcrumbs [aria-current="page"] {
+  color: #fff;
+}
+
+.tfg-authors-hero--single .sp-breadcrumbs a:hover {
+  color: #01ebae;
+}
+
+.tfg-authors-hero__banner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* show full Banner.png artwork (corner shapes) */
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tfg-authors-hero__inner {
+  position: relative;
+  z-index: 1;
+  padding: 2.5rem 1rem;
+}
+
+.tfg-authors-hero__title {
+  margin: 0;
+  font-family: "Kumbh Sans", Arial, sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.tfg-authors-hero__title span {
+  color: #01ebae;
+}
+
+.tfg-authors-hero__intro {
+  max-width: 52rem;
+  margin: 0.9rem auto 0;
+  font-family: "Kumbh Sans", Arial, sans-serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.tfg-authors-grid-wrap {
+  background: #fff;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3.5rem, 8vw, 5.5rem);
+}
+
+.tfg-authors-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.tfg-author-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.tfg-author-card:hover {
+  transform: translateY(-3px);
+}
+
+.tfg-author-card__avatar {
+  width: clamp(110px, 12vw, 150px);
+  height: clamp(110px, 12vw, 150px);
+  border-radius: 50%;
+  overflow: hidden;
+  background: #eaf2ff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 1px rgba(11, 27, 77, 0.04);
+}
+
+.tfg-author-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tfg-author-card__name {
+  margin-top: 0.95rem;
+  font-family: "Kumbh Sans", Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #111;
+}
+
+.tfg-author-card__role {
+  margin-top: 0.3rem;
+  font-family: "Kumbh Sans", Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #9a9a9a;
+}
+
+.tfg-authors-empty {
+  text-align: center;
+  color: #666;
+}
+
+@media (max-width: 1024px) {
+  .tfg-authors-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .tfg-authors-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .tfg-authors-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
