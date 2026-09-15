@@ -5,7 +5,7 @@ import {
   renderBlogCardsHtml,
   renderImprezaGridCardsHtml,
 } from "../../../lib/blog-card-html";
-import { getPosts, getPostsByCategory } from "../../../lib/content";
+import { getPosts, getPostsByAuthor, getPostsByCategory } from "../../../lib/content";
 
 export const prerender = false;
 
@@ -25,9 +25,14 @@ export const GET: APIRoute = async ({ url }) => {
       ? Math.max(0, Number(offsetParam) || 0)
       : (page - 1) * perPage;
   const categoryId = Number(url.searchParams.get("categoryId") || "0") || 0;
+  const authorId = Number(url.searchParams.get("authorId") || "0") || 0;
 
   const sorted = (
-    categoryId > 0 ? getPostsByCategory(categoryId) : getPosts()
+    authorId > 0
+      ? getPostsByAuthor(authorId)
+      : categoryId > 0
+        ? getPostsByCategory(categoryId)
+        : getPosts()
   ).sort((a, b) => +new Date(b.date) - +new Date(a.date));
   const items = sorted.slice(offset, offset + perPage);
   const total = sorted.length;

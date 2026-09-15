@@ -74,7 +74,7 @@ const imprezaBaseCss = isImpreza
       "/css/impreza-chrome.css",
       "/css/post-design-options.css",
       "/css/form-mirror-fixes.css",
-      "/css/single-post.css",
+      "/css/single-post.css?v=20260915-tfg-authors",
     ]
   : [];
 
@@ -91,7 +91,17 @@ const stylesheets = [
 
 
 const bodyClasses = isImpreza
-  ? ["l-body", bodyClass]
+  ? [
+      "l-body",
+      "wp-theme-Impreza",
+      "wp-child-theme-Impreza-child",
+      "Impreza_8.15.1",
+      "us-core_8.15.1",
+      "header_hor",
+      "headerinpos_top",
+      "state_default",
+      bodyClass,
+    ]
   : [
       "wp-custom-logo",
       "wp-embed-responsive",
