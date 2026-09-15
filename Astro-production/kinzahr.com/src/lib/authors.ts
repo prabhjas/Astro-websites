@@ -1,20 +1,31 @@
 /**
- * Author archive types, shell assembly, and content loading.
+ * KinzaHR author directory + author archive (Figma Author-Pages).
+ * Body only — header/footer come from the homepage chrome shell.
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { applySharedChrome } from './shared-chrome.js';
 import {
-  AUTHOR_POSTS_PER_PAGE,
-  buildPostCardHtml,
+  getPostExcerpt,
   getPostsByAuthorSlug,
+  bustMirrorFixesHtml,
+  MIRROR_FIXES_CACHE_BUST,
   type BlogPost,
 } from './blog.ts';
+import {
+  LIVE_AUTHOR_ROSTER,
+  LIVE_AUTHOR_SLUGS,
+  isLiveAuthorSlug,
+} from './author-roster.ts';
 
 const ROOT = process.cwd();
 const AUTHORS_DIR = join(ROOT, 'src/content/authors');
 const SHELL_PATH = join(ROOT, 'src/legacy/author-shell/template.html');
 const ORIGIN = 'https://kinzahr.com';
+
+/** Initial batch on author single; further posts via Load More. */
+export const AUTHOR_POSTS_PER_PAGE = 6;
 
 function siteOrigin(): string {
   return (process.env.PUBLIC_SITE_URL || process.env.SITE_URL || ORIGIN).trim().replace(/\/$/, '') || ORIGIN;
@@ -40,9 +51,9 @@ export interface Author {
   name: string;
   title?: string;
   bio?: string;
-  avatar?: { src: string; alt?: string };
+  avatar?: { src: string; alt?: string } | null;
   social?: AuthorSocial[];
-  canonical: string;
+  canonical?: string;
   description?: string;
   og?: {
     title?: string;
@@ -50,9 +61,10 @@ export interface Author {
     image?: string;
     type?: string;
   };
-  sourceUrl: string;
-  migratedAt: string;
+  sourceUrl?: string;
+  migratedAt?: string;
   notes?: string[];
+  url?: string;
 }
 
 export interface AuthorPageData {
@@ -63,34 +75,28 @@ export interface AuthorPageData {
   totalPosts: number;
 }
 
-const LIVE_AUTHOR_ORDER = [
-  'kate-williams',
-  'liam-doherty',
-  'sahiba',
-  'david-walsh',
-  'vijoy-vijayanandan',
-  'nakul',
-  'timothy-patridge',
-  'harneet',
-];
+/** Figma author set — display order for /author/. */
+const LIVE_AUTHOR_ORDER = LIVE_AUTHOR_SLUGS;
 
-const LIVE_AUTHOR_OVERRIDES: Record<string, { name?: string; title?: string; avatar?: string }> = {
-  'kate-williams': {
-    name: 'Kate Williams',
-    title: 'Managing Broker/Partner, e-PRO',
-    avatar: '/wp-content/uploads/2024/05/KW.png',
-  },
-  'liam-doherty': { avatar: '/wp-content/uploads/2024/05/LD.png' },
-  sahiba: { avatar: '/wp-content/uploads/2024/05/SM.png' },
-  'david-walsh': { avatar: '/wp-content/uploads/2024/05/DW.png' },
-  'vijoy-vijayanandan': { avatar: '/wp-content/uploads/2024/05/VV.png' },
-  nakul: {
-    title: 'Head of Recruitment & Business Development',
-    avatar: '/wp-content/uploads/2024/05/NS.png',
-  },
-  'timothy-patridge': { name: 'Timothy Partridge', avatar: '/wp-content/uploads/2024/05/TP.png' },
-  harneet: { avatar: '/wp-content/uploads/2024/05/HB.png' },
-};
+const LIVE_AUTHOR_OVERRIDES: Record<
+  string,
+  { name?: string; title?: string; bio?: string; avatar?: string; linkedin?: string }
+> = Object.fromEntries(
+  LIVE_AUTHOR_ROSTER.map((a) => [
+    a.slug,
+    {
+      name: a.name,
+      title: a.title || '',
+      bio: a.bio || '',
+      avatar: a.avatar,
+      linkedin: a.linkedin,
+    },
+  ]),
+);
+
+const DEFAULT_LINKEDIN = 'https://www.linkedin.com/company/kinzahr/';
+const AUTHOR_BANNER_BG = '#0F202B';
+const AUTHOR_BANNER_IMAGE = '/wp-content/uploads/2024/05/authors-banner-texture.png';
 
 function escapeHtml(text: string): string {
   return text
@@ -98,6 +104,21 @@ function escapeHtml(text: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+function cleanName(name: string): string {
+  return String(name || '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function initials(name: string): string {
+  const parts = cleanName(name).split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0] || ''}${parts[parts.length - 1]![0] || ''}`.toUpperCase();
 }
 
 export function getAllAuthorSlugs(): string[] {
@@ -110,7 +131,39 @@ export function getAllAuthorSlugs(): string[] {
 export function getAuthor(slug: string): Author | null {
   const path = join(AUTHORS_DIR, `${slug}.json`);
   if (!existsSync(path)) return null;
-  return JSON.parse(readFileSync(path, 'utf8')) as Author;
+  let raw: Author;
+  try {
+    raw = JSON.parse(readFileSync(path, 'utf8').replace(/^\uFEFF/, '')) as Author;
+  } catch {
+    return null;
+  }
+  const override = LIVE_AUTHOR_OVERRIDES[slug] || {};
+  let name = cleanName(override.name || raw.name || slug);
+  // Guard against polluted migrations that appended bio into the name field.
+  if (!override.name && name.length > 80) {
+    name = name.split(/\s{2,}|\./)[0]!.trim() || slug;
+  }
+  const avatarSrc = override.avatar || raw.avatar?.src || '';
+  const linkedin =
+    override.linkedin ||
+    raw.social?.find((s) => /linkedin/i.test(s.type) || /linkedin\.com/i.test(s.url))?.url ||
+    DEFAULT_LINKEDIN;
+  const social: AuthorSocial[] = [{ type: 'linkedin', url: linkedin }];
+  return {
+    ...raw,
+    slug,
+    name,
+    title: override.title ?? raw.title ?? '',
+    bio: (override.bio ?? raw.bio ?? '').trim(),
+    avatar: avatarSrc
+      ? { src: avatarSrc, alt: name }
+      : raw.avatar?.src
+        ? { ...raw.avatar, alt: name }
+        : null,
+    social,
+    canonical: raw.canonical || `/author/${slug}/`,
+    description: (override.bio ?? raw.bio ?? raw.description ?? '').trim(),
+  };
 }
 
 export function getAllAuthors(): Author[] {
@@ -120,6 +173,7 @@ export function getAllAuthors(): Author[] {
 }
 
 export function getAuthorPageData(slug: string, page = 1): AuthorPageData | null {
+  if (!isLiveAuthorSlug(slug)) return null;
   const author = getAuthor(slug);
   if (!author) return null;
 
@@ -139,64 +193,91 @@ export interface AuthorDirectoryEntry {
 }
 
 export function getAuthorDirectoryEntries(): AuthorDirectoryEntry[] {
-  const entries = getAllAuthors()
-    .map((author) => ({
+  // Only the Figma author set — always list them (posts assigned dynamically).
+  return LIVE_AUTHOR_ORDER.map((slug) => {
+    const author = getAuthor(slug);
+    if (!author) return null;
+    return {
       author,
       postCount: getPostsByAuthorSlug(author.slug).length,
-    }))
-    .filter((entry) => entry.postCount > 0);
+    };
+  }).filter((entry): entry is AuthorDirectoryEntry => entry !== null);
+}
 
-  const preferred = LIVE_AUTHOR_ORDER.map((slug) => entries.find((entry) => entry.author.slug === slug)).filter(
-    (entry): entry is AuthorDirectoryEntry => Boolean(entry),
-  );
-  return preferred.length ? preferred : entries.sort((a, b) => a.author.name.localeCompare(b.author.name));
+function avatarHtml(author: Author, className: string, width: number, height: number): string {
+  const name = escapeHtml(author.name);
+  const src = author.avatar?.src;
+  if (src) {
+    return `<img class="${className}" width="${width}" height="${height}" src="${escapeAttr(src)}" alt="${name}" loading="lazy" decoding="async" />`;
+  }
+  return `<span class="${className} ${className}--placeholder" aria-hidden="true">${escapeHtml(initials(author.name))}</span>`;
+}
+
+function escapeAttr(value: string): string {
+  return escapeHtml(value);
+}
+
+function linkedinHtml(author: Author, className = 'kinza-author-linkedin'): string {
+  const linkedin =
+    author.social?.find((s) => /linkedin/i.test(s.type) || /linkedin\.com/i.test(s.url))?.url ||
+    DEFAULT_LINKEDIN;
+  return `<a class="${className}" href="${escapeAttr(linkedin)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(author.name)} on LinkedIn">
+    <svg aria-hidden="true" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+  </a>`;
+}
+
+function buildAuthorDirectoryHeroHtml(): string {
+  return `<section class="kinza-authors-hero" aria-label="Authors">
+    <div class="kinza-authors-hero__inner">
+      <h1 class="kinza-authors-hero__title">Our Authors</h1>
+      <p class="kinza-authors-hero__subtitle">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
+    </div>
+  </section>`;
+}
+
+function buildAuthorDirectoryCardHtml(entry: AuthorDirectoryEntry): string {
+  const { author } = entry;
+  const href = `/author/${author.slug}/`;
+  const title = author.title ? `<p class="kinza-author-card__title">${escapeHtml(author.title)}</p>` : '';
+
+  return `<article class="kinza-author-card">
+    <a class="kinza-author-card__media" href="${href}">
+      ${avatarHtml(author, 'kinza-author-card__image', 282, 269)}
+    </a>
+    <div class="kinza-author-card__meta">
+      <div class="kinza-author-card__text">
+        <h2 class="kinza-author-card__name"><a href="${href}">${escapeHtml(author.name)}</a></h2>
+        ${title}
+      </div>
+      ${linkedinHtml(author, 'kinza-author-card__linkedin')}
+    </div>
+  </article>`;
+}
+
+function buildAuthorDirectoryPostsHtml(entries: AuthorDirectoryEntry[]): string {
+  return `<div class="kinza-author-directory">${entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n')}</div>`;
 }
 
 function buildProfileHtml(author: Author): string {
-  const name = escapeHtml(author.name);
-  const title = author.title ? escapeHtml(author.title) : '';
-  const bio = author.bio ? escapeHtml(author.bio) : '';
-  const avatarSrc = author.avatar?.src || '';
-  const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
-
-  const avatarHtml = avatarSrc
-    ? `<div class="elementor-element elementor-element-c5e7b22 elementor-widget elementor-widget-image" data-widget_type="image.default">
-        <img width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" class="attachment-large size-large" loading="lazy" />
-      </div>`
+  const title = author.title ? `<p class="kinza-author-profile__role">${escapeHtml(author.title)}</p>` : '';
+  const bioText = (author.bio || '').trim();
+  const bio = bioText
+    ? `<div class="kinza-author-profile__bio"><p>${escapeHtml(bioText)}</p></div>`
     : '';
 
-  const linkedin = author.social?.find((s) => s.type === 'linkedin');
-  const linkedinHtml = linkedin
-    ? `<div class="elementor-element elementor-element-6ff7a74 elementor-widget__width-auto elementor-view-default elementor-widget elementor-widget-icon" data-widget_type="icon.default">
-        <div class="elementor-icon-wrapper">
-          <a class="elementor-icon" href="${escapeHtml(linkedin.url)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg aria-hidden="true" class="e-font-icon-svg e-fab-linkedin" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg>
-          </a>
+  return `<section class="kinza-author-profile" aria-label="${escapeHtml(author.name)}">
+    <div class="kinza-author-profile__banner">
+      <div class="kinza-author-profile__inner">
+        <div class="kinza-author-profile__avatar">
+          ${avatarHtml(author, 'kinza-author-profile__image', 262, 250)}
         </div>
-      </div>`
-    : '';
-
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-58abf12 elementor-section-boxed elementor-section-height-default" data-id="58abf12" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dce297d" data-id="dce297d" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <section class="elementor-section elementor-inner-section elementor-element elementor-element-c10a2ed main-auth elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="c10a2ed" data-element_type="section">
-            <div class="elementor-container elementor-column-gap-default">
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-bee1fb5">
-                <div class="elementor-widget-wrap elementor-element-populated">${avatarHtml}</div>
-              </div>
-              <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-3c484b8">
-                <div class="elementor-widget-wrap elementor-element-populated">
-                  <div class="elementor-element elementor-element-b5d8e9f elementor-widget__width-auto elementor-widget elementor-widget-heading" data-widget_type="heading.default">
-                    <p class="elementor-heading-title elementor-size-default">${name}</p>
-                  </div>
-                  ${linkedinHtml}
-                  ${title ? `<div class="elementor-element elementor-element-2e0fb4e elementor-widget elementor-widget-heading" data-widget_type="heading.default"><span class="elementor-heading-title elementor-size-default">${title}</span></div>` : ''}
-                  ${bio ? `<div class="elementor-element elementor-element-bb840a7 elementor-widget elementor-widget-heading" data-widget_type="heading.default"><p class="elementor-heading-title elementor-size-default">${bio}</p></div>` : ''}
-                </div>
-              </div>
-            </div>
-          </section>
+        <div class="kinza-author-profile__content">
+          <div class="kinza-author-profile__heading">
+            <h1 class="kinza-author-profile__name">${escapeHtml(author.name)}</h1>
+            ${linkedinHtml(author, 'kinza-author-profile__linkedin')}
+          </div>
+          ${title}
+          ${bio}
         </div>
       </div>
     </div>
@@ -204,90 +285,215 @@ function buildProfileHtml(author: Author): string {
 }
 
 function buildPostsHeadingHtml(author: Author): string {
-  return `<h2 class="elementor-heading-title elementor-size-default">Latest Articles by ${escapeHtml(author.name)}</h2>`;
+  return `<h2 class="kinza-author-articles__title">Articles by ${escapeHtml(author.name)}</h2>`;
 }
 
-function buildAuthorDirectoryHeroHtml(): string {
-  return `<section class="elementor-section elementor-top-section elementor-element elementor-element-f45c242 astro-author-hero elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="f45c242" data-element_type="section">
-    <div class="elementor-container elementor-column-gap-default">
-      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6c55a7e" data-id="6c55a7e" data-element_type="column">
-        <div class="elementor-widget-wrap elementor-element-populated">
-          <div class="elementor-element elementor-element-d0b4ef6 elementor-widget elementor-widget-heading" data-id="d0b4ef6" data-widget_type="heading.default">
-            <h2 class="elementor-heading-title elementor-size-default">Our Authors</h2>
-          </div>
-          <div class="elementor-element elementor-element-6ed679f elementor-widget elementor-widget-heading" data-id="6ed679f" data-widget_type="heading.default">
-            <p class="elementor-heading-title elementor-size-default">Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.</p>
-          </div>
-        </div>
-      </div>
+/** Figma 1:2155 “ithem service” / Frame 22 article card. */
+export function buildAuthorArticleCardHtml(post: BlogPost): string {
+  const img = post.featuredImage;
+  const imgSrc = img?.src || '';
+  const imgAlt = escapeHtml(img?.alt || post.title);
+  const excerpt = escapeHtml(getPostExcerpt(post, 140));
+  const postUrl = `/${post.slug}/`;
+  const title = escapeHtml(post.title);
+  const imgTag = imgSrc
+    ? `<img src="${escapeAttr(imgSrc)}" alt="${imgAlt}" width="392" height="230" loading="lazy" decoding="async" />`
+    : `<span class="kinza-article-card__image-fallback" aria-hidden="true"></span>`;
+
+  return `<article class="kinza-article-card">
+    <a class="kinza-article-card__media" href="${postUrl}">${imgTag}</a>
+    <div class="kinza-article-card__body">
+      <h3 class="kinza-article-card__title"><a href="${postUrl}">${title}</a></h3>
+      <p class="kinza-article-card__excerpt">${excerpt}</p>
+      <a class="kinza-article-card__more" href="${postUrl}">
+        <span>Read More</span>
+        <svg class="kinza-article-card__more-icon" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M5 12h12.17l-4.58-4.59L14 6l7 7-7 7-1.41-1.41L17.17 13H5z"/></svg>
+      </a>
     </div>
-  </section>`;
-}
-
-function buildAuthorDirectoryCardHtml(entry: AuthorDirectoryEntry): string {
-  const { author } = entry;
-  const override = LIVE_AUTHOR_OVERRIDES[author.slug] || {};
-  const name = escapeHtml(override.name || author.name);
-  const title = escapeHtml(override.title || author.title || '');
-  const avatarSrc = override.avatar || author.avatar?.src || '/wp-content/uploads/2024/05/KW.png';
-  const avatarAlt = escapeHtml(author.avatar?.alt || author.name);
-  const href = `/author/${author.slug}/`;
-
-  return `<article class="astro-author-card">
-    <a class="astro-author-card__image-link" href="${href}">
-      <img class="astro-author-card__image attachment-medium size-medium" width="286" height="266" src="${avatarSrc}" alt="${avatarAlt}" loading="lazy" decoding="async" />
-    </a>
-    <h3 class="elementor-heading-title elementor-size-default astro-author-card__name"><a href="${href}">${name}</a></h3>
-    ${title ? `<p class="elementor-heading-title elementor-size-default astro-author-card__title">${title}</p>` : ''}
   </article>`;
 }
 
-function buildAuthorDirectoryPostsHtml(entries: AuthorDirectoryEntry[]): string {
-  return entries.map((entry) => buildAuthorDirectoryCardHtml(entry)).join('\n');
+function buildLoadMoreHtml(author: Author, totalPosts: number, shown: number): string {
+  if (shown >= totalPosts) return '';
+  return `<button type="button" class="kinza-author-loadmore" data-kinza-author-load-more data-author-slug="${escapeAttr(author.slug)}" data-offset="${shown}" data-total="${totalPosts}">
+    Load More
+  </button>`;
 }
 
-function buildPaginationHtml(author: Author, currentPage: number, totalPages: number): string {
-  if (totalPages <= 1) return '';
+function authorPagesCss(): string {
+  return `<style id="kinza-author-pages-css">
+/* Figma Author-Pages · archive 4835:9647 · single 4842:12789 */
+.kinza-author-page{font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif;color:#070C13;background:#fff}
+.kinza-authors-hero{
+  background:${AUTHOR_BANNER_BG} url("${AUTHOR_BANNER_IMAGE}") center/cover no-repeat;box-sizing:border-box;height:326px;min-height:326px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;color:#fff;padding:40px 20px
+}
+.kinza-authors-hero__inner{
+  max-width:555px;width:100%;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:8px
+}
+.kinza-authors-hero__title{margin:0;font-size:56px;font-weight:700;line-height:1.2;color:#fff}
+.kinza-authors-hero__subtitle{margin:0;max-width:555px;font-size:18px;font-weight:500;line-height:1.3;color:#fff}
+/* Figma grid: x=117 w=1278, cards 282, gap 50 */
+.kinza-author-directory{
+  display:grid;grid-template-columns:repeat(4,minmax(0,282px));gap:50px;
+  justify-content:center;max-width:1278px;margin:0 auto;padding:70px 20px 80px
+}
+.kinza-author-card{width:100%;max-width:282px;margin:0;position:relative}
+.kinza-author-card__media{display:block;line-height:0;text-decoration:none}
+.kinza-author-card__image{
+  width:282px;max-width:100%;height:269px;object-fit:cover;object-position:center top;
+  display:block;border-radius:20px;background:#e8e8ef
+}
+.kinza-author-card__image--placeholder{
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;font-weight:700;color:#24495F;background:#e8e8ef;border-radius:20px
+}
+.kinza-author-card__meta{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-top:12px;min-height:58px
+}
+.kinza-author-card__text{min-width:0;flex:1}
+.kinza-author-card__name{margin:0 0 0;font-size:24px;font-weight:700;line-height:1.4}
+.kinza-author-card__name a{color:#070C13;text-decoration:none}
+.kinza-author-card__title{margin:0;font-size:16px;font-weight:400;line-height:1.5;color:#666}
+.kinza-author-card__linkedin{
+  color:#0a66c2;display:inline-flex;flex-shrink:0;width:24px;height:24px;margin-top:6px
+}
+.kinza-author-card__linkedin:hover{opacity:.85}
+.kinza-author-card__linkedin svg,.kinza-author-profile__linkedin svg{width:24px;height:24px;display:block}
 
-  const base = `/author/${author.slug}/`;
-  const items: string[] = [];
+/* Single author — Figma AUTHOR PAGE Desktop 4842:12789 */
+.kinza-author-profile{padding:0;background:#fff}
+.kinza-author-profile__banner{
+  background:${AUTHOR_BANNER_BG} url("${AUTHOR_BANNER_IMAGE}") center/cover no-repeat;box-sizing:border-box;min-height:0;height:auto;
+  padding:40px 20px;display:flex;align-items:center
+}
+.kinza-author-profile__media,.kinza-author-profile__bg{display:none!important}
+.kinza-author-profile__inner{
+  max-width:1280px;width:100%;margin:0 auto;display:flex;gap:25px;align-items:center
+}
+.kinza-author-profile__avatar{flex:0 0 262px;width:262px}
+.kinza-author-profile__image{
+  width:262px;height:250px;object-fit:cover;object-position:center top;display:block;
+  border-radius:20px;background:rgba(255,255,255,.12)
+}
+.kinza-author-profile__image--placeholder{
+  display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:700;color:#fff;background:rgba(255,255,255,.15);border-radius:20px
+}
+.kinza-author-profile__content{
+  flex:1;min-width:0;max-width:993px;padding-top:0;color:#fff;
+  font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif
+}
+.kinza-author-profile__heading{
+  display:flex;align-items:flex-start;gap:12px;margin:0 0 5px;flex-wrap:wrap;position:relative
+}
+.kinza-author-profile__name{
+  margin:0;font-size:42px;font-weight:700;line-height:42px;letter-spacing:0;color:#fff
+}
+.kinza-author-profile__linkedin{
+  color:#fff;width:29px;height:28px;margin-top:8px;display:inline-flex;flex-shrink:0
+}
+.kinza-author-profile__linkedin:hover{opacity:.85}
+.kinza-author-profile__linkedin svg{width:29px;height:28px}
+.kinza-author-profile__role{
+  margin:0 0 16px;font-size:18px;font-weight:500;line-height:24px;color:#fff
+}
+.kinza-author-profile__bio p{
+  margin:0;font-size:16px;line-height:1.45;color:#fff;font-weight:400;max-width:993px
+}
 
-  if (currentPage > 1) {
-    const prev = currentPage === 2 ? base : `${base}page/${currentPage - 1}/`;
-    items.push(`<a class="prev page-numbers" href="${prev}">Previous</a>`);
-  }
+/* POPULAR ARTICLES */
+.kinza-author-articles{padding:50px 20px 94px;background:#fff}
+.kinza-author-articles__inner{max-width:1280px;margin:0 auto}
+.kinza-author-articles__title{
+  margin:0 0 30px;font-size:40px;font-weight:700;line-height:48px;color:#070C13;
+  font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif
+}
+.kinza-author-page[data-author-directory] .kinza-author-articles{padding:0}
+.kinza-author-page[data-author-directory] .kinza-author-posts{display:block!important}
+.kinza-author-posts{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 50px;margin:0
+}
+.kinza-article-card{
+  background:#fff;border:0;border-radius:0;overflow:hidden;
+  display:flex;flex-direction:column;min-height:100%;
+  box-shadow:0 0 10px 0 rgba(0,0,0,.15)
+}
+.kinza-article-card__media{display:block;line-height:0}
+.kinza-article-card__media img,.kinza-article-card__image-fallback{
+  width:100%;height:230px;object-fit:cover;display:block;background:#e8e8ef;border-radius:0
+}
+.kinza-article-card__body{
+  padding:30px;display:flex;flex-direction:column;flex:1;background:#fff
+}
+.kinza-article-card__title{
+  margin:0 0 12px;font-size:20px;font-weight:600;line-height:1.5;min-height:0;
+  font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif
+}
+.kinza-article-card__title a{color:#070C13;text-decoration:none}
+.kinza-article-card__title a:hover{color:#24495F}
+.kinza-article-card__excerpt{
+  margin:0 0 15px;font-size:16px;line-height:1.5;color:#555;font-weight:400;flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+}
+.kinza-article-card__more{
+  display:inline-flex;align-items:center;gap:10px;margin-top:auto;padding-top:15px;
+  font-size:14px;font-weight:600;line-height:21px;color:#24495F;text-decoration:none;
+  font-family:"SF Pro Display","SF PRO DISPLAY",sans-serif
+}
+.kinza-article-card__more:hover{opacity:.85}
+.kinza-article-card__more-icon{transform:rotate(-45deg);flex-shrink:0}
+.kinza-author-loadmore-wrap{display:flex;justify-content:center;margin-top:50px}
+.kinza-author-loadmore{
+  appearance:none;border:1px solid #24495F;background:#24495F;color:#fff;
+  border-radius:4px;padding:14px 36px;font:600 16px/1.2 "SF Pro Display",sans-serif;
+  cursor:pointer;min-width:160px;box-shadow:0 0 10px 0 rgba(36,73,95,.2)
+}
+.kinza-author-loadmore:hover{background:#1a3545;border-color:#1a3545}
+.kinza-author-loadmore[disabled]{opacity:.6;cursor:default}
+.kinza-author-loadmore.is-hidden{display:none!important}
 
-  for (let p = 1; p <= totalPages; p++) {
-    const href = p === 1 ? base : `${base}page/${p}/`;
-    if (p === currentPage) {
-      items.push(`<span aria-current="page" class="page-numbers current">${p}</span>`);
-    } else {
-      items.push(`<a class="page-numbers" href="${href}">${p}</a>`);
-    }
-  }
-
-  if (currentPage < totalPages) {
-    const next = `${base}page/${currentPage + 1}/`;
-    items.push(`<a class="next page-numbers" href="${next}">Next</a>`);
-  }
-
-  return `<nav class="navigation pagination elementor-pagination" aria-label="Posts"><div class="nav-links">${items.join('\n')}</div></nav>`;
+@media (max-width:1100px){
+  .kinza-author-directory{grid-template-columns:repeat(3,minmax(0,282px));gap:40px 30px}
+  .kinza-author-posts{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+  .kinza-author-profile__name{font-size:34px;line-height:1.15}
+  .kinza-author-articles__title{font-size:34px;line-height:1.2}
+}
+@media (max-width:900px){
+  .kinza-author-profile__banner{height:auto;min-height:0;padding:48px 20px}
+  .kinza-author-profile__inner{flex-direction:column;align-items:center;text-align:center}
+  .kinza-author-profile__heading{justify-content:center}
+  .kinza-author-profile__linkedin{margin-top:6px}
+  .kinza-author-profile__bio p{margin-inline:auto}
+  .kinza-authors-hero__title{font-size:40px}
+}
+@media (max-width:767px){
+  .kinza-author-directory{grid-template-columns:1fr;justify-items:center;gap:40px;padding:40px 16px 60px}
+  .kinza-author-posts{grid-template-columns:1fr;gap:30px}
+  .kinza-authors-hero{height:auto;min-height:220px;padding:40px 16px}
+  .kinza-authors-hero__title{font-size:40px}
+  .kinza-author-profile__banner{height:auto;min-height:0;padding:40px 16px}
+  .kinza-author-profile__avatar{flex:none;width:100%;max-width:262px}
+  .kinza-author-profile__image{width:100%;max-width:262px;height:auto;aspect-ratio:262/250}
+  .kinza-author-profile__name{font-size:28px;line-height:1.2}
+  .kinza-author-profile__role{font-size:16px}
+  .kinza-author-articles{padding:40px 16px 60px}
+  .kinza-author-articles__title{font-size:26px;line-height:1.25;margin-bottom:24px}
+  .kinza-author-card__name{font-size:22px}
+  .kinza-author-card__image{width:100%;height:auto;aspect-ratio:282/269}
+  .kinza-article-card__title{font-size:18px}
+  .kinza-article-card__body{padding:24px}
+}
+</style>`;
 }
 
 function patchHeadMeta(html: string, data: AuthorPageData): string {
-  const { author, currentPage, totalPages } = data;
-  const pageSuffix = currentPage > 1 ? ` - Page ${currentPage} of ${totalPages}` : '';
-  const title = author.og?.title || `${author.name}, Author at Connect Group${pageSuffix}`;
-  const description = author.description || author.bio || '';
-  const canonical = absoluteSeoUrl(
-    currentPage === 1
-      ? author.canonical
-      : `/author/${author.slug}/page/${currentPage}/`,
-    `/author/${author.slug}/`,
-  );
+  const { author } = data;
+  const title = author.og?.title || `${author.name}, Author at KinzaHR`;
+  const description = author.description || author.bio || `Articles by ${author.name} on KinzaHR.`;
+  const canonical = absoluteSeoUrl(author.canonical || `/author/${author.slug}/`, `/author/${author.slug}/`);
 
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${escapeHtml(title)}</title>`);
-
   if (out.includes('name="description"')) {
     out = out.replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
@@ -296,41 +502,23 @@ function patchHeadMeta(html: string, data: AuthorPageData): string {
   } else {
     out = out.replace('</head>', `<meta name="description" content="${escapeHtml(description)}" />\n</head>`);
   }
-
   if (out.includes('rel="canonical"')) {
     out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${canonical}" />`);
   } else {
     out = out.replace('</head>', `<link rel="canonical" href="${canonical}" />\n</head>`);
   }
-
-  out = out.replace(
-    /<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i,
-    `<meta property="og:title" content="${escapeHtml(author.og?.title || title)}" />`,
-  );
-  out = out.replace(
-    /<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i,
-    `<meta property="og:description" content="${escapeHtml(author.og?.description || description)}" />`,
-  );
-  out = out.replace(
-    /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i,
-    `<meta property="og:url" content="${canonical}" />`,
-  );
-
+  out = out.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${escapeHtml(title)}" />`);
+  out = out.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(description)}" />`);
+  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
   return out;
 }
 
-function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntry[]): string {
-  const first = entries[0]?.author;
-  const title = 'Author - Connect Group';
+function patchAuthorDirectoryHeadMeta(html: string): string {
+  const title = 'Authors - KinzaHR';
   const description =
     'Discover diverse insights from our skilled authors, each bringing valuable expertise to our professional blog.';
   const canonical = absoluteSeoUrl('/author/', '/author/');
-  const ogImage = first?.avatar?.src
-    ? absoluteSeoUrl(first.avatar.src, first.avatar.src)
-    : absoluteSeoUrl('/wp-content/uploads/2024/05/KW.png', '/wp-content/uploads/2024/05/KW.png');
-
   let out = html.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
-
   if (out.includes('name="description"')) {
     out = out.replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
@@ -339,84 +527,55 @@ function patchAuthorDirectoryHeadMeta(html: string, entries: AuthorDirectoryEntr
   } else {
     out = out.replace('</head>', `<meta name="description" content="${escapeHtml(description)}" />\n</head>`);
   }
-
-  if (out.includes('name="robots"')) {
-    out = out.replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i, '<meta name="robots" content="nofollow, noindex" />');
-  } else {
-    out = out.replace('</head>', '<meta name="robots" content="nofollow, noindex" />\n</head>');
-  }
-
   if (out.includes('rel="canonical"')) {
     out = out.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${canonical}" />`);
   } else {
     out = out.replace('</head>', `<link rel="canonical" href="${canonical}" />\n</head>`);
   }
-
   out = out.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${title}" />`);
-  out = out.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeHtml(description)}" />`);
   out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonical}" />`);
-  out = out.replace(/<meta\s+property="og:image"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:image" content="${ogImage}" />`);
-  out = out.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:title" content="${title}" />`);
-  out = out.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:description" content="${escapeHtml(description)}" />`);
-  out = out.replace(/<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/?>/i, `<meta name="twitter:image" content="${ogImage}" />`);
-
   return out;
+}
+
+function finalizeHtml(html: string, slug: string): string {
+  let out = applySharedChrome(html, slug);
+  if (!out.includes('kinza-author-pages-css')) {
+    out = out.replace('</head>', `${authorPagesCss()}\n</head>`);
+  }
+  if (!out.includes('astro-mirror-fixes.js')) {
+    out = out.replace(
+      '</body>',
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
+  }
+  out = bustMirrorFixesHtml(out);
+  if (!out.includes('author-load-more.js')) {
+    out = out.replace('</body>', '<script src="/js/author-load-more.js" defer></script>\n</body>');
+  }
+  return injectRuntimeGtmLoader(out);
 }
 
 export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
   if (!existsSync(SHELL_PATH)) {
-    throw new Error('Author shell missing. Run: npm run prepare:author-shell');
+    throw new Error('Author shell missing. Run: node scripts/prepare-author-shell.mjs');
   }
 
   let html = readFileSync(SHELL_PATH, 'utf8');
-  const { author, posts, currentPage, totalPages } = data;
-
-  const postsHtml = posts.map((p) => buildPostCardHtml(p)).join('\n');
+  const { author, posts, totalPosts } = data;
+  const postsHtml = posts.map((p) => buildAuthorArticleCardHtml(p)).join('\n');
 
   html = html
     .replace('<!--ASTRO_AUTHOR:PROFILE-->', buildProfileHtml(author))
     .replace('<!--ASTRO_AUTHOR:POSTS_HEADING-->', buildPostsHeadingHtml(author))
     .replace('<!--ASTRO_AUTHOR:POSTS-->', postsHtml)
-    .replace('<!--ASTRO_AUTHOR:PAGINATION-->', buildPaginationHtml(author, currentPage, totalPages));
+    .replace('<!--ASTRO_AUTHOR:PAGINATION-->', buildLoadMoreHtml(author, totalPosts, posts.length));
 
   html = patchHeadMeta(html, data);
-
-  const loopCssPath = join(ROOT, 'src/legacy/loop-card-24831.css.html');
-  const loopCss = existsSync(loopCssPath) ? readFileSync(loopCssPath, 'utf8') : '';
-  const authorFixCss = `<style id="astro-author-archive-css">
-.e-font-icon-svg{width:1em;height:1em;display:inline-block;vertical-align:middle;fill:currentColor}
-.elementor-24831 .elementor-widget-theme-post-featured-image img{width:100%;height:auto;display:block;border-radius:10px 10px 0 0;object-fit:cover;aspect-ratio:16/9;object-position:center center}
-.ecs-posts.elementor-posts-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:35px}
-@media (max-width:767px){.ecs-posts.elementor-posts-container{grid-template-columns:1fr}}
-.astro-author-profile-section,
-.elementor-element-58abf12{padding:40px 0 20px;background:#f5f5f5}
-.elementor-element-58abf12 > .elementor-container{max-width:var(--container-max-width,1140px);margin-inline:auto}
-.main-auth{border-bottom:2px solid #241F7A;background:#fff;box-shadow:0 0 10px rgba(0,0,0,.07);border-radius:8px;padding:30px 40px;max-width:100%}
-.main-auth .elementor-widget-image img{width:180px;height:180px;object-fit:cover;border-radius:50%;display:block;margin:0 auto}
-.main-auth .elementor-element-b5d8e9f .elementor-heading-title{font-size:32px;font-weight:700;margin:0;color:#070c13}
-.main-auth .elementor-element-2e0fb4e .elementor-heading-title{font-size:16px;color:#666;font-weight:500}
-.main-auth .elementor-element-bb840a7 .elementor-heading-title{font-size:16px;line-height:1.6;color:#333;font-weight:400}
-.main-auth .elementor-icon svg{width:20px;height:20px;fill:#0a66c2}
-@media (max-width:767px){.main-auth{padding:24px 20px}}
-</style>`;
-
-  if (!html.includes('elementor-post-24831') && loopCss) {
-    html = html.replace('</head>', `${loopCss}\n</head>`);
-  }
-  if (!html.includes('astro-author-archive-css')) {
-    html = html.replace('</head>', `${authorFixCss}\n</head>`);
-  }
-
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
-  }
-
-  return injectRuntimeGtmLoader(html);
+  return finalizeHtml(html, `author/${author.slug}`);
 }
 
 export function serveAuthorArchive(data: AuthorPageData): Response {
-  const html = assembleAuthorArchiveHtml(data);
-  return new Response(html, {
+  return new Response(assembleAuthorArchiveHtml(data), {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=0',
@@ -426,7 +585,7 @@ export function serveAuthorArchive(data: AuthorPageData): Response {
 
 export function assembleAuthorDirectoryHtml(): string {
   if (!existsSync(SHELL_PATH)) {
-    throw new Error('Author shell missing. Run: npm run prepare:author-shell');
+    throw new Error('Author shell missing. Run: node scripts/prepare-author-shell.mjs');
   }
 
   const entries = getAuthorDirectoryEntries();
@@ -438,143 +597,14 @@ export function assembleAuthorDirectoryHtml(): string {
     .replace('<!--ASTRO_AUTHOR:POSTS-->', buildAuthorDirectoryPostsHtml(entries))
     .replace('<!--ASTRO_AUTHOR:PAGINATION-->', '');
 
-  html = patchAuthorDirectoryHeadMeta(html, entries);
-
-  const authorDirectoryCss = `<style id="astro-author-directory-css">
-/* Live Elementor page 21412 mirror */
-.astro-author-hero,
-.elementor-element-f45c242{
-  background-image:url("/wp-content/uploads/2024/05/Rectangle-462.png");
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-size:cover;
-  padding:70px 0 80px;
-}
-.astro-author-hero .elementor-widget-wrap,
-.elementor-element-6c55a7e > .elementor-widget-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.astro-author-hero .elementor-element-d0b4ef6,
-.astro-author-hero .elementor-element-6ed679f{text-align:center}
-.astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:56px;
-  font-weight:500;
-  line-height:1.2;
-  color:#FFFFFF;
-  margin:0 0 5px;
-}
-.astro-author-hero .elementor-element-6ed679f{
-  width:555px;
-  max-width:100%;
-}
-.astro-author-hero .elementor-element-6ed679f .elementor-heading-title{
-  font-family:"SF Pro Display",sans-serif;
-  font-size:18px;
-  font-weight:500;
-  line-height:1.3em;
-  color:#FFFFFF;
-  margin:0;
-}
-.elementor-element-fbd336b{
-  background:transparent;
-  padding-top:50px !important;
-  padding-bottom:50px !important;
-}
-.elementor-element-6e1eaf5{display:none!important}
-.elementor-widget-posts .elementor-widget-container{padding-top:0}
-.ecs-posts.elementor-posts-container{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:30px 20px;
-  justify-items:center;
-}
-.astro-author-card{
-  text-align:center;
-  width:100%;
-  max-width:320px;
-  margin:0 auto;
-}
-.astro-author-card__image-link{display:inline-block;text-decoration:none;line-height:0}
-.astro-author-card__image{
-  width:200px;
-  max-width:100%;
-  height:auto;
-  display:block;
-  margin:0 auto 12px;
-  border-radius:0;
-  object-fit:contain;
-  box-shadow:none;
-}
-.ecs-posts .astro-author-card__name,
-.ecs-posts h3.astro-author-card__name.elementor-heading-title,
-.astro-author-card__name.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:24px !important;
-  font-weight:700 !important;
-  line-height:1.3em !important;
-  margin:0 0 4px;
-  text-align:center;
-  color:#070C13;
-}
-.ecs-posts .astro-author-card__name a,
-.astro-author-card__name a{
-  font-family:inherit !important;
-  font-size:inherit !important;
-  font-weight:inherit !important;
-  line-height:inherit !important;
-  color:#070C13 !important;
-  text-decoration:none;
-}
-.ecs-posts .astro-author-card__title,
-.ecs-posts p.astro-author-card__title.elementor-heading-title,
-.astro-author-card__title.elementor-heading-title{
-  font-family:"SF Pro Display", SF Pro Display !important;
-  font-size:15px !important;
-  font-weight:400 !important;
-  line-height:1.3em !important;
-  color:#666666 !important;
-  margin:0;
-  text-align:center;
-}
-@media (max-width:1024px){
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:45px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:18px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media (max-width:767px){
-  .astro-author-hero,.elementor-element-f45c242{padding:50px 0 60px}
-  .astro-author-hero .elementor-element-d0b4ef6 .elementor-heading-title{font-size:40px}
-  .ecs-posts .astro-author-card__name,
-  .ecs-posts h3.astro-author-card__name.elementor-heading-title,
-  .astro-author-card__name.elementor-heading-title{font-size:22px !important}
-  .ecs-posts .astro-author-card__title,
-  .ecs-posts p.astro-author-card__title.elementor-heading-title,
-  .astro-author-card__title.elementor-heading-title{font-size:16px !important}
-  .ecs-posts.elementor-posts-container{grid-template-columns:1fr}
-  .elementor-element-fbd336b{padding:30px 0}
-}
-</style>`;
-
-  if (!html.includes('astro-author-directory-css')) {
-    html = html.replace('</head>', `${authorDirectoryCss}\n</head>`);
-  }
-  if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
-  }
-
-  return injectRuntimeGtmLoader(html);
+  // Directory uses hero + cards; hide the articles chrome wrapper extras via CSS class.
+  html = html.replace('data-astro-author-page', 'data-astro-author-page data-author-directory');
+  html = patchAuthorDirectoryHeadMeta(html);
+  return finalizeHtml(html, 'author');
 }
 
 export function serveAuthorDirectory(): Response {
-  const html = assembleAuthorDirectoryHtml();
-  return new Response(html, {
+  return new Response(assembleAuthorDirectoryHtml(), {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'public, max-age=0',

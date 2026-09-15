@@ -1233,19 +1233,41 @@
     });
   }
 
-  /** Elementor share buttons (LinkedIn / Facebook) */
+  /** Elementor share buttons (Facebook / Twitter / LinkedIn) */
   function ensureShareButtons() {
     var pageUrl = encodeURIComponent(window.location.href);
+    var pageTitle = encodeURIComponent(document.title || '');
     document.querySelectorAll('.elementor-share-btn').forEach(function (btn) {
       if (btn.dataset.astroShare) return;
       btn.dataset.astroShare = '1';
       btn.style.cursor = 'pointer';
+
+      // Prefer letter-only brand glyphs so FA's built-in badge shapes
+      // don't double up with Elementor's circle button background.
+      var icon = btn.querySelector('i.fab');
+      if (icon) {
+        if (icon.classList.contains('fa-facebook') && !icon.classList.contains('fa-facebook-f')) {
+          icon.classList.remove('fa-facebook');
+          icon.classList.add('fa-facebook-f');
+        }
+        if (icon.classList.contains('fa-linkedin') && !icon.classList.contains('fa-linkedin-in')) {
+          icon.classList.remove('fa-linkedin');
+          icon.classList.add('fa-linkedin-in');
+        }
+      }
+
       btn.addEventListener('click', function () {
         var url = pageUrl;
         if (btn.classList.contains('elementor-share-btn_linkedin')) {
           window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + url, '_blank', 'noopener,noreferrer');
         } else if (btn.classList.contains('elementor-share-btn_facebook')) {
           window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank', 'noopener,noreferrer');
+        } else if (btn.classList.contains('elementor-share-btn_twitter')) {
+          window.open(
+            'https://twitter.com/intent/tweet?url=' + url + '&text=' + pageTitle,
+            '_blank',
+            'noopener,noreferrer',
+          );
         }
       });
     });
@@ -1765,12 +1787,34 @@
       '.elementor-widget-n-accordion .e-n-accordion-item>.e-con{will-change:height,opacity;}',
       /* Staff outsourcing: blend lavender accordion section into following white section */
       '.elementor-34276 .elementor-element-735da21:not(.elementor-motion-effects-element-type-background),.elementor-34276 .elementor-element-735da21>.elementor-motion-effects-container>.elementor-motion-effects-layer{background-image:linear-gradient(180deg,#FFFFFF 0%,#D4D7F9 55%,#FFFFFF 100%)!important;}',
-      /* Share buttons visibility */
+      /* Share buttons: equal circles (blog shell uses view-icon + shape-circle).
+         Prior override painted a second circle on __icon and left the button 32×45. */
       '.elementor-share-buttons--color-official .elementor-share-btn__icon svg{fill:currentColor;}',
-      '.elementor-share-btn_linkedin .elementor-share-btn__icon{color:#fff;background:#0077b5;}',
-      '.elementor-share-btn_facebook .elementor-share-btn__icon{color:#fff;background:#1877f2;}',
-      '.elementor-share-btn__icon{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;}',
-      '.elementor-share-btn__icon svg{width:16px;height:16px;}',
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-grid{' +
+        'display:flex!important;align-items:center!important;gap:10px!important;}' +
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-grid-item{' +
+        'width:auto!important;max-width:none!important;align-self:center!important;}' +
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-share-btn{' +
+        'display:inline-flex!important;align-items:center!important;justify-content:center!important;' +
+        'width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;' +
+        'max-width:36px!important;max-height:36px!important;padding:0!important;margin:0!important;' +
+        'box-sizing:border-box!important;border-radius:50%!important;overflow:hidden!important;' +
+        'line-height:1!important;font-size:16px!important;}' +
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-share-btn__icon{' +
+        'display:inline-flex!important;align-items:center!important;justify-content:center!important;' +
+        'align-self:center!important;flex:0 0 auto!important;flex-grow:0!important;' +
+        'width:auto!important;height:auto!important;padding:0!important;margin:0!important;' +
+        'background:transparent!important;border-radius:0!important;line-height:1!important;}' +
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-share-btn__icon i{' +
+        'display:block!important;font-size:16px!important;line-height:1!important;' +
+        'width:auto!important;height:auto!important;margin:0!important;color:#fff!important;}' +
+      '.elementor-share-buttons--view-icon.elementor-share-buttons--shape-circle .elementor-share-btn__icon svg{' +
+        'width:16px!important;height:16px!important;fill:currentColor!important;}',
+      /* Popular Articles cards: kill Elementor padding-bottom aspect box when CSS late/cached */
+      '.elementor-posts--skin-cards .elementor-post__thumbnail{position:relative!important;overflow:hidden!important;' +
+        'aspect-ratio:16/9;padding-bottom:0!important;min-height:0!important;height:auto!important;background:#e8e8e8;}',
+      '.elementor-posts--skin-cards .elementor-post__thumbnail img{position:absolute!important;inset:0!important;' +
+        'width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;max-width:none!important;}',
       /* Pixfort sliding / animate-in (Privacy Policy intro, etc.) */
       '.animate-in,.group-animate-in{visibility:visible!important;opacity:1!important;}',
       '[data-anim-type="pix-sliding-text"] .pix-sliding-item,[data-anim-type="pix-sliding-text"].pix-animate .pix-sliding-item{opacity:1!important;transform:none!important;filter:none!important;visibility:visible!important;}',

@@ -565,8 +565,8 @@ html = html.replace(
 html = html.replaceAll('2026-06-08T04:56:12+00:00', '2026-08-20T06:00:00+00:00');
 html = html.replaceAll('2026-07-20T06:19:05+00:00', '2026-08-20T06:00:00+00:00');
 html = html.replace(
-  /Prepared for Astro Phase 1[^<]+/,
-  `Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()}`,
+  /<!--\s*Prepared for Astro Phase 1[^>]*-->/,
+  `<!-- Prepared for Astro Phase 1 · ${SLUG} · ${new Date().toISOString()} -->`,
 );
 
 // Remove duplicate bottom "Contact us" inquiry block (sidebar form is enough)

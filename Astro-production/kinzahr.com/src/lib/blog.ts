@@ -6,6 +6,7 @@ import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { LIVE_AUTHOR_ROSTER, pickLiveAuthorForPostSlug } from './author-roster.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -141,11 +142,23 @@ export function getRawBlogPost(slug: string): BlogPost | null {
 /**
  * Get a blog post for frontend rendering. Returns null for draft/trashed posts.
  * Use getRawBlogPost() for admin/dashboard access.
+ * Authors are remapped onto the live Figma roster (deterministic per slug).
  */
 export function getBlogPost(slug: string): BlogPost | null {
   const post = getRawBlogPost(slug);
   if (!post) return null;
-  return isPublishedPost(post) ? post : null;
+  if (!isPublishedPost(post)) return null;
+  const live = pickLiveAuthorForPostSlug(post.slug || slug);
+  return {
+    ...post,
+    author: {
+      name: live.name,
+      slug: live.slug,
+      url: `/author/${live.slug}/`,
+    },
+    // Force rebuild of author chrome so legacy HTML does not keep old names.
+    authorHtml: undefined,
+  };
 }
 
 export function slugifyHeading(text: string): string {
@@ -269,6 +282,67 @@ export function buildTocHtml(toc: TocEntry[]): string {
 </div>`;
 }
 
+/** Bust Cloudflare/browser cache for mirror-fixes (JS is max-age=86400 without ?v=). */
+export const MIRROR_FIXES_CACHE_BUST = 'author-roster-20260909';
+
+export function bustMirrorFixesHtml(html: string): string {
+  if (!html) return html;
+  return html.replace(
+    /src=(["'])\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
+    `src=$1/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}$1`,
+  );
+}
+
+/** Static Elementor TOC list — avoids spinner when Elementor Pro TOC chunk fails. */
+export function buildElementorTocListHtml(toc: TocEntry[]): string {
+  const clean = (toc || []).map(sanitizeTocEntry).filter((entry): entry is TocEntry => Boolean(entry));
+  if (!clean.length) return '';
+
+  type TocNode = { entry: TocEntry; children: TocEntry[] };
+  const roots: TocNode[] = [];
+  for (const entry of clean) {
+    if (entry.level === 3 && roots.length) {
+      roots[roots.length - 1].children.push(entry);
+    } else {
+      roots.push({ entry, children: [] });
+    }
+  }
+
+  const items = roots
+    .map((node) => {
+      const childHtml = node.children.length
+        ? `<ol class="elementor-toc__list">${node.children
+            .map(
+              (child) =>
+                `<li class="elementor-toc__list-item"><a href="#${child.id}" class="elementor-toc__list-item-text-wrapper"><div class="elementor-toc__list-item-text">${escapeHtml(child.text)}</div></a></li>`,
+            )
+            .join('')}</ol>`
+        : '';
+      return `<li class="elementor-toc__list-item"><a href="#${node.entry.id}" class="elementor-toc__list-item-text-wrapper"><div class="elementor-toc__list-item-text">${escapeHtml(node.entry.text)}</div></a>${childHtml}</li>`;
+    })
+    .join('');
+
+  return `<div class="elementor-toc__list-wrapper"><ol class="elementor-toc__list">${items}</ol></div>`;
+}
+
+/** Replace Elementor TOC spinner / empty body with a static heading list. */
+export function injectElementorTocHtml(html: string, toc: TocEntry[]): string {
+  const list = buildElementorTocListHtml(toc);
+  if (!html || !list) return html;
+  if (!html.includes('elementor-widget-table-of-contents')) return html;
+
+  let out = html.replace(
+    /<div class="elementor-toc__spinner-container">[\s\S]*?<\/div>/i,
+    list,
+  );
+  // Remove Elementor's "No headings were found" empty-state text if present.
+  out = out.replace(
+    /<div class="elementor-message elementor-message-danger">[\s\S]*?No headings were found on this page\.[\s\S]*?<\/div>/i,
+    '',
+  );
+  return out;
+}
+
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
@@ -340,13 +414,20 @@ function buildCategoryHtml(categories: BlogPost['categories']): string {
 
 function buildAuthorHtml(author: BlogPost['author'], post: BlogPost): string {
   const name = escapeHtml(author.name || 'KinzaHR');
-  const slug = author.slug || (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'connect-2');
+  const slug =
+    author.slug ||
+    (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'vesna-milic');
   const url = `/author/${slug}/`;
-  const readingTime = Math.max(1, Math.ceil(stripHtml(post.contentHtml || '').split(/\s+/).filter(Boolean).length / 200));
+  const live = LIVE_AUTHOR_ROSTER.find((a) => a.slug === slug);
+  const avatarSrc = live?.avatar || '/wp-content/uploads/2024/05/vesna-milic.png';
+  const readingTime = Math.max(
+    1,
+    Math.ceil(stripHtml(post.contentHtml || '').split(/\s+/).filter(Boolean).length / 200),
+  );
   return `<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
   <li class="elementor-icon-list-item elementor-repeater-item-4a012f8 elementor-inline-item" itemprop="author">
     <a href="${url}">
-      <span class="elementor-icon-list-icon"><img class="elementor-avatar" src="/wp-content/uploads/2024/05/Nakul-Sachdeva-2-96x96.png" alt="Picture of ${name}" loading="lazy"></span>
+      <span class="elementor-icon-list-icon"><img class="elementor-avatar" src="${avatarSrc}" alt="Picture of ${name}" loading="lazy" width="96" height="96"></span>
       <span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">${name}</span>
     </a>
   </li>
@@ -454,8 +535,23 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 .astro-blog-breadcrumb__item:hover{text-decoration:underline}
 .astro-blog-breadcrumb__item--current{color:#333;font-weight:500}
 .astro-blog-breadcrumb__sep{color:#999}
+/* Elementor TOC: hide spinner once we inject a static list (no Elementor Pro chunk needed) */
+.elementor-widget-table-of-contents .elementor-toc__spinner-container{display:none!important;}
+.elementor-toc__list-wrapper{margin:0;padding:0;}
+.elementor-toc__list{margin:0;padding-left:1.25rem;list-style:decimal;}
+.elementor-toc__list .elementor-toc__list{list-style:disc;margin:.35rem 0 .35rem .5rem;}
+.elementor-toc__list-item-text-wrapper{color:#23369b;text-decoration:none;}
+.elementor-toc__list-item-text-wrapper:hover{color:#d71216;text-decoration:underline;}
+/* Popular Articles cards: avoid double-height gray box when Elementor absolute-fill CSS is late/missing */
+.elementor-posts--skin-cards .elementor-post__thumbnail{position:relative!important;overflow:hidden!important;aspect-ratio:16/9;padding-bottom:0!important;min-height:0!important;height:auto!important;background:#e8e8e8;}
+.elementor-posts--skin-cards .elementor-post__thumbnail img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;max-width:none!important;}
 </style>
-<script id="astro-blog-toc-js">
+`;
+
+/** Shared blog-post CSS (TOC + Popular Articles cards) — also used by legacy mirrors. */
+export const BLOG_POST_FIX_STYLES = TOC_STYLES;
+
+const TOC_SCRIPT = `<script id="astro-blog-toc-js">
 (function(){
   function boot(){
     document.querySelectorAll('.bd_toc_container.astro-blog-toc').forEach(function(box){
@@ -488,6 +584,228 @@ const TOC_STYLES = `<style id="astro-blog-toc-css">
 })();
 </script>`;
 
+/**
+ * Related posts for Popular Articles: prefer shared category/tag, then fill
+ * with recent posts so the 3-card grid stays populated.
+ */
+export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
+  const catSlugs = new Set(post.categories.map((c) => getCategorySlug(c)));
+  const primarySlug = post.categories[0] ? getCategorySlug(post.categories[0]) : '';
+  const tagSlugs = new Set((post.tags || []).map((t) => t.slug).filter(Boolean));
+  const others = getAllBlogPosts().filter((p) => p.slug !== post.slug);
+
+  const scored = others
+    .map((p) => {
+      let score = 0;
+      for (let i = 0; i < p.categories.length; i++) {
+        const slug = getCategorySlug(p.categories[i]);
+        if (!catSlugs.has(slug)) continue;
+        score += i === 0 && slug === primarySlug ? 5 : 3;
+      }
+      for (const tag of p.tags || []) {
+        if (tag.slug && tagSlugs.has(tag.slug)) score += 2;
+      }
+      return { p, score };
+    })
+    .filter((row) => row.score > 0);
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return new Date(b.p.publishedAt).getTime() - new Date(a.p.publishedAt).getTime();
+  });
+
+  const related = scored.map((row) => row.p);
+  if (related.length >= limit) return related.slice(0, limit);
+
+  const seen = new Set(related.map((p) => p.slug));
+  for (const p of others) {
+    if (seen.has(p.slug)) continue;
+    related.push(p);
+    seen.add(p.slug);
+    if (related.length >= limit) break;
+  }
+  return related;
+}
+
+/** Elementor posts.cards skin used by Popular Articles (widget 80908c4). */
+export function buildPopularArticleCardHtml(post: BlogPost): string {
+  const category = post.categories[0];
+  const img = post.featuredImage;
+  const imgSrc = img?.src || '';
+  const imgAlt = escapeHtml(img?.alt || post.title);
+  const excerpt = escapeHtml(getPostExcerpt(post, 120).replace(/…$/, ''));
+  const postUrl = `/${post.slug}/`;
+  const title = escapeHtml(post.title);
+  const catClass = category
+    ? ` category-${(category.slug || getCategorySlug(category)).toLowerCase().replace(/\s+/g, '-')}`
+    : '';
+  const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
+
+  const imgTag = imgSrc
+    ? `<img loading="lazy" width="1920" height="1080" src="${imgSrc}" class="attachment-full size-full" alt="${imgAlt}" decoding="async">`
+    : '';
+
+  return `<article class="elementor-post elementor-grid-item ${postDomId} post type-post status-publish format-standard has-post-thumbnail hentry${catClass}" role="listitem">
+			<div class="elementor-post__card">
+				<a class="elementor-post__thumbnail__link" href="${postUrl}" tabindex="-1"><div class="elementor-post__thumbnail">${imgTag}</div></a>
+				<div class="elementor-post__text">
+				<h3 class="elementor-post__title">
+			<a href="${postUrl}">
+				${title}			</a>
+		</h3>
+				<div class="elementor-post__excerpt">
+			<p>${excerpt}</p>
+		</div>
+		
+		<a class="elementor-post__read-more" href="${postUrl}" aria-label="Read more about ${title}" tabindex="-1">
+			Read More »		</a>
+
+				</div>
+					</div>
+		</article>`;
+}
+
+/**
+ * Rewrite author byline, author-box bio, and meta in legacy Elementor post mirrors
+ * to the live Figma roster. Most Kinza posts are served from cleaned HTML.
+ */
+export function injectLiveAuthorIntoMirrorHtml(html: string, post: BlogPost): string {
+  if (!html || !post?.author?.slug || !post.author.name) return html;
+
+  const name = post.author.name;
+  const slug = post.author.slug;
+  const url = `/author/${slug}/`;
+  const live = LIVE_AUTHOR_ROSTER.find((a) => a.slug === slug);
+  const avatarSrc = live?.avatar || `/wp-content/uploads/2024/05/${slug}.png`;
+  const bio = (live?.bio || '').trim();
+  const safeName = escapeHtml(name);
+  const safeBio = escapeHtml(bio);
+
+  let out = html;
+
+  // Post-info author row (avatar + name + link)
+  out = out.replace(
+    /<li([^>]*itemprop=["']author["'][^>]*)>[\s\S]*?<\/li>/i,
+    `<li$1>
+						<a href="${url}">
+											<span class="elementor-icon-list-icon">
+								<img class="elementor-avatar" src="${avatarSrc}" alt="Picture of ${safeName}" loading="lazy" width="96" height="96">
+							</span>
+									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
+										${safeName}					</span>
+									</a>
+				</li>`,
+  );
+
+  // Elementor author-box under post content
+  if (/elementor-author-box/i.test(out)) {
+    out = out.replace(
+      /(<a href=")[^"]*("\s+class="elementor-author-box__avatar">)/i,
+      `$1${url}$2`,
+    );
+    out = out.replace(
+      /(class="elementor-author-box__avatar">\s*<img\s+[^>]*?\bsrc=")[^"]*(")/i,
+      `$1${avatarSrc}$2`,
+    );
+    out = out.replace(
+      /(class="elementor-author-box__avatar">\s*<img\s+[^>]*?\balt=")[^"]*(")/i,
+      `$1Picture of ${safeName}$2`,
+    );
+    out = out.replace(
+      /(<div class="elementor-author-box__text">\s*<a href=")[^"]*(")/i,
+      `$1${url}$2`,
+    );
+    out = out.replace(
+      /(<div class="elementor-author-box__name">)\s*[^<]*?(<\/div>)/i,
+      `$1\n\t\t\t\t\t\t\t${safeName}\t\t\t\t\t\t$2`,
+    );
+    if (bio) {
+      if (/elementor-author-box__bio/i.test(out)) {
+        out = out.replace(
+          /(<div class="elementor-author-box__bio">)[\s\S]*?(<\/div>)/i,
+          `$1\n\t\t\t\t\t\t${safeBio}\t\t\t\t\t$2`,
+        );
+      } else {
+        out = out.replace(
+          /(<\/div>\s*<\/div>\s*<\/div>\s*<\/div>\s*<div class="elementor-element elementor-element-9c6d476)/i,
+          `<div class="elementor-author-box__bio">\n\t\t\t\t\t\t${safeBio}\t\t\t\t\t</div>\n\t\t\t\t\n\t\t\t\t\t\t\t</div>\n\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t$1`,
+        );
+      }
+    }
+  }
+
+  // Meta author
+  if (/name=["']author["']/i.test(out)) {
+    out = out.replace(
+      /<meta\s+name=["']author["']\s+content=["'][^"']*["']\s*\/?>/i,
+      `<meta name="author" content="${safeName}" />`,
+    );
+  }
+
+  // JSON-LD Person / author name + url (best-effort)
+  out = out.replace(
+    /("author"\s*:\s*\{\s*"@type"\s*:\s*"Person"\s*,\s*"name"\s*:\s*")[^"]*(")/i,
+    `$1${safeName}$2`,
+  );
+  out = out.replace(
+    /("author"\s*:\s*\{\s*"@type"\s*:\s*"Person"\s*,\s*"name"\s*:\s*"[^"]*"\s*,\s*"url"\s*:\s*")[^"]*(")/i,
+    `$1${url}$2`,
+  );
+
+  // Legacy schema still embeds Nakul's old biography / avatar caption
+  if (bio) {
+    const jsonBio = JSON.stringify(bio).slice(1, -1);
+    out = out.replace(
+      /I currently work as Head of Recruitment and Sales at Kinza HR in Dubai, UAE\.[\s\S]*?Verticals - IT, Finance and Banking, Insurance, Healthcare, FMCG, Retail, and more\./g,
+      jsonBio,
+    );
+  }
+  out = out.replace(/"caption"\s*:\s*"Nakul Sachdeva"/g, `"caption":"${safeName}"`);
+  out = out.replace(
+    /\/wp-content\/uploads\/2024\/05\/Nakul-Sachdeva-2(?:-\d+x\d+)?\.png/g,
+    avatarSrc,
+  );
+
+  // Leftover retired author archive URLs → live author for this post
+  out = out.replace(
+    /\/author\/(?:dylan-wesley|tanzyn-giovanna-amisha-stanley|binju-t-robert|siva-rama-krishnan|nakul)\//gi,
+    url,
+  );
+  if (slug !== 'nakul-sachdeva') {
+    out = out.replace(/\/author\/nakul-sachdeva\//gi, url);
+  }
+
+  return out;
+}
+
+/**
+ * Replace the frozen Popular Articles grid with related cards for this post.
+ */
+export function injectPopularArticlesHtml(html: string, post: BlogPost): string {
+  if (!html || !/Popular Articles/i.test(html)) return html;
+  if (!html.includes('elementor-element-80908c4')) return html;
+
+  const bodyIdx = html.indexOf('<body');
+  const widgetIdx = html.indexOf('elementor-element-80908c4', bodyIdx > 0 ? bodyIdx : 0);
+  if (widgetIdx < 0) return html;
+
+  const containerOpen = html.indexOf('elementor-posts-container', widgetIdx);
+  if (containerOpen < 0) return html;
+
+  const firstArticle = html.indexOf('<article', containerOpen);
+  if (firstArticle < 0) return html;
+
+  const footerIdx = html.indexOf('elementor-location-footer', firstArticle);
+  const searchEnd = footerIdx > 0 ? footerIdx : html.length;
+  const lastArticle = html.lastIndexOf('</article>', searchEnd);
+  if (lastArticle < firstArticle) return html;
+
+  const replaceEnd = lastArticle + '</article>'.length;
+  const related = getRelatedPosts(post, 3);
+  const cards = related.map((p) => buildPopularArticleCardHtml(p)).join('\n');
+  return html.slice(0, firstArticle) + cards + html.slice(replaceEnd);
+}
+
 /** Assemble final HTML from shell template + post data. */
 export function assembleBlogPostHtml(post: BlogPost): string {
   if (!existsSync(SHELL_PATH)) {
@@ -509,17 +827,23 @@ export function assembleBlogPostHtml(post: BlogPost): string {
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
 
+  html = injectPopularArticlesHtml(html, post);
+  html = injectElementorTocHtml(html, post.toc || []);
   html = patchHeadMeta(html, post);
   html = injectBlogSchemas(html, post);
 
   if (!html.includes('astro-blog-toc-css')) {
-    html = html.replace('</head>', `${TOC_STYLES}\n</head>`);
+    html = html.replace('</head>', `${TOC_STYLES}\n${TOC_SCRIPT}\n</head>`);
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace(
+      '</body>',
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
   }
 
+  html = bustMirrorFixesHtml(html);
   html = decodeProtectedEmailsInHtml(html);
 
   return injectRuntimeGtmLoader(html);
@@ -545,7 +869,8 @@ function decodeProtectedEmailsInHtml(html: string): string {
 }
 
 export function serveBlogPost(post: BlogPost): Response {
-  const html = assembleBlogPostHtml(post);
+  let html = assembleBlogPostHtml(post);
+  html = injectLiveAuthorIntoMirrorHtml(html, post);
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',

@@ -77,6 +77,11 @@ const baseCss = [
   ...(liveCssOrder as string[]).filter((href) => !globalCss.includes(href) && !href.includes("/elementor/css/post-10.css")),
 ];
 
+/** Query bust for this wave's rewritten fixed-path CSS (Cloudflare max-age). */
+const CSS_QUERY_BUST: Record<string, string> = {
+  "/css/migration-overrides.css": "?v=20260916-air-tower",
+};
+
 const stylesheets = [
   ...new Set([
     ...baseCss,
@@ -85,7 +90,11 @@ const stylesheets = [
     "/css/elementor-bg-fallback.css",
     "/css/migration-overrides.css",
   ]),
-];
+].map((href) => {
+  const base = href.split("?")[0];
+  const bust = CSS_QUERY_BUST[base];
+  return bust ? `${base}${bust}` : href;
+});
 
 ---
 
@@ -122,5 +131,36 @@ const stylesheets = [
     <LicenceStrip />
     <FloatContacts />
     <ElementorScripts />
+    <script is:inline>
+      (function () {
+        function placeBreadcrumbsAboveTitle() {
+          var crumbs = document.querySelector(".sp-page-breadcrumbs");
+          if (!crumbs || crumbs.classList.contains("is-above-title")) return;
+          var root =
+            document.querySelector(".sp-page-content") ||
+            document.querySelector("main.site-main") ||
+            document.querySelector("main");
+          if (!root) return;
+          var h1 =
+            root.querySelector(".elementor-top-section h1") ||
+            root.querySelector("section.elementor-section h1") ||
+            root.querySelector("h1");
+          if (!h1) return;
+          // Prefer inside the heading widget container so Elementor py doesn't add a second gap
+          var container = h1.closest(".elementor-widget-container");
+          var parent = container || h1.parentNode;
+          var before = container ? h1 : h1;
+          if (!parent) return;
+          crumbs.classList.add("is-above-title");
+          parent.insertBefore(crumbs, before);
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", placeBreadcrumbsAboveTitle);
+        } else {
+          placeBreadcrumbsAboveTitle();
+        }
+        window.addEventListener("load", placeBreadcrumbsAboveTitle);
+      })();
+    </script>
   </body>
 </html>

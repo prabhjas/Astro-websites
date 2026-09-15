@@ -706,7 +706,7 @@ export function assembleAuthorArchiveHtml(data: AuthorPageData): string {
     var perPage=Number(btn.getAttribute('data-per-page')||'8')||8;
     btn.classList.add('is-loading');
     btn.textContent='Loading…';
-    fetch('/api/author/load-more?slug='+encodeURIComponent(slug)+'&offset='+offset+'&perPage='+perPage)
+    fetch('/api/blog/author-load-more?slug='+encodeURIComponent(slug)+'&offset='+offset+'&perPage='+perPage)
       .then(function(r){ return r.json(); })
       .then(function(data){
         if(!data||!data.ok) throw new Error('load failed');

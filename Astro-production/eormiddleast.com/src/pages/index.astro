@@ -39,7 +39,7 @@ const html = fixHomeBlogHtml(page.bodyHtml || page.content || "");
 const extraCss = [
   ...(page.pageCss || []),
   page.elementorCss || `/wp-content/uploads/elementor/css/post-${page.id}.css`,
-  "/css/eor-home-blog.css",
+  "/css/eor-home-blog.css?v=20260911-owl",
 ];
 const bodyClass = `home page page-id-${page.id} elementor-page elementor-page-${page.id}`;
 ---

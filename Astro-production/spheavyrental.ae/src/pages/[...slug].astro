@@ -48,6 +48,15 @@ const pageCrumbs = page
           href: "/heavy-machinery-rental/",
         });
       }
+      if (
+        path.startsWith("/construction-equipment-rental/") &&
+        path !== "/construction-equipment-rental/"
+      ) {
+        crumbs.splice(1, 0, {
+          name: "Construction Equipment Rental",
+          href: "/construction-equipment-rental/",
+        });
+      }
       return crumbs;
     })()
   : [];
@@ -180,7 +189,7 @@ const postHtml =
           <figure style="margin: 0 0 1.75rem">
             <img
               src={post!.featuredImage}
-              alt={stripHtml(post!.title)}
+              alt={post!.featuredImageAlt || stripHtml(post!.title)}
               width="1200"
               height="675"
               loading="eager"

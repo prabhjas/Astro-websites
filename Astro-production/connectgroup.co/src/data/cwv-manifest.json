@@ -1,1 +1,16 @@
-{ "routes": {} }
+{
+  "routes": {
+    "/": {
+      "slug": "homepage",
+      "hero": [
+        {
+          "rel": "preload",
+          "as": "image",
+          "href": "/wp-content/uploads/2025/09/Hero-Mobile.png",
+          "media": "(max-width:1024px)",
+          "fetchpriority": "high"
+        }
+      ]
+    }
+  }
+}

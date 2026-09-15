@@ -1436,12 +1436,15 @@
       document.head.appendChild(style);
     }
     style.textContent = [
-      /* Prefer clip so position:sticky (blog sidebar) still works on desktop.
-         Mobile: keep clip so wide CMS images cannot create horizontal scroll; unlock vertical scroll for iOS. */
+      /* Prefer clip so wide CMS images cannot create horizontal scroll on mobile.
+         Blog posts (.bp): from sidebar breakpoint, both axes must be visible —
+         overflow-y:auto + overflow-x:visible collapses to overflow-x:auto and breaks sticky. */
       'html,body{overflow-x:clip;max-width:100vw;}',
       'html:has(.ig),html:has(.ig) body{overflow-x:clip!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}',
-      '@media (min-width:1100px){html:has(.bp),html:has(.bp) body{overflow-x:visible!important;overflow-y:auto!important;height:auto!important;max-height:none!important;}}',
-      '@media (max-width:1099px){html:has(.bp),html:has(.bp) body,html:has(.ig),html:has(.ig) body{overflow-x:hidden!important;overflow-y:auto!important;max-width:100%!important;width:100%!important;height:auto!important;max-height:none!important;position:static!important;-webkit-overflow-scrolling:touch;touch-action:pan-y pinch-zoom;}}',
+      '@media (min-width:1024px){html:has(.bp),html:has(.bp) body,html:has(main.bp),html:has(main.bp) body{overflow:visible!important;overflow-x:visible!important;overflow-y:visible!important;height:auto!important;max-height:none!important;}}',
+      '@media (max-width:1023px){html:has(.bp),html:has(.bp) body,html:has(main.bp),html:has(main.bp) body{overflow-x:clip!important;overflow-y:auto!important;}}',
+      /* Force sticky sidebar form on all Figma blog posts */
+      '@media (min-width:1024px){.bp-aside{align-self:stretch!important;}.bp-aside__sticky{position:-webkit-sticky!important;position:sticky!important;top:96px!important;z-index:3!important;}}',
       '.bp-content img,.bp-content figure,.bp-content video,.bp-content iframe,.bp-content table{max-width:100%!important;height:auto!important;}',
       /* Dark chrome for marketing pages only — NOT legacy blog light canvas.
          Exclude Contact Us + Figma Insights (.ig/.bp). */

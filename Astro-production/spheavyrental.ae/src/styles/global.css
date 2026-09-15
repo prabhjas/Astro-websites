@@ -275,7 +275,8 @@
 .sp-breadcrumbs {
   font-size: 0.875rem;
   color: #bdbdbd;
-  margin: 0 0 1.25rem;
+  /* Keep trail tight under / above page titles sitewide */
+  margin: 0 0 0.35rem;
 }
 
 .sp-breadcrumbs a {
@@ -291,17 +292,20 @@
   Overlay breadcrumbs under the transparent header so they do NOT take
   document-flow height. Service heroes use margin-top:-74px to tuck under
   the header (same as live); a normal-flow breadcrumb bar would break that.
+
+  JS (BaseLayout) moves .sp-page-breadcrumbs above the first H1 and adds
+  .is-above-title so the trail sits tight against the heading on all pages.
 */
 .sp-page-breadcrumbs {
   position: absolute;
   left: 0;
   right: 0;
-  top: 4.5rem;
+  top: 5.5rem;
   z-index: 20;
   pointer-events: none;
   background: transparent;
   border: 0;
-  padding: 0.35rem 0;
+  padding: 0;
 }
 
 .sp-page-breadcrumbs .sp-container {
@@ -316,6 +320,36 @@
 
 .sp-page-breadcrumbs .sp-breadcrumbs a:hover {
   color: #ffdd04;
+}
+
+/* Placed directly above the page H1 (inside hero / content column) */
+.sp-page-breadcrumbs.is-above-title {
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+  z-index: 5;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 6px;
+  padding: 0;
+  pointer-events: auto;
+}
+
+.sp-page-breadcrumbs.is-above-title .sp-container {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* When crumbs sit inside the heading widget, drop Elementor top pad */
+.elementor-widget-heading .elementor-widget-container:has(> .sp-page-breadcrumbs.is-above-title) {
+  padding-top: 0 !important;
+}
+
+.sp-archive-hero .sp-breadcrumbs {
+  margin: 0 0 0.35rem;
 }
 
 .site-main,

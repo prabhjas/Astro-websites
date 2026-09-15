@@ -105,7 +105,11 @@ export function serveLegacyPage(slug: string): Response {
   html = ensureScript(html, "/scripts/cf7-bridge.js");
   html = ensureScript(html, "/scripts/phone-flags.js");
   html = ensureScript(html, "/js/astro-mirror-fixes.js");
-  html = ensureScript(html, "/scripts/blog-load-more.js");
+  html = html.replace(
+    /\/scripts\/blog-load-more\.js(?:\?[^"']*)?/g,
+    "/scripts/blog-load-more.js?v=20260915-tfg-authors",
+  );
+  html = ensureScript(html, "/scripts/blog-load-more.js?v=20260915-tfg-authors");
 
   // Compare table: mirror lacks .wptb-style-isolation so upstream WPTB CSS is inert.
   if (slug === "compare-companies") {
