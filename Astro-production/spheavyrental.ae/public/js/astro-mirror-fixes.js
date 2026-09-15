@@ -335,6 +335,46 @@
 
     dedupeSubmenuIcons();
 
+    // Mobile burger — Elementor Pro handler often missing/broken on Astro mirrors
+    document.querySelectorAll('.elementor-menu-toggle').forEach(function (toggle) {
+      if (toggle.dataset.astroBurgerBound === '1') return;
+      toggle.dataset.astroBurgerBound = '1';
+      toggle.addEventListener(
+        'click',
+        function (event) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          var open =
+            !(toggle.getAttribute('aria-expanded') === 'true' || toggle.classList.contains('elementor-active'));
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.classList.toggle('elementor-active', open);
+          var dropdown = toggle.parentElement && toggle.parentElement.querySelector(
+            '.elementor-nav-menu--dropdown.elementor-nav-menu__container',
+          );
+          if (dropdown) {
+            dropdown.setAttribute('aria-hidden', String(!open));
+            dropdown.classList.toggle('elementor-menu-open', open);
+            if (open) {
+              dropdown.style.setProperty('display', 'block', 'important');
+              dropdown.style.setProperty('max-height', '100vh', 'important');
+              dropdown.style.setProperty('transform', 'scaleY(1)', 'important');
+              dropdown.style.setProperty('overflow-y', 'auto', 'important');
+              dropdown.style.setProperty('visibility', 'visible', 'important');
+            } else {
+              dropdown.style.removeProperty('display');
+              dropdown.style.removeProperty('max-height');
+              dropdown.style.removeProperty('transform');
+              dropdown.style.removeProperty('overflow-y');
+              dropdown.style.removeProperty('visibility');
+            }
+          }
+          document.documentElement.classList.toggle('elementor-menu-open', open);
+          document.body.classList.toggle('elementor-menu-open', open);
+        },
+        true,
+      );
+    });
+
     // Give Elementor nav-menu chunk time to init SmartMenus with the real SVG caret.
     // Only fallback if it never attached (missing chunk / race).
     if (!$ || !$.fn) {
@@ -2070,6 +2110,7 @@
       '.elementor-menu-toggle__icon--close.eicon-close:after{transform:rotate(-45deg);}',
       '.elementor-menu-toggle:not(.elementor-active) .elementor-menu-toggle__icon--close{display:none;}',
       '.elementor-menu-toggle.elementor-active .elementor-menu-toggle__icon--open{display:none;}',
+      '.elementor-nav-menu--toggle .elementor-menu-toggle.elementor-active+.elementor-nav-menu__container,.elementor-nav-menu--toggle .elementor-menu-toggle+.elementor-nav-menu__container.elementor-menu-open,.elementor-nav-menu--dropdown.elementor-menu-open{display:block!important;max-height:var(--menu-height,100vh)!important;overflow-y:auto!important;transform:scaleY(1)!important;visibility:visible!important;}',
       /* Submenu caret: match Elementor live (1em SVG + padded flex hit area) */
       '.elementor-nav-menu .sub-arrow{align-items:center;display:inline-flex;line-height:1;margin-block:-10px;margin-inline-start:.15em;padding:10px;padding-inline-end:0;vertical-align:middle;}',
       '.elementor-nav-menu .sub-arrow .e-font-icon-svg,.elementor-nav-menu .sub-arrow svg{width:1em!important;height:1em!important;fill:currentColor;display:block;}',

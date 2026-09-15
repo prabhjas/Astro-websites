@@ -211,12 +211,14 @@ export function getServerEnv(): ServerEnv {
     internalUploadDir: env.INTERNAL_UPLOAD_DIR?.trim() || '.data/internal-uploads',
     internalUploadMaxFileBytes: optionalInt(env.INTERNAL_UPLOAD_MAX_FILE_BYTES) ?? 10 * 1024 * 1024,
     dashboardUsers: parseDashboardUsers(env.DASHBOARD_USERS_JSON),
-    pipedriveApiToken: required('PIPEDRIVE_API_TOKEN', env.PIPEDRIVE_API_TOKEN),
-    pipedriveCompanyDomain: required(
-      'PIPEDRIVE_COMPANY_DOMAIN',
-      env.PIPEDRIVE_COMPANY_DOMAIN ?? env.PIPEDRIVE_API_URL,
-    ),
-    pipedriveOwnerId: requiredInt('PIPEDRIVE_OWNER_ID', env.PIPEDRIVE_OWNER_ID),
+    // Blank token is intentional for local/fleet: FileLeadStore still accepts the lead;
+    // Pipedrive destination is skipped (see site-cms deliverStoredLead / createPipedriveDestination).
+    pipedriveApiToken: env.PIPEDRIVE_API_TOKEN?.trim() || '',
+    pipedriveCompanyDomain:
+      env.PIPEDRIVE_COMPANY_DOMAIN?.trim() ||
+      env.PIPEDRIVE_API_URL?.trim() ||
+      'connectgroup2',
+    pipedriveOwnerId: optionalInt(env.PIPEDRIVE_OWNER_ID) ?? 13601147,
     pipedriveStageId: optionalInt(env.PIPEDRIVE_STAGE_ID),
     pipedrivePipelineId: optionalInt(env.PIPEDRIVE_PIPELINE_ID),
     pipedrivePersonLabelIds: parseIntList(env.PIPEDRIVE_PERSON_LABEL_IDS, [5]),

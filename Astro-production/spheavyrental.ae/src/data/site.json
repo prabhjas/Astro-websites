@@ -42,7 +42,13 @@
         },
         {
           "label": "Construction Equipment Rental",
-          "href": "/construction-equipment-rental/"
+          "href": "/construction-equipment-rental/",
+          "children": [
+            {
+              "label": "Tower Light Rental",
+              "href": "/construction-equipment-rental/tower-light-rental/"
+            }
+          ]
         },
         {
           "label": "Generator Rental",
@@ -51,6 +57,10 @@
         {
           "label": "Scaffold Rental",
           "href": "/scaffold-rental/"
+        },
+        {
+          "label": "Air Compressor Rental",
+          "href": "/air-compressor-rental/"
         }
       ]
     },
@@ -83,6 +93,14 @@
     {
       "label": "Scaffold Rental",
       "href": "/scaffold-rental/"
+    },
+    {
+      "label": "Air Compressor Rental",
+      "href": "/air-compressor-rental/"
+    },
+    {
+      "label": "Tower Light Rental",
+      "href": "/construction-equipment-rental/tower-light-rental/"
     }
   ],
   "footerQuickLinks": [

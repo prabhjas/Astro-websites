@@ -46,6 +46,15 @@ const pageCrumbs = page
           href: "/heavy-machinery-rental/",
         });
       }
+      if (
+        path.startsWith("/construction-equipment-rental/") &&
+        path !== "/construction-equipment-rental/"
+      ) {
+        crumbs.splice(1, 0, {
+          name: "Construction Equipment Rental",
+          href: "/construction-equipment-rental/",
+        });
+      }
       return crumbs;
     })()
   : [];
