@@ -3,6 +3,7 @@
  * Blog post — CG v3.0 Figma (from-scratch rebuild)
  * Desktop 6748:19797 · Tablet 6762:3125 · Mobile 6762:3429.
  */
+import { sanitizeCmsHtml } from '@connect/site-cms';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InsightsChromeHead from './InsightsChromeHead.astro';
 import InsightsSharedStyles from './InsightsSharedStyles.astro';
@@ -16,7 +17,6 @@ import {
 } from '../../lib/blog.ts';
 import { getAuthor } from '../../lib/authors.ts';
 import { toInsightCard, displayAuthorName, normalizeTopicLabel } from '../../lib/insights.ts';
-import { sanitizeBlogHtml } from '../../lib/sanitize-blog-html.ts';
 import type { PageSeo } from '../../lib/seo';
 
 interface Props {
@@ -72,7 +72,7 @@ function flattenWpNestedLists(html: string): string {
   return out;
 }
 const contentHtml = flattenWpNestedLists(
-  stripEmptyParagraphs(sanitizeBlogHtml(stripEmptyParagraphs(post.contentHtml || ''))),
+  stripEmptyParagraphs(sanitizeCmsHtml(stripEmptyParagraphs(post.contentHtml || ''))),
 );
 const dateLabel = (() => {
   try {
@@ -331,15 +331,33 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
           });
       });
 
-      // Blog FAQ accordion: one open item at a time
+      // Blog FAQ accordion: one open item at a time (div[role=button]; sanitize-safe)
       document.querySelectorAll('.bp-content .bp-faq').forEach(function (root) {
-        root.addEventListener('toggle', function (e) {
-          var item = e.target;
-          if (!item || item.tagName !== 'DETAILS' || !item.open) return;
-          root.querySelectorAll('details.bp-faq__item[open]').forEach(function (other) {
-            if (other !== item) other.open = false;
+        function toggleFaq(trigger) {
+          var item = trigger.closest('.bp-faq__item');
+          if (!item) return;
+          var willOpen = !item.classList.contains('is-open');
+          root.querySelectorAll('.bp-faq__item').forEach(function (other) {
+            var ob = other.querySelector('.bp-faq__q');
+            var open = willOpen && other === item;
+            if (ob) ob.setAttribute('aria-expanded', open ? 'true' : 'false');
+            other.classList.toggle('is-open', open);
           });
-        }, true);
+          if (trigger.blur) trigger.blur();
+        }
+        root.addEventListener('click', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          e.preventDefault();
+          toggleFaq(trigger);
+        });
+        root.addEventListener('keydown', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault();
+          toggleFaq(trigger);
+        });
       });
 
       // Fire-and-forget view count for Featured ranking (deduped server-side via cookie).
@@ -672,11 +690,29 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    width: 100%;
+    margin: 0;
     padding: 16px 18px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font: inherit;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.4;
     color: #121212;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bp-content .bp-faq__q:focus,
+  .bp-content .bp-faq__q:focus-visible,
+  .bp-content .bp-faq__q:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  .bp-content .bp-faq__item:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
   }
   .bp-content .bp-faq__q::-webkit-details-marker { display: none; }
   .bp-content .bp-faq__q::after {
@@ -687,10 +723,15 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     font-weight: 500;
     color: #767676;
   }
+  .bp-content .bp-faq__item.is-open .bp-faq__q::after,
   .bp-content .bp-faq__item[open] .bp-faq__q::after { content: '–'; }
   .bp-content .bp-faq__a {
+    display: none;
     padding: 0 18px 16px;
     color: #313131;
+  }
+  .bp-content .bp-faq__item.is-open .bp-faq__a {
+    display: block;
   }
   .bp-content .bp-faq__a p {
     margin: 0;
@@ -854,7 +895,6 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    /* minmax(0,1fr) prevents grid blowout from long titles / meta on mobile */
     grid-template-columns: minmax(0, 1fr);
   }
   @media (min-width: 768px) {
