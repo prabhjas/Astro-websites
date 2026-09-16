@@ -96,6 +96,7 @@ export function buildLawCardHtml(post: IndexedPost): string {
   const date = escapeHtml(formatLawDate(post.publishedAt || post.modifiedAt));
   const excerpt = escapeHtml((post.description || '').slice(0, 80));
   const author = escapeHtml(post.author || 'Company Formation Saudi');
+  const authorHtml = `<a href="/author/company-formation-saudi/">${author}</a>`;
   const id = `post-${post.slug.replace(/[^a-z0-9_-]+/gi, '-')}`;
 
   return `<article id="${id}" class="elementor-post elementor-grid-item ecs-post-loop ${id} law type-law status-publish has-post-thumbnail hentry">
@@ -117,7 +118,7 @@ export function buildLawCardHtml(post: IndexedPost): string {
 										<span class="elementor-icon-list-icon">
 								<i aria-hidden="true" class="fas fa-user-circle"></i>							</span>
 									<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-author">
-										${author}					</span>
+										${authorHtml}					</span>
 								</li>
 				</ul>
 						</div>
@@ -153,6 +154,7 @@ export function buildCafCardHtml(post: IndexedPost): string {
   const title = escapeHtml(post.title);
   const img = escapeHtml(post.image || '');
   const author = escapeHtml(post.author || 'Company Formation Saudi');
+  const authorHtml = `<a href="/author/company-formation-saudi/">${author}</a>`;
   const date = escapeHtml(formatCafDate(post.publishedAt || post.modifiedAt));
   const excerptRaw = (post.description || '').replace(/\s+/g, ' ').trim();
   const excerpt =
@@ -160,7 +162,7 @@ export function buildCafCardHtml(post: IndexedPost): string {
   const cat = post.categories?.[0];
   const cls = tpClass(cat?.name || 'Uncategorized');
 
-  return `<article id="caf-post-layout1" class="caf-post-layout1 caf-col-md-6 caf-col-md-tablet12 caf-col-md-mobile12 caf-mb-5  animate-off ${cls}" data-post-id="${escapeHtml(post.slug)}"><div class="manage-layout1"><a href="${url}" target="_parent" class=""><div class="caf-featured-img-box " style="background:url(${img}                    )"></div></a><div id="manage-post-area"><div class="caf-post-title"><h2><a href="${url}" target="_parent">${title}</a></h2></div><div class="caf-meta-content"><span class="author caf-col-md-4 caf-pl-0"><i class="fa fa-user" aria-hidden="true"></i> ${author}</span><span class="date caf-col-md-6 caf-pl-0"><i class="fa fa-calendar" aria-hidden="true"></i> ${date}</span><span class="comment caf-col-md-3 caf-pl-0"><i class="fa fa-comment" aria-hidden="true"></i> 0</span></div><div class="caf-content">${excerpt}</div><div class="caf-content-read-more"><a class="caf-read-more" href="${url}" target="_parent">Read More</a></div></div></div></article>`;
+  return `<article id="caf-post-layout1" class="caf-post-layout1 caf-col-md-6 caf-col-md-tablet12 caf-col-md-mobile12 caf-mb-5  animate-off ${cls}" data-post-id="${escapeHtml(post.slug)}"><div class="manage-layout1"><a href="${url}" target="_parent" class=""><div class="caf-featured-img-box " style="background:url(${img}                    )"></div></a><div id="manage-post-area"><div class="caf-post-title"><h2><a href="${url}" target="_parent">${title}</a></h2></div><div class="caf-meta-content"><span class="author caf-col-md-4 caf-pl-0"><i class="fa fa-user" aria-hidden="true"></i> ${authorHtml}</span><span class="date caf-col-md-6 caf-pl-0"><i class="fa fa-calendar" aria-hidden="true"></i> ${date}</span><span class="comment caf-col-md-3 caf-pl-0"><i class="fa fa-comment" aria-hidden="true"></i> 0</span></div><div class="caf-content">${excerpt}</div><div class="caf-content-read-more"><a class="caf-read-more" href="${url}" target="_parent">Read More</a></div></div></div></article>`;
 }
 
 /** Compact WP-style page list with dots. */
