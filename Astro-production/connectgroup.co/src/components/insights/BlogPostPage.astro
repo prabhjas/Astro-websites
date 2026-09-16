@@ -331,15 +331,22 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
           });
       });
 
-      // Blog FAQ accordion: one open item at a time
+      // Blog FAQ accordion: one open item at a time (button-based; sanitize-safe)
       document.querySelectorAll('.bp-content .bp-faq').forEach(function (root) {
-        root.addEventListener('toggle', function (e) {
-          var item = e.target;
-          if (!item || item.tagName !== 'DETAILS' || !item.open) return;
-          root.querySelectorAll('details.bp-faq__item[open]').forEach(function (other) {
-            if (other !== item) other.open = false;
+        root.addEventListener('click', function (e) {
+          var btn = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!btn || !root.contains(btn)) return;
+          e.preventDefault();
+          var item = btn.closest('.bp-faq__item');
+          if (!item) return;
+          var willOpen = !item.classList.contains('is-open');
+          root.querySelectorAll('.bp-faq__item').forEach(function (other) {
+            var ob = other.querySelector('.bp-faq__q');
+            var open = willOpen && other === item;
+            if (ob) ob.setAttribute('aria-expanded', open ? 'true' : 'false');
+            other.classList.toggle('is-open', open);
           });
-        }, true);
+        });
       });
 
       // Fire-and-forget view count for Featured ranking (deduped server-side via cookie).
@@ -672,7 +679,13 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    width: 100%;
+    margin: 0;
     padding: 16px 18px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font: inherit;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.4;
@@ -687,10 +700,15 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     font-weight: 500;
     color: #767676;
   }
+  .bp-content .bp-faq__item.is-open .bp-faq__q::after,
   .bp-content .bp-faq__item[open] .bp-faq__q::after { content: '–'; }
   .bp-content .bp-faq__a {
+    display: none;
     padding: 0 18px 16px;
     color: #313131;
+  }
+  .bp-content .bp-faq__item.is-open .bp-faq__a {
+    display: block;
   }
   .bp-content .bp-faq__a p {
     margin: 0;

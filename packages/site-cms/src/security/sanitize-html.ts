@@ -65,6 +65,7 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
     'time',
     'details',
     'summary',
+    'button',
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target', 'rel', 'title', 'class', 'id'],
@@ -75,7 +76,8 @@ const CMS_OPTIONS: sanitizeHtmlLib.IOptions = {
     iframe: ['src', 'width', 'height', 'title', 'allow', 'allowfullscreen', 'frameborder', 'loading', 'class', 'id'],
     details: ['open', 'class', 'id'],
     summary: ['class', 'id'],
-    '*': ['class', 'id', 'title', 'role'],
+    button: ['type', 'class', 'id', 'aria-expanded', 'aria-controls'],
+    '*': ['class', 'id', 'title', 'role', 'hidden', 'aria-expanded', 'aria-controls', 'tabindex'],
   },
   allowedSchemes: ['http', 'https', 'mailto', 'tel'],
   allowedSchemesByTag: {
