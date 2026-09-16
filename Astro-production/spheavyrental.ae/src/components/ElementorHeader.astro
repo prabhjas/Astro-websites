@@ -62,7 +62,7 @@ function withActiveState(html: string, current: string) {
     // Fallback: service child pages
     if (
       !topHrefs.includes(normalize(activeTop)) &&
-      /^\/(services|heavy-machinery-rental|construction-equipment-rental|generator-rental|scaffold-rental)\//.test(
+      /^\/(services|heavy-machinery-rental|construction-equipment-rental|generator-rental|scaffold-rental|air-compressor-rental)\//.test(
         current,
       )
     ) {
@@ -126,22 +126,53 @@ const html = withActiveState(headerHtml, path);
 <header class="sp-elementor-header" data-sp-elementor-header set:html={html} />
 
 <script is:inline>
-  document.querySelectorAll("[data-sp-elementor-header] .elementor-menu-toggle").forEach((toggle) => {
-    toggle.addEventListener("click", () => {
-      const expanded = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!expanded));
-      toggle.classList.toggle("elementor-active", !expanded);
-      const dropdown = toggle.parentElement?.querySelector(
-        ".elementor-nav-menu--dropdown.elementor-nav-menu__container",
-      );
-      if (dropdown) {
-        dropdown.setAttribute("aria-hidden", String(expanded));
-        dropdown.classList.toggle("elementor-menu-open", !expanded);
-        dropdown.style.maxHeight = expanded ? "" : "100vh";
-        dropdown.style.overflow = expanded ? "" : "auto";
-        dropdown.style.display = expanded ? "" : "block";
-      }
-      document.documentElement.classList.toggle("elementor-menu-open", !expanded);
-    });
-  });
+  (function () {
+    function bindMenuToggles(root) {
+      (root || document)
+        .querySelectorAll("[data-sp-elementor-header] .elementor-menu-toggle")
+        .forEach((toggle) => {
+          if (toggle.dataset.spMenuBound === "1") return;
+          toggle.dataset.spMenuBound = "1";
+          const openMenu = (open) => {
+            toggle.setAttribute("aria-expanded", String(open));
+            toggle.classList.toggle("elementor-active", open);
+            const dropdown = toggle.parentElement?.querySelector(
+              ".elementor-nav-menu--dropdown.elementor-nav-menu__container",
+            );
+            if (dropdown) {
+              dropdown.setAttribute("aria-hidden", String(!open));
+              dropdown.classList.toggle("elementor-menu-open", open);
+              if (open) {
+                dropdown.style.setProperty("display", "block", "important");
+                dropdown.style.setProperty("max-height", "100vh", "important");
+                dropdown.style.setProperty("transform", "scaleY(1)", "important");
+                dropdown.style.setProperty("overflow-y", "auto", "important");
+                dropdown.style.setProperty("visibility", "visible", "important");
+              } else {
+                dropdown.style.removeProperty("display");
+                dropdown.style.removeProperty("max-height");
+                dropdown.style.removeProperty("transform");
+                dropdown.style.removeProperty("overflow-y");
+                dropdown.style.removeProperty("visibility");
+              }
+            }
+            document.documentElement.classList.toggle("elementor-menu-open", open);
+            document.body.classList.toggle("elementor-menu-open", open);
+          };
+          const onToggle = (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            const expanded = toggle.getAttribute("aria-expanded") === "true" ||
+              toggle.classList.contains("elementor-active");
+            openMenu(!expanded);
+          };
+          toggle.addEventListener("click", onToggle, true);
+          toggle.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") onToggle(event);
+          });
+        });
+    }
+    bindMenuToggles();
+    document.addEventListener("DOMContentLoaded", () => bindMenuToggles());
+  })();
 </script>

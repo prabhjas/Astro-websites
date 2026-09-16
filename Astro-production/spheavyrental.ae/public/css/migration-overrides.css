@@ -58,9 +58,27 @@ body {
 */
 
 /* Mobile menu open state when JS burger is used */
+.elementor-nav-menu--toggle .elementor-menu-toggle.elementor-active + .elementor-nav-menu__container,
+.elementor-nav-menu--toggle .elementor-menu-toggle + .elementor-nav-menu__container.elementor-menu-open,
 .elementor-menu-toggle.elementor-active + .elementor-nav-menu--dropdown,
-.elementor-nav-menu--dropdown.elementor-menu-open {
+.elementor-nav-menu--dropdown.elementor-menu-open,
+.elementor-nav-menu__container.elementor-menu-open {
   display: block !important;
+  max-height: var(--menu-height, 100vh) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  transform: scaleY(1) !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.sp-elementor-header {
+  position: relative;
+  z-index: 10000;
+}
+
+.sp-elementor-header .elementor-nav-menu--dropdown.elementor-nav-menu__container {
+  z-index: 10001;
 }
 
 .elementor img {
@@ -115,7 +133,7 @@ body {
 
 .sp-elementor-header {
   position: relative;
-  z-index: 100;
+  z-index: 10000;
 }
 
 /* Accordion FAQ visual defaults when Elementor widget CSS is light */
