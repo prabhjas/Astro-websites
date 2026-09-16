@@ -331,13 +331,10 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
           });
       });
 
-      // Blog FAQ accordion: one open item at a time (button-based; sanitize-safe)
+      // Blog FAQ accordion: one open item at a time (div[role=button]; sanitize-safe)
       document.querySelectorAll('.bp-content .bp-faq').forEach(function (root) {
-        root.addEventListener('click', function (e) {
-          var btn = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
-          if (!btn || !root.contains(btn)) return;
-          e.preventDefault();
-          var item = btn.closest('.bp-faq__item');
+        function toggleFaq(trigger) {
+          var item = trigger.closest('.bp-faq__item');
           if (!item) return;
           var willOpen = !item.classList.contains('is-open');
           root.querySelectorAll('.bp-faq__item').forEach(function (other) {
@@ -346,6 +343,20 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
             if (ob) ob.setAttribute('aria-expanded', open ? 'true' : 'false');
             other.classList.toggle('is-open', open);
           });
+          if (trigger.blur) trigger.blur();
+        }
+        root.addEventListener('click', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          e.preventDefault();
+          toggleFaq(trigger);
+        });
+        root.addEventListener('keydown', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault();
+          toggleFaq(trigger);
         });
       });
 
@@ -693,9 +704,15 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     -webkit-tap-highlight-color: transparent;
   }
   .bp-content .bp-faq__q:focus,
-  .bp-content .bp-faq__q:focus-visible {
-    outline: none;
-    box-shadow: none;
+  .bp-content .bp-faq__q:focus-visible,
+  .bp-content .bp-faq__q:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  .bp-content .bp-faq__item:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
   }
   .bp-content .bp-faq__q::-webkit-details-marker { display: none; }
   .bp-content .bp-faq__q::after {
