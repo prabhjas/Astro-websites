@@ -690,6 +690,12 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     font-size: 16px;
     line-height: 1.4;
     color: #121212;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bp-content .bp-faq__q:focus,
+  .bp-content .bp-faq__q:focus-visible {
+    outline: none;
+    box-shadow: none;
   }
   .bp-content .bp-faq__q::-webkit-details-marker { display: none; }
   .bp-content .bp-faq__q::after {
