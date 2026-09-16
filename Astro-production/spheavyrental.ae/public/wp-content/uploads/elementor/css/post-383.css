@@ -7,3 +7,13 @@
 	src: url('/wp-content/uploads/2025/06/SFPRODISPLAYREGULAR.woff') format('woff');
 }
 /* End Custom Fonts CSS */
+
+/* === tower-fleet-card-link:start === */
+/* Tower Lights fleet card — whole card clickable */
+.elementor-383 .elementor-element-3461551 .sp-fleet-card-link{
+  display:block; color:inherit; text-decoration:none; cursor:pointer;
+}
+.elementor-383 .elementor-element-3461551 .sp-fleet-card-link:hover .elementor-image-box-title{
+  color:var(--e-global-color-accent, #DF790D);
+}
+/* === tower-fleet-card-link:end === */
