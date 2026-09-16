@@ -74,7 +74,7 @@
 /* 1) Diesel intro — Figma photo + user-requested 80px L/R */
 .elementor-2062 .elementor-element.elementor-element-5028b2e:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
 .elementor-2062 .elementor-element.elementor-element-5028b2e > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer{
-  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Diesel-Intro.png") !important;
+  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Diesel-Intro.webp") !important;
   background-position:center center !important;
   background-size:cover !important;
 }
@@ -186,7 +186,7 @@
 .elementor-2062 .elementor-element.elementor-element-acmcta0:not(.elementor-motion-effects-element-type-background),
 .elementor-2062 .elementor-element.elementor-element-acmcta0 > .elementor-motion-effects-container > .elementor-motion-effects-layer{
   background-color:#E8872A !important;
-  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Mid-CTA-bg.png") !important;
+  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Mid-CTA-bg.webp") !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
   background-size:cover !important;
@@ -393,7 +393,7 @@
 .elementor-2062 .elementor-element.elementor-element-actask0:not(.elementor-motion-effects-element-type-background),
 .elementor-2062 .elementor-element.elementor-element-actask0 > .elementor-motion-effects-container > .elementor-motion-effects-layer{
   background-color:#E8872A !important;
-  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Task-Specific-Fit-bg.png") !important;
+  background-image:url("/wp-content/uploads/2026/09/Air-Compressor-Task-Specific-Fit-bg.webp") !important;
   background-position:center center !important;
   background-repeat:no-repeat !important;
   background-size:cover !important;
@@ -2550,3 +2550,4 @@ section.elementor-element-0f41ad5 input.wpcf7-phonetext {
   padding-left: 118px !important;
 }
 /* === phone-dial-pad-fix:end === */
+

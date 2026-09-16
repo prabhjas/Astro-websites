@@ -6,6 +6,7 @@ import { sanitizeCmsHtml } from '@connect/site-cms';
 import { join } from 'node:path';
 import * as cheerio from 'cheerio';
 import { injectRuntimeGtmLoader } from './gtm/inject';
+import { buildPostAuthorBoxHtml } from './authors.ts';
 
 const ROOT = process.cwd();
 const BLOG_DIR = join(ROOT, 'src/content/blog');
@@ -302,7 +303,7 @@ function buildBreadcrumbHtml(post: BlogPost): string {
     ? post.breadcrumb
     : [
         { name: 'Home', url: '/' },
-        { name: 'Insights', url: '/blog/' },
+        { name: 'Blogs', url: '/blogs/' },
         { name: post.title },
       ];
 
@@ -329,7 +330,9 @@ function buildCategoryHtml(categories: BlogPost['categories']): string {
 
 function buildAuthorHtml(author: BlogPost['author']): string {
   const name = escapeHtml(author.name || 'Company Formation Saudi');
-  const slug = author.slug || (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'connect-2');
+  const slug =
+    author.slug ||
+    (author.url ? author.url.replace(ORIGIN, '').replace(/^\/author\/|\/$/g, '') : 'company-formation-saudi');
   const url = `/author/${slug}/`;
   return `<a href="${url}" class="fn">${name}</a>`;
 }
@@ -436,8 +439,10 @@ export function assembleBlogPostHtml(post: BlogPost): string {
 
   let html = readFileSync(SHELL_PATH, 'utf8');
 
+  const breadcrumbHtml = buildBreadcrumbHtml(post);
+
   html = html
-    .replace('<!--ASTRO_BLOG:BREADCRUMB-->', buildBreadcrumbHtml(post))
+    .replace('<!--ASTRO_BLOG:BREADCRUMB-->', breadcrumbHtml)
     .replace('<!--ASTRO_BLOG:FEATURED_IMAGE-->', buildFeaturedImageHtml(post.featuredImage))
     .replace('<!--ASTRO_BLOG:CATEGORY-->', buildCategoryHtml(post.categories))
     .replace('<!--ASTRO_BLOG:AUTHOR-->', post.authorHtml || buildAuthorHtml(post.author))
@@ -445,9 +450,21 @@ export function assembleBlogPostHtml(post: BlogPost): string {
       '<!--ASTRO_BLOG:TITLE-->',
       `<h1 class="w-post-elm post_title us_custom_daf733d3 single_wp_heading entry-title color_link_inherit">${escapeHtml(post.title)}</h1>`,
     )
-    .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || ''))
+    .replace('<!--ASTRO_BLOG:CONTENT-->', sanitizeCmsHtml(post.contentHtml || '') + buildPostAuthorBoxHtml(post.author?.slug || 'company-formation-saudi'))
     .replace('<!--ASTRO_BLOG:DATE-->', buildDateHtml(post.publishedAt))
     .replace('<!--ASTRO_BLOG:TOC-->', buildTocHtml(post.toc));
+
+  // Shell may lack the BREADCRUMB placeholder — insert above the title.
+  if (!html.includes('astro-blog-breadcrumb') && !html.includes('cfs-page-breadcrumb')) {
+    if (/page-header/i.test(html)) {
+      html = html.replace(/(<div[^>]*class="[^"]*page-header[^"]*"[^>]*>\s*)/i, `$1${breadcrumbHtml}\n`);
+    } else {
+      html = html.replace(
+        /(<h1[^>]*class="[^"]*(?:entry-title|post_title)[^"]*"[^>]*>)/i,
+        `${breadcrumbHtml}\n$1`,
+      );
+    }
+  }
 
   html = patchHeadMeta(html, post);
 
