@@ -1,16 +1,35 @@
 ---
 import { resolveSeo, organizationSchema, type SeoInput } from "../lib/seo";
 import { site, type SeoData } from "../lib/content";
+// Self-hosted Mukta/Poppins/Spline Sans @font-face (latin + latin-ext). Inlined so the
+// fonts define immediately at first paint with no second-origin request. Regenerate with
+// scratchpad/fetch-fonts.mjs. Poppins (the site --font-family + LCP font) is also preloaded.
+import selfHostedFonts from "../data/self-hosted-fonts.css?raw";
 
 interface Props {
   seo?: SeoInput;
   fallback?: SeoData;
   extraCss?: string[];
   ogLocale?: string;
+  /** Load extraCss + web fonts non-render-blocking (only when complete critical CSS is inlined). */
+  asyncCss?: boolean;
+  /** LCP preload link descriptors for this route (from cwv-manifest). */
+  heroPreloads?: Array<Record<string, string>>;
 }
 
-const { seo = {}, fallback, extraCss = [], ogLocale = "en_US" } = Astro.props;
+const {
+  seo = {},
+  fallback,
+  extraCss = [],
+  ogLocale = "en_US",
+  asyncCss = false,
+  heroPreloads = [],
+} = Astro.props;
 const meta = resolveSeo(seo, fallback);
+
+// Arabic /ar/ clones still need Noto Sans Arabic (not self-hosted here).
+const arabicFontHref =
+  "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap";
 
 const schemas = [organizationSchema(), ...meta.schemas];
 ---
@@ -46,23 +65,54 @@ const schemas = [organizationSchema(), ...meta.schemas];
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="shortcut icon" href="/favicon.ico" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Poppins:wght@400;500;600;700;800&family=Spline+Sans:wght@400;500;600;700&display=swap"
-/>
+{
+  /* Preload Poppins (the site --font-family + heading/LCP font), latin subset, the three
+     weights used above the fold. Self-hosted + preloaded → the LCP heading paints in-brand
+     at first paint with no swap reflow (kills the residual mobile font CLS, speeds LCP). */
+  <>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Poppins-400-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Poppins-600-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Poppins-700-latin.woff2" crossorigin />
+  </>
+}
+{/* Self-hosted @font-face (Mukta/Poppins/Spline Sans) inlined — no external font request. */}
+<style is:inline set:html={selfHostedFonts}></style>
+{
+  /* Route LCP preloads (hero image / poster) from cwv-manifest — background/JS-driven
+     images are discovered late, so hint them high-priority when we have a critical set. */
+  heroPreloads.map((p) => <link rel="preload" {...p} />)
+}
 {ogLocale === "ar_AE" && (
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap"
-  />
+  <>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={arabicFontHref} />
+  </>
 )}
 
 {
-  extraCss.map((href) => (
-    <link rel="stylesheet" href={href} />
-  ))
+  asyncCss ? (
+    <>
+      {/*
+        Per-viewport CSS delivery (critical CSS is generated for the MOBILE fold):
+        - Mobile: full CSS non-blocking (media="print" → all onload) — fast FCP, inline
+          critical covers the mobile fold so no shift.
+        - Desktop (≥1025px): a second render-blocking <link> — the mobile critical doesn't
+          cover the desktop fold, so desktop must have full CSS before paint (no CLS).
+          Same URL → served from cache, no double download.
+        - <noscript>: plain blocking links when JS is off.
+      */}
+      {extraCss.map((href) => (
+        <link rel="stylesheet" href={href} media="print" onload="this.media='all';this.onload=null;" />
+      ))}
+      {extraCss.map((href) => (
+        <link rel="stylesheet" href={href} media="(min-width: 1025px)" />
+      ))}
+      <noscript set:html={extraCss.map((h) => `<link rel="stylesheet" href="${h}">`).join("")} />
+    </>
+  ) : (
+    extraCss.map((href) => <link rel="stylesheet" href={href} />)
+  )
 }
 
 {

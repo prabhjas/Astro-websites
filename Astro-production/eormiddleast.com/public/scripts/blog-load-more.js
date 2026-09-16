@@ -1,6 +1,6 @@
 /**
- * SP Heavy blog Load More — Elementor/ECS replacement.
- * Appends into the image grid (data-sp-blog-grid), not the featured list.
+ * Insights Load More — appends into the latest list (data-sp-blog-grid).
+ * Uses data-offset so featured + initial latest posts are not repeated.
  */
 (function () {
   function ready(fn) {
@@ -25,8 +25,8 @@
     var btn = nav.querySelector("a.elementor-button, a, button");
     if (!btn) return;
 
-    var nextPage = Number(nav.getAttribute("data-next-page") || "2") || 2;
     var perPage = Number(nav.getAttribute("data-per-page") || "12") || 12;
+    var offset = Number(nav.getAttribute("data-offset") || "0") || 0;
     var loading = false;
     var defaultLabel = (btn.textContent || "Load More").trim() || "Load More";
 
@@ -44,8 +44,8 @@
       setLabel("Loading...");
 
       var url =
-        "/api/blog/load-more/?page=" +
-        encodeURIComponent(String(nextPage)) +
+        "/api/blog/load-more/?offset=" +
+        encodeURIComponent(String(offset)) +
         "&perPage=" +
         encodeURIComponent(String(perPage));
 
@@ -57,11 +57,11 @@
         .then(function (data) {
           if (!data || !data.ok || typeof data.html !== "string") throw new Error("bad payload");
           if (data.html) grid.insertAdjacentHTML("beforeend", data.html);
-          if (data.hasMore && data.nextPage) {
-            nextPage = data.nextPage;
-            nav.setAttribute("data-next-page", String(nextPage));
+          if (data.hasMore && data.nextOffset != null) {
+            offset = Number(data.nextOffset) || offset;
+            nav.setAttribute("data-offset", String(offset));
             if (btn.tagName === "A") {
-              btn.setAttribute("href", "/blog/page/" + nextPage + "/");
+              btn.setAttribute("href", "/insights/");
             }
             setLabel(defaultLabel);
           } else {

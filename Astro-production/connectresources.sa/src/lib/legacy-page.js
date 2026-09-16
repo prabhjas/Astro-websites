@@ -7,6 +7,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { injectRuntimeGtmLoader } from './gtm/inject.ts';
 import { injectBlogGridImageStyles } from './blog-grid-images.ts';
+import { injectBlogHeadingHierarchy } from './blog-heading-hierarchy.ts';
+import { relocateBlogPostDateMeta } from './blog-post-date-meta.ts';
 import { notFoundResponse } from './not-found.js';
 import { applySharedChrome } from './shared-chrome.js';
 
@@ -47,8 +49,16 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  if (slug.startsWith('blog/') && html.includes('elementor-element-540c02a')) {
-    html = injectBlogGridImageStyles(html);
+  if (slug === 'blog' || slug.startsWith('blog/')) {
+    html = injectBlogHeadingHierarchy(html);
+  }
+
+  if (slug.startsWith('blog/')) {
+    // Published/Modified meta → end of left content column (all blog singles)
+    html = relocateBlogPostDateMeta(html);
+    if (html.includes('elementor-element-540c02a')) {
+      html = injectBlogGridImageStyles(html);
+    }
   }
 
   html = sanitizeMirrorHtml(html);

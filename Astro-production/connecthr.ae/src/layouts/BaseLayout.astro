@@ -10,6 +10,7 @@ import type { SeoData } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
 import inlineHeadCss from "../data/inline-head.css?raw";
 import inlineHeadCssAr from "../data/inline-head.ar.css?raw";
+import responsiveUtilsCss from "../data/responsive-utils.css?raw";
 import cwvManifest from "../data/cwv-manifest.json";
 // All per-route critical CSS, loaded at build. Server-side only (never shipped to client).
 const criticalCssMap = import.meta.glob("../data/critical/*.css", {
@@ -32,6 +33,13 @@ interface Props {
   lang?: "en" | "ar";
   /** Page owns <main> (Hello Elementor author archive layout). */
   rawMain?: boolean;
+  /** Per-page conditional script loading (swiper/forms/accordion/blog). */
+  scriptNeeds?: {
+    sliders?: boolean;
+    forms?: boolean;
+    accordion?: boolean;
+    blog?: boolean;
+  };
 }
 
 const {
@@ -43,6 +51,7 @@ const {
   bodyClass = "",
   lang = currentPath.startsWith("/ar/") || currentPath === "/ar" ? "ar" : "en",
   rawMain = false,
+  scriptNeeds,
 } = Astro.props;
 
 const isRtl = lang === "ar";
@@ -65,9 +74,10 @@ const headInlineCss = isRtl ? inlineHeadCssAr : inlineHeadCss;
  * Regenerate with scratchpad critcss/generate-critical.mjs after CSS changes.
  */
 const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
-const cwvRoute = isRtl
-  ? undefined
-  : (
+// Arabic (RTL) routes now have their own penthouse-generated critical CSS (ar-*.css),
+// keyed in the manifest under their /ar/… path — so RTL uses the same async path as EN.
+const cwvRoute =
+  (
       cwvManifest.routes as Record<
         string,
         { slug: string; hero?: Array<Record<string, string>> }
@@ -111,7 +121,7 @@ const stylesheets = [
       heroPreloads={heroPreloads}
       currentPath={currentPath}
     />
-    <style is:inline set:html={routeCriticalCss ?? headInlineCss}></style>
+    <style is:inline set:html={(routeCriticalCss ?? headInlineCss) + responsiveUtilsCss}></style>
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
@@ -131,6 +141,7 @@ const stylesheets = [
       bodyClass,
     ]}
   >
+    <ElementorPopups />
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
     <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} lang={lang} />
     {
@@ -146,8 +157,7 @@ const stylesheets = [
     }
     <ElementorFooter lang={lang} />
     <LicenceStrip />
-    <ElementorPopups />
-    <ElementorScripts />
+    <ElementorScripts needs={scriptNeeds} />
       <script src="/js/menu-no-hash.js" defer></script>
   </body>
 </html>

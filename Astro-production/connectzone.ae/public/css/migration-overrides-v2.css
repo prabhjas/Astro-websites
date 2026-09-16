@@ -2825,3 +2825,15 @@ section#single_page_detail_content {
     margin-top: 0 !important;
   }
 }
+
+/* CZ logo placeholder: never reserve huge transparent canvas */
+.main_content_single_page img[src*="CONNECT-ZONE-LOGO"],
+.main_content_single_page img[src*="logo-connect-zone"],
+.main_content_single article img[src*="CONNECT-ZONE-LOGO"],
+.main_content_single article img[src*="logo-connect-zone"] {
+  max-width: 300px !important;
+  width: 300px !important;
+  height: auto !important;
+  margin: 12px auto !important;
+  display: block !important;
+}

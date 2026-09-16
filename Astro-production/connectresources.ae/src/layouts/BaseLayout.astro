@@ -12,6 +12,13 @@ import type { SeoInput } from "../lib/seo";
 import type { SeoData } from "../lib/content";
 import { isArabicPath } from "../lib/content";
 import liveCssOrder from "../data/live-css-order.json";
+import cwvManifest from "../data/cwv-manifest.json";
+// All per-route critical CSS, loaded at build. Server-side only (never shipped to client).
+const criticalCssMap = import.meta.glob("../data/critical/*.css", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
 import { resolveInternalAdminDir } from "../env/server";
 import { readGlobalGtmConfig, sanitiseGtmSnippet } from "../lib/gtm/store";
 import "../styles/global.css";
@@ -26,6 +33,14 @@ interface Props {
   bodyClass?: string;
   /** Load Elementor frontend runtime (carousels / accordion / sticky). */
   loadElementor?: boolean;
+  /** Which frontend script groups this page needs (computed from body); omit → load all. */
+  scriptNeeds?: {
+    vc?: boolean;
+    sliders?: boolean;
+    royalslider?: boolean;
+    accordion?: boolean;
+    forms?: boolean;
+  };
   /** Elementor Canvas pages: no theme header/footer (page owns chrome). */
   hideSiteChrome?: boolean;
   /** Homepage security advisory strip above the header. */
@@ -46,6 +61,7 @@ const {
   menuActivePath,
   bodyClass = "",
   loadElementor = false,
+  scriptNeeds,
   hideSiteChrome = false,
   showHomeAnnouncement = false,
   htmlLang = "en-AE",
@@ -59,23 +75,43 @@ const resolvedHtmlLang = arabic ? "ar" : htmlLang;
 const resolvedHtmlDir = arabic ? "rtl" : htmlDir;
 const resolvedOgLocale = arabic ? "ar_AE" : ogLocale;
 
-/** Prefer live homepage stylesheet order (Impreza + plugins). */
-const liveOrder = (liveCssOrder as string[]) || [];
-const baseCss =
-  liveOrder.length > 0
-    ? liveOrder
-    : [
-        "/wp-content/themes/Impreza/css/style.min.css",
-        "/wp-content/themes/Impreza-child/style.css",
-      ];
+/*
+ * Route-specific COMPLETE critical CSS (penthouse-generated, mobile above-the-fold).
+ * When a route has one, inline it and load the full stylesheet set non-blocking
+ * (asyncCss) so first paint isn't gated by the ~1.4 MB Impreza/plugin CSS. Routes
+ * without a generated critical set keep the safe render-blocking path (no FOUC/CLS).
+ * Arabic /ar/ clones stay render-blocking (critical is generated LTR). Regenerate with
+ * scratchpad/critcss/generate-critical.mjs after above-fold CSS changes.
+ */
+const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
+const cwvRoute = arabic
+  ? undefined
+  : (
+      cwvManifest.routes as Record<
+        string,
+        { slug: string; hero?: Array<Record<string, string>> }
+      >
+    )[normalizedPath];
+const routeCriticalCss =
+  cwvRoute && criticalCssMap[`../data/critical/${cwvRoute.slug}.css`];
+const asyncCss = Boolean(routeCriticalCss);
+const heroPreloads = (asyncCss && cwvRoute?.hero) || [];
 
+/**
+ * The 18 live-order sheets (impreza-global + Impreza kit + plugins) are concatenated
+ * into a single render-blocking bundle by scripts/build-css-head-bundle.mjs, cutting
+ * request count without changing rules/order (no FOUC). Re-run `pnpm css:bundle`
+ * (auto-runs in `build`) whenever live-css-order.json or any listed sheet changes.
+ * Page-specific extraCss already present in the bundle is filtered out.
+ */
+const bundled = new Set(liveCssOrder as string[]);
 const stylesheets = [
   ...new Set([
-    ...baseCss,
-    ...extraCss,
+    "/css/_head-bundle.css",
+    ...extraCss.filter((h) => !bundled.has(h)),
     /* Footer us_custom classes from live/home — Elementor pages omit this sheet */
     "/css/impreza-home-design.css",
-    "/css/migration-overrides.css",
+    "/css/migration-overrides.css?v=20260908btn",
     "/css/menu-no-hash.css",
     ...(showHomeAnnouncement ? ["/css/home-announcement-bar-v2.css"] : []),
   ]),
@@ -86,7 +122,29 @@ const stylesheets = [
 <!doctype html>
 <html lang={resolvedHtmlLang} dir={resolvedHtmlDir}>
   <head>
-    <SEOHead seo={seo} fallback={fallback} extraCss={stylesheets} ogLocale={resolvedOgLocale} />
+    <SEOHead
+      seo={seo}
+      fallback={fallback}
+      extraCss={stylesheets}
+      ogLocale={resolvedOgLocale}
+      asyncCss={asyncCss}
+      heroPreloads={heroPreloads}
+    />
+    {routeCriticalCss && <style is:inline set:html={routeCriticalCss}></style>}
+    {
+      /* Above-the-fold layout rules that penthouse prunes from the critical, so the async CSS
+         lands and reflows the fold → CLS. Replicated inline (after the critical), each mirroring
+         the full CSS exactly so nothing changes once loaded:
+         1. Fixed-header clearance — the 2nd section clears the pos_fixed header.
+         2. Breadcrumb bottom margin (Astro global.css adds it late).
+         3. CF7 intl phone field — keep the ~240-item country list out of flow / hidden.
+         4. Impreza responsive hide — on ≤600px, desktop-variant blocks (.hide_on_mobiles) must
+            be display:none at first paint, else both desktop+mobile variants render tall then
+            collapse (the /career, /authors, hr-outsourcing reflows). Media-scoped → desktop safe. */
+      asyncCss && (
+        <style is:inline set:html={`.l-main .l-section:first-of-type>.l-section-h{padding-top:0!important}.l-main .l-section:nth-of-type(2)>.l-section-h{padding-top:var(--header-height,0px)!important}.sp-breadcrumbs{margin-bottom:20px}.intl-tel-input{position:relative;display:inline-block}.intl-tel-input .hide{display:none}.intl-tel-input .v-hide{visibility:hidden}.intl-tel-input .flag-container{position:absolute;top:0;bottom:0;right:0;padding:1px}.country-list{position:absolute;z-index:2;list-style:none;max-height:200px;overflow-y:scroll}.intl-tel-input input,.intl-tel-input input[type=tel],.intl-tel-input input[type=text]{margin-top:0!important;margin-bottom:0!important;padding-right:36px}@media (max-width:600px){.hide_on_mobiles,.vc_hidden-xs{display:none!important}}`}></style>
+      )
+    }
     <meta
       name="sp-contact-endpoint"
       content={import.meta.env.PUBLIC_CONTACT_ENDPOINT || "/api/contact/"}
@@ -110,7 +168,7 @@ const stylesheets = [
     </div>
     {!hideSiteChrome && licence.number ? <LicenceStrip /> : null}
     <FloatContacts />
-    <ElementorScripts />
+    <ElementorScripts needs={scriptNeeds} />
     {loadElementor ? <ElementorFrontend /> : null}
       <script src="/js/menu-no-hash.js" defer></script>
     {showHomeAnnouncement ? <script src="/scripts/home-announcement-bar-v2.js" defer></script> : null}

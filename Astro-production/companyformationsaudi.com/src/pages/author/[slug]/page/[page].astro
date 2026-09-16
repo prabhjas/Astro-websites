@@ -1,0 +1,9 @@
+---
+import { getAuthorPageData, serveAuthorArchive } from '../../../../lib/authors.ts';
+
+export const prerender = false;
+
+const slug = Astro.params.slug!;
+// Numbered author pagination removed — Load More is used instead.
+return Astro.redirect(`/author/${slug}/`, 301);
+---

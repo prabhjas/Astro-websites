@@ -50,7 +50,30 @@ const authorBio =
   authorProfile?.bio ||
   'Connect Group insights on business setup, workforce solutions, and operating in the UAE — practical guidance from our specialist brands.';
 const authorAvatar = authorProfile?.avatar?.src || '';
-const contentHtml = sanitizeCmsHtml(post.contentHtml || '');
+/** Drop spacer-only paragraphs WP leaves as `<p>&nbsp;</p>` / empty `<p></p>`. */
+function stripEmptyParagraphs(html: string): string {
+  return html
+    .replace(/<p\b[^>]*>(?:\s|\u00a0|&nbsp;|&#160;|&#xA0;|<br\s*\/?>)*<\/p>/gi, '')
+    .replace(/(\s*\n){3,}/g, '\n\n');
+}
+/**
+ * Gutenberg often emits `<ul><li><ul>…</ul></li></ul>`. Sanitize strips
+ * `list-style:none` on the wrapper `<li>`, which yields double bullets — unwrap.
+ */
+function flattenWpNestedLists(html: string): string {
+  const re =
+    /<(ul|ol)(\s[^>]*)?>\s*<li(?:\s[^>]*)?>\s*(<(ul|ol)(?:\s[^>]*)?>[\s\S]*?<\/\4>)\s*<\/li>\s*<\/\1>/gi;
+  let prev = '';
+  let out = html;
+  while (out !== prev) {
+    prev = out;
+    out = out.replace(re, '$3');
+  }
+  return out;
+}
+const contentHtml = flattenWpNestedLists(
+  stripEmptyParagraphs(sanitizeCmsHtml(stripEmptyParagraphs(post.contentHtml || ''))),
+);
 const dateLabel = (() => {
   try {
     return new Date(post.publishedAt).toLocaleDateString('en-GB', {
@@ -249,16 +272,6 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
           </div>
         </section>
       )}
-
-      <section class="bp-contact">
-        <div class="bp-wrap">
-          <InsightsLeadForm
-            formId={`blog-footer-${post.slug}`}
-            formName="Connect Group Blog Footer Form"
-            variant="footer"
-          />
-        </div>
-      </section>
     </div>
   </main>
 
@@ -316,6 +329,35 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
             // Last resort: prompt so the user can still copy manually.
             window.prompt('Copy this link:', url);
           });
+      });
+
+      // Blog FAQ accordion: one open item at a time (div[role=button]; sanitize-safe)
+      document.querySelectorAll('.bp-content .bp-faq').forEach(function (root) {
+        function toggleFaq(trigger) {
+          var item = trigger.closest('.bp-faq__item');
+          if (!item) return;
+          var willOpen = !item.classList.contains('is-open');
+          root.querySelectorAll('.bp-faq__item').forEach(function (other) {
+            var ob = other.querySelector('.bp-faq__q');
+            var open = willOpen && other === item;
+            if (ob) ob.setAttribute('aria-expanded', open ? 'true' : 'false');
+            other.classList.toggle('is-open', open);
+          });
+          if (trigger.blur) trigger.blur();
+        }
+        root.addEventListener('click', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          e.preventDefault();
+          toggleFaq(trigger);
+        });
+        root.addEventListener('keydown', function (e) {
+          var trigger = e.target && e.target.closest ? e.target.closest('.bp-faq__q') : null;
+          if (!trigger || !root.contains(trigger)) return;
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault();
+          toggleFaq(trigger);
+        });
       });
 
       // Fire-and-forget view count for Featured ranking (deduped server-side via cookie).
@@ -451,17 +493,17 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-main {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     min-width: 0;
   }
   @media (min-width: 768px) {
-    .bp-main { gap: 32px; }
+    .bp-main { gap: 24px; }
   }
 
   .bp-feature {
     border-radius: 20px;
     overflow: hidden;
-    background: #060d1d;
+    background: transparent;
     line-height: 0;
     width: 100%;
   }
@@ -471,7 +513,8 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     max-width: 100%;
     display: block;
     object-fit: cover;
-    aspect-ratio: 982 / 655;
+    aspect-ratio: 3 / 2;
+    background: #f0f0f0;
   }
 
   .bp-share {
@@ -500,7 +543,7 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     background: #fff;
     border: 1px solid rgba(209, 209, 209, 0.5);
     border-radius: 20px;
-    padding: 20px;
+    padding: 24px;
   }
   .bp-toc__title {
     margin: 0 0 16px;
@@ -519,16 +562,18 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   }
   .bp-toc a {
     display: flex;
-    gap: 8px;
+    gap: 14px;
     align-items: flex-start;
     text-decoration: none;
     color: #121212;
   }
   .bp-toc a span {
     flex: none;
+    min-width: 1.6em;
     font-size: 12px;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.5;
+    color: #9a9a9a;
   }
   .bp-toc a em {
     font-style: normal;
@@ -543,10 +588,14 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     color: #313131;
     letter-spacing: -0.01em;
   }
+  @media (min-width: 768px) {
+    .bp-content { font-size: 18px; }
+  }
   .bp-content > *:first-child { margin-top: 0; }
+  .bp-content p:empty { display: none !important; margin: 0 !important; padding: 0 !important; }
   .bp-content p {
-    margin: 0 0 1.5rem;
-    font-size: 16px;
+    margin: 0 0 1.25rem;
+    font-size: inherit;
     line-height: 1.7;
   }
   .bp-content h2 {
@@ -575,23 +624,146 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
   .bp-content a { color: #4051b5; }
   .bp-content img,
   .bp-content figure {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
     border-radius: 16px;
   }
-  .bp-content figure { margin: 1.5rem 0; }
+  .bp-content img[style],
+  .bp-content figure[style] {
+    width: auto !important;
+    max-width: 100% !important;
+  }
+  .bp-content figure {
+    display: block;
+    margin: 1.5rem auto;
+    text-align: center;
+  }
+  .bp-content figure img,
+  .bp-content > p > img,
+  .bp-content p img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bp-content .bp-img-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .bp-content .bp-img-center img {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bp-content .bp-cta-banner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+  .bp-content .bp-cta-banner img {
+    width: 100%;
+    height: auto !important;
+    display: block;
+    margin-inline: auto;
+  }
+  @media (min-width: 1024px) {
+    .bp-content .bp-cta-banner,
+    .bp-content .bp-cta-banner img {
+      max-width: 90% !important;
+    }
+  }
+  .bp-content .bp-faq {
+    display: grid;
+    gap: 10px;
+    margin: 1.25rem 0 0;
+  }
+  .bp-content .bp-faq__item {
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .bp-content .bp-faq__q {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    margin: 0;
+    padding: 16px 18px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font: inherit;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.4;
+    color: #121212;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bp-content .bp-faq__q:focus,
+  .bp-content .bp-faq__q:focus-visible,
+  .bp-content .bp-faq__q:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+  .bp-content .bp-faq__item:focus-within {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .bp-content .bp-faq__q::-webkit-details-marker { display: none; }
+  .bp-content .bp-faq__q::after {
+    content: '+';
+    flex: none;
+    width: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+    color: #767676;
+  }
+  .bp-content .bp-faq__item.is-open .bp-faq__q::after,
+  .bp-content .bp-faq__item[open] .bp-faq__q::after { content: '–'; }
+  .bp-content .bp-faq__a {
+    display: none;
+    padding: 0 18px 16px;
+    color: #313131;
+  }
+  .bp-content .bp-faq__item.is-open .bp-faq__a {
+    display: block;
+  }
+  .bp-content .bp-faq__a p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #555;
+  }
   .bp-content ul,
   .bp-content ol {
-    margin: 0 0 1.5rem;
+    margin: 0 0 1.25rem;
     padding-left: 1.25rem;
     color: #313131;
-    font-size: 16px;
+    font-size: inherit;
     line-height: 1.7;
   }
   .bp-content li { margin-bottom: 0.5rem; }
+  .bp-content li:last-child { margin-bottom: 0; }
+  /* WP wraps lists as <ul><li><ul><li>…; sanitize strips list-style:none → double bullets */
+  .bp-content li:has(> ul),
+  .bp-content li:has(> ol) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bp-content li:has(> ul) > ul,
+  .bp-content li:has(> ol) > ol {
+    margin: 0;
+    padding-left: 0;
+  }
   .bp-content blockquote,
   .bp-content .wp-block-quote {
-    margin: 2rem 0;
+    margin: 1.75rem 0;
     padding: 24px;
     border: 0;
     border-radius: 20px;
@@ -684,9 +856,11 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     .bp-aside {
       display: block;
       min-width: 0;
+      align-self: stretch;
     }
     .bp-inline-form { display: none; }
     .bp-aside__sticky {
+      position: -webkit-sticky;
       position: sticky;
       top: 96px;
       z-index: 3;
@@ -809,16 +983,5 @@ const tocEntries = (post.toc || []).filter((e) => e.level === 2).slice(0, 10);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .bp-contact {
-    background: var(--ig-dark);
-    padding: 48px 0 64px;
-  }
-  @media (min-width: 768px) {
-    .bp-contact { padding: 64px 0 80px; }
-  }
-  .bp-contact .ig-form--footer {
-    margin-inline: auto;
   }
 </style>

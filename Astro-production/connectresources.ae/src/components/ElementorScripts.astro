@@ -1,43 +1,90 @@
 ---
 /**
  * Impreza + Ultimate VC + Smart Slider frontend scripts (live homepage order).
+ *
+ * Per-page conditional loading: only the script groups a page actually uses are emitted,
+ * so text/simple pages don't pay the main-thread cost of the slider/form/accordion libs
+ * (JS bootup is the dominant term in Lighthouse's simulated mobile LCP/TBT). `needs` is
+ * computed from the page body in [...slug].astro / index.astro; every group defaults to
+ * loaded (conservative) unless the page explicitly determined it isn't needed. All scripts
+ * stay deferred (parallel download, ordered execution, self-init on ready).
  */
+interface Needs {
+  vc?: boolean;          // Ultimate VC row backgrounds/effects + owl carousels
+  sliders?: boolean;     // Nextend Smart Slider
+  royalslider?: boolean; // Impreza royalslider + magnific popup
+  accordion?: boolean;   // responsive accordion
+  forms?: boolean;       // CF7 + select2 + intl-tel phone
+}
+const { needs = {} as Needs } = Astro.props as { needs?: Needs };
+const vc = needs.vc !== false;
+const sliders = needs.sliders !== false;
+const royal = needs.royalslider !== false;
+const accordion = needs.accordion !== false;
+const forms = needs.forms !== false;
 ---
 
-{/* Theme / plugin boot config must run before us.core + Smart Slider */}
-<script is:inline src="/scripts/impreza-boot.js"></script>
+{/* Core — always: theme boot, jQuery, Impreza core (header/nav/layout). */}
+<script is:inline defer src="/scripts/impreza-boot.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/jquery.min.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/ui/core.min.js"></script>
+<script is:inline defer src="/wp-content/themes/Impreza/common/js/base/passive-events.min.js"></script>
+<script is:inline defer src="/wp-content/themes/Impreza/common/js/base/header.no-cache.min.js"></script>
+<script is:inline defer src="/wp-content/themes/Impreza/js/us.core.min.js"></script>
 
-<script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/common/js/base/passive-events.min.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/common/js/base/header.no-cache.min.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/js/us.core.min.js"></script>
-{/* Required before Ultimate VC carousels (owlCarousel) */}
-<script is:inline src="/wp-content/themes/Impreza/common/js/vendor/owl.carousel.js"></script>
-<script is:inline src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate.min.js"></script>
-<script is:inline src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate_bg.min.js"></script>
-{/* marquee loaded in <head> — inline MarqueeImageCrawler() calls appear mid-content */}
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js"></script>
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js"></script>
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js"></script>
-{/* Showcase type used by employment-visa / HR / payroll / etc. mobile card sliders */}
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3Pro/Slider/SliderType/Showcase/Assets/dist/ss-showcase.min.js"></script>
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js"></script>
-<script is:inline src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/common/js/vendor/royalslider.js"></script>
-<script is:inline src="/wp-content/themes/Impreza/common/js/vendor/magnific-popup.js"></script>
-<script is:inline src="/wp-content/plugins/responsive-accordion-and-collapse/js/accordion.js"></script>
-<script is:inline src="/wp-content/plugins/responsive-accordion-and-collapse/js/accordion-custom.js"></script>
-<script is:inline src="/assets/images/custom-css-js/26902.js"></script>
-<script is:inline src="/wp-content/plugins/select-multiselect-field-contact-form-7/assets/js/select2.min.js"></script>
-<script is:inline src="/wp-content/plugins/select-multiselect-field-contact-form-7/assets/js/select-multiselect-custom.js"></script>
-<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
-<script is:inline src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"></script>
-<script is:inline src="/scripts/phone-flags.js"></script>
+{/* Ultimate VC (row backgrounds/effects) + owl carousels. */}
+{vc && (
+  <>
+    <script is:inline defer src="/wp-content/themes/Impreza/common/js/vendor/owl.carousel.js"></script>
+    <script is:inline defer src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/Ultimate_VC_Addons/assets/min-js/ultimate_bg.min.js"></script>
+  </>
+)}
 
-{/* Ultimate row-bg CSS fallback + light interaction helpers if plugin JS lags */}
-<script is:inline src="/scripts/cr-interactions.js"></script>
-<script is:inline src="/scripts/cf7-bridge.js"></script>
-<script is:inline src="/scripts/blog-load-more.js"></script>
-<script is:inline src="/scripts/social-share.js"></script>
+{/* Nextend Smart Slider (only on pages with a slider). */}
+{sliders && (
+  <>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Application/Frontend/Assets/dist/n2.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Application/Frontend/Assets/dist/smartslider-frontend.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Slider/SliderType/Simple/Assets/dist/ss-simple.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3Pro/Slider/SliderType/Showcase/Assets/dist/ss-showcase.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Widget/Arrow/ArrowImage/Assets/dist/w-arrow-image.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/nextend-smart-slider3-pro/Public/SmartSlider3/Widget/Bullet/Assets/dist/w-bullet.min.js"></script>
+  </>
+)}
+
+{/* Impreza royalslider + magnific popup (galleries/lightboxes). */}
+{royal && (
+  <>
+    <script is:inline defer src="/wp-content/themes/Impreza/common/js/vendor/royalslider.js"></script>
+    <script is:inline defer src="/wp-content/themes/Impreza/common/js/vendor/magnific-popup.js"></script>
+  </>
+)}
+
+{/* Responsive accordion. */}
+{accordion && (
+  <>
+    <script is:inline defer src="/wp-content/plugins/responsive-accordion-and-collapse/js/accordion.js"></script>
+    <script is:inline defer src="/wp-content/plugins/responsive-accordion-and-collapse/js/accordion-custom.js"></script>
+  </>
+)}
+
+<script is:inline defer src="/assets/images/custom-css-js/26902.js"></script>
+
+{/* Contact-form stack: select2 + intl-tel phone. */}
+{forms && (
+  <>
+    <script is:inline defer src="/wp-content/plugins/select-multiselect-field-contact-form-7/assets/js/select2.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/select-multiselect-field-contact-form-7/assets/js/select-multiselect-custom.js"></script>
+    <script is:inline defer src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/intlTelInput.min.js"></script>
+    <script is:inline defer src="/wp-content/plugins/country-phone-field-contact-form-7/assets/js/countrySelect.min.js"></script>
+    <script is:inline defer src="/scripts/phone-flags.js"></script>
+    <script is:inline defer src="/scripts/cf7-bridge.js"></script>
+  </>
+)}
+
+{/* Small local helpers — always (a few KB each). */}
+<script is:inline defer src="/scripts/cr-interactions.js"></script>
+<script is:inline defer src="/scripts/blog-load-more.js"></script>
+<script is:inline defer src="/scripts/social-share.js"></script>

@@ -125,6 +125,34 @@ export function organizationSchema(mediaOrigin?: string) {
   };
 }
 
+/** True when a JSON-LD node is (or includes) Organization. */
+export function isOrganizationSchemaNode(node: unknown): boolean {
+  if (!node || typeof node !== "object") return false;
+  const type = (node as { "@type"?: string | string[] })["@type"];
+  const types = Array.isArray(type) ? type : [type];
+  return types.some((t) => t === "Organization");
+}
+
+/**
+ * Drop top-level / @graph Organization nodes from imported Rank Math (etc.) schemas.
+ * Keeps WebSite/WebPage/BlogPosting graphs; publisher @id refs still resolve to site org.
+ */
+export function withoutOrganizationSchemas(schemas: unknown[]): unknown[] {
+  return schemas
+    .map((schema) => {
+      if (!schema || typeof schema !== "object") return schema;
+      const row = schema as Record<string, unknown>;
+      if (Array.isArray(row["@graph"])) {
+        const graph = (row["@graph"] as unknown[]).filter((node) => !isOrganizationSchemaNode(node));
+        if (!graph.length) return null;
+        return { ...row, "@graph": graph };
+      }
+      if (isOrganizationSchemaNode(row)) return null;
+      return schema;
+    })
+    .filter(Boolean);
+}
+
 export function breadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",

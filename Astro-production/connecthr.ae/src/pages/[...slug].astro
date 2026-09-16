@@ -8,6 +8,10 @@ import {
   normalizePath,
 } from "../lib/content";
 import { renderSinglePostShell, replaceLoopCarouselsWithLatestGrid } from "../lib/blog-shell";
+import { computeScriptNeeds } from "../lib/script-needs";
+import { promoteHeroImages } from "../lib/promote-hero";
+import { disableCloudflareEmailObfuscation } from "../lib/cloudflare-email";
+import cwvManifest from "../data/cwv-manifest.json";
 import singlePostCss from "../data/single-post-css.json";
 import { articleSchema, breadcrumbSchema, seoRobotsFlags } from "../lib/seo";
 import { isNoIndexNoFollowPath } from "../lib/seo/sitemap-config";
@@ -30,10 +34,22 @@ if (!page && !caseStudy && !post) {
 const entry = page || caseStudy || post!;
 const lang: "en" | "ar" = path.startsWith("/ar/") || path === "/ar/" ? "ar" : "en";
 const rawHtml = ("bodyHtml" in entry && entry.bodyHtml) || entry.content;
-const html =
+const htmlBase = disableCloudflareEmailObfuscation(
   page || caseStudy
     ? replaceLoopCarouselsWithLatestGrid(String(rawHtml || ""), lang, 3)
-    : rawHtml;
+    : String(rawHtml || ""),
+);
+
+// Promote this route's LCP hero image to eager/high-priority (see promote-hero.ts).
+const manifestPath = path.replace(/\/+$/, "") || "/";
+const heroHrefs = (
+  (cwvManifest.routes as Record<string, { hero?: Array<{ as?: string; href?: string }> }>)[
+    manifestPath
+  ]?.hero || []
+)
+  .filter((h) => (h.as ?? "image") === "image" && h.href)
+  .map((h) => h.href as string);
+const html = promoteHeroImages(String(htmlBase || ""), heroHrefs);
 
 const homeCrumb = lang === "ar" ? { name: "الرئيسية", href: "/ar/" } : { name: "Home", href: "/" };
 
@@ -96,7 +112,9 @@ const seo =
 const postContentHtml = post
   ? (("bodyHtml" in post && post.bodyHtml) || post.content || "")
   : "";
-const postShellHtml = post ? renderSinglePostShell(post, postContentHtml) : "";
+const postShellHtml = post
+  ? disableCloudflareEmailObfuscation(renderSinglePostShell(post, postContentHtml))
+  : "";
 
 const extraCss = [
   ...((entry as { pageCss?: string[] }).pageCss || []),
@@ -104,6 +122,12 @@ const extraCss = [
     `/wp-content/uploads/elementor/css/post-${entry.id}.css`,
   ...(post ? (singlePostCss as string[]) : []),
 ];
+
+// Conditional script loading: single posts use the blog shell (posts grid + load-more);
+// pages/case-studies detect from their body HTML.
+const scriptNeeds = post
+  ? computeScriptNeeds(postShellHtml + " ecs-posts", false)
+  : computeScriptNeeds(String(html || ""), false);
 
 const bodyClass = page
   ? `page page-id-${page.id} elementor-page elementor-page-${page.id}`
@@ -120,6 +144,7 @@ const bodyClass = page
   extraCss={extraCss}
   seo={seo}
   menuActivePath={post ? "/blogs/" : undefined}
+  scriptNeeds={scriptNeeds}
 >
   {
     page || caseStudy ? (

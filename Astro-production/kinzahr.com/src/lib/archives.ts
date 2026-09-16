@@ -17,6 +17,8 @@ import {
   getCategorySlug,
   getPostsByCategorySlug,
   getPostsByTagSlug,
+  bustMirrorFixesHtml,
+  MIRROR_FIXES_CACHE_BUST,
   type BlogPost,
 } from './blog.ts';
 
@@ -219,10 +221,12 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
   $('head').append([getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n'));
 
   if (!$('script[src*="astro-mirror-fixes.js"]').length) {
-    $('body').append('<script src="/js/astro-mirror-fixes.js?v=20260730-nav" defer></script>');
+    $('body').append(
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>`,
+    );
   }
 
-  return injectRuntimeGtmLoader($.html());
+  return injectRuntimeGtmLoader(bustMirrorFixesHtml($.html()));
 }
 
 /** Tag pages use live Elementor archive template 24660 (archive_cards skin). */
@@ -245,10 +249,13 @@ function assembleTagHtml(data: ArchivePageData): string {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js" defer></script>\n</body>');
+    html = html.replace(
+      '</body>',
+      `<script src="/js/astro-mirror-fixes.js?v=${MIRROR_FIXES_CACHE_BUST}" defer></script>\n</body>`,
+    );
   }
 
-  return injectRuntimeGtmLoader(html);
+  return injectRuntimeGtmLoader(bustMirrorFixesHtml(html));
 }
 
 function patchArchiveMeta(html: string, data: ArchivePageData): string {

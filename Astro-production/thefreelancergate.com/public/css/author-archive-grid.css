@@ -1,0 +1,70 @@
+/* Author archive — Impreza layout_1473 cards (same as /insights/) */
+#us_grid_author .w-grid-item {
+  padding: 0.5rem;
+}
+#us_grid_author .w-grid-list {
+  margin: -0.5rem -0.5rem 0.5rem;
+}
+.w-grid + #us_grid_author .w-grid-list,
+.w-grid-none + #us_grid_author .w-grid-list {
+  margin-top: 0.5rem;
+}
+@media (max-width: 1380px) {
+  #us_grid_author .w-grid-item {
+    width: 33.3333%;
+  }
+}
+@media (max-width: 1024px) {
+  #us_grid_author .w-grid-item {
+    width: 50%;
+  }
+}
+@media (max-width: 600px) {
+  #us_grid_author .w-grid-list {
+    margin: 0;
+  }
+  #us_grid_author .w-grid-item {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+.layout_1473 .w-grid-item-h {
+  color: var(--color-content-heading);
+}
+.layout_1473 .usg_vwrapper_1 {
+  border-radius: 15px !important;
+  padding: 10px !important;
+  background: #ffffff !important;
+  border: 1px solid #c0d1f0 !important;
+}
+.layout_1473 .usg_post_title_1 {
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  font-weight: 600 !important;
+}
+.layout_1473 .usg_post_content_1 {
+  color: #68758e !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  font-weight: 500 !important;
+}
+.layout_1473 .usg_post_image_1 {
+  border-radius: 15px !important;
+}
+
+.tfg-author-posts {
+  width: min(1280px, calc(100% - 2rem));
+  margin: 1.5rem auto 4rem;
+}
+
+.tfg-author-posts .g-loadmore {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 0;
+}
+
+.tfg-author-posts .g-loadmore.done,
+.tfg-author-posts .g-loadmore[hidden] {
+  display: none !important;
+}

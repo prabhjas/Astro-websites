@@ -25,6 +25,30 @@ function normalizeLegacyDocumentUrls(html) {
     .replace(/(data-lazy-srcset|srcset)=(["'])\/\//g, '$1=$2/');
 }
 
+/**
+ * Move FAQPage JSON-LD out of the article body into <head>.
+ * Body placement gets swallowed into the last hidden FAQ accordion panel
+ * after client enhancement, so Rich Results / schema tools miss FAQ schema.
+ */
+function hoistFaqPageJsonLd(html) {
+  let out = String(html || '');
+  const blocks = [];
+  out = out.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (match, attrs, body) => {
+    if (!/type\s*=\s*["']application\/ld\+json["']/i.test(attrs)) return match;
+    if (!/"@type"\s*:\s*"FAQPage"/i.test(body)) return match;
+    blocks.push(`<script type="application/ld+json">${body.trim()}</script>`);
+    return '';
+  });
+  if (!blocks.length) return html;
+  out = out.replace(/<p>\s*<\/p>/gi, '');
+  const headEnd = out.search(/<\/head>/i);
+  if (headEnd === -1) return html;
+  const head = out.slice(0, headEnd);
+  const unique = blocks.filter((block) => !head.includes(block));
+  if (!unique.length) return out;
+  return out.replace(/<\/head>/i, `${unique.join('\n')}\n</head>`);
+}
+
 /** Resolve migrated relative SEO URLs to the canonical production origin. */
 function absolutizeSeoUrls(html, slug = 'homepage') {
   const fallbackPath = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
@@ -83,15 +107,28 @@ export function serveLegacyPage(slug) {
     );
   }
 
-  
+  // Unclosed "Prepared for Astro" comments can swallow <meta viewport> and force
+  // mobile Chrome into ~980px layout (sidebar form stays on the right).
+  html = html.replace(
+    /(<!--\s*Prepared for Astro Phase 1[^>]{0,160}?)(<meta|<script|<link)/i,
+    (match, comment, next) => (comment.includes('-->') ? match : `${comment} -->\n${next}`),
+  );
+  if (!/<meta\s[^>]*name=["']viewport["']/i.test(html)) {
+    html = html.replace(
+      /<head([^>]*)>/i,
+      '<head$1>\n<meta name="viewport" content="width=device-width, initial-scale=1">',
+    );
+  }
+
   const path = !slug || slug === 'homepage' ? '/' : `/${String(slug).replace(/^\/|\/$/g, '')}/`;
   html = absolutizeMirrorSeoHtml(html, { siteOrigin: SITE_ORIGIN, path });
   html = sanitizeMirrorHtml(html);
+  html = hoistFaqPageJsonLd(html);
 
     // Force browsers past Cloudflare-cached broken mirror-fixes (no trailing slash).
   html = html.replace(
     /src=("|')\/js\/astro-mirror-fixes\.js(?:\?[^"']*)?\1/g,
-    'src=$1/js/astro-mirror-fixes.js?v=contact-slash-20260814$1'
+    'src=$1/js/astro-mirror-fixes.js?v=mofa-spacing-20260914$1'
   );
 
   return new Response(html, {

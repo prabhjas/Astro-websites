@@ -1,0 +1,10 @@
+---
+/** Old numbered author pages → archive with Load More. */
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "").replace(/\/+$/, "");
+if (!slug) {
+  return Astro.redirect("/author/", 301);
+}
+return Astro.redirect(`/author/${slug}/`, 301);
+---

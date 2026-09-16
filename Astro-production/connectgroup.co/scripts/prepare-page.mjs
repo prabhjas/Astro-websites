@@ -219,7 +219,7 @@ function cleanHtml(html) {
   if (!out.includes('astro-mirror-fixes.js')) {
     out = out.replace(
       /<\/body>/i,
-      `<script src="/js/astro-mirror-fixes.js?v=20260904cg2" defer></script>\n</body>`,
+      `<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>`,
     );
   }
 

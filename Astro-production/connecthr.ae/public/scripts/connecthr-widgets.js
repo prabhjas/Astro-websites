@@ -528,6 +528,10 @@
   }
 
   function closePopup() {
+    if (typeof window.__chrClosePopup === "function") {
+      window.__chrClosePopup();
+      return;
+    }
     const modal = document.getElementById("chr-popup-modal");
     if (!modal) return;
     const msg = modal.querySelector(".dialog-message");
@@ -543,6 +547,10 @@
   }
 
   function openPopup(id) {
+    if (typeof window.__chrOpenPopup === "function") {
+      window.__chrOpenPopup(id);
+      return;
+    }
     if (!id) return;
     const source = document.querySelector(`[data-elementor-type="popup"][data-elementor-id="${id}"]`);
     if (!source) return;
@@ -575,7 +583,7 @@
   }
 
   function initPopups() {
-    if (initPopups.bound) return;
+    if (window.__chrPopupsInited || initPopups.bound) return;
     initPopups.bound = true;
     const host = document.querySelector("[data-chr-popups]");
     if (host) {
@@ -933,10 +941,47 @@
     });
   }
 
+  /** Restore Cloudflare-obfuscated mailto links so clicks open the mail client. */
+  function decodeCloudflareEmails() {
+    const decode = (hex) => {
+      if (!hex || hex.length < 4) return "";
+      const key = parseInt(hex.slice(0, 2), 16);
+      if (Number.isNaN(key)) return "";
+      let out = "";
+      for (let i = 2; i < hex.length; i += 2) {
+        const code = parseInt(hex.slice(i, i + 2), 16);
+        if (Number.isNaN(code)) return "";
+        out += String.fromCharCode(code ^ key);
+      }
+      return out;
+    };
+
+    document.querySelectorAll("[data-cfemail]").forEach((el) => {
+      const enc = el.getAttribute("data-cfemail");
+      if (!enc) return;
+      const email = decode(enc);
+      if (email) el.textContent = email;
+    });
+
+    document.querySelectorAll('a[href*="/cdn-cgi/l/email-protection"]').forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const hash = href.includes("#") ? href.split("#").pop() : "";
+      const span = a.querySelector("[data-cfemail]");
+      const email =
+        (span && decode(span.getAttribute("data-cfemail") || "")) ||
+        (hash ? decode(hash) : "") ||
+        "contact@connecthr.ae";
+      if (!email) return;
+      a.setAttribute("href", `mailto:${email}`);
+      if (span && !String(span.textContent || "").includes("@")) span.textContent = email;
+    });
+  }
+
   function init() {
     if (init.done) return;
     init.done = true;
     hydrateLazyMedia();
+    decodeCloudflareEmails();
     initBgVideo();
     dedupeYouTubeBackgroundVideos();
     suppressHiddenVideoWidgets();

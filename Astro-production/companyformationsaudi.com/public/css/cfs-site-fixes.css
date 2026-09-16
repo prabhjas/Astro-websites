@@ -1,0 +1,39 @@
+/* Homepage Smart Slider (#n2-ss-3) — hide Learn More CTAs on business-type cards */
+div#n2-ss-3 .n2-font-1b3ebd6219bf9c58db13447bb749268b-link a {
+  display: none;
+}
+
+/* Visible breadcrumbs (services / law / blog singles) */
+.cfs-page-breadcrumb {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #6b7280;
+  margin: 0 0 12px;
+}
+.cfs-page-breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+}
+.cfs-page-breadcrumb a:hover {
+  color: #2ba2a3;
+}
+.cfs-page-breadcrumb__current {
+  color: #2ba2a3;
+}
+.cfs-page-breadcrumb--center {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 28px 0 8px;
+  padding: 0 16px;
+}
+/* Law hero sits over page-header; keep crumbs readable on peach banner */
+.elementor-31775 .cfs-page-breadcrumb--center {
+  margin: 12px 0 16px;
+  position: relative;
+  z-index: 2;
+}
+.page-header .cfs-page-breadcrumb {
+  margin: 8px 0 10px;
+}

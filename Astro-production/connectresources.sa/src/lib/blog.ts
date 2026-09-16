@@ -638,6 +638,89 @@ ${
 </article>`;
 }
 
+/** Initial Insights grid size (widget f2c45fb) before Load More. */
+export const BLOG_INDEX_GRID_SIZE = 12;
+/** Side “Recent” stack size (widget ae907e6, template 133). */
+/** Insights side-stack cards (hero right) — Elementor loop template 133. */
+export const BLOG_INDEX_SIDE_SIZE = 3;
+
+/** Posts shown above the main grid on /blog/ (1 featured + side stack). */
+export const BLOG_INDEX_TOP_COUNT = 1 + BLOG_INDEX_SIDE_SIZE;
+
+/**
+ * Insights side-stack cards — Elementor loop template 133 (50/50 thumb + meta).
+ * Matches the static ECS stack in blog.cleaned.html (widget ae907e6).
+ */
+export function buildSideStackCardHtml(post: BlogPost): string {
+  const categoriesHtml = post.categories
+    .slice(0, 4)
+    .map((c) => `<span class="elementor-post-info__terms-list-item">${escapeHtml(c.name)}</span>`)
+    .join(', ');
+  const img = post.featuredImage;
+  const imgSrc = img?.src || '';
+  const imgAlt = escapeHtml(img?.alt || post.title);
+  const postUrl = `/${post.slug}/`;
+  const title = escapeHtml(post.title);
+  const dateDisplay = formatDate(post.publishedAt);
+  const catClasses = post.categories
+    .map((c) => ` category-${(c.slug || getCategorySlug(c)).toLowerCase().replace(/\s+/g, '-')}`)
+    .join('');
+  const postDomId = `post-${post.slug.replace(/[^a-z0-9_-]/gi, '-')}`;
+  const classBits = `elementor-post elementor-grid-item ecs-post-loop ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}`;
+  const imgTag = imgSrc
+    ? `<img loading="lazy" decoding="async" width="800" height="450" src="${imgSrc}" class="attachment-large size-large" alt="${imgAlt}" />`
+    : '';
+
+  return `<article id="${postDomId}" class="${classBits}">
+				<div data-elementor-type="loop" data-elementor-id="133" class="elementor elementor-133 ${postDomId} type-post status-publish format-standard has-post-thumbnail hentry${catClasses}" data-elementor-post-type="elementor_library">
+					<section data-particle_enable="false" data-particle-mobile-disabled="false" class="elementor-section elementor-top-section elementor-element elementor-element-11f3c64 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="11f3c64" data-element_type="section" data-e-type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-2d6a41f" data-id="2d6a41f" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-247d163 elementor-widget elementor-widget-theme-post-featured-image elementor-widget-image" data-id="247d163" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-featured-image.default">
+				<div class="elementor-widget-container">
+																<a href="${postUrl}">
+							${imgTag}								</a>
+															</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-fc1cd2e" data-id="fc1cd2e" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div class="elementor-element elementor-element-a41bc32 elementor-widget elementor-widget-post-info" data-id="a41bc32" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-a806943 elementor-inline-item" itemprop="datePublished">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-date">
+										<time>${escapeHtml(dateDisplay)}</time>					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+				<div class="elementor-element elementor-element-d4cd897 elementor-widget elementor-widget-theme-post-title elementor-page-title elementor-widget-heading" data-id="d4cd897" data-element_type="widget" data-e-type="widget" data-widget_type="theme-post-title.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default"><a href="${postUrl}">${title}</a></h2>				</div>
+				</div>
+				<div class="elementor-element elementor-element-d3e1374 elementor-widget elementor-widget-post-info" data-id="d3e1374" data-element_type="widget" data-e-type="widget" data-widget_type="post-info.default">
+				<div class="elementor-widget-container">
+							<ul class="elementor-inline-items elementor-icon-list-items elementor-post-info">
+								<li class="elementor-icon-list-item elementor-repeater-item-bd96b6f elementor-inline-item" itemprop="about">
+													<span class="elementor-icon-list-text elementor-post-info__item elementor-post-info__item--type-terms">
+										<span class="elementor-post-info__terms-list">
+				${categoriesHtml}				</span>
+					</span>
+								</li>
+				</ul>
+						</div>
+				</div>
+					</div>
+		</div>
+					</div>
+		</section>
+				</div>
+				</article>`;
+}
+
 /**
  * Insights /blog/ Load More cards — Elementor loop template 124 (vertical grid).
  * Matches the static ECS grid in blog.cleaned.html (widget f2c45fb).

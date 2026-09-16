@@ -428,6 +428,129 @@ div#transaction_hide,
 }
 
 /*
+ * Homepage outline CTAs (View All / Explore) use us-btn-style_1 + us_custom_*.
+ * style_1 forces white text on transparent bg → invisible labels.
+ */
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9,
+a.w-btn.us_custom_c3dee5f9,
+a.w-btn.viewbtn.has_text_color,
+a.w-btn.us-btn-style_1.us_custom_8aa68b52 {
+  color: #ae121e !important;
+  background: transparent !important;
+  border: 1px solid #ae121e !important;
+}
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9 .w-btn-label,
+a.w-btn.us_custom_c3dee5f9 .w-btn-label,
+a.w-btn.viewbtn.has_text_color .w-btn-label,
+a.w-btn.us-btn-style_1.us_custom_8aa68b52 .w-btn-label {
+  color: #ae121e !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+a.w-btn.us-btn-style_1.us_custom_c3dee5f9:before,
+a.w-btn.us_custom_c3dee5f9:before,
+a.w-btn.viewbtn.has_text_color:before,
+a.w-btn.us-btn-style_1.us_custom_8aa68b52:before {
+  display: none !important;
+  border: none !important;
+}
+.no-touch a.w-btn.us-btn-style_1.us_custom_c3dee5f9:hover,
+.no-touch a.w-btn.us-btn-style_1.us_custom_c3dee5f9:hover .w-btn-label,
+.no-touch a.w-btn.us_custom_c3dee5f9:hover,
+.no-touch a.w-btn.us_custom_c3dee5f9:hover .w-btn-label,
+.no-touch a.w-btn.viewbtn.has_text_color:hover,
+.no-touch a.w-btn.viewbtn.has_text_color:hover .w-btn-label,
+.no-touch a.w-btn.us-btn-style_1.us_custom_8aa68b52:hover,
+.no-touch a.w-btn.us-btn-style_1.us_custom_8aa68b52:hover .w-btn-label {
+  color: #000000 !important;
+}
+
+/*
+ * Homepage blog list cards: keep image|text row and top-align meta
+ * so date/category/title line up across cards (not vertically centered).
+ */
+.blogpostwrapper .w-hwrapper {
+  flex-flow: row nowrap !important;
+  align-items: flex-start !important;
+  width: 100%;
+}
+.blogpostwrapper .w-hwrapper > .usg_post_image_1 {
+  flex: 0 0 auto;
+  max-width: 270.222px;
+  min-width: 0;
+}
+.blogpostwrapper .w-hwrapper > .usg_vwrapper_1 {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: flex-start;
+}
+.blogpostwrapper .usg_post_date_1 {
+  color: #7d7d7d !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/*
+ * Homepage blogs (col-8) + press (col-4): stretch columns and pin
+ * the View All rows to the same bottom baseline.
+ */
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) {
+  align-items: stretch !important;
+}
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .vc_col-sm-8,
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .pressreleasecolumns {
+  display: flex !important;
+  flex-direction: column !important;
+  align-self: stretch !important;
+}
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .vc_col-sm-8 > .vc_column-inner,
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .pressreleasecolumns > .vc_column-inner,
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .vc_col-sm-8 > .vc_column-inner > .wpb_wrapper,
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .pressreleasecolumns > .vc_column-inner > .wpb_wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+/* Nested row that wraps each View All button */
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .vc_col-sm-8 > .vc_column-inner > .wpb_wrapper > .g-cols.valign_bottom,
+.g-cols.via_flex.valign_top:has(> .pressreleasecolumns):has(.blogpostwrapper) > .pressreleasecolumns > .vc_column-inner > .wpb_wrapper > .g-cols.valign_bottom {
+  margin-top: auto !important;
+  width: 100%;
+}
+
+/*
+ * Impreza sets `.w-popup-trigger { background: none }`, which strips
+ * `us-btn-style_1` fill on popup CTAs (white label on transparent bg).
+ */
+.w-popup-trigger.type_btn.w-btn,
+.w-popup-trigger.type_btn.w-btn.us-btn-style_1 {
+  background: var(--color-content-primary, #c2121f) !important;
+  border-color: var(--color-content-primary, #c2121f) !important;
+  padding: 0.8em 1.6em !important;
+  width: auto !important;
+  color: #ffffff !important;
+}
+.w-popup-trigger.type_btn.w-btn .w-btn-label,
+.w-popup-trigger.type_btn.w-btn.us-btn-style_1 .w-btn-label {
+  color: #ffffff !important;
+}
+.no-touch .w-popup-trigger.type_btn.w-btn:hover,
+.no-touch .w-popup-trigger.type_btn.w-btn.us-btn-style_1:hover {
+  background: var(--color-content-primary-hover, #a00e19) !important;
+  border-color: var(--color-content-primary-hover, #a00e19) !important;
+  color: #ffffff !important;
+}
+.no-touch .w-popup-trigger.type_btn.w-btn:hover .w-btn-label,
+.no-touch .w-popup-trigger.type_btn.w-btn.us-btn-style_1:hover .w-btn-label {
+  color: #ffffff !important;
+}
+
+/*
  * Link colors — live parity
  * - Utility bar (top): white text on navy (incl. current-menu-* on tel link)
  * - Main content tel/mailto (contact blocks, etc.): #0B1347

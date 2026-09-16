@@ -1,5 +1,5 @@
 ---
-import { resolveSeo, organizationSchema, type SeoInput } from "../lib/seo";
+import { resolveSeo, organizationSchema, withoutOrganizationSchemas, type SeoInput } from "../lib/seo";
 import { site, type SeoData } from "../lib/content";
 
 interface Props {
@@ -12,7 +12,11 @@ const { seo = {}, fallback, extraCss = [] } = Astro.props;
 const mediaOrigin = Astro.url.origin;
 const meta = resolveSeo(seo, fallback, { mediaOrigin });
 
-const schemas = [organizationSchema(mediaOrigin), ...meta.schemas];
+// One site Organization only — strip Rank Math / export Organization duplicates.
+const schemas = [
+  organizationSchema(mediaOrigin),
+  ...withoutOrganizationSchemas(meta.schemas),
+];
 ---
 
 <meta charset="UTF-8" />

@@ -2,9 +2,250 @@
 /**
  * Sitewide Elementor Pro popups (demo / contact) mirrored from live connecthr.ae.
  * Triggered by header/CTA links: #elementor-action:action=popup:open&settings=...
+ * Rendered at the top of body so the DOM shell and click interceptor are ready
+ * before any user can click the top header CTA on first paint.
  */
 import popup3195 from "../data/popup-3195.html?raw";
 import popup8678 from "../data/popup-8678.html?raw";
 ---
 
-<div class="chr-elementor-popups" data-chr-popups hidden aria-hidden="true" set:html={popup3195 + popup8678} />
+<style is:global>
+  #chr-popup-modal,
+  [id^="elementor-popup-modal-"] {
+    display: none;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    padding: 1rem !important;
+    pointer-events: none;
+  }
+  #chr-popup-modal.dialog-visible,
+  [id^="elementor-popup-modal-"]:not([style*="display: none"]):not([style*="display:none"]) {
+    display: flex !important;
+    pointer-events: all !important;
+  }
+  #chr-popup-modal .dialog-widget-content,
+  [id^="elementor-popup-modal-"] .dialog-widget-content {
+    position: relative !important;
+    max-width: min(1100px, 100%) !important;
+    width: 100% !important;
+    max-height: 94vh !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    pointer-events: all !important;
+  }
+  #chr-popup-modal .dialog-lightbox-message,
+  [id^="elementor-popup-modal-"] .dialog-message {
+    width: 100% !important;
+    max-height: 94vh !important;
+    overflow: auto !important;
+    background: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35) !important;
+  }
+</style>
+
+<div class="chr-elementor-popups" data-chr-popups hidden aria-hidden="true" style="display:none;" set:html={popup3195 + popup8678} />
+
+<div
+  id="chr-popup-modal"
+  class="dialog-widget dialog-lightbox-widget dialog-type-lightbox elementor-popup-modal"
+  aria-hidden="true"
+  style="display:none;"
+>
+  <div class="dialog-widget-content dialog-lightbox-widget-content">
+    <button type="button" class="dialog-close-button dialog-lightbox-close-button" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path fill="#1a1a1a" d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 0 0 5.7 7.11L10.59 12 5.7 16.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.89a1 1 0 0 0 1.41-1.41L13.41 12l4.89-4.89a1 1 0 0 0 0-1.4z"/>
+      </svg>
+    </button>
+    <div class="dialog-message dialog-lightbox-message"></div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ popupMap: { "3195": popup3195, "8678": popup8678 } }}>
+(() => {
+  const POPUP_HTML = popupMap || {};
+
+  function b64Json(raw) {
+    try {
+      const pad = "=".repeat((4 - (raw.length % 4)) % 4);
+      return JSON.parse(atob(raw + pad));
+    } catch {
+      return null;
+    }
+  }
+
+  function parsePopupIdFromHref(href) {
+    if (!href) return "";
+    let decoded = href;
+    try {
+      decoded = decodeURIComponent(href);
+    } catch {}
+    const m = decoded.match(/action=popup:open&settings=([^&#]+)/i);
+    if (!m) return "";
+    const settings = b64Json(m[1]);
+    return settings && settings.id != null ? String(settings.id) : "";
+  }
+
+  function hydrateLazyMedia(root) {
+    if (!root) return;
+    root.querySelectorAll("img[data-lazy-src]").forEach((img) => {
+      const lz = img.getAttribute("data-lazy-src");
+      if (lz && (!img.src || img.src.startsWith("data:"))) {
+        img.src = lz;
+      }
+    });
+  }
+
+  function animateCounter(num) {
+    if (!num || num.dataset.chrCounted) return;
+    num.dataset.chrCounted = "1";
+    const to = parseFloat(num.getAttribute("data-to-value")) || 0;
+    const from = parseFloat(num.getAttribute("data-from-value")) || 0;
+    const dur = parseInt(num.getAttribute("data-duration"), 10) || 2000;
+    const delim = num.getAttribute("data-delimiter") || ",";
+    const decimals = (String(num.getAttribute("data-to-value") || "").split(".")[1] || "").length;
+    const fmt = (v) => v.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, delim);
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof requestAnimationFrame !== "function") {
+      num.textContent = fmt(to);
+      return;
+    }
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      num.textContent = fmt(from + (to - from) * t);
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  function closePopup() {
+    try {
+      const docs = window.elementorFrontend?.documentsManager?.documents;
+      if (docs) {
+        for (const k of Object.keys(docs)) {
+          const d = docs[k];
+          if (d && typeof d.getModal === "function") {
+            const m = d.getModal();
+            if (m && typeof m.hide === "function") m.hide();
+          }
+        }
+      }
+    } catch {}
+
+    const modal = document.getElementById("chr-popup-modal");
+    if (!modal) return;
+    modal.classList.remove("dialog-visible");
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("elementor-popup-modal-open");
+    document.body.style.removeProperty("overflow");
+  }
+
+  function openPopup(id) {
+    if (!id) return;
+
+    // 1. If Elementor Pro has loaded and registered this popup document, use it
+    try {
+      const doc = window.elementorFrontend?.documentsManager?.documents?.[id];
+      if (doc && typeof doc.showModal === "function") {
+        closePopup();
+        doc.showModal();
+        return;
+      }
+    } catch {}
+
+    // 2. Standalone modal fallback: works immediately on first paint before scripts load
+    let source = document.querySelector(`[data-elementor-type="popup"][data-elementor-id="${id}"]`);
+    if (!source && POPUP_HTML[id]) {
+      const temp = document.createElement("div");
+      temp.innerHTML = POPUP_HTML[id].trim();
+      source = temp.firstElementChild;
+    }
+    if (!source) return;
+
+    const modal = document.getElementById("chr-popup-modal");
+    if (!modal) return;
+    const msg = modal.querySelector(".dialog-message");
+    if (!msg) return;
+
+    msg.innerHTML = "";
+    msg.appendChild(source);
+    source.style.setProperty("display", "block", "important");
+
+    modal.style.display = "flex";
+    modal.classList.add("dialog-visible");
+    modal.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("elementor-popup-modal-open");
+    document.body.style.overflow = "hidden";
+
+    hydrateLazyMedia(source);
+    source.querySelectorAll(".elementor-counter-number").forEach((n) => {
+      delete n.dataset.chrCounted;
+      animateCounter(n);
+    });
+
+    try {
+      window.dispatchEvent(new CustomEvent("chr:popup-opened", { detail: { id, root: source } }));
+    } catch {}
+  }
+
+  window.__chrPopupsInited = true;
+  window.__chrOpenPopup = openPopup;
+  window.__chrClosePopup = closePopup;
+
+  // Bind standalone modal shell close actions
+  const modal = document.getElementById("chr-popup-modal");
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      const btn = e.target?.closest?.(".dialog-close-button, .dialog-lightbox-close-button");
+      if (btn || e.target === modal) {
+        e.preventDefault();
+        e.stopPropagation();
+        closePopup();
+      }
+    }, true);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("dialog-visible")) {
+        closePopup();
+      }
+    });
+  }
+
+  // Instant capture listener — intercepts on 1st click immediately on first paint
+  document.addEventListener("click", (e) => {
+    const target = e.target instanceof Element ? e.target : e.target?.parentElement;
+    const a = target?.closest?.("a[data-chr-popup-open], a[href*='elementor-action'], a[href*='popup%3Aopen'], a[href*='popup:open']");
+    if (!a) return;
+    const id = a.getAttribute("data-chr-popup-open") || parsePopupIdFromHref(a.getAttribute("href") || "");
+    if (!id) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+    openPopup(id);
+  }, true);
+
+  // Hash check on initial parse or hashchange
+  function checkHash() {
+    const h = window.location.hash || "";
+    if (h && (h.includes("popup:open") || h.includes("popup%3Aopen"))) {
+      const id = parsePopupIdFromHref(h);
+      if (id) {
+        try {
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        } catch {}
+        openPopup(id);
+      }
+    }
+  }
+  checkHash();
+  window.addEventListener("hashchange", checkHash);
+})();
+</script>

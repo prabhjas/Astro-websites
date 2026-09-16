@@ -1,22 +1,23 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
-  authors,
   formatDate,
+  getAuthorBySlug,
   getCategories,
   getPostsByAuthor,
   stripHtml,
 } from "../../../lib/content";
+import { notFoundResponse } from "../../../lib/not-found";
 import { breadcrumbSchema } from "../../../lib/seo";
 
-export function getStaticPaths() {
-  return authors.map((author) => ({
-    params: { slug: author.slug },
-    props: { author },
-  }));
+export const prerender = false;
+
+const slug = String(Astro.params.slug || "");
+const author = getAuthorBySlug(slug);
+if (!author) {
+  return notFoundResponse();
 }
 
-const { author } = Astro.props;
 const posts = getPostsByAuthor(author.id);
 const categoryNames = new Map(getCategories().map((category) => [category.id, category.name]));
 

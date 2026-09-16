@@ -1,16 +1,26 @@
 ---
 /**
  * Load Elementor + Hello frontend scripts in live site order (subset needed for layout/nav).
+ * All src scripts are deferred (parallel download, ordered execution, self-init on ready);
+ * inline config/patch/facade blocks stay synchronous so they run at parse-time before the
+ * deferred libs read them. Per-page conditional loading: swiper/forms/accordion/blog libs
+ * load only when the page body uses them (core + Elementor Pro header + widgets always).
  */
+interface Needs { sliders?: boolean; forms?: boolean; accordion?: boolean; blog?: boolean; }
+const { needs = {} as Needs } = Astro.props as { needs?: Needs };
+const sliders = needs.sliders !== false;
+const forms = needs.forms !== false;
+const accordion = needs.accordion !== false;
+const blog = needs.blog !== false;
 ---
 
-<script is:inline src="/wp-includes/js/jquery/jquery.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
-<script is:inline src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"></script>
-<script is:inline src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
-<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
-<script is:inline src="/wp-includes/js/jquery/ui/core.min.js"></script>
-<script is:inline src="/wp-content/plugins/elementor/assets/lib/dialog/dialog.min.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/jquery.min.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/jquery-migrate.min.js"></script>
+<script is:inline defer src="/wp-content/themes/hello-elementor/assets/js/hello-frontend.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor/assets/js/frontend-modules.min.js"></script>
+<script is:inline defer src="/wp-includes/js/jquery/ui/core.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor/assets/lib/dialog/dialog.min.js"></script>
 <script is:inline>
   window.elementorFrontendConfig = window.elementorFrontendConfig || {
     environmentMode: { edit: false, wpPreview: false, isScriptDebug: false },
@@ -37,8 +47,8 @@
     elements: { data: {}, nestedElements: {}, hasPopUps: true },
   };
 </script>
-<script is:inline src="/scripts/elementor-counters.js?v=20260901e"></script>
-<script is:inline src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
+<script is:inline defer src="/scripts/elementor-counters.js?v=20260901e"></script>
+<script is:inline defer src="/wp-content/plugins/elementor/assets/js/frontend.min.js"></script>
 <script is:inline>
   // Block Elementor YouTube background-video handler — connecthr-widgets owns a single iframe.
   (function () {
@@ -72,10 +82,10 @@
     }
   })();
 </script>
-<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
-<script is:inline src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
-<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
-<script is:inline src="/wp-includes/js/imagesloaded.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js"></script>
+<script is:inline defer src="/wp-includes/js/imagesloaded.min.js"></script>
 <script is:inline>
   // Elementor Pro loop carousel / masonry expect WP globals that Astro doesn't ship.
   window.wp = window.wp || {};
@@ -98,14 +108,14 @@
     popup: { hasPopUps: true },
   };
 </script>
-<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
-<script is:inline src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
-<script is:inline src="/scripts/swiper.min.js"></script>
-<script is:inline src="/scripts/phone-flags.js?v=20260901e"></script>
-<script is:inline src="/scripts/cf7-bridge.js?v=20260904a"></script>
-<script is:inline src="/scripts/accordion.js?v=20260901e"></script>
-<script is:inline src="/scripts/blog-load-more.js?v=20260901e"></script>
-<script is:inline src="/scripts/connecthr-widgets.js?v=20260903a"></script>
+<script is:inline defer src="/wp-content/plugins/elementor-pro/assets/js/frontend.min.js"></script>
+<script is:inline defer src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
+{sliders && <script is:inline defer src="/scripts/swiper.min.js"></script>}
+{forms && <script is:inline defer src="/scripts/phone-flags.js?v=20260901e"></script>}
+{forms && <script is:inline defer src="/scripts/cf7-bridge.js?v=20260904a"></script>}
+{accordion && <script is:inline defer src="/scripts/accordion.js?v=20260901e"></script>}
+{blog && <script is:inline defer src="/scripts/blog-load-more.js?v=20260901e"></script>}
+<script is:inline defer src="/scripts/connecthr-widgets.js?v=20260907a"></script>
 <script is:inline>
   // Facade decorative YouTube video widgets: rename their widget_type so Elementor
   // never builds an eager autoplay iframe (that pulls ~2 MB of googlevideo + player

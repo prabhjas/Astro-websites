@@ -10,16 +10,34 @@ const page = getPageByPath("/");
 if (!page) throw new Error("Home page missing from content data");
 
 // Elementor/exported bodies are trusted mirrors — hygiene only (not sanitizeCmsHtml).
-const html = sanitizeMirrorHtml(page.bodyHtml || page.content);
+let html = sanitizeMirrorHtml(page.bodyHtml || page.content);
+// Reserve Ultimate-VC spacer heights server-side so they don't grow from 0 when
+// ultimate.min.js runs on load (fold reflow / CLS). See [...slug].astro for the rationale.
+html = html.replace(/<div\b[^>]*\bclass="ult-spacer[^"]*"[^>]*>/gi, (tag) => {
+  const h = (tag.match(/data-height-mobile="(\d+)"/) || [])[1] ?? (tag.match(/data-height="(\d+)"/) || [])[1];
+  if (h == null) return tag;
+  return /style="/i.test(tag)
+    ? tag.replace(/style="([^"]*)"/i, (_m, s) => `style="${s}height:${h}px;"`)
+    : tag.replace(/<div\b/i, `<div style="height:${h}px"`);
+});
 const extraCss = [
   "/css/impreza-home-design.css",
   ...smartSliderCssForHtml(html),
   ...(page.pageCss || []).filter((href) => href !== "/css/impreza-global.css"),
 ];
+// Which frontend script groups the home body uses (conservative: any marker → load).
+const scriptNeeds = {
+  vc: /vc_row|wpb_wrapper|upb_|ult-|data-bg-override|data-row-effect|owl-carousel/i.test(html),
+  sliders: /nextend|n2-ss|smartslider|smart-slider/i.test(html),
+  royalslider: /royalslider|rsslide|magnific|w-gallery|prettyphoto|lightbox|w-image-h/i.test(html),
+  accordion: /accordion/i.test(html),
+  forms: /wpcf7|contact-form-7|wpforms/i.test(html),
+};
 ---
 
 <BaseLayout
   currentPath="/"
+  scriptNeeds={scriptNeeds}
   showHomeAnnouncement
   bodyClass={`home wp-singular page-template-default page page-id-${page.id} wp-theme-Impreza wp-child-theme-Impreza-child l-body Impreza_8.40.1 header_hor links_underline rounded_none headerinpos_top state_default wpb-js-composer vc_responsive`}
   extraCss={extraCss}

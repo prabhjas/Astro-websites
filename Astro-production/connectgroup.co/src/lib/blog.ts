@@ -454,10 +454,10 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   if (html.includes('astro-mirror-fixes.js')) {
     html = html.replace(
       /\/js\/astro-mirror-fixes\.js(?:\?[^"'\s>]*)?/g,
-      '/js/astro-mirror-fixes.js?v=20260904cg4',
+      '/js/astro-mirror-fixes.js?v=20260908sticky1',
     );
   } else {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260904cg4" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=20260908sticky1" defer></script>\n</body>');
   }
 
   html = decodeProtectedEmailsInHtml(html);

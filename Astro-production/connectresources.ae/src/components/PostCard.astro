@@ -3,9 +3,11 @@ import { formatDate, stripHtml, type PostEntry } from "../lib/content";
 
 interface Props {
   post: PostEntry;
+  /** First above-the-fold card: load its image eagerly + high priority (LCP). */
+  priority?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, priority = false } = Astro.props;
 const excerpt = stripHtml(post.excerpt || post.content).slice(0, 140);
 ---
 
@@ -13,7 +15,15 @@ const excerpt = stripHtml(post.excerpt || post.content).slice(0, 140);
   <a href={post.path} class="sp-post-card__media">
     {
       post.featuredImage ? (
-        <img src={post.featuredImage} alt={stripHtml(post.title)} loading="lazy" width="640" height="400" />
+        <img
+          src={post.featuredImage}
+          alt={stripHtml(post.title)}
+          loading={priority ? "eager" : "lazy"}
+          fetchpriority={priority ? "high" : undefined}
+          decoding={priority ? "sync" : "async"}
+          width="640"
+          height="400"
+        />
       ) : (
         <div style="width:100%;height:100%;background:#1f1f1f"></div>
       )
