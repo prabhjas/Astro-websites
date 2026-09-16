@@ -77,11 +77,19 @@
   font-family:"Bebas Neue", Sans-serif !important; font-size:24px !important;
   line-height:0.9 !important; padding:15px 10px !important; border-radius:0 !important;
 }
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
+}
 .elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button{
   background:transparent !important; color:#FFFFFF !important;
   border:1px solid #FFFFFF !important; border-radius:0 !important;
   font-family:"Bebas Neue", Sans-serif !important; font-size:24px !important;
   line-height:0.9 !important; padding:15px 10px !important;
+}
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
 }
 
 /* ========== CLIMATE INTRO (50/50 full-bleed image | black text) ========== */
@@ -314,6 +322,10 @@
   font-family:"Bebas Neue", Sans-serif !important; font-size:24px !important;
   line-height:0.9 !important; border:none !important; border-radius:0 !important;
   padding:15px 10px !important;
+}
+.elementor-2063 .elementor-element.elementor-element-tltaskbtn .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-tltaskbtn .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
 }
 
 /* ========== LED VS (black 4-col) ========== */
@@ -718,8 +730,12 @@
   transform:rotate(90deg) !important;
   filter:brightness(0) invert(1) !important;
 }
-.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:hover{
-  background:#222222 !important; color:#FFFFFF !important;
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
+}
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:hover .tlmcta-arrow{
+  filter:none !important;
 }
 
 /* Not Sure — secondary outline; LH normal */
@@ -899,10 +915,18 @@
   font-family:"Bebas Neue",Sans-serif !important; font-size:24px !important; line-height:0.9 !important;
   padding:15px 10px !important;
 }
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
+}
 .elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button{
   background:transparent !important; color:#fff !important; border:1px solid #fff !important; border-radius:0 !important;
   font-family:"Bebas Neue",Sans-serif !important; font-size:24px !important; line-height:0.9 !important;
   padding:15px 10px !important;
+}
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:focus{
+  background-color:#FFFFFF !important; color:#000000 !important;
 }
 
 /* ========== CLIMATE 715:2866 — 50/50 full bleed h640, text pad 80 ========== */
@@ -4078,4 +4102,20 @@ section.elementor-element-0f41ad5 input.wpcf7-phonetext {
   }
 }
 /* === tower-mobile-btns-pad20:end === */
+
+/* === tower-cta-hover-parity (match air-compressor white fill / black text) === */
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-9109d8f .elementor-button:focus,
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-4de7e28 .elementor-button:focus,
+.elementor-2063 .elementor-element.elementor-element-tltaskbtn .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-tltaskbtn .elementor-button:focus,
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:hover,
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:focus{
+  background-color:#FFFFFF !important;
+  color:#000000 !important;
+}
+.elementor-2063 .elementor-element.elementor-element-tlmcta4 .elementor-button:hover .tlmcta-arrow{
+  filter:none !important;
+}
 
