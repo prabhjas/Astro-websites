@@ -5,9 +5,11 @@ interface Props {
   currentPath?: string;
   /** Force a nav href active (e.g. "/insights/" for single posts) */
   menuActivePath?: string;
+  /** Single posts: drop microdata WPHeader (keeps SiteNavigationElement). */
+  stripWpHeaderSchema?: boolean;
 }
 
-const { currentPath = "/", menuActivePath } = Astro.props;
+const { currentPath = "/", menuActivePath, stripWpHeaderSchema = false } = Astro.props;
 
 function normalize(path: string) {
   if (!path || path === "/") return "/";
@@ -105,7 +107,15 @@ function stripMenuDummyHashHrefs(html: string) {
   });
 }
 
-const html = stripMenuDummyHashHrefs(withActiveState(headerHtml, path));
+function stripWpHeaderItemtype(html: string) {
+  return html
+    .replace(/\s+itemtype="https:\/\/schema\.org\/WPHeader"/gi, "")
+    .replace(/(<header\b[^>]*?)\s+itemscope\b/gi, "$1");
+}
+
+const html = stripWpHeaderSchema
+  ? stripWpHeaderItemtype(stripMenuDummyHashHrefs(withActiveState(headerHtml, path)))
+  : stripMenuDummyHashHrefs(withActiveState(headerHtml, path));
 const alreadyHeader = /^\s*<header\b/i.test(html);
 ---
 
