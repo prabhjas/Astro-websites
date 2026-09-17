@@ -3,8 +3,25 @@ import footerHtmlRaw from "../data/footer.html?raw";
 import { injectCanonicalCf7Forms } from "../lib/cf7-main-form";
 import { fixCfEmails } from "../lib/cf-email";
 
+interface Props {
+  /** Single posts: drop microdata WPFooter. */
+  stripWpFooterSchema?: boolean;
+}
+
+const { stripWpFooterSchema = false } = Astro.props;
+
+function stripWpFooterItemtype(html: string) {
+  return html
+    .replace(/\s+itemtype="https:\/\/schema\.org\/WPFooter"/gi, "")
+    .replace(/(<footer\b[^>]*?)\s+itemscope\b/gi, "$1");
+}
+
+const footerHtmlRawProcessed = stripWpFooterSchema
+  ? stripWpFooterItemtype(footerHtmlRaw)
+  : footerHtmlRaw;
+
 const footerHtml = fixCfEmails(
-  injectCanonicalCf7Forms(footerHtmlRaw, {
+  injectCanonicalCf7Forms(footerHtmlRawProcessed, {
     path: "/",
     variant: "footer",
   }),

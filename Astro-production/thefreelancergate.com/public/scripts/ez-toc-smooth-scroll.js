@@ -1,6 +1,7 @@
 /**
- * Easy TOC smooth scroll — replaces WP plugin smooth_scroll.min.js
- * (not loaded on Astro). Offsets fixed Impreza header.
+ * Easy TOC — smooth scroll + toggle + nofollow
+ * Replaces WP plugin smooth_scroll.min.js / front.min.js bits not loaded on Astro.
+ * Offsets fixed Impreza header.
  */
 (function () {
   function headerOffset() {
@@ -38,6 +39,31 @@
     }
   }
 
+  function tocListForToggle(toggle) {
+    var container = toggle.closest(
+      "#ez-toc-container, #ez-toc-widget-container, #ez-toc-widget-sticky-container, .ez-toc-widget-container",
+    );
+    if (!container) return null;
+    return container.querySelector(
+      "ul.ez-toc-list, ul.ez-toc-widget-sticky-list, nav ul",
+    );
+  }
+
+  function onToggleClick(event) {
+    var toggle =
+      event.target && event.target.closest
+        ? event.target.closest("a.ez-toc-toggle, .ez-toc-widget-sticky-toggle")
+        : null;
+    if (!toggle) return;
+    event.preventDefault();
+    event.stopPropagation();
+    var list = tocListForToggle(toggle);
+    if (!list) return;
+    var hidden = list.style.display === "none" || getComputedStyle(list).display === "none";
+    list.style.display = hidden ? "" : "none";
+    toggle.setAttribute("aria-expanded", hidden ? "true" : "false");
+  }
+
   function onTocClick(event) {
     var link = event.target && event.target.closest ? event.target.closest("a.ez-toc-link") : null;
     if (!link) return;
@@ -54,7 +80,25 @@
     scrollToTarget(target);
   }
 
+  function applyNofollow() {
+    var links = document.querySelectorAll(
+      "#ez-toc-container a.ez-toc-link, #ez-toc-widget-container a.ez-toc-link, #ez-toc-widget-sticky-container a.ez-toc-link, .ez-toc-widget-container a.ez-toc-link",
+    );
+    for (var i = 0; i < links.length; i++) {
+      var rel = (links[i].getAttribute("rel") || "").trim();
+      if (!/\bnofollow\b/i.test(rel)) {
+        links[i].setAttribute("rel", rel ? rel + " nofollow" : "nofollow");
+      }
+    }
+  }
+
+  document.addEventListener("click", onToggleClick, true);
   document.addEventListener("click", onTocClick, true);
+
+  function init() {
+    applyNofollow();
+    scrollHashOnLoad();
+  }
 
   function scrollHashOnLoad() {
     if (!location.hash) return;
@@ -66,8 +110,8 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", scrollHashOnLoad);
+    document.addEventListener("DOMContentLoaded", init);
   } else {
-    scrollHashOnLoad();
+    init();
   }
 })();

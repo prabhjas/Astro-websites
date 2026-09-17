@@ -202,6 +202,7 @@ const imprezaHtml = postIsImprezaBody ? withImprezaBreadcrumbs(html) : html;
   extraCss={postExtraCss}
   seo={seo}
   menuActivePath={post ? "/insights/" : undefined}
+  stripWpChromeSchema={Boolean(post)}
 >
   {
     page ? (

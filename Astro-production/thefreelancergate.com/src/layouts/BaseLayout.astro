@@ -20,6 +20,8 @@ interface Props {
   bodyClass?: string;
   /** Impreza posts: skip peer Elementor/TwentyTwenty CSS and avoid nested <main>. */
   theme?: "default" | "impreza";
+  /** Single posts: remove WPHeader/WPFooter microdata from chrome. */
+  stripWpChromeSchema?: boolean;
 }
 
 const {
@@ -30,6 +32,7 @@ const {
   menuActivePath,
   bodyClass = "",
   theme = "default",
+  stripWpChromeSchema = false,
 } = Astro.props;
 
 const isImpreza = theme === "impreza";
@@ -127,7 +130,11 @@ const bodyClasses = isImpreza
   </head>
   <body class:list={bodyClasses}>
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-    <ElementorHeader currentPath={currentPath} menuActivePath={menuActivePath} />
+    <ElementorHeader
+      currentPath={currentPath}
+      menuActivePath={menuActivePath}
+      stripWpHeaderSchema={stripWpChromeSchema}
+    />
     {
       isImpreza ? (
         <div id="content" class="sp-impreza-content">
@@ -141,7 +148,7 @@ const bodyClasses = isImpreza
         </main>
       )
     }
-    <ElementorFooter />
+    <ElementorFooter stripWpFooterSchema={stripWpChromeSchema} />
     {!isImpreza ? <LicenceStrip /> : null}
     <ElementorScripts />
   </body>
