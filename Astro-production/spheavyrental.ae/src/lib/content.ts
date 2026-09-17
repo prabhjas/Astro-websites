@@ -1,4 +1,5 @@
 import siteJson from "../data/site.json";
+import { fixCfEmails } from "./cf-email";
 import {
   readAuthors,
   readCategories,
@@ -13,6 +14,13 @@ import type {
   PostEntry,
   TagEntry,
 } from "./content-types";
+
+function withFixedEmails<T extends { bodyHtml?: string; content?: string }>(entry: T): T {
+  const next = { ...entry };
+  if (typeof next.bodyHtml === "string") next.bodyHtml = fixCfEmails(next.bodyHtml);
+  if (typeof next.content === "string") next.content = fixCfEmails(next.content);
+  return next;
+}
 
 export type {
   AuthorEntry,
@@ -32,11 +40,11 @@ export const site = siteJson as typeof siteJson & {
 
 /** Live getters — always read from disk so dashboard edits apply in SSR/dev. */
 export function getPages(): PageEntry[] {
-  return readPages();
+  return readPages().map(withFixedEmails);
 }
 
 export function getPosts(includeNonPublished = false): PostEntry[] {
-  const rows = readPosts();
+  const rows = readPosts().map(withFixedEmails);
   if (includeNonPublished) return rows;
   return rows.filter((p) => !p.status || p.status === "published");
 }
@@ -58,9 +66,11 @@ export function getAuthors(): AuthorEntry[] {
 }
 
 /** @deprecated Prefer getPages() for live data; kept for compatibility */
-export const pages = readPages();
+export const pages = readPages().map(withFixedEmails);
 /** @deprecated Prefer getPosts() */
-export const posts = readPosts().filter((p) => !p.status || p.status === "published");
+export const posts = readPosts()
+  .filter((p) => !p.status || p.status === "published")
+  .map(withFixedEmails);
 /** @deprecated Prefer getCategories() */
 export const categories = readCategories().filter((c) => !c.status || c.status === "active");
 /** @deprecated Prefer getTags() */

@@ -1,5 +1,6 @@
 ---
 import headerHtml from "../data/header.html?raw";
+import { fixCfEmails } from "../lib/cf-email";
 
 interface Props {
   currentPath?: string;
@@ -120,7 +121,7 @@ function withActiveState(html: string, current: string) {
   return out;
 }
 
-const html = withActiveState(headerHtml, path);
+const html = fixCfEmails(withActiveState(headerHtml, path));
 ---
 
 <header class="sp-elementor-header" data-sp-elementor-header set:html={html} />
