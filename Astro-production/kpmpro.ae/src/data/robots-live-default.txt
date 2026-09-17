@@ -1,1 +1,44 @@
+# Full site map for AI crawlers: https://kpmpro.ae/llms.txt
+
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-admin/admin-ajax.php
+Disallow: /wp-login.php
+Disallow: /wp-json/
+Disallow: /?rest_route=
+
+Disallow: /?s=
+Disallow: /page/*/?s=
+Disallow: /search/
+Disallow: /*?replytocom=
+Disallow: /*?orderby=
+Disallow: /*?filter=
+
+Disallow: /tag/
+Disallow: /category/
+Disallow: /blog/page/
+Disallow: /feed
+Disallow: /rss
+
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /old-site-backups/
+
+Disallow: /wp-content/
+Disallow: /wp-content/uploads/
+Allow: /public
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://kpmpro.ae/sitemap_index.xml
