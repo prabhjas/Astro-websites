@@ -1445,9 +1445,15 @@
 
     document.querySelectorAll('a[href*="/cdn-cgi/l/email-protection"]').forEach(function (a) {
       var span = a.querySelector('[data-cfemail]');
-      var email = span ? decode(span.getAttribute('data-cfemail') || '') : 'info@royalvisa.ae';
+      var email = span ? decode(span.getAttribute('data-cfemail') || '') : '';
+      if (!email) {
+        var href = a.getAttribute('href') || '';
+        var m = href.match(/#([0-9a-f]+)/i);
+        if (m) email = decode(m[1]);
+      }
+      if (!email) email = 'contact@spheavyrental.ae';
       a.setAttribute('href', 'mailto:' + email);
-      if (span && !span.textContent.trim()) span.textContent = email;
+      if (span) span.textContent = email;
     });
   }
 
