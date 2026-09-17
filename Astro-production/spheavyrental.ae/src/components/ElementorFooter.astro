@@ -1,5 +1,8 @@
 ---
 import footerHtml from "../data/footer.html?raw";
+import { fixCfEmails } from "../lib/cf-email";
+
+const html = fixCfEmails(footerHtml);
 ---
 
-<footer class="sp-elementor-footer" set:html={footerHtml} />
+<footer class="sp-elementor-footer" set:html={html} />
