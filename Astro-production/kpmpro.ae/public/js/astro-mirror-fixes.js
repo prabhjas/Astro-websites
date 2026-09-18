@@ -2043,6 +2043,29 @@
       'nav.rank-math-breadcrumb,',
       '.elementor-location-single .elementor-col-100.elementor-top-column:has(.elementor-widget-theme-post-title) > .elementor-widget-wrap{padding-left:8px!important;padding-right:8px!important;box-sizing:border-box!important;}',
       '}',
+      /* Homepage: unify split "Why does your Company need / PRO Business Services..." heading */
+      '.elementor-element-20d98f2{margin-bottom:0!important;}',
+      '.elementor-element-20d98f2 .elementor-heading-title{font-family:Syne,manrope!important;font-size:40px!important;font-weight:700!important;text-transform:none!important;line-height:1.2em!important;color:#1e1e1e!important;letter-spacing:normal!important;}',
+      '.elementor-element-5f9730b{margin-top:0!important;}',
+      '@media (max-width:1024px){.elementor-element-20d98f2 .elementor-heading-title{font-size:32px!important;}}',
+      '@media (max-width:767px){.elementor-element-20d98f2 .elementor-heading-title{font-size:28px!important;}}',
+      /* UAE Attestation hero: breathing room top/bottom */
+      '.elementor-element-0c96409{padding-top:25px!important;padding-bottom:25px!important;box-sizing:border-box!important;}',
+      /* Blog lists (all posts): bullets/numbers on same left edge as headings/paragraphs.
+         Scoped to article content only — never nav/header/footer menus. */
+      'body.single .elementor-widget-theme-post-content ul,',
+      'body.single .elementor-widget-theme-post-content ol,',
+      'body.single .elementor-widget-theme-post-content .elementor-widget-container ul,',
+      'body.single .elementor-widget-theme-post-content .elementor-widget-container ol,',
+      'body.single .entry-content ul,',
+      'body.single .entry-content ol,',
+      'body.single .ast-article-single .entry-content ul,',
+      'body.single .ast-article-single .entry-content ol,',
+      'body.single .kpm-faq-answer ul,',
+      'body.single .kpm-faq-answer ol{margin-left:0!important;padding-left:0!important;list-style-position:inside!important;}',
+      'body.single .elementor-widget-theme-post-content li,',
+      'body.single .entry-content li,',
+      'body.single .kpm-faq-answer li{margin-left:0!important;padding-left:0!important;}',
       /* Blog FAQs (h2 + h3/p) → click accordion */
       '.kpm-faq-accordion{margin:1rem 0 1.5rem;display:flex;flex-direction:column;gap:10px;}',
       '.kpm-faq-item{border:1px solid #e4e7ee;border-radius:8px;background:#fff;overflow:hidden;}',
