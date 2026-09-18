@@ -61,6 +61,17 @@ export { GET } from '@connect/site-cms/astro/posts/index';
 5. Implement posts adapter only if the site needs blog CMS
 6. Prove with `fleet-local` smoke + Bearer GET posts / redirects / gtm / leads
 
+## Lead retry compatibility — pending backend installation
+
+Verified in source on 2026-09-18 UTC: explicit manual and bulk retries may
+reattempt failed or exhausted destinations and bypass a scheduled delay.
+Delivered and manually resolved destinations are always skipped, including
+Pipedrive, which has no delivery idempotency key. Automatic retries retain
+permanent-failure and maximum-attempt limits. With FLOW disabled or without
+credentials, the existing Pipedrive/local-store path remains available and no
+FLOW request is sent. This source change does not enable FLOW, backfill records,
+remove enquiry-reading routes, or claim a live deployment.
+
 ## Sensitive GTM write authentication
 
 `POST /api/internal/gtm/save` is intentionally stricter than legacy internal APIs.
