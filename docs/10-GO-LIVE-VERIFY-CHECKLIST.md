@@ -1,5 +1,7 @@
 # 10 — Go-live verify checklist
 
+> 2026-09-18 staged contract: [lead list/export retirement](FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 **When:** After local feature work **and** again after server cutover (loopback + public HTTPS).  
 **Linked from:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) Phase 10 · [OPS-OWNER-CADDY-CUTOVER.md](OPS-OWNER-CADDY-CUTOVER.md)
 
@@ -111,18 +113,14 @@ curl -sS -X POST "http://127.0.0.1:<PORT>/api/contact/" \
 
 ## 5. Internal / FLOW APIs
 
-```bash
-SECRET='<INTERNAL_JOB_SECRET>'
-curl -sS -o /dev/null -w "deny %{http_code}\n" \
-  "http://127.0.0.1:<PORT>/api/internal/leads"
-curl -sS -o /dev/null -w "auth %{http_code}\n" \
-  -H "Authorization: Bearer $SECRET" \
-  "http://127.0.0.1:<PORT>/api/internal/leads"
-```
+Use the [staged lead-read retirement contract](FLOW-LEAD-READ-RETIREMENT.md), after intake/backfill is reconciled.
 
-- [ ] No bearer → **401/403**
-- [ ] Bearer → **200**
-- [ ] GTM / redirects / SEO internal routes present if `FEATURES_FULL_CMS`
+- [ ] No list/export/detail/manual-retry filesystem routes in source or candidate route manifest
+- [ ] GET list/export with and without existing-key auth: both spellings resolve to **404** (one exact canonical slash redirect accepted), including JSON/CSV export query variants
+- [ ] Never consume/log a list/export response body: an old backend may still return the full local enquiry store
+- [ ] Detail and manual retry resolve to 404; public batch retry is blocked at the owner-controlled edge while authenticated direct-loopback workers remain functional
+- [ ] GTM / redirects reads **200** with the existing key wherever already mounted; preserve absent-route baselines elsewhere
+- [ ] Record per-site UTC proof at direct backend, origin, and canonical public HTTPS layers; health, SEO and unrelated internal routes remain unchanged
 
 ---
 

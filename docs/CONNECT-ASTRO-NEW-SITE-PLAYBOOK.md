@@ -1,5 +1,7 @@
 # Connect Group — Astro new-site playbook
 
+> 2026-09-18 staged contract: [lead list/export retirement](FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 **One document for converting an existing (or new) website into the Connect Group Astro fleet.**  
 Share this with anyone cloning CBSS / Evolution / Iberia / SP Heavy patterns into site #5+.
 
@@ -278,7 +280,7 @@ Full checklist: [CONNECT-FLOW-SITE-ONBOARDING.md § Attribution](CONNECT-FLOW-SI
 
 - **Source of truth:** NDJSON under `LEAD_STORE_DIR` (default `.data/leads`)
 - **Delivery:** create person → lead → note; retries 1m → 5m → 15m → 1h → 6h (max `PIPEDRIVE_MAX_RETRY_ATTEMPTS`)
-- **Cron / CMS:** `POST|GET /api/internal/run-retries`, `POST /api/internal/retry-lead` (bearer)
+- **Server-local cron only:** `POST|GET /api/internal/run-retries` (existing-key authentication); public access is blocked. The unused manual `retry-lead` mount is removed.
 - Store success even if Pipedrive is down — user still gets success response after store
 
 Email helper may still be called in code; it **no-ops** without SMTP — leave SMTP unset.
@@ -326,9 +328,9 @@ Email helper may still be called in code; it **no-ops** without SMTP — leave S
 
 ### Internal (bearer)
 
-Reads: leads, export-leads, posts, categories, tags, redirects, GTM (as site needs).  
+Reads: posts, categories, tags, redirects, GTM (as site needs). Lead list/export/detail and manual-retry mounts must be absent; both URL spellings resolve to 404 with or without auth (one exact canonical slash redirect accepted). Batch retry is server-local only.
 Writes: save/delete mutations return **JSON** (`{ success: true }`), not dashboard redirects.  
-Retries: `retry-lead`, `run-retries`.
+Retries: `run-retries` for authenticated server-local workers only. The manual `retry-lead` mount is removed.
 
 Sites without blog/CMS ship **leads subset only** via `@connect/site-cms` + `FEATURES_LEADS_ONLY` (CBSS/Iberia). Full CMS sites use `FEATURES_FULL_CMS`; posts/redirects/GTM route files still live in the site until Phase B adapters.
 
@@ -360,8 +362,10 @@ SECRET=…   # INTERNAL_JOB_SECRET
 curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/"
 curl -sS "$BASE/api/health"
 curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/this-should-404-fleet-test"   # 404
-curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/api/internal/leads"          # 403
-curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/leads?limit=1"
+# Retired list/export routes: inspect status only, never print a potentially live lead body.
+curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/api/internal/leads/"          # 404
+curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/api/internal/export-leads/"   # 404
+# Repeat both spellings with existing-key auth via the owner-controlled verifier.
 curl -sS -X POST "$BASE/api/contact" \
   -H "Content-Type: application/json" \
   -H "Origin: $BASE" \

@@ -1,5 +1,7 @@
 # Connect Group — Astro websites fleet
 
+> 2026-09-18 staged contract: [lead list/export retirement](docs/FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 Monorepo for Connect Group production Astro sites: one workspace, shared version pins, shared CMS API package, per-site content and secrets.
 
 | | |
@@ -204,7 +206,9 @@ One secret **per domain**. No per-site login dashboard — FLOW is the UI.
 ### Internal APIs (bearer)
 
 **All sites (leads):**  
-`/api/internal/leads`, `/api/internal/leads/:publicId`, `/api/internal/export-leads`, `/api/internal/retry-lead`, `/api/internal/run-retries`
+`/api/internal/run-retries` (authenticated server-local workers only; public requests return 404)
+
+Lead list, export, detail and manual-retry mounts are retired under the [staged retirement contract](docs/FLOW-LEAD-READ-RETIREMENT.md): both URL spellings resolve to 404, optionally after one exact canonical slash redirect. Local enquiry storage is retained.
 
 **Full CMS only (Evolution, SP Heavy):**  
 posts (+ categories/tags), redirects, gtm, seo/*, uploads, php-files  

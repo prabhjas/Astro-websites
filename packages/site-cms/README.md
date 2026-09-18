@@ -1,5 +1,7 @@
 # @connect/site-cms
 
+> 2026-09-18 staged contract: [lead list/export retirement](../../docs/FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 Shared Connect Group **site CMS code** for Astro SSR sites (built for 30+ domains).
 
 ## Model
@@ -57,9 +59,9 @@ export { GET } from '@connect/site-cms/astro/posts/index';
 1. Add `Astro-production/<domain>/`
 2. Depend on `@connect/site-cms`: `workspace:*`
 3. `src/cms.ts` bind + middleware `import './cms'`
-4. Copy thin mounts from Evolution/SP (full) or Iberia (leads-only)
+4. Copy thin mounts from Evolution/SP (full) or Iberia (leads-only); never mount lead list, export, detail or manual-retry routes; batch retries are server-local only
 5. Implement posts adapter only if the site needs blog CMS
-6. Prove with `fleet-local` smoke + Bearer GET posts / redirects / gtm / leads
+6. Prove with `fleet-local` smoke + Bearer GET posts / redirects / gtm; list/export reads must resolve to 404 with and without authentication
 
 ## Lead retry compatibility — pending backend installation
 
