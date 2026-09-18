@@ -318,7 +318,7 @@ function injectInsightsContent(html: string, data: ArchivePageData): string {
   $('head').append([getLoopCardStyles(), ARCHIVE_FIX_STYLES].filter(Boolean).join('\n'));
 
   if (!$('script[src*="astro-mirror-fixes.js"]').length) {
-    $('body').append('<script src="/js/astro-mirror-fixes.js?v=mofa-spacing-20260914" defer></script>');
+    $('body').append('<script src="/js/astro-mirror-fixes.js?v=home-heading-unify-20260918" defer></script>');
   }
 
   return injectPageBreadcrumbs(
@@ -349,7 +349,7 @@ function assembleTagHtml(data: ArchivePageData): string {
     html = html.replace('</head>', `${TAG_CARD_FIX_STYLES}\n</head>`);
   }
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=mofa-spacing-20260914" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=home-heading-unify-20260918" defer></script>\n</body>');
   }
 
   return injectPageBreadcrumbs(injectRuntimeGtmLoader(html), data.slug || 'tag');
