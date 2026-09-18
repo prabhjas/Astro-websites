@@ -472,7 +472,7 @@ export function assembleBlogPostHtml(post: BlogPost): string {
   }
 
   if (!html.includes('astro-mirror-fixes.js')) {
-    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=mofa-spacing-20260914" defer></script>\n</body>');
+    html = html.replace('</body>', '<script src="/js/astro-mirror-fixes.js?v=home-heading-unify-20260918" defer></script>\n</body>');
   }
 
   html = decodeProtectedEmailsInHtml(html);
