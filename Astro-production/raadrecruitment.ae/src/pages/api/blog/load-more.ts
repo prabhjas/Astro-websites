@@ -15,6 +15,9 @@ import {
   paginate,
 } from "../../../lib/content";
 
+import { USE_BACKEND_COMPATIBILITY } from "../../../lib/backend-compatibility";
+import { GET as backendCompatibilityGET } from "../../../lib/backend-compatibility/load-more";
+
 export const prerender = false;
 
 function parseExcludeIds(raw: string | null): Set<number> {
@@ -37,7 +40,9 @@ function parseExcludePaths(raw: string | null): Set<string> {
   );
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async (context) => {
+  if (USE_BACKEND_COMPATIBILITY) return backendCompatibilityGET(context);
+  const { url } = context;
   const format = (url.searchParams.get("format") || "elementor").toLowerCase();
   const isImpreza = format === "impreza" || format === "impreza-grid";
   const perPageDefault = isImpreza ? INSIGHTS_GRID_PER_PAGE : BLOG_LOAD_MORE_PER_PAGE;
