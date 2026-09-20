@@ -37,7 +37,10 @@ export async function deliverStoredLead(
   const deliveries: Record<string, DestinationDelivery> = { ...normaliseDeliveries(record) };
   const destinations = resolveDestinations(env);
 
-  const due = destinations.filter((d) => isDue(deliveries[d.id], nowIso));
+  const explicitRetry = triggerType === 'manual_retry' || triggerType === 'bulk_retry';
+  const due = destinations.filter((d) =>
+    isDue(deliveries[d.id], nowIso, { explicitRetry, maxAttempts: d.maxAttempts }),
+  );
 
   const outcomes = await Promise.allSettled(
     due.map(async (destination) => {

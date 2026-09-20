@@ -12,13 +12,23 @@ import type {
   TagEntry,
 } from "./content-types";
 
+import { USE_BACKEND_COMPATIBILITY } from "./backend-compatibility";
+
 const DATA_DIR = join(process.cwd(), "src/data");
+const BACKEND_DATA_DIR = join(process.cwd(), "src/backend-compatibility/b8796c84");
+const BACKEND_FILES = new Set(["posts.json", "pages.json", "authors.json"]);
+
+function dataPath(fileName: string): string {
+  const directory = USE_BACKEND_COMPATIBILITY && BACKEND_FILES.has(fileName)
+    ? BACKEND_DATA_DIR : DATA_DIR;
+  return join(directory, fileName);
+}
 
 type CacheEntry = { mtimeMs: number; data: unknown[] };
 const arrayCache = new Map<string, CacheEntry>();
 
 function readArray<T>(fileName: string): T[] {
-  const path = join(DATA_DIR, fileName);
+  const path = dataPath(fileName);
   if (!existsSync(path)) return [];
   try {
     const mtimeMs = statSync(path).mtimeMs;
@@ -36,7 +46,7 @@ function readArray<T>(fileName: string): T[] {
 }
 
 function writeArray<T>(fileName: string, rows: T[]): void {
-  const path = join(DATA_DIR, fileName);
+  const path = dataPath(fileName);
   writeFileSync(path, `${JSON.stringify(rows, null, 2)}\n`, "utf8");
   arrayCache.delete(path);
 }

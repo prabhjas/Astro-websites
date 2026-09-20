@@ -1,5 +1,7 @@
 # Connect Group — New site → Astro fleet → FLOW (full standard)
 
+> 2026-09-18 staged contract: [lead list/export retirement](FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 **Start with the numbered lifecycle:** [00-NEW-SITE-MASTER.md](00-NEW-SITE-MASTER.md) (this file is Phase 03 detail).
 
 **One playbook to take any website (WordPress clone, static export, or greenfield) into the Connect Group Astro fleet and wire it for the central FLOW / CMS platform.**
@@ -178,7 +180,7 @@ Copy peer shape from `spheavyrental.ae/src/cms.ts` or `connectgroup.co/src/cms.t
 
 Do **not** keep fat local handler copies (cookie/dashboard session code).
 
-Copy the mount tree from a full-CMS peer:
+Copy the mount tree from a full-CMS peer that has completed route retirement. Do not recreate lead list, export, detail or manual-retry mounts. Keep `run-retries.ts` for authenticated server-local workers only:
 
 ```bash
 # From monorepo root — replace <domain>
@@ -267,7 +269,8 @@ curl -sS -o /dev/null -w "%{http_code}\n" "$BASE/api/internal/posts/"
 curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/posts/" | head
 curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/redirects/" | head
 curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/gtm/" | head
-curl -sS -H "Authorization: Bearer $SECRET" "$BASE/api/internal/leads?limit=1" | head
+# Local fleet smoke also requires list/export 404 (optional canonical slash redirect).
+# Never fetch the old list/export body as an auth check.
 ```
 
 ### Step L — Server handoff (ops)
@@ -290,15 +293,13 @@ Authorization: Bearer <INTERNAL_JOB_SECRET>
 
 Also accepted: `x-internal-job-secret`. Query `?secret=` is rejected (use Bearer / header only).
 
-### Always (leads-only or full)
+List and export routes are retired: `/api/internal/leads[/]` and `/api/internal/export-leads[/]` must resolve to **404**, with or without the existing key. A single exact canonical slash redirect is accepted. FLOW receives enquiries through signed server-side `POST /api/sales/leads`; retain local stores for backfill/retry. See the [retirement contract](FLOW-LEAD-READ-RETIREMENT.md).
+
+### Retained lead operations (leads-only or full)
 
 | Method | Path | Notes |
 |--------|------|-------|
-| GET | `/api/internal/leads` | List / filter |
-| GET | `/api/internal/leads/[publicId]` | One lead |
-| GET | `/api/internal/export-leads` | CSV export |
-| POST | `/api/internal/retry-lead` | Retry Pipedrive delivery |
-| GET, POST | `/api/internal/run-retries` | Batch retries |
+| GET, POST | `/api/internal/run-retries` | Authenticated server-local batch retries / FLOW self-test only; public 404 |
 
 ### Full CMS (`FEATURES_FULL_CMS`)
 
@@ -422,13 +423,13 @@ Empty optional Ads fields (blank `keyword`, `adgroupid`, …) are fine; non-empt
 | G3 | Health | `GET /api/health` → 200 |
 | G4 | Access log | Structured `http_access` in middleware |
 | G5 | No per-site CMS UI | `/internal/operations` → 404 |
-| G6 | Machine auth | Internal routes **403** without secret, **200** with |
+| G6 | Machine auth | Retained read routes **403** without secret; valid reads **200** with. Retired list/export reads resolve to **404** either way |
 | G7 | Env | No HOST/PORT; unique secret; LF |
 | G8 | Prod binary | `node dist/server/entry.mjs` |
 | G9 | Lockfile / build | Root `pnpm install` + clean build |
 | G10 | allowedDomains | Apex + www (+ local for laptop) |
 | G11 | Thin mounts | `/api/internal/**` re-exports `@connect/site-cms` only |
-| G12 | FLOW reads | Bearer GET posts / redirects / gtm / leads succeed |
+| G12 | FLOW reads | Bearer GET posts / redirects / gtm succeed; list/export retirement probes pass |
 | G13 | Attribution | Ads/UTM aliases captured on legacy + Astro forms; lead payload has gclid/campaignId/device/… when present in URL |
 
 ---
@@ -515,7 +516,7 @@ Do not invent ports — take the next free from the registry.
 - [ ] Attribution: `lib/attribution/*` + parse aliases + contact merge; legacy mirror / SiteScripts capture full Ads+UTM set
 - [ ] `.env.example` fleet-shaped; unique secret locally
 - [ ] `fleet-local` smoke green
-- [ ] Bearer smoke: posts / redirects / gtm / leads (as featured)
+- [ ] Bearer smoke: posts / redirects / gtm (as featured); list/export 404 both spellings, with and without auth
 - [ ] Attribution smoke: submit with `?gclid=&campaignid=&device=&loc_physical_ms=` → lead JSON populated
 
 ### Deploy / FLOW
@@ -523,7 +524,7 @@ Do not invent ports — take the next free from the registry.
 - [ ] `deploy/*.service` + `*.caddy` (named CA `astro_origin_2026` with paired manual cert/key loaders) + `ROOT_SETUP.md`
 - [ ] Host unit + Caddy + health 200
 - [ ] Domain + `INTERNAL_JOB_SECRET` registered in FLOW
-- [ ] FLOW can list posts / redirects / leads for this site
+- [ ] FLOW can list posts / redirects as featured; signed lead intake and stable-public-ID backfill are reconciled before retiring list/export
 
 ---
 

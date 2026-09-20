@@ -1,5 +1,48 @@
 # raadrecruitment.ae
 
+## Backend-only enquiry-read retirement — 2026-09-19
+
+This source change removes the enquiry list/export/single-record/manual-retry
+mounts. It does not change contact submission, signed outbound FLOW intake,
+Pipedrive delivery, authentication, credentials, or the private retry store.
+Production deployment status is recorded separately in
+`/opt/ops/flow-lead-read-retirement-20260918/STATUS.md`; a source commit or build
+alone does not establish that a backend has switched.
+
+Raad has independently selected presentation and trusted-backend releases.
+The presentation selected before this change is `f5476350`; the older backend
+is `b8796c84`. To keep this retirement from also changing the retained backend
+CMS content, exact public-source posts, pages and authors from `b8796c84` are
+kept under `src/backend-compatibility/b8796c84/`. These are public website
+content, not enquiries or production credentials.
+
+Only the trusted backend's exact root-launcher environment marker
+`INTERNAL_ADMIN_DIR=/data/internal-admin` selects those content snapshots and
+the previous backend blog handler. The marker is captured once when the
+process starts. It is not an authentication or delivery setting. The offline
+build and secretless presentation omit it and continue using the current
+`src/data` content and current blog handler. Do not restore the old snapshots
+over `src/data` or set this marker in a presentation build/runtime.
+
+Reads and writes use the same selected content path; categories and tags keep
+their original paths. The immutable backend's existing inability to write
+source JSON is not repaired by this change. Synthetic writable-fixture tests
+must not be reported as evidence that production CMS writes are healthy.
+
+The three WordPress stub mounts added after the selected old backend are
+excluded from this backend retirement. They were never active on that backend;
+their removal does not remove an existing production WordPress service.
+The current presentation pointer is not changed. Stale backend fallback HTML
+is not the authority for today's public presentation.
+
+The root-owned preservation package under
+`/opt/ops/raad-backend-preservation-20260919/` records the fixed public-source
+blob hashes, synthetic tests and separate marked/unmarked runtime proofs.
+Deployment requires the reviewed signed-child build, isolated compatibility
+canary, route-absence checks, guarded backend transaction and fresh signed
+FLOW proof. Historical local-development claims below are not current
+production deployment or write-health evidence.
+
 RAAD Recruitment — UAE free zone business setup (Astro fleet site).
 
 | | |

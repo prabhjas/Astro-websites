@@ -98,11 +98,19 @@ export function deriveDeliveryStatus(deliveries: Record<string, DestinationDeliv
   return 'failed';
 }
 
-/** True when this destination still owes a delivery attempt at `nowIso`. */
-export function isDue(delivery: DestinationDelivery | undefined, nowIso: string): boolean {
+/** True when this destination may receive another attempt at `nowIso`. */
+export function isDue(
+  delivery: DestinationDelivery | undefined,
+  nowIso: string,
+  options: { explicitRetry?: boolean; maxAttempts?: number } = {},
+): boolean {
   if (!delivery) return true;
   if (delivery.status === 'delivered' || delivery.status === 'manually_resolved') return false;
-  if (delivery.status === 'failed') return false;
+  // An operator may retry a corrected failure or bypass the scheduled delay,
+  // but never re-send a destination which has already been settled.
+  if (options.explicitRetry) return true;
+  if (delivery.status === 'failed' || delivery.status === 'dead_letter') return false;
+  if (options.maxAttempts !== undefined && delivery.attemptCount >= options.maxAttempts) return false;
   // Skipped is re-evaluated every time: a site given credentials later should
   // start delivering without anything having to rewrite its stored leads.
   if (delivery.status === 'skipped') return true;

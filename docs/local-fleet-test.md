@@ -1,5 +1,7 @@
 # Local fleet test (before server push)
 
+> 2026-09-18 staged contract: [lead list/export retirement](FLOW-LEAD-READ-RETIREMENT.md) supersedes older lead-read examples. Activation requires verified intake/backfill and protected backend rollout; this is not a live-state claim.
+
 **Purpose:** Run the same multi-site architecture as the Astro production host, on your Mac, so you can verify build + SSR + health + forms + internal APIs **before** syncing to `webdev@178.105.150.67`.
 
 **Pairs with:** [server-side-work.md](server-side-work.md) · **[server-ops-only.md](server-ops-only.md)** (host/root work only) · each site’s `docs/CONNECT-ASTRO-FLEET-STANDARD.md`
@@ -103,13 +105,15 @@ node scripts/fleet-local.mjs up evolutionmiddleast,cbss,spheavyrental,iberiawork
 
 ## What the smoke suite checks (per site)
 
+Set `FLEET_SMOKE_CONTACT=0` for this route-retirement check. The local runner can otherwise submit real enquiries depending on registry flags; never use it against production. Production verification uses owner-controlled GET-only probes with existing keys, not the local synthetic key.
+
 | Check | Expect |
 |-------|--------|
 | Homepage `GET /` | `200` |
 | `GET /api/health/` | `200` + `{ "ok": true }` |
 | Unknown URL | real **`404`** |
-| `GET /api/internal/leads/` without secret | **`403`** |
-| Same with `Authorization: Bearer local-fleet-test-secret` | **`200`** |
+| List/export/detail/manual-retry GET, both spellings, with and without local synthetic auth | **`404`**, optionally one exact canonical slash redirect; includes list query and JSON/CSV export variants; response bodies are discarded |
+| Redirects/GTM GET where mounted | **`200`** with local synthetic auth; **`401/403`** without auth |
 | `POST /api/contact/` JSON + Origin | **`200`** + `success: true` for **next/scaffold** sites. **Skipped** for `tier: live` (28 production sites) so smoke does not spam Pipedrive. After form changes on a live site: `FLEET_SMOKE_CONTACT=1 node scripts/fleet-local.mjs smoke <id>` |
 
 Logs: `local/logs/<site-id>.log` · PIDs: `local/pids/<site-id>.pid`

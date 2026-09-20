@@ -26,6 +26,7 @@ import {
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as sleep } from 'node:timers/promises';
+import { RETIRED_LEAD_READ_PATHS, probeRetiredLeadRead } from './lib/retired-lead-reads.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = JSON.parse(readFileSync(join(ROOT, 'scripts/fleet-sites.json'), 'utf8'));
@@ -371,24 +372,25 @@ async function smokeSite(site) {
     rows.push({ name: '404', pass: r.status === 404, detail: `HTTP ${r.status}` });
   }
 
-  {
-    const r = await fetchStatus(`${base}/api/internal/leads/?limit=1`);
-    rows.push({
-      name: 'internal-deny',
-      pass: r.status === 401 || r.status === 403,
-      detail: `HTTP ${r.status}`,
-    });
+  const localAuth = { Authorization: 'Bearer local-fleet-test-secret' };
+  for (const path of RETIRED_LEAD_READ_PATHS) {
+    for (const [mode, headers] of [['no-auth', {}], ['auth', localAuth]]) {
+      const r = await probeRetiredLeadRead(base, path, { headers });
+      rows.push({
+        name: `retired ${mode} ${path}`,
+        pass: r.pass,
+        detail: `HTTP ${r.statuses.join(' -> ')} ${r.reason}`,
+      });
+    }
   }
 
-  {
-    const r = await fetchStatus(`${base}/api/internal/leads/?limit=1`, {
-      headers: { Authorization: 'Bearer local-fleet-test-secret' },
-    });
-    rows.push({
-      name: 'internal-auth',
-      pass: r.status === 200,
-      detail: `HTTP ${r.status} ${r.body.slice(0, 80)}`,
-    });
+  const internalRoot = join(sitePath(site), 'src/pages/api/internal');
+  for (const endpoint of ['redirects', 'gtm']) {
+    if (!existsSync(join(internalRoot, endpoint, 'index.ts'))) continue;
+    const r = await fetchStatus(`${base}/api/internal/${endpoint}/`, { headers: localAuth });
+    rows.push({ name: `internal-${endpoint}`, pass: r.status === 200, detail: `HTTP ${r.status}` });
+    const denied = await fetchStatus(`${base}/api/internal/${endpoint}/`);
+    rows.push({ name: `internal-${endpoint}-deny`, pass: [401, 403].includes(denied.status), detail: `HTTP ${denied.status}` });
   }
 
   if (shouldSmokeContact(site)) {
