@@ -1,8 +1,6 @@
 import type { APIRoute } from 'astro';
 import {
   ARCHIVE_POSTS_PER_PAGE,
-  BLOG_INDEX_GRID_SIZE,
-  BLOG_INDEX_TOP_COUNT,
   buildInsightsCardHtml,
   getAllBlogPosts,
 } from '../../../lib/blog';
@@ -11,8 +9,7 @@ export const prerender = false;
 
 /** Insights page shows 12 ECS cards initially (template 124 grid), then 6 per Load More. */
 const DEFAULT_PER_PAGE = 6;
-/** Default skip = featured + side + first grid page (matches decorateBlogLoadMore). */
-const DEFAULT_OFFSET = BLOG_INDEX_TOP_COUNT + BLOG_INDEX_GRID_SIZE;
+const DEFAULT_OFFSET = 12;
 
 export const GET: APIRoute = async ({ url }) => {
   const page = Math.max(1, Number(url.searchParams.get('page') || '1') || 1);
@@ -20,13 +17,15 @@ export const GET: APIRoute = async ({ url }) => {
     24,
     Math.max(1, Number(url.searchParams.get('perPage') || DEFAULT_PER_PAGE) || DEFAULT_PER_PAGE),
   );
-  // Skip cards already rendered in the SSR hero + page-1 grid
+  // Skip cards already rendered in the static page-1 HTML (12 in f2c45fb)
   const offset = Math.max(
     0,
     Number(url.searchParams.get('offset') || String(DEFAULT_OFFSET)) || DEFAULT_OFFSET,
   );
 
-  const sorted = getAllBlogPosts();
+  const sorted = getAllBlogPosts().sort(
+    (a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt),
+  );
 
   // Page N (N>=2) relative to offset: start = offset + (page-2)*perPage
   // When page=2, start=offset (skip first page)
@@ -48,6 +47,7 @@ export const GET: APIRoute = async ({ url }) => {
       hasMore,
       nextPage: hasMore ? page + 1 : null,
       html,
+      // keep ARCHIVE_POSTS_PER_PAGE referenced for consistency with archive routes
       archivePerPage: ARCHIVE_POSTS_PER_PAGE,
     }),
     {
