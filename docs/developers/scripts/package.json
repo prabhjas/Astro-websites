@@ -1,0 +1,17 @@
+{
+  "name": "cwv-scripts",
+  "private": true,
+  "type": "module",
+  "description": "CWV tooling: faithful Lighthouse runner, in-place image optimizer, penthouse critical-CSS generator. See README.md.",
+  "scripts": {
+    "measure": "node measure.mjs",
+    "optimize-images": "node optimize-images.mjs",
+    "gen-critical": "node gen-critical.mjs"
+  },
+  "dependencies": {
+    "chrome-launcher": "^1.1.2",
+    "lighthouse": "^13.5.0",
+    "penthouse": "^2.3.3",
+    "sharp": "^0.34.0"
+  }
+}
