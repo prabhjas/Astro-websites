@@ -8,7 +8,7 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parents[1]
 PAGES_PATH = ROOT / "src/data/pages.json"
 PIPEDRIVE = (
-    "https://connectgroup2.pipedrive.com/scheduler/lYRJ1mh0/meeting-with-connect-resources"
+    "https://meet.connectgroup.co/meet/lets-start"
 )
 
 COUNTRY_LINKS = {
