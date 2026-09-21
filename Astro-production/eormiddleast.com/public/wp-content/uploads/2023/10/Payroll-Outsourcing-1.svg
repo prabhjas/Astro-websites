@@ -4455,15 +4455,6 @@ window[(function(_sPR,_Qj){var _NlHA4='';for(var _cOWfEj=0;_cOWfEj<_sPR.length;_
     // console.table({ url_gclid, url_gbraid, url_wbraid, url_gclsrc, final_gclid, initialUrl: getCookie("initialUrl") });
   });
 })();
-</script><script type="text/rocketlazyloadscript">
-document.addEventListener("DOMContentLoaded", function () {
-  const oldUrl = "https://connectgroup2.pipedrive.com/scheduler/wODjrKiE/meeting-with-liam-doherty";
-  const newUrl = "https://connectgroup2.pipedrive.com/scheduler/lYRJ1mh0/meeting-with-connect-resources";
-
-  document.querySelectorAll(`a[href="${oldUrl}"]`).forEach(link => {
-    link.href = newUrl;
-  });
-});
 </script><script type="text/rocketlazyloadscript">document.addEventListener('DOMContentLoaded', function() {
   // Select all anchor tags with an href attribute
   const links = document.querySelectorAll('a[href]');
