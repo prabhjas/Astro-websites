@@ -1,0 +1,725 @@
+/* Connect Zone About Us — Figma node 1300:192 */
+.cz-about {
+  --cz-black: #191d23;
+  --cz-blue: #2667ff;
+  --cz-navy: #00123d;
+  --cz-text: #06031b;
+  --cz-muted: #423e3b;
+  --cz-yellow: #e59e00;
+  --cz-orange: #fea82f;
+  font-family: Poppins, Inter, sans-serif;
+  color: var(--cz-black);
+  overflow: visible;
+}
+
+.cz-about *,
+.cz-about *::before,
+.cz-about *::after {
+  box-sizing: border-box;
+}
+
+.cz-about img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cz-about__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px 20px;
+  border-radius: 4px;
+  background: var(--cz-blue);
+  color: #fff !important;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none !important;
+  border: 0;
+  transition: background 0.2s ease;
+}
+
+.cz-about__btn:hover {
+  background: #1a54e0;
+  color: #fff !important;
+}
+
+.cz-about__btn--lg {
+  font-size: 24px;
+}
+
+/* Hero — Figma node 1300:194 (1440×908) */
+.cz-about__hero {
+  position: relative;
+  padding: 56px 72px 0;
+  text-align: center;
+  background: #fff;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.cz-about__hero-glow {
+  position: absolute;
+  left: 50%;
+  top: -931px;
+  width: min(1504px, 140vw);
+  height: auto;
+  transform: translateX(calc(-50% - 32px));
+  pointer-events: none;
+  z-index: 0;
+  max-width: none;
+}
+
+.cz-about__hero-copy-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 730px;
+  margin: 10px auto 0;
+  padding: 0;
+  text-align: center;
+}
+
+.cz-about__eyebrow {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  color: var(--cz-blue);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.cz-about__hero-title {
+  margin: 0 auto;
+  max-width: 730px;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: normal;
+  color: var(--cz-black);
+  text-align: center;
+}
+
+.cz-about__hero-copy {
+  margin: 20px auto 0;
+  max-width: 730px;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--cz-text);
+  text-align: center;
+}
+
+.cz-about__hero-copy-wrap .cz-about__btn {
+  margin-top: 20px;
+}
+
+/* Polaroid fan — absolute positions from Figma @ 1440 */
+.cz-about__polaroids {
+  position: relative;
+  z-index: 1;
+  width: 1440px;
+  max-width: none;
+  height: 480px;
+  margin: -28px auto 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cz-about__polaroid {
+  position: absolute;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 237px;
+  padding: 5px 5px 15px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 13.8px rgba(0, 0, 0, 0.12);
+  transform-origin: center center;
+}
+
+.cz-about__polaroid img {
+  width: 227px;
+  height: 227px;
+  object-fit: cover;
+  border-radius: 5px;
+  max-width: none;
+}
+
+.cz-about__polaroid figcaption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 132px;
+  margin: 0;
+  color: #423e3b;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  font-family: Poppins, sans-serif;
+}
+
+.cz-about__polaroid figcaption strong {
+  font-weight: 700;
+}
+
+.cz-about__polaroid figcaption span {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.cz-about__polaroid--difc figcaption span {
+  font-size: 12px;
+}
+
+/* Figma absolute: left / top within 1440 frame; tops relative to polaroid band (~289) */
+.cz-about__polaroid--difc {
+  left: -85px;
+  top: 85px;
+  transform: rotate(7.71deg);
+}
+
+.cz-about__polaroid--jafza {
+  left: 226px;
+  top: 156px;
+  transform: rotate(-13.5deg);
+}
+
+.cz-about__polaroid--dmcc {
+  left: 568px;
+  top: 183px;
+  transform: rotate(15deg);
+}
+
+.cz-about__polaroid--meydan {
+  left: 922px;
+  top: 85px;
+  transform: rotate(-13.5deg);
+}
+
+.cz-about__polaroid--shams {
+  left: 1264px;
+  top: 0;
+  transform: rotate(13.93deg);
+}
+
+/* Partner logos */
+.cz-about__partners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px 56px;
+  padding: 0 72px 40px;
+  padding-top: 8rem !important;
+  background: transparent;
+  margin-top: -72px;
+  position: relative;
+  z-index: 2;
+}
+
+.cz-about__partners img {
+  height: 48px;
+  width: auto;
+  max-width: 154px;
+  object-fit: contain;
+}
+
+/* What we can do */
+.cz-about__what {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 80px 72px;
+  background: var(--cz-navy);
+  color: #fff;
+  overflow: hidden;
+  text-align: left;
+}
+
+.cz-about__what-skyline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cz-about__what-copy,
+.cz-about__what-media {
+  position: relative;
+  z-index: 1;
+}
+
+.cz-about__what h2 {
+  margin: 0 0 18px;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  text-align: left;
+}
+
+.cz-about__what p {
+  margin: 0 0 14px;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: left;
+}
+
+.cz-about__what .cz-about__btn {
+  margin-top: 28px;
+}
+
+.cz-about__what-frame {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cz-about__what-frame > img {
+  width: 100%;
+  aspect-ratio: 777 / 835;
+  object-fit: cover;
+}
+
+/* Numbers — centered label + icon left of stats */
+.cz-about__numbers {
+  padding: 80px 72px;
+  background: #fff;
+  text-align: center;
+}
+
+.cz-about__numbers-label {
+  margin: 0 0 48px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cz-muted);
+  text-align: center;
+}
+
+.cz-about__numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  max-width: 1080px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.cz-about__stat {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cz-about__stat-icon {
+  flex: 0 0 60px;
+  width: 60px;
+  height: 60px;
+  max-width: 60px;
+}
+
+.cz-about__stat-text {
+  text-align: left;
+}
+
+.cz-about__stat strong {
+  display: block;
+  font-size: clamp(40px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--cz-black);
+}
+
+.cz-about__stat span {
+  display: block;
+  margin-top: 6px;
+  font-size: 16px;
+  color: var(--cz-muted);
+}
+
+/* Shared soft mesh glow behind quote + services (Figma) */
+.cz-about__glow-band {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+}
+
+.cz-about__glow-bg {
+  position: absolute;
+  top: 0;
+  right: -8%;
+  width: min(980px, 72vw);
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: right top;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+/* Quote — left aligned */
+.cz-about__quote {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 315px 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 100px 112px 60px;
+  background: transparent;
+  overflow: visible;
+  text-align: left;
+}
+
+.cz-about__quote-photo,
+.cz-about__quote-body {
+  position: relative;
+  z-index: 1;
+}
+
+.cz-about__quote-photo {
+  width: 315px;
+  height: 323px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.cz-about__quote-body {
+  text-align: left;
+}
+
+.cz-about__quote blockquote {
+  margin: 0 0 20px;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--cz-text);
+  text-align: left;
+}
+
+.cz-about__quote-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.cz-about__quote-role {
+  margin: 4px 0 12px;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.cz-about__accent {
+  display: block;
+  width: 98px;
+  height: 5px;
+  background: var(--cz-blue);
+}
+
+/* Services — left aligned; bottom row starts left */
+.cz-about__services {
+  position: relative;
+  z-index: 1;
+  padding: 40px 72px 80px;
+  background: transparent;
+  overflow: visible;
+  text-align: left;
+}
+
+.cz-about__services-intro {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin-bottom: 48px;
+  text-align: left;
+}
+
+.cz-about__services-intro h2 {
+  margin: 0 0 14px;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.cz-about__services-intro p {
+  margin: 0;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.cz-about__services-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 50px;
+}
+
+.cz-about__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 35px 30px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(25, 29, 35, 0.08);
+  min-height: 100%;
+  text-align: left;
+}
+
+.cz-about__card > img:first-child {
+  width: 54px;
+  height: 54px;
+  max-width: 54px;
+}
+
+.cz-about__card h3 {
+  margin: 8px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+}
+
+.cz-about__card p {
+  margin: 0;
+  flex: 1;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--cz-black);
+  text-align: left;
+}
+
+.cz-about__card-bar {
+  width: 98px;
+  height: 5px;
+  margin-top: 16px;
+}
+
+/* Help CTA — centered */
+.cz-about__help {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 100px 72px;
+  text-align: center;
+  background: linear-gradient(180deg, #fff 0%, #d7ecf7 100%);
+}
+
+.cz-about__help h2 {
+  margin: 0;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 600;
+  text-align: center;
+}
+
+.cz-about__help p {
+  margin: 0;
+  max-width: 560px;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--cz-muted);
+  text-align: center;
+}
+
+.cz-about__help .cz-about__btn {
+  margin-top: 6px;
+}
+
+/* Video banner — text left + skyline art right (no full mockup duplicate) */
+.cz-about__video {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+  gap: 24px;
+  align-items: center;
+  min-height: 335px;
+  padding: 40px 72px;
+  background: linear-gradient(90deg, #ffe065 -0.6%, #fea82f 99.92%);
+  overflow: hidden;
+  text-align: left;
+}
+
+.cz-about__video-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 685px;
+  text-align: left;
+}
+
+.cz-about__video h2 {
+  margin: 0 0 8px;
+  max-width: 685px;
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--cz-black);
+  text-align: left;
+}
+
+.cz-about__video p {
+  margin: 0 0 24px;
+  max-width: 685px;
+  font-family: Inter, Poppins, sans-serif;
+  font-size: 16px;
+  color: var(--cz-black);
+  text-align: left;
+}
+
+.cz-about__video-art {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  align-self: end;
+  width: min(620px, 100%);
+  margin: 0 -72px -40px 0;
+  pointer-events: none;
+}
+
+.cz-about__video-art img,
+img.cz-about__video-art {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+@media (max-width: 1100px) {
+  .cz-about__what,
+  .cz-about__numbers,
+  .cz-about__services,
+  .cz-about__help,
+  .cz-about__video,
+  .cz-about__partners {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .cz-about__hero {
+    padding-left: 24px;
+    padding-right: 24px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .cz-about__hero-title {
+    font-size: clamp(32px, 5vw, 44px);
+  }
+
+  .cz-about__polaroids {
+    width: 1100px;
+    height: 480px;
+    transform: translateX(-50%) scale(0.76);
+    transform-origin: top center;
+    margin-bottom: -80px;
+  }
+
+  .cz-about__quote {
+    padding: 64px 32px;
+    gap: 40px;
+    grid-template-columns: 240px 1fr;
+  }
+
+  .cz-about__quote-photo {
+    width: 240px;
+    height: 246px;
+  }
+}
+
+@media (max-width: 900px) {
+  .cz-about__hero {
+    padding-top: 48px;
+  }
+
+  .cz-about__hero-copy {
+    font-size: 16px;
+  }
+
+  .cz-about__polaroids {
+    width: 900px;
+    height: 420px;
+    transform: translateX(-50%) scale(0.58);
+    margin-bottom: -140px;
+  }
+
+  .cz-about__what,
+  .cz-about__quote {
+    grid-template-columns: 1fr;
+  }
+
+  .cz-about__video {
+    grid-template-columns: 1fr;
+    padding: 40px 32px 0;
+    min-height: 0;
+  }
+
+  .cz-about__numbers-grid,
+  .cz-about__services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cz-about__stat {
+    justify-content: flex-start;
+  }
+
+  .cz-about__glow-bg {
+    width: 120%;
+    right: -30%;
+    top: 0;
+    opacity: 0.85;
+  }
+
+  .cz-about__video-art {
+    justify-self: center;
+    width: min(480px, 110%);
+    margin: 8px -16px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .cz-about__polaroids {
+    width: 780px;
+    transform: translateX(-50%) scale(0.42);
+    margin-bottom: -200px;
+  }
+
+  .cz-about__partners {
+    gap: 20px 28px;
+    padding-top: 0;
+  }
+
+  .cz-about__partners img {
+    height: 36px;
+  }
+}
