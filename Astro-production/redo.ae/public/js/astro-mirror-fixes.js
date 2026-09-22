@@ -2271,6 +2271,14 @@
       '.wpcf7-form .astro-experience-tip,.wpcf7-form .wpcf7-not-valid-tip{display:block;color:#dc3232;font-size:12px;margin-top:8px;line-height:1.3;}',
       '.form-design .wpcf7-response-output,.form-design .wpcf7-response-output.wpcf7-mail-sent-ok,.form-design .wpcf7-response-output.wpcf7-mail-sent-ng,.form-design .wpcf7-response-output.wpcf7-validation-errors{color:#fff!important;border-color:#fff!important;background:transparent!important;}',
       '.form-design .astro-experience-tip,.form-design .wpcf7-not-valid-tip{color:#ff6b6b;}',
+      /* Contact Us (/contact-us/, page-id-31): white form card — make response/validation text readable */
+      'body.page-id-31 .wpcf7-form .wpcf7-response-output,body.page-id-31 .wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ok,body.page-id-31 .wpcf7 form.sent .wpcf7-response-output{color:#1F2125!important;border-color:#1F2125!important;background:transparent!important;}',
+      'body.page-id-31 .wpcf7-form .wpcf7-response-output.wpcf7-mail-sent-ng,body.page-id-31 .wpcf7-form .wpcf7-response-output.wpcf7-validation-errors,body.page-id-31 .wpcf7 form.invalid .wpcf7-response-output{color:#E51515!important;border-color:#E51515!important;background:transparent!important;}',
+      'body.page-id-31 .wpcf7-form .astro-experience-tip,body.page-id-31 .wpcf7-form .wpcf7-not-valid-tip{color:#E51515!important;}',
+      'body.page-id-31 .elementor-element-4cb1453 .wpcf7-response-output{color:#E51515!important;border-color:#E51515!important;}',
+      /* Contact Us form: breathing room under response message */
+      'body.page-id-31 .elementor-element-4cb1453 .elementor-widget-container{padding-bottom:24px!important;}',
+      'body.page-id-31 .elementor-element-4cb1453 .wpcf7-response-output{margin-bottom:12px!important;}',
       /* Footer full bleed */
       '.elementor-location-footer,.elementor-location-footer .elementor-section-stretched{width:100%!important;max-width:none!important;}',
       'body .container:has(> .elementor-location-footer){max-width:none!important;width:100%!important;padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;}',
